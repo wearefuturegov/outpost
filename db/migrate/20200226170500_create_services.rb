@@ -6,6 +6,7 @@ class CreateServices < ActiveRecord::Migration[6.0]
       t.text :description
       t.string :email
       t.string :url
+      t.timestamps
     end
   end
 end

@@ -20,6 +20,8 @@ ActiveRecord::Schema.define(version: 2020_02_26_172537) do
     t.text "description"
     t.string "email"
     t.string "url"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.string "old_external_id"
   end
 
@@ -29,6 +31,8 @@ ActiveRecord::Schema.define(version: 2020_02_26_172537) do
     t.text "description"
     t.string "email"
     t.string "url"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["organisation_id"], name: "index_services_on_organisation_id"
   end
 
