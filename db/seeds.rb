@@ -40,5 +40,16 @@ bucks_csv.each do |row|
       service.organisation_id = parent_organisation.id
     end
     service.save
+
+    contact = Contact.new
+    contact.service_id = service.id
+    contact.name = row['contact_name']
+    contact.title = row['contact_position']
+    contact.save
+
+    phone = Phone.new
+    phone.contact_id = contact.id
+    phone.number = row['contact_telephone']
+    phone.save
   end
 end
