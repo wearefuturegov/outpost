@@ -7,10 +7,17 @@ describe "get all services", type: :request do
   before { get '/api/v1/services' }
 
   it 'returns all services' do
-    expect(JSON.parse(response.body).size).to eq(25)
+    expect(JSON.parse(response.body)["content"].size).to eq(25)
   end
 
   it 'returns status code 200' do
     expect(response).to have_http_status(:success)
+  end
+
+  it 'returns meta data for services' do
+    expected = {
+      totalElements: Service.all.count
+    }
+    expect(JSON.parse(response.body)).to include(JSON.parse(expected.to_json))
   end
 end
