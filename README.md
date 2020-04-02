@@ -1,24 +1,20 @@
-# README
+# Outpost
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A standards-driven API and comprehensive set of admin tools for managing records about local community services, groups and activities.
 
-Things you may want to cover:
+It's a rails app backed by a postgres database.
 
-* Ruby version
+## Running it locally
 
-* System dependencies
+You need ruby installed and a postgresql server running.
 
-* Configuration
+First, clone the repo: 
 
-* Database creation
+```
+bundle install
+rails db:setup
+rails s
+```
 
-* Database initialization
+For the database seed to succeed, you need a source data file `bucksfis.csv` in the `lib/seeds` folder.
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
