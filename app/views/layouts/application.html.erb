@@ -33,6 +33,15 @@
       </nav>
     <% end %>
 
+    <% if notice || alert %>
+      <section class="alerts">
+        <div class="alert container">
+          <%= notice %>
+          <%= alert %>
+        </div>
+      </section>
+    <% end %>
+
     <%= yield %>
 
     <footer class="site-footer">

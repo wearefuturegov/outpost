@@ -57,6 +57,11 @@
         display: inline-block;
         margin-bottom: 10px;
     }
+    .field__hint{
+        margin-top: -5px;
+        margin-bottom: 10px;
+        color: transparentize($text, 0.25);
+    }
     .field__input{
         width: 100%;
         padding: 10px;
