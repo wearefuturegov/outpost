@@ -21,7 +21,7 @@
         <tbody>
           <% @services.each do |s| %>
             <tr>
-              <td><%= link_to s.name, admin_service_path(s) %></td>
+              <td><%= link_to s.name, edit_admin_service_path(s) %></td>
               <td>Example</td>
               <td>0777 777 7777</td>
               <td><%= s.url %></td>
