@@ -1,42 +1,34 @@
-<header class="page-header">
-  <div class="container">
+<% content_for :header do %>
     <h1 class="page-header__title">Services</h1>
-  </div>
-</header>
+<% end %>
 
-<div class="page-content">
-  <div class="container">
+<%# filters, search and actions here %>
 
-    <%# filters, search and actions here %>
-
-    <div class="table-holder">
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Category</th>
-            <th>Phone number</th>
-            <th>Website</th>
-            <th>Last updated</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @services.each do |s| %>
-            <tr>
-              <td><%= link_to s.name, admin_service_path(s) %></td>
-              <td>Example</td>
-              <td>0777 777 7777</td>
-              <td><%= link_to(s.short_url, s.url, target: "blank") if s.url %></td>
-              <td><%= time_ago_in_words(s.updated_at) %> ago</td>
-              <td><span class="tag">Active</span></td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-    </div>
-
-    <%# pagination here %>
-
-  </div>
+<div class="table-holder">
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Phone number</th>
+        <th>Website</th>
+        <th>Last updated</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @services.each do |s| %>
+        <tr>
+          <td><%= link_to s.name, admin_service_path(s) %></td>
+          <td>Example</td>
+          <td>0777 777 7777</td>
+          <td><%= link_to(s.short_url, s.url, target: "blank") if s.url %></td>
+          <td><%= time_ago_in_words(s.updated_at) %> ago</td>
+          <td><span class="tag">Active</span></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 </div>
+
+<%# pagination here %>

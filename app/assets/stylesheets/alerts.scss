@@ -1,11 +1,11 @@
 @import "variables";
 
-.alerts{
-    padding: 40px $outer-spacing;
-}
-
 .alert{
     background: transparentize($link, 0.9);
     padding: 25px;
     border-left: 5px solid $link;
+    margin-bottom: 40px;
+    @media screen and (min-width: $breakpoint-m) {
+        margin-bottom: 50px;
+    }
 }
