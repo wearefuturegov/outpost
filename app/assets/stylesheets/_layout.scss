@@ -24,6 +24,9 @@
 
 .page-content{
     padding: 0px $outer-spacing 40px $outer-spacing;
+    @media screen and (min-width: $breakpoint-m){
+        padding-bottom: 60px;
+    }
 }
 
 .table-holder{

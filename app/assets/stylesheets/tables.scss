@@ -1,0 +1,10 @@
+@import "variables";
+
+.tag{
+    display: inline-block;
+    border: 1px solid $link;
+    background: transparentize($link, 0.9);
+    font-size: 0.8rem;
+    padding: 5px 7px;
+    color: $link;
+}

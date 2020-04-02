@@ -14,8 +14,19 @@
     <header class="site-header">
       <div class="container site-header__inner">
         <%= link_to image_tag("logo.svg", alt: "Buckinghamshire Council", class: "site-header__logo"), root_path, class: "site-header__masthead" %>
+
+        <div class="site-header__actions">
+          <span class="site-header__username">user@example.com</span>
+          <%= link_to "Log out", root_path, class: "site-header__link" %>
+        </div>
+
       </div>
     </header>
+
+    <nav class="site-nav">
+      <div class="container">
+        <%= link_to_unless_current "Services", admin_services_path, class: "site-nav__link" %>
+    </nav>
 
     <%= yield %>
 

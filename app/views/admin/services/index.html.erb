@@ -6,6 +6,9 @@
 
 <div class="page-content">
   <div class="container">
+
+    <%# filters, search and actions here %>
+
     <div class="table-holder">
       <table>
         <thead>
@@ -24,13 +27,16 @@
               <td><%= link_to s.name, edit_admin_service_path(s) %></td>
               <td>Example</td>
               <td>0777 777 7777</td>
-              <td><%= s.url %></td>
+              <td><%= link_to(s.short_url, s.url, target: "blank") if s.url %></td>
               <td><%= time_ago_in_words(s.updated_at) %> ago</td>
-              <td>Example</td>
+              <td><span class="tag">Active</span></td>
             </tr>
           <% end %>
         </tbody>
       </table>
     </div>
+
+    <%# pagination here %>
+
   </div>
 </div>
