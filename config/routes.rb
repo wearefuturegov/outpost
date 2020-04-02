@@ -1,7 +1,10 @@
 Rails.application.routes.draw do
+  
+  root "admin/services#index"
 
   namespace :admin do
-    resources :services
+    root "services#index"
+    resources :services, except: :edit
   end
 
   namespace :api do

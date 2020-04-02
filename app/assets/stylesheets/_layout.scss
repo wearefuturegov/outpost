@@ -1,0 +1,43 @@
+// helper classes for building layouts
+
+@import "variables";
+
+.container{
+    max-width: $max-width;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.two-thirds{
+    @media screen and (min-width: $breakpoint-m){
+        max-width: 66.67%;
+    }
+}
+
+.page-header{
+    padding: 40px $outer-spacing;
+    @media screen and (min-width: $breakpoint-m){
+        padding: 60px $outer-spacing;
+    }
+    
+    .page-header__title{
+        font-size: 2.5rem;
+        @media screen and (min-width: $breakpoint-m){
+            font-size: 3.5rem;
+        }
+    }
+}
+
+.page-content{
+    padding: 0px $outer-spacing 40px $outer-spacing;
+    @media screen and (min-width: $breakpoint-m){
+        padding-bottom: 60px;
+    }
+}
+
+.table-holder{
+    overflow-x: auto;
+    @media screen and (min-width: $breakpoint-l){
+        overflow-x: inherit;
+    }
+}

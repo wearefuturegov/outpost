@@ -1,0 +1,76 @@
+// resets and global styles
+
+@import "variables";
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Helvetica Neue, Arial, Helvetica, sans-serif;
+    color: $text;
+}
+
+a{
+    color: $link;
+    text-decoration: none;
+    &:hover{
+        text-decoration: underline
+    }
+    &:active{
+        color: $text
+    }
+    &:focus{
+        color: $text;
+        outline: 2px solid $focus;
+        background: $focus;
+    }
+}
+
+p{
+    line-height: 1.5;
+}
+
+h1, h2, h3, h4, h5 {
+    line-height: 1;
+}
+
+ol, ul{
+    margin-left: 25px;
+
+}
+
+li{
+    padding-left: 15px;
+    margin-bottom: 10px;
+    &:last-child{
+        margin-bottom: 0px;
+    }
+}
+
+table{
+    border-collapse: collapse;
+    th{
+        font-weight: bold;
+        text-align: left;
+        padding: 10px;
+    }
+    td{
+        padding: 10px;
+        width: 17%;
+        white-space: break-word;
+        &:first-of-type{
+            font-weight: bold;
+        }
+    }
+    tr:nth-of-type(even){
+        background: $pale;
+    }
+}
+
+.turbolinks-progress-bar {
+    background-color: $focus;
+}
+
+*::-moz-focus-inner {
+    border: 0;
+}

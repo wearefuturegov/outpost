@@ -1,0 +1,42 @@
+@import "variables";
+
+.site-header{
+    background: $link;
+    color: $white;
+    padding: 10px $outer-spacing;
+    
+    .site-header__logo{
+        display: block;
+        height: 50px;
+    }
+
+    .site-header__inner{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .site-header__actions{
+        @media screen and (min-width: $breakpoint-m) {
+            font-size: 1.1rem;
+        }
+    }
+
+    .site-header__link{
+        font-weight: bold;
+        color: white;
+        &:active, &:focus{
+            color: $text;
+        }
+    }
+
+    .site-header__username{
+        display: none;
+        @media screen and (min-width: $breakpoint-m) {
+            display: inline-block;
+            margin-right: 10px;
+            color: $white;
+        }
+    }
+}

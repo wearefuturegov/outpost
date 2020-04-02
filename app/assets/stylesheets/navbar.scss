@@ -1,0 +1,13 @@
+@import "variables";
+
+.site-nav{
+    background: $pale;
+    padding: 15px $outer-spacing;
+    @media screen and (min-width: $breakpoint-m) {
+        font-size: 1.1rem;
+    }
+    
+    .site-nav__link{
+        font-weight: bold;
+    }
+}
