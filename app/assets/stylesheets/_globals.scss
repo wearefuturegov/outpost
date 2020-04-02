@@ -69,4 +69,8 @@ table{
 
 .turbolinks-progress-bar {
     background-color: $focus;
-  }
+}
+
+*::-moz-focus-inner {
+    border: 0;
+}

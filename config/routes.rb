@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     root "services#index"
-    resources :services
+    resources :services, except: :edit
   end
 
   namespace :api do

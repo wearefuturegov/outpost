@@ -8,6 +8,12 @@
     margin-right: auto;
 }
 
+.two-thirds{
+    @media screen and (min-width: $breakpoint-m){
+        max-width: 66.67%;
+    }
+}
+
 .page-header{
     padding: 40px $outer-spacing;
     @media screen and (min-width: $breakpoint-m){
