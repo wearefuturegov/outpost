@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   namespace :admin do
     root "services#index"
     resources :services, except: :edit
+    resources :users, only: [:index]
   end
 
   namespace :api do
