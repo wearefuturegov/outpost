@@ -23,16 +23,21 @@ describe "get all services", type: :request do
 
   it 'returns correct service data for services' do
     service = Service.first
-    expect(JSON.parse(response.body)["content"].first["id"]).to eq(service.id)
-    expect(JSON.parse(response.body)["content"].first["name"]).to eq(service.name)
-    expect(JSON.parse(response.body)["content"].first["description"]).to eq(service.description)
-    expect(JSON.parse(response.body)["content"].first["url"]).to eq(service.url)
-    expect(JSON.parse(response.body)["content"].first["email"]).to eq(service.email)
+    response_service = JSON.parse(response.body)["content"].first
+    expect(response_service["id"]).to eq(service.id)
+    expect(response_service["name"]).to eq(service.name)
+    expect(response_service["description"]).to eq(service.description)
+    expect(response_service["url"]).to eq(service.url)
+    expect(response_service["email"]).to eq(service.email)
   end
 
   it 'returns correct organisation data for services' do
     service = Service.first
     organisation = service.organisation
-    expect(JSON.parse(response.body)["content"].first["organisation"]["id"]).to eq(organisation.id)
+    response_organisation = JSON.parse(response.body)["content"].first["organisation"]
+    expect(response_organisation["id"]).to eq(organisation.id)
+    expect(response_organisation["name"]).to eq(organisation.name)
+    expect(response_organisation["description"]).to eq(organisation.description)
+    expect(response_organisation["url"]).to eq(organisation.url)
   end
 end
