@@ -16,17 +16,22 @@
         <%= link_to image_tag("logo.svg", alt: "Buckinghamshire Council", class: "site-header__logo"), root_path, class: "site-header__masthead" %>
 
         <div class="site-header__actions">
-          <span class="site-header__username">user@example.com</span>
-          <%= link_to "Log out", root_path, class: "site-header__link" %>
+            <% if user_signed_in? %>
+              <span class="site-header__username"><%= current_user.email %></span>
+              <%= link_to "Log out", destroy_user_session_path, method: :delete, class: "site-header__link" %>
+            <% end %>
         </div>
 
       </div>
     </header>
 
-    <nav class="site-nav">
-      <div class="container">
-        <%= link_to_unless_current "Services", admin_services_path, class: "site-nav__link" %>
-    </nav>
+    <% if user_signed_in? %>
+      <nav class="site-nav">
+        <div class="container">
+          <%= link_to_unless_current "Services", admin_services_path, class: "site-nav__link" %>
+        </div>
+      </nav>
+    <% end %>
 
     <%= yield %>
 
