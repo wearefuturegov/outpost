@@ -1,5 +1,25 @@
 @import "variables";
 
+table{
+    border-collapse: collapse;
+    th{
+        font-weight: bold;
+        text-align: left;
+        padding: 10px;
+    }
+    td{
+        padding: 10px;
+        width: 17%;
+        white-space: break-word;
+        &:first-of-type{
+            font-weight: bold;
+        }
+    }
+    tr:nth-of-type(even){
+        background: $pale;
+    }
+}
+
 .tag{
     display: inline-block;
     border: 1px solid $link;
@@ -8,4 +28,20 @@
     padding: 5px 7px;
     color: $link;
     border-radius: 2px;
+}
+
+.pagination{
+    margin: 40px 0px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    @media screen and (min-width: $breakpoint-m) {
+        font-size: 1.1rem;
+    }
+    span{
+        margin-right: 10px;
+        &:last-of-type{
+            margin-right: 0px;
+        }
+    }
 }

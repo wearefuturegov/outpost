@@ -47,26 +47,6 @@ li{
     }
 }
 
-table{
-    border-collapse: collapse;
-    th{
-        font-weight: bold;
-        text-align: left;
-        padding: 10px;
-    }
-    td{
-        padding: 10px;
-        width: 17%;
-        white-space: break-word;
-        &:first-of-type{
-            font-weight: bold;
-        }
-    }
-    tr:nth-of-type(even){
-        background: $pale;
-    }
-}
-
 .turbolinks-progress-bar {
     background-color: $focus;
 }

@@ -2,7 +2,7 @@ class Admin::ServicesController < Admin::BaseController
   before_action :set_service, only: [:show, :update]
 
   def index
-    @services = Service.order(updated_at: :desc)
+    @services = Service.order(updated_at: :desc).page(params[:page])
   end
 
   def show
