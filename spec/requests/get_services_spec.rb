@@ -21,12 +21,18 @@ describe "get all services", type: :request do
     expect(JSON.parse(response.body)).to include(JSON.parse(expected.to_json))
   end
 
-  it 'returns correct data for services' do
+  it 'returns correct service data for services' do
     service = Service.first
     expect(JSON.parse(response.body)["content"].first["id"]).to eq(service.id)
     expect(JSON.parse(response.body)["content"].first["name"]).to eq(service.name)
     expect(JSON.parse(response.body)["content"].first["description"]).to eq(service.description)
     expect(JSON.parse(response.body)["content"].first["url"]).to eq(service.url)
     expect(JSON.parse(response.body)["content"].first["email"]).to eq(service.email)
+  end
+
+  it 'returns correct organisation data for services' do
+    service = Service.first
+    organisation = service.organisation
+    expect(JSON.parse(response.body)["content"].first["organisation"]["id"]).to eq(organisation.id)
   end
 end
