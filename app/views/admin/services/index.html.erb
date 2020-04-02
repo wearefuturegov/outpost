@@ -1,0 +1,36 @@
+<header class="page-header">
+  <div class="container">
+    <h1 class="page-header__title">Services</h1>
+  </div>
+</header>
+
+<div class="page-content">
+  <div class="container">
+    <div class="table-holder">
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Phone number</th>
+            <th>Website</th>
+            <th>Last updated</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @services.each do |s| %>
+            <tr>
+              <td><%= link_to s.name, admin_service_path(s) %></td>
+              <td>Example</td>
+              <td>0777 777 7777</td>
+              <td><%= s.url %></td>
+              <td><%= time_ago_in_words(s.updated_at) %> ago</td>
+              <td>Example</td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

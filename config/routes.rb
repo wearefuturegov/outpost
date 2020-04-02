@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  root "admin/services#index"
+
   namespace :admin do
     resources :services
   end

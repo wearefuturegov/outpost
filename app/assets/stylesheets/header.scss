@@ -1,0 +1,11 @@
+@import "variables";
+
+.site-header{
+    background: $link;
+    color: $white;
+    padding: 10px $outer-spacing;
+    
+    .site-header__logo{
+        display: block;
+    }
+}
