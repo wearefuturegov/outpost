@@ -19,4 +19,8 @@ class Service < ApplicationRecord
       .delete_suffix("/")
       .truncate(25)
   end
+
+  def watching(user)
+    user.watches.exists?(self)
+  end
 end

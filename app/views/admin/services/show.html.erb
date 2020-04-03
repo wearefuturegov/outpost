@@ -3,10 +3,16 @@
     <h1 class="page-header__title two-thirds"><%= @service.name.length > 0 ? @service.name : "Unnamed service" %></h1>
 <% end %>
 
-<%= current_user.watches %>
+<ul>
+<% current_user.watches.each do |w| %>
+  <li><%= w.service.id %></li>
+<% end %>
+</ul>
 
-<%= form_with url: services_path, method: :put, local: true do |f| %>
-  <%= f.submit "Watch/unwatch" %>
+<% if @service.watching(current_user) %>watching<% else %>not watching<% end %>
+
+<%= form_with url: watch_admin_service_path(@service), local: true do |f| %>
+  <%= f.submit %>
 <% end %>
 
 <%= form_for [:admin, @service], html: {class: "two-thirds"} do |s| %>

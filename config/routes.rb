@@ -8,7 +8,7 @@ Rails.application.routes.draw do
     root "services#index"
     resources :services, except: :edit do
       member do
-        put 'watch'
+        post 'watch'
       end
     end
     resources :users, only: [:index]

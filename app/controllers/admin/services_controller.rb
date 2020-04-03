@@ -6,7 +6,7 @@ class Admin::ServicesController < Admin::BaseController
   end
 
   def show
-    byebug
+    # byebug
   end
 
   def update
@@ -18,7 +18,11 @@ class Admin::ServicesController < Admin::BaseController
   end
 
   def watch
+    current_user.watches.create(user_id: current_user[:id], service_id: params[:id])
+    current_user.save
   end
+
+  # def unwatch
 
   private
 
