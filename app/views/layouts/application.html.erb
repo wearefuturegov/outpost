@@ -4,7 +4,7 @@
     <title>Outpost</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
@@ -14,21 +14,41 @@
     <header class="site-header">
       <div class="container site-header__inner">
         <%= link_to image_tag("logo.svg", alt: "Buckinghamshire Council", class: "site-header__logo"), root_path, class: "site-header__masthead" %>
-
         <div class="site-header__actions">
-          <span class="site-header__username">user@example.com</span>
-          <%= link_to "Log out", root_path, class: "site-header__link" %>
+            <% if user_signed_in? %>
+              <span class="site-header__username"><%= current_user.email %></span>
+              <%= link_to "Log out", destroy_user_session_path, method: :delete, class: "site-header__link" %>
+            <% end %>
         </div>
-
       </div>
     </header>
 
-    <nav class="site-nav">
-      <div class="container">
-        <%= link_to_unless_current "Services", admin_services_path, class: "site-nav__link" %>
-    </nav>
+    <% if user_signed_in? %>
+      <nav class="site-nav">
+        <div class="container">
+          <%= link_to_unless_current "Services", admin_services_path, class: "site-nav__link" do %><span class="site-nav__current">Services</span><% end %>
+          <%= link_to_unless_current "Users", admin_users_path, class: "site-nav__link" do %><span class="site-nav__current">Users</span><% end %>
+        </div>
+      </nav>
+    <% end %>
 
-    <%= yield %>
+    <header class="page-header">
+      <div class="container">
+          <% if notice || alert %>
+              <div class="alert">
+                <%= notice %>
+                <%= alert %>
+              </div>
+          <% end %>
+          <%= yield :header %>
+      </div>
+    </header>
+
+    <div class="page-content">
+      <div class="container">
+        <%= yield %>
+      </div>
+    </div>
 
     <footer class="site-footer">
       <div class="container">

@@ -1,0 +1,22 @@
+<% content_for :header do %>
+    <h1 class="page-header__title">Users</h1>
+<% end %>
+
+<div class="table-holder">
+  <table>
+    <thead>
+      <tr>
+        <th>Email</th>
+        <th>Joined</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @users.each do |u| %>
+        <tr>
+          <td><%= u.email %></td>
+          <td><%= time_ago_in_words(u.created_at) %> ago</td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

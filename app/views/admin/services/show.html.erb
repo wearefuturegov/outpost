@@ -1,64 +1,56 @@
-<header class="page-header">
-  <div class="container">
+<% content_for :header do %>
     <%= link_to "Go back", admin_services_path, class: "go-back" %>
     <h1 class="page-header__title two-thirds"><%= @service.name.length > 0 ? @service.name : "Unnamed service" %></h1>
-  </div>
-</header>
+<% end %>
 
-<div class="page-content">
-  <div class="container">
+<%= form_for [:admin, @service], html: {class: "two-thirds"} do |s| %>
 
-    <%= form_for [:admin, @service], html: {class: "two-thirds"} do |s| %>
+  <% if @service.errors.full_messages.any? %>
+    <div class="error">
+      <h2 class="error__title">Errors stopped this service being saved:</h2>
+      <ul class="error__list">
+        <% @service.errors.full_messages.each do |e| %>
+          <li><%= e %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
 
-      <% if @service.errors.full_messages.any? %>
-        <div class="error">
-          <h2 class="error__title">Errors stopped this service being saved:</h2>
-          <ul class="error__list">
-            <% @service.errors.full_messages.each do |e| %>
-              <li><%= e %></li>
-            <% end %>
-          </ul>
+    <%# <%= s.submit "Update", class: "button" %>
+
+    <fieldset class="field-section field-section--two-cols">
+        <legend class="field-section__legend">Basics</legend>
+
+        <div class="field">
+            <%= s.label :name, class: "field__label" %>
+            <%= s.text_field :name, value: @service.name, class: "field__input" %>
         </div>
-      <% end %>
 
-        <%# <%= s.submit "Update", class: "button" %>
+        <div class="field">
+            <%= s.label :organisation_id, "Parent organisation", class: "field__label" %>
+            <%= s.collection_select( :organisation_id, Organisation.all, :id, :name, {}, class: "field__input")%>
+        </div>
 
-        <fieldset class="field-section field-section--two-cols">
-            <legend class="field-section__legend">Basics</legend>
+        <div class="field field--span-two-cols">
+            <%= s.label :description, class: "field__label" %>
+            <%= s.text_area :description, value: @service.description, class: "field__input", rows: 4 %>
+        </div>
+    </fieldset>
 
-            <div class="field">
-                <%= s.label :name, class: "field__label" %>
-                <%= s.text_field :name, value: @service.name, class: "field__input" %>
-            </div>
+    <fieldset class="field-section field-section--two-cols">
+        <legend class="field-section__legend">Contact details</legend>
+        
+        <div class="field">
+            <%= s.label :email, class: "field__label" %>
+            <%= s.text_field :email, value: @service.email, class: "field__input" %>
+        </div>
 
-            <div class="field">
-                <%= s.label :organisation_id, "Parent organisation", class: "field__label" %>
-                <%= s.collection_select( :organisation_id, Organisation.all, :id, :name, {}, class: "field__input")%>
-            </div>
+        <div class="field">
+            <%= s.label :url, "Website", class: "field__label" %>
+            <%= s.text_field :url, value: @service.url, class: "field__input" %>
+        </div>
+    </fieldset>
 
-            <div class="field field--span-two-cols">
-                <%= s.label :description, class: "field__label" %>
-                <%= s.text_area :description, value: @service.description, class: "field__input", rows: 4 %>
-            </div>
-        </fieldset>
+    <%= s.submit "Update", class: "button" %>
 
-        <fieldset class="field-section field-section--two-cols">
-            <legend class="field-section__legend">Contact details</legend>
-            
-            <div class="field">
-                <%= s.label :email, class: "field__label" %>
-                <%= s.text_field :email, value: @service.email, class: "field__input" %>
-            </div>
-
-            <div class="field">
-                <%= s.label :url, "Website", class: "field__label" %>
-                <%= s.text_field :url, value: @service.url, class: "field__input" %>
-            </div>
-        </fieldset>
-
-        <%= s.submit "Update", class: "button" %>
-
-    <% end %>
-
-  </div>
-</div>
+<% end %>

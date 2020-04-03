@@ -6,8 +6,13 @@
     @media screen and (min-width: $breakpoint-m) {
         font-size: 1.1rem;
     }
+
+    .site-nav__link, .site-nav__current{
+        margin-right: 15px;
+    }
     
     .site-nav__link{
+        display: inline-block;
         font-weight: bold;
     }
 }
