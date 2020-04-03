@@ -67,7 +67,9 @@ jobs:
           PGUSER: postgres
           RAILS_ENV: test
           PGPASSWORD: password
-        run: bundle exec rails db:setup
+        run: |
+          bundle exec rails db:create
+          bundle exec rails db:schema:load
 
       - name: Rails test
         run: bundle exec rails test
