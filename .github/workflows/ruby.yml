@@ -66,6 +66,7 @@ jobs:
           PGHOST: localhost
           PGUSER: postgres
           RAILS_ENV: test
+          PASSWORD: password
         run: bundle exec rails db:setup
 
       - name: Rails test
