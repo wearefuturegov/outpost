@@ -1,6 +1,6 @@
 # Outpost
 
-![Ruby](https://github.com/wearefuturegov/outpost/workflows/Ruby/badge.svg)
+![Run tests](https://github.com/wearefuturegov/outpost/workflows/Run%20tests/badge.svg)
 
 **[Staging site here](https://outpost-staging.herokuapp.com/)**
 
