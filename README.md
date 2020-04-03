@@ -14,7 +14,7 @@
 
 **[Staging site here](https://outpost-staging.herokuapp.com/)**
 
-A standards-driven API and comprehensive set of admin tools for managing records about local community services, groups and activities.
+A [standards-driven](https://opencommunity.org.uk/) API and comprehensive set of admin tools for managing records about local community services, groups and activities.
 
 It's a rails app backed by a postgres database.
 
@@ -40,6 +40,6 @@ For the database seed to succeed, you need a source data file `bucksfis.csv` in 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](
 https://heroku.com/deploy)
 
-Suitable for 12-factor app hosting like [Heroku](http://heroku.com).
+It's suitable for 12-factor app hosting like [Heroku](http://heroku.com).
 
-It has a `Procfile` that will automatically run pending rails migrations on every deploy, to reduce downtime.
+It has a `Procfile` that will [automatically run](https://devcenter.heroku.com/articles/release-phase) pending rails migrations on every deploy, to reduce downtime.
