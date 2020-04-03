@@ -1,5 +1,7 @@
 # Outpost
 
+![Ruby](https://github.com/wearefuturegov/outpost/workflows/Ruby/badge.svg)
+
 **[Staging site here](https://outpost-staging.herokuapp.com/)**
 
 A standards-driven API and comprehensive set of admin tools for managing records about local community services, groups and activities.
@@ -20,3 +22,11 @@ rails s
 
 For the database seed to succeed, you need a source data file `bucksfis.csv` in the `lib/seeds` folder.
 
+## Running it on the web
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](
+https://heroku.com/deploy)
+
+Suitable for 12-factor app hosting like [Heroku](http://heroku.com).
+
+It has a `Procfile` that will automatically run pending rails migrations on every deploy, to reduce downtime.
