@@ -1,0 +1,28 @@
+<% content_for :header do %>
+      <%= link_to "Go back", root_path, class: "go-back" %>
+    <h1 class="page-header__title">Sign up</h1>
+<% end %>
+
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+  <%= render "devise/shared/error_messages", resource: resource %>
+
+  <div class="field one-third">
+    <%= f.label :email, class: "field__label" %>
+    <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "field__input" %>
+  </div>
+
+  <div class="field one-third">
+    <%= f.label :password, class: "field__label" %>
+    <% if @minimum_password_length %>
+      <p class="field__hint"><%= @minimum_password_length %> characters minimum</p>
+    <% end %>
+    <%= f.password_field :password, autocomplete: "new-password", class: "field__input" %>
+  </div>
+
+  <div class="field one-third">
+    <%= f.label :password_confirmation, class: "field__label" %>
+    <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "field__input" %>
+  </div>
+
+  <%= f.submit "Sign up", class: "button" %>
+<% end %>

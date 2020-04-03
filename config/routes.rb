@@ -2,9 +2,12 @@ Rails.application.routes.draw do
   
   root "admin/services#index"
 
+  devise_for :users
+  
   namespace :admin do
     root "services#index"
     resources :services, except: :edit
+    resources :users, only: [:index]
   end
 
   namespace :api do

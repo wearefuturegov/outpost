@@ -57,6 +57,11 @@
         display: inline-block;
         margin-bottom: 10px;
     }
+    .field__hint{
+        margin-top: -5px;
+        margin-bottom: 10px;
+        color: transparentize($text, 0.25);
+    }
     .field__input{
         width: 100%;
         padding: 10px;
@@ -92,6 +97,9 @@
     border: none;
     text-decoration: none;
     cursor: pointer;
+    &.button--with-bottom-margin{
+        margin-bottom: 25px;
+    }
     &:hover{
         background: darken($link, 10);
     }
@@ -127,3 +135,48 @@
         }
     }
 }
+
+.checkbox{
+    position: relative;
+    padding: 10px 0px 10px 50px;
+    &:focus-within label:before{
+      outline: 3px solid $focus;
+    }
+    .checkbox__input{
+      font-size: 2rem;
+      -webkit-appearance:none;
+      width:35px;
+      height:35px;
+      position: absolute;
+      left: 0px;
+      top: 0px;
+      &:checked + label:after{
+        position: absolute;
+        content: "";
+        display: block;
+        height: 28px;
+        width: 28px;
+        left: 5px;
+        top: 5px;
+        background-image: url("data:image/svg+xml,%3Csvg width='28' height='24' viewBox='0 0 28 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M27.1608 5.08025L9.59935 23.3259L0.837891 14.2231L5.16081 10.0623L9.59935 14.6738L22.8379 0.919434L27.1608 5.08025Z' fill='%232A2828'/%3E%3C/svg%3E%0A");
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+    }
+    .checkbox__label{
+      cursor: pointer;
+      color: $grey;
+      &:before{
+        content: "";
+        display: inline-block;
+        background: $white;
+        border: 2px solid $text;
+        width: 35px;
+        height: 35px;
+        position: absolute;
+        left: 0px;
+        top: 0px;
+      }
+    }
+  }
