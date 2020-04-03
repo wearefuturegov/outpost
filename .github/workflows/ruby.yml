@@ -24,7 +24,7 @@ jobs:
       - name: Install Ruby version specified in `.ruby-version`
         uses: eregon/use-ruby-action@master # this will use by default the .ruby-version file in your repository
       
-      - name: Install required apt packages
+      - name: Install native postgres client
         run: |
           sudo apt-get -y install libpq-dev
       
@@ -61,9 +61,12 @@ jobs:
       - name: Yarn install
         run: yarn --frozen-lockfile
 
+      - name: Setup database
+        env:
+          PGHOST: localhost
+          PGUSER: postgres
+          RAILS_ENV: test
+        run: bundle exec rails db:setup
+
       - name: Rails test
-        # env:
-        #   RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
-        run: |
-          bundle exec rails db:setup
-          bundle exec rails test
+        run: bundle exec rails test
