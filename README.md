@@ -18,6 +18,8 @@ A [standards-driven](https://opencommunity.org.uk/) API and comprehensive set of
 
 It's a rails app backed by a postgres database.
 
+We're also building an [example front-end](https://github.com/wearefuturegov/scout-x) for Outpost.
+
 ## Running it locally
 
 You need ruby installed and a postgresql server running.
