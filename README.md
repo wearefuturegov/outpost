@@ -28,6 +28,9 @@ First, clone the repo:
 bundle install
 rails db:setup
 rails s
+
+# run tests
+rspec
 ```
 
 For the database seed to succeed, you need a source data file `bucksfis.csv` in the `lib/seeds` folder.
