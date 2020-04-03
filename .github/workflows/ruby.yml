@@ -1,6 +1,7 @@
 # This code from https://dev.to/vvo/a-rails-and-postgresql-setup-for-github-actions-ci-nc8
+# and https://dev.to/jennapederson/github-actions-in-action-2c5
 
-name: Test
+name: Run tests
 
 on: [push]
 
@@ -61,7 +62,7 @@ jobs:
       - name: Yarn install
         run: yarn --frozen-lockfile
 
-      - name: Setup database
+      - name: Setup database and run tests
         env:
           PGHOST: localhost
           PGUSER: postgres
@@ -70,6 +71,4 @@ jobs:
         run: |
           bundle exec rails db:create
           bundle exec rails db:schema:load
-
-      - name: Rails test
-        run: bundle exec rails test
+          bundle exec rspec
