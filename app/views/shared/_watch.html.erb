@@ -1,0 +1,9 @@
+<% if @watched %>
+  <%= form_with url: unwatch_admin_service_path(@service), method: :delete, local: true do |f| %>
+    <%= f.submit "Unwatch", class: "button button--inline" %>
+  <% end %>
+<% else %>
+  <%= form_with url: watch_admin_service_path(@service), local: true do |f| %>
+    <%= f.submit "Watch", class: "button button--inline" %>
+  <% end %>
+<% end %>

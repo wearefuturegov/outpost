@@ -1,18 +1,9 @@
 <% content_for :header do %>
     <%= link_to "Go back", admin_services_path, class: "go-back" %>
-    <h1 class="page-header__title two-thirds"><%= @service.name.length > 0 ? @service.name : "Unnamed service" %></h1>
-<% end %>
-
-<ul>
-<% current_user.watches.each do |w| %>
-  <li><%= w.service.id %></li>
-<% end %>
-</ul>
-
-<% if @service.watching(current_user) %>watching<% else %>not watching<% end %>
-
-<%= form_with url: watch_admin_service_path(@service), local: true do |f| %>
-  <%= f.submit %>
+    <div class="page-header__actions">
+      <h1 class="page-header__title two-thirds"><%= @service.name.length > 0 ? @service.name : "Unnamed service" %></h1>
+      <%= render "shared/watch" %>
+    </div>
 <% end %>
 
 <%= form_for [:admin, @service], html: {class: "two-thirds"} do |s| %>
