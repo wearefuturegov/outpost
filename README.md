@@ -1,5 +1,5 @@
 <p align="center">
-    <a href="https://beacon-support-staging.herokuapp.com/">
+    <a href="https://outpost-staging.herokuapp.com/">
         <img src="https://github.com/wearefuturegov/outpost/blob/master/app/assets/images/outpost.png?raw=true" width="350px" />               
     </a>
 </p>
