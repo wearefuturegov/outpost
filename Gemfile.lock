@@ -160,7 +160,7 @@ GEM
     orm_adapter (0.5.0)
     pg (1.2.2)
     public_suffix (4.0.3)
-    puma (4.3.1)
+    puma (4.3.3)
       nio4r (~> 2.0)
     rack (2.2.2)
     rack-proxy (0.6.5)
@@ -298,7 +298,7 @@ DEPENDENCIES
   kaminari
   listen (>= 3.0.5, < 3.2)
   pg (>= 0.18, < 2.0)
-  puma (~> 4.1)
+  puma (~> 4.3)
   rails (~> 6.0.2, >= 6.0.2.1)
   rspec-rails
   sass-rails (>= 6)
