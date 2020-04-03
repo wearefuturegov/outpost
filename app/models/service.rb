@@ -1,9 +1,9 @@
 class Service < ApplicationRecord
   belongs_to :organisation
-
-  validates_presence_of :name
   has_one :contact
 
+  paginates_per 20
+  validates_presence_of :name
 
   def short_url
     self.url

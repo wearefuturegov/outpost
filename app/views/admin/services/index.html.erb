@@ -2,8 +2,6 @@
     <h1 class="page-header__title">Services</h1>
 <% end %>
 
-<%# filters, search and actions here %>
-
 <div class="table-holder">
   <table>
     <thead>
@@ -31,4 +29,4 @@
   </table>
 </div>
 
-<%# pagination here %>
+<%= paginate @services %>
