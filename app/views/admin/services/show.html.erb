@@ -3,6 +3,12 @@
     <h1 class="page-header__title two-thirds"><%= @service.name.length > 0 ? @service.name : "Unnamed service" %></h1>
 <% end %>
 
+<%= current_user.watches %>
+
+<%= form_with url: services_path, method: :put, local: true do |f| %>
+  <%= f.submit "Watch/unwatch" %>
+<% end %>
+
 <%= form_for [:admin, @service], html: {class: "two-thirds"} do |s| %>
 
   <% if @service.errors.full_messages.any? %>

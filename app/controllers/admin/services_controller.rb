@@ -6,6 +6,7 @@ class Admin::ServicesController < Admin::BaseController
   end
 
   def show
+    byebug
   end
 
   def update
@@ -14,6 +15,9 @@ class Admin::ServicesController < Admin::BaseController
     else
       render "show"
     end
+  end
+
+  def watch
   end
 
   private
