@@ -1,4 +1,14 @@
-# Outpost
+<p align="center">
+    <a href="https://beacon-support-staging.herokuapp.com/">
+        <img src="https://github.com/wearefuturegov/outpost/blob/master/app/assets/images/outpost.png?raw=true" width="350px" />               
+    </a>
+</p>
+  
+<p align="center">
+    <em>Service directories done right</em>         
+</p>
+
+---
 
 ![Run tests](https://github.com/wearefuturegov/outpost/workflows/Run%20tests/badge.svg)
 
