@@ -104,6 +104,7 @@ GEM
     faker (2.10.2)
       i18n (>= 1.6, < 2)
     ffi (1.12.2)
+    geocoder (1.6.2)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
     haml (5.1.2)
@@ -295,6 +296,7 @@ DEPENDENCIES
   dotenv-rails
   factory_bot_rails
   faker
+  geocoder
   haml-rails
   jbuilder (~> 2.7)
   kaminari
