@@ -58,4 +58,7 @@ table{
 
 .actions{
     margin-bottom: 25px;
+    @media screen and (min-width: $breakpoint-m){
+        margin-bottom: 40px;
+    }
 }

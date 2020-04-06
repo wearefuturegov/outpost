@@ -101,12 +101,14 @@
     &.button--with-bottom-margin{
         margin-bottom: 25px;
     }
+    &:focus{
+        background: $link;
+        outline: 3px solid $focus;
+        color: $white;
+    }
     &:hover{
         background: darken($link, 10);
         text-decoration: none;
-    }
-    &:focus{
-        outline: 3px solid $focus;
     }
     &:active{
         background: darken($link, 20);
