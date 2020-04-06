@@ -25,7 +25,7 @@
           <td><%= link_to s.name, admin_service_path(s) %></td>
           <td><span class="category">Example</span></td>
           <td>0777 777 7777</td>
-          <td><%= link_to(short_url(s.url), s.url, target: "blank") if s.url %></td>
+          <td><%= link_to(short_url(s.url), s.url, target: "blank") if s.url.present? %></td>
           <td><%= time_ago_in_words(s.updated_at) %> ago</td>
           <td><span class="tag">Active</span></td>
         </tr>
