@@ -78,4 +78,13 @@ ActiveRecord::Schema.define(version: 2020_04_06_120701) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "watches", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "service_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["service_id"], name: "index_watches_on_service_id"
+    t.index ["user_id"], name: "index_watches_on_user_id"
+  end
+
 end

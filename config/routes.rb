@@ -6,7 +6,12 @@ Rails.application.routes.draw do
   
   namespace :admin do
     root "services#index"
-    resources :services, except: :edit
+    resources :services, except: :edit do
+      member do
+        post "watch"
+        delete "unwatch"
+      end
+    end
     resources :users, only: [:index]
   end
 

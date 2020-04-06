@@ -6,6 +6,8 @@ class Admin::ServicesController < Admin::BaseController
   end
 
   def show
+    # byebug
+    @watched = current_user.watches.where(service_id: @service.id).exists?
   end
 
   def update
@@ -16,6 +18,17 @@ class Admin::ServicesController < Admin::BaseController
     end
   end
 
+  def watch
+    current_user.watches.create(service_id: params[:id])
+    current_user.save
+    redirect_to admin_service_path
+  end
+
+  def unwatch
+    current_user.watches.find_by(service_id: params[:id]).destroy
+    redirect_to admin_service_path
+  end
+  
   def new
     @service = Service.new
   end
