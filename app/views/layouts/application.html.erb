@@ -32,6 +32,7 @@
     <% if user_signed_in? %>
       <nav class="site-nav">
         <div class="container">
+          <%= link_to_unless_current "Dashboard", root_path, class: "site-nav__link" do %><span class="site-nav__current">Dashboard</span><% end %>
           <%= link_to_unless_current "Services", admin_services_path, class: "site-nav__link" do %><span class="site-nav__current">Services</span><% end %>
           <%= link_to_unless_current "Users", admin_users_path, class: "site-nav__link" do %><span class="site-nav__current">Users</span><% end %>
         </div>

@@ -1,11 +1,11 @@
 Rails.application.routes.draw do
   
-  root "admin/services#index"
+  root "admin/dashboard#index"
 
   devise_for :users
   
   namespace :admin do
-    root "services#index"
+    root "dashboard#index"
     resources :services, except: :edit do
       member do
         post "watch"
