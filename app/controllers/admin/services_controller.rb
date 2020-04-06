@@ -2,11 +2,17 @@ class Admin::ServicesController < Admin::BaseController
   before_action :set_service, only: [:show, :update]
 
   def index
-    @services = Service.order(updated_at: :desc).page(params[:page])
+    @services = Service.order(updated_at: :desc)
+    @services = @services.search(params[:query]) if params[:query].present?
+    @services = @services.page(params[:page])
+
+    respond_to do |format|
+      format.html
+      format.csv { send_data Service.all.to_csv }
+    end
   end
 
   def show
-    # byebug
     @watched = current_user.watches.where(service_id: @service.id).exists?
   end
 

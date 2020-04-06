@@ -6,6 +6,11 @@ table{
         font-weight: bold;
         text-align: left;
         padding: 10px;
+        &.with-sort{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
     }
     td{
         padding: 10px;
@@ -17,6 +22,21 @@ table{
     }
     tr:nth-of-type(even){
         background: $pale;
+    }
+}
+
+.sort{
+    display: inline-flex;
+    flex-direction: column;
+    margin-left: 10px;
+    *:first-child{
+        margin-bottom: 5px;
+    }
+    a, img{
+        height: 6px;
+    }
+    img{
+        display: block;
     }
 }
 
@@ -52,6 +72,49 @@ table{
         }
         &:last-of-type{
             margin-right: 0px;
+        }
+    }
+}
+
+.mini-search{
+    position: relative;
+    margin-bottom: 25px;
+    @media screen and (min-width: $breakpoint-m) {
+        margin-bottom: 0px;
+        width: 250px;
+    }
+
+    .mini-search__input{
+        padding: 7px;
+        height: 42px;
+        font-size: 1rem;
+        color: $text;
+        border: 2px solid $text;
+        width: 100%;
+        padding-right: 50px;
+        &:focus{
+            outline: 3px solid $focus;
+        }
+    }
+
+    .mini-search__submit{
+        background: none;
+        border: none;
+        position: absolute;
+        right: 2px;
+        top: 2px;
+        height: 38px;
+        padding: 10px 12px;
+        img{
+            height: 100%;
+            width: auto;
+        }
+        cursor: pointer;
+        &:hover{
+            background: $pale;
+        }
+        &:focus{
+            outline: 3px solid $focus;
         }
     }
 }

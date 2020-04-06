@@ -3,34 +3,47 @@
 <% end %>
 
 <header class="actions">
-  <%= link_to "Add service", new_admin_service_path, class: "button button--small" %>
+
+  <%= render "shared/mini-search" %>
+
+  <div>
+    <a href="/admin/services.csv" class="button button--inline">Export</a>
+    <%= link_to "Add service", new_admin_service_path, class: "button button--small" %>
+  </div>
 </header>
 
-<div class="table-holder">
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Category</th>
-        <th>Phone number</th>
-        <th>Website</th>
-        <th>Last updated</th>
-        <th>Status</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @services.each do |s| %>
+<% if @services.present? %>
+  <div class="table-holder">
+    <table>
+      <thead>
         <tr>
-          <td><%= link_to s.name, admin_service_path(s) %></td>
-          <td><span class="category">Example</span></td>
-          <td>0777 777 7777</td>
-          <td><%= link_to(short_url(s.url), s.url, target: "blank") if s.url.present? %></td>
-          <td><%= time_ago_in_words(s.updated_at) %> ago</td>
-          <td><span class="tag">Active</span></td>
+          <th class="with-sort">Name
+            <%= render "shared/sort", column: "name"%>
+          </th>
+          <th>Category</th>
+          <th>Phone number</th>
+          <th>Website</th>
+          <th class="with-sort">Last updated
+            <%= render "shared/sort", column: "updated_at"%>
+          </th>
+          <th>Status</th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
-</div>
-
-<%= paginate @services %>
+      </thead>
+      <tbody>
+        <% @services.each do |s| %>
+          <tr>
+            <td><%= link_to s.name, admin_service_path(s) %></td>
+            <td><span class="category">Example</span></td>
+            <td>0777 777 7777</td>
+            <td><%= link_to(short_url(s.url), s.url, target: "blank") if s.url.present? %></td>
+            <td><%= time_ago_in_words(s.updated_at) %> ago</td>
+            <td><span class="tag">Active</span></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <%= paginate @services %>
+<% else %>
+  <p>No results to show</p>
+<% end %>
