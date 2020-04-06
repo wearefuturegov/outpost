@@ -57,16 +57,12 @@ bucks_csv.each do |row|
     else # Otherwise create a new one
       location = Location.new
       location.name = row['venue_name']
+      location.address_1 = [row['venue_address_1'], row['venue_address_2']].join(' ')
+      location.city = row['venue_address_4']
+      location.state_province = 'Buckinghamshire'
+      location.postal_code = row['venue_postcode']
+      location.country = 'GB'
       location.save
-
-      physical_address = PhysicalAddress.new
-      physical_address.location_id = location.id
-      physical_address.address_1 = [row['venue_address_1'], row['venue_address_2']].join(' ')
-      physical_address.city = row['venue_address_4']
-      physical_address.state_province = 'Buckinghamshire'
-      physical_address.postal_code = row['venue_postcode']
-      physical_address.country = 'GB'
-      physical_address.save
 
       service.locations << location
     end

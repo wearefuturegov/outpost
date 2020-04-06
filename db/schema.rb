@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_03_215552) do
+ActiveRecord::Schema.define(version: 2020_04_06_120701) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,6 +27,11 @@ ActiveRecord::Schema.define(version: 2020_04_03_215552) do
     t.string "description"
     t.decimal "latitude", precision: 10, scale: 6
     t.decimal "longitude", precision: 10, scale: 6
+    t.string "address_1"
+    t.string "city"
+    t.string "state_province"
+    t.string "postal_code"
+    t.string "country"
   end
 
   create_table "organisations", force: :cascade do |t|
@@ -43,16 +48,6 @@ ActiveRecord::Schema.define(version: 2020_04_03_215552) do
     t.bigint "contact_id"
     t.string "number"
     t.index ["contact_id"], name: "index_phones_on_contact_id"
-  end
-
-  create_table "physical_addresses", force: :cascade do |t|
-    t.bigint "location_id"
-    t.string "address_1"
-    t.string "city"
-    t.string "state_province"
-    t.string "postal_code"
-    t.string "country"
-    t.index ["location_id"], name: "index_physical_addresses_on_location_id"
   end
 
   create_table "service_at_locations", force: :cascade do |t|
@@ -81,15 +76,6 @@ ActiveRecord::Schema.define(version: 2020_04_03_215552) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-  end
-
-  create_table "watches", force: :cascade do |t|
-    t.bigint "user_id"
-    t.bigint "service_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["service_id"], name: "index_watches_on_service_id"
-    t.index ["user_id"], name: "index_watches_on_user_id"
   end
 
 end
