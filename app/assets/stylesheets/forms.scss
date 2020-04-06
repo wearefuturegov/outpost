@@ -117,6 +117,10 @@
         width: inherit;
         min-width: 250px
     }
+    &.button--small{
+        padding: 10px 15px;
+        min-width: inherit;
+    }
 }
 
 .error{

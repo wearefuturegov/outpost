@@ -46,6 +46,10 @@
         </div>
     </fieldset>
 
-    <%= s.submit "Update", class: "button" %>
+    <% if params[:id] %>
+      <%= s.submit "Update", class: "button" %>
+    <% else %>
+      <%= s.submit "Create", class: "button" %>
+    <% end %>
 
 <% end %>

@@ -2,7 +2,10 @@
     <h1 class="page-header__title">Services</h1>
 <% end %>
 
-<%= link_to "Add service", new_admin_service_path, class: "button" %>
+<header class="actions">
+  <%= link_to "Add service", new_admin_service_path, class: "button button--small" %>
+</header>
+
 
 <div class="table-holder">
   <table>
@@ -20,7 +23,7 @@
       <% @services.each do |s| %>
         <tr>
           <td><%= link_to s.name, admin_service_path(s) %></td>
-          <td>Example</td>
+          <td><span class="category">Example</span></td>
           <td>0777 777 7777</td>
           <td><%= link_to(s.short_url, s.url, target: "blank") if s.url %></td>
           <td><%= time_ago_in_words(s.updated_at) %> ago</td>

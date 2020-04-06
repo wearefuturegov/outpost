@@ -20,6 +20,15 @@ table{
     }
 }
 
+.category{
+    display: inline-block;
+    background: transparentize($link, 0.9);
+    font-size: 0.8rem;
+    padding: 5px;
+    color: $link;
+    border-radius: 2px;
+}
+
 .tag{
     display: inline-block;
     border: 1px solid $link;
@@ -45,4 +54,8 @@ table{
             margin-right: 0px;
         }
     }
+}
+
+.actions{
+    margin-bottom: 25px;
 }

@@ -21,7 +21,8 @@ class Admin::ServicesController < Admin::BaseController
   end
 
   def create
-    if Service.create(service_params).save
+    @service = Service.create(service_params)
+    if @service.save
       redirect_to admin_services_path
     else
       render "new"
