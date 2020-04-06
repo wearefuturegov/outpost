@@ -28,6 +28,19 @@ class Admin::ServicesController < Admin::BaseController
     current_user.watches.find_by(service_id: params[:id]).destroy
     redirect_to admin_service_path
   end
+  
+  def new
+    @service = Service.new
+  end
+
+  def create
+    @service = Service.create(service_params)
+    if @service.save
+      redirect_to admin_services_path
+    else
+      render "new"
+    end
+  end
 
   private
 

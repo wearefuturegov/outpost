@@ -45,6 +45,9 @@
         font-weight: bold;
         margin-bottom: 20px;
     }
+    .field-section__hint{
+        margin-bottom: 20px;
+    }
 }
 
 .field{
@@ -66,6 +69,7 @@
         width: 100%;
         padding: 10px;
         font-size: 1rem;
+        background: $white;
         border: 2px solid $text;
         &:focus{
             outline: 3px solid $focus;
@@ -100,14 +104,18 @@
     &.button--with-bottom-margin{
         margin-bottom: 25px;
     }
+    &:focus{
+        background: $link;
+        outline: 3px solid $focus;
+        color: $white;
+    }
     &:hover{
         background: darken($link, 10);
-    }
-    &:focus{
-        outline: 3px solid $focus;
+        text-decoration: none;
     }
     &:active{
         background: darken($link, 20);
+        color: $white;
     }
     @media screen and (min-width: $breakpoint-m) {
         display: inline-block;
@@ -131,6 +139,10 @@
         &:active{
             color: $text;
         }
+    }
+    &.button--small{
+        padding: 10px 15px;
+        min-width: inherit;
     }
 }
 

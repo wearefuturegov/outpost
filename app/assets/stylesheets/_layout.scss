@@ -32,7 +32,6 @@
             font-size: 3.5rem;
         }
     }
-
     .page-header__actions{
         .page-header__title{
             margin-bottom: 25px;
@@ -46,6 +45,10 @@
             justify-content: space-between;
             align-items: center;
         }
+    }
+    .page-header__lede{
+        margin-top: 40px;
+        font-size: 1.2rem;
     }
 }
 
