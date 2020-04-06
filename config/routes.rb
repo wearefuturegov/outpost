@@ -12,7 +12,7 @@ Rails.application.routes.draw do
         delete "unwatch"
       end
     end
-    resources :users, only: [:index]
+    resources :users, except: [:edit, :show]
   end
 
   namespace :api do

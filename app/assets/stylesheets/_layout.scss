@@ -25,25 +25,10 @@
     @media screen and (min-width: $breakpoint-m){
         padding: 60px $outer-spacing;
     }
-    
     .page-header__title{
         font-size: 2.5rem;
         @media screen and (min-width: $breakpoint-m){
             font-size: 3.5rem;
-        }
-    }
-    .page-header__actions{
-        .page-header__title{
-            margin-bottom: 25px;
-            @media screen and (min-width: $breakpoint-m){
-                margin-bottom: 0px;
-            }
-        }
-        @media screen and (min-width: $breakpoint-m){
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: center;
         }
     }
     .page-header__lede{
@@ -56,6 +41,13 @@
     padding: 0px $outer-spacing 40px $outer-spacing;
     @media screen and (min-width: $breakpoint-m){
         padding-bottom: 60px;
+    }
+}
+
+.actions{
+    margin-bottom: 25px;
+    @media screen and (min-width: $breakpoint-m){
+        margin-bottom: 40px;
     }
 }
 

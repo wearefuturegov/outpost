@@ -122,24 +122,6 @@
         width: inherit;
         min-width: 250px
     }
-    &.button--inline{
-        background: none;
-        padding: 0px;
-        color: $link;
-        text-align: left;
-        width: inherit;
-        min-width: inherit;
-        &:hover{
-            text-decoration: underline;
-        }
-        &:focus{
-            background: $focus;
-            outline: 3px solid $focus;
-        }
-        &:active{
-            color: $text;
-        }
-    }
     &.button--small{
         padding: 10px 15px;
         min-width: inherit;

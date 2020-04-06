@@ -2,8 +2,11 @@
     <%= link_to "Go back", admin_services_path, class: "go-back" %>
     <div class="page-header__actions">
       <h1 class="page-header__title two-thirds"><%= @service.name.length > 0 ? @service.name : "Unnamed service" %></h1>
-      <%= render "shared/watch" %>
     </div>
 <% end %>
+
+<header class="actions">
+  <%= render "shared/watch" %>
+</header>
 
 <%= render "form" %>
