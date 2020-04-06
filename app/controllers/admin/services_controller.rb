@@ -16,6 +16,18 @@ class Admin::ServicesController < Admin::BaseController
     end
   end
 
+  def new
+    @service = Service.new
+  end
+
+  def create
+    if Service.create(service_params).save
+      redirect_to admin_services_path
+    else
+      render "new"
+    end
+  end
+
   private
 
   def set_service
