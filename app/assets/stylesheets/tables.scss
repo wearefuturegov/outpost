@@ -44,9 +44,10 @@ table{
     display: inline-block;
     background: transparentize($link, 0.9);
     font-size: 0.8rem;
-    padding: 5px;
+    padding: 5px 7px;
     color: $link;
     border-radius: 2px;
+    margin-right: 3px;
 }
 
 .tag{

@@ -62,7 +62,8 @@ class Admin::ServicesController < Admin::BaseController
       :organisation_id,
       :description,
       :url,
-      :email
+      :email,
+      taxonomy_ids: []
     )
   end
 

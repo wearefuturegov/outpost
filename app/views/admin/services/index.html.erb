@@ -20,7 +20,7 @@
           <th class="with-sort">Name
             <%= render "shared/sort", column: "name"%>
           </th>
-          <th>Category</th>
+          <th>Categories</th>
           <th>Phone number</th>
           <th>Website</th>
           <th class="with-sort">Last updated
@@ -33,7 +33,11 @@
         <% @services.each do |s| %>
           <tr>
             <td><%= link_to s.name, admin_service_path(s) %></td>
-            <td><span class="category">Example</span></td>
+            <td>
+              <% s.taxonomies.each do |t| %>
+                <span class="category"><%= t.name %></span>
+              <% end %>
+            </td>
             <td>0777 777 7777</td>
             <td><%= link_to(short_url(s.url), s.url, target: "blank") if s.url.present? %></td>
             <td><%= time_ago_in_words(s.updated_at) %> ago</td>
