@@ -126,6 +126,18 @@
         padding: 10px 15px;
         min-width: inherit;
     }
+    &.button--inline{
+        background: none;
+        font-weight: normal;
+        color: $link;
+        padding: 10px 15px;
+        min-width: inherit;
+        margin-right: 10px;
+        margin-bottom: 10px;
+        &:hover{
+            background: $pale;
+        }
+    }
 }
 
 .error{

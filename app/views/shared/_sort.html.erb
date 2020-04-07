@@ -1,0 +1,11 @@
+<div class="sort">
+
+    <%= link_to_unless_current image_tag("asc.svg", alt: "sort ascending"), admin_services_path(:order => "asc", :order_by => column) do %>
+        <%= image_tag("asc-active.svg", alt: "sorted ascending")%>
+    <% end %>
+
+    <%= link_to_unless_current image_tag("desc.svg", alt: "sort descending"), admin_services_path(:order => "desc", :order_by => column) do %>
+        <%= image_tag("desc-active.svg", alt: "sorted descending")%>
+    <% end %>
+
+</div>

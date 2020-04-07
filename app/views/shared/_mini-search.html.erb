@@ -1,0 +1,9 @@
+<%= form_with url: admin_services_path, local: true, method: "get" do |f| %>
+    <div class="mini-search">
+        <%= f.label :query, "Search query", class: "visually-hidden" %>
+        <%= f.text_field :query, value: params[:query], class: "mini-search__input" %>
+        <button class="mini-search__submit">
+        <%= image_tag "search.svg", alt: "Submit search" %>
+        </button>
+    </div>
+<% end %>
