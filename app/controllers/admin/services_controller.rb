@@ -2,9 +2,11 @@ class Admin::ServicesController < Admin::BaseController
   before_action :set_service, only: [:show, :update]
 
   def index
-    @services = Service.order(updated_at: :desc)
-    @services = @services.search(params[:query]) if params[:query].present?
-    @services = @services.page(params[:page])
+    if params[:query].present?
+      @services = Service.search(params[:query]).last_updated_first.page(params[:page])
+    else
+      @services = Service.last_updated_first.page(params[:page])
+    end
 
     respond_to do |format|
       format.html
