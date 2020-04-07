@@ -3,9 +3,13 @@ class Admin::ServicesController < Admin::BaseController
 
   def index
     if params[:query].present?
-      @services = Service.search(params[:query]).last_updated_first.page(params[:page])
+      @services = Service.search(params[:query]).page(params[:page])
     else
-      @services = Service.last_updated_first.page(params[:page])
+      @services = Service.newest # default sort
+      @services = Service.alphabetical if params[:order] === "asc" && params[:order_by] === "name"
+      @services = Service.reverse_alphabetical if params[:order] === "desc" && params[:order_by] === "name"
+      @services = Service.oldest if params[:order] === "asc" && params[:order_by] === "updated_at"
+      @services = @services.page(params[:page])
     end
 
     respond_to do |format|

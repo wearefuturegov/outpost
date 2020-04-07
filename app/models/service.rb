@@ -8,7 +8,11 @@ class Service < ApplicationRecord
   has_many :watches
   has_many :users, through: :watches
 
-  scope :last_updated_first, -> { order(updated_at: :desc) }
+  # sort scopes
+  scope :oldest, ->  { order("updated_at ASC") }
+  scope :newest, ->  { order("updated_at DESC") }
+  scope :alphabetical, ->  { order("name ASC") }
+  scope :reverse_alphabetical, ->  { order("name DESC") }
 
   paginates_per 20
   validates_presence_of :name
