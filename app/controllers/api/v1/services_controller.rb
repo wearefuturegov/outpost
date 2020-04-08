@@ -1,10 +1,10 @@
 class API::V1::ServicesController < ApplicationController
   def index
     if params[:coverage].present?
-      @locations = Location.near(params[:coverage]).includes(:services)
+      @locations = Location.near(params[:coverage]).includes(:services).page(params[:page])
       @services = services_from_locations
     else
-      @services = Service.includes(:organisation).all
+      @services = Service.page(params[:page]).includes(:organisation).all
     end
 
     render json: {
