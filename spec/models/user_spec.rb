@@ -1,5 +1,23 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  #pending "add some examples to (or delete) #{__FILE__}"
+
+    let!(:user) { FactoryBot.build(:user) }
+
+    # it { should validate_presence_of(:email) }
+
+    it "won't save without email" do
+      user.email = nil
+      expect(user.save).to eq(false)
+    end
+
+    it "won't save without password" do
+      user.password = nil
+      expect(user.save).to eq(false)
+    end
+
+    it "should save successfully" do
+      expect(user.save).to eq(true)
+    end
+
 end

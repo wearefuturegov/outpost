@@ -28,6 +28,7 @@ gem 'jbuilder', '~> 2.7'
 gem 'haml-rails'
 gem 'kaminari'
 gem 'devise'
+gem 'paper_trail'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
@@ -42,6 +43,7 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'rspec-rails'
   gem 'dotenv-rails'
+  gem 'simplecov'
 end
 
 group :development do

@@ -60,3 +60,21 @@
         overflow-x: inherit;
     }
 }
+
+.with-sidebar{
+    @media screen and (min-width: $breakpoint-m){
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+
+        .two-thirds{
+            margin-right: 80px;
+            flex: 2;
+        }
+    
+        .with-sidebar__sidebar{
+            width: 33%;
+            flex: 1;
+        }
+    }   
+}

@@ -17,6 +17,8 @@ class Service < ApplicationRecord
   paginates_per 20
   validates_presence_of :name
 
+  has_paper_trail
+
   include PgSearch::Model
   pg_search_scope :search, 
     against: [:name, :description], 
