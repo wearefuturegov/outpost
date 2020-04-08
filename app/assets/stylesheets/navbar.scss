@@ -2,17 +2,75 @@
 
 .site-nav{
     background: $pale;
-    padding: 15px $outer-spacing;
+    padding: 10px $outer-spacing;
     @media screen and (min-width: $breakpoint-m) {
         font-size: 1.1rem;
     }
 
     .site-nav__link, .site-nav__current{
+        display: inline-block;
+        margin: 5px 15px 5px 0px;
         margin-right: 15px;
+        font-weight: bold;
+    }
+
+    .site-nav__current{
+        font-weight: normal;
+        &:focus{
+            outline: none;
+        }
     }
     
-    .site-nav__link{
+    .site-nav__submenu-holder{
+        position: relative;
         display: inline-block;
-        font-weight: bold;
+        &:hover .site-nav__submenu, 
+        &:focus-within .site-nav__submenu{
+            display: block;
+        }
+    }
+
+    .site-nav__submenu{
+        display: none;
+        list-style: none;
+        position: absolute;
+        left: 0px;
+        top: 100%;
+        background: $white;
+        margin-left: 0px;
+        border: 1px solid $card-shadow;
+    }
+
+    .site-nav__submenu-item{
+        padding: 0px;
+        margin-bottom: 0px;
+    }
+
+    .site-nav__submenu-link{
+        display: block;
+        padding: 15px 20px;
+        font-size: 0.9rem;
+        font-weight: normal;
+        cursor: pointer;
+        &:hover{
+            background: $pale;
+            text-decoration: none;
+        }
+        &:focus{
+            outline: none;
+        }
+        @media screen and (min-width: $breakpoint-m) {
+            font-size: 1rem;
+        }
+    }
+
+    .site-nav__submenu-current{
+        display: block;
+        padding: 15px 20px;
+        font-size: 0.9rem;
+        font-weight: normal;
+        @media screen and (min-width: $breakpoint-m) {
+            font-size: 1rem;
+        }
     }
 }

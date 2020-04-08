@@ -12,6 +12,7 @@
       <tr>
         <th>Email</th>
         <th>Joined</th>
+        <th>Parent organisation</th>
       </tr>
     </thead>
     <tbody>
@@ -19,6 +20,7 @@
         <tr>
           <td><%= u.email %></td>
           <td><%= time_ago_in_words(u.created_at) %> ago</td>
+          <td></td>
         </tr>
       <% end %>
     </tbody>

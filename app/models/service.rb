@@ -33,4 +33,8 @@ class Service < ApplicationRecord
     end
   end
 
+  def display_name
+    self.name || "Unnamed service"
+  end
+
 end

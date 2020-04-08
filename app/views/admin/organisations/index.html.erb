@@ -1,0 +1,30 @@
+<% content_for :header do %>
+    <%= link_to "Go back", admin_services_path, class: "go-back" %>
+    <h1 class="page-header__title">Organisations</h1>
+<% end %>
+
+<% if @organisations.present? %>
+  <div class="table-holder">
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Services</th>
+          <th>Users</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @organisations.each do |o| %>
+          <tr>
+            <td><%= link_to o.display_name, admin_organisation_path(o) %></td>
+            <td><%= o.services.length %></td>
+            <td></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <%= paginate @organisations %>
+<% else %>
+  <p class="no-results">No results to show</p>
+<% end %>

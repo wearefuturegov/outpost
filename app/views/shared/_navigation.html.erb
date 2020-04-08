@@ -1,0 +1,34 @@
+<% if user_signed_in? %>
+    <nav class="site-nav">
+        <div class="container">
+
+            <%= link_to_unless_current "Dashboard", root_path, class: "site-nav__link" do %>
+                <span class="site-nav__current">Dashboard</span>
+            <% end %>
+            
+            <div class="site-nav__submenu-holder">
+                <%= link_to_unless_current "Services", admin_services_path, class: "site-nav__link" do %>
+                    <span class="site-nav__current" tabindex="0">Services</span>
+                <% end %>
+            
+                <ul class="site-nav__submenu">
+                    <li class="site-nav__submenu-item">
+                        <%= link_to_unless_current "Organisations", admin_organisations_path, class: "site-nav__submenu-link" do %>
+                            <span class="site-nav__submenu-current">Organisations</span>
+                        <% end %>
+                    </li>
+                    <li class="site-nav__submenu-item">
+                        <%= link_to_unless_current "Locations", admin_locations_path, class: "site-nav__submenu-link" do %>
+                            <span class="site-nav__submenu-current">Locations</span>
+                        <% end %>
+                    </li>
+                </ul>
+            </div>
+
+            <%= link_to_unless_current "Users", admin_users_path, class: "site-nav__link" do %>
+                <span class="site-nav__current">Users</span>
+            <% end %>
+
+        </div>
+    </nav>
+<% end %>
