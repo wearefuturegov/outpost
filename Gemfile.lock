@@ -169,6 +169,8 @@ GEM
     rack (2.2.2)
     rack-cors (1.1.1)
       rack (>= 2.0.0)
+    rack-mini-profiler (2.0.1)
+      rack (>= 1.2.0)
     rack-proxy (0.6.5)
       rack
     rack-test (1.1.0)
@@ -308,6 +310,7 @@ DEPENDENCIES
   pg_search
   puma (~> 4.3)
   rack-cors
+  rack-mini-profiler
   rails (~> 6.0.2, >= 6.0.2.1)
   rspec-rails
   sass-rails (>= 6)
