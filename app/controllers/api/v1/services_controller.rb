@@ -3,14 +3,17 @@ class API::V1::ServicesController < ApplicationController
     if params[:coverage].present?
       @locations = Location.near(params[:coverage]).includes(:services).page(params[:page])
       @services = services_from_locations
+      render json: {
+        "totalElements": @locations.total_count,
+        "content": serialized_services
+      }
     else
       @services = Service.page(params[:page]).includes(:organisation).all
+      render json: {
+        "totalElements": @services.total_count,
+        "content": serialized_services
+      }
     end
-
-    render json: {
-      "totalElements": @services.total_count,
-      "content": serialized_services
-    }
   end
 
   def show
