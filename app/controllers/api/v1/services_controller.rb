@@ -8,7 +8,7 @@ class API::V1::ServicesController < ApplicationController
     end
 
     render json: {
-      "totalElements": @services.count,
+      "totalElements": @services.total_count,
       "content": serialized_services
     }
   end
