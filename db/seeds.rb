@@ -38,6 +38,10 @@ bucks_csv.each do |row|
     service.url = row['website']
     if parent_organisation = Organisation.where(old_external_id: row['parent_organisation']).first
       service.organisation_id = parent_organisation.id
+    else
+      organisation = Organisation.new # Create organisation if doeesnt exist
+      organisation.save
+      service.organisation_id = organisation.id
     end
     service.save
 
@@ -52,8 +56,8 @@ bucks_csv.each do |row|
     phone.number = row['contact_telephone']
     phone.save
 
-    if Location.where(name: row['venue_name']).size > 0 # Assign location if already exists
-      service.locations << Location.where(name: row['venue_name']).first
+    if row['venue_name'].present? && (Location.where('lower(name) = ?', row['venue_name'].downcase).size > 0) # Assign location if already exists
+      service.locations << Location.where('lower(name) = ?', row['venue_name'].downcase).first
     else # Otherwise create a new one
       location = Location.new
       location.name = row['venue_name']
@@ -63,7 +67,6 @@ bucks_csv.each do |row|
       location.postal_code = row['venue_postcode']
       location.country = 'GB'
       location.save
-
       service.locations << location
     end
     service.save
