@@ -4,6 +4,6 @@ class Organisation < ApplicationRecord
     paginates_per 20
 
     def display_name
-        self.name || "Unnamed organisation"
+        self.name || "Unnamed organisation #{self.id}"
     end
 end
