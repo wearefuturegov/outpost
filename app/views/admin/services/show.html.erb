@@ -9,4 +9,10 @@
   <%= render "shared/watch" %>
 </header>
 
-<%= render "form" %>
+<div class="with-sidebar">
+  <%= render "form" %>
+
+  <aside class="with-sidebar__sidebar">
+    <%= render "shared/version-history" %>
+  </aside>
+</div>

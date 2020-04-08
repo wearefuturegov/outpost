@@ -11,7 +11,6 @@ class Admin::ServicesController < Admin::BaseController
       @services = Service.oldest if params[:order] === "asc" && params[:order_by] === "updated_at"
       @services = @services.page(params[:page])
     end
-
     respond_to do |format|
       format.html
       format.csv { send_data Service.all.to_csv }
@@ -20,6 +19,9 @@ class Admin::ServicesController < Admin::BaseController
 
   def show
     @watched = current_user.watches.where(service_id: @service.id).exists?
+    
+    @versions = @service.versions
+    @versions = @versions.last(3).reverse.push(@versions.first) if @versions.length > 3 #summarise if many versions recorded
   end
 
   def update
