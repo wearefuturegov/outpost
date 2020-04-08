@@ -9,15 +9,19 @@
         max-width: $max-width;
         margin-left: auto;
         margin-right: auto;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        flex-wrap: wrap;
         @media screen and (min-width: $breakpoint-m){
-            display: flex;
-            flex-direction: row;
             align-items: center;
         }
     }
 
     .site-header__masthead{
         margin-bottom: 10px;
+        display: inline-block;
+        max-width: 50%;
         @media screen and (min-width: $breakpoint-m){
             width: 33%;
             display: inline-block;
@@ -46,11 +50,14 @@
 
 
     .site-header__service-name-holder{
-        display: none;
-        @media screen and (min-width: $breakpoint-l){
-            display: inline-flex;
-            flex-direction: row;
-            align-items: center;
+        display: inline-flex;
+        width: 100%;
+        flex-direction: row;
+        align-items: center;
+        margin-bottom: 10px;
+        @media screen and (min-width: $breakpoint-m){
+            margin-bottom: 0px;
+            width: inherit;
         }
     }
 
@@ -73,9 +80,11 @@
     }
 
     .site-header__actions{
+        // display: none;
         margin-left: auto;
         @media screen and (min-width: $breakpoint-m) {
             font-size: 1.1rem;
+            order: 2;
         }
     }
 
@@ -101,7 +110,7 @@
 
     .site-header__username{
         display: none;
-        @media screen and (min-width: $breakpoint-m) {
+        @media screen and (min-width: $breakpoint-l) {
             display: inline-block;
             margin-right: 10px;
             color: $white;

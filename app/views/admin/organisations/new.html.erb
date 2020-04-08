@@ -1,0 +1,10 @@
+<% content_for :header do %>
+    <%= link_to "Go back", admin_organisations_path, class: "go-back" %>
+    <div class="page-header__actions">
+      <h1 class="page-header__title two-thirds">
+        Add a new organisation
+      </h1>
+    </div>
+<% end %>
+
+<%= render "form" %>

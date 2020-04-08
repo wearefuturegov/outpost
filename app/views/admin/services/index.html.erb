@@ -32,7 +32,7 @@
       <tbody>
         <% @services.each do |s| %>
           <tr>
-            <td><%= link_to s.name, admin_service_path(s) %></td>
+            <td><%= link_to s.display_name, admin_service_path(s) %></td>
             <td>
               <% s.taxonomies.each do |t| %>
                 <span class="category"><%= t.name %></span>
@@ -49,5 +49,5 @@
   </div>
   <%= paginate @services %>
 <% else %>
-  <p>No results to show</p>
+  <p class="no-results">No results to show</p>
 <% end %>

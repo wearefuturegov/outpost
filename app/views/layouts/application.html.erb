@@ -11,35 +11,29 @@
 
   <body>
 
+    <!-- <a href="#content" class="skiplink">Skip to main content</a> -->
+
     <header class="site-header">
       <div class="container site-header__inner">
         <div class="site-header__masthead">
           <%= link_to image_tag("logo.svg", alt: "Buckinghamshire Council", class: "site-header__logo"), root_path, class: "site-header__logo-link" %>
         </div>
-        <nav class="site-header__service-name-holder">
-          <a href="#" class="site-header__service-name">Family information service</a>
-          <strong class="site-header__phase-tag">Beta</strong>
-        </nav>
         <% if user_signed_in? %>
           <div class="site-header__actions">
             <span class="site-header__username"><%= current_user.email %></span>
             <%= link_to "Log out", destroy_user_session_path, method: :delete, class: "site-header__link" %>
           </div>
         <% end %>
+        <nav class="site-header__service-name-holder">
+          <a href="#" class="site-header__service-name">Family information service</a>
+          <strong class="site-header__phase-tag">Beta</strong>
+        </nav>
       </div>
     </header>
 
-    <% if user_signed_in? %>
-      <nav class="site-nav">
-        <div class="container">
-          <%= link_to_unless_current "Dashboard", root_path, class: "site-nav__link" do %><span class="site-nav__current">Dashboard</span><% end %>
-          <%= link_to_unless_current "Services", admin_services_path, class: "site-nav__link" do %><span class="site-nav__current">Services</span><% end %>
-          <%= link_to_unless_current "Users", admin_users_path, class: "site-nav__link" do %><span class="site-nav__current">Users</span><% end %>
-        </div>
-      </nav>
-    <% end %>
+    <%= render "shared/navigation"%>
 
-    <header class="page-header">
+    <header class="page-header" id="content">
       <div class="container">
           <% if notice || alert %>
               <div class="alert">
@@ -57,10 +51,6 @@
       </div>
     </div>
 
-    <footer class="site-footer">
-      <div class="container">
-        2020 Buckinghamshire Council
-      </div>
-    </footer>
+    <%= render "shared/footer" %>
   </body>
 </html>

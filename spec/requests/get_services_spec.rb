@@ -7,7 +7,7 @@ describe "get all services", type: :request do
   before { get '/api/v1/services' }
 
   it 'returns all services' do
-    expect(JSON.parse(response.body)["content"].size).to eq(25)
+    expect(JSON.parse(response.body)["content"].size).to eq(20)
   end
 
   it 'returns status code 200' do

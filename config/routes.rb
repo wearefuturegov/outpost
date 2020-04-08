@@ -13,6 +13,8 @@ Rails.application.routes.draw do
       end
     end
     resources :users, except: [:edit, :show]
+    resources :organisations, except: :edit
+    resources :locations, except: :edit
   end
 
   namespace :api do
