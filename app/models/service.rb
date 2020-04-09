@@ -4,6 +4,9 @@ class Service < ApplicationRecord
   has_many :service_at_locations
   has_many :locations, through: :service_at_locations
 
+  has_many :service_taxonomies
+  has_many :taxonomies, through: :service_taxonomies
+
   # watch functionality
   has_many :watches
   has_many :users, through: :watches

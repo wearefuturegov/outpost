@@ -55,6 +55,15 @@ ActiveRecord::Schema.define(version: 2020_04_08_220530) do
     t.integer "location_id", null: false
   end
 
+  create_table "service_taxonomies", force: :cascade do |t|
+    t.bigint "taxonomy_id"
+    t.bigint "service_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["service_id"], name: "index_service_taxonomies_on_service_id"
+    t.index ["taxonomy_id"], name: "index_service_taxonomies_on_taxonomy_id"
+  end
+
   create_table "services", force: :cascade do |t|
     t.bigint "organisation_id"
     t.string "name"
@@ -64,6 +73,12 @@ ActiveRecord::Schema.define(version: 2020_04_08_220530) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["organisation_id"], name: "index_services_on_organisation_id"
+  end
+
+  create_table "taxonomies", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "users", force: :cascade do |t|
