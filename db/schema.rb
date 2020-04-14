@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_08_220530) do
+ActiveRecord::Schema.define(version: 2020_04_14_140750) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,6 +48,17 @@ ActiveRecord::Schema.define(version: 2020_04_08_220530) do
     t.bigint "contact_id"
     t.string "number"
     t.index ["contact_id"], name: "index_phones_on_contact_id"
+  end
+
+  create_table "service_at_location_search_items", force: :cascade do |t|
+    t.integer "service_id"
+    t.string "service_name"
+    t.text "service_description"
+    t.string "service_url"
+    t.integer "location_id"
+    t.string "location_postal_code"
+    t.decimal "location_latitude", precision: 10, scale: 6
+    t.decimal "location_longitude", precision: 10, scale: 6
   end
 
   create_table "service_at_locations", force: :cascade do |t|
