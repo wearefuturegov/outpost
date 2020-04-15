@@ -15,25 +15,29 @@ describe "get all services", type: :request do
   end
 
   it 'returns meta data for services' do
+    @services = ServiceAtLocation.page(nil)
     expected = {
-      totalElements: Service.all.count
+      totalElements: ServiceAtLocation.all.count,
+      totalPages: @services.total_pages,
+      number: @services.current_page,
+      size: @services.limit_value
     }
     expect(JSON.parse(response.body)).to include(JSON.parse(expected.to_json))
   end
 
   it 'returns correct service data for services' do
-    service = Service.first
+    service_at_location = ServiceAtLocation.first
     response_service = JSON.parse(response.body)["content"].first
-    expect(response_service["id"]).to eq(service.id)
-    expect(response_service["name"]).to eq(service.name)
-    expect(response_service["description"]).to eq(service.description)
-    expect(response_service["url"]).to eq(service.url)
-    expect(response_service["email"]).to eq(service.email)
+    expect(response_service["id"]).to eq(service_at_location.service_id)
+    expect(response_service["name"]).to eq(service_at_location.service_name)
+    expect(response_service["description"]).to eq(service_at_location.service_description)
+    expect(response_service["url"]).to eq(service_at_location.service_url)
+    expect(response_service["email"]).to eq(service_at_location.service_email)
   end
 
   it 'returns correct organisation data for services' do
-    service = Service.first
-    organisation = service.organisation
+    service_at_location = ServiceAtLocation.first
+    organisation = service_at_location.organisation
     response_organisation = JSON.parse(response.body)["content"].first["organisation"]
     expect(response_organisation["id"]).to eq(organisation.id)
     expect(response_organisation["name"]).to eq(organisation.name)
