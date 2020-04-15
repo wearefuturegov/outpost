@@ -14,7 +14,10 @@ bucks_csv = CSV.parse(csv_file, headers: true)
 services_with_org = 0
 services_without_org = 0
 
+bucks_csv = bucks_csv.first(100) # limit for dev purposes
+
 bucks_csv.each do |row|
+
   if row['service_type'] == 'Organisation'
     organisation = Organisation.new
     organisation.name = row['title']
