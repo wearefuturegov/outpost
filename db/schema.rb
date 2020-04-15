@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_08_220530) do
+ActiveRecord::Schema.define(version: 2020_04_15_092246) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,6 +53,13 @@ ActiveRecord::Schema.define(version: 2020_04_08_220530) do
   create_table "service_at_locations", force: :cascade do |t|
     t.integer "service_id", null: false
     t.integer "location_id", null: false
+    t.string "service_name"
+    t.text "service_description"
+    t.string "service_url"
+    t.string "service_email"
+    t.string "postcode"
+    t.decimal "latitude", precision: 10, scale: 6
+    t.decimal "longitude", precision: 10, scale: 6
   end
 
   create_table "service_taxonomies", force: :cascade do |t|
