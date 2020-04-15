@@ -1,7 +1,7 @@
 class API::V1::ServicesController < ApplicationController
   def index
     if params[:coverage].present?
-      @serevices = ServiceAtLocation.near(params[:coverage]).page(params[:page]).includes(:organisation)
+      @services = ServiceAtLocation.near(params[:coverage]).page(params[:page]).includes(:organisation)
     else
       @services = ServiceAtLocation.page(params[:page]).includes(:organisation)
     end
