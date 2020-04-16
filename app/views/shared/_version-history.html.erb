@@ -1,5 +1,7 @@
 <section class="version-history">
   <h2>Change history</h3>
+  <% if false %>
+  
   <% if @versions.present? %>
     <ul class="stepper">
         <% @versions.each do |v| %>
@@ -11,5 +13,7 @@
     <ul>
   <% else %>
     <p>Created <%= time_ago_in_words(@service.created_at) %> ago</p>
+  <% end %>
+
   <% end %>
 </section>
