@@ -1,0 +1,48 @@
+<% content_for :header do %>
+    <h1 class="page-header__title">Categories</h1>
+<% end %>
+
+<header class="actions">
+    <%= link_to "Add category", new_admin_taxonomy_path, class: "button button--small" %>
+</header>
+
+<% if @taxonomies.present? %>
+    <div class="table-holder">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Slug</th>
+                    <th>Parent</th>
+                    <th>Services</th>
+                </tr>
+            </thead>
+            <tbody>
+
+        <% @taxonomies.each do |t| %>
+            <tr>
+                <td><%= link_to t.name, admin_taxonomy_path(t) %></td>
+                <td><%= t.slug %></td>
+                <td></td>
+                <td><%= t.services.count %></td>
+            </tr>
+
+            <% if t.children.present? %>
+                <% t.children.each do |c| %>
+                    <tr>
+                        <td><%= link_to "— #{c.name}", admin_taxonomy_path(c) %></td>
+                        <td><%= c.slug %></td>
+                        <td><%= c.parent.name %></td>
+                        <td><%= c.services.count %></td>
+                    </tr>
+                <% end %>
+            <% end %>
+
+        <% end %>
+
+
+            </tbody>
+        </table>
+    </div>
+<% end %>
+

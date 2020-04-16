@@ -6,4 +6,8 @@ class Taxonomy < ApplicationRecord
                             foreign_key: "parent_id"
 
     belongs_to :parent, class_name: "Taxonomy", optional: true
+
+    def slug
+        name.parameterize
+    end
 end

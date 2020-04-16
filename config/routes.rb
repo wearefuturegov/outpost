@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     resources :users, except: [:edit, :show]
     resources :organisations, except: :edit
     resources :locations, except: :edit
+    resources :taxonomies, except: :edit
   end
 
   namespace :api do
