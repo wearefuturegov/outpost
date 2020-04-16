@@ -1,6 +1,7 @@
 class Admin::TaxonomiesController < Admin::BaseController
     before_action :set_taxonomy, only: [:show, :update]
-  
+    before_action :set_possible_parents, only: [:show, :update, :new]
+
     def index
         @taxonomies = Taxonomy.where(parent_id: nil)
     end
@@ -34,6 +35,11 @@ class Admin::TaxonomiesController < Admin::BaseController
     def set_taxonomy
       @taxonomy = Taxonomy.find(params[:id])
       @possible_parents = Taxonomy.where.not(id: params[:id])
+    end
+
+    def set_possible_parents
+        @possible_parents = Taxonomy.all
+        @possible_parents = @possible_parents.where.not(id: params[:id]) if params[:id]
     end
   
     def taxonomy_params
