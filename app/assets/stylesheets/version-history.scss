@@ -2,11 +2,6 @@
 
 .version-history{
     margin-bottom: 25px;
-    h2{
-        padding-bottom: 10px;
-        border-bottom: 3px solid $text;
-        margin-bottom: 15px;
-    }
 }
 
 .stepper{
@@ -32,13 +27,16 @@
             border-left: 2px solid $text;
             height: 100%;
         }
+        &:last-of-type:before{
+            content: none;
+        }
         // circle
         &:after{
             content: "";
             display: block;
             position: absolute;
             left: 0px;
-            top: 13px;
+            top: 15px;
             width: 11px;
             height: 11px;
             border: 2px solid $text;
@@ -51,11 +49,6 @@
     .stepper__step--solid{
         &:after{
             background: $text;
-        }
-        &:before{
-            top: -45px;
-            bottom: inherit;
-            border-left: 2px dashed $white;
         }
     }
 }
