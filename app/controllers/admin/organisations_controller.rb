@@ -1,5 +1,5 @@
 class Admin::OrganisationsController < Admin::BaseController
-  before_action :set_organisation, only: [:show, :update]
+  before_action :set_organisation, only: [:show, :edit, :update]
 
   def index
     @organisations = Organisation.includes(:services)
@@ -10,9 +10,12 @@ class Admin::OrganisationsController < Admin::BaseController
   def show
   end
 
+  def edit
+  end
+
   def update
     if @organisation.update(organisation_params)
-      redirect_to admin_organisations_path
+      redirect_to admin_organisation_path
     else
       render "show"
     end

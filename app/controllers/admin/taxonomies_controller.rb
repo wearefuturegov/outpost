@@ -44,7 +44,8 @@ class Admin::TaxonomiesController < Admin::BaseController
   
     def taxonomy_params
       params.require(:taxonomy).permit(
-        :name
+        :name,
+        :parent_id
       )
     end
   

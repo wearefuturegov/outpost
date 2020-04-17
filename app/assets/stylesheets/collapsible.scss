@@ -1,13 +1,14 @@
 @import "variables";
 
 .collapsible{
+    margin-bottom: 65px;
     .collapsible__header{
         width: 100%;
         background: none;
         border: none;
         padding-bottom: 15px;
         border-bottom: 3px solid $text;
-        margin-bottom: 15px;
+        margin-bottom: 25px;
         cursor: pointer;
         text-align: left;
         display: flex;

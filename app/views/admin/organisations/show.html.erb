@@ -7,4 +7,52 @@
     </div>
 <% end %>
 
-<%= render "form" %>
+<header class="actions">
+    <%= link_to "Edit", edit_admin_organisation_path(@organisation), class: "button button--small" %>
+</header>
+
+<div class="two-panels">
+  <section class="panel">
+    <h2 class="panel__title">Services</h2>
+    <% if @organisation.services.present? %>
+      <table class="table">
+          <thead>
+            <tr>
+              <th>Name</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @organisation.services.each do |s| %>
+              <tr>
+                <td><%= link_to s.name, admin_service_path(s) %></td>
+              </tr>
+            <% end %>
+          </tbody>
+      </table>
+    <% else %>
+      <p class="no-results">This organisation has no services.</p>
+    <% end %>
+  </section>
+
+  <section class="panel">
+    <h2 class="panel__title">Users</h2>
+    <% if @organisation.users.present? %>
+      <table class="table">
+          <thead>
+            <tr>
+              <th>Email</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @organisation.users.each do |u| %>
+              <tr>
+                <td><%= u.email %></td>
+              </tr>
+            <% end %>
+          </tbody>
+      </table>
+    <% else %>
+      <p class="no-results">This organisation has no users.</p>
+    <% end %>
+  </section>
+</div>

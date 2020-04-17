@@ -1,64 +1,105 @@
-<%= form_for [:admin, @service], html: {class: "two-thirds"} do |s| %>
 
-  <% if @service.errors.full_messages.any? %>
-    <div class="error">
-      <h2 class="error__title">Errors stopped this service being saved:</h2>
-      <ul class="error__list">
-        <% @service.errors.full_messages.each do |e| %>
-          <li><%= e %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+<%= form_for [:admin, @service] do |s| %>
 
-    <fieldset class="field-section field-section--two-cols">
-        <legend class="field-section__legend">Basics</legend>
+  <div class="with-sidebar">
 
-        <div class="field">
-            <%= s.label :name, class: "field__label" %>
-            <%= s.text_field :name, value: @service.name, class: "field__input" %>
-        </div>
+    <div class="two-thirds">
 
-        <div class="field">
-            <%= s.label :organisation_id, "Parent organisation", class: "field__label" %>
-            <%= s.collection_select( :organisation_id, Organisation.all, :id, :display_name, {}, class: "field__input")%>
-        </div>
-
-        <div class="field field--span-two-cols">
-            <%= s.label :description, class: "field__label" %>
-            <%= s.text_area :description, value: @service.description, class: "field__input", rows: 4 %>
-        </div>
-    </fieldset>
-
-    <fieldset class="field-section field-section--two-cols">
-        <legend class="field-section__legend">Contact details</legend>
-        
-        <div class="field">
-            <%= s.label :email, class: "field__label" %>
-            <%= s.text_field :email, value: @service.email, class: "field__input" %>
-        </div>
-
-        <div class="field">
-            <%= s.label :url, "Website", class: "field__label" %>
-            <%= s.text_field :url, value: @service.url, class: "field__input" %>
-        </div>
-    </fieldset>
-
-
-    <fieldset class="field-section field-section--two-cols">
-      <legend class="field-section__legend">Categories</legend>
-      <%= s.collection_check_boxes( :taxonomy_ids, Taxonomy.all, :id, :name) do |c| %>
-        <div class="field checkbox">
-          <%= c.check_box class: "checkbox__input" %>
-          <%= c.label class: "checkbox__label" %>
+      <% if @service.errors.full_messages.any? %>
+        <div class="error">
+          <h2 class="error__title">Errors stopped this service being saved:</h2>
+          <ul class="error__list">
+            <% @service.errors.full_messages.each do |e| %>
+              <li><%= e %></li>
+            <% end %>
+          </ul>
         </div>
       <% end %>
-    </fieldset>
 
-    <% if params[:id] %>
-      <%= s.submit "Update", class: "button" %>
-    <% else %>
-      <%= s.submit "Create", class: "button" %>
-    <% end %>
+      <div class="collapsible" id="basic-info-editor">
+        <button class="collapsible__header">
+          <h2>Basics</h2>
+        </button>
+
+        <div class="collapsible__content">
+
+          <div class="field-section field-section--two-cols">
+            <div class="field">
+                <%= s.label :name, class: "field__label" %>
+                <%= s.text_field :name, value: @service.name, class: "field__input" %>
+            </div>
+
+            <div class="field">
+                <%= s.label :organisation_id, "Parent organisation", class: "field__label" %>
+                <%= s.collection_select( :organisation_id, Organisation.all, :id, :display_name, {}, class: "field__input")%>
+            </div>
+
+            <div class="field field--span-two-cols">
+                <%= s.label :description, class: "field__label" %>
+                <%= s.text_area :description, value: @service.description, class: "field__input", rows: 4 %>
+            </div>
+          </div>
+
+          <div class="field-section field-section--two-cols">
+            <h3 class="field field--span-two-cols">Contact details</h3>
+
+            <div class="field">
+                <%= s.label :email, class: "field__label" %>
+                <%= s.text_field :email, value: @service.email, class: "field__input" %>
+            </div>
+
+            <div class="field">
+                <%= s.label :url, "Website", class: "field__label" %>
+                <%= s.text_field :url, value: @service.url, class: "field__input" %>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="collapsible" id="location-editor">
+        <button class="collapsible__header">
+          <h2>Location</h2>
+        </button>
+        <div class="collapsible__content">
+        </div>
+      </div>
+
+      <div class="collapsible" id="accessibility-editor">
+        <button class="collapsible__header">
+          <h2>Accessibility</h2>
+        </button>
+        <div class="collapsible__content">
+        </div>
+      </div>
+    </div>
+
+    <aside class="with-sidebar__sidebar">
+      <% if params[:id] %>
+        <%= render "shared/version-history" %>
+      <% end %>
+      
+      <section class="version-history collapsible" id="category-editor">
+        <button class="collapsible__header" aria-expanded="true">
+          <h2>Categories</h2>
+        </button>
+        <div class="collapsible__content">
+            <%= s.collection_check_boxes( :taxonomy_ids, Taxonomy.all, :id, :name) do |c| %>
+              <div class="field checkbox checkbox--small">
+                <%= c.check_box class: "checkbox__input" %>
+                <%= c.label class: "checkbox__label" %>
+              </div>
+            <% end %>
+        </div>
+      </section>
+
+    </aside>
+  </div>
+  
+  <% if params[:id] %>
+    <%= s.submit "Update", class: "button" %>
+  <% else %>
+    <%= s.submit "Create", class: "button" %>
+  <% end %>
 
 <% end %>

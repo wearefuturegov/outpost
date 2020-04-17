@@ -22,7 +22,8 @@ collapsibles.forEach(collapsible => {
     window.localStorage.getItem(key) === "true" && open()
     window.localStorage.getItem(key) === "false" && close()
 
-    controls.addEventListener("click", () => {
+    controls.addEventListener("click", e => {
+        e.preventDefault()
         controls.getAttribute("aria-expanded") === "true" ? close() : open()
     })
 })

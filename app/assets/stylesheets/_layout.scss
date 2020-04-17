@@ -38,9 +38,9 @@
 }
 
 .page-content{
-    padding: 0px $outer-spacing 40px $outer-spacing;
+    padding: 0px $outer-spacing 50px $outer-spacing;
     @media screen and (min-width: $breakpoint-m){
-        padding-bottom: 60px;
+        padding-bottom: 80px;
     }
 }
 
@@ -70,10 +70,11 @@
         .two-thirds{
             margin-right: 80px;
             flex: 2;
+            width: 66.66%;
         }
     
         .with-sidebar__sidebar{
-            width: 33%;
+            width: 33.33%;
             flex: 1;
         }
     }   

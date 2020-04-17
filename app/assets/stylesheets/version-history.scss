@@ -1,9 +1,5 @@
 @import "variables";
 
-.version-history{
-    margin-bottom: 25px;
-}
-
 .stepper{
     list-style: none;
     margin-left: 0px;
@@ -16,19 +12,22 @@
     .stepper__step{
         position: relative;
         margin-bottom: 0px;
-        padding: 10px 0px 10px 40px;
+        padding: 0px 0px 20px 40px;
         // stick
         &:before{
             content: "";
             display: block;
             position: absolute;
             left: 6.5px;
-            top: 25px;
+            top: 15px;
             border-left: 2px solid $text;
             height: 100%;
         }
-        &:last-of-type:before{
-            content: none;
+        &:last-of-type{
+            padding-bottom: 0px;
+            &:before{
+                content: none;
+            }
         }
         // circle
         &:after{
@@ -36,7 +35,7 @@
             display: block;
             position: absolute;
             left: 0px;
-            top: 15px;
+            top: 5px;
             width: 11px;
             height: 11px;
             border: 2px solid $text;

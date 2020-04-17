@@ -14,7 +14,7 @@ Rails.application.routes.draw do
       end
     end
     resources :users, except: [:edit, :show]
-    resources :organisations, except: :edit
+    resources :organisations
     resources :locations, except: :edit
     resources :taxonomies, except: :edit
   end
