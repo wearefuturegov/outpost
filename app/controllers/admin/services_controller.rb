@@ -19,9 +19,7 @@ class Admin::ServicesController < Admin::BaseController
 
   def show
     @watched = current_user.watches.where(service_id: @service.id).exists?
-    
-    @versions = @service.versions
-    @versions = @versions.last(3).reverse.push(@versions.first) if @versions.length > 3 #summarise if many versions recorded
+    @versions = @service.versions.reverse
   end
 
   def update

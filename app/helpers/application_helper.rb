@@ -7,6 +7,19 @@ module ApplicationHelper
           .delete_prefix("www.")
           .delete_suffix("/")
           .truncate(25)
-      end
+    end
+
+    def pretty_event(event)
+        case event
+        when "create"
+            "Created"
+        when "update"
+            "Updated"
+        when "destroy"
+            "Destroyed"
+        when "import"
+            "Imported"
+        end
+    end
 
 end
