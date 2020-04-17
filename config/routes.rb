@@ -2,7 +2,8 @@ Rails.application.routes.draw do
   
   root "admin/dashboard#index"
 
-  devise_for :users
+  devise_for :users, controllers: { registrations: "registrations" }
+  resources :services, only: [:new, :create]
   
   namespace :admin do
     root "dashboard#index"
