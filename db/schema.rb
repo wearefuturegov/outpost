@@ -10,10 +10,48 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_18_184053) do
+ActiveRecord::Schema.define(version: 2020_04_18_195642) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "approval_comments", id: :serial, force: :cascade do |t|
+    t.integer "request_id", null: false
+    t.integer "user_id", null: false
+    t.text "content", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["request_id"], name: "index_approval_comments_on_request_id"
+    t.index ["user_id"], name: "index_approval_comments_on_user_id"
+  end
+
+  create_table "approval_items", id: :serial, force: :cascade do |t|
+    t.integer "request_id", null: false
+    t.integer "resource_id"
+    t.string "resource_type", null: false
+    t.string "event", null: false
+    t.text "params"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["request_id"], name: "index_approval_items_on_request_id"
+    t.index ["resource_id", "resource_type"], name: "index_approval_items_on_resource_id_and_resource_type"
+  end
+
+  create_table "approval_requests", id: :serial, force: :cascade do |t|
+    t.integer "request_user_id", null: false
+    t.integer "respond_user_id"
+    t.integer "state", limit: 2, default: 0, null: false
+    t.datetime "requested_at", null: false
+    t.datetime "cancelled_at"
+    t.datetime "approved_at"
+    t.datetime "rejected_at"
+    t.datetime "executed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["request_user_id"], name: "index_approval_requests_on_request_user_id"
+    t.index ["respond_user_id"], name: "index_approval_requests_on_respond_user_id"
+    t.index ["state"], name: "index_approval_requests_on_state"
+  end
 
   create_table "contacts", force: :cascade do |t|
     t.bigint "service_id"

@@ -22,6 +22,7 @@ class Service < ApplicationRecord
   paginates_per 20
   validates_presence_of :name
 
+  acts_as_approval_resource
   has_paper_trail
 
   include PgSearch::Model
