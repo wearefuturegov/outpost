@@ -1,0 +1,41 @@
+<% content_for :header do %>
+    <h1 class="page-header__title two-thirds">Tell us about a new service</h1>
+    <p class="page-header__lede">Next, give us some details about the service itself.</p>
+<% end %>
+
+<%= form_with model: @service, html: {class: "two-thirds"} do |f| %>
+
+    <% if @service.errors.full_messages.any? %>
+        <div class="error">
+            <h2 class="error__title">Errors stopped this service being saved:</h2>
+            <ul class="error__list">
+                <% @service.errors.full_messages.each do |e| %>
+                    <li><%= e %></li>
+                <% end %>
+            </ul>
+        </div>
+    <% end %>
+
+    <fieldset class="field-section">
+
+        <div class="field">
+            <%= f.label :name, class: "field__label" %>
+            <%= f.text_field :name, class: "field__input" %>
+        </div>
+
+        <div class="field">
+            <%= f.label :description, class: "field__label" %>
+            <%= f.text_area :description, class: "field__input" %>
+        </div>
+
+    </fieldset>
+
+    <h2>Organisation</h2>
+
+    <%= f.fields_for :organisation do |ff| %>
+        <%= ff.label :name %>
+        <%= ff.text_field :name %>
+    <% end %>
+
+    <%= f.submit "Finish", class: "button" %>
+<% end %>

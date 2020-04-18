@@ -1,5 +1,7 @@
 class Service < ApplicationRecord
-  belongs_to :organisation
+  belongs_to :organisation, optional: true
+  accepts_nested_attributes_for :organisation
+
   has_one :contact
   has_many :service_at_locations
   has_many :locations, through: :service_at_locations
@@ -41,5 +43,4 @@ class Service < ApplicationRecord
   def display_name
     self.name || "Unnamed service"
   end
-
 end
