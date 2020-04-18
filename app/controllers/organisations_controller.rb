@@ -1,4 +1,11 @@
-class ServicesController < ApplicationController
+class OrganisationsController < ApplicationController
+
+    def start
+    end
+
+    def index
+        @organisation = current_user.organisation
+    end
 
     def new
         @service = Service.new
@@ -8,6 +15,8 @@ class ServicesController < ApplicationController
     def create
         @service = Service.create(service_params)
         if @service.save
+            current_user.organisation = @service.organisation
+            current_user.save
             redirect_to services_path
         else
             render "new"

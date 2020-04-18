@@ -3,7 +3,11 @@ Rails.application.routes.draw do
   root "admin/dashboard#index"
 
   devise_for :users, controllers: { registrations: "registrations" }
-  resources :services, only: [:new, :create]
+  resources :organisations, only: [:index, :new, :create] do
+    collection do
+      get "start"
+    end
+  end
   
   namespace :admin do
     root "dashboard#index"

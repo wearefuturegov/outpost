@@ -4,7 +4,7 @@ class User < ApplicationRecord
   has_many :watches
   has_many :services, through: :watches
 
-  has_and_belongs_to_many :users
+  belongs_to :organisation, optional: true
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable

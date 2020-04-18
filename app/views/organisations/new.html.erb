@@ -28,14 +28,14 @@
             <%= f.text_area :description, class: "field__input" %>
         </div>
 
+        <%= f.fields_for :organisation do |ff| %>
+            <div class="field">
+                <%= ff.label :name, "Organisation name", class: "field__label" %>
+                <%= ff.text_field :name, class: "field__input" %>
+            </div>
+        <% end %>
+
     </fieldset>
-
-    <h2>Organisation</h2>
-
-    <%= f.fields_for :organisation do |ff| %>
-        <%= ff.label :name %>
-        <%= ff.text_field :name %>
-    <% end %>
 
     <%= f.submit "Finish", class: "button" %>
 <% end %>
