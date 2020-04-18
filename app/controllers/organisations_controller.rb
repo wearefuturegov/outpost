@@ -1,4 +1,5 @@
 class OrganisationsController < ApplicationController
+    before_action :require_not_onboarded, only: [:new, :create]
 
     def start
     end
@@ -34,4 +35,9 @@ class OrganisationsController < ApplicationController
           ]
         )
     end
+
+    def require_not_onboarded
+        redirect_to organisations_path if current_user.organisation
+    end
+
 end
