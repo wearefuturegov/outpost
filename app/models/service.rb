@@ -1,6 +1,5 @@
 class Service < ApplicationRecord
-  belongs_to :organisation, optional: true
-  accepts_nested_attributes_for :organisation
+  belongs_to :organisation
 
   has_one :contact
   has_many :service_at_locations

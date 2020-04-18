@@ -1,5 +1,5 @@
 class OrganisationsController < ApplicationController
-    before_action :require_not_onboarded, only: [:new, :create]
+    # before_action :require_not_onboarded, only: [:new, :create]
 
     def start
     end
@@ -9,16 +9,16 @@ class OrganisationsController < ApplicationController
     end
 
     def new
-        @service = Service.new
-        @service.build_organisation
+        @organisation = Organisation.new
+        @organisation.services.build
     end
 
     def create
-        @service = Service.create(service_params)
-        if @service.save
-            current_user.organisation = @service.organisation
+        @organisation = Organisation.new(organisation_params)
+        if @organisation.save
+            current_user.organisation = @organisation
             current_user.save
-            redirect_to services_path
+            redirect_to organisations_path
         else
             render "new"
         end
@@ -26,18 +26,17 @@ class OrganisationsController < ApplicationController
 
     private
 
-    def service_params
-        params.require(:service).permit(
-          :name,
-          :description,
-          :organisation_attributes => [
-              :name
-          ]
+    def organisation_params
+        params.require(:organisation).permit(
+            :name,
+            :services_attributes => [
+                :name,
+                :description
+            ]
         )
     end
 
     def require_not_onboarded
         redirect_to organisations_path if current_user.organisation
     end
-
 end

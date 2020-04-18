@@ -3,13 +3,13 @@
     <p class="page-header__lede">Next, give us some details about the service itself.</p>
 <% end %>
 
-<%= form_with model: @service, html: {class: "two-thirds"} do |f| %>
+<%= form_with model: @organisation, html: {class: "two-thirds"} do |f| %>
 
-    <% if @service.errors.full_messages.any? %>
+    <% if @organisation.errors.full_messages.any? %>
         <div class="error">
             <h2 class="error__title">Errors stopped this service being saved:</h2>
             <ul class="error__list">
-                <% @service.errors.full_messages.each do |e| %>
+                <% @organisation.errors.full_messages.each do |e| %>
                     <li><%= e %></li>
                 <% end %>
             </ul>
@@ -18,22 +18,22 @@
 
     <fieldset class="field-section">
 
-        <div class="field">
-            <%= f.label :name, class: "field__label" %>
-            <%= f.text_field :name, class: "field__input" %>
-        </div>
-
-        <div class="field">
-            <%= f.label :description, class: "field__label" %>
-            <%= f.text_area :description, class: "field__input" %>
-        </div>
-
-        <%= f.fields_for :organisation do |ff| %>
+        <%= f.fields_for :services do |ff| %>
             <div class="field">
-                <%= ff.label :name, "Organisation name", class: "field__label" %>
+                <%= ff.label :name, class: "field__label" %>
                 <%= ff.text_field :name, class: "field__input" %>
             </div>
+
+            <div class="field">
+                <%= ff.label :description, class: "field__label" %>
+                <%= ff.text_area :description, class: "field__input" %>
+            </div>
         <% end %>
+
+        <div class="field">
+            <%= f.label :name, "Organisation name", class: "field__label" %>
+            <%= f.text_field :name, class: "field__input" %>
+        </div>
 
     </fieldset>
 
