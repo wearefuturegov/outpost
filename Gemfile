@@ -37,6 +37,7 @@ gem 'rack-cors'
 gem 'geocoder'
 gem 'pg_search'
 gem 'rack-mini-profiler'
+gem 'approval'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
