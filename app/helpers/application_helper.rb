@@ -22,4 +22,7 @@ module ApplicationHelper
         end
     end
 
+    def diff(one, two)
+        Diffy::Diff.new(one, two).to_s(:html).html_safe
+    end
 end

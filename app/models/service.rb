@@ -22,7 +22,7 @@ class Service < ApplicationRecord
   validates_presence_of :name
 
   acts_as_approval_resource
-  has_paper_trail
+  has_paper_trail ignore: [:created_at, :updated_at]
 
   include PgSearch::Model
   pg_search_scope :search, 

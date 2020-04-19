@@ -77,6 +77,17 @@
             width: 33.33%;
             flex: 1;
         }
+
+        &.with-sidebar--left{
+            align-items: inherit;
+            .two-thirds{
+                margin-right: 0px;
+            }
+        
+            .with-sidebar__sidebar{
+                margin-right: 80px;
+            }
+        }
     }   
 }
 
