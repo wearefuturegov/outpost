@@ -12,7 +12,7 @@ class Admin::NotesController < Admin::BaseController
     end
 
     def destroy
-        @note = Note.find(params[:id]).destroy
+        @note = current_user.notes.find(params[:id]).destroy
         redirect_to admin_service_path(@service)
     end
 
