@@ -25,7 +25,6 @@ gem 'rack-cors'
 gem 'geocoder'
 gem 'pg_search'
 gem 'rack-mini-profiler'
-gem 'approval'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

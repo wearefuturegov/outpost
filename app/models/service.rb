@@ -23,7 +23,6 @@ class Service < ApplicationRecord
   paginates_per 20
   validates_presence_of :name
 
-  acts_as_approval_resource
   has_paper_trail ignore: [:created_at, :updated_at, :discarded_at]
 
   include Discard::Model
