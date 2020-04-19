@@ -1,10 +1,10 @@
-<section class="version-history collapsible" id="version-history">
+<section class="mini-version-history collapsible" id="version-history">
   <button class="collapsible__header" aria-expanded="true">
     <h2>History</h2>
   </button>
   <div class="collapsible__content">
 
-    <%= link_to "See full history", admin_service_versions_path(@service), class: "version-history__action" %>
+    <%= link_to "See full history", admin_service_versions_path(@service), class: "mini-version-history__action" %>
     
 
     <% if @versions.present? %>
