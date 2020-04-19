@@ -15,6 +15,9 @@ Rails.application.routes.draw do
     resources :services, except: :edit do
       resources :watch, only: [:create, :destroy]
       resources :versions, only: [:index]
+      collection do 
+        resources :requests, only: [:index]
+      end
     end
     resources :users, except: [:edit, :show]
     resources :organisations
