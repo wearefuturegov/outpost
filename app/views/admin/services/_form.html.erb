@@ -1,19 +1,9 @@
-<%= form_for [:admin, @service] do |s| %>
+<div class="with-sidebar">
 
-  <div class="with-sidebar">
+  <div class="two-thirds">
+    <%= form_for [:admin, @service] do |s| %>
 
-    <div class="two-thirds">
-
-      <% if @service.errors.full_messages.any? %>
-        <div class="error">
-          <h2 class="error__title">Errors stopped this service being saved:</h2>
-          <ul class="error__list">
-            <% @service.errors.full_messages.each do |e| %>
-              <li><%= e %></li>
-            <% end %>
-          </ul>
-        </div>
-      <% end %>
+      <%= render "shared/errors", model: @service %>
 
       <div class="collapsible" id="basic-info-editor">
         <button class="collapsible__header">
@@ -56,6 +46,8 @@
         </div>
       </div>
 
+      <%= render "shared/taxonomy-tree", s: s %>
+
       <div class="collapsible" id="location-editor">
         <button class="collapsible__header">
           <h2>Location</h2>
@@ -71,22 +63,21 @@
         <div class="collapsible__content">
         </div>
       </div>
-    </div>
 
-    <aside class="with-sidebar__sidebar">
       <% if params[:id] %>
-        <%= render "shared/version-history" %>
+        <%= s.submit "Update", class: "button" %>
+      <% else %>
+        <%= s.submit "Create", class: "button" %>
       <% end %>
 
-      <%= render "shared/taxonomy-tree", s: s %>
-    </aside>
-
+    <% end %>
   </div>
 
   <% if params[:id] %>
-    <%= s.submit "Update", class: "button" %>
-  <% else %>
-    <%= s.submit "Create", class: "button" %>
+    <aside class="with-sidebar__sidebar">
+        <%= render "shared/version-history" %>
+        <%= render "shared/notes" %>
+    </aside>
   <% end %>
 
-<% end %>
+</div>

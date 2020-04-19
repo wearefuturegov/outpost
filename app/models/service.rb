@@ -11,6 +11,8 @@ class Service < ApplicationRecord
   # watch functionality
   has_many :watches
   has_many :users, through: :watches
+  
+  has_many :notes
 
   # sort scopes
   scope :oldest, ->  { order("updated_at ASC") }

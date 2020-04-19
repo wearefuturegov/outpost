@@ -1,0 +1,31 @@
+<section class="collapsible" id="notes">
+  <button class="collapsible__header" aria-expanded="true">
+    <h2>Notes <span class="collapsible__header-count">(<%= @notes.length %>)</span></h2>
+  </button>
+  <div class="collapsible__content">
+
+    <div class="notes-list">
+      <% if @notes.present? %>
+        <% @notes.each do |n| %>
+          <article class="notes-list__note">
+            <header class="notes-list__note-header">
+              <strong><%= n.user.email %></strong> 
+              | <%= time_ago_in_words(n.created_at).humanize %> ago 
+              <% if n.user === current_user %>| <%= link_to "Remove", admin_service_note_path(@service, n), method: "delete", data: {confirm: "Are you sure you want to remove this note?"} %><% end %>
+            </header>
+            <p><%= n.body %></p>
+          </article>
+        <% end %>
+      <% end %>
+    </div>
+
+    <%= form_for [:admin, @service, @note] do |f| %>
+        <div class="field">
+            <%= f.label :body, class: "visually-hidden" %>
+            <%= f.text_area :body , class: "field__input", placeholder: "Type a note...", maxlength: 200, required: true %>
+        </div>
+        <%= f.button "Add note", class: "button button--small"%>
+    <% end %>
+
+  </div>
+</section>
