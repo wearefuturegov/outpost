@@ -6,8 +6,7 @@ class ServicesController < ApplicationController
 
     def create
         @service = current_user.organisation.services.build(service_params)
-        if @service.valid?
-            current_user.request_for_create(@service, reason: "something").save
+        if @service.request
             redirect_to organisations_path, notice: "Your service has been submitted for review. You'll be emailed when it's approved."
         else
             render "new"

@@ -27,6 +27,8 @@ module ApplicationHelper
             "Archived"
         when "import"
             "Record imported"
+        when "approve"
+            "Approved"
         end
     end
 
@@ -40,6 +42,8 @@ module ApplicationHelper
             "stepper__step--solid"
         when "import"
             "stepper__step--solid"
+        when "approve"
+            "stepper__step--tick"
         end
     end
 

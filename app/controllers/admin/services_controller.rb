@@ -53,9 +53,7 @@ class Admin::ServicesController < Admin::BaseController
   end
 
   def destroy
-    @service.paper_trail_event = 'archive'
-    @service.discard
-    @service.paper_trail.save_with_version
+    @service.archive
     redirect_to admin_service_url(@service)
   end
   

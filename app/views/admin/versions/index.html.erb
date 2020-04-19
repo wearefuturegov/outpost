@@ -32,7 +32,7 @@
                 <div class="version-panel" id="<%= v.id %>">
                     <header class="version-panel__header">
                       <div>
-                        <p class="version-panel__time"><%= time_ago_in_words(v.created_at).humanize %> ago</p>
+                        <p class="version-panel__time"><%= v.created_at.strftime('%d %b, %H:%M') %></p>
                         <p>
                           <%= pretty_event(v.event) %>
                           <% if v.whodunnit.present? %>

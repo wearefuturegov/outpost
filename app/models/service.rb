@@ -23,7 +23,7 @@ class Service < ApplicationRecord
   paginates_per 20
   validates_presence_of :name
 
-  has_paper_trail ignore: [:created_at, :updated_at, :discarded_at]
+  has_paper_trail ignore: [:created_at, :updated_at, :discarded_at, :approved]
 
   include Discard::Model
 
@@ -54,4 +54,30 @@ class Service < ApplicationRecord
       "Active"
     end
   end
+
+  # custom actions with paper trail events
+  def archive
+    self.paper_trail_event = 'archive'
+    self.discard
+    self.paper_trail.save_with_version
+  end
+
+  def restore
+    self.paper_trail_event = 'unarchive'
+    self.undiscard
+    self.paper_trail.save_with_version
+  end
+
+  def request
+    self.approved = false
+    self.save
+  end
+
+  def approve
+    self.paper_trail_event = 'approve'
+    self.approved = true
+    self.save
+    self.paper_trail.save_with_version
+  end
+
 end

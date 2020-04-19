@@ -18,7 +18,7 @@ Rails.application.routes.draw do
       resources :versions, only: [:index, :update]
       collection do 
         resources :archive, only: [:index, :update]
-        resources :requests, only: [:index]
+        resources :requests, only: [:index, :update]
       end
     end
     resources :users, except: [:edit, :show]

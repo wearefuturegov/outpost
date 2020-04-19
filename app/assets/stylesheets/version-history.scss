@@ -30,13 +30,13 @@
     .stepper__step{
         position: relative;
         margin-bottom: 0px;
-        padding: 0px 0px 20px 40px;
+        padding: 0px 0px 20px 50px;
         // stick
         &:before{
             content: "";
             display: block;
             position: absolute;
-            left: 6.5px;
+            left: 7px;
             top: 15px;
             border-left: 2px solid $text;
             height: 100%;
@@ -54,8 +54,8 @@
             position: absolute;
             left: 0px;
             top: 5px;
-            width: 11px;
-            height: 11px;
+            width: 13px;
+            height: 13px;
             border: 2px solid $text;
             border-radius: 200px;
             background: $white;
@@ -75,6 +75,15 @@
             height: 5px;
             top: 8px;
             left: 3px;
+        }
+    }
+    .stepper__step--tick{
+        &:after{
+            background-color: $text;
+            background-image: url(asset_path("tick-white.svg"));
+            background-size: 75%;
+            background-position: center;
+            background-repeat: no-repeat;
         }
     }
 

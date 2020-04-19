@@ -3,11 +3,11 @@
     <%= render "shared/services-nav" %>
 <% end %>
 
-<header class="actions">
-    <%= link_to "Approve all", "", class: "button button--small", data: { confirm: "Are you sure you want to approve all changes?" } %>
-</header>
-
 <% if @requests.present? %>
+  <header class="actions">
+      <%= link_to "Approve all", "", class: "button button--small", data: { confirm: "Are you sure you want to approve all changes?" } %>
+  </header>
+
   <div class="table-holder">
     <table class="table">
       <thead>
@@ -20,9 +20,10 @@
       <tbody>
         <% @requests.each do |r| %>
           <tr>
-            <td>???</td>
-            <td><%= User.find(r.request_user_id).email %></td>
-            <td><%= time_ago_in_words(r.requested_at) %></td>
+            <td><%= link_to r.name, admin_service_path(r) %></td>
+            <td></td>
+            <td><%= time_ago_in_words(r.updated_at) %></td>
+            <td><%= link_to "Approve",  admin_request_path(r), method: "patch" %></td>
           </tr>
         <% end %>
       </tbody>
