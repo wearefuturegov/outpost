@@ -13,24 +13,23 @@ gem 'jbuilder', '~> 2.7'
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'bootsnap', '>= 1.4.2', require: false
 
-# gem 'haml-rails'
 gem 'kaminari'
 gem 'devise'
 gem 'paper_trail'
 gem 'diffy'
 gem 'discard', '~> 1.2'
-
+gem 'filterrific'
 gem 'active_model_serializers'
 gem 'rack-cors'
 gem 'geocoder'
 gem 'pg_search'
-gem 'rack-mini-profiler'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'rspec-rails'
   gem 'dotenv-rails'
   gem 'simplecov'
+  gem 'rack-mini-profiler'
 end
 
 group :development do
