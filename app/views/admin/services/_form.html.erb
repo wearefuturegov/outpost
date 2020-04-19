@@ -1,4 +1,3 @@
-
 <%= form_for [:admin, @service] do |s| %>
 
   <div class="with-sidebar">
@@ -78,18 +77,12 @@
       <% if params[:id] %>
         <%= render "shared/version-history" %>
       <% end %>
-      
-      <section class="version-history collapsible" id="category-editor">
-        <button class="collapsible__header" aria-expanded="true">
-          <h2>Categories</h2>
-        </button>
-        <div class="collapsible__content">
-          <%= render "taxonomy-tree", s: s %>
-        </div>
-      </section>
+
+      <%= render "shared/taxonomy-tree", s: s %>
     </aside>
+
   </div>
-  
+
   <% if params[:id] %>
     <%= s.submit "Update", class: "button" %>
   <% else %>

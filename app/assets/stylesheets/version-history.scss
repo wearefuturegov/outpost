@@ -1,5 +1,11 @@
 @import "variables";
 
+.version-history__action{
+    display: inline-block;
+    font-weight: bold;
+    margin-bottom: 25px;
+}
+
 .stepper{
     list-style: none;
     margin-left: 0px;
@@ -48,6 +54,12 @@
     .stepper__step--solid{
         &:after{
             background: $text;
+        }
+    }
+
+    &.stepper--summarised{
+        .stepper__step:nth-last-child(2):before{
+            border-left: 2px dashed $text;
         }
     }
 }

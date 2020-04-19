@@ -1,0 +1,47 @@
+<% content_for :header do %>
+    <%= link_to "Go back", admin_service_path(params[:service_id]), class: "go-back" %>
+    <div class="page-header__actions">
+      <h1 class="page-header__title two-thirds">Version history</h1>
+    </div>
+<% end %>
+
+<div class="two-panels">
+  <section class="panel">
+    <% if @versions.present? %>
+      <ul class="stepper">
+          <% @versions.each do |v| %>
+              <li class="stepper__step <%= "stepper__step--solid" if v.event === ("create" || "import") %>">
+                  <p>
+                    <%= pretty_event(v.event) %>
+                    <% if v.whodunnit.present? %>
+                      by <strong><%= User.find(v.whodunnit).email %></strong>
+                    <% end %>
+                  </p>
+                  <p class="stepper__time">
+                    <%= time_ago_in_words(v.created_at).humanize %> ago
+                  </p>
+
+                  <h5>changes</h5>
+                  <fieldset>
+                    <%= v.changeset %>
+                  </fieldset>
+
+                  <h5>full version</h5>
+                  <fieldset>
+                      <% if v.reify.present? %>
+                        <h3><%= v.reify.name %></h3>
+                        <p><%= v.reify.description %></p>
+                      <% end %>
+
+                      <%= v.reify.to_json %>
+                  </fieldset>
+
+              </li class="stepper__step">
+          <% end %>
+      <ul>
+    <% end %>
+  </section>
+
+  <section class="panel">
+  </section>
+</div>

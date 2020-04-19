@@ -19,7 +19,13 @@ class Admin::ServicesController < Admin::BaseController
 
   def show
     @watched = current_user.watches.where(service_id: @service.id).exists?
-    @versions = @service.versions.reverse
+    if @service.versions.length > 4
+      @versions = @service.versions.last(3).reverse
+      @versions.push(@service.versions.first)
+    else
+      @versions = @service.versions.reverse
+    end      
+
   end
 
   def update
@@ -28,17 +34,6 @@ class Admin::ServicesController < Admin::BaseController
     else
       render "show"
     end
-  end
-
-  def watch
-    current_user.watches.create(service_id: params[:id])
-    current_user.save
-    redirect_to admin_service_path
-  end
-
-  def unwatch
-    current_user.watches.find_by(service_id: params[:id]).destroy
-    redirect_to admin_service_path
   end
   
   def new

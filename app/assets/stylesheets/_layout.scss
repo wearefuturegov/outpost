@@ -87,6 +87,10 @@
     .shortcuts__current{
         font-size: 1.1rem;
         margin-right: 15px;
+        @media screen and (min-width: $breakpoint-m){
+            font-size: 1.2rem;
+            margin-right: 20px;
+        }
     }
     .shortcuts__link{
         font-weight: bold;

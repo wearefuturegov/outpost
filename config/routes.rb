@@ -13,10 +13,8 @@ Rails.application.routes.draw do
   namespace :admin do
     root "dashboard#index"
     resources :services, except: :edit do
-      member do
-        post "watch"
-        delete "unwatch"
-      end
+      resources :watch, only: [:create, :destroy]
+      resources :versions, only: [:index]
     end
     resources :users, except: [:edit, :show]
     resources :organisations
