@@ -1,6 +1,6 @@
 class Admin::TaxonomiesController < Admin::BaseController
     before_action :set_taxonomies, only: [:index, :create]
-    before_action :set_taxonomy, only: [:show, :update]
+    before_action :set_taxonomy, only: [:show, :update, :destroy]
     before_action :set_possible_parents, only: [:show, :update, :index, :create]
 
     def index
@@ -26,7 +26,12 @@ class Admin::TaxonomiesController < Admin::BaseController
         render "index"
       end
     end
-  
+
+    def destroy
+      @taxonomy.destroy
+      redirect_to admin_taxonomies_path, notice: "Category has been deleted."
+    end
+    
     private
 
     def set_taxonomies      
@@ -39,7 +44,7 @@ class Admin::TaxonomiesController < Admin::BaseController
     end
 
     def set_possible_parents
-        @possible_parents = Taxonomy.all
+        @possible_parents = Taxonomy.where(parent_id: nil)
         @possible_parents = @possible_parents.where.not(id: params[:id]) if params[:id]
     end
   
