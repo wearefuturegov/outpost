@@ -63,7 +63,7 @@ class Service < ApplicationRecord
   end
 
   def restore
-    self.paper_trail_event = 'unarchive'
+    self.paper_trail_event = 'restore'
     self.undiscard
     self.paper_trail.save_with_version
   end
