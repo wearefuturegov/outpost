@@ -1,5 +1,9 @@
 class Admin::BaseController < ApplicationController
-    before_action :authenticate_user!
-    # this needs to move out into the application controller
-    before_action :set_paper_trail_whodunnit
+    before_action :require_admin!
+
+    def require_admin!
+        unless current_user.admin === true
+            redirect_to root_path
+        end
+    end
 end

@@ -1,5 +1,5 @@
 <% content_for :header do %>
-    <h1 class="page-header__title"><%= @organisation.name %></h1>
+    <h1 class="page-header__title"><%= @organisation.name || Dashboard %></h1>
 <% end %>
 
 <header class="actions">
@@ -13,18 +13,20 @@
 
 <div class="two-panels">
   <section class="panel">
-    <h2 class="panel__title">Services</h2>
+    <h2 class="panel__title">Your services</h2>
     <% if @organisation.services.present? %>
       <table class="table">
           <thead>
             <tr>
               <th>Name</th>
+              <th>Status</th>
             </tr>
           </thead>
           <tbody>
             <% @organisation.services.each do |s| %>
               <tr>
-                <td><%= link_to s.name, admin_service_path(s) %></td>
+                <td><%= link_to s.name, service_path(s) %></td>
+                <td><span class="tag"><%= s.status %></span></td>
               </tr>
             <% end %>
           </tbody>

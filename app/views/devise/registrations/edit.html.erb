@@ -1,43 +1,59 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
-
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
-
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
-
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-    <% if @minimum_password_length %>
-      <br />
-      <em><%= @minimum_password_length %> characters minimum</em>
-    <% end %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-    <%= f.password_field :current_password, autocomplete: "current-password" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Update" %>
-  </div>
+<% content_for :header do %>
+    <h1 class="page-header__title">Settings</h1>
 <% end %>
 
-<h3>Cancel my account</h3>
+<div class="two-panels">
+  <aside class="panel">
 
-<p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>
+    <div class="collapsible" id="change-email-password">
+        <button class="collapsible__header">
+            <h2>Change email or password</h2>
+        </button>
+        <div class="collapsible__content">
+          <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+            <%= render "devise/shared/error_messages", resource: resource %>
 
-<%= link_to "Back", :back %>
+            <div class="field">
+              <%= f.label :email, class: "field__label" %>
+              <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "field__input" %>
+            </div>
+
+            <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+              <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+            <% end %>
+
+            <div class="field">
+              <%= f.label :password, class: "field__label" %>
+              <p class="field__hint">Leave blank if you don't want to change it. <% if @minimum_password_length %><%= @minimum_password_length %> characters minimum.<% end %></p>
+              <%= f.password_field :password, autocomplete: "new-password", class: "field__input" %>
+            </div>
+
+            <div class="field">
+              <%= f.label :password_confirmation, class: "field__label" %>
+              <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "field__input" %>
+            </div>
+
+            <div class="field">
+              <%= f.label :current_password, class: "field__label" %>
+              <p class="field__hint">We need your current password to confirm your changes.</p>
+              <%= f.password_field :current_password, autocomplete: "current-password", class: "field__input" %>
+            </div>
+
+            <%= f.submit "Update", class: "button" %>
+          <% end %>
+        </div>
+    </div>
+
+  </aside>
+
+  <aside class="panel">
+    <div class="collapsible" id="change-email-password">
+        <button class="collapsible__header">
+          <h2>Cancel account</h2>
+        </button>
+        <div class="collapsible__content">
+          <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: "button button--small" %></p>
+        </div>
+    </div>
+  </aside>
+</div>

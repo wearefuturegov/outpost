@@ -14,6 +14,7 @@ class ServicesController < ApplicationController
     end
 
     def show
+        @service = current_user.organisation.services.find(params[:id])
     end
 
     def update
