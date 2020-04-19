@@ -7,7 +7,7 @@
     margin-bottom: 40px;
     &.alert--yellow{
         background: transparentize($link, 0.9);
-        border-color: $link;
+        border: none;
     }
     p{
         margin-bottom: 10px;
