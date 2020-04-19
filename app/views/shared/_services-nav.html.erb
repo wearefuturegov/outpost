@@ -1,0 +1,5 @@
+<nav class="shortcuts">
+    <%= link_to_unless_current "All", admin_services_path, class: "shortcuts__link" do %><span class="shortcuts__current">All</span><% end %>
+    <%= link_to_unless_current "Pending changes", admin_requests_path, class: "shortcuts__link" do %><span class="shortcuts__current">Pending changes</span><% end %>
+    <%= link_to_unless_current "Archived", "", class: "shortcuts__link" do %><span class="shortcuts__current">Archived</span><% end %>
+</nav>
