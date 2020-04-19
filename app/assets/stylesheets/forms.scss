@@ -134,17 +134,16 @@
 .error{
     padding: 25px;
     margin-bottom: 40px;
+    background: transparentize($error, 0.9);
     border-left: 5px solid $error;
     @media screen and (min-width: $breakpoint-m) {
         margin-bottom: 50px;
     }
     .error__title{
         margin-bottom: 20px;
-        color: $error;
         line-height: 1.1;
     }
     .error__list *{
-        color: $error;
         @media screen and (min-width: $breakpoint-m) {
             font-size: 1.1rem;
         }

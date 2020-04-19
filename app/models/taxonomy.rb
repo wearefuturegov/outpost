@@ -7,6 +7,8 @@ class Taxonomy < ApplicationRecord
 
     belongs_to :parent, class_name: "Taxonomy", optional: true
 
+    validates_presence_of :name
+
     def slug
         name.parameterize
     end

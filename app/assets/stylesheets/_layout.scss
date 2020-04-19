@@ -111,13 +111,20 @@
     .shortcuts__link,
     .shortcuts__current{
         font-size: 1.1rem;
-        margin-right: 15px;
         @media screen and (min-width: $breakpoint-m){
             font-size: 1.2rem;
-            margin-right: 20px;
         }
     }
     .shortcuts__link{
         font-weight: bold;
+    }
+    .shortcuts__divider{
+        margin-left: 7px;
+        margin-right: 7px;
+        color: transparentize($text, 0.8);
+        @media screen and (min-width: $breakpoint-m){
+            margin-left: 12px;
+            margin-right: 12px;
+        }
     }
 }
