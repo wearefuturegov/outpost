@@ -24,7 +24,9 @@ class Service < ApplicationRecord
   validates_presence_of :name
 
   acts_as_approval_resource
-  has_paper_trail ignore: [:created_at, :updated_at]
+  has_paper_trail ignore: [:created_at, :updated_at, :discarded_at]
+
+  include Discard::Model
 
   include PgSearch::Model
   pg_search_scope :search, 
@@ -44,5 +46,13 @@ class Service < ApplicationRecord
 
   def display_name
     self.name || "Unnamed service"
+  end
+
+  def status
+    if discarded?
+      "Archived"
+    else
+      "Active"
+    end
   end
 end

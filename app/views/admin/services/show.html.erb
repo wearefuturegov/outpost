@@ -1,4 +1,10 @@
 <% content_for :header do %>
+    <% if @service.discarded? %>
+      <div class="alert alert--yellow">
+        <p>This service is archived.</p>
+        <%= link_to "Restore", admin_archive_path(@service), method: "patch", class: "alert__action", data: {confirm: "Are you sure? The service will be visible to users again."} %>
+      </div>
+    <% end %>
     <%= link_to "Go back", admin_services_path, class: "go-back" %>
     <div class="page-header__actions">
       <h1 class="page-header__title two-thirds"><%= @service.display_name %></h1>

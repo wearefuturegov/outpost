@@ -20,7 +20,7 @@
             font-weight: bold;
         }
     }
-    tr:nth-of-type(even){
+    tbody tr:nth-of-type(odd){
         background: $pale;
     }
     &.table--services{

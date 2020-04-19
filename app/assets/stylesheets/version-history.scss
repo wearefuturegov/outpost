@@ -68,6 +68,15 @@
             background: $text;
         }
     }
+    .stepper__step--cross{
+        &:after{
+            background: $text;
+            width: 5px;
+            height: 5px;
+            top: 8px;
+            left: 3px;
+        }
+    }
 
     &.stepper--summarised{
         .stepper__step:nth-last-child(2):before{

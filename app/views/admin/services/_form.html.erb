@@ -71,6 +71,13 @@
       <% end %>
 
     <% end %>
+
+    <% if params[:id] %>
+      <% unless @service.discarded? %>
+        <%= link_to "Archive", admin_service_path(@service), method: "delete", class: "button button--danger", data: {confirm: "Are you sure?" } %>
+      <% end %>
+    <% end %>
+
   </div>
 
   <% if params[:id] %>

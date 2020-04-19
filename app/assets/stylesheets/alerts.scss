@@ -1,12 +1,33 @@
 @import "variables";
 
 .alert{
-    background: transparentize($link, 0.9);
+    background: transparentize($focus, 0.9);
     padding: 25px;
-    border-left: 5px solid $link;
+    border-left: 5px solid $focus;
     margin-bottom: 40px;
+    &.alert--yellow{
+        background: transparentize($link, 0.9);
+        border-color: $link;
+    }
+    p{
+        margin-bottom: 10px;
+    }
+    .alert__action{
+        font-weight: bold;
+    }
     @media screen and (min-width: $breakpoint-m) {
+        font-size: 1.1rem;
         margin-bottom: 50px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        p{
+            margin-bottom: 0px;
+        }
+        .alert__action{
+            margin-left: 25px;
+        }
     }
 }
 

@@ -17,6 +17,7 @@ Rails.application.routes.draw do
       resources :notes, only: [:create, :destroy]
       resources :versions, only: [:index, :update]
       collection do 
+        resources :archive, only: [:index, :update]
         resources :requests, only: [:index]
       end
     end

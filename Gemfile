@@ -18,6 +18,7 @@ gem 'kaminari'
 gem 'devise'
 gem 'paper_trail'
 gem 'diffy'
+gem 'discard', '~> 1.2'
 
 gem 'active_model_serializers'
 gem 'rack-cors'

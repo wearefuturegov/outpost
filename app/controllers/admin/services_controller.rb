@@ -1,11 +1,11 @@
 class Admin::ServicesController < Admin::BaseController
-  before_action :set_service, only: [:show, :update]
+  before_action :set_service, only: [:show, :update, :destroy]
 
   def index
     if params[:query].present?
       @services = Service.search(params[:query]).page(params[:page])
     else
-      @services = Service.newest # default sort
+      @services = Service.kept.newest # default sort
       @services = Service.alphabetical if params[:order] === "asc" && params[:order_by] === "name"
       @services = Service.reverse_alphabetical if params[:order] === "desc" && params[:order_by] === "name"
       @services = Service.oldest if params[:order] === "asc" && params[:order_by] === "updated_at"
@@ -33,7 +33,7 @@ class Admin::ServicesController < Admin::BaseController
 
   def update
     if @service.update(service_params)
-      redirect_to admin_services_path
+      redirect_to admin_service_url(@service), notice: "Service has been updated"
     else
       render "show"
     end
@@ -46,12 +46,19 @@ class Admin::ServicesController < Admin::BaseController
   def create
     @service = Service.create(service_params)
     if @service.save
-      redirect_to admin_services_path
+      redirect_to admin_service_url(@service), notice: "Service has been created."
     else
       render "new"
     end
   end
 
+  def destroy
+    @service.paper_trail_event = 'archive'
+    @service.discard
+    @service.paper_trail.save_with_version
+    redirect_to admin_service_url(@service)
+  end
+  
   private
 
   def set_service

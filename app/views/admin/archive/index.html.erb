@@ -1,33 +1,17 @@
 <% content_for :header do %>
-    <h1 class="page-header__title">Services</h1>
+    <h1 class="page-header__title">Archived</h1>
     <%= render "shared/services-nav" %>
 <% end %>
-
-<header class="actions">
-  <div>
-  <%= render "shared/mini-search" %>
-      <button class="button button--inline">Filter</button>
-  </div>
-  <div>
-    <a href="/admin/services.csv" class="button button--inline">Export</a>
-    <%= link_to "Add service", new_admin_service_path, class: "button button--small" %>
-  </div>
-</header>
 
 <% if @services.present? %>
   <div class="table-holder">
     <table class="table">
       <thead>
         <tr>
-          <th class="with-sort">Name
-            <%= render "shared/sort", column: "name"%>
-          </th>
+          <th>Name</th>
           <th>Categories</th>
-          <th>Phone number</th>
           <th>Website</th>
-          <th class="with-sort">Last updated
-            <%= render "shared/sort", column: "updated_at"%>
-          </th>
+          <th>Last updated</th>
           <th>Status</th>
         </tr>
       </thead>
@@ -40,16 +24,15 @@
                 <span class="category"><%= t.name %></span>
               <% end %>
             </td>
-            <td>0777 777 7777</td>
             <td><%= link_to(short_url(s.url), s.url, target: "blank") if s.url.present? %></td>
             <td><%= time_ago_in_words(s.updated_at) %> ago</td>
             <td><span class="tag"><%= s.status %></span></td>
+            <td><%= link_to "Restore", admin_archive_path(s), method: "patch", data: {confirm: "Are you sure? The service will be visible to users again."} %></td>
           </tr>
         <% end %>
       </tbody>
     </table>
   </div>
-  <%= paginate @services %>
 <% else %>
-  <p class="no-results">No results to show</p>
+  <p class="no-results">No archived services</p>
 <% end %>
