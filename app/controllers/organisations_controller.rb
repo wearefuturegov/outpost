@@ -1,16 +1,16 @@
 class OrganisationsController < ApplicationController
-    # before_action :require_not_onboarded, only: [:new, :create]
+    before_action :require_not_onboarded, only: [:new, :create]
+    before_action :set_organisation, only: [:index, :edit, :update]
 
     def start
     end
 
     def index
-        @organisation = current_user.organisation
+        redirect_to new_organisation_path unless current_user.organisation.present?
     end
 
     def new
         @organisation = Organisation.new
-        @organisation.services.build
     end
 
     def create
@@ -24,16 +24,27 @@ class OrganisationsController < ApplicationController
         end
     end
 
+    def edit
+    end
+  
+    def update
+      if @organisation.update(organisation_params)
+        redirect_to organisations_path
+      else
+        render "edit"
+      end
+    end
+
     private
 
     def organisation_params
         params.require(:organisation).permit(
-            :name,
-            :services_attributes => [
-                :name,
-                :description
-            ]
+            :name
         )
+    end
+
+    def set_organisation
+        @organisation = current_user.organisation
     end
 
     def require_not_onboarded

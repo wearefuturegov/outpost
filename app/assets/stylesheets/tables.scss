@@ -94,6 +94,8 @@
     @media screen and (min-width: $breakpoint-m) {
         margin-bottom: 0px;
         width: 250px;
+        display: inline-block;
+        margin-right: 10px;
     }
 
     .mini-search__input{

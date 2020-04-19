@@ -181,6 +181,7 @@
     }
     &.checkbox--small{
         padding: 4.5px 0px 4.5px 45px;
+        margin-bottom: 10px;
         .checkbox__label:before{
             width: 25px;
             height: 25px;
@@ -198,6 +199,9 @@
                 top: 5px;
             }
         }
+    }
+    &.checkbox--indented{
+        margin-left: 15px;
     }
 }
 

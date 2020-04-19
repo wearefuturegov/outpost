@@ -84,15 +84,9 @@
           <h2>Categories</h2>
         </button>
         <div class="collapsible__content">
-            <%= s.collection_check_boxes( :taxonomy_ids, Taxonomy.all, :id, :name) do |c| %>
-              <div class="field checkbox checkbox--small">
-                <%= c.check_box class: "checkbox__input" %>
-                <%= c.label class: "checkbox__label" %>
-              </div>
-            <% end %>
+          <%= render "taxonomy-tree", s: s %>
         </div>
       </section>
-
     </aside>
   </div>
   

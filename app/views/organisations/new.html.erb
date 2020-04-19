@@ -1,41 +1,6 @@
 <% content_for :header do %>
-    <h1 class="page-header__title two-thirds">Tell us about a new service</h1>
-    <p class="page-header__lede">Next, give us some details about the service itself.</p>
+    <h1 class="page-header__title two-thirds">Give your organisation a name</h1>
+    <p class="page-header__lede two-thirds">This will be publicly visible. If you have more than one service, this name will be used to group them together.</p>
 <% end %>
 
-<%= form_with model: @organisation, html: {class: "two-thirds"} do |f| %>
-
-    <% if @organisation.errors.full_messages.any? %>
-        <div class="error">
-            <h2 class="error__title">Errors stopped this service being saved:</h2>
-            <ul class="error__list">
-                <% @organisation.errors.full_messages.each do |e| %>
-                    <li><%= e %></li>
-                <% end %>
-            </ul>
-        </div>
-    <% end %>
-
-    <fieldset class="field-section">
-
-        <%= f.fields_for :services do |ff| %>
-            <div class="field">
-                <%= ff.label :name, class: "field__label" %>
-                <%= ff.text_field :name, class: "field__input" %>
-            </div>
-
-            <div class="field">
-                <%= ff.label :description, class: "field__label" %>
-                <%= ff.text_area :description, class: "field__input" %>
-            </div>
-        <% end %>
-
-        <div class="field">
-            <%= f.label :name, "Organisation name", class: "field__label" %>
-            <%= f.text_field :name, class: "field__input" %>
-        </div>
-
-    </fieldset>
-
-    <%= f.submit "Finish", class: "button" %>
-<% end %>
+<%= render "form" %>

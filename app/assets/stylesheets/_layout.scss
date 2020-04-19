@@ -79,3 +79,16 @@
         }
     }   
 }
+
+.shortcuts{
+    margin-top: 40px;
+
+    .shortcuts__link,
+    .shortcuts__current{
+        font-size: 1.1rem;
+        margin-right: 15px;
+    }
+    .shortcuts__link{
+        font-weight: bold;
+    }
+}
