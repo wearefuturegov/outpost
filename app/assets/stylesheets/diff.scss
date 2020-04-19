@@ -1,7 +1,7 @@
 .diff {
 	overflow: auto;
 	ul {
-		background: $white;
+		background: $pale;
 		overflow: auto;
 		list-style: none;
 		margin: 0;
@@ -10,6 +10,7 @@
 		width: 100%;
 	}
 	del {
+		padding: 5px;
 		display: block;
 		text-decoration: none;
 		white-space: pre-wrap;
@@ -19,6 +20,7 @@
 		}
 	}
 	ins {
+		padding: 5px;
 		display: block;
 		text-decoration: none;
 		white-space: pre-wrap;
@@ -32,9 +34,6 @@
 		display: table-row;
 		margin: 0;
 		height: 1em;
-		&:hover {
-			background: transparentize($focus, 0.8);
-		}
 	}
 	li.ins {
 		background: transparentize($green, 0.8);

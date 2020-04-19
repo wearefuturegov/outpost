@@ -12,13 +12,13 @@ module ApplicationHelper
     def pretty_event(event)
         case event
         when "create"
-            "Created"
+            "Record created"
         when "update"
             "Updated"
         when "destroy"
             "Destroyed"
         when "import"
-            "Imported"
+            "Record imported"
         end
     end
 

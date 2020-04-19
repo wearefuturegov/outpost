@@ -1,7 +1,7 @@
 <% content_for :header do %>
     <%= link_to "Go back", admin_service_path(params[:service_id]), class: "go-back" %>
     <div class="page-header__actions">
-      <h1 class="page-header__title two-thirds">History</h1>
+      <h1 class="page-header__title two-thirds">Edit history</h1>
     </div>
 <% end %>
 
@@ -49,7 +49,7 @@
                     <article class="version-panel__body">
                       <% v.changeset.each do  |key, value| %>
                         <div class="version-panel__change">
-                          <strong class="version-panel__change-key"><%= key.humanize %></strong>
+                          <p class="version-panel__change-key"><%= key.humanize %></p>
                           <%= diff(value[0], value[1]) %>
                         </div>
                       <% end %>
