@@ -19,3 +19,8 @@ require("channels")
 import tabs from "./tabs"
 import collapsible from "./collapsible"
 import maps from "./maps"
+
+import Choices from "choices.js"
+import "choices.js/public/assets/styles/choices.min.css"
+
+const choices = new Choices(document.querySelector(".enhanced-select"))

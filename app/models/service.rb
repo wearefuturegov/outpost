@@ -16,6 +16,8 @@ class Service < ApplicationRecord
 
   after_save :update_service_at_locations
 
+  accepts_nested_attributes_for :locations
+
   # sort scopes
   scope :oldest, ->  { order("updated_at ASC") }
   scope :newest, ->  { order("updated_at DESC") }

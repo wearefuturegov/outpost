@@ -4,7 +4,7 @@ class Location < ApplicationRecord
 
   geocoded_by :postal_code
   after_validation :geocode, if: :should_geocode?
-  after_save :update_service_at_locations
+  # after_save :update_service_at_locations
 
   validates_presence_of :postal_code
 
