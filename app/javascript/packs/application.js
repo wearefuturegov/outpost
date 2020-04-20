@@ -16,4 +16,6 @@ require("channels")
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
 
+import tabs from "./tabs"
 import collapsible from "./collapsible"
+import maps from "./maps"

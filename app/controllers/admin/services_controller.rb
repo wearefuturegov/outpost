@@ -70,7 +70,8 @@ class Admin::ServicesController < Admin::BaseController
       :description,
       :url,
       :email,
-      taxonomy_ids: []
+      taxonomy_ids: [],
+      location_ids: []
     )
   end
 

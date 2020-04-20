@@ -17,7 +17,7 @@
         </button>
         <div class="collapsible__content">
           <%= link_to "Show larger map", "https://www.google.com/maps/search/#{@location.latitude},#{@location.longitude}", class: "collapsible__action" %>
-          <%= image_tag "https://maps.googleapis.com/maps/api/staticmap?key=#{ENV['GOOGLE_CLIENT_KEY']}&size=550x350&markers=#{@location.latitude},#{@location.longitude}", alt: ""%>
+          <%= map(@location.latitude, @location.longitude)%>
         </div>
       </div>
 

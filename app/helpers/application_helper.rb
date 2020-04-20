@@ -1,5 +1,13 @@
 module ApplicationHelper
 
+    def map(lat, long)
+        "<div class='map-holder' data-map='true' data-lat=#{lat} data-long=#{long}></div>".html_safe
+    end
+
+    def static_map(lat, long)
+        image_tag "https://maps.googleapis.com/maps/api/staticmap?key=#{ENV['GOOGLE_CLIENT_KEY']}&size=550x350&markers=#{lat},#{long}", alt: ""
+    end
+
     def short_url(url)
         url
           .delete_prefix("https://")

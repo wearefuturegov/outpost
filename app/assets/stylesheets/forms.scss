@@ -66,6 +66,9 @@
         background-repeat: no-repeat;
         padding-right: 45px;
     }
+    select.field__input[multiple]{
+        background-image: none;
+    }
 }
 
 .button{
