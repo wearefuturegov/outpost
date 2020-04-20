@@ -68,6 +68,8 @@ bucks_csv.each do |row|
       location.city = row['venue_address_4']
       location.state_province = 'Buckinghamshire'
       location.postal_code = row['venue_postcode']
+      location.latitude = row['latitude']
+      location.longitude = row['longitude']
       location.country = 'GB'
       location.save
       service.locations << location
