@@ -1,0 +1,38 @@
+<% content_for :header do %>
+    <h1 class="page-header__title">Activity log</h1>
+<% end %>
+
+<% if @activities.present? %>
+  <div class="table-holder">
+    <table class="table">
+      <thead>
+        <tr>
+            <th>Event</th>
+            <th>To</th>
+            <th>By</th>
+            <th>At</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @activities.each do |a| %>
+          <tr>
+            <td><%= pretty_event(a.event) %></td>
+            <td>
+                <% if a.item %>
+                    <%= link_to a.item.name, admin_service_url(a.item) %>
+                <% else %>
+                    Deleted service
+                <% end %>
+            </td>
+            <td><%= User.find(a.whodunnit).email if a.whodunnit %></td>
+            <td><%= time_ago_in_words(a.created_at) %> ago</td>
+            <td></td>
+
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <p class="no-results">No activity to show.</p>
+<% end %>

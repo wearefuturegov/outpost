@@ -32,6 +32,10 @@
                     </ul>
                 </div>
 
+                <%= link_to_unless_current "Activity", admin_activity_index_path, class: "site-nav__link" do %>
+                    <span class="site-nav__current">Activity</span>
+                <% end %>
+
                 <%= link_to_unless_current "Users", admin_users_path, class: "site-nav__link" do %>
                     <span class="site-nav__current">Users</span>
                 <% end %>

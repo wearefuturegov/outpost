@@ -21,10 +21,11 @@ Rails.application.routes.draw do
         resources :requests, only: [:index, :update]
       end
     end
-    resources :users, except: [:edit, :show]
     resources :organisations
     resources :locations, except: :edit
     resources :taxonomies, except: [:new, :edit]
+    resources :activity, only: [:index]
+    resources :users, except: [:edit, :show]
   end
 
   namespace :api do
