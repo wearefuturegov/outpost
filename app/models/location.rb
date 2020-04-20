@@ -3,7 +3,7 @@ class Location < ApplicationRecord
   has_many :services, through: :service_at_locations
 
   geocoded_by :postal_code
-  after_validation :geocode, if: :postcode_changed_or_lat_long_blank
+  #after_validation :geocode, if: :postcode_changed_or_lat_long_blank
 
   private
 
