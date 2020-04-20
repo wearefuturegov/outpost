@@ -1,9 +1,10 @@
 class Admin::TaxonomiesController < Admin::BaseController
-    before_action :set_taxonomy, only: [:show, :update]
-    before_action :set_possible_parents, only: [:show, :update, :new]
+    before_action :set_taxonomies, only: [:index, :create]
+    before_action :set_taxonomy, only: [:show, :update, :destroy]
+    before_action :set_possible_parents, only: [:show, :update, :index, :create]
 
     def index
-        @taxonomies = Taxonomy.where(parent_id: nil)
+      @taxonomy = Taxonomy.new
     end
 
     def show
@@ -17,20 +18,25 @@ class Admin::TaxonomiesController < Admin::BaseController
       end
     end
   
-    def new
-      @taxonomy = Taxonomy.new
-    end
-  
     def create
       @taxonomy = Taxonomy.create(taxonomy_params)
       if @taxonomy.save
         redirect_to admin_taxonomies_path
       else
-        render "new"
+        render "index"
       end
     end
-  
+
+    def destroy
+      @taxonomy.destroy
+      redirect_to admin_taxonomies_path, notice: "Category has been deleted."
+    end
+    
     private
+
+    def set_taxonomies      
+      @taxonomies = Taxonomy.where(parent_id: nil)
+    end
   
     def set_taxonomy
       @taxonomy = Taxonomy.find(params[:id])
@@ -38,7 +44,7 @@ class Admin::TaxonomiesController < Admin::BaseController
     end
 
     def set_possible_parents
-        @possible_parents = Taxonomy.all
+        @possible_parents = Taxonomy.where(parent_id: nil)
         @possible_parents = @possible_parents.where.not(id: params[:id]) if params[:id]
     end
   

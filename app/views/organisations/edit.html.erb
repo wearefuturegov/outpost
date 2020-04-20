@@ -1,0 +1,6 @@
+<% content_for :header do %>
+    <%= link_to "Go back", organisations_path, class: "go-back" %>
+    <h1 class="page-header__title two-thirds">Editing <%= @organisation.name %></h1>
+<% end %>
+
+<%= render "form" %>

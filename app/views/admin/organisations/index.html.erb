@@ -3,6 +3,10 @@
     <h1 class="page-header__title">Organisations</h1>
 <% end %>
 
+<header class="actions">
+    <%= link_to "Add organisation", new_admin_organisation_path, class: "button button--small" %>
+</header>
+
 <% if @organisations.present? %>
   <div class="table-holder">
     <table class="table">

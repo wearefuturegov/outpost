@@ -1,0 +1,42 @@
+@import "variables";
+
+.collapsible{
+    margin-bottom: 65px;
+    .collapsible__header{
+        width: 100%;
+        background: none;
+        border: none;
+        padding-bottom: 15px;
+        border-bottom: 3px solid $text;
+        margin-bottom: 25px;
+        cursor: pointer;
+        text-align: left;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+
+        font-size: 1rem;
+
+        &:after{
+            margin-left: 15px;
+            content: "";
+            display: inline-block;
+            width: 25px;
+            height: 20px;
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-image: url(asset_path("down-arrow.svg"));
+        }
+        &[aria-expanded=false]:after{
+            background-image: url(asset_path("up-arrow.svg"));
+        }
+        &:focus{
+            border-color: $focus;
+        }
+    }
+    .collapsible__header-count{
+        font-weight: normal;
+    }
+}

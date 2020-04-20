@@ -1,21 +1,30 @@
 Rails.application.routes.draw do
   
-  root "admin/dashboard#index"
+  root "organisations#index"
 
   devise_for :users
+  resources :organisations, only: [:index, :new, :create, :edit, :update] do
+    collection do
+      get "start"
+    end
+  end
+  resources :services, only: [:new, :create, :show]
   
   namespace :admin do
     root "dashboard#index"
     resources :services, except: :edit do
-      member do
-        post "watch"
-        delete "unwatch"
+      resources :watch, only: [:create, :destroy]
+      resources :notes, only: [:create, :destroy]
+      resources :versions, only: [:index, :update]
+      collection do 
+        resources :archive, only: [:index, :update]
+        resources :requests, only: [:index, :update]
       end
     end
     resources :users, except: [:edit, :show]
-    resources :organisations, except: :edit
+    resources :organisations
     resources :locations, except: :edit
-    resources :taxonomies, except: :edit
+    resources :taxonomies, except: [:new, :edit]
   end
 
   namespace :api do

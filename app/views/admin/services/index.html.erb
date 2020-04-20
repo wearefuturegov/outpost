@@ -1,11 +1,13 @@
 <% content_for :header do %>
     <h1 class="page-header__title">Services</h1>
+    <%= render "shared/services-nav" %>
 <% end %>
 
 <header class="actions">
-
+  <div>
   <%= render "shared/mini-search" %>
-
+      <button class="button button--inline">Filter</button>
+  </div>
   <div>
     <a href="/admin/services.csv" class="button button--inline">Export</a>
     <%= link_to "Add service", new_admin_service_path, class: "button button--small" %>
@@ -32,7 +34,7 @@
       <tbody>
         <% @services.each do |s| %>
           <tr>
-            <td><%= link_to s.display_name, admin_service_path(s) %></td>
+            <td><%= link_to s.display_name.truncate(25), admin_service_path(s) %></td>
             <td>
               <% s.taxonomies.each do |t| %>
                 <span class="category"><%= t.name %></span>
@@ -41,7 +43,7 @@
             <td>0777 777 7777</td>
             <td><%= link_to(short_url(s.url), s.url, target: "blank") if s.url.present? %></td>
             <td><%= time_ago_in_words(s.updated_at) %> ago</td>
-            <td><span class="tag">Active</span></td>
+            <td><span class="tag"><%= s.status %></span></td>
           </tr>
         <% end %>
       </tbody>

@@ -1,4 +1,6 @@
 class API::V1::ServicesController < ApplicationController
+  skip_before_action :authenticate_user!
+
   def index
     if params[:coverage].present?
       @services = ServiceAtLocation.near(params[:coverage]).page(params[:page]).includes(:organisation)

@@ -1,0 +1,38 @@
+<% content_for :header do %>
+    <h1 class="page-header__title">Archived</h1>
+    <%= render "shared/services-nav" %>
+<% end %>
+
+<% if @services.present? %>
+  <div class="table-holder">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Categories</th>
+          <th>Website</th>
+          <th>Last updated</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @services.each do |s| %>
+          <tr>
+            <td><%= link_to s.display_name.truncate(25), admin_service_path(s) %></td>
+            <td>
+              <% s.taxonomies.each do |t| %>
+                <span class="category"><%= t.name %></span>
+              <% end %>
+            </td>
+            <td><%= link_to(short_url(s.url), s.url, target: "blank") if s.url.present? %></td>
+            <td><%= time_ago_in_words(s.updated_at) %> ago</td>
+            <td><span class="tag"><%= s.status %></span></td>
+            <td><%= link_to "Restore", admin_archive_path(s), method: "patch", data: {confirm: "Are you sure? The service will be visible to users again."} %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <p class="no-results">No archived services</p>
+<% end %>

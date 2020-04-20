@@ -1,0 +1,10 @@
+<% if model.errors.full_messages.any? %>
+    <div class="error">
+        <h2 class="error__title">Errors stopped this being saved:</h2>
+        <ul class="error__list">
+            <% model.errors.full_messages.each do |e| %>
+                <li><%= e %></li>
+            <% end %>
+        </ul>
+    </div>
+<% end %>

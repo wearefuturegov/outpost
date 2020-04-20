@@ -1,0 +1,16 @@
+<% content_for :header do %>
+
+    <% unless @service.approved? %>
+        <div class="alert alert--yellow">
+            <div>
+                <p><strong>This service has pending changes.</strong></p>
+                <p>A council staff member will review and publish these changes soon. You can still make more changes in the meantime.</p>
+            </div>
+        </div>
+    <% end %>
+
+    <%= link_to "Go back", organisations_path, class: "go-back" %>
+    <h1 class="page-header__title"><%= @service.name %></h1>
+<% end %>
+
+<%= render "form" %>

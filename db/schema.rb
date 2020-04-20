@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_16_111637) do
+ActiveRecord::Schema.define(version: 2020_04_19_190711) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,6 +32,16 @@ ActiveRecord::Schema.define(version: 2020_04_16_111637) do
     t.string "state_province"
     t.string "postal_code"
     t.string "country"
+  end
+
+  create_table "notes", force: :cascade do |t|
+    t.bigint "service_id", null: false
+    t.text "body"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["service_id"], name: "index_notes_on_service_id"
+    t.index ["user_id"], name: "index_notes_on_user_id"
   end
 
   create_table "organisations", force: :cascade do |t|
@@ -79,6 +89,9 @@ ActiveRecord::Schema.define(version: 2020_04_16_111637) do
     t.string "url"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "discarded_at"
+    t.boolean "approved", default: true
+    t.index ["discarded_at"], name: "index_services_on_discarded_at"
     t.index ["organisation_id"], name: "index_services_on_organisation_id"
   end
 
@@ -98,7 +111,10 @@ ActiveRecord::Schema.define(version: 2020_04_16_111637) do
     t.datetime "remember_created_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "admin"
+    t.bigint "organisation_id"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["organisation_id"], name: "index_users_on_organisation_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
@@ -122,4 +138,6 @@ ActiveRecord::Schema.define(version: 2020_04_16_111637) do
     t.index ["user_id"], name: "index_watches_on_user_id"
   end
 
+  add_foreign_key "notes", "services"
+  add_foreign_key "notes", "users"
 end

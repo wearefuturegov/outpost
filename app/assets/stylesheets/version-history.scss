@@ -1,17 +1,26 @@
 @import "variables";
 
-.version-history{
+.mini-version-history__action{
+    display: inline-block;
+    font-weight: bold;
     margin-bottom: 25px;
-    h2{
-        padding-bottom: 10px;
-        border-bottom: 3px solid $text;
-        margin-bottom: 15px;
-    }
 }
 
 .stepper{
     list-style: none;
     margin-left: 0px;
+
+    .stepper__link{
+        display: block;
+        text-decoration: none;
+        &:hover{
+            background: $pale;
+        }
+        &:focus{
+            background: inherit;
+            outline:3px solid $focus;
+        }
+    }
 
     .stepper__time{
         font-size: 0.9rem;
@@ -21,16 +30,22 @@
     .stepper__step{
         position: relative;
         margin-bottom: 0px;
-        padding: 10px 0px 10px 40px;
+        padding: 0px 0px 20px 50px;
         // stick
         &:before{
             content: "";
             display: block;
             position: absolute;
-            left: 6.5px;
-            top: 25px;
+            left: 7px;
+            top: 15px;
             border-left: 2px solid $text;
             height: 100%;
+        }
+        &:last-of-type{
+            padding-bottom: 0px;
+            &:before{
+                content: none;
+            }
         }
         // circle
         &:after{
@@ -38,9 +53,9 @@
             display: block;
             position: absolute;
             left: 0px;
-            top: 13px;
-            width: 11px;
-            height: 11px;
+            top: 5px;
+            width: 13px;
+            height: 13px;
             border: 2px solid $text;
             border-radius: 200px;
             background: $white;
@@ -52,10 +67,82 @@
         &:after{
             background: $text;
         }
-        &:before{
-            top: -45px;
-            bottom: inherit;
-            border-left: 2px dashed $white;
+    }
+    .stepper__step--cross{
+        &:after{
+            background: $text;
+            width: 5px;
+            height: 5px;
+            top: 8px;
+            left: 3px;
         }
     }
+    .stepper__step--tick{
+        &:after{
+            background-color: $text;
+            background-image: url(asset_path("tick-white.svg"));
+            background-size: 75%;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+    }
+
+    &.stepper--summarised{
+        .stepper__step:nth-last-child(2):before{
+            border-left: 2px dashed $text;
+        }
+    }
+}
+
+.full-version-history{
+    .stepper{
+        position: sticky;
+        top: 35px;
+    }
+}
+
+.version-panel{
+    margin-bottom: 55px;
+    &:last-of-type{
+        margin-bottom: 0px;
+    }
+    .version-panel__header{
+        margin-bottom: 10px;
+        @media screen and (min-width: $breakpoint-m){
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            *:last-child{
+                margin-right: 0px;
+            }
+        }
+    }
+    .version-panel__body{
+        background: $pale;
+        padding: 35px;
+    }
+    .version-panel__change{
+        margin-bottom: 10px;
+        &:last-child{
+            margin-bottom: 0px;
+        }
+    }
+    .version-panel__time{
+        font-size: 0.9rem;
+        color: $grey;
+    }
+
+    .version-panel__change-key{
+        display: inline-block;
+        font-size: 0.9rem;
+        margin-bottom: 5px;
+    }
+}
+
+.old-version{
+    background: transparentize($error, 0.9);
+    text-decoration: line-through;
+    color: darken($error, 30);
+    line-height: 1;
 }

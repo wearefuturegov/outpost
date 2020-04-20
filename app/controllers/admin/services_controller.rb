@@ -1,11 +1,11 @@
 class Admin::ServicesController < Admin::BaseController
-  before_action :set_service, only: [:show, :update]
+  before_action :set_service, only: [:show, :update, :destroy]
 
   def index
     if params[:query].present?
       @services = Service.search(params[:query]).page(params[:page])
     else
-      @services = Service.newest # default sort
+      @services = Service.kept.newest # default sort
       @services = Service.alphabetical if params[:order] === "asc" && params[:order_by] === "name"
       @services = Service.reverse_alphabetical if params[:order] === "desc" && params[:order_by] === "name"
       @services = Service.oldest if params[:order] === "asc" && params[:order_by] === "updated_at"
@@ -18,29 +18,25 @@ class Admin::ServicesController < Admin::BaseController
   end
 
   def show
+    @notes = @service.notes.all
+    @note = @service.notes.new
+
     @watched = current_user.watches.where(service_id: @service.id).exists?
-    
-    @versions = @service.versions
-    @versions = @versions.last(3).reverse.push(@versions.first) if @versions.length > 3 #summarise if many versions recorded
+    if @service.versions.length > 4
+      @versions = @service.versions.last(3).reverse
+      @versions.push(@service.versions.first)
+    else
+      @versions = @service.versions.reverse
+    end      
+
   end
 
   def update
     if @service.update(service_params)
-      redirect_to admin_services_path
+      redirect_to admin_service_url(@service), notice: "Service has been updated"
     else
       render "show"
     end
-  end
-
-  def watch
-    current_user.watches.create(service_id: params[:id])
-    current_user.save
-    redirect_to admin_service_path
-  end
-
-  def unwatch
-    current_user.watches.find_by(service_id: params[:id]).destroy
-    redirect_to admin_service_path
   end
   
   def new
@@ -50,12 +46,17 @@ class Admin::ServicesController < Admin::BaseController
   def create
     @service = Service.create(service_params)
     if @service.save
-      redirect_to admin_services_path
+      redirect_to admin_service_url(@service), notice: "Service has been created."
     else
       render "new"
     end
   end
 
+  def destroy
+    @service.archive
+    redirect_to admin_service_url(@service)
+  end
+  
   private
 
   def set_service

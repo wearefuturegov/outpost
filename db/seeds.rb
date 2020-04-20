@@ -46,6 +46,7 @@ bucks_csv.each do |row|
       organisation.save
       service.organisation_id = organisation.id
     end
+    service.paper_trail_event = 'import'
     service.save
 
     contact = Contact.new

@@ -1,0 +1,60 @@
+<% content_for :header do %>
+    <h1 class="page-header__title"><%= @organisation.name || Dashboard %></h1>
+<% end %>
+
+<header class="actions">
+    <div>
+    </div>
+    <div>
+        <%= link_to "Edit organisation", edit_organisation_path(@organisation), class: "button button--inline" %>
+        <%= link_to "Add service", new_service_path, class: "button button--small" %>
+    </div>
+</header>
+
+<div class="two-panels">
+  <section class="panel">
+    <h2 class="panel__title">Your services</h2>
+    <% if @organisation.services.present? %>
+      <table class="table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @organisation.services.each do |s| %>
+              <tr>
+                <td><%= link_to s.name, service_path(s) %></td>
+                <td><span class="tag"><%= s.status %></span></td>
+              </tr>
+            <% end %>
+          </tbody>
+      </table>
+    <% else %>
+      <p class="no-results">This organisation has no services.</p>
+    <% end %>
+  </section>
+
+  <section class="panel">
+    <h2 class="panel__title">Users</h2>
+    <% if @organisation.users.present? %>
+      <table class="table">
+          <thead>
+            <tr>
+              <th>Email</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @organisation.users.each do |u| %>
+              <tr>
+                <td><%= u.email %></td>
+              </tr>
+            <% end %>
+          </tbody>
+      </table>
+    <% else %>
+      <p class="no-results">This organisation has no users.</p>
+    <% end %>
+  </section>
+</div>
