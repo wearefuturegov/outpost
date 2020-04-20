@@ -16,19 +16,19 @@ module ApplicationHelper
     def pretty_event(event)
         case event
         when "create"
-            "Record created"
+            "record created"
         when "update"
-            "Updated"
+            "updated"
         when "destroy"
-            "Deleted"        
+            "deleted"        
         when "restore"
-            "Restored"
+            "restored"
         when "archive"
-            "Archived"
+            "archived"
         when "import"
-            "Record imported"
+            "record imported"
         when "approve"
-            "Approved"
+            "approved"
         end
     end
 

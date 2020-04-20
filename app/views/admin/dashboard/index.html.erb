@@ -23,28 +23,11 @@
 <div class="two-panels">
   <section class="panel">
     <h2 class="panel__title">Watched services</h2>
+    <%= render "watch-table" %>
+  </section>
 
-    <% if @watches.present? %>
-      <table class="table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Category</th>
-              <th>Last updated</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% @watches.each do |s| %>
-              <tr>
-                <td><%= link_to s.service.name, admin_service_path(s.service) %></td>
-                <td><span class="category">Example</span></td>
-                <td><%= time_ago_in_words(s.service.updated_at) %> ago</td>
-              </tr>
-            <% end %>
-          </tbody>
-      </table>
-    <% else %>
-      <p class="no-results">You're not watching any services</p>
-    <% end %>
+    <section class="panel">
+    <h2 class="panel__title">Recent activity</h2>
+    <%= render "recent-activity-table" %>
   </section>
 </div>
