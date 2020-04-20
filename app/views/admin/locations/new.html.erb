@@ -1,0 +1,8 @@
+<% content_for :header do %>
+    <%= link_to "Back to locations", admin_locations_path, class: "go-back" %>
+    <h1 class="page-header__title two-thirds">Add a new location</h1>
+<% end %>
+
+<div class="two-thirds">
+    <%= render "form" %>
+</div>

@@ -1,0 +1,44 @@
+<% content_for :header do %>
+    <%= link_to "Back to locations", admin_locations_path, class: "go-back" %>
+    <h1 class="page-header__title two-thirds"><%= @location.display_name %></h1>
+<% end %>
+
+<div class="two-panels">
+
+    <div class="panel">
+        <%= render "form" %>
+    </div>
+
+    <div class="panel">
+
+      <div class="collapsible" id="map-preview">
+        <button class="collapsible__header">
+          <h2>Preview</h2>
+        </button>
+        <div class="collapsible__content">
+          <%= link_to "Show larger map", "https://www.google.com/maps/search/#{@location.latitude},#{@location.longitude}", class: "collapsible__action" %>
+          <%= image_tag "https://maps.googleapis.com/maps/api/staticmap?key=#{ENV['GOOGLE_CLIENT_KEY']}&size=550x350&markers=#{@location.latitude},#{@location.longitude}", alt: ""%>
+        </div>
+      </div>
+
+      <div class="collapsible" id="location-services">
+        <button class="collapsible__header">
+          <h2>
+            Services 
+            <span class="collapsible__header-count">(<%= @location.services.count %>)</span>
+          </h2>
+        </button>
+        <div class="collapsible__content">
+        <% if @location.services.present? %>
+          <% @location.services.each do |s| %>
+            <p><%= link_to s.name, admin_service_url(s) %></p>
+          <% end %>
+        <% else %>
+          <p>No services attached to this location</p>
+        <% end %>
+
+        </div>
+      </div>
+
+    </div>
+</div>

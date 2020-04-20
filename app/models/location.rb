@@ -3,7 +3,21 @@ class Location < ApplicationRecord
   has_many :services, through: :service_at_locations
 
   geocoded_by :postal_code
-  after_validation :geocode, if: :should_geocode?
+  after_validation :geocode
+
+  validates_presence_of :postal_code
+
+  paginates_per 20
+
+  def display_name
+    if name.present?
+      name
+    elsif address_1.present?
+      address_1
+    else
+      "Unnamed location #{id}"
+    end
+  end
 
   private
 

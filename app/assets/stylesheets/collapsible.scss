@@ -39,4 +39,12 @@
     .collapsible__header-count{
         font-weight: normal;
     }
+    .collapsible__content{
+        max-width: 100%;
+    }
+    .collapsible__action{
+        display: inline-block;
+        font-weight: bold;
+        margin-bottom: 25px;
+    }
 }

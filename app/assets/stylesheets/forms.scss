@@ -53,6 +53,9 @@
         @media screen and (min-width: $breakpoint-m) {
             font-size: 1.1rem;
         }
+        &:disabled{
+            background: transparentize($grey, 0.9);
+        }
     }
     select.field__input{
         appearance: none;
