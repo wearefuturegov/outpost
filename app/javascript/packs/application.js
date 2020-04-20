@@ -15,12 +15,3 @@ require("channels")
 //
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
-
-import tabs from "./tabs"
-import collapsible from "./collapsible"
-import maps from "./maps"
-
-import Choices from "choices.js"
-import "choices.js/public/assets/styles/choices.min.css"
-
-const choices = new Choices(document.querySelector(".enhanced-select"))
