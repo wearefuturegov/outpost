@@ -8,13 +8,11 @@
 
 require 'csv'
 
-csv_file = File.open('lib/seeds/bucksfis.csv', "r:ISO-8859-1")
+csv_file = File.open('lib/seeds/bucksfis geo.csv', "r:ISO-8859-1")
 bucks_csv = CSV.parse(csv_file, headers: true)
 
 services_with_org = 0
 services_without_org = 0
-
-bucks_csv = bucks_csv.first(100) # limit for dev purposes
 
 bucks_csv.each do |row|
 

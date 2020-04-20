@@ -3,15 +3,16 @@ class Location < ApplicationRecord
   has_many :services, through: :service_at_locations
 
   geocoded_by :postal_code
-  #after_validation :geocode, if: :postcode_changed_or_lat_long_blank
+  after_validation :geocode, if: :should_geocode?
 
   private
 
-  def postcode_changed_or_lat_long_blank
-    (postal_code_changed? || latitude.blank? || longitude.blank?) && not_test
+  def should_geocode?
+    postcode_changed_or_lat_long_blank && Rails.env.production?
   end
 
-  def not_test
-    !Rails.env.test?
+  def postcode_changed_or_lat_long_blank
+    postal_code_changed? || latitude.blank? || longitude.blank?
   end
+
 end
