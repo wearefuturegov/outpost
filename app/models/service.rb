@@ -11,8 +11,10 @@ class Service < ApplicationRecord
   # watch functionality
   has_many :watches
   has_many :users, through: :watches
-  
+
   has_many :notes
+
+  after_save :update_service_at_locations
 
   # sort scopes
   scope :oldest, ->  { order("updated_at ASC") }
@@ -80,6 +82,12 @@ class Service < ApplicationRecord
     self.approved = true
     self.save
     self.paper_trail.save_with_version
+  end
+
+  def update_service_at_locations
+    self.service_at_locations.each do |service_at_location|
+      service_at_location.update_service_fields
+    end
   end
 
 end

@@ -3,7 +3,8 @@ class Location < ApplicationRecord
   has_many :services, through: :service_at_locations
 
   geocoded_by :postal_code
-  after_validation :geocode
+  after_validation :geocode, if: :should_geocode?
+  after_save :update_service_at_locations
 
   validates_presence_of :postal_code
 

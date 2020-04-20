@@ -2,7 +2,6 @@ require 'rails_helper'
 
 describe "get all services", type: :request do
   let!(:organisations) { FactoryBot.create_list(:organisation_with_services, 5) }
-  #let!(:services) {FactoryBot.create_list(:service, 20, organisation: organisations.first)}
 
   before { get '/api/v1/services' }
 
@@ -26,6 +25,7 @@ describe "get all services", type: :request do
   end
 
   it 'returns correct service data for services' do
+    byebug
     service_at_location = ServiceAtLocation.first
     response_service = JSON.parse(response.body)["content"].first
     expect(response_service["id"]).to eq(service_at_location.service_id)
