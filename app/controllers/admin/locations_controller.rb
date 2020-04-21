@@ -4,6 +4,8 @@ class Admin::LocationsController < Admin::BaseController
     def index
         @locations = Location.page(params[:page])
         @locations = @locations.search(params[:query]) if params[:query].present?
+        @locations = @locations.only_with_services if params[:filter_services] === "with"
+        @locations = @locations.only_without_services if params[:filter_services] === "without"
     end
 
     def show

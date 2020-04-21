@@ -4,8 +4,13 @@
 <% end %>
 
 <header class="actions">
-  <%= render "shared/mini-search", path: admin_locations_path %>
+  <div class="actions__group">
+    <%= render "shared/mini-search", path: admin_locations_path %>
+    <%= render "filters" %>
+  </div>
+  <div class="actions__group">
     <%= link_to "Add location", new_admin_location_path, class: "button button--small" %>
+  </div>
 </header>
 
 <% if @locations.present? %>

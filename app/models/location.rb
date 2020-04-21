@@ -10,6 +10,10 @@ class Location < ApplicationRecord
 
   paginates_per 20
 
+  # filter scopes
+  scope :only_with_services, ->  { joins(:services) }
+  scope :only_without_services, ->  { left_joins(:services).where(services: {id: nil}) }
+
   include PgSearch::Model
   pg_search_scope :search, 
     against: [:name, :address_1, :city, :postal_code, :state_province], 

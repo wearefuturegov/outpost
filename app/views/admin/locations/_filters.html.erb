@@ -1,0 +1,15 @@
+<div class="filters">
+    <button class="button button--inline filters__control" aria-expanded="false">Filters</button>
+
+    <div class="filters__body" hidden>
+        <%= form_for admin_locations_url, method: "get", html: {class: "filters__form"} do |f| %>
+
+            <%= label_tag "filter_services", nil, class: "visually-hidden" %>
+            <%= select_tag "filter_services", options_for_select([
+                ["Only with services", "with"],
+                ["Only without services", "without"],
+            ], params[:filter_services]), include_blank: "All", class: "filters__select" %>
+
+        <% end %>
+    </div>
+</div>
