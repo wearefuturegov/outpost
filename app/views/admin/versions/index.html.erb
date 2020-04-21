@@ -13,7 +13,7 @@
                 <li class="stepper__step <%= stepper_class(v.event) %>">
                     <a href="#<%= v.id %>" class="stepper__link">
                       <p class="stepper__title">
-                        <%= pretty_event(v.event).humanize %>
+                        <%= pretty_event(v.event)&.humanize %>
                         <% if v.whodunnit.present? %>
                           by <strong><%= User.find(v.whodunnit).email %></strong>
                         <% end %>
@@ -34,7 +34,7 @@
                       <div>
                         <p class="version-panel__time"><%= v.created_at.strftime('%d %b, %H:%M') %></p>
                         <p>
-                          <%= pretty_event(v.event).humanize %>
+                          <%= pretty_event(v.event)&.humanize %>
                           <% if v.whodunnit.present? %>
                             by <strong><%= User.find(v.whodunnit).email %></strong>
                           <% end %>

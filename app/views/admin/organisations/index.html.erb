@@ -22,7 +22,7 @@
           <tr>
             <td><%= link_to o.display_name, admin_organisation_path(o) %></td>
             <td><%= o.services.length %></td>
-            <td></td>
+            <td><%= o.users.length %></td>
           </tr>
         <% end %>
       </tbody>

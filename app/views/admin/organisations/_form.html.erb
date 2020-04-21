@@ -1,27 +1,18 @@
 <%= form_for [:admin, @organisation], html: {class: "two-thirds"} do |s| %>
 
-  <% if @organisation.errors.full_messages.any? %>
-    <div class="error">
-      <h2 class="error__title">Errors stopped this organisation being saved:</h2>
-      <ul class="error__list">
-        <% @organisation.errors.full_messages.each do |e| %>
-          <li><%= e %></li>
-        <% end %>
-      </ul>
+  <%= render "shared/errors", model: @organisation %>
+
+  <div class="field-section">
+    <div class="field">
+      <%= s.label :name, class: "field__label" %>
+      <%= s.text_field :name, value: @organisation.name, class: "field__input" %>
     </div>
+  </div>
+
+  <% if params[:id] %>
+    <%= s.submit "Update", class: "button" %>
+  <% else %>
+    <%= s.submit "Create", class: "button" %>
   <% end %>
-
-    <div class="field-section">
-      <div class="field">
-        <%= s.label :name, class: "field__label" %>
-        <%= s.text_field :name, value: @organisation.name, class: "field__input" %>
-      </div>
-    </div>
-
-    <% if params[:id] %>
-      <%= s.submit "Update", class: "button" %>
-    <% else %>
-      <%= s.submit "Create", class: "button" %>
-    <% end %>
 
 <% end %>

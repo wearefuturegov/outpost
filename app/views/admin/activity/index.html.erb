@@ -7,7 +7,7 @@
     <table class="table">
       <thead>
         <tr>
-            <th>Event</th>
+            <th class="visually-hidden">Event</th>
             <th>To</th>
             <th>By</th>
             <th>At</th>
@@ -16,16 +16,16 @@
       <tbody>
         <% @activities.each do |a| %>
           <tr>
-            <td><%= pretty_event(a.event) %></td>
+            <td><%= a.event.humanize %></td>
             <td>
                 <% if a.item %>
-                    <%= link_to a.item.name, admin_service_url(a.item) %>
+                    <strong><%= link_to a.item.name, admin_service_url(a.item) %></strong>
                 <% else %>
                     Deleted service
                 <% end %>
             </td>
             <td><%= User.find(a.whodunnit).email if a.whodunnit %></td>
-            <td><%= time_ago_in_words(a.created_at) %> ago</td>
+            <td><%= time_ago_in_words(a.created_at).humanize %> ago</td>
             <td></td>
 
           </tr>

@@ -21,7 +21,7 @@ Rails.application.routes.draw do
         resources :requests, only: [:index, :update]
       end
     end
-    resources :organisations
+    resources :organisations, except: :edit
     resources :locations, except: :edit
     resources :taxonomies, except: [:new, :edit]
     resources :activity, only: [:index]

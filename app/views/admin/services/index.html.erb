@@ -34,7 +34,9 @@
       <tbody>
         <% @services.each do |s| %>
           <tr>
-            <td><%= link_to s.display_name.truncate(25), admin_service_path(s) %></td>
+            <td>
+              <strong><%= link_to s.display_name.truncate(25), admin_service_path(s) %><strong>
+            </td>
             <td>
               <% s.taxonomies.each do |t| %>
                 <span class="category"><%= t.name %></span>

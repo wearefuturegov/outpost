@@ -16,9 +16,6 @@
     td{
         padding: 15px 10px;
         white-space: break-word;
-        &:first-of-type{
-            font-weight: bold;
-        }
     }
     tbody tr:nth-of-type(odd){
         background: $pale;
@@ -130,5 +127,28 @@
         &:focus{
             outline: 3px solid $focus;
         }
+    }
+}
+
+.admin-tag{
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    color: $grey;
+    font-weight: bold;
+    // font-size: 0.8rem;
+    // padding: 5px 7px;
+    // background-color: transparentize($grey, 0.9);
+    // border-radius: 5px;
+    &:before{
+        content: "";
+        // border: 1px solid red;
+        display: block;
+        width: 13px;
+        height: 15px;
+        background-image: url(asset_path("admin.svg"));
+        background-size: contain;
+        background-repeat: no-repeat;
+        margin-right: 10px;
     }
 }

@@ -7,52 +7,56 @@
     </div>
 <% end %>
 
-<header class="actions">
-    <%= link_to "Edit", edit_admin_organisation_path(@organisation), class: "button button--small" %>
-</header>
-
 <div class="two-panels">
-  <section class="panel">
-    <h2 class="panel__title">Services</h2>
-    <% if @organisation.services.present? %>
-      <table class="table">
-          <thead>
-            <tr>
-              <th>Name</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% @organisation.services.each do |s| %>
-              <tr>
-                <td><%= link_to s.name, admin_service_path(s) %></td>
-              </tr>
-            <% end %>
-          </tbody>
-      </table>
-    <% else %>
-      <p class="no-results">This organisation has no services.</p>
-    <% end %>
-  </section>
+  <div class="panel">
+    <%= render "form" %>
+  </div>
 
-  <section class="panel">
-    <h2 class="panel__title">Users</h2>
-    <% if @organisation.users.present? %>
-      <table class="table">
-          <thead>
-            <tr>
-              <th>Email</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% @organisation.users.each do |u| %>
-              <tr>
-                <td><%= u.email %></td>
-              </tr>
-            <% end %>
-          </tbody>
-      </table>
-    <% else %>
-      <p class="no-results">This organisation has no users.</p>
-    <% end %>
-  </section>
+  <div class="panel">
+
+      <div class="collapsible" id="organisation-services-list">
+        <button class="collapsible__header">
+          <h2>
+            Services
+            <span class="collapsible__header-count">(<%= @organisation.services.count %>)</span>
+          </h2>
+        </button>
+        <div class="collapsible__content">
+          <% if @organisation.services.present? %>  
+            <ul class="big-list">
+              <% @organisation.services.each do |s| %>
+                <li class="big-list__item">
+                  <%= link_to s.name, admin_service_path(s) %>
+                </li>
+              <% end %>
+            </ul>
+          <% else %>
+            <p class="no-results">This organisation has no services.</p>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="collapsible" id="organisation-users-list">
+        <button class="collapsible__header">
+          <h2>
+            Users
+            <span class="collapsible__header-count">(<%= @organisation.users.count %>)</span>
+          </h2>
+        </button>
+        <div class="collapsible__content">
+          <% if @organisation.users.present? %>
+            <ul class="big-list">
+              <% @organisation.users.each do |u| %>
+                <li class="big-list__item">
+                  <%= u.email %>
+                </li>
+              <% end %>
+            </ul>
+          <% else %>
+            <p class="no-results">This organisation has no users.</p>
+          <% end %>
+        </div>
+      </div>
+
+  </div>
 </div>

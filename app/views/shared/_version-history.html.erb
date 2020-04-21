@@ -12,7 +12,7 @@
           <% @versions.each do |v| %>
               <li class="stepper__step <%= stepper_class(v.event) %>">
                   <p>
-                    <%= pretty_event(v.event).humanize %>
+                    <%= pretty_event(v.event)&.humanize %>
                     <% if v.whodunnit.present? %>
                       by <strong><%= User.find(v.whodunnit).email %></strong>
                     <% end %>

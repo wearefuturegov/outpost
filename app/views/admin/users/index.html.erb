@@ -11,17 +11,25 @@
     <thead>
       <tr>
         <th>Email</th>
-        <th>Parent organisation</th>
-        <th>Admin?</th>
+        <th>Role</th>
+        <th>Organisation</th>
         <th>Joined</th>
       </tr>
     </thead>
     <tbody>
       <% @users.each do |u| %>
         <tr>
-          <td><%= u.email %></td>
+          <td>
+            <%= u.email %>
+          </td>
+          <td>
+            <% if u.admin %>
+              <span class="admin-tag">Admin</span>
+            <% else %>
+              Community
+            <% end %>
+          </td>
           <td><%= link_to u.organisation.name, admin_organisation_path(u.organisation) if u.organisation %></td>
-          <td><%= u.admin %></td>
           <td><%= time_ago_in_words(u.created_at).humanize %> ago</td>
         </tr>
       <% end %>
