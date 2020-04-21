@@ -10,6 +10,13 @@ class Location < ApplicationRecord
 
   paginates_per 20
 
+  include PgSearch::Model
+  pg_search_scope :search, 
+    against: [:name, :address_1, :city, :postal_code, :state_province], 
+    using: {
+      tsearch: { prefix: true }
+    }
+
   def display_name
     if name.present?
       name

@@ -3,6 +3,7 @@ class Admin::LocationsController < Admin::BaseController
 
     def index
         @locations = Location.page(params[:page])
+        @locations = @locations.search(params[:query]) if params[:query].present?
     end
 
     def show
