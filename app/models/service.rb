@@ -77,11 +77,6 @@ class Service < ApplicationRecord
     self.paper_trail.save_with_version
   end
 
-  def request
-    self.approved = false
-    self.save
-  end
-
   def approve
     self.paper_trail_event = 'approve'
     self.approved = true

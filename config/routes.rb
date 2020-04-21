@@ -8,7 +8,7 @@ Rails.application.routes.draw do
       get "start"
     end
   end
-  resources :services, only: [:new, :create, :show]
+  resources :services, only: [:new, :create, :show, :update]
   
   namespace :admin do
     root "dashboard#index"
