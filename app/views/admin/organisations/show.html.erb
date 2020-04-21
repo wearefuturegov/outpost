@@ -48,7 +48,7 @@
             <ul class="big-list">
               <% @organisation.users.each do |u| %>
                 <li class="big-list__item">
-                  <%= u.email %>
+                  <%= link_to u.email, admin_user_path(u) %>
                 </li>
               <% end %>
             </ul>

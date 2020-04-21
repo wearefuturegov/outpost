@@ -2,7 +2,14 @@ class Admin::OrganisationsController < Admin::BaseController
   before_action :set_organisation, only: [:show, :edit, :update]
 
   def index
-    @organisations = Organisation.includes(:services).page(params[:page]).order("updated_at ASC")
+
+    @organisations = Organisation.page(params[:page]).includes(:services).page(params[:page])
+
+    @organisations = @organisations.only_with_services if params[:filter_services] === "with"
+    @organisations = @organisations.only_with_users if params[:filter_users] === "with"
+    @organisations = @organisations.only_without_services if params[:filter_services] === "without"
+    @organisations = @organisations.only_without_users if params[:filter_users] === "without"
+
     @organisations = @organisations.search(params[:query]) if params[:query].present?
   end
 

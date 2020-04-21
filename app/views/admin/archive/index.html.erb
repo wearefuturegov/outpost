@@ -27,7 +27,7 @@
               <% end %>
             </td>
             <td><%= link_to(short_url(s.url), s.url, target: "blank") if s.url.present? %></td>
-            <td><%= time_ago_in_words(s.updated_at) %> ago</td>
+            <td><%= time_ago_in_words(s.updated_at).humanize %> ago</td>
             <td><span class="tag"><%= s.status %></span></td>
             <td><%= link_to "Restore", admin_archive_path(s), method: "patch", data: {confirm: "Are you sure? The service will be visible to users again."} %></td>
           </tr>

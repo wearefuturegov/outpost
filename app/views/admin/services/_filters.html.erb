@@ -1,0 +1,18 @@
+<div class="filters">
+    <button class="button button--inline filters__control" aria-expanded="false">Filters</button>
+
+    <div class="filters__body" hidden>
+        <%= form_for admin_services_url, method: "get", html: {class: "filters__form"} do |f| %>
+
+            <%= label_tag "filter_taxonomy", nil, class: "visually-hidden" %>
+            <%= collection_select nil, :filter_taxonomy, 
+            Taxonomy.all, 
+            :id, :name, {
+                include_blank: "All categories",
+                selected: params[:filter_taxonomy]
+            }, class: "filters__select" %>
+
+
+        <% end %>
+    </div>
+</div>

@@ -21,7 +21,7 @@
       <% @users.each do |u| %>
         <tr>
           <td>
-            <%= u.email %>
+            <strong><%= link_to u.email, admin_user_url(u) %></strong>
           </td>
           <td>
             <% if u.admin %>

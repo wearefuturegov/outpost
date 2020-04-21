@@ -3,4 +3,8 @@
     <h1 class="page-header__title two-thirds">Invite a new user</h1>
 <% end %>
 
-<%= render "form" %>
+<%= form_for [:admin, @user], html: {class: "two-thirds"} do |f| %>
+    <%= render "shared/errors", model: @user %>
+    <%= render "fields", f: f %>
+    <%= f.submit "Send invite", class: "button" %>
+<% end %>

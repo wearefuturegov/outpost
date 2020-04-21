@@ -1,0 +1,62 @@
+<% content_for :header do %>
+    <% if @user.admin? %>
+      <div class="alert alert--yellow">
+        <p>This user is an administrator.</p>
+      </div>
+    <% end %>
+
+    <%= link_to "Back to users", admin_users_path, class: "go-back" %>
+    <div class="page-header__actions">
+      <h1 class="page-header__title two-thirds"><%= @user.email %></h1>
+    </div>
+<% end %>
+
+<div class="two-panels">
+
+    <div class="panel">
+        <%= form_for [:admin, @user], html: {class: "two-thirds"} do |f| %>
+            <%= render "shared/errors", model: @user %>
+            <%= render "fields", f: f %>
+            <%= f.submit "Update", class: "button" %>
+        <% end %>
+    </div>
+
+    <div class="panel">
+      <div class="collapsible" id="user-activity-viewer">
+          <button class="collapsible__header">
+            <h2>Recent activity</h2>
+          </button>
+          <div class="collapsible__content">
+            <%= link_to "See all activity", admin_activity_index_url, class: "collapsible__action" %>
+          
+            <% if @activities.present? %>
+              <table class="table">
+                <% @activities.each do |a| %>
+                  <tr>
+                    <td><%= pretty_event(a.event).humanize %> <%= link_to a.item.name, admin_service_url(a.item) if a.item %></td>
+                    <td><%= time_ago_in_words(a.created_at).humanize %> ago</td>
+                  </tr>
+                <% end %>
+              </table>
+            <% else %>
+              <p>This user has no activity.</p>
+            <% end %>
+          </div>
+      </div>
+
+      <div class="collapsible" id="user-activity-viewer">
+          <button class="collapsible__header">
+            <h2>Organisation</h2>
+          </button>
+
+          <div class="collapsible__content">
+              <% if @user.organisation %>
+                  <p>This user is a member of <strong><%= link_to @user.organisation.name, admin_organisation_path(@user.organisation) %></strong></p>
+              <% else %>
+                  <p>This user doesn't belong to an organisation</p>
+              <% end %>
+          </div>
+      </div>
+    </div>
+
+</div>

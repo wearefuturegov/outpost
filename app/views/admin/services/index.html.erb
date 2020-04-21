@@ -4,11 +4,11 @@
 <% end %>
 
 <header class="actions">
-  <div>
+  <div class="actions__group">
     <%= render "shared/mini-search", path: admin_services_path %>
-    <button class="button button--inline">Filter</button>
+    <%= render "filters" %>
   </div>
-  <div>
+  <div class="actions__group">
     <a href="/admin/services.csv" class="button button--inline">Export</a>
     <%= link_to "Add service", new_admin_service_path, class: "button button--small" %>
   </div>

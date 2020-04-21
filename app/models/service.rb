@@ -24,6 +24,9 @@ class Service < ApplicationRecord
   scope :alphabetical, ->  { order("name ASC") }
   scope :reverse_alphabetical, ->  { order("name DESC") }
 
+  # filter scopes
+  scope :in_taxonomy, -> (id) { joins(:taxonomies).where("taxonomies.id in (?)", id)}
+
   paginates_per 20
   validates_presence_of :name
 

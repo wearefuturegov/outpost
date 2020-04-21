@@ -25,7 +25,7 @@ Rails.application.routes.draw do
     resources :locations, except: :edit
     resources :taxonomies, except: [:new, :edit]
     resources :activity, only: [:index]
-    resources :users, except: [:edit, :show]
+    resources :users, except: [:edit]
   end
 
   namespace :api do

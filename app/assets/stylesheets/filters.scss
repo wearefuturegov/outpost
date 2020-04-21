@@ -1,0 +1,65 @@
+@import "variables";
+
+.filters{
+
+    position: relative;
+    width: 100%;
+    margin-bottom: 25px;
+    @media screen and (min-width: $breakpoint-m){
+        margin-bottom: 0px;
+        width: inherit;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        margin-right: 15px;
+    }
+
+    .filters__control[aria-expanded=true]{
+        background: $pale;
+    }
+
+    .filters__body{
+        display: inline-block;
+        width: 100%;
+        position: absolute;
+        left: 0px;
+        top: 90%;
+        background: $white;
+        border: 1px solid $card-shadow;
+        padding: 10px;
+        &[hidden]{
+            display: none;
+        }
+        @media screen and (min-width: $breakpoint-m){
+            width: inherit;
+        }
+    }
+
+    .filters__form{
+        display: flex;
+        flex-direction: row;
+    }
+
+    .filters__select{
+        padding: 7px;
+        height: 42px;
+        font-size: 1rem;
+        border: 2px solid $text;
+        margin-right: 10px;
+        min-width: 0px;
+        flex: 1;
+        appearance: none;
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        background-image: url(asset_path("select-down.svg"));
+        background-position: center right;
+        background-repeat: no-repeat;
+        padding-right: 45px;
+        &:last-child{
+            margin-right: 0px;
+        }
+        &:focus{
+            outline: 3px solid $focus;
+        }
+    }
+}

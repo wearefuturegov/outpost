@@ -10,6 +10,8 @@ class Admin::ServicesController < Admin::BaseController
       @services = Service.reverse_alphabetical if params[:order] === "desc" && params[:order_by] === "name"
       @services = Service.oldest if params[:order] === "asc" && params[:order_by] === "updated_at"
       @services = @services.page(params[:page])
+
+      @services = @services.in_taxonomy(params[:filter_taxonomy]) if params[:filter_taxonomy].present?
     end
     respond_to do |format|
       format.html
