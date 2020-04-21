@@ -4,4 +4,17 @@
       <%= f.label :email, class: "field__label" %>
       <%= f.email_field :email, class: "field__input" %>
     </div>
+
+    <div class="field">
+      <%= f.label :organisation_id, "Parent organisation", class: "field__label" %>
+      <%= f.collection_select( :organisation_id, Organisation.all, :id, :display_name, {include_blank: "None"}, class: "field__input")%>
+    </div>
+
+  </div>
+
+  <div class="field-section">
+    <div class="field checkbox">
+      <%= f.check_box :admin, class: "checkbox__input" %>
+      <%= f.label :admin, "Make user an administrator", class: "checkbox__label" %>
+    </div>
   </div>

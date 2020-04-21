@@ -6,7 +6,11 @@
 <div class="two-panels">
 
     <div class="panel">
-        <%= render "form" %>
+      <%= form_for [:admin, @location] do |f| %>
+          <%= render "shared/errors", model: @location %>
+          <%= render "fields", f: f %>
+          <%= f.submit "Update", class: "button" %>
+      <% end %>
     </div>
 
     <div class="panel">

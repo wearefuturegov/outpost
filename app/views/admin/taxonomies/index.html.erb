@@ -42,7 +42,18 @@
     </div>
 
     <aside class="with-sidebar__sidebar">
-        <%= render "form" %>
+        <%= form_for [:admin, @taxonomy] do |s| %>
+
+        <%= render "shared/errors", model: @taxonomy %>
+
+        <div class="field-section">
+            <h2 class="field-section__legend">Add a new category</h2>
+            <%= render "fields", s: s %>
+
+            <%= s.submit "Create", class: "button button--small" %>
+        </div>
+
+        <% end %>
     </aside>
 </div>
 

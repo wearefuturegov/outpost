@@ -65,19 +65,20 @@
         </div>
       </div>
 
-      <% if params[:id] %>
-        <%= s.submit "Update", class: "button" %>
-      <% else %>
-        <%= s.submit "Create", class: "button" %>
-      <% end %>
+      <div class="form-actions">
+        <% if params[:id] %>
+          <%= s.submit "Update", class: "button" %>
+          <% unless @service.discarded? %>
+            <%= link_to "Archive", admin_service_path(@service), method: "delete", class: "button button--danger", data: {confirm: "Are you sure?" } %>
+          <% end %>
+        <% else %>
+          <%= s.submit "Create", class: "button" %>
+        <% end %>
+      </div>
+
 
     <% end %>
 
-    <% if params[:id] %>
-      <% unless @service.discarded? %>
-        <%= link_to "Archive", admin_service_path(@service), method: "delete", class: "button button--danger", data: {confirm: "Are you sure?" } %>
-      <% end %>
-    <% end %>
 
   </div>
 

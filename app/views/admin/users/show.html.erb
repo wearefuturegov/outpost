@@ -17,7 +17,7 @@
         <%= form_for [:admin, @user] do |f| %>
             <%= render "shared/errors", model: @user %>
             <%= render "fields", f: f %>
-            <%= f.submit "Update", class: "button" %>
+            <%= f.submit "Update", class: "button", data: {confirm: "Only edit other users' details or roles if you're sure you know what you're doing. Do you want to continue?"} %>
         <% end %>
     </div>
 
@@ -41,20 +41,6 @@
             <% else %>
               <p>This user has no activity.</p>
             <% end %>
-          </div>
-      </div>
-
-      <div class="collapsible" id="user-activity-viewer">
-          <button class="collapsible__header">
-            <h2>Organisation</h2>
-          </button>
-
-          <div class="collapsible__content">
-              <% if @user.organisation %>
-                  <p>This user is a member of <strong><%= link_to @user.organisation.name, admin_organisation_path(@user.organisation) %></strong></p>
-              <% else %>
-                  <p>This user doesn't belong to an organisation</p>
-              <% end %>
           </div>
       </div>
     </div>

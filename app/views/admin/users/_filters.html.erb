@@ -8,7 +8,7 @@
             <%= select_tag "filter_users", options_for_select([
                 ["Only administrators", "admins"],
                 ["Only community users", "community"],
-            ], params[:filter_users]), include_blank: "All", class: "filters__select" %>
+            ], params[:filter_users]), include_blank: "All roles", class: "filters__select" %>
 
         <% end %>
     </div>

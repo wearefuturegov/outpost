@@ -4,5 +4,53 @@
 <% end %>
 
 <div class="two-thirds">
-    <%= render "form" %>
+
+
+<%= form_for [:admin, @location] do |f| %>
+
+    <%= render "shared/errors", model: @location %>
+
+    <div class="field">
+        <%= f.label :name, class: "field__label" %>
+        <%= f.text_field :name, class: "field__input" %>
+    </div>
+
+    <div class="field">
+        <%= f.label :address_1, "Street address", class: "field__label" %>
+        <%= f.text_field :address_1, class: "field__input" %>
+    </div>
+
+    <div class="field">
+        <%= f.label :city, "Town or area", class: "field__label" %>
+        <%= f.text_field :city, class: "field__input" %>
+    </div>
+
+    <div class="field">
+        <%= f.label :state_province, "County", class: "field__label" %>
+        <%= f.text_field :state_province, class: "field__input" %>
+    </div>
+
+    <div class="field one-half">
+        <%= f.label :postal_code, "Postcode", class: "field__label" %>
+        <p class="field__hint">Coordinates are automatically calculated from postcode</p>
+        <%= f.text_field :postal_code, class: "field__input" %>
+    </div>
+
+    <%= f.hidden_field :country, value: "GB" %>
+
+    <div class="field-section field-section--two-cols">
+        <div class="field">
+            <%= f.label :latitude, class: "field__label" %>
+            <%= f.text_field :latitude, class: "field__input", disabled: true %>
+        </div>
+        <div class="field">   
+            <%= f.label :longitude, class: "field__label" %>
+            <%= f.text_field :longitude, class: "field__input", disabled: true %>
+        </div>
+    </div>
+
+    <%= f.submit "Create", class: "button" %>
+    
+<% end %>
+
 </div>

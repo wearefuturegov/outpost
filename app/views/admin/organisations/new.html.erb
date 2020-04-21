@@ -7,4 +7,10 @@
     </div>
 <% end %>
 
-<%= render "form" %>
+<%= form_for [:admin, @organisation], html: {class: "two-thirds"} do |f| %>
+  <%= render "shared/errors", model: @organisation %>
+  <div class="field-section">
+    <%= render "fields", f: f %>
+  </div>
+  <%= f.submit "Create", class: "button" %>
+<% end %>

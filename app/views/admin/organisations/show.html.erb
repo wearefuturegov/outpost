@@ -9,7 +9,15 @@
 
 <div class="two-panels">
   <div class="panel">
-    <%= render "form" %>
+    <%= form_for [:admin, @organisation] do |f| %>
+      <%= render "shared/errors", model: @organisation %>
+      <div class="field-section">
+        <%= render "fields", f: f %>
+      </div>
+      <div class="form-actions">
+        <%= f.submit "Update", class: "button" %>
+      </div>
+    <% end %>
   </div>
 
   <div class="panel">
