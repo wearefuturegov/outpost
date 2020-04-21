@@ -1,6 +1,9 @@
 class Admin::UsersController < Admin::BaseController
     def index
       @users = User.all
+      
+      @users = @users.community if params[:filter_users] === "community"
+      @users = @users.admins if params[:filter_users] === "admins"
       @users = @users.search(params[:query]) if params[:query].present?
     end
 

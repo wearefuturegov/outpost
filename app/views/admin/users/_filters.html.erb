@@ -1,0 +1,15 @@
+<div class="filters">
+    <button class="button button--inline filters__control" aria-expanded="false">Filters</button>
+
+    <div class="filters__body" hidden>
+        <%= form_for admin_users_url, method: "get", html: {class: "filters__form"} do |f| %>
+
+            <%= label_tag "filter_users", nil, class: "visually-hidden" %>
+            <%= select_tag "filter_users", options_for_select([
+                ["Only administrators", "admins"],
+                ["Only community users", "community"],
+            ], params[:filter_users]), include_blank: "All", class: "filters__select" %>
+
+        <% end %>
+    </div>
+</div>

@@ -3,8 +3,13 @@
 <% end %>
 
 <header class="actions">
-  <%= render "shared/mini-search", path: admin_users_path %>
-  <%= link_to "Invite user", new_admin_user_path, class: "button button--small" %>
+  <div class="actions__group">
+    <%= render "shared/mini-search", path: admin_users_path %>
+    <%= render "filters" %>
+  </div>
+  <div class="actions__group">
+    <%= link_to "Invite user", new_admin_user_path, class: "button button--small" %>
+  </div>
 </header>
 
 <div class="table-holder">

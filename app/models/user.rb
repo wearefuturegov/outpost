@@ -14,7 +14,11 @@ class User < ApplicationRecord
       tsearch: { prefix: true }
     }
 
-  # Include default devise modules. Others available are:
+    # filter scopes
+    scope :admins, ->  { where(admin: true) }
+    scope :community, ->  { where("admin is false or admin is null") }
+
+    # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable

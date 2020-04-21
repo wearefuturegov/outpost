@@ -14,7 +14,7 @@
 <div class="two-panels">
 
     <div class="panel">
-        <%= form_for [:admin, @user], html: {class: "two-thirds"} do |f| %>
+        <%= form_for [:admin, @user] do |f| %>
             <%= render "shared/errors", model: @user %>
             <%= render "fields", f: f %>
             <%= f.submit "Update", class: "button" %>
