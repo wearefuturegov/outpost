@@ -14,7 +14,9 @@ class Admin::UsersController < Admin::BaseController
 
     def create
       @user = User.create(user_params)
+      @user.password = SecureRandom.urlsafe_base64
       if @user.save
+        UserMailer.with(user: @user).invite_email.deliver_later
         redirect_to admin_users_path
       else
         render "new"
@@ -42,7 +44,8 @@ class Admin::UsersController < Admin::BaseController
     def user_params
       params.require(:user).permit(
         :email,
-        :admin
+        :admin,
+        :organisation_id
       )
     end
 end

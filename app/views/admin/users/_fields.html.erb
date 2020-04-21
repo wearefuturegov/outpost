@@ -9,7 +9,6 @@
       <%= f.label :organisation_id, "Parent organisation", class: "field__label" %>
       <%= f.collection_select( :organisation_id, Organisation.all, :id, :display_name, {include_blank: "None"}, class: "field__input")%>
     </div>
-
   </div>
 
   <div class="field-section">
