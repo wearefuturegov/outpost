@@ -25,8 +25,7 @@ describe "get all services", type: :request do
   end
 
   it 'returns correct service data for services' do
-    byebug
-    service_at_location = ServiceAtLocation.first
+    service_at_location = ServiceAtLocation.order(:service_name).first
     response_service = JSON.parse(response.body)["content"].first
     expect(response_service["id"]).to eq(service_at_location.service_id)
     expect(response_service["name"]).to eq(service_at_location.service_name)
@@ -36,7 +35,7 @@ describe "get all services", type: :request do
   end
 
   it 'returns correct organisation data for services' do
-    service_at_location = ServiceAtLocation.first
+    service_at_location = ServiceAtLocation.order(:service_name).first
     organisation = service_at_location.organisation
     response_organisation = JSON.parse(response.body)["content"].first["organisation"]
     expect(response_organisation["id"]).to eq(organisation.id)
