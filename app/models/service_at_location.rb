@@ -6,6 +6,13 @@ class ServiceAtLocation < ApplicationRecord
   has_one :organisation, through: :service
   paginates_per 20
 
+  after_create :set_fields
+
+  def set_fields
+    update_service_fields
+    update_location_fields
+  end
+
   def update_service_fields
     self.service_name = service.name
     self.service_description = service.description

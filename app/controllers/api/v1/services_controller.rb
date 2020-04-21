@@ -5,7 +5,7 @@ class API::V1::ServicesController < ApplicationController
     if params[:coverage].present?
       @services = ServiceAtLocation.near(params[:coverage]).page(params[:page]).includes(:organisation)
     else
-      @services = ServiceAtLocation.page(params[:page]).includes(:organisation)
+      @services = ServiceAtLocation.order(:service_name).page(params[:page]).includes(:organisation)
     end
 
     render json: {
@@ -26,7 +26,7 @@ class API::V1::ServicesController < ApplicationController
     ActiveModel::Serializer::CollectionSerializer.new(@services)
   end
 
-  def services_from_locations
+  def services_from_locations# delete this method as no longer using?
     location_ids = @locations.map(&:id)
 
     @service_at_locations = ServiceAtLocation.where(location: location_ids)
