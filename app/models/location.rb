@@ -12,7 +12,7 @@ class Location < ApplicationRecord
 
   # filter scopes
   scope :only_with_services, ->  { joins(:services) }
-  scope :only_without_services, ->  { left_joins(:services).where(services: {id: nil}) }
+  scope :only_without_services, ->  { left_joins(:service_at_locations).where(service_at_locations: {id: nil}) }
 
   include PgSearch::Model
   pg_search_scope :search, 

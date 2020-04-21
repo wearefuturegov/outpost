@@ -25,6 +25,14 @@
     @media screen and (min-width: $breakpoint-m){
         padding: 60px $outer-spacing;
     }
+    .page-header__caption{
+        margin-bottom: 20px;
+        font-weight: bold;
+        color: transparentize($text, 0.25);
+        @media screen and (min-width: $breakpoint-m){
+            font-size: 1.1rem;
+        }
+    }
     .page-header__title{
         font-size: 2.5rem;
         @media screen and (min-width: $breakpoint-m){
