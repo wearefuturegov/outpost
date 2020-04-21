@@ -21,6 +21,7 @@
           <th>Name</th>
           <th>Services</th>
           <th>Users</th>
+          <th>Created at</th>
         </tr>
       </thead>
       <tbody>
@@ -29,6 +30,7 @@
             <td><%= link_to o.display_name, admin_organisation_path(o) %></td>
             <td><%= o.services.length %></td>
             <td><%= o.users.length %></td>
+            <td><%= time_ago_in_words(o.created_at).humanize %> ago</td>
           </tr>
         <% end %>
       </tbody>
