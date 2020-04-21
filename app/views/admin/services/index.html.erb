@@ -19,15 +19,11 @@
     <table class="table">
       <thead>
         <tr>
-          <th class="with-sort">Name
-            <%= render "shared/sort", column: "name"%>
-          </th>
+          <th><%= render "shared/sort", column: "name", label: "Name"%></th>
           <th>Categories</th>
           <th>Phone number</th>
           <th>Website</th>
-          <th class="with-sort">Last updated
-            <%= render "shared/sort", column: "updated_at"%>
-          </th>
+          <th><%= render "shared/sort", column: "updated_at", label: "Last updated"%></th>
           <th>Status</th>
         </tr>
       </thead>

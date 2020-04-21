@@ -1,11 +1,21 @@
-<div class="sort">
+<% if params[:order_by] === column %>
+    <% if params[:order] === "asc" %>
 
-    <%= link_to_unless_current image_tag("asc.svg", alt: "sort ascending"), admin_services_path(:order => "asc", :order_by => column) do %>
-        <%= image_tag("asc-active.svg", alt: "sorted ascending")%>
+        <%= link_to admin_services_path(:order => "desc", :order_by => column), class: "sort" do %>
+            <%= label %> <%= image_tag("asc-active.svg", alt: "Sort descending") %>
+        <% end %>
+        
+    <% else %>
+
+        <%= link_to admin_services_path, class: "sort" do %>
+            <%= label %> <%= image_tag("desc-active.svg", alt: "Stop sorting") %>
+        <% end %>
+
+    <% end %>
+<% else %>
+
+    <%= link_to admin_services_path(:order => "asc", :order_by => column), class: "sort" do %>
+        <%= label %>
     <% end %>
 
-    <%= link_to_unless_current image_tag("desc.svg", alt: "sort descending"), admin_services_path(:order => "desc", :order_by => column) do %>
-        <%= image_tag("desc-active.svg", alt: "sorted descending")%>
-    <% end %>
-
-</div>
+<% end %>
