@@ -5,6 +5,13 @@ class Organisation < ApplicationRecord
 
     paginates_per 20
 
+    include PgSearch::Model
+    pg_search_scope :search, 
+      against: [:name], 
+      using: {
+        tsearch: { prefix: true }
+      }
+
     def display_name
         self.name || "Unnamed organisation #{self.id}"
     end

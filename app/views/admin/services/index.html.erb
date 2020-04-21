@@ -5,8 +5,8 @@
 
 <header class="actions">
   <div>
-  <%= render "shared/mini-search" %>
-      <button class="button button--inline">Filter</button>
+    <%= render "shared/mini-search", path: admin_services_path %>
+    <button class="button button--inline">Filter</button>
   </div>
   <div>
     <a href="/admin/services.csv" class="button button--inline">Export</a>

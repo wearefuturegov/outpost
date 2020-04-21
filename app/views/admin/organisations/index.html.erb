@@ -4,7 +4,8 @@
 <% end %>
 
 <header class="actions">
-    <%= link_to "Add organisation", new_admin_organisation_path, class: "button button--small" %>
+  <%= render "shared/mini-search", path: admin_organisations_path %>
+  <%= link_to "Add organisation", new_admin_organisation_path, class: "button button--small" %>
 </header>
 
 <% if @organisations.present? %>

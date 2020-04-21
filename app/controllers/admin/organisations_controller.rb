@@ -2,9 +2,8 @@ class Admin::OrganisationsController < Admin::BaseController
   before_action :set_organisation, only: [:show, :edit, :update]
 
   def index
-    @organisations = Organisation.includes(:services)
-      .page(params[:page])
-      .order("updated_at ASC")
+    @organisations = Organisation.includes(:services).page(params[:page]).order("updated_at ASC")
+    @organisations = @organisations.search(params[:query]) if params[:query].present?
   end
 
   def show

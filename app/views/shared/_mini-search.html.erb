@@ -1,8 +1,8 @@
-<%= form_with url: admin_services_path, local: true, html: {class: "mini-search"}, method: "get" do |f| %>
+<%= form_with url: path, local: true, html: {class: "mini-search"}, method: "get" do |f| %>
     <%= f.label :query, "Search query", class: "visually-hidden" %>
     <%= f.text_field :query, value: params[:query], class: "mini-search__input" %>
     <% if params[:query].present? %>
-        <%= link_to image_tag("clear.svg", alt: "Clear search"), admin_services_path, class: "mini-search__submit" %>
+        <%= link_to image_tag("clear.svg", alt: "Clear search"), path, class: "mini-search__submit" %>
     <% else %>
         <button class="mini-search__submit">
             <%= image_tag "search.svg", alt: "Submit search" %>
