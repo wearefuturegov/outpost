@@ -2,8 +2,10 @@
 
 .poppable{
     position: relative;
-    &:hover .poppable-card{
-        display: block;
+    @media screen and (min-width: $breakpoint-m){
+        &:hover .poppable-card{
+            display: block;
+        }
     }
 }
 
@@ -20,7 +22,9 @@
     position: absolute;
     bottom: 100%;
     left: 0;
-    width: 350px;
+    // min-width: 300px;
+    // width: 100%;
+    width: 370px;
     display: none;
     padding-bottom: 10px;
     animation: pop 0.01s ease-out;
