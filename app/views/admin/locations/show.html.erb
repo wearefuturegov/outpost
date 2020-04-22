@@ -8,7 +8,24 @@
     <div class="panel">
       <%= form_for [:admin, @location] do |f| %>
           <%= render "shared/errors", model: @location %>
-          <%= render "fields", f: f %>
+
+          <div class="collapsible" id="location-address-editor">
+            <button class="collapsible__header">
+              <h2>Address</h2>
+            </button>
+            <div class="collapsible__content">
+              <%= render "fields", f: f %>
+            </div>
+          </div>
+
+          <div class="collapsible" id="location-accessibility-editor">
+            <button class="collapsible__header">
+              <h2>Accessibility</h2>
+            </button>
+            <div class="collapsible__content">
+            </div>
+          </div>
+
           <%= f.submit "Update", class: "button" %>
       <% end %>
     </div>

@@ -31,7 +31,7 @@
           </td>
           <td>
             <% if u.admin %>
-              <span class="admin-tag">Admin</span>
+              <%= image_tag "tick-circle.svg", alt: "Admin" %>
             <% end %>
           </td>
           <td><%= render "shared/poppables/organisation", o: u.organisation if u.organisation %></td>

@@ -1,4 +1,10 @@
 <% content_for :header do %>
+    <% unless @organisation.users.any? %>
+      <div class="notice notice--exclamation">
+        <p>This organisation has no users, so no one but council staff can edit its services.</p>
+      </div>
+    <% end %>
+
     <%= link_to "Back to organisations", admin_organisations_path, class: "go-back" %>
     <div class="page-header__actions">
       <h1 class="page-header__title two-thirds">

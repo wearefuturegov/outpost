@@ -16,7 +16,7 @@
 
             <p class="poppable-card__footer">
                 <% unless u.watches.blank? %>
-                    <span class="poppable-card__count poppable-card__count--watches">
+                    <span class="poppable-card__count poppable-card__count--watches" title="Watching <%= u.watches.count %> services">
                         <%= u.watches.count %>
                         <span class="visually-hidden">watches</span>
                     </span>

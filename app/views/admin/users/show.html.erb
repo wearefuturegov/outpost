@@ -1,13 +1,13 @@
 <% content_for :header do %>
     <% if @user.admin? %>
-      <div class="alert alert--yellow">
-        <p>This user is an administrator.</p>
+      <div class="notice notice--administrator">
+        <p>This user is an administrator</p>
       </div>
     <% end %>
 
     <%= link_to "Back to users", admin_users_path, class: "go-back" %>
     <div class="page-header__actions">
-      <h1 class="page-header__title two-thirds"><%= @user.email %></h1>
+      <h1 class="page-header__title two-thirds"><%= @user.display_name %></h1>
     </div>
 <% end %>
 

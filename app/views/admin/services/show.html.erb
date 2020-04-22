@@ -1,16 +1,22 @@
 <% content_for :header do %>
 
     <% if @service.discarded? %>
-      <div class="alert alert--yellow">
-        <p>This service is archived.</p>
-        <%= link_to "Restore", admin_archive_path(@service), method: "patch", class: "alert__action", data: {confirm: "Are you sure? The service will be visible to users again."} %>
+      <div class="notice notice--cross">
+        <div class="notice__body">
+          <p>This service is archived and isn't visible</p>
+          <%= link_to "Restore", admin_archive_path(@service), method: "patch", class: "notice__action", data: {confirm: "Are you sure? The service will be visible to users again."} %>
+        </div>
       </div>
     <% end %>
 
     <% unless @service.approved? %>
-      <div class="alert alert--yellow">
-        <p>This service has pending changes.</p>
-        <%= link_to "Approve", admin_request_path(@service), method: "patch", class: "alert__action", data: {confirm: "Are you sure? Approving these changes makes them publicly visible."} %>
+      <div class="notice notice--pending">
+        <div class="notice__body">
+          <p>This service has pending changes</p>
+          <%= link_to "Approve", admin_request_path(@service), method: "patch", class: "notice__action", data: {confirm: "Are you sure? Approving these changes makes them publicly visible."} %>
+          <span class="notice__divider">|</span>
+          <%= link_to "See changes", admin_service_versions_path(@service), class: "notice__action" %>
+        </div>      
       </div>
     <% end %>
 

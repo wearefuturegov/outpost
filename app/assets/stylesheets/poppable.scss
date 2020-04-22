@@ -22,8 +22,6 @@
     position: absolute;
     bottom: 100%;
     left: 0;
-    // min-width: 300px;
-    // width: 100%;
     width: 370px;
     display: none;
     padding-bottom: 10px;
@@ -36,7 +34,9 @@
         width: 100%;
         padding: 20px;
         background: $white;
+        border-radius: 2px;
         border: 1px solid $card-shadow;
+        box-shadow: 0px 4px 20px transparentize($card-shadow, 0.5);
         &:before{
             content: "";
             display: block;

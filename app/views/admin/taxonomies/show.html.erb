@@ -33,7 +33,7 @@
             <ul class="big-list">
               <% @taxonomy.services.each do |s| %>
                 <li class="big-list__item">
-                  <%= link_to s.name, admin_service_path(s) %>
+                  <%= render "shared/poppables/service", s: s %>
                 </li>
               <% end %>
             </ul>

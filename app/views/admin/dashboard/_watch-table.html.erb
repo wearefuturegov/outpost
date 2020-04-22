@@ -13,9 +13,14 @@
                 <td>
                     <strong>
                         <%= render "shared/poppables/service", s: s.service %>
+
                     </strong>
                 </td>
-                <td><span class="category">Example</span></td>
+                <td>
+                    <% s.service.taxonomies.each do |t| %>
+                        <span class="category"><%= t.name %></span>
+                    <% end %>
+                </td>
                 <td><%= time_ago_in_words(s.service.updated_at) %> ago</td>
             </tr>
         <% end %>

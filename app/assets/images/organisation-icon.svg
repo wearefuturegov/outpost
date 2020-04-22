@@ -1,9 +1,3 @@
 <svg width="59" height="57" viewBox="0 0 59 57" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect x="16" width="27" height="17" fill="#343434"/>
-<rect x="11" y="26" width="36" height="5" fill="#343434"/>
-<rect x="27" y="26" width="9" height="5" transform="rotate(-90 27 26)" fill="#343434"/>
-<rect y="40" width="28" height="17" fill="#343434"/>
-<rect x="31" y="40" width="28" height="17" fill="#343434"/>
-<rect x="11" y="40" width="9" height="5" transform="rotate(-90 11 40)" fill="#343434"/>
-<rect x="42" y="40" width="9" height="5" transform="rotate(-90 42 40)" fill="#343434"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M18 0C16.8954 0 16 0.89543 16 2V15C16 16.1046 16.8954 17 18 17H27V26H13C11.8954 26 11 26.8954 11 28V31V40H2C0.895431 40 0 40.8954 0 42V55C0 56.1046 0.895431 57 2 57H26C27.1046 57 28 56.1046 28 55V42C28 40.8954 27.1046 40 26 40H16V31H42V40H33C31.8954 40 31 40.8954 31 42V55C31 56.1046 31.8954 57 33 57H57C58.1046 57 59 56.1046 59 55V42C59 40.8954 58.1046 40 57 40H47V31V28C47 26.8954 46.1046 26 45 26H32V17H41C42.1046 17 43 16.1046 43 15V2C43 0.895431 42.1046 0 41 0H18Z" fill="#343434"/>
 </svg>

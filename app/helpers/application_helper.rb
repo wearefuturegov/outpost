@@ -63,4 +63,14 @@ module ApplicationHelper
         end
     end
 
+    def status_tag(status)
+        if status === "pending"
+            "<span class='tag tag--yellow'>Pending</span".html_safe
+        elsif status === "archived"
+            "<span class='tag tag--grey'>Archived</span".html_safe
+        else
+            "<span class='tag'>Active</span".html_safe
+        end
+    end
+
 end

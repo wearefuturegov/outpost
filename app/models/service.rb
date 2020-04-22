@@ -56,11 +56,11 @@ class Service < ApplicationRecord
 
   def status
     if discarded?
-      "Archived"
+      "archived"
     elsif !approved
-      "Pending"
+      "pending"
     else
-      "Active"
+      "active"
     end
   end
 
