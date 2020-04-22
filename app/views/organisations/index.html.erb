@@ -21,6 +21,7 @@
           <thead>
             <tr>
               <th>Name</th>
+              <th>Last updated</th>
               <th>Status</th>
             </tr>
           </thead>
@@ -28,6 +29,7 @@
             <% @organisation.services.each do |s| %>
               <tr>
                 <td><%= link_to s.name, service_path(s) %></td>
+                <td><%= time_ago_in_words(s.updated_at).humanize %> ago</td>
                 <td><span class="tag"><%= s.status %></span></td>
               </tr>
             <% end %>
@@ -45,12 +47,16 @@
           <thead>
             <tr>
               <th>Email</th>
+              <th>Created</th>
+              <th class="visually-hidden">Actions</td>
             </tr>
           </thead>
           <tbody>
             <% @organisation.users.each do |u| %>
               <tr>
                 <td><%= u.email %></td>
+                <td><%= time_ago_in_words(u.created_at).humanize %> ago</td>
+                <td><%= link_to "Remove", member_path(u), method: "delete", data: {confirm: "Are you sure you want to remove this user? They won't be able to log in any more"} %></td>
               </tr>
             <% end %>
           </tbody>

@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     end
   end
   resources :services, only: [:new, :create, :show, :update]
-  resources :members, only: [:new, :create]
+  resources :members, only: [:new, :create, :destroy]
 
   namespace :admin do
     root "dashboard#index"
