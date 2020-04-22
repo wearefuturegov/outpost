@@ -20,7 +20,9 @@
                 <% end %>
                 was <%= pretty_event(a.event) %>
             </td>
-            <td><%= User.find(a.whodunnit).email if a.whodunnit %></td>
+            <td>
+              <%= render "shared/poppables/user", u: User.find(a.whodunnit) if a.whodunnit %>
+            </td>
             <td><%= time_ago_in_words(a.created_at) %> ago</td>
             <td></td>
 

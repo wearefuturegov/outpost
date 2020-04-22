@@ -1,0 +1,25 @@
+<div class="poppable">
+    <%= link_to s.name, admin_service_url(s), class: "poppable__control" %>
+
+    <div class="poppable-card">
+        <div class="poppable-card__inner">
+            <h3 class="poppable-card__headline">
+                <%= link_to s.name, admin_service_path(s) %>
+            </h3>
+
+            <p class="poppable-card__body"><%= s.description.truncate(45) %></p>
+
+            <p class="poppable-card__footer">
+                <span class="poppable-card__count poppable-card__count--locations">
+                    <%= s.locations.count %>
+                    <span class="visually-hidden">services</span>
+                </span>
+                <span class="poppable-card__count poppable-card__count--notes">
+                    <%= s.notes.count %>
+                    <span class="visually-hidden">notes</span>
+                </span>
+                Last updated <%= time_ago_in_words(s.updated_at) %> ago
+            </p>
+        </div>
+    </div>
+</div>

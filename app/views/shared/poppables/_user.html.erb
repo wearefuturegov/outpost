@@ -1,0 +1,32 @@
+<div class="poppable">
+    <%= link_to u.display_name, admin_user_url(u), class: "poppable__control" %>
+
+    <div class="poppable-card">
+        <div class="poppable-card__inner">
+            <h3 class="poppable-card__headline">
+                <%= link_to u.display_name, admin_user_path(u) %>
+                <% if u.admin? %>
+                    <span class="poppable-card__tag">Admin</span>
+                <% end %>
+            </h3>
+
+            <% if u.first_name.present? && u.last_name.present? %>
+                <p class="poppable-card__body"><%= u.email %></p>
+            <% end %>
+
+            <p class="poppable-card__footer">
+                <% unless u.watches.blank? %>
+                    <span class="poppable-card__count poppable-card__count--watches">
+                        <%= u.watches.count %>
+                        <span class="visually-hidden">watches</span>
+                    </span>
+                <% end %>
+                <% if u.last_seen %>
+                    Last seen <%= time_ago_in_words(u.last_seen) %> ago
+                <% else %>
+                    Never logged in
+                <% end %>
+            </p>
+        </div>
+    </div>
+</div>

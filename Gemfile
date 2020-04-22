@@ -23,6 +23,7 @@ gem 'active_model_serializers'
 gem 'rack-cors'
 gem 'geocoder'
 gem 'pg_search'
+gem 'devise_lastseenable'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

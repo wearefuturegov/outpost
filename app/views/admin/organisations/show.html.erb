@@ -34,7 +34,7 @@
             <ul class="big-list">
               <% @organisation.services.each do |s| %>
                 <li class="big-list__item">
-                  <%= link_to s.name, admin_service_path(s) %>
+                  <%= render "shared/poppables/service", s: s %>
                 </li>
               <% end %>
             </ul>
@@ -56,7 +56,7 @@
             <ul class="big-list">
               <% @organisation.users.each do |u| %>
                 <li class="big-list__item">
-                  <%= link_to u.email, admin_user_path(u) %>
+                  <%= render "shared/poppables/user", u: u %>
                 </li>
               <% end %>
             </ul>

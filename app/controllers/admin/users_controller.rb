@@ -5,6 +5,9 @@ class Admin::UsersController < Admin::BaseController
       @users = User.all
       @users = @users.community if params[:filter_users] === "community"
       @users = @users.admins if params[:filter_users] === "admins"
+      @users = @users.never_seen if params[:filter_logged_in] === "never"
+      @users = @users.only_seen if params[:filter_logged_in] === "only"
+
       @users = @users.search(params[:query]) if params[:query].present?
     end
 
@@ -44,6 +47,8 @@ class Admin::UsersController < Admin::BaseController
     def user_params
       params.require(:user).permit(
         :email,
+        :first_name,
+        :last_name,
         :admin,
         :organisation_id
       )

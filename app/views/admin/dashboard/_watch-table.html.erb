@@ -11,7 +11,9 @@
         <% @watches.each do |s| %>
             <tr>
                 <td>
-                    <strong><%= link_to s.service.name, admin_service_path(s.service) %></strong>
+                    <strong>
+                        <%= render "shared/poppables/service", s: s.service %>
+                    </strong>
                 </td>
                 <td><span class="category">Example</span></td>
                 <td><%= time_ago_in_words(s.service.updated_at) %> ago</td>

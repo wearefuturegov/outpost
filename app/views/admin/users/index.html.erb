@@ -16,27 +16,33 @@
   <table class="table">
     <thead>
       <tr>
-        <th>Email</th>
-        <th>Role</th>
+        <th>Name or email</th>
+        <th>Admin</th>
         <th>Organisation</th>
         <th>Joined</th>
+        <th>Last seen</th>
       </tr>
     </thead>
     <tbody>
       <% @users.each do |u| %>
         <tr>
           <td>
-            <strong><%= link_to u.email, admin_user_url(u) %></strong>
+            <strong><%= link_to u.display_name, admin_user_path(u) %></strong>
           </td>
           <td>
             <% if u.admin %>
               <span class="admin-tag">Admin</span>
-            <% else %>
-              Community
             <% end %>
           </td>
-          <td><%= link_to u.organisation.name, admin_organisation_path(u.organisation) if u.organisation %></td>
+          <td><%= render "shared/poppables/organisation", o: u.organisation if u.organisation %></td>
           <td><%= time_ago_in_words(u.created_at).humanize %> ago</td>
+          <td>
+            <% if u.last_seen %>
+              <%= time_ago_in_words(u.last_seen).humanize %>
+            <% else %>
+              Never logged in
+            <% end %>
+          </td>
         </tr>
       <% end %>
     </tbody>

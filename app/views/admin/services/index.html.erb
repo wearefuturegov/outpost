@@ -20,8 +20,8 @@
       <thead>
         <tr>
           <th><%= render "shared/sort", column: "name", label: "Name"%></th>
+          <th>Organisation</th>
           <th>Categories</th>
-          <th>Phone number</th>
           <th>Website</th>
           <th><%= render "shared/sort", column: "updated_at", label: "Last updated"%></th>
           <th>Status</th>
@@ -34,11 +34,12 @@
               <strong><%= link_to s.display_name.truncate(25), admin_service_path(s) %><strong>
             </td>
             <td>
+              <%= render "shared/poppables/organisation", o: s.organisation %>
+            <td>
               <% s.taxonomies.each do |t| %>
                 <span class="category"><%= t.name %></span>
               <% end %>
             </td>
-            <td>0777 777 7777</td>
             <td><%= link_to(short_url(s.url), s.url, target: "blank") if s.url.present? %></td>
             <td><%= time_ago_in_words(s.updated_at) %> ago</td>
             <td><span class="tag"><%= s.status %></span></td>
