@@ -2,7 +2,7 @@
 
 .poppable{
     position: relative;
-    a:hover + .poppable-card{
+    &:hover .poppable-card{
         display: block;
     }
 }
@@ -23,7 +23,7 @@
     width: 350px;
     display: none;
     padding-bottom: 10px;
-    animation: pop 0.1s ease-out;
+    animation: pop 0.01s ease-out;
     animation-delay: 0.6s;
     animation-fill-mode: forwards;
     opacity: 0;
