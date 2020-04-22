@@ -1,0 +1,15 @@
+
+<%= form_for @user, url: members_path, local: true, html: {class: "two-thirds"} do |f| %>
+
+    <%= render "shared/errors", model: @user %>
+
+    <div class="field-section">
+        <div class="field">
+            <%= f.label :email, class: "field__label" %>
+            <%= f.email_field :email, class: "field__input" %>
+        </div>
+    </div>
+
+    <%= f.submit "Invite", class: "button" %>
+
+<% end %>

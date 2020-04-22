@@ -16,7 +16,7 @@ class Admin::UsersController < Admin::BaseController
       @user = User.create(user_params)
       @user.password = SecureRandom.urlsafe_base64
       if @user.save
-        UserMailer.with(user: @user).invite_email.deliver_later
+        UserMailer.with(user: @user).invite_from_admin_email.deliver_later
         redirect_to admin_users_path
       else
         render "new"

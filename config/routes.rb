@@ -9,7 +9,8 @@ Rails.application.routes.draw do
     end
   end
   resources :services, only: [:new, :create, :show, :update]
-  
+  resources :members, only: [:new, :create]
+
   namespace :admin do
     root "dashboard#index"
     resources :services, except: :edit do
