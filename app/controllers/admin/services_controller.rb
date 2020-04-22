@@ -2,17 +2,20 @@ class Admin::ServicesController < Admin::BaseController
   before_action :set_service, only: [:show, :update, :destroy]
 
   def index
-    if params[:query].present?
-      @services = Service.search(params[:query]).page(params[:page])
-    else
-      @services = Service.kept.newest # default sort
-      @services = Service.alphabetical if params[:order] === "asc" && params[:order_by] === "name"
-      @services = Service.reverse_alphabetical if params[:order] === "desc" && params[:order_by] === "name"
-      @services = Service.oldest if params[:order] === "asc" && params[:order_by] === "updated_at"
-      @services = @services.page(params[:page])
+    @services = Service.kept.page(params[:page])
+    
+    @services = @services.alphabetical if params[:order] === "asc" && params[:order_by] === "name"
+    @services = @services.reverse_alphabetical if params[:order] === "desc" && params[:order_by] === "name"
 
-      @services = @services.in_taxonomy(params[:filter_taxonomy]) if params[:filter_taxonomy].present?
-    end
+    @services = @services.newest if params[:order] === "desc" && params[:order_by] === "updated_at"
+    @services = @services.oldest if params[:order] === "asc" && params[:order_by] === "updated_at"
+
+    @services = @services.in_taxonomy(params[:filter_taxonomy]) if params[:filter_taxonomy].present?
+
+    @services = @services.search(params[:query]).page(params[:page]) if params[:query].present?
+
+    @services = @services.order(updated_at: :DESC) # default sort
+
     respond_to do |format|
       format.html
       format.csv { send_data Service.all.to_csv }
