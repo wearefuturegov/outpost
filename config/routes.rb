@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   
   root "organisations#index"
 
-  devise_for :users
+  devise_for :users, :controllers => { registrations: 'registrations' }
   resources :organisations, only: [:index, :new, :create, :edit, :update] do
     collection do
       get "start"
