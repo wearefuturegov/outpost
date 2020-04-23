@@ -4,29 +4,44 @@
     <p class="page-header__lede two-thirds">You'll use these details to update your service in future.</p>
 <% end %>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+<div class="two-thirds">
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+    <%= render "devise/shared/error_messages", resource: resource %>
 
-  <div class="field-section">
 
-    <div class="field one-third">
-      <%= f.label :email, class: "field__label" %>
-      <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "field__input" %>
+      <div class="field-section field-section--two-cols">
+
+          <div class="field">
+              <%= f.label :first_name, class: "field__label" %>
+              <%= f.text_field :first_name, class: "field__input" %>
+          </div>
+
+          <div class="field">
+              <%= f.label :last_name, class: "field__label" %>
+              <%= f.text_field :last_name, class: "field__input" %>
+          </div>
+
+          <div class="field field--span-two-cols">
+              <%= f.label :email, class: "field__label" %>
+              <%= f.email_field :email, class: "field__input" %>
+          </div>
+      </div>
+
+    <div class="field-section">
+      <div class="field">
+        <%= f.label :password, class: "field__label" %>
+        <% if @minimum_password_length %>
+          <p class="field__hint"><%= @minimum_password_length %> characters minimum</p>
+        <% end %>
+        <%= f.password_field :password, autocomplete: "new-password", class: "field__input" %>
+      </div>
+
+      <div class="field">
+        <%= f.label :password_confirmation, class: "field__label" %>
+        <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "field__input" %>
+      </div>
     </div>
 
-    <div class="field one-third">
-      <%= f.label :password, class: "field__label" %>
-      <% if @minimum_password_length %>
-        <p class="field__hint"><%= @minimum_password_length %> characters minimum</p>
-      <% end %>
-      <%= f.password_field :password, autocomplete: "new-password", class: "field__input" %>
-    </div>
-
-    <div class="field one-third">
-      <%= f.label :password_confirmation, class: "field__label" %>
-      <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "field__input" %>
-    </div>
-  </div>
-
-  <%= f.submit "Sign up", class: "button" %>
-<% end %>
+    <%= f.submit "Sign up", class: "button" %>
+  <% end %>
+</div>
