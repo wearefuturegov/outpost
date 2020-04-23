@@ -82,8 +82,8 @@ bucks_csv.each do |row|
         child_category = categories.last unless categories.size == 1 # is a parent category
         parent_taxonomy = Taxonomy.find_or_create_by(name: parent_cateogry) if parent_cateogry
         child_taxonomy = Taxonomy.find_or_create_by(name: child_category, parent_id: parent_taxonomy.id) if child_category # otherwise tries to create with name nil
-        service.taxonomies << [parent_taxonomy] if parent_taxonomy
-        service.taxonomies << [child_taxonomy] if child_taxonomy
+        service.taxonomies |= [parent_taxonomy] if parent_taxonomy
+        service.taxonomies |= [child_taxonomy] if child_taxonomy
       end
     end
 
