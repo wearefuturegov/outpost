@@ -9,11 +9,11 @@
 
             <p class="poppable-card__footer">
                 <span class="poppable-card__count poppable-card__count--services">
-                    <%= o.services.count %>
+                    <%= o.services.size %>
                     <span class="visually-hidden">services</span>
                 </span>
                 <span class="poppable-card__count poppable-card__count--users">
-                    <%= o.users.count %>
+                    <%= o.users.size %>
                     <span class="visually-hidden">users</span>
                 </span>
                 Last updated <%= time_ago_in_words(o.updated_at) %> ago

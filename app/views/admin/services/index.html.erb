@@ -45,9 +45,9 @@
             <td><%= time_ago_in_words(s.updated_at) %> ago</td>
             <td><%= status_tag(s.status) %></td>
             <td>
-              <% if s.notes.count > 0 %>
+              <% if s.notes.size > 0 %>
                 <span class="table-icon table-icon--notes">
-                  <%= s.notes.count %>
+                  <%= s.notes.size %>
                 </span>
               <% end %>
             </td>

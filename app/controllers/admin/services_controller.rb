@@ -2,8 +2,8 @@ class Admin::ServicesController < Admin::BaseController
   before_action :set_service, only: [:show, :update, :destroy]
 
   def index
-    @services = Service.kept.page(params[:page])
-    
+    @services = Service.kept.page(params[:page]).includes(:taxonomies, :notes).includes(organisation: [:users, :services])
+
     @services = @services.alphabetical if params[:order] === "asc" && params[:order_by] === "name"
     @services = @services.reverse_alphabetical if params[:order] === "desc" && params[:order_by] === "name"
 
@@ -13,7 +13,6 @@ class Admin::ServicesController < Admin::BaseController
     @services = @services.in_taxonomy(params[:filter_taxonomy]) if params[:filter_taxonomy].present?
 
     @services = @services.search(params[:query]).page(params[:page]) if params[:query].present?
-
     @services = @services.order(updated_at: :DESC) # default sort
 
     respond_to do |format|
@@ -34,7 +33,7 @@ class Admin::ServicesController < Admin::BaseController
       @versions.push(@service.versions.first)
     else
       @versions = @service.versions.reverse
-    end      
+    end
 
   end
 
@@ -45,7 +44,7 @@ class Admin::ServicesController < Admin::BaseController
       render "show"
     end
   end
-  
+
   def new
     @service = Service.new
   end
@@ -63,7 +62,7 @@ class Admin::ServicesController < Admin::BaseController
     @service.archive
     redirect_to admin_service_url(@service)
   end
-  
+
   private
 
   def set_service
