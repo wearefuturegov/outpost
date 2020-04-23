@@ -15,7 +15,6 @@ services_with_org = 0
 services_without_org = 0
 
 bucks_csv.each do |row|
-
   if row['service_type'] == 'Organisation'
     organisation = Organisation.new
     organisation.name = row['title']
@@ -73,6 +72,21 @@ bucks_csv.each do |row|
       location.save
       service.locations << location
     end
+
+    unless row['familychannel'] == nil
+      lines = row['familychannel'].split("\n")
+      lines.each do |line|
+        categories = line.split(' > ')
+        categories.delete("Family Information")
+        parent_cateogry = categories.first
+        child_category = categories.last unless categories.size == 1 # is a parent category
+        parent_taxonomy = Taxonomy.find_or_create_by(name: parent_cateogry) if parent_cateogry
+        child_taxonomy = Taxonomy.find_or_create_by(name: child_category, parent_id: parent_taxonomy.id) if child_category # otherwise tries to create with name nil
+        service.taxonomies << [parent_taxonomy] if parent_taxonomy
+        service.taxonomies << [child_taxonomy] if child_taxonomy
+      end
+    end
+
     service.save
   end
 end
