@@ -31,7 +31,11 @@ bucks_csv.each do |row|
   #   byebug
   # end
   if row['service_type'] != "Organisation"
-    service = Service.new
+    if row['service_type'] == 'Childcare'
+      service = ChildcareService.new
+    else
+      service = Service.new
+    end
     service.name = row['title']
     service.description = ActionView::Base.full_sanitizer.sanitize(row['description'])
     service.email = row['contact_email']
@@ -44,6 +48,10 @@ bucks_csv.each do |row|
       service.organisation_id = organisation.id
     end
     service.paper_trail_event = 'import'
+    if (row['ecd_opt_out_website'] == 'Hide completely from public website') || (row['ecd_opt_out_website'] == 'Admin access only, never on website')
+      service.paper_trail_event = 'import as archived'
+      service.discarded_at = Time.now
+    end
     service.save
 
     contact = Contact.new

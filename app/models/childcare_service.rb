@@ -1,0 +1,2 @@
+class ChildcareService < Service
+end
