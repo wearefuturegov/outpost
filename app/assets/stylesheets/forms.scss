@@ -239,6 +239,9 @@
             column-gap: 25px;
         }
     }
+    &.field-section--no-bottom-margin{
+        margin-bottom: 0px;
+    }
     .field-section__legend{
         font-size: 1.5rem;
         font-weight: bold;
@@ -247,6 +250,7 @@
     .field-section__hint{
         margin-bottom: 20px;
     }
+
 }
 
 .form-actions{
