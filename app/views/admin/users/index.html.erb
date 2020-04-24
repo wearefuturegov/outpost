@@ -16,6 +16,7 @@
   <table class="table">
     <thead>
       <tr>
+        <th></th>
         <th>Name or email</th>
         <th>Admin</th>
         <th>Organisation</th>
@@ -27,11 +28,16 @@
       <% @users.each do |u| %>
         <tr>
           <td>
+            <div aria-hidden="true" class="user-circle">
+              <%= u.initials %>
+            </div>
+          </td>
+          <td>
             <strong><%= link_to u.display_name, admin_user_path(u) %></strong>
           </td>
           <td>
             <% if u.admin %>
-              <%= image_tag "tick-circle.svg", alt: "Admin" %>
+              <%= image_tag "tick-blue.svg", alt: "Admin" %>
             <% end %>
           </td>
           <td><%= render "shared/poppables/organisation", o: u.organisation if u.organisation %></td>

@@ -2,7 +2,11 @@
     <%= link_to u.display_name, admin_user_url(u), class: "poppable__control" %>
 
     <div class="poppable-card">
-        <div class="poppable-card__inner">
+        <div class="poppable-card__inner poppable-card__inner--with-user-circle">
+            <div aria-hidden="true" class="user-circle">
+              <%= u.initials %>
+            </div>
+
             <h3 class="poppable-card__headline">
                 <%= link_to u.display_name, admin_user_path(u) %>
                 <% if u.admin? %>

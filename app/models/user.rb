@@ -38,6 +38,10 @@ class User < ApplicationRecord
   end
 
   def initials
-    [first_name[0,1], last_name[0,1]].join('')
+    if first_name && last_name
+      [first_name[0,1], last_name[0,1]].join('').upcase
+    else
+      email[0,1].upcase
+    end
   end
 end
