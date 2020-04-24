@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_24_142941) do
+ActiveRecord::Schema.define(version: 2020_04_24_180425) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,6 +58,17 @@ ActiveRecord::Schema.define(version: 2020_04_24_142941) do
     t.bigint "contact_id"
     t.string "number"
     t.index ["contact_id"], name: "index_phones_on_contact_id"
+  end
+
+  create_table "send_needs", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "send_needs_services", id: false, force: :cascade do |t|
+    t.bigint "service_id", null: false
+    t.bigint "send_need_id", null: false
   end
 
   create_table "service_at_locations", force: :cascade do |t|
@@ -120,6 +131,15 @@ ActiveRecord::Schema.define(version: 2020_04_24_142941) do
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["organisation_id"], name: "index_users_on_organisation_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  create_table "version_associations", force: :cascade do |t|
+    t.integer "version_id"
+    t.string "foreign_key_name", null: false
+    t.integer "foreign_key_id"
+    t.string "foreign_type"
+    t.index ["foreign_key_name", "foreign_key_id", "foreign_type"], name: "index_version_associations_on_foreign_key"
+    t.index ["version_id"], name: "index_version_associations_on_version_id"
   end
 
   create_table "versions", force: :cascade do |t|
