@@ -36,4 +36,8 @@ class User < ApplicationRecord
       email
     end
   end
+
+  def initials
+    [first_name[0,1], last_name[0,1]].join('')
+  end
 end
