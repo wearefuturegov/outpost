@@ -8,6 +8,10 @@
 
 require 'csv'
 
+user_logins_yaml = Rails.root.join('lib', 'seeds', 'user_logins.yml')
+user_logins = YAML::load_file(user_logins_yaml)
+User.create!(user_logins)
+
 csv_file = File.open('lib/seeds/bucksfis geo.csv', "r:ISO-8859-1")
 bucks_csv = CSV.parse(csv_file, headers: true)
 
@@ -97,4 +101,5 @@ bucks_csv.each do |row|
 
     service.save
   end
+
 end
