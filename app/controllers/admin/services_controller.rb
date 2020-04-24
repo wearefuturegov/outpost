@@ -79,6 +79,7 @@ class Admin::ServicesController < Admin::BaseController
       :email,
       taxonomy_ids: [],
       location_ids: [],
+      send_need_ids: [],
       locations_attributes: [:postal_code]
     )
   end
