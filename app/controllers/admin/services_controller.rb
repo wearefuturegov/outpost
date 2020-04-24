@@ -39,6 +39,9 @@ class Admin::ServicesController < Admin::BaseController
 
   def update
     if @service.update(service_params)
+      
+      @service.current_user = current_user
+
       redirect_to admin_service_url(@service), notice: "Service has been updated"
     else
       render "show"
