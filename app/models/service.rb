@@ -17,6 +17,7 @@ class Service < ApplicationRecord
   has_many :notes
 
   after_save :update_service_at_locations
+  after_save :notify_watchers
 
   accepts_nested_attributes_for :locations
 
@@ -81,6 +82,10 @@ class Service < ApplicationRecord
     self.service_at_locations.each do |service_at_location|
       service_at_location.update_service_fields
     end
+  end
+
+  def notify_watchers
+    ServiceMailer.with(service: self).notify_watchers_email.deliver_later
   end
 
 end
