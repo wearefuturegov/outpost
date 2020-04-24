@@ -14,11 +14,6 @@ class Admin::ServicesController < Admin::BaseController
 
     @services = @services.search(params[:query]).page(params[:page]) if params[:query].present?
     @services = @services.order(updated_at: :DESC) # default sort
-
-    respond_to do |format|
-      format.html
-      format.csv { send_data Service.all.to_csv }
-    end
   end
 
   def show
