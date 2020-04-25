@@ -14,26 +14,7 @@ addNewButton.addEventListener("click", e => {
     e.preventDefault()
     e.target.setAttribute("aria-expanded", "true")
     e.target.disabled = true
-
-    console.log(content)
-
-    content.innerHTML += `
-        <div class="field-section field-section--two-cols field-section--panel">
-            <h3 class="field">New location</h3>
-            <div class="field field--span-two-cols">
-                <label class="field__label" for="service_locations_attributes_new_address_1">Street address</label>
-                <input class="field__input" type="text" value="" name="service[locations_attributes][][address_1]" id="service_locations_attributes_0_address_1">
-            </div>
-            <div class="field">
-                <label class="field__label" for="service_locations_attributes_new_city">Town or area</label>
-                <input class="field__input" type="text" value="" name="service[locations_attributes][][city]" id="service_locations_attributes_0_city">
-            </div>
-            <div class="field">
-                <label class="field__label" for="service_locations_attributes_new_postal_code">Postcode</label>
-                <input class="field__input" type="text" value="" name="service[locations_attributes][][postal_code]" id="service_locations_attributes_0_postal_code">
-            </div>
-        </div>
-    `
+    // TODO
 })
 
 
