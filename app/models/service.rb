@@ -19,7 +19,10 @@ class Service < ApplicationRecord
   after_save :update_service_at_locations
   after_save :notify_watchers
 
-  accepts_nested_attributes_for :locations
+  accepts_nested_attributes_for :locations,
+    :reject_if => proc {|attributes|
+      attributes.all? {|k,v| v.blank?}
+    }
 
   # sort scopes
   scope :oldest, ->  { order("updated_at ASC") }

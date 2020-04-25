@@ -1,22 +1,26 @@
-<section class="location-search">
+<div class="field-section">
     <div class="field">
-        <label for="" class="visually-hidden">Find a location</label>
-        <input type="search" placeholder="Search by venue or address..." class="field__input location-search__input">
+        <%= s.label :location_ids, "Choose one or more locations", class: "field__label" %>
+        <%= s.collection_select(:location_ids, Location.all, :id, :one_line_address, {}, {multiple: true, class: "field__input enhanced-select"}) %>
     </div>
+    <button class="button button--small add-new-location" aria-expanded="false">Add new</button>
+</div>
 
-    <fieldset class="location-search__results" aria-live="polite">
-        <p class="location-search__prompt">Type something to start searching</p>
-        <p hidden class="location-search__no-results">No matches. Try creating a new location.</p>
 
-        <%= s.collection_check_boxes( :location_ids, Location.all, :id, :checkbox_attributes) do |c| %>
-            <div class="checkbox location-search__result" data-indexed="<%= c.text.to_json %>" data-id="<%= c.value %>">
-                <%= c.check_box class: "checkbox__input" %>
-                <%= c.label class: "checkbox__label" do %>
-                    <h4 class="location-search__name"><%= c.text[:name] %></h4>
-                    <p class="location-search__address"><%= c.text[:one_line_address] %></p>
-                <% end %>
-            </div>
-        <% end %>
-    </fieldset>
-
-</section>
+<% s.fields_for :locations do |l| %>
+    <div class="field-section field-section--two-cols field-section--panel">
+        <h3 class="field">New location</h3>
+        <div class="field field--span-two-cols">
+            <%= l.label :address_1, "Street address", class: "field__label" %>
+            <%= l.text_field :address_1, class: "field__input" %>
+        </div>
+        <div class="field">
+            <%= l.label :city, "Town or area", class: "field__label" %>
+            <%= l.text_field :city, class: "field__input" %>
+        </div>
+        <div class="field">
+            <%= l.label :postal_code, "Postcode", class: "field__label" %>
+            <%= l.text_field :postal_code, class: "field__input" %>
+        </div>
+    </div>
+<% end %>

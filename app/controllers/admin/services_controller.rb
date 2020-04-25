@@ -33,7 +33,7 @@ class Admin::ServicesController < Admin::BaseController
 
   def update
     if @service.update(service_params)
-      redirect_to admin_service_url(@service), notice: "Service has been updated"
+      redirect_to admin_service_url(@service), notice: "Service has been updated."
     else
       render "show"
     end
@@ -61,7 +61,7 @@ class Admin::ServicesController < Admin::BaseController
 
   def set_service
     @service = Service.find(params[:id])
-    @service.locations.new
+    # @service.locations.new
   end
 
   def service_params
@@ -76,7 +76,11 @@ class Admin::ServicesController < Admin::BaseController
       taxonomy_ids: [],
       location_ids: [],
       send_need_ids: [],
-      locations_attributes: [:postal_code]
+      locations_attributes: [
+        :address_1,
+        :city,
+        :postal_code
+      ]
     )
   end
 

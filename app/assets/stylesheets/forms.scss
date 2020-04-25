@@ -101,6 +101,10 @@
         background: darken($link, 20);
         color: $white;
     }
+    &[disabled]{
+        background: $text;
+        pointer-events: none;
+    }
     @media screen and (min-width: $breakpoint-l) {
         display: inline-block;
         width: inherit;
@@ -243,6 +247,11 @@
             grid-template-columns: 1fr 1fr;
             column-gap: 25px;
         }
+    }
+    &.field-section--panel{
+        padding: 25px;
+        background: $pale;
+        padding-bottom: 10px;
     }
     &.field-section--no-bottom-margin{
         margin-bottom: 0px;
