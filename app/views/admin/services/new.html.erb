@@ -48,6 +48,15 @@
         </div>
       </fieldset>
 
+      <fieldset class="collapsible" id="send-needs-editor">
+        <button class="collapsible__header">
+          <legend><h2>Visibility</h2></legend>
+        </button>
+        <div class="collapsible__content">
+          <%= render "admin/services/editors/dates", s: s %>
+        </div>
+      </fieldset>
+
       <div class="form-actions">
         <%= s.submit "Create", class: "button" %>
       </div>
