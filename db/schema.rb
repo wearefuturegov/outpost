@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_24_181255) do
+ActiveRecord::Schema.define(version: 2020_04_25_100452) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -114,6 +114,8 @@ ActiveRecord::Schema.define(version: 2020_04_24_181255) do
     t.datetime "discarded_at"
     t.boolean "approved", default: true
     t.string "type"
+    t.date "visible_from"
+    t.date "visible_to"
     t.index ["discarded_at"], name: "index_services_on_discarded_at"
     t.index ["organisation_id"], name: "index_services_on_organisation_id"
   end
