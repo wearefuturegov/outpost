@@ -21,8 +21,6 @@ class Admin::ServicesController < Admin::BaseController
     @notes = @service.notes.all
     @note = @service.notes.new
 
-
-
     @watched = current_user.watches.where(service_id: @service.id).exists?
     if @service.versions.length > 4
       @versions = @service.versions.last(3).reverse

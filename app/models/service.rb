@@ -93,5 +93,4 @@ class Service < ApplicationRecord
   def notify_watchers
     ServiceMailer.with(service: self).notify_watchers_email.deliver_later
   end
-
 end

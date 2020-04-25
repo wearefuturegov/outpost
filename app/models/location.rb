@@ -32,6 +32,15 @@ class Location < ApplicationRecord
     end
   end
 
+  def one_line_address
+    array = []
+    array.push(name) if name.present?
+    array.push(address_1) if address_1.present?
+    array.push(city) if city.present?
+    array.push(postal_code) if postal_code.present?
+    array.join(", ")
+  end
+
   private
 
   def should_geocode?
@@ -46,6 +55,13 @@ class Location < ApplicationRecord
     self.service_at_locations.each do |service_at_location|
       service_at_location.update_location_fields
     end
+  end
+
+  def checkbox_attributes
+    {
+      name: display_name,
+      one_line_address: one_line_address
+    }
   end
 
 end

@@ -1,34 +1,22 @@
-<div class="field">
-    <%= s.label :location_ids, "Choose one or more locations", class: "field__label" %>
-    <%= s.collection_select(:location_ids, Location.all, :id, :display_name, {}, {multiple: true, class: "field__input enhanced-select"}) %>
-</div>
+<section class="location-search">
+    <div class="field">
+        <label for="" class="visually-hidden">Find a location</label>
+        <input type="search" placeholder="Search by venue or address..." class="field__input location-search__input">
+    </div>
 
-<% if false %>
-    <div class="tabs">
-        <ul class="tabs__nav" role="tablist">
-            <li class="tabs__nav-item">
-                <a class="tabs__nav-link" href="#tab-panel-1" id="tab-1" role="tab" aria-selected="true">
-                    Choose existing
-                </a>
-            </li>
-            <li class="tabs__nav-item">
-                <a class="tabs__nav-link" href="#tab-panel-2" id="tab-2" role="tab">
-                    Create new
-                </a>
-            </li>
-        </ul>
+    <fieldset class="location-search__results" aria-live="polite">
+        <p class="location-search__prompt">Type something to start searching</p>
+        <p hidden class="location-search__no-results">No matches. Try creating a new location.</p>
 
-        <section class="tabs__panel" role="tab-panel" id="tab-panel-1" aria-labelledby="tab-1">
+        <%= s.collection_check_boxes( :location_ids, Location.all, :id, :checkbox_attributes) do |c| %>
+            <div class="checkbox location-search__result" data-indexed="<%= c.text.to_json %>" data-id="<%= c.value %>">
+                <%= c.check_box class: "checkbox__input" %>
+                <%= c.label class: "checkbox__label" do %>
+                    <h4 class="location-search__name"><%= c.text[:name] %></h4>
+                    <p class="location-search__address"><%= c.text[:one_line_address] %></p>
+                <% end %>
+            </div>
+        <% end %>
+    </fieldset>
 
-        </section>
-
-        <section class="tabs__panel" role="tab-panel" id="tab-panel-2" aria-labelledby="tab-2" hidden>
-            <%= s.fields_for :locations do |l| %>
-                <div class="field">
-                    <%= l.label :postal_code, class: "field__label" %>
-                    <%= l.text_field :postal_code, class: "field__input" %>
-                </div>
-            <% end %>
-        </section>
-    </div> 
-<% end %>
+</section>

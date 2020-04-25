@@ -1,0 +1,25 @@
+@import "variables";
+
+.tabs{
+    .tabs__nav{
+        margin: 0;
+        margin-bottom: 25px;
+    }
+    .tabs__nav-item{
+        padding: 0;
+        display: inline-block;
+        margin-right: 15px;
+    }
+    .tabs__nav-link{
+        font-weight: bold;
+        &[aria-selected=true]{
+            pointer-events: none;
+            color: $text;
+            font-weight: normal;
+            &:focus{
+                background: none;
+                outline: none;
+            }
+        }
+    }
+}

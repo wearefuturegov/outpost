@@ -9,6 +9,7 @@
     "choices.js": "^9.0.1",
     "dotenv": "^8.2.0",
     "google-maps": "^4.2.3",
+    "js-worker-search": "^1.4.1",
     "turbolinks": "^5.2.0"
   },
   "version": "0.1.0",

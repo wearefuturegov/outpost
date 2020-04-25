@@ -2,9 +2,11 @@ import tabs from "./tabs"
 import collapsible from "./collapsible"
 import maps from "./maps"
 import filters from "./filters"
-import Choices from "choices.js"
+import locations from "./locations"
 
-// enhanced select
-if(document.querySelector(".enhanced-select")){
-    const choices = new Choices(document.querySelector(".enhanced-select"))
-}
+// import Choices from "choices.js"
+
+// // enhanced select
+// if(document.querySelector(".enhanced-select")){
+//     const choices = new Choices(document.querySelector(".enhanced-select"))
+// }
