@@ -29,6 +29,8 @@ class Service < ApplicationRecord
 
   # filter scopes
   scope :in_taxonomy, -> (id) { joins(:taxonomies).where("taxonomies.id in (?)", id)}
+  scope :scheduled, -> { where("visible_from > (?)", Date.today)}
+  scope :hidden, -> { where("visible_to < (?)", Date.today)}
 
   paginates_per 20
   validates_presence_of :name
@@ -53,6 +55,10 @@ class Service < ApplicationRecord
       "archived"
     elsif !approved
       "pending"
+    elsif (visible_from.present? && (visible_from > Date.today))
+      "scheduled"      
+    elsif (visible_to.present? && (visible_to < Date.today))
+      "hidden"
     else
       "active"
     end

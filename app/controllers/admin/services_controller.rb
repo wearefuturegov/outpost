@@ -6,11 +6,12 @@ class Admin::ServicesController < Admin::BaseController
 
     @services = @services.alphabetical if params[:order] === "asc" && params[:order_by] === "name"
     @services = @services.reverse_alphabetical if params[:order] === "desc" && params[:order_by] === "name"
-
     @services = @services.newest if params[:order] === "desc" && params[:order_by] === "updated_at"
     @services = @services.oldest if params[:order] === "asc" && params[:order_by] === "updated_at"
 
     @services = @services.in_taxonomy(params[:filter_taxonomy]) if params[:filter_taxonomy].present?
+    @services = @services.scheduled if params[:filter_status].present? && params[:filter_status] === "scheduled"
+    @services = @services.hidden if params[:filter_status].present? && params[:filter_status] === "hidden"
 
     @services = @services.search(params[:query]).page(params[:page]) if params[:query].present?
     @services = @services.order(updated_at: :DESC) # default sort
@@ -72,6 +73,8 @@ class Admin::ServicesController < Admin::BaseController
       :description,
       :url,
       :email,
+      :visible_from,
+      :visible_to,
       taxonomy_ids: [],
       location_ids: [],
       send_need_ids: [],

@@ -7,7 +7,7 @@
         background: none;
         border: none;
         padding-bottom: 15px;
-        border-bottom: 3px solid $text;
+        border-bottom: 5px solid $text;
         margin-bottom: 25px;
         cursor: pointer;
         text-align: left;
@@ -29,8 +29,12 @@
             background-repeat: no-repeat;
             background-image: url(asset_path("down-arrow.svg"));
         }
-        &[aria-expanded=false]:after{
-            background-image: url(asset_path("up-arrow.svg"));
+        &[aria-expanded=false]{
+            margin-bottom: 0px;
+            &:after{
+                background-image: url(asset_path("up-arrow.svg"));
+    
+            }
         }
         &:focus{
             border-color: $focus;

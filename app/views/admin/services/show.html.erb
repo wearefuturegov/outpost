@@ -30,4 +30,73 @@
   <%= render "shared/watch" %>
 </header>
 
-<%= render "form" %>
+<div class="with-sidebar">
+
+  <div class="two-thirds">
+    <%= form_for(@service, as: :service, url: admin_service_path(@service), method: :put) do |s| %>
+
+      <%= render "shared/errors", model: @service %>
+
+      <section class="collapsible" id="basics-editor">
+        <button class="collapsible__header">
+          <h2>Basics</h2>
+        </button>
+        <div class="collapsible__content">
+          <%= render "admin/services/editors/basics", s: s %>
+        </div>
+      </section>
+
+      <section class="version-history collapsible" id="taxonomies-editor">
+          <button class="collapsible__header" aria-expanded="true">
+              <h2>Categories</h2>
+          </button>
+          <div class="collapsible__content">
+            <%= render "admin/services/editors/taxonomies", s: s %>
+          </div>
+      </section>
+
+      <section class="collapsible" id="locations-editor">
+        <button class="collapsible__header">
+          <h2>Location</h2>
+        </button>
+        <div class="collapsible__content">
+          <%= render "admin/services/editors/locations", s: s %>
+        </div>
+      </section>
+
+      <fieldset class="collapsible" id="send-needs-editor">
+        <button class="collapsible__header">
+          <legend><h2>SEND Needs</h2></legend>
+        </button>
+        <div class="collapsible__content">
+          <div class="field-section field-section--two-cols field-section--no-bottom-margin">
+            <%= render "admin/services/editors/send-needs", s: s %>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset class="collapsible" id="send-needs-editor">
+        <button class="collapsible__header">
+          <legend><h2>Dates</h2></legend>
+        </button>
+        <div class="collapsible__content">
+          <%= render "admin/services/editors/dates", s: s %>
+        </div>
+      </fieldset>
+
+      <div class="form-actions">
+        <%= s.submit "Update", class: "button" %>
+        <% unless @service.discarded? %>
+          <%= link_to "Archive", admin_service_path(@service), method: "delete", class: "button button--danger", data: {confirm: "Are you sure?" } %>
+        <% end %>
+      </div>
+
+    <% end %>
+  </div>
+
+  <aside class="with-sidebar__sidebar">
+      <%= render "shared/version-history" %>
+      <%= render "shared/notes" %>
+  </aside>
+
+</div>

@@ -12,6 +12,12 @@
                 selected: params[:filter_taxonomy]
             }, class: "filters__select" %>
 
+            <%= label_tag "filter_status", nil, class: "visually-hidden" %>
+            <%= select_tag "filter_status", options_for_select([
+                ["Only scheduled", "scheduled"],
+                ["Only hidden", "hidden"],
+            ], params[:filter_status]), include_blank: "All status", class: "filters__select" %>
+
         <% end %>
     </div>
 </div>

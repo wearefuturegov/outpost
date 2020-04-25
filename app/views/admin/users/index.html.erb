@@ -44,7 +44,7 @@
           <td><%= time_ago_in_words(u.created_at).humanize %> ago</td>
           <td>
             <% if u.last_seen %>
-              <%= time_ago_in_words(u.last_seen).humanize %>
+              <%= time_ago_in_words(u.last_seen).humanize %> ago
             <% else %>
               Never logged in
             <% end %>
