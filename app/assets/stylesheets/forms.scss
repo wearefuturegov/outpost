@@ -47,6 +47,7 @@
         font-size: 1rem;
         background: $white;
         border: 2px solid $text;
+        border-radius: 0px;
         &:focus{
             outline: 3px solid $focus;
         }
@@ -65,6 +66,7 @@
         background-position: center right;
         background-repeat: no-repeat;
         padding-right: 45px;
+        border-radius: 0px;
     }
     select.field__input[multiple]{
         background-image: none;
@@ -170,6 +172,9 @@
         position: absolute;
         left: 0px;
         top: 0px;
+        &:focus{
+            outline: none;
+        }
         &:checked + label:after{
             position: absolute;
             content: "";
