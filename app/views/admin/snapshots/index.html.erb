@@ -1,10 +1,23 @@
+<% content_for :header do %>
+    <%= link_to "Back to service", admin_service_path(params[:service_id]), class: "go-back" %>
+    <div class="page-header__actions">
+      <h1 class="page-header__title two-thirds">Edit history</h1>
+    </div>
+<% end %>
+
 <% if @snapshots.any? %>
     <ul>
         <% @snapshots.each do |s| %>
             <li>
                 <%= time_ago_in_words(s.created_at).humanize %> ago<br/>
                 <%= s.action %>d by <%= s.user.display_name %><br/>
-                <%= link_to "Restore this version", admin_service_snapshot_path(@service, s), method: "patch" %>
+                <% if s === @snapshots.first %>
+                    <p>Current version<p>
+                <% else %>
+                                <%= link_to "Restore this version", admin_service_snapshot_path(@service, s), method: "patch" %>
+                <% end %>
+                <p><%= s.object["taxonomies"].length %> taxa</p>
+                <p><%= s.object["send_needs"].length %> needs</p>
             </li>
         <% end %>
     </ul>

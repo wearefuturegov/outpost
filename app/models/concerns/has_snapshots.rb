@@ -6,12 +6,11 @@ module HasSnapshots
     end
 
     def capture
-        # byebug
         new_snapshot = self.snapshots.new(
             user: User.last, # TODO: use current user
             action: "update",
             object: self.as_json(include: [
-                :service_taxonomies, 
+                :taxonomies, 
                 :send_needs
             ]),
             object_changes: self.saved_changes.as_json
