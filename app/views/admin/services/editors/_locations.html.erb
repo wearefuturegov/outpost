@@ -6,8 +6,8 @@
     <button class="button button--small add-new-location" aria-expanded="false">Add new</button>
 </div>
 
-
 <%= s.fields_for :locations do |l| %>
+    <%= l.index %>
     <div class="field-section field-section--two-cols field-section--panel">
         <h3 class="field">New location</h3>
         <div class="field field--span-two-cols">
