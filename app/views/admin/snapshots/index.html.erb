@@ -9,15 +9,17 @@
     <ul>
         <% @snapshots.each do |s| %>
             <li>
-                <%= time_ago_in_words(s.created_at).humanize %> ago<br/>
-                <%= s.action %>d by <%= s.user.display_name %><br/>
+                <h3><%= time_ago_in_words(s.created_at).humanize %> ago</h3>
+                <p><%= s.action %>d by <%= s.user.display_name if s.user %></p>
+
                 <% if s === @snapshots.first %>
                     <p>Current version<p>
                 <% else %>
-                                <%= link_to "Restore this version", admin_service_snapshot_path(@service, s), method: "patch" %>
+                    <%= link_to "Restore this version", admin_service_snapshot_path(@service, s), method: "patch", data: {confirm: "Are you sure you want to restore this version? This will overwrite more recent changes."} %>
                 <% end %>
-                <p><%= s.object["taxonomies"].length %> taxa</p>
-                <p><%= s.object["send_needs"].length %> needs</p>
+
+                <p><small><%= s.object["taxonomies"].length %> taxa</small></p>
+                <p><small><%= s.object["send_needs"].length %> needs</small></p>
             </li>
         <% end %>
     </ul>

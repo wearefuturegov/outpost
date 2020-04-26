@@ -1,6 +1,11 @@
+module Current
+    thread_mattr_accessor :user
+end
+
 class ApplicationController < ActionController::Base
     before_action :authenticate_user!
     before_action :set_paper_trail_whodunnit
+    around_action :set_current_user
 
     protected
 
@@ -11,4 +16,11 @@ class ApplicationController < ActionController::Base
     def after_sign_up_path_for(resource)
         '/organisations'
     end
+
+    def set_current_user
+      Current.user = current_user
+      yield
+    ensure
+      Current.user = nil
+    end  
 end

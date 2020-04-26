@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_26_095612) do
+ActiveRecord::Schema.define(version: 2020_04_26_164929) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,18 +31,6 @@ ActiveRecord::Schema.define(version: 2020_04_26_095612) do
     t.string "name"
     t.string "title"
     t.index ["service_id"], name: "index_contacts_on_service_id"
-  end
-
-  create_table "edits", force: :cascade do |t|
-    t.json "object"
-    t.string "action"
-    t.bigint "user_id", null: false
-    t.bigint "service_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.json "object_changes"
-    t.index ["service_id"], name: "index_edits_on_service_id"
-    t.index ["user_id"], name: "index_edits_on_user_id"
   end
 
   create_table "locations", force: :cascade do |t|
@@ -132,6 +120,18 @@ ActiveRecord::Schema.define(version: 2020_04_26_095612) do
     t.index ["organisation_id"], name: "index_services_on_organisation_id"
   end
 
+  create_table "snapshots", force: :cascade do |t|
+    t.json "object"
+    t.string "action"
+    t.integer "user_id"
+    t.bigint "service_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.json "object_changes"
+    t.index ["service_id"], name: "index_snapshots_on_service_id"
+    t.index ["user_id"], name: "index_snapshots_on_user_id"
+  end
+
   create_table "taxonomies", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
@@ -175,6 +175,7 @@ ActiveRecord::Schema.define(version: 2020_04_26_095612) do
     t.text "object"
     t.datetime "created_at"
     t.text "object_changes"
+    t.json "taxonomies"
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
@@ -187,8 +188,8 @@ ActiveRecord::Schema.define(version: 2020_04_26_095612) do
     t.index ["user_id"], name: "index_watches_on_user_id"
   end
 
-  add_foreign_key "edits", "services"
-  add_foreign_key "edits", "users"
   add_foreign_key "notes", "services"
   add_foreign_key "notes", "users"
+  add_foreign_key "snapshots", "services"
+  add_foreign_key "snapshots", "users"
 end

@@ -2,7 +2,7 @@ class Admin::SnapshotsController < ApplicationController
     before_action :set_service
 
     def index
-        @snapshots = @service.snapshots.reverse
+        @snapshots = @service.snapshots.order(created_at: :desc)
     end
 
     def update

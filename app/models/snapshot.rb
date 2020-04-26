@@ -1,5 +1,5 @@
 class Snapshot < ApplicationRecord
-  belongs_to :user
+  belongs_to :user, optional: true
   belongs_to :service
 
   def restore
@@ -22,7 +22,7 @@ class Snapshot < ApplicationRecord
 
     # 4. Finally, save the object
     live_object.save
-    live_object.capture
+    live_object.capture("restore")
   end
 c
 end

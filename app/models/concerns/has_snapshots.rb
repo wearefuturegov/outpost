@@ -1,34 +1,36 @@
 module HasSnapshots
+
     extend ActiveSupport::Concern
 
     included do
-        after_save :capture
+        attr_accessor :snapshot_action
+        after_save :capture_on_save
     end
 
-    def capture
+    def capture_on_save
+        capture(self.snapshot_action || (self.id_previously_changed? ? "create" : "update"))
+    end
+
+    def capture(snapshot_action)
         new_snapshot = self.snapshots.new(
-            user: User.last, # TODO: use current user
-            action: "update",
+            user: Current.user,
+            action: snapshot_action,
             object: self.as_json(include: [
                 :taxonomies, 
                 :send_needs
             ]),
             object_changes: self.saved_changes.as_json
         )
-        byebug
         new_snapshot.save
     end
 end
 
 
+
+
+
 # TODOS
-# 1. Attribute changes to current_user or default "System"
-# 2. Handle other events:
-#       - create
-#       - approve
-#       - archive
-#       - unarchive
-# 3. Make sure a snapshot is saved when an old snapshot is restored
-# 4. Make sure all attributes are captured
-# 5. Update UI everywhere
-# 6. Goodbye to paper trail
+# - make sure current user captured on restore from previous version
+# - Make sure all attributes are captured
+# - Update UI everywhere
+# - Goodbye to paper trail
