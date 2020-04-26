@@ -24,7 +24,7 @@
         background: $pale;
         border-left: 1px solid $card-shadow;
         flex: 1;
-        padding: 35px;
+        padding: 0px 35px 35px 35px;
         overflow-y: scroll;
     }
 }
@@ -45,6 +45,10 @@
         }
         &:focus-within{
             background: $focus;
+        }
+        &[aria-selected]{
+            background: $pale;
+            pointer-events: none;
         }
     }
 
@@ -85,8 +89,14 @@
 }
 
 .snapshot-preview{
-    margin-bottom: 35px;
+    padding-top: 35px;
     &:last-of-type{
-        margin-bottom: 0px;
+        margin-bottom: 35px;
+    }
+    .snapshot-preview__actions{
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        margin-bottom: 25px;
     }
 }
