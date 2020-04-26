@@ -26,11 +26,7 @@ module HasSnapshots
 end
 
 
-
-
-
 # TODOS
-# - make sure current user captured on restore from previous version
 # - Make sure all attributes are captured
 # - Update UI everywhere
 # - Goodbye to paper trail
