@@ -22,6 +22,7 @@ class Snapshot < ApplicationRecord
 
     # 4. Finally, save the object
     live_object.save
+    live_object.capture
   end
 c
 end
