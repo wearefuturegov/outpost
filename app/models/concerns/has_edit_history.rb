@@ -9,10 +9,8 @@ module HasEditHistory
         e = self.edits.new(
           user: User.last,
           action: "update",
-          object: self.to_json
+          object: self.as_json(include: :service_taxonomies)
         )
-        byebug
         e.save
     end
-
 end

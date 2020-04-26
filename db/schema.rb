@@ -33,6 +33,17 @@ ActiveRecord::Schema.define(version: 2020_04_25_100452) do
     t.index ["service_id"], name: "index_contacts_on_service_id"
   end
 
+  create_table "edits", force: :cascade do |t|
+    t.json "object"
+    t.string "action"
+    t.bigint "user_id", null: false
+    t.bigint "service_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["service_id"], name: "index_edits_on_service_id"
+    t.index ["user_id"], name: "index_edits_on_user_id"
+  end
+
   create_table "locations", force: :cascade do |t|
     t.string "name"
     t.string "description"
@@ -175,6 +186,8 @@ ActiveRecord::Schema.define(version: 2020_04_25_100452) do
     t.index ["user_id"], name: "index_watches_on_user_id"
   end
 
+  add_foreign_key "edits", "services"
+  add_foreign_key "edits", "users"
   add_foreign_key "notes", "services"
   add_foreign_key "notes", "users"
 end
