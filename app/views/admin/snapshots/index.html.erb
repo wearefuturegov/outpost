@@ -1,26 +1,60 @@
 <% content_for :header do %>
     <%= link_to "Back to service", admin_service_path(params[:service_id]), class: "go-back" %>
-    <div class="page-header__actions">
-      <h1 class="page-header__title two-thirds">Edit history</h1>
-    </div>
+    <h1 class="page-header__title">Edit history</h1>
 <% end %>
 
-<% if @snapshots.any? %>
-    <ul>
-        <% @snapshots.each do |s| %>
-            <li>
-                <h3><%= time_ago_in_words(s.created_at).humanize %> ago</h3>
-                <p><%= s.action %>d by <%= s.user.display_name if s.user %></p>
+<div class="snapshots">
+    <aside class="snapshots__sidebar">
+        <% if @snapshots.any? %>
+            <ul class="snapshots-tree">
+                <% @snapshots.each do |s| %>
+                    <li class="snapshots-tree__snapshot">
 
-                <% if s === @snapshots.first %>
-                    <p>Current version<p>
-                <% else %>
-                    <%= link_to "Restore this version", admin_service_snapshot_path(@service, s), method: "patch", data: {confirm: "Are you sure you want to restore this version? This will overwrite more recent changes."} %>
+                        <h3 class="snapshots-tree__snapshot-title">
+                            <%= link_to s.created_at.strftime('%d %B %Y, %H:%M'), "##{s.id}", class: "snapshots-tree__snapshot-link" %>
+                        </h3>
+
+                        <% if s === @snapshots.first %>
+                            <p><em>Current version</em><p>
+                        <% end %>
+                        
+                        <% if s === @snapshots.last %>
+                            <p><em>Earliest version</em><p>
+                        <% end %>
+
+                        <% if s.user %>
+                            <p class="snapshots-tree__snapshot-user"><%= s.user.display_name %></p>
+                        <% end %>
+
+                        <% unless s.action === "update"%>
+                            <p class="snapshots-tree__snapshot-action">
+                                <%= s.action.humanize %>
+                            </p>
+                        <% end %>
+
+                    </li>
                 <% end %>
-
-                <p><small><%= s.object["taxonomies"].length %> taxa</small></p>
-                <p><small><%= s.object["send_needs"].length %> needs</small></p>
-            </li>
+            </ul>
         <% end %>
-    </ul>
-<% end %>
+    </aside>
+
+    <div class="snapshots__previews">
+        <% if @snapshots.any? %>
+            <% @snapshots.each do |s| %>
+                <article class="snapshot-preview" id="<%= s.id %>">
+
+                    <% unless s === @snapshots.first %>
+                        <%= link_to "Restore this version", admin_service_snapshot_path(@service, s), method: "patch", data: {confirm: "Are you sure you want to restore this version? This will overwrite more recent changes."}, class: "button button--small" %>
+                    <% end %>
+
+                    <% s.object.each do |key, value| %>
+                        <p>
+                            <strong><%= key %>:</strong>
+                            <%= value %>
+                        </p>
+                    <% end %>
+                </article>
+            <% end %>
+        <% end %>
+    </div>
+</div>

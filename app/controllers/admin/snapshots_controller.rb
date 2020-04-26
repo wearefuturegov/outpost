@@ -3,6 +3,7 @@ class Admin::SnapshotsController < ApplicationController
 
     def index
         @snapshots = @service.snapshots.order(created_at: :desc)
+        render :layout => "full-width"
     end
 
     def update

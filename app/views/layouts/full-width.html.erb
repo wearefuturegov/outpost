@@ -2,13 +2,12 @@
 <html lang="en">
   <%= render "shared/head" %>
 
-  <body>
+  <body class="full-height">
     <!-- <a href="#content" class="skiplink">Skip to main content</a> -->
-    <%= render "shared/header", full_width: false %>
-    <%= render "shared/navigation", full_width: false %>
+    <%= render "shared/header", full_width: true %>
+    <%= render "shared/navigation", full_width: true %>
 
-    <header class="page-header" id="content">
-      <div class="container">
+    <header class="page-header page-header--full-width" id="content">
           <% if notice || alert %>
               <div class="alert">
                 <%= notice %>
@@ -16,16 +15,9 @@
               </div>
           <% end %>
           <%= yield :header %>
-      </div>
     </header>
 
-    <div class="page-content">
-      <div class="container">
-        <%= yield %>
-      </div>
-    </div>
-
-    <%= render "shared/footer" %>
+    <%= yield %>
 
     <%= javascript_pack_tag 'main', 'data-turbolinks-track': 'reload' %>
   </body>

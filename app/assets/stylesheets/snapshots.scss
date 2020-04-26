@@ -1,0 +1,92 @@
+@import "variables";
+
+.full-height{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.snapshots{
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    height: 100%;
+    border-top: 1px solid $card-shadow;
+
+    .snapshots__sidebar{
+        width: 350px;
+        overflow-y: scroll;
+    }
+
+    .snapshots__previews{
+        background: $pale;
+        border-left: 1px solid $card-shadow;
+        flex: 1;
+        padding: 35px;
+        overflow-y: scroll;
+    }
+}
+
+
+.snapshots-tree{
+    list-style: none;
+    margin: 0px;
+
+    .snapshots-tree__snapshot{
+        position: relative;
+        padding: 25px;
+        border-bottom: 1px solid $card-shadow;
+        margin-bottom: 0px;
+        color: $grey;
+        &:hover{
+            background: $pale;
+        }
+        &:focus-within{
+            background: $focus;
+        }
+    }
+
+    .snapshots-tree__snapshot-title{
+        margin-bottom: 5px;
+    }
+    .snapshots-tree__snapshot-link{
+        &:hover{
+            text-decoration: none;
+        }
+        &:focus{
+            background: none;
+            outline: none;
+        }
+        &:after{
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            width: 100%;
+            height: 100%;
+            display: block;
+            content: "";
+        }
+    }
+    .snapshots-tree__snapshot-user{
+        font-size: 0.9rem;
+    }
+    .snapshots-tree__snapshot-action{
+        margin-top: 5px;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        padding: 3px 5px;
+        border-radius: 2px;
+        display: inline-block;
+        background: transparentize($grey, 0.9);
+        font-weight: bold;
+    }
+}
+
+.snapshot-preview{
+    margin-bottom: 35px;
+    &:last-of-type{
+        margin-bottom: 0px;
+    }
+}

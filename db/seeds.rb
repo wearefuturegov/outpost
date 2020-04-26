@@ -51,9 +51,8 @@ bucks_csv.each do |row|
       organisation.save
       service.organisation_id = organisation.id
     end
-    service.paper_trail_event = 'import'
+    service.snapshot_action = "import"
     if (row['ecd_opt_out_website'] == 'Hide completely from public website') || (row['ecd_opt_out_website'] == 'Admin access only, never on website')
-      service.paper_trail_event = 'import as archived'
       service.discarded_at = Time.now
     end
     service.save

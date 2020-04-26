@@ -43,6 +43,13 @@
         margin-top: 40px;
         font-size: 1.2rem;
     }
+    &.page-header--full-width{
+        padding: 25px 20px;
+        .page-header__title{
+            font-size: 2rem;
+            margin-bottom: 0px;
+        }
+    }
 }
 
 .page-content{
