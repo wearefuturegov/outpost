@@ -10,10 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_24_153050) do
+ActiveRecord::Schema.define(version: 2020_04_25_100452) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "accessibilities", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "accessibilities_locations", id: false, force: :cascade do |t|
+    t.bigint "location_id", null: false
+    t.bigint "accessibility_id", null: false
+  end
 
   create_table "contacts", force: :cascade do |t|
     t.bigint "service_id"
@@ -60,6 +71,17 @@ ActiveRecord::Schema.define(version: 2020_04_24_153050) do
     t.index ["contact_id"], name: "index_phones_on_contact_id"
   end
 
+  create_table "send_needs", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "send_needs_services", id: false, force: :cascade do |t|
+    t.bigint "service_id", null: false
+    t.bigint "send_need_id", null: false
+  end
+
   create_table "service_at_locations", force: :cascade do |t|
     t.integer "service_id", null: false
     t.integer "location_id", null: false
@@ -92,6 +114,8 @@ ActiveRecord::Schema.define(version: 2020_04_24_153050) do
     t.datetime "discarded_at"
     t.boolean "approved", default: true
     t.string "type"
+    t.date "visible_from"
+    t.date "visible_to"
     t.index ["discarded_at"], name: "index_services_on_discarded_at"
     t.index ["organisation_id"], name: "index_services_on_organisation_id"
   end

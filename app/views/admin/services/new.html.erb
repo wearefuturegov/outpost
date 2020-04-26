@@ -3,4 +3,65 @@
     <h1 class="page-header__title two-thirds">Add a new service</h1>
 <% end %>
 
-<%= render "form" %>
+<div class="with-sidebar">
+
+  <div class="two-thirds">
+    <%= form_for @service do |s| %>
+
+      <%= render "shared/errors", model: @service %>
+
+      <div class="collapsible" id="basic-info-editor">
+        <button class="collapsible__header">
+          <h2>Basics</h2>
+        </button>
+        <div class="collapsible__content">
+          <%= render "admin/services/editors/basics", s: s %>
+        </div>
+      </div>
+
+      <section class="version-history collapsible" id="category-editor">
+          <button class="collapsible__header" aria-expanded="true">
+              <h2>Categories</h2>
+          </button>
+          <div class="collapsible__content">
+            <%= render "admin/services/editors/taxonomies", s: s %>
+          </div>
+      </section>
+
+      <div class="collapsible" id="location-editor">
+        <button class="collapsible__header">
+          <h2>Location</h2>
+        </button>
+        <div class="collapsible__content">
+          <%= render "admin/services/editors/locations", s: s %>
+        </div>
+      </div>
+
+      <fieldset class="collapsible" id="accessibility-editor">
+        <button class="collapsible__header">
+          <legend><h2>SEND Needs</h2></legend>
+        </button>
+        <div class="collapsible__content">
+          <div class="field-section field-section--two-cols field-section--no-bottom-margin">
+            <%= render "admin/services/editors/send-needs", s: s %>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset class="collapsible" id="send-needs-editor">
+        <button class="collapsible__header">
+          <legend><h2>Visibility</h2></legend>
+        </button>
+        <div class="collapsible__content">
+          <%= render "admin/services/editors/dates", s: s %>
+        </div>
+      </fieldset>
+
+      <div class="form-actions">
+        <%= s.submit "Create", class: "button" %>
+      </div>
+
+    <% end %>
+  </div>
+
+</div>

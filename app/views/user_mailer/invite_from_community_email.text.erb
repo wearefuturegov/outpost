@@ -4,4 +4,4 @@ You've been added to the <%= @org.name %> organisation.
 
 Set your password and log in here:
 
-http://localhost:3000/users/password/new?email=<%= @user.email %>
+<%= new_user_password_url %>?email=<%= @user.email %>

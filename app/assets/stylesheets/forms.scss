@@ -47,6 +47,7 @@
         font-size: 1rem;
         background: $white;
         border: 2px solid $text;
+        border-radius: 0px;
         &:focus{
             outline: 3px solid $focus;
         }
@@ -65,6 +66,7 @@
         background-position: center right;
         background-repeat: no-repeat;
         padding-right: 45px;
+        border-radius: 0px;
     }
     select.field__input[multiple]{
         background-image: none;
@@ -98,6 +100,10 @@
     &:active{
         background: darken($link, 20);
         color: $white;
+    }
+    &[disabled]{
+        background: $text;
+        pointer-events: none;
     }
     @media screen and (min-width: $breakpoint-l) {
         display: inline-block;
@@ -170,6 +176,9 @@
         position: absolute;
         left: 0px;
         top: 0px;
+        &:focus{
+            outline: none;
+        }
         &:checked + label:after{
             position: absolute;
             content: "";
@@ -239,14 +248,24 @@
             column-gap: 25px;
         }
     }
+    &.field-section--panel{
+        padding: 25px;
+        background: $pale;
+        padding-bottom: 10px;
+    }
+    &.field-section--no-bottom-margin{
+        margin-bottom: 0px;
+    }
     .field-section__legend{
         font-size: 1.5rem;
         font-weight: bold;
         margin-bottom: 20px;
     }
     .field-section__hint{
+        grid-column: 1 / 3;
         margin-bottom: 20px;
     }
+
 }
 
 .form-actions{

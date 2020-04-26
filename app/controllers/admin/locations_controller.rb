@@ -6,6 +6,11 @@ class Admin::LocationsController < Admin::BaseController
         @locations = @locations.search(params[:query]) if params[:query].present?
         @locations = @locations.only_with_services if params[:filter_services] === "with"
         @locations = @locations.only_without_services if params[:filter_services] === "without"
+
+        respond_to do |format|
+            format.html
+            format.json { render :json => @locations }
+        end
     end
 
     def show
@@ -45,7 +50,8 @@ class Admin::LocationsController < Admin::BaseController
             :city,
             :state_province,
             :postal_code,
-            :country
+            :country,
+            accessibility_ids: []
         )
     end
 end

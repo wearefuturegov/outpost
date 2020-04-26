@@ -14,6 +14,8 @@ class Service < ApplicationRecord
   has_many :service_taxonomies
   has_many :taxonomies, through: :service_taxonomies
 
+  has_and_belongs_to_many :send_needs
+
   # watch functionality
   has_many :watches
   has_many :users, through: :watches
@@ -21,8 +23,12 @@ class Service < ApplicationRecord
   has_many :notes
 
   after_save :update_service_at_locations
+  after_save :notify_watchers
 
-  accepts_nested_attributes_for :locations
+  accepts_nested_attributes_for :locations,
+    :reject_if => proc {|attributes|
+      attributes.all? {|k,v| v.blank?}
+    }
 
   # sort scopes
   scope :oldest, ->  { order("updated_at ASC") }
@@ -32,6 +38,8 @@ class Service < ApplicationRecord
 
   # filter scopes
   scope :in_taxonomy, -> (id) { joins(:taxonomies).where("taxonomies.id in (?)", id)}
+  scope :scheduled, -> { where("visible_from > (?)", Date.today)}
+  scope :hidden, -> { where("visible_to < (?)", Date.today)}
 
   paginates_per 20
   validates_presence_of :name
@@ -47,15 +55,6 @@ class Service < ApplicationRecord
       tsearch: { prefix: true }
     }
 
-  def self.to_csv
-    CSV.generate do |csv|
-      csv << column_names
-      all.each do |result|
-        csv << result.attributes.values_at(*column_names)
-      end
-    end
-  end
-
   def display_name
     self.name || "Unnamed service"
   end
@@ -65,6 +64,10 @@ class Service < ApplicationRecord
       "archived"
     elsif !approved
       "pending"
+    elsif (visible_from.present? && (visible_from > Date.today))
+      "scheduled"      
+    elsif (visible_to.present? && (visible_to < Date.today))
+      "hidden"
     else
       "active"
     end
@@ -96,4 +99,7 @@ class Service < ApplicationRecord
     end
   end
 
+  def notify_watchers
+    ServiceMailer.with(service: self).notify_watchers_email.deliver_later
+  end
 end

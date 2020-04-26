@@ -45,6 +45,7 @@
             border-color: $card-shadow transparent transparent transparent;
             border-width: 11px 11px 0px 11px;
             bottom: 0px;
+            left: 21px;
         }
         &:after{
             content: "";
@@ -56,8 +57,14 @@
             position: absolute;
             left: 22px;
         }
+        &.poppable-card__inner--with-user-circle{
+            padding-left: 75px;
+            .user-circle{
+                position: absolute;
+                left: 20px;
+            }
+        }
     }
-
 
     .poppable-card__headline{
         font-size: 1.1rem;

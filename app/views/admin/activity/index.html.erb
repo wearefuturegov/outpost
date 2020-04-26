@@ -7,29 +7,10 @@
     <table class="table">
       <thead>
         <tr>
-            <th class="visually-hidden">Event</th>
-            <th>To</th>
-            <th>By</th>
-            <th>At</th>
         </tr>
       </thead>
       <tbody>
-        <% @activities.each do |a| %>
-          <tr>
-            <td><%= a.event.humanize %></td>
-            <td>
-                <% if a.item %>
-                    <strong><%= link_to a.item.name, admin_service_url(a.item) %></strong>
-                <% else %>
-                    Deleted service
-                <% end %>
-            </td>
-            <td><%= User.find(a.whodunnit).email if a.whodunnit %></td>
-            <td><%= time_ago_in_words(a.created_at).humanize %> ago</td>
-            <td></td>
 
-          </tr>
-        <% end %>
       </tbody>
     </table>
   </div>
