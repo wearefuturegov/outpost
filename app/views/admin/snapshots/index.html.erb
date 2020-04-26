@@ -1,0 +1,11 @@
+<% if @snapshots.any? %>
+    <ul>
+        <% @snapshots.each do |s| %>
+            <li>
+                <%= time_ago_in_words(s.created_at).humanize %> ago<br/>
+                <%= s.action %>d by <%= s.user.display_name %><br/>
+                <%= link_to "Restore this version", admin_service_snapshot_path(@service, s), method: "patch" %>
+            </li>
+        <% end %>
+    </ul>
+<% end %>
