@@ -1,11 +1,10 @@
 class Service < ApplicationRecord
 
-  attr_accessor :current_user
-  include HasEditHistory
+  include HasSnapshots
 
   belongs_to :organisation
 
-  has_many :edits
+  has_many :snapshots
 
   has_one :contact
   has_many :service_at_locations

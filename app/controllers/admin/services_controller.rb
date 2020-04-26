@@ -61,7 +61,7 @@ class Admin::ServicesController < Admin::BaseController
 
   def set_service
     @service = Service.find(params[:id])
-    @service.locations.new
+    # @service.locations.new
   end
 
   def service_params
