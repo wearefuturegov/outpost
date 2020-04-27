@@ -102,3 +102,5 @@ bucks_csv.each do |row|
   end
 
 end
+
+Rake::Task['service_at_locations:prepare'].invoke
