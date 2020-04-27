@@ -55,18 +55,6 @@ bucks_csv.each do |row|
     if (row['ecd_opt_out_website'] == 'Hide completely from public website') || (row['ecd_opt_out_website'] == 'Admin access only, never on website')
       service.discarded_at = Time.now
     end
-    service.save
-
-    contact = Contact.new
-    contact.service_id = service.id
-    contact.name = row['contact_name']
-    contact.title = row['contact_position']
-    contact.save
-
-    phone = Phone.new
-    phone.contact_id = contact.id
-    phone.number = row['contact_telephone']
-    phone.save
 
     if row['venue_name'].present? && (Location.where('lower(name) = ?', row['venue_name'].downcase).size > 0) # Assign location if already exists
       service.locations << Location.where('lower(name) = ?', row['venue_name'].downcase).first
@@ -99,6 +87,17 @@ bucks_csv.each do |row|
     end
 
     service.save
+
+    contact = Contact.new
+    contact.service_id = service.id
+    contact.name = row['contact_name']
+    contact.title = row['contact_position']
+    contact.save
+
+    phone = Phone.new
+    phone.contact_id = contact.id
+    phone.number = row['contact_telephone']
+    phone.save
   end
 
 end
