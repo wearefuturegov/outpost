@@ -6,7 +6,7 @@
 <div class="with-sidebar">
 
   <div class="two-thirds">
-    <%= form_for @service do |s| %>
+    <%= form_for [:admin, @service] do |s| %>
 
       <%= render "shared/errors", model: @service %>
 
