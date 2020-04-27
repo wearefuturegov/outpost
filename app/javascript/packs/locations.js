@@ -1,21 +1,24 @@
 import Choices from "choices.js"
 
 // enhanced select
-if(document.querySelector(".enhanced-select")){
+// if(document.querySelector(".enhanced-select")){
     const choices = new Choices(document.querySelector(".enhanced-select"))
-}
+// }/
 
-const locationEditor = document.querySelector("#locations-editor")
+// if(document.querySelector("#locations-editor")){
+    const locationEditor = document.querySelector("#locations-editor")
 
-const addNewButton = locationEditor.querySelector(".add-new-location")
-const content = locationEditor.querySelector(".collapsible__content")
+    const addNewButton = locationEditor.querySelector(".add-new-location")
+    const content = locationEditor.querySelector(".collapsible__content")
+    
+    addNewButton.addEventListener("click", e => {
+        e.preventDefault()
+        e.target.setAttribute("aria-expanded", "true")
+        e.target.disabled = true
+        // TODO
+    })
+// }
 
-addNewButton.addEventListener("click", e => {
-    e.preventDefault()
-    e.target.setAttribute("aria-expanded", "true")
-    e.target.disabled = true
-    // TODO
-})
 
 
 // import SearchApi from 'js-worker-search'
