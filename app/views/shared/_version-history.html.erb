@@ -7,18 +7,18 @@
     <%= link_to "See full history", admin_service_snapshots_path(@service), class: "collapsible__action" %>
     
 
-    <% if @versions.present? && false %>
-      <ul class="stepper <%= "stepper--summarised" if @service.versions.length > 4 %>">
-          <% @versions.each do |v| %>
-              <li class="stepper__step <%= stepper_class(v.event) %>">
+    <% if @snapshots.present? %>
+      <ul class="stepper <%= "stepper--summarised" if @service.snapshots.length > 4 %>">
+          <% @snapshots.each do |shot| %>
+              <li class="stepper__step <%= stepper_class(shot.action) %>">
                   <p>
-                    <%= pretty_event(v.event)&.humanize %>
-                    <% if v.whodunnit.present? %>
-                      by <strong><%= User.find(v.whodunnit).email %></strong>
+                    <%= pretty_event(shot.action)&.humanize %>
+                    <% if shot.user.present? %>
+                      by <strong><%= shot.user.email %></strong>
                     <% end %>
                   </p>
                   <p class="stepper__time">
-                    <%= time_ago_in_words(v.created_at).humanize %> ago
+                    <%= time_ago_in_words(shot.created_at).humanize %> ago
                   </p>
               </li>
           <% end %>

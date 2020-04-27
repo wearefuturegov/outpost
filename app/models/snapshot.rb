@@ -17,12 +17,12 @@ class Snapshot < ApplicationRecord
     end
     
     # 3. Restore plain attributes
-    live_object.name = self.object[:name]
-    live_object.description = self.object[:description]
+    live_object.name = self.object["name"]
+    live_object.description = self.object["description"]
     # ...
 
     # 4. Finally, save the object
+    live_object.snapshot_action = "restore"
     live_object.save
-    live_object.capture("restore")
   end
 end

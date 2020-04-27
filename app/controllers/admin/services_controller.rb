@@ -22,11 +22,12 @@ class Admin::ServicesController < Admin::BaseController
     @note = @service.notes.new
 
     @watched = current_user.watches.where(service_id: @service.id).exists?
-    if @service.versions.length > 4
-      @versions = @service.versions.last(3).reverse
-      @versions.push(@service.versions.first)
-    else
-      @versions = @service.versions.reverse
+    
+    @snapshots = @service.snapshots.order(created_at: :desc)
+
+    if @service.snapshots.length > 4
+      @snapshots = @snapshots.first(3)
+      @snapshots.push(@service.snapshots.last)
     end
 
   end

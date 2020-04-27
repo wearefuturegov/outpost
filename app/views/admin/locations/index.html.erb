@@ -13,32 +13,42 @@
   </div>
 </header>
 
-<% if @locations.present? %>
-  <div class="table-holder">
-    <table class="table">
-      <thead>
-        <tr>
-            <th>Name</th>
-            <th>Address</th>
-            <th>Town or area</th>
-            <th>Postcode</th>
-            <th>Services</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @locations.each do |l| %>
-          <tr>
-            <td><%= link_to l.display_name, admin_location_path(l) %></td>
-            <td><%= l.address_1 %></td>
-            <td><%= l.city %></td>
-            <td><%= l.postal_code %></td>
-            <td><%= l.services.count %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
-    <%= paginate @locations %>
-<% else %>
-  <p class="no-results">No locations to show.</p>
-<% end %>
+<div class="two-panels">
+  <section class="two-panels__panel">
+    <% if @locations.present? %>
+      <div class="table-holder">
+        <table class="table">
+          <thead>
+            <tr>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Town or area</th>
+                <th>Postcode</th>
+                <th>Services</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @locations.each do |l| %>
+              <tr>
+                <td><%= link_to l.display_name, admin_location_path(l) %></td>
+                <td><%= l.address_1 %></td>
+                <td><%= l.city %></td>
+                <td><%= l.postal_code %></td>
+                <td><%= l.services.count %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+        <%= paginate @locations %>
+    <% else %>
+      <p class="no-results">No locations to show.</p>
+    <% end %>
+  </section>
+
+  <section class="two-panels__panel">
+    <script>
+      __LOCATIONS__=<%= raw @locations.as_json %>
+    </script>
+  </section>
+</div>
