@@ -3,7 +3,7 @@ class Admin::OrganisationsController < Admin::BaseController
 
   def index
     @organisations = Organisation.page(params[:page])
-      .includes(:services)
+      .includes(:services, :users)
       .page(params[:page])
       .order(updated_at: :DESC)
 

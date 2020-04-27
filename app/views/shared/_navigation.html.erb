@@ -1,6 +1,6 @@
 <% if user_signed_in? %>
     <nav class="site-nav">
-        <div class="container">
+        <div class="<%= "container" unless full_width %>">
 
             <% if current_user.admin? %>
 

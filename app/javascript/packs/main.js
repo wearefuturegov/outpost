@@ -2,4 +2,5 @@
 import collapsible from "./collapsible"
 import maps from "./maps"
 import filters from "./filters"
+import snapshots from "./snapshots"
 import locations from "./locations"

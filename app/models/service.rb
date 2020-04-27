@@ -1,5 +1,10 @@
 class Service < ApplicationRecord
+
+  include HasSnapshots
+
   belongs_to :organisation
+
+  has_many :snapshots
 
   has_one :contact
   has_many :service_at_locations
@@ -69,22 +74,19 @@ class Service < ApplicationRecord
 
   # custom actions with paper trail events
   def archive
-    self.paper_trail_event = 'archive'
+    self.snapshot_action = "archive"
     self.discard
-    self.paper_trail.save_with_version
   end
 
   def restore
-    self.paper_trail_event = 'restore'
+    self.snapshot_action = "unarchive"
     self.undiscard
-    self.paper_trail.save_with_version
   end
 
   def approve
-    self.paper_trail_event = 'approve'
+    self.snapshot_action = "approve"
     self.approved = true
     self.save
-    self.paper_trail.save_with_version
   end
 
   def update_service_at_locations

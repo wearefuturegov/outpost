@@ -1,0 +1,71 @@
+<% content_for :header do %>
+    <%= link_to "Back to service", admin_service_path(params[:service_id]), class: "go-back" %>
+    <h1 class="page-header__title">Edit history</h1>
+<% end %>
+
+<div class="snapshots">
+    <aside class="snapshots__sidebar">
+        <% if @snapshots.any? %>
+            <ul class="snapshots-tree">
+                <% @snapshots.each do |s| %>
+                    <li class="snapshots-tree__snapshot" <%= "aria-selected" if s === @snapshots.first %>>
+
+                        <h3 class="snapshots-tree__snapshot-title">
+                            <%= link_to s.created_at.strftime('%d %B %Y, %H:%M'), "##{s.id}", class: "snapshots-tree__snapshot-link", data: { no_turbolink: true } %>
+                        </h3>
+
+                        <% if s === @snapshots.first %>
+                            <p><em>Current version</em><p>
+                        <% end %>
+                        
+                        <% if s === @snapshots.last %>
+                            <p><em>Earliest version</em><p>
+                        <% end %>
+
+                        <% if s.user %>
+                            <p class="snapshots-tree__snapshot-user"><%= s.user.display_name %></p>
+                        <% end %>
+
+                        <% unless s.action === "update"%>
+                            <p class="snapshots-tree__snapshot-action">
+                                <%= s.action.humanize %>
+                            </p>
+                        <% end %>
+
+                    </li>
+                <% end %>
+            </ul>
+        <% end %>
+    </aside>
+
+    <div class="snapshots__previews">
+        <% if @snapshots.any? %>
+            <% @snapshots.each do |s| %>
+                <article class="snapshot-preview" id="<%= s.id %>" <%= "hidden" unless s === @snapshots.first %> >
+                        <% unless s === @snapshots.first %>
+                            <div class="snapshot-preview__actions">
+                                <%= link_to "Restore this version", admin_service_snapshot_path(@service, s), method: "patch", data: {confirm: "Are you sure you want to restore this version? This will overwrite more recent changes."}, class: "button button--small" %>
+                            </div>
+                        <% end %>
+
+
+                    <h3><%= s.object["name"] %></h3>
+                    <p><%= s.object["description"] %></p>
+                    <p><%= s.object["url"] %></p>
+                    <p><%= s.object["email"] %></p>
+                    <p>
+                        <strong>Categories</strong><br/>
+                        <%= s.object["taxonomies"].map { |h| h["name"] }.join(", ") %>
+                    </p>
+                    <p>
+                        <strong>SEND Needs</strong><br/>
+                        <%= s.object["send_needs"].map { |h| h["name"] }.join(", ") %>
+                    </p>
+
+
+
+                </article>
+            <% end %>
+        <% end %>
+    </div>
+</div>

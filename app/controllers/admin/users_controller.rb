@@ -3,6 +3,7 @@ class Admin::UsersController < Admin::BaseController
     
     def index
       @users = User.all.order(:last_seen).includes(organisation: [:users, :services])
+      
       @users = @users.community if params[:filter_users] === "community"
       @users = @users.admins if params[:filter_users] === "admins"
       @users = @users.never_seen if params[:filter_logged_in] === "never"
