@@ -8,6 +8,8 @@ class ServiceAtLocation < ApplicationRecord
 
   after_create :set_fields
 
+  include Discard::Model
+
   def set_fields
     update_service_fields
     update_location_fields
@@ -18,6 +20,7 @@ class ServiceAtLocation < ApplicationRecord
     self.service_description = service.description
     self.service_url = service.url
     self.service_email = service.email
+    self.discarded_at = service.discarded_at
     self.save
   end
 
