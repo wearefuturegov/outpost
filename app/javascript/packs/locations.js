@@ -1,83 +1,53 @@
-import Choices from "choices.js"
+import { initialise } from "./google"
 
-// enhanced select
-// if(document.querySelector(".enhanced-select")){
-    const choices = new Choices(document.querySelector(".enhanced-select"))
-// }/
+let locationSearch = document.querySelector(".location-search")
 
-// if(document.querySelector("#locations-editor")){
-    const locationEditor = document.querySelector("#locations-editor")
+let addButton = locationSearch.querySelector("[data-add]")
 
-    const addNewButton = locationEditor.querySelector(".add-new-location")
-    const content = locationEditor.querySelector(".collapsible__content")
+addButton.addEventListener("click", e => {
+    e.preventDefault()
+    let time = new Date().getTime()
+    let regexp = new RegExp(addButton.dataset.id, 'g')
+    let results = locationSearch.querySelector(".location-search__results")
+    results.innerHTML += addButton.dataset.fields.replace(regexp, time)
     
-    addNewButton.addEventListener("click", e => {
+    results.querySelector("[data-close]").addEventListener("click", e => {
         e.preventDefault()
-        e.target.setAttribute("aria-expanded", "true")
-        e.target.disabled = true
-        // TODO
+        close(e)
     })
-// }
+})
+
+locationSearch.querySelectorAll("[data-close]").forEach(closer => closer.addEventListener("click", close))
+
+const close = e => {
+    e.preventDefault()
+    if(window.confirm("Are you sure you want to remove this location?")){
+        let result = e.target.parentNode.parentNode
+        result.setAttribute("hidden", "true")
+        result.querySelector("input[data-destroy-field]").value = "true"
+    }
+}
 
 
 
-// import SearchApi from 'js-worker-search'
 
-// const ui = document.querySelector(".location-search")
 
-// const searchBox = ui.querySelector(".location-search__input")
-// const resultsArea = ui.querySelector(".location-search__results")
-// const results = ui.querySelectorAll(".location-search__result")
-
-// const prompt = ui.querySelector(".location-search__prompt")
-// const noResults = ui.querySelector(".location-search__no-results")
-
-// const searchApi = new SearchApi()
-
-// // 1. Populate index
-// results.forEach(result => {
-//     searchApi.indexDocument(result.dataset.id, JSON.parse(result.dataset.indexed).one_line_address)
-// })
-
-// // 2. Listen for queries
-// searchBox.addEventListener("keyup", e => search(e.target.value))
-
-// // 3. To begin with, hide every result apart from the checked ones
-// results.forEach(result => {
-//     if(!result.querySelector(".checkbox__input").checked){
-//         result.setAttribute("hidden", "true")
-//     }
-// })
-
-// // 4. Search index for query
-// const search = async query => {
-//     if(query.length > 2){
-//         prompt.setAttribute("hidden", "true")
-//         const matches = await searchApi.search(query)
-//         if(matches.length > 0){
-//             noResults.setAttribute("hidden", "true")
-//             results.forEach(result => {
-//                 if(matches.includes(result.dataset.id)){
-//                     result.removeAttribute("hidden")
-//                 } else {
-//                     hideIfNotChecked(result)
-//                 }
-//             })
-//         } else {
-//             noResults.removeAttribute("hidden")
+//     let searchInput = locationSearch.querySelector("input[data-google-places-autocomplete]")
+//     let autocomplete
+    
+//     const initAutocomplete = async () => {
+//         await initialise()
+//         if(searchInput){
+//             autocomplete = new window.google.maps.places.Autocomplete(searchInput)
+//             autocomplete.setComponentRestrictions({"country": ["gb"]})
+//             autocomplete.addListener("place_changed", handlePlaceChanged)
 //         }
-//     } else {
-//         noResults.setAttribute("hidden", "true")
-//         prompt.removeAttribute("hidden")
-//         results.forEach(result => hideIfNotChecked(result))
 //     }
-// }
-
-// const hideIfNotChecked = result => {
-//     if(!result.querySelector(".checkbox__input").checked){
-//         result.setAttribute("hidden", "true")
+    
+//     initAutocomplete()
+    
+//     const handlePlaceChanged = () => {
+//         const place = autocomplete.getPlace()
+//         searchInput.value = ""
+//         console.log(place)
 //     }
-// }
-
-// // TODO 5. When a box is unticked, kick it from the results if it's not part of the current query
-// // ...

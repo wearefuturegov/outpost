@@ -1,0 +1,40 @@
+<li class="location-search__result">
+    <button class="location-search__closer" data-close>
+        <%= image_tag "clear.svg", alt: "Remove this location" %>
+    </button>
+
+    <div class="field-section field-section--two-cols">
+        <div class="field field--span-two-cols">
+            <%= l.label :name, "Venue or building name", class: "field__label" %>
+            <%= l.text_field :name, class: "field__input" %>
+        </div>
+        <div class="field">
+            <%= l.label :address_1, "Street address", class: "field__label" %>
+            <%= l.text_field :address_1, class: "field__input" %>
+        </div>
+        <div class="field">
+            <%= l.label :city, "Town or area", class: "field__label" %>
+            <%= l.text_field :city, class: "field__input" %>
+        </div>
+        <div class="field">
+            <%= l.label :postal_code, "Postcode", class: "field__label" %>
+            <%= l.text_field :postal_code, class: "field__input" %>
+        </div>
+    </div>
+
+    <fieldset class="field-section field-section--two-cols field-section--no-bottom-margin">
+        <legend class="field field--span-two-cols">Accessibility</legend>
+        <%= l.collection_check_boxes( :accessibility_ids, Accessibility.all, :id, :display_name) do |c| %>
+        <div class="checkbox checkbox--small">
+            <%= c.check_box class: "checkbox__input" %>
+            <%= c.label class: "checkbox__label" %>
+        </div>
+        <% end %>
+    </fieldset>
+
+    <%= l.hidden_field :google_place_id %>
+    <%= l.hidden_field :latitude %>
+    <%= l.hidden_field :longitude %>
+
+    <%= l.hidden_field :_destroy,  data: {destroy_field: true} %>
+</>

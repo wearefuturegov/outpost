@@ -1,26 +1,18 @@
-<div class="field-section">
-    <div class="field">
-        <%= s.label :location_ids, "Choose one or more locations", class: "field__label" %>
-        <%= s.collection_select(:location_ids, Location.all, :id, :one_line_address, {}, {multiple: true, class: "field__input enhanced-select"}) %>
-    </div>
-    <button class="button button--small add-new-location" aria-expanded="false">Add new</button>
-</div>
+<section class="location-search">
+    <%# <div class="field">
+        <label class="field__label">Add a new location</label>
+        <input 
+            class="field__input" 
+            placeholder="Enter an address or postcode..."
+            data-google-places-autocomplete
+        >
+    </div> %>
 
-<%= s.fields_for :locations do |l| %>
-    <%= l.index %>
-    <div class="field-section field-section--two-cols field-section--panel">
-        <h3 class="field">New location</h3>
-        <div class="field field--span-two-cols">
-            <%= l.label :address_1, "Street address", class: "field__label" %>
-            <%= l.text_field :address_1, class: "field__input" %>
-        </div>
-        <div class="field">
-            <%= l.label :city, "Town or area", class: "field__label" %>
-            <%= l.text_field :city, class: "field__input" %>
-        </div>
-        <div class="field">
-            <%= l.label :postal_code, "Postcode", class: "field__label" %>
-            <%= l.text_field :postal_code, class: "field__input" %>
-        </div>
-    </div>
-<% end %>
+    <ul class="location-search__results">
+        <%= s.fields_for :locations do |l| %>
+            <%= render "admin/services/editors/location-fields", l: l %>
+        <% end %>
+    </ul>
+
+    <%= link_to_add_fields "Add location", s, :locations %>
+</section>

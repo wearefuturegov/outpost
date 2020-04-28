@@ -24,7 +24,7 @@ class Service < ApplicationRecord
   after_save :update_service_at_locations
   after_save :notify_watchers
 
-  accepts_nested_attributes_for :locations,
+  accepts_nested_attributes_for :locations, allow_destroy: true,
     :reject_if => proc {|attributes|
       attributes.all? {|k,v| v.blank?}
     }

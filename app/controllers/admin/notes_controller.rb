@@ -6,8 +6,6 @@ class Admin::NotesController < Admin::BaseController
         @note.user = current_user
         if @note.save
             redirect_to admin_service_path(@service)
-        else
-            render "admin/services/show"
         end
     end
 
