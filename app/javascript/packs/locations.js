@@ -19,19 +19,20 @@ if(locationSearch){
         })
     })
 
-    locationSearch.querySelectorAll("[data-close]").forEach(closer => closer.addEventListener("click", close))
+    locationSearch.querySelectorAll("[data-close]").forEach(closer => closer.addEventListener("click", e => {
+        e.preventDefault()
+        close(e)
+    }))
 
     const close = e => {
-        e.preventDefault()
         if(window.confirm("Are you sure you want to remove this location?")){
             let result = e.target.parentNode.parentNode
             result.setAttribute("hidden", "true")
             result.querySelector("input[data-destroy-field]").value = "true"
         }
     }
+
 }
-
-
 
 
 
