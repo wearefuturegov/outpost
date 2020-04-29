@@ -44,20 +44,25 @@
     }
 
     .location-search__closer{
-        position: absolute;
-        right: 5px;
-        top: 5px;
+        margin-top: 25px;
         background: none;
+        font-weight: normal;
+        color: $link;
+        font-size: 1rem;
+        min-width: inherit;
         border: none;
         cursor: pointer;
+        &:hover{
+            text-decoration: underline;
+        }
         &:focus{
             background: $focus;
+            outline: 3px solid $focus;
         }
-        img{
-            display: block;
-            height: 30px;
-            width: 30px;
+        &:active{
+            color: $text;
         }
+
     }
 
     .location-search__name{

@@ -10,7 +10,9 @@
 
     <ul class="location-search__results" aria-live="polite">
         <%= s.fields_for :locations do |l| %>
-            <%= render "admin/services/editors/location-fields", l: l %>
+            <li class="location-search__result">
+                <%= render "admin/services/editors/location-fields", l: l %>
+            </li>
         <% end %>
     </ul>
 
