@@ -1,6 +1,6 @@
 class Admin::ArchiveController < Admin::BaseController
     def index
-        @services = Service.discarded
+        @services = Service.discarded.page(params[:page]).includes(:taxonomies, :notes, organisation: [:users, :services])
     end
 
     def update
