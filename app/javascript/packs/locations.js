@@ -49,8 +49,6 @@ if(locationSearch){
     const handlePlaceChanged = () => {
         const place = autocomplete.getPlace()
         searchInput.value = ""
-        console.log(place)
-        // TODO!!!!!
 
         let time = new Date().getTime()
         let regexp = new RegExp(addButton.dataset.id, 'g')
