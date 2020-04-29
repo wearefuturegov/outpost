@@ -1,8 +1,10 @@
 // import tabs from "./tabs"
+
 import collapsible from "./collapsible"
-import maps from "./maps"
 import filters from "./filters"
 import snapshots from "./snapshots"
-import locations from "./locations"
 
 import enhancedSelect from "./enhanced-select"
+
+import maps from "./maps"
+import locations from "./locations"

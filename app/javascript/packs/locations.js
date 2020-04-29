@@ -1,83 +1,85 @@
-import Choices from "choices.js"
+import { initialise } from "./google"
 
-// enhanced select
-// if(document.querySelector(".enhanced-select")){
-    const choices = new Choices(document.querySelector(".enhanced-select"))
-// }/
+let locationSearch = document.querySelector(".location-search")
 
-// if(document.querySelector("#locations-editor")){
-    const locationEditor = document.querySelector("#locations-editor")
+if(locationSearch){
 
-    const addNewButton = locationEditor.querySelector(".add-new-location")
-    const content = locationEditor.querySelector(".collapsible__content")
-    
-    addNewButton.addEventListener("click", e => {
+    let addButton = locationSearch.querySelector("[data-add]")
+    let results = locationSearch.querySelector(".location-search__results")
+
+    // Add custom
+    addButton.addEventListener("click", e => {
         e.preventDefault()
-        e.target.setAttribute("aria-expanded", "true")
-        e.target.disabled = true
-        // TODO
+        let time = new Date().getTime()
+        let regexp = new RegExp(addButton.dataset.id, 'g')
+
+        let newResult = document.createElement("li")
+        newResult.classList.add("location-search__result")
+        newResult.innerHTML = addButton.dataset.fields.replace(regexp, time)
+        results.appendChild(newResult)
     })
-// }
 
+    // Remove this location
+    locationSearch.addEventListener("click", e => {
+        if(e.target.dataset.close){
+            e.preventDefault()
+            if(window.confirm("Are you sure you want to remove this location?")){
+                let result = e.target.parentNode
+                result.setAttribute("hidden", "true")
+                result.querySelector("input[data-destroy-field]").value = "true"
+            }
+        }
+    })
 
+    let searchInput = locationSearch.querySelector("input[data-google-places-autocomplete]")
+    let autocomplete
+    
+    // Autocomplete
+    const initAutocomplete = async () => {
+        await initialise()
+        if(searchInput){
+            autocomplete = new window.google.maps.places.Autocomplete(searchInput)
+            autocomplete.setComponentRestrictions({"country": ["gb"]})
+            autocomplete.addListener("place_changed", handlePlaceChanged)
+        }
+    }
+    
+    initAutocomplete()
+    
+    const handlePlaceChanged = () => {
+        const place = autocomplete.getPlace()
+        searchInput.value = ""
 
-// import SearchApi from 'js-worker-search'
+        let time = new Date().getTime()
+        let regexp = new RegExp(addButton.dataset.id, 'g')
 
-// const ui = document.querySelector(".location-search")
+        let newResult = document.createElement("li")
+        newResult.classList.add("location-search__result")
+        newResult.innerHTML = addButton.dataset.fields.replace(regexp, time)
 
-// const searchBox = ui.querySelector(".location-search__input")
-// const resultsArea = ui.querySelector(".location-search__results")
-// const results = ui.querySelectorAll(".location-search__result")
+        let address = []
 
-// const prompt = ui.querySelector(".location-search__prompt")
-// const noResults = ui.querySelector(".location-search__no-results")
+        place.address_components.forEach(component => {
+            component.types.includes("premise") && (newResult.querySelector("[data-field='premise']").value = component.long_name)
 
-// const searchApi = new SearchApi()
+            component.types.includes("street_number") && address.push(component.long_name)
+            component.types.includes("route") && address.push(component.long_name)
 
-// // 1. Populate index
-// results.forEach(result => {
-//     searchApi.indexDocument(result.dataset.id, JSON.parse(result.dataset.indexed).one_line_address)
-// })
+            component.types.includes("postal_town") && (newResult.querySelector("[data-field='postal_town']").value = component.long_name)
+            component.types.includes("locality") && (newResult.querySelector("[data-field='postal_town']").value = component.long_name)
 
-// // 2. Listen for queries
-// searchBox.addEventListener("keyup", e => search(e.target.value))
+            component.types.includes("postal_code") && (newResult.querySelector("[data-field='postal_code']").value = component.long_name)
+        })
 
-// // 3. To begin with, hide every result apart from the checked ones
-// results.forEach(result => {
-//     if(!result.querySelector(".checkbox__input").checked){
-//         result.setAttribute("hidden", "true")
-//     }
-// })
+        newResult.querySelector("[data-field='street_number_route']").value = address.join(" ")
 
-// // 4. Search index for query
-// const search = async query => {
-//     if(query.length > 2){
-//         prompt.setAttribute("hidden", "true")
-//         const matches = await searchApi.search(query)
-//         if(matches.length > 0){
-//             noResults.setAttribute("hidden", "true")
-//             results.forEach(result => {
-//                 if(matches.includes(result.dataset.id)){
-//                     result.removeAttribute("hidden")
-//                 } else {
-//                     hideIfNotChecked(result)
-//                 }
-//             })
-//         } else {
-//             noResults.removeAttribute("hidden")
-//         }
-//     } else {
-//         noResults.setAttribute("hidden", "true")
-//         prompt.removeAttribute("hidden")
-//         results.forEach(result => hideIfNotChecked(result))
-//     }
-// }
+        if(place.name) newResult.querySelector("[data-field='premise']").value = place.name
 
-// const hideIfNotChecked = result => {
-//     if(!result.querySelector(".checkbox__input").checked){
-//         result.setAttribute("hidden", "true")
-//     }
-// }
+        newResult.querySelector("[data-field='latitude']").value = place.geometry.location.lat()
+        newResult.querySelector("[data-field='longitude']").value = place.geometry.location.lng()
+        newResult.querySelector("[data-field='google_place_id']").value = place.place_id
 
-// // TODO 5. When a box is unticked, kick it from the results if it's not part of the current query
-// // ...
+        results.appendChild(newResult)
+    }
+
+}

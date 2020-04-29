@@ -18,18 +18,12 @@ class Admin::ServicesController < Admin::BaseController
   end
 
   def show
-    @notes = @service.notes.all
-    @note = @service.notes.new
-
     @watched = current_user.watches.where(service_id: @service.id).exists?
-    
     @snapshots = @service.snapshots.order(created_at: :desc)
-
     if @service.snapshots.length > 4
       @snapshots = @snapshots.first(3)
       @snapshots.push(@service.snapshots.last)
     end
-
   end
 
   def update
@@ -62,7 +56,6 @@ class Admin::ServicesController < Admin::BaseController
 
   def set_service
     @service = Service.find(params[:id])
-    # @service.locations.new
   end
 
   def service_params
@@ -78,9 +71,16 @@ class Admin::ServicesController < Admin::BaseController
       location_ids: [],
       send_need_ids: [],
       locations_attributes: [
+        :id,
+        :name,
         :address_1,
         :city,
-        :postal_code
+        :postal_code,
+        :latitude,
+        :longitude,
+        :google_place_id,
+        :_destroy,
+        accessibility_ids: []
       ]
     )
   end
