@@ -1,12 +1,12 @@
 <section class="location-search">
-    <div class="field">
+    <%# <div class="field">
         <label class="field__label">Search for a new location</label>
         <input 
             class="field__input" 
             placeholder="Enter an address or postcode..."
             data-google-places-autocomplete
         >
-    </div>
+    </div> %>
 
     <ul class="location-search__results" aria-live="polite">
         <%= s.fields_for :locations do |l| %>

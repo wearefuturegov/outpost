@@ -76,9 +76,9 @@ class Admin::ServicesController < Admin::BaseController
         :address_1,
         :city,
         :postal_code,
-        :latitude,
-        :longitude,
-        :google_place_id,
+        # :latitude,
+        # :longitude,
+        # :google_place_id,
         :_destroy,
         accessibility_ids: []
       ]
