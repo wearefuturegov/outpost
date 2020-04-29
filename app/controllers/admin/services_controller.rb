@@ -36,6 +36,8 @@ class Admin::ServicesController < Admin::BaseController
 
   def new
     @service = Service.new
+    @service.contact = Contact.new
+    @service.contact.phone = Phone.new
   end
 
   def create
@@ -70,6 +72,15 @@ class Admin::ServicesController < Admin::BaseController
       taxonomy_ids: [],
       location_ids: [],
       send_need_ids: [],
+      contact_attributes: [
+        :id,
+        :name,
+        :title
+      ],
+      phone_attributes: [
+        :id,
+        :number
+      ],
       locations_attributes: [
         :id,
         :name,

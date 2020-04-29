@@ -7,6 +7,11 @@ class Service < ApplicationRecord
   has_many :snapshots
 
   has_one :contact
+  has_one :phone, through: :contact
+
+  accepts_nested_attributes_for :contact
+  accepts_nested_attributes_for :phone
+
   has_many :service_at_locations
   has_many :locations, through: :service_at_locations
 
@@ -15,7 +20,6 @@ class Service < ApplicationRecord
 
   has_and_belongs_to_many :send_needs
 
-  # watch functionality
   has_many :watches
   has_many :users, through: :watches
 

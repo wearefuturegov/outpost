@@ -27,4 +27,29 @@
         <%= s.label :url, "Website", class: "field__label" %>
         <%= s.text_field :url, value: @service.url, class: "field__input" %>
     </div>
+
+    <%= s.fields_for :phone do |c| %>
+        <div class="field">
+            <%= c.label :number, "Phone", class: "field__label" %>
+            <%= c.text_field :number, class: "field__input" %>
+        </div>
+    <% end %>
+</div>
+
+<div class="field-section field-section--two-cols">
+    <h3 class="field field--span-two-cols">Point of contact</h3>
+
+    <%= s.fields_for :contact do |c| %>
+        <div class="field">
+            <%= c.label :name, "Their name", class: "field__label" %>
+            <%= c.text_field :name, class: "field__input" %>
+        </div>
+
+        <div class="field">
+            <%= c.label :title, "Their role", class: "field__label" %>
+            <%= c.text_field :title, class: "field__input" %>
+        </div>
+    <% end %>
+
+
 </div>
