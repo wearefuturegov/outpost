@@ -21,6 +21,15 @@ class Snapshot < ApplicationRecord
       live_object.locations << Location.find_or_create_by(name: n["name"], address_1: n["address_1"], city: n["city"], postal_code: n["postal_code"])
     end
 
+    live_object.contact.destroy
+
+    live_object.contact = Contact.new
+    live_object.contact.name = self.object["contact"]["name"]
+    live_object.contact.title = self.object["contact"]["title"]
+    
+    live_object.contact.phone = Phone.new
+    live_object.contact.phone.number =  self.object["phone"]["number"]
+
     # 3. Restore plain attributes
     live_object.name = self.object["name"]
     live_object.description = self.object["description"]
