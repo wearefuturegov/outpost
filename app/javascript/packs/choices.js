@@ -1,5 +1,8 @@
 import Choices from "choices.js"
 
-let input = document.querySelector("[data-choices]")
+let inputs = document.querySelectorAll("[data-choices]")
 
-if (input) new Choices(input)
+
+inputs.forEach(input => {
+    let choices = new Choices(input)
+})
