@@ -4,47 +4,47 @@
     border: 2px solid $text;
     background: none;
     padding: 0px;
-    // .choices__inner{
-    //     background: none;
-    //     border: none;
-    //     padding: 10px;
-    //     padding-bottom: 6.25px;
-    // }
-    // .choices__input{
-    //     font-size: 1rem;
-    //     background: none;
-    // }
-    // .choices__list--dropdown{
-    //     background: $white;
-    //     border-color: $card-shadow;
-    //     border-radius: 0px;
-    //     .choices__item--selectable{
-    //         font-size: 1rem;
-    //         &.is-highlighted{
-    //             background-color: $pale;
-    //         }
-    //     }
-    // }
 
-    // .choices__item{
-    //     font-size: 1rem;
-    // }
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    background-image: url(asset_path("select-down.svg"));
+    background-position: center right;
+    background-repeat: no-repeat;
+    padding-right: 45px;
+    border-radius: 0px;
 
-    // .choices__list--multiple .choices__item{
-    //     background: $link;
-    //     border: none;
-    //     font-size: 1rem;
-    //     border-radius: 0px;
-    //     &:hover{
-    //         background: darken($link, 10);
-    //     }
-    //     &.is-highlighted{
-    //         background: $focus;
-    //         border: none;
-    //         color: $text;
-    //     }
-    // }
-    // &.is-focused{
-    //     outline: 3px solid $focus;
-    // }
+    .choices__inner{
+        background: none;
+        padding: 10px;
+        border: none;
+        font-size: 1rem;
+        padding-bottom: 10px;
+        min-height: inherit;
+        vertical-align: inherit;
+    }
+    .choices__list--single{
+        padding: 0px;
+    }
+    &.is-focused{
+        outline: 3px solid $focus;
+    }
+    &:after{
+        display: none;
+    }
+
+
+    .choices__list--dropdown{
+        background: $white;
+        border-color: $card-shadow;
+        border-radius: 0px;
+        .choices__item--selectable{
+            font-size: 1rem;
+            &.is-highlighted{
+                background-color: $pale;
+            }
+        }
+    }
 }
+
+
