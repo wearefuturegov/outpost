@@ -16,7 +16,6 @@ gem 'bootsnap', '>= 1.4.2', require: false
 gem 'kaminari'
 gem 'devise'
 gem 'paper_trail'
-gem 'diffy'
 gem 'discard', '~> 1.2'
 gem 'filterrific'
 gem 'active_model_serializers'
@@ -24,6 +23,7 @@ gem 'rack-cors'
 gem 'geocoder'
 gem 'pg_search'
 gem 'devise_lastseenable'
+gem 'differ'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

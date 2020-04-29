@@ -25,6 +25,7 @@
         flex: 1;
         padding: 0px 35px 35px 35px;
         overflow-y: scroll;
+        border-left: 1px solid $card-shadow;
     }
 }
 
@@ -37,7 +38,6 @@
         position: relative;
         padding: 25px;
         border-bottom: 1px solid $card-shadow;
-        border-right: 1px solid $card-shadow;
         margin-bottom: 0px;
         color: $grey;
         &:hover{
@@ -50,6 +50,9 @@
             background: $pale;
             pointer-events: none;
             border-right: none;
+            .snapshots-tree__snapshot-link{
+                color: $text;
+            }
         }
     }
 
@@ -94,7 +97,8 @@
     .snapshot-preview__actions{
         display: flex;
         flex-direction: row;
-        justify-content: flex-end;
+        justify-content: space-between;
+        align-items: center;
         margin-bottom: 25px;
     }
     .snapshot-preview__canvas{
@@ -102,5 +106,26 @@
         background: $white;
         box-shadow: 0px 4px 10px transparentize($card-shadow, 0.5);
         margin-bottom: 35px;
+    }
+    .snapshot-preview__label{
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+    .snapshot-preview__diff{
+        margin-bottom: 25px;
+    }
+
+    del.differ{
+        display: inline-block;
+        padding: 0px 5px;
+        color: darken($error, 10);
+        background: transparentize($error, 0.9);
+    }
+    ins.differ{
+        display: inline-block;
+        padding: 0px 5px;
+        color: darken($green, 10);
+        background: transparentize($green, 0.9);
+        text-decoration: none;
     }
 }

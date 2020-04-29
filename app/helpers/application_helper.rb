@@ -1,3 +1,5 @@
+require 'differ/string'
+
 module ApplicationHelper
 
     def map(lat, long)
@@ -17,8 +19,11 @@ module ApplicationHelper
           .truncate(25)
     end
 
-    def diff(one, two)
-        Diffy::Diff.new(one, two).to_s(:html).html_safe
+    def differ(one, two)
+        if one && two
+            $; = ' '
+            (one - two).format_as(:html).html_safe
+        end
     end
 
     def pretty_event(event)
@@ -87,5 +92,19 @@ module ApplicationHelper
       end
       link_to(name, '#', class: "button button--small", data: {id: id, fields: fields.gsub("\n", ""), add: true})
     end
+
+
+    # def compare(current_snapshot, last_version)
+    #     # byebug
+
+    #     # hash1 = { a: 1 , b: 2 }
+    #     # hash2 = { a: 2 , b: 2 }
+    
+    #     overlapping_elements = current_snapshot.to_a & last_version.to_a
+    
+    #     # exclusive_elements_from_hash1 = current_snapshot.to_a - overlapping_elements
+    #     exclusive_elements_from_hash2 = last_version.to_a - overlapping_elements
+
+    # end
     
 end

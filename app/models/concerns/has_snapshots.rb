@@ -8,11 +8,18 @@ module HasSnapshots
     end
 
     def capture_on_save
-        capture(self.snapshot_action || (self.id_previously_changed? ? "create" : "update"))
+        if self.snapshot_action
+            capture(self.snapshot_action)
+        elsif self.id_previously_changed?
+            capture("create")
+        else
+            capture("update")
+        end
     end
 
     def capture(snapshot_action)
-        new_snapshot = self.snapshots.new(
+        new_snapshot = Snapshot.new(
+            service: self,
             user: Current.user,
             action: snapshot_action,
             object: self.as_json(include: [
@@ -25,9 +32,3 @@ module HasSnapshots
         new_snapshot.save
     end
 end
-
-
-# TODOS
-# - Make sure all attributes are captured
-# - Update UI everywhere
-# - Goodbye to paper trail

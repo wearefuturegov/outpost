@@ -16,9 +16,7 @@
 
                         <% if s === @snapshots.first %>
                             <p><em>Current version</em><p>
-                        <% end %>
-                        
-                        <% if s === @snapshots.last %>
+                        <% elsif s === @snapshots.last %>
                             <p><em>Earliest version</em><p>
                         <% end %>
 
@@ -44,46 +42,11 @@
                 <article class="snapshot-preview" id="<%= s.id %>" <%= "hidden" unless s === @snapshots.first %> >
                     <% unless s === @snapshots.first %>
                         <div class="snapshot-preview__actions">
+                            <h3>Changes to be restored</h3>
                             <%= link_to "Restore this version", admin_service_snapshot_path(@service, s), method: "patch", data: {confirm: "Are you sure you want to restore this version? This will overwrite more recent changes."}, class: "button button--small" %>
                         </div>
                     <% end %>
-
-                    <div class="snapshot-preview__canvas">
-
-                        <h2><%= s.object["name"] %></h2>
-
-                        <p><%= s.object["description"] %></p>
-
-                        <h3>Parent organisation</h3>
-                        <p><%= Organisation.find(s.object["organisation_id"]).name %></p>
-
-                        <h3>Website URL</h3>
-                        <p><%= s.object["url"] %></p>
-
-                        <h3>Website URL</h3>
-                        <p><%= s.object["url"] %></p>
-
-                        <h3>Email</h3>
-                        <p><%= s.object["email"] %></p>
-
-                        <h3>Categories</h3>
-                        <p><%= s.object["taxonomies"].map { |h| h["name"] }.join(", ") %></p>
-
-                        <h3>Locations</h3>
-                        <p><%= s.object["locations"].map { |h| h["postal_code"] }.join(", ") if s.object["locations"].present? %></p>
-
-                        <h3>SEND Needs</h3>
-                        <p><%= s.object["send_needs"].map { |h| h["name"] }.join(", ") %></p>
-                        
-                        <h3>Visible from</h3>
-                        <p><%= s.object["visible_from"] %></p>
-
-                        <h3>Visible to</h3>
-                        <p><%= s.object["visible_to"] %></p>
-                    </div>
-
-
-
+                    <%= render "preview-canvas", current: s.object, live: @snapshots.first.object %>
                 </article>
             <% end %>
         <% end %>

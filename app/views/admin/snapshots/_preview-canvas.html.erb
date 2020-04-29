@@ -1,0 +1,49 @@
+<div class="snapshot-preview__canvas">
+
+    <dl class="snapshot-preview__list">
+        <dt class="snapshot-preview__label">Name</dt>
+        <dd class="snapshot-preview__diff"><%= differ(current["name"],live["name"]) %></dd>
+
+        <dt class="snapshot-preview__label">Description</dt>
+        <dd class="snapshot-preview__diff"><%= differ(current["description"],live["description"]) %></dd>
+
+        <dt class="snapshot-preview__label">Parent organisation</dt>
+        <dd class="snapshot-preview__diff"><%= Organisation.find(current["organisation_id"]).name %></dd>
+
+        <dt class="snapshot-preview__label">Website URL</dt>
+        <dd class="snapshot-preview__diff"><%= differ(current["url"],live["url"]) %></dd>
+
+        <dt class="snapshot-preview__label">Email</dt>
+        <dd class="snapshot-preview__diff"><%= differ(current["email"],live["email"]) %></dd>
+
+        <dt class="snapshot-preview__label">Categories</dt>
+        <dd class="snapshot-preview__diff">
+            <%= differ(
+                current["taxonomies"].map { |h| h["name"] }.join(", "),
+                live["taxonomies"].map { |h| h["name"] }.join(", ")
+            ) %>
+        </dd>
+
+        <dt class="snapshot-preview__label">Locations</dt>
+        <dd class="snapshot-preview__diff">
+            <%= differ(
+                current["locations"].map { |h| h["name"] }.join(", "),
+                live["locations"].map { |h| h["name"] }.join(", ")
+            ) %>
+        </dd>
+
+        <dt class="snapshot-preview__label">SEND Needs</dt>
+        <dd class="snapshot-preview__diff">
+            <%= differ(
+                current["send_needs"].map { |h| h["name"] }.join(", "),
+                live["send_needs"].map { |h| h["name"] }.join(", ")
+            ) %>
+        </dd>
+
+        <dt class="snapshot-preview__label">Visible from</dt>
+        <dd class="snapshot-preview__diff"><%= differ(current["visible_from"],live["visible_from"]) %></dd>
+
+        <dt class="snapshot-preview__label">Visible to</dt>
+        <dd class="snapshot-preview__diff"><%= differ(current["visible_to"],live["visible_to"]) %></dd>
+    </dl>
+</div>
