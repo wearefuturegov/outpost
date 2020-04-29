@@ -17,14 +17,13 @@
         <dd class="snapshot-preview__diff"><%= differ(current["email"],live["email"]) %></dd>
 
         <dt class="snapshot-preview__label">Phone</dt>
-        <dd class="snapshot-preview__diff"></dd>
+        <dd class="snapshot-preview__diff"><%= differ(current["phone"]["number"], live["phone"]["number"]) %></dd>
 
         <dt class="snapshot-preview__label">Contact name</dt>
-        <dd class="snapshot-preview__diff"></dd>
+        <dd class="snapshot-preview__diff"><%= differ(current["contact"]["name"], live["contact"]["name"]) %></dd>
 
         <dt class="snapshot-preview__label">Contact role</dt>
-        <dd class="snapshot-preview__diff"></dd>
-
+        <dd class="snapshot-preview__diff"><%= differ(current["contact"]["title"], live["contact"]["title"]) %></dd>
 
         <dt class="snapshot-preview__label">Categories</dt>
         <dd class="snapshot-preview__diff">
