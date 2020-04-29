@@ -4,43 +4,47 @@
     border: 2px solid $text;
     background: none;
     padding: 0px;
-    .choices__inner{
-        background: none;
-        border: none;
-        padding: 10px;
-        padding-bottom: 6.25px;
-    }
-    .choices__input{
-        font-size: 1rem;
-        background: none;
-    }
-    .choices__list--dropdown{
-        background: $white;
-        border-color: $card-shadow;
-        border-radius: 0px;
-        .choices__item--selectable{
-            font-size: 1rem;
-            &.is-highlighted{
-                background-color: $pale;
-            }
-        }
-    }
+    // .choices__inner{
+    //     background: none;
+    //     border: none;
+    //     padding: 10px;
+    //     padding-bottom: 6.25px;
+    // }
+    // .choices__input{
+    //     font-size: 1rem;
+    //     background: none;
+    // }
+    // .choices__list--dropdown{
+    //     background: $white;
+    //     border-color: $card-shadow;
+    //     border-radius: 0px;
+    //     .choices__item--selectable{
+    //         font-size: 1rem;
+    //         &.is-highlighted{
+    //             background-color: $pale;
+    //         }
+    //     }
+    // }
 
-    .choices__list--multiple .choices__item{
-        background: $link;
-        border: none;
-        font-size: 1rem;
-        border-radius: 0px;
-        &:hover{
-            background: darken($link, 10);
-        }
-        &.is-highlighted{
-            background: $focus;
-            border: none;
-            color: $text;
-        }
-    }
-    &.is-focused{
-        outline: 3px solid $focus;
-    }
+    // .choices__item{
+    //     font-size: 1rem;
+    // }
+
+    // .choices__list--multiple .choices__item{
+    //     background: $link;
+    //     border: none;
+    //     font-size: 1rem;
+    //     border-radius: 0px;
+    //     &:hover{
+    //         background: darken($link, 10);
+    //     }
+    //     &.is-highlighted{
+    //         background: $focus;
+    //         border: none;
+    //         color: $text;
+    //     }
+    // }
+    // &.is-focused{
+    //     outline: 3px solid $focus;
+    // }
 }

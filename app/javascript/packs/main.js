@@ -4,3 +4,5 @@ import maps from "./maps"
 import filters from "./filters"
 import snapshots from "./snapshots"
 import locations from "./locations"
+
+import enhancedSelect from "./enhanced-select"
