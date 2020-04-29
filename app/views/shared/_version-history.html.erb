@@ -14,7 +14,7 @@
                   <p>
                     <%= pretty_event(shot.action)&.humanize %>
                     <% if shot.user.present? %>
-                      by <strong><%= shot.user.email %></strong>
+                      by <strong><%= shot.user.display_name %></strong>
                     <% end %>
                   </p>
                   <p class="stepper__time">

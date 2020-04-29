@@ -17,7 +17,8 @@ module HasSnapshots
             action: snapshot_action,
             object: self.as_json(include: [
                 :taxonomies, 
-                :send_needs
+                :send_needs,
+                :locations
             ]),
             object_changes: self.saved_changes.as_json
         )
