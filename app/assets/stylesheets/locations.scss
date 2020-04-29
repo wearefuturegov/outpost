@@ -12,6 +12,7 @@
         padding: 35px;
         margin-bottom: 10px;
         animation: fadeIn 0.3s ease-out;
+        border: 1px solid $card-shadow;
 
         @keyframes fadeIn{
             from{

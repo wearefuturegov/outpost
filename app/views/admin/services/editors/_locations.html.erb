@@ -1,18 +1,18 @@
 <section class="location-search">
-    <%# <div class="field">
-        <label class="field__label">Add a new location</label>
+    <div class="field">
+        <label class="field__label">Search for a new location</label>
         <input 
             class="field__input" 
             placeholder="Enter an address or postcode..."
             data-google-places-autocomplete
         >
-    </div> %>
+    </div>
 
-    <ul class="location-search__results">
+    <ul class="location-search__results" aria-live="polite">
         <%= s.fields_for :locations do |l| %>
             <%= render "admin/services/editors/location-fields", l: l %>
         <% end %>
     </ul>
 
-    <%= link_to_add_fields "Add location", s, :locations %>
+    <%= link_to_add_fields "Add custom", s, :locations %>
 </section>

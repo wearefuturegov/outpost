@@ -1,9 +1,9 @@
 <li class="location-search__result">
     <button class="location-search__closer" data-close>
-        <%= image_tag "clear.svg", alt: "Remove this location" %>
+        <%= image_tag "clear.svg", alt: "Remove this location", data: {close: true} %>
     </button>
 
-    <div class="field-section field-section--two-cols">
+    <div class="field-section field-section--two-cols field-section--reduced-bottom-margin">
         <div class="field field--span-two-cols">
             <%= l.label :name, "Venue or building name", class: "field__label" %>
             <%= l.text_field :name, class: "field__input" %>

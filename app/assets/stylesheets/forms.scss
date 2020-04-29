@@ -256,6 +256,9 @@
     &.field-section--no-bottom-margin{
         margin-bottom: 0px;
     }
+    &.field-section--reduced-bottom-margin{
+        margin-bottom: 25px;
+    }
     .field-section__legend{
         font-size: 1.5rem;
         font-weight: bold;
