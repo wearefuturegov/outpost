@@ -18,7 +18,7 @@ class Snapshot < ApplicationRecord
     
     live_object.locations.destroy_all
     self.object["locations"].each do |n|
-      live_object.locations << Location.find_or_create_by(name: n["name"], postal_code: n["postal_code"])
+      live_object.locations << Location.find_or_create_by(name: n["name"], address_1: n["address_1"], city: n["city"], postal_code: n["postal_code"])
     end
 
     # 3. Restore plain attributes
