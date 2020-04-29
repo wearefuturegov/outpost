@@ -35,7 +35,7 @@ class Admin::TaxonomiesController < Admin::BaseController
     private
 
     def set_taxonomies      
-      @taxonomies = Taxonomy.where(parent_id: nil)
+      @taxonomies = Taxonomy.where(parent_id: nil).includes(children: [:parent])
     end
   
     def set_taxonomy

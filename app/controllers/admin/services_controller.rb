@@ -2,7 +2,7 @@ class Admin::ServicesController < Admin::BaseController
   before_action :set_service, only: [:show, :update, :destroy]
 
   def index
-    @services = Service.kept.page(params[:page]).includes(:taxonomies, :notes, organisation: [:users, :services])
+    @services = Service.kept.page(params[:page]).includes(:taxonomies, :organisation)
 
     @services = @services.alphabetical if params[:order] === "asc" && params[:order_by] === "name"
     @services = @services.reverse_alphabetical if params[:order] === "desc" && params[:order_by] === "name"
@@ -19,7 +19,7 @@ class Admin::ServicesController < Admin::BaseController
 
   def show
     @watched = current_user.watches.where(service_id: @service.id).exists?
-    @snapshots = @service.snapshots.order(created_at: :desc)
+    @snapshots = @service.snapshots.order(created_at: :desc).includes([:user])
     if @service.snapshots.length > 4
       @snapshots = @snapshots.first(3)
       @snapshots.push(@service.snapshots.last)
@@ -55,7 +55,7 @@ class Admin::ServicesController < Admin::BaseController
   private
 
   def set_service
-    @service = Service.find(params[:id])
+    @service = Service.includes(notes: [:user]).find(params[:id])
   end
 
   def service_params

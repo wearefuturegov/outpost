@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_28_134029) do
+ActiveRecord::Schema.define(version: 2020_04_29_191415) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -64,6 +64,8 @@ ActiveRecord::Schema.define(version: 2020_04_28_134029) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "old_external_id"
+    t.integer "users_count", default: 0, null: false
+    t.integer "services_count", default: 0, null: false
   end
 
   create_table "phones", force: :cascade do |t|
@@ -119,6 +121,7 @@ ActiveRecord::Schema.define(version: 2020_04_28_134029) do
     t.string "type"
     t.date "visible_from"
     t.date "visible_to"
+    t.integer "notes_count", default: 0, null: false
     t.index ["discarded_at"], name: "index_services_on_discarded_at"
     t.index ["organisation_id"], name: "index_services_on_organisation_id"
   end

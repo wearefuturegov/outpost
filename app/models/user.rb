@@ -5,7 +5,7 @@ class User < ApplicationRecord
   has_many :services, through: :watches
   has_many :notes
 
-  belongs_to :organisation, optional: true
+  belongs_to :organisation, optional: true, counter_cache: true
 
   validates :first_name, presence: true
   validates :last_name, presence: true

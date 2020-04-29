@@ -1,3 +1,5 @@
 import Choices from "choices.js"
 
-const choices = new Choices(document.querySelector("[data-choices]"))
+let input = document.querySelector("[data-choices]")
+
+if (input) new Choices(input)

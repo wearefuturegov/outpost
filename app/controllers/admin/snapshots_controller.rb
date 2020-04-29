@@ -2,7 +2,7 @@ class Admin::SnapshotsController < ApplicationController
     before_action :set_service
 
     def index
-        @snapshots = @service.snapshots.order(created_at: :desc)
+        @snapshots = @service.snapshots.order(created_at: :desc).includes([:user])
         @live_object = @service.as_json(include: [
             :taxonomies,
             :send_needs

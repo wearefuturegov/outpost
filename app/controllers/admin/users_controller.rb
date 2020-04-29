@@ -2,7 +2,7 @@ class Admin::UsersController < Admin::BaseController
     before_action :set_user, only: [:show, :update]
     
     def index
-      @users = User.all.order(:last_seen).includes(organisation: [:users, :services])
+      @users = User.all.order(:last_seen).includes(:organisation)
       
       @users = @users.community if params[:filter_users] === "community"
       @users = @users.admins if params[:filter_users] === "admins"

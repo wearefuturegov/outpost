@@ -2,7 +2,7 @@ class Service < ApplicationRecord
 
   include HasSnapshots
 
-  belongs_to :organisation
+  belongs_to :organisation, counter_cache: true
 
   has_many :snapshots
 
