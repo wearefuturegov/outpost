@@ -1,12 +1,27 @@
 @import "variables";
 
 .location-search{
+    .location-search__results{
+        list-style: none;
+        margin: 0;
+        margin-bottom: 25px;
+    }
     .location-search__result{
         position: relative;
         background: $pale;
-        padding: 25px;
+        padding: 35px;
         margin-bottom: 10px;
-        padding-left: 100px;
+        animation: fadeIn 0.3s ease-out;
+        border: 1px solid $card-shadow;
+
+        @keyframes fadeIn{
+            from{
+                opacity: 0;
+            }
+            to{
+                opacity: 1;
+            }
+        }
 
         .checkbox__input:before{
             position: absolute;
@@ -18,14 +33,6 @@
             content: "";
         }
 
-        .checkbox__label:before{
-                left: 29px;
-                top: 29px;
-        }
-        .checkbox__input:checked + label::after{
-            left: 36px;
-            top: 36px;
-        }
     }
 
     .location-search__prompt,
@@ -34,6 +41,28 @@
         padding: 15px;
         text-align: center;
         margin-bottom: 25px;
+    }
+
+    .location-search__closer{
+        margin-top: 25px;
+        background: none;
+        font-weight: normal;
+        color: $link;
+        font-size: 1rem;
+        min-width: inherit;
+        border: none;
+        cursor: pointer;
+        &:hover{
+            text-decoration: underline;
+        }
+        &:focus{
+            background: $focus;
+            outline: 3px solid $focus;
+        }
+        &:active{
+            color: $text;
+        }
+
     }
 
     .location-search__name{

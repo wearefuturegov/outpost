@@ -1,12 +1,12 @@
 <section class="collapsible" id="notes">
   <button class="collapsible__header" aria-expanded="true">
-    <h2>Notes <span class="collapsible__header-count">(<%= @notes.length %>)</span></h2>
+    <h2>Notes <span class="collapsible__header-count">(<%= @service.notes.length %>)</span></h2>
   </button>
   <div class="collapsible__content">
 
     <div class="notes-list">
-      <% if @notes.present? %>
-        <% @notes.each do |n| %>
+      <% if @service.notes.present? %>
+        <% @service.notes.each do |n| %>
           <article class="notes-list__note">
             <header class="notes-list__note-header">
               <strong><%= render "shared/poppables/user", u: n.user %></strong> 
@@ -19,7 +19,7 @@
       <% end %>
     </div>
 
-    <%= form_for [:admin, @service, @note] do |f| %>
+    <%= form_for [:admin, @service, @service.notes.new] do |f| %>
         <div class="field">
             <%= f.label :body, class: "visually-hidden" %>
             <%= f.text_area :body , class: "field__input", placeholder: "Type a note...", maxlength: 200, required: true %>
