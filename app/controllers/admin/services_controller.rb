@@ -75,11 +75,11 @@ class Admin::ServicesController < Admin::BaseController
       contact_attributes: [
         :id,
         :name,
-        :title
-      ],
-      phone_attributes: [
-        :id,
-        :number
+        :title,
+        phone_attributes: [
+          :id,
+          :number
+        ]
       ],
       locations_attributes: [
         :id,
