@@ -27,22 +27,21 @@
             </td>
             <td>
               <%= render "shared/poppables/organisation", o: s.organisation if s.organisation %>
-            </td>
             <td>
-              <% s.taxonomies.each do |t| %>
-                <span class="category"><%= t.name %></span>
+              <% s.taxonomies.slice(0, 3).each do |t| %>
+                <%= link_to t.name, admin_taxonomy_path(t), class: "category" %>
               <% end %>
             </td>
-            <td><%= time_ago_in_words(s.updated_at) %> ago</td>
+            <td><%= time_ago_in_words(s.updated_at).humanize %> ago</td>
             <td><%= status_tag(s.status) %></td>
             <td>
-              <% if s.notes.count > 0 %>
+              <% if s.notes.size > 0 %>
                 <span class="table-icon table-icon--notes">
-                  <%= s.notes.count %>
+                  <%= s.notes.size %>
                 </span>
               <% end %>
             </td>
-            <td><%= link_to "Restore", admin_archive_path(s), method: "patch", data: {confirm: "Are you sure? The service will be visible to users again."} %></td>
+                        <td><%= link_to "Restore", admin_archive_path(s), method: "patch", data: {confirm: "Are you sure? The service will be visible to users again."} %></td>
           </tr>
         <% end %>
       </tbody>
