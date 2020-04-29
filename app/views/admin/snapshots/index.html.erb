@@ -42,25 +42,28 @@
         <% if @snapshots.any? %>
             <% @snapshots.each do |s| %>
                 <article class="snapshot-preview" id="<%= s.id %>" <%= "hidden" unless s === @snapshots.first %> >
-                        <% unless s === @snapshots.first %>
-                            <div class="snapshot-preview__actions">
-                                <%= link_to "Restore this version", admin_service_snapshot_path(@service, s), method: "patch", data: {confirm: "Are you sure you want to restore this version? This will overwrite more recent changes."}, class: "button button--small" %>
-                            </div>
-                        <% end %>
+                    <% unless s === @snapshots.first %>
+                        <div class="snapshot-preview__actions">
+                            <%= link_to "Restore this version", admin_service_snapshot_path(@service, s), method: "patch", data: {confirm: "Are you sure you want to restore this version? This will overwrite more recent changes."}, class: "button button--small" %>
+                        </div>
+                    <% end %>
 
+                    <div class="snapshot-preview__canvas">
 
-                    <h3><%= s.object["name"] %></h3>
-                    <p><%= s.object["description"] %></p>
-                    <p><%= s.object["url"] %></p>
-                    <p><%= s.object["email"] %></p>
-                    <p>
-                        <strong>Categories</strong><br/>
-                        <%= s.object["taxonomies"].map { |h| h["name"] }.join(", ") %>
-                    </p>
-                    <p>
-                        <strong>SEND Needs</strong><br/>
-                        <%= s.object["send_needs"].map { |h| h["name"] }.join(", ") %>
-                    </p>
+                        <h3><%= s.object["name"] %></h3>
+                        <p><%= s.object["description"] %></p>
+                        <p><%= s.object["url"] %></p>
+                        <p><%= s.object["email"] %></p>
+                        <p>
+                            <strong>Categories</strong><br/>
+                            <%= s.object["taxonomies"].map { |h| h["name"] }.join(", ") %>
+                        </p>
+                        <p>
+                            <strong>SEND Needs</strong><br/>
+                            <%= s.object["send_needs"].map { |h| h["name"] }.join(", ") %>
+                        </p>
+                        
+                    </div>
 
 
 

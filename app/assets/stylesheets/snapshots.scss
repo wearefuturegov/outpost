@@ -22,7 +22,6 @@
 
     .snapshots__previews{
         background: $pale;
-        border-left: 1px solid $card-shadow;
         flex: 1;
         padding: 0px 35px 35px 35px;
         overflow-y: scroll;
@@ -38,6 +37,7 @@
         position: relative;
         padding: 25px;
         border-bottom: 1px solid $card-shadow;
+        border-right: 1px solid $card-shadow;
         margin-bottom: 0px;
         color: $grey;
         &:hover{
@@ -49,6 +49,7 @@
         &[aria-selected]{
             background: $pale;
             pointer-events: none;
+            border-right: none;
         }
     }
 
@@ -90,13 +91,16 @@
 
 .snapshot-preview{
     padding-top: 35px;
-    &:last-of-type{
-        margin-bottom: 35px;
-    }
     .snapshot-preview__actions{
         display: flex;
         flex-direction: row;
         justify-content: flex-end;
         margin-bottom: 25px;
+    }
+    .snapshot-preview__canvas{
+        padding: 55px;
+        background: $white;
+        box-shadow: 0px 4px 10px transparentize($card-shadow, 0.5);
+        margin-bottom: 35px;
     }
 }
