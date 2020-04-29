@@ -16,19 +16,6 @@ class Admin::LocationsController < Admin::BaseController
     def show
     end
 
-    def new
-        @location = Location.new
-    end
-
-    def create
-        @location = Location.new(location_params)
-        if @location.save
-            redirect_to admin_location_path(@location), notice: "Location has been created"
-        else
-            render "new"
-        end
-    end
-
     def update
         if @location.update(location_params)
             redirect_to admin_location_path(@location), notice: "Location has been updated"
