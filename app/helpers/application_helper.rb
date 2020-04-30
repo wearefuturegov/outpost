@@ -19,9 +19,16 @@ module ApplicationHelper
           .truncate(25)
     end
 
-    def differ(one, two)
+    def inline_differ(one, two)
         if one && two
             $; = ' '
+            (one - two).format_as(:html).html_safe
+        end
+    end
+
+    def differ(one, two)
+        if one && two
+            # $; = ' '
             (one - two).format_as(:html).html_safe
         end
     end
@@ -35,7 +42,7 @@ module ApplicationHelper
         when "destroy"
             "deleted"        
         when "restore"
-            "restored from history"
+            "restored from a previous version"
         when "archive"
             "archived"
         when "unarchive"

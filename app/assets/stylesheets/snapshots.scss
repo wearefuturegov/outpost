@@ -109,10 +109,21 @@
     }
     .snapshot-preview__label{
         font-weight: bold;
+        font-size: 1.1rem;
         margin-bottom: 5px;
     }
     .snapshot-preview__diff{
         margin-bottom: 25px;
+    }
+    .snapshot-preview__key{
+        // margin-top: 10px;
+        font-size: 0.9rem;
+    }
+    .changed{
+        display: inline-block;
+        padding: 0px 5px;
+        background: transparentize($link, 0.9);
+        color: darken($link, 10);
     }
 
     del.differ{
@@ -127,5 +138,20 @@
         color: darken($green, 10);
         background: transparentize($green, 0.9);
         text-decoration: none;
+    }
+
+    table{
+        width: 100%;
+        border-collapse: collapse;
+        th, td{
+            padding: 5px 0px;
+            text-align: left;
+        }
+        th{
+            font-size: 0.9rem;
+        }
+        tbody tr:nth-of-type(odd){
+            background: $pale;
+        }
     }
 }
