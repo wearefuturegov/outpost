@@ -16,7 +16,6 @@ Rails.application.routes.draw do
     resources :services, except: :edit do
       resources :watch, only: [:create, :destroy]
       resources :notes, only: [:create, :destroy]
-      resources :versions, only: [:index, :update]
       resources :snapshots, only: [:index, :update]
       collection do 
         resources :archive, only: [:index, :update]
