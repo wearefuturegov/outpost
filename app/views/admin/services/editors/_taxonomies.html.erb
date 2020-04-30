@@ -1,15 +1,31 @@
+<div class="tabs">
 
-<%= s.collection_check_boxes( :taxonomy_ids, Taxonomy.where(parent_id: nil), :id, :name) do |c| %>
-    <div class="field checkbox">
-        <%= c.check_box class: "checkbox__input" %>
-        <%= c.label class: "checkbox__label" %>
-    </div>
+    <ul class="tabs__nav">
+        <% Taxonomy.where(parent_id: nil).each do |t| %>
+            <li class="tabs__nav-item">
+                <a href="#" class="tabs__nav-link"><%= t.name %></a>
+            </li>
+        <% end %>
+    </ul>
 
-    <%= s.collection_check_boxes( :taxonomy_ids, Taxonomy.where(parent_id: c.value), :id, :name) do |d| %>
-        <div class="field checkbox checkbox--small checkbox--indented">
-            <%= d.check_box class: "checkbox__input" %>
-            <%= d.label class: "checkbox__label" %>
+    <%= s.collection_check_boxes( :taxonomy_ids, Taxonomy.where(parent_id: nil), :id, :name) do |c| %>
+        
+        <div class="tabs__panel">
+            <div class="field checkbox checkbox--small">
+                <%= c.check_box class: "checkbox__input" %>
+                <%= c.label class: "checkbox__label" %>
+            </div>
+
+            <%# <div class="field-section field-section--two-cols"> %>
+                <%= s.collection_check_boxes( :taxonomy_ids, Taxonomy.where(parent_id: c.value), :id, :name) do |d| %>
+                    <div class="field checkbox checkbox--small checkbox--indented">
+                        <%= d.check_box class: "checkbox__input" %>
+                        <%= d.label class: "checkbox__label" %>
+                    </div>
+                <% end %>
+            <%# </div> %>
         </div>
+
     <% end %>
 
-<% end %>
+</div>
