@@ -15,7 +15,7 @@
           <p>This service has pending changes</p>
           <%= link_to "Approve", admin_request_path(@service), method: "patch", class: "notice__action", data: {confirm: "Are you sure? Approving these changes makes them publicly visible."} %>
           <span class="notice__divider">|</span>
-          <%= link_to "See changes", admin_service_versions_path(@service), class: "notice__action" %>
+          <%= link_to "See changes", admin_service_snapshots_path(@service), class: "notice__action" %>
         </div>      
       </div>
     <% end %>
