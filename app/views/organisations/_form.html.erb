@@ -18,10 +18,17 @@
         </div>
     </div>
 
+    <div class="form-actions">
+
   <% if params[:action] === "new" %>
-    <%= f.submit "Submit", class: "button" %>
+    <%= f.submit "Save", class: "button" %>
+
+    <%= link_to "Skip for now", organisations_path, class: "button button--secondary" %>
+
   <% else %>
     <%= f.submit "Update", class: "button" %>
   <% end %>
+
+  </div>
 
 <% end %>

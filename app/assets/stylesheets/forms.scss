@@ -154,6 +154,16 @@
             background: $pale;
         }
     }
+    &.button--secondary{
+        background: none;
+        color: $link;
+        padding: 15px;
+        min-width: inherit;
+        font-weight: normal;
+        &:hover{
+            background: $pale;
+        }
+    }
 }
 
 .error{
