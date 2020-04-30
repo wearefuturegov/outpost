@@ -41,7 +41,7 @@ class Admin::ServicesController < Admin::BaseController
   end
 
   def create
-    @service = Service.create(service_params)
+    @service = Service.new(service_params)
     if @service.save
       redirect_to admin_service_url(@service), notice: "Service has been created."
     else
