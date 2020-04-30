@@ -131,6 +131,19 @@
             background: $pale;
         }
     }
+    &.button--add{
+        &:before{
+            content: "";
+            display: inline-block;
+            width: 13px;
+            height: 13px;
+            background: url(asset_path("plus-white.svg"));
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            margin-right: 13px;
+        }
+    }
     &.button--danger{
         background: none;
         color: $error;
