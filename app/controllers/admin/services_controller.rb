@@ -11,7 +11,7 @@ class Admin::ServicesController < Admin::BaseController
 
     @services = @services.in_taxonomy(params[:filter_taxonomy]) if params[:filter_taxonomy].present?
     @services = @services.scheduled if params[:filter_status].present? && params[:filter_status] === "scheduled"
-    @services = @services.hidden if params[:filter_status].present? && params[:filter_status] === "hidden"
+    @services = @services.hidden if params[:filter_status].present? && params[:filter_status] === "expired"
 
     @services = @services.search(params[:query]).page(params[:page]) if params[:query].present?
     @services = @services.order(updated_at: :DESC) # default sort

@@ -15,7 +15,7 @@
             <%= label_tag "filter_status", nil, class: "visually-hidden" %>
             <%= select_tag "filter_status", options_for_select([
                 ["Only scheduled", "scheduled"],
-                ["Only hidden", "hidden"],
+                ["Only expired", "expired"],
             ], params[:filter_status]), include_blank: "All status", class: "filters__select" %>
 
         <% end %>
