@@ -32,6 +32,8 @@ class Admin::ServicesController < Admin::BaseController
     else
       render "show"
     end
+
+    # byebug
   end
 
   def new

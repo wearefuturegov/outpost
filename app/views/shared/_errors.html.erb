@@ -1,6 +1,6 @@
-<% if model.errors.full_messages.any? %>
+<% if model.errors.any? %>
     <div class="error">
-        <h2 class="error__title">Errors stopped this being saved:</h2>
+        <h2 class="error__title"><%= pluralize(model.errors.count, "error") %> stopped this being saved:</h2>
         <ul class="error__list">
             <% model.errors.full_messages.each do |e| %>
                 <li><%= e %></li>

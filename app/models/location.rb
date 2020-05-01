@@ -3,11 +3,12 @@ class Location < ApplicationRecord
   has_many :services, through: :service_at_locations
   has_and_belongs_to_many :accessibilities
 
-  geocoded_by :postal_code
-  after_validation :geocode, if: :should_geocode?
-  after_save :update_service_at_locations
-
   validates_presence_of :postal_code
+  validate :check_geocodes
+
+  before_validation :geocode
+  geocoded_by :postal_code
+  after_save :update_service_at_locations
 
   paginates_per 20
 
@@ -21,6 +22,14 @@ class Location < ApplicationRecord
     using: {
       tsearch: { prefix: true }
     }
+
+  def check_geocodes
+    if postal_code.present?
+      unless latitude && longitude
+        errors.add(:postal_code, "doesn't seem to be valid. Please check it and try again.")
+      end
+    end
+  end
 
   def display_name
     if name.present?
