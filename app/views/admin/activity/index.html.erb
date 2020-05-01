@@ -7,9 +7,33 @@
     <table class="table">
       <thead>
         <tr>
+          <th>Service</th>
+          <th>Action</th>
+          <th>User</th>
+          <th>When</th>
         </tr>
       </thead>
       <tbody>
+
+
+        <% @activities.each do |a| %>
+          <tr>
+            <td>
+              <%= render "shared/poppables/service", s: a.service %>
+            </td>
+            <td>
+              <%= pretty_event(a.action).humanize %>
+            </td>
+            <td>
+              <% if a.user %>
+                <%= render "shared/poppables/user", u: a.user %>
+              <% else %>
+                System
+              <% end %>
+            </td>
+            <td><%= short_time_ago_in_words(a.created_at).humanize %> ago</td>
+          </tr>
+        <% end %>
 
       </tbody>
     </table>
@@ -18,3 +42,5 @@
 <% else %>
   <p class="no-results">No activity to show.</p>
 <% end %>
+
+

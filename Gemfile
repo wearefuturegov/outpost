@@ -15,7 +15,7 @@ gem 'bootsnap', '>= 1.4.2', require: false
 
 gem 'kaminari'
 gem 'devise'
-gem 'paper_trail'
+# gem 'paper_trail'
 gem 'discard', '~> 1.2'
 gem 'filterrific'
 gem 'active_model_serializers'

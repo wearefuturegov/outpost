@@ -36,7 +36,7 @@ class Admin::UsersController < Admin::BaseController
     end
 
     def show
-      @activities = PaperTrail::Version.includes(:item).order("created_at DESC").where(whodunnit: params[:id]).limit(5)
+      @activities = Snapshot.order("created_at DESC").where(user: params[:id]).limit(5)
     end
 
     private

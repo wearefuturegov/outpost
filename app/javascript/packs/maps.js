@@ -19,4 +19,3 @@ const createMap = async mapHolder => {
 document.querySelectorAll(".map-holder").forEach(m => {
     createMap(m)
 })
-

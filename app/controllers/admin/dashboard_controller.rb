@@ -2,7 +2,7 @@ class Admin::DashboardController < Admin::BaseController
   
     def index
       @watches = current_user.watches.includes(service: [:taxonomies])
-      @activities = PaperTrail::Version.order("created_at DESC").limit(5).includes(:item)
+      @activities = Snapshot.limit(5).order(created_at: :desc).includes([:user])
 
       @service_count = Service.count
       @user_count = User.count

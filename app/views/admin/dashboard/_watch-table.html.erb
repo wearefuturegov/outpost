@@ -1,5 +1,5 @@
 <% if @watches.present? %>
-    <table class="table">
+    <table class="table table--small">
         <thead>
         <tr>
             <th>Name</th>
@@ -13,15 +13,14 @@
                 <td>
                     <strong>
                         <%= render "shared/poppables/service", s: s.service %>
-
                     </strong>
                 </td>
                 <td>
-                    <% s.service.taxonomies.each do |t| %>
+                    <% s.service.taxonomies.limit(3).each do |t| %>
                         <span class="category"><%= t.name %></span>
                     <% end %>
                 </td>
-                <td><%= time_ago_in_words(s.service.updated_at) %> ago</td>
+                <td><%= short_time_ago_in_words(s.service.updated_at) %> ago</td>
             </tr>
         <% end %>
         </tbody>

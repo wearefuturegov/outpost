@@ -68,6 +68,10 @@ module ApplicationHelper
         end
     end
 
+    def short_time_ago_in_words(val)
+        time_ago_in_words(val).gsub("about ", "")
+    end
+
     def last_seen_helper(value)
         if value    
             [time_ago_in_words(value).humanize, "ago"].join(" ")

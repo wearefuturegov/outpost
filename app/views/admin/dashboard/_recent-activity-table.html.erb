@@ -1,9 +1,10 @@
 <% if @activities.present? %>
   <div class="table-holder">
-    <table class="table">
+    <table class="table table--small">
       <thead>
         <tr>
-            <th>Event</th>
+            <th>Service</th>
+            <th class="visually-hidden">Event</th>
             <th>By</th>
             <th>At</th>
         </tr>
@@ -11,21 +12,16 @@
       <tbody>
         <% @activities.each do |a| %>
           <tr>
-
             <td>
-                <% if a.item %>
-                    <%= link_to a.item.name, admin_service_url(a.item) %>
-                <% else %>
-                    Deleted service
-                <% end %>
-                was <%= pretty_event(a.event) %>
+              <%= render "shared/poppables/service", s: a.service %>
             </td>
             <td>
-              <%= render "shared/poppables/user", u: User.find(a.whodunnit) if a.whodunnit %>
+              <%= pretty_event(a.action).humanize %>
             </td>
-            <td><%= time_ago_in_words(a.created_at) %> ago</td>
-            <td></td>
-
+            <td>
+              <%= render "shared/poppables/user", u: a.user if a.user %>
+            </td>
+            <td><%= short_time_ago_in_words(a.created_at).humanize %> ago</td>
           </tr>
         <% end %>
       </tbody>

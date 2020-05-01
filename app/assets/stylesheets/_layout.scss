@@ -136,6 +136,14 @@
             font-size: 1.3rem;
         }
     }
+    .shortcuts__count{
+        margin-left: 5px;
+        color: transparentize($text, 0.25);
+        font-size: 1.1rem;
+        @media screen and (min-width: $breakpoint-m){
+            font-size: 1.3rem;
+        }
+    }
     .shortcuts__link{
         font-weight: bold;
     }
