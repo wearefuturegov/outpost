@@ -10,8 +10,8 @@
   </div>
 </header>
 
-<div class="two-panels">
-  <section class="two-panels__panel">
+<div class="with-sidebar">
+  <section class="two-thirds">
     <% if @locations.present? %>
       <div class="table-holder">
         <table class="table">
@@ -43,10 +43,10 @@
     <% end %>
   </section>
 
-  <section class="two-panels__panel">
-    <div class="map-holder"></div>
+  <aside class="with-sidebar__sidebar">
+    <div class="map-holder" data-list-map="true"></div>
     <script>
       __LOCATIONS__=<%= raw @locations.to_json %>
     </script>
-  </section>
+  </aside>
 </div>
