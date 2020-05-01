@@ -24,6 +24,7 @@ gem 'geocoder'
 gem 'pg_search'
 gem 'devise_lastseenable'
 gem 'differ'
+gem 'httparty'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
