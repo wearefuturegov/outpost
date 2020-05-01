@@ -1,8 +1,8 @@
 class Admin::DashboardController < Admin::BaseController
   
     def index
-      @watches = current_user.watches.includes(service: [:taxonomies])
-      @activities = Snapshot.limit(5).order(created_at: :desc).includes([:user])
+      @watches = current_user.watches.includes(:service)
+      @activities = Snapshot.limit(5).order(created_at: :desc).includes(:service, :user)
 
       @service_count = Service.count
       @user_count = User.count
