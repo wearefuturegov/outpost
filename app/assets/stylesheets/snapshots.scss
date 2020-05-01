@@ -1,5 +1,94 @@
 @import "variables";
 
+.stepper{
+    list-style: none;
+    margin-left: 0px;
+
+    .stepper__link{
+        display: block;
+        text-decoration: none;
+        &:hover{
+            background: $pale;
+        }
+        &:focus{
+            background: inherit;
+            outline:3px solid $focus;
+        }
+    }
+
+    .stepper__time{
+        margin-top: 5px;
+        font-size: 0.9rem;
+        color: $grey;
+    }
+
+    .stepper__step{
+        position: relative;
+        margin-bottom: 0px;
+        padding: 0px 0px 20px 50px;
+        // stick
+        &:before{
+            content: "";
+            display: block;
+            position: absolute;
+            left: 7.5px;
+            top: 15px;
+            border-left: 2px solid $text;
+            height: 100%;
+        }
+        &:last-of-type{
+            padding-bottom: 0px;
+            &:before{
+                content: none;
+            }
+        }
+        // circle
+        &:after{
+            content: "";
+            display: block;
+            position: absolute;
+            left: 0px;
+            top: 5px;
+            width: 13px;
+            height: 13px;
+            border: 2px solid $text;
+            border-radius: 200px;
+            background: $white;
+            z-index: 2;
+        }
+    }
+
+    .stepper__step--solid{
+        &:after{
+            background: $text;
+        }
+    }
+    .stepper__step--cross{
+        &:after{
+            background: $text;
+            width: 5px;
+            height: 5px;
+            top: 8px;
+            left: 4px;
+        }
+    }
+    .stepper__step--tick{
+        &:after{
+            background-color: $text;
+            background-image: url(asset_path("tick-white.svg"));
+            background-size: 75%;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+    }
+
+    &.stepper--summarised{
+        .stepper__step:nth-last-child(2):before{
+            border-left: 2px dashed $text;
+        }
+    }
+}
+
 .full-height{
     height: 100vh;
     display: flex;
@@ -106,17 +195,20 @@
         background: $white;
         box-shadow: 0px 4px 10px transparentize($card-shadow, 0.5);
         margin-bottom: 35px;
+        *:last-child{
+            margin-bottom: 0px;
+        }
     }
     .snapshot-preview__label{
         font-weight: bold;
         font-size: 1.1rem;
-        margin-bottom: 5px;
+        margin-bottom: 7px;
     }
     .snapshot-preview__diff{
-        margin-bottom: 25px;
+        margin-bottom: 35px;
     }
     .snapshot-preview__key{
-        // margin-top: 10px;
+        margin-top: 10px;
         font-size: 0.9rem;
     }
     .changed{

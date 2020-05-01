@@ -43,11 +43,11 @@
                     <% unless s === @snapshots.first %>
                         <div class="snapshot-preview__actions">
                             <div>
-                                <%# <h3>Changes to be restored</h3> %>
+                                <h3>Changes to be restored</h3>
                                 <p class="snapshot-preview__key">
-                                    <strong class="changed">Changed</strong>
-                                    <del class="differ">To be removed</del>
-                                    <ins class="differ">To be restored</ins>
+                                    <!-- <strong class="changed">Changed</strong> -->
+                                    <del class="differ">To remove</del>
+                                    <ins class="differ">To restore</ins>
                                 </p>
                             </div>
                             <%= link_to "Restore this version", admin_service_snapshot_path(@service, s), method: "patch", data: {confirm: "Are you sure you want to restore this version? This will overwrite more recent changes."}, class: "button button--small" %>

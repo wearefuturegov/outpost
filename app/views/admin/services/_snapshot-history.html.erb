@@ -6,17 +6,16 @@
 
     <%= link_to "See full history", admin_service_snapshots_path(@service), class: "collapsible__action" %>
     
-
     <% if @snapshots.present? %>
       <ul class="stepper <%= "stepper--summarised" if @service.snapshots.length > 4 %>">
           <% @snapshots.each do |shot| %>
               <li class="stepper__step <%= stepper_class(shot.action) %>">
-                  <p>
+                  <div>
                     <%= pretty_event(shot.action)&.humanize %>
                     <% if shot.user.present? %>
-                      by <strong><%= shot.user.display_name %></strong>
+                      by <strong><%= render "shared/poppables/user", u: shot.user %></strong>
                     <% end %>
-                  </p>
+                  </div>
                   <p class="stepper__time">
                     <%= time_ago_in_words(shot.created_at).humanize %> ago
                   </p>

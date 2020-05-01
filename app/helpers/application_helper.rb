@@ -28,8 +28,7 @@ module ApplicationHelper
 
     def differ(one, two)
         if one && two
-            # $; = ' '
-            (one - two).format_as(:html).html_safe
+            Differ.diff_by_word(one, two).format_as(:html).html_safe
         end
     end
 

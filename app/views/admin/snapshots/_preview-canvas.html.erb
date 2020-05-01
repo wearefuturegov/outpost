@@ -25,52 +25,28 @@
         <dt class="snapshot-preview__label">Contact role</dt>
         <dd class="snapshot-preview__diff"><%= inline_differ(current["contact"]["title"], live["contact"]["title"]) %></dd>
 
-        <dt class="snapshot-preview__label">Categories</dt>
-        <dd class="snapshot-preview__diff">
-            <table>
-                <thead>
-                    <th>Name</th>
-                    <th>Parent ID</th>
-                </thead>
-                <tbody>
-                    <% current["taxonomies"].each_with_index do |r, i| %>
-                        <tr>
-                            <td><%= inline_differ(live["taxonomies"][i]["name"], r["name"]) %></td>
-
-                        </tr>
-                    <% end %>
-                </tbody>
-            </table>
-        </dd>
+            <dt class="snapshot-preview__label">Categories</dt>
+            <dd class="snapshot-preview__diff">
+                <%= differ(
+                    current["taxonomies"].map { |n| n["name"] }.join(", "),
+                    live["taxonomies"].map { |n| n["name"] }.join(", ")
+                ) %>
+            </dd>
 
         <dt class="snapshot-preview__label">Locations</dt>
         <dd class="snapshot-preview__diff">
-            <table>
-                <thead>
-                    <th>Name</th>
-                    <th>Street address</th>
-                    <th>Town or area</th>
-                    <th>Postcode</th>
-                </thead>
-                <tbody>
-                    <% current["locations"].each_with_index do |r, i| %>
-                        <tr>
-                            <td><%= inline_differ(live["locations"][i]["name"], r["name"]) %></td>
-                            <td><%= inline_differ(live["locations"][i]["address_1"], r["address_1"]) %></td>
-                            <td><%= inline_differ(live["locations"][i]["city"], r["city"]) %></td>
-                            <td><%= inline_differ(live["locations"][i]["postal_code"], r["postal_code"]) %></td>
-                        </tr>
-                    <% end %>
-                </tbody>
-            </table>
+                <%= differ(
+                    current["locations"].map { |n| n["name"] || n["postcode"] }.join(", "),
+                    live["locations"].map { |n| n["name"] || n["postcode"] }.join(", ")
+                ) %>
         </dd>
 
         <dt class="snapshot-preview__label">SEND Needs</dt>
         <dd class="snapshot-preview__diff">
-            <%= differ(
-                current["send_needs"].join(", "),
-                live["send_needs"].join(", ")
-            ) %>
+                <%= differ(
+                    current["send_needs"].map { |n| n["name"] }.join(", "),
+                    live["send_needs"].map { |n| n["name"] }.join(", ")
+                ) %>
         </dd>
 
         <dt class="snapshot-preview__label">Visible from</dt>
