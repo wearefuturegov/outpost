@@ -1,5 +1,13 @@
 <% content_for :header do %>
-    <% if @user.admin? %>
+
+    <% if @user.discarded? %>
+      <div class="notice notice--cross">
+        <div class="notice__body">
+          <p>This user is deactivated and can't log in</p>
+          <%= link_to "Reactivate", admin_user_reactivate_path(@user), class: "notice__action", data: {confirm: "Are you sure? This user will be able to log in again."} %>
+        </div>
+      </div>
+    <% elsif @user.admin? %>
       <div class="notice notice--administrator">
         <p>This user is an administrator</p>
       </div>
@@ -17,7 +25,13 @@
         <%= form_for [:admin, @user] do |f| %>
             <%= render "shared/errors", model: @user %>
             <%= render "fields", f: f %>
-            <%= f.submit "Update", class: "button", data: {confirm: "Only edit other users' details or roles if you're sure you know what you're doing. Do you want to continue?"} %>
+
+            <div class="form-actions">
+              <%= f.submit "Update", class: "button", data: {confirm: "Only edit other users if you're sure you know what you're doing. Do you want to continue?"} %>
+              <% unless @user.discarded? %>
+                <%= link_to "Deactivate", admin_user_path(@user), method: "delete", class: "button button--danger", data: {confirm: "Are you sure you want to deactivate this user? They will no longer be able to log in." } %>
+              <% end %>
+            </div>
         <% end %>
     </div>
 
@@ -52,6 +66,16 @@
             <% end %>
           </div>
       </div>
+
+        <div class="collapsible" id="user-password-reset">
+          <button class="collapsible__header">
+            <h2>Password reset</h2>
+          </button>
+          <div class="collapsible__content">
+            <p class="bottom-margin">Users must reset their own passwords, but you can send the instructions by email.</p>
+            <%= link_to "Send reset instructions", "", class: "button button--small" %>
+          </div>
+        </div>
     </div>
 
 </div>

@@ -8,7 +8,7 @@ Rails.application.routes.draw do
       get "start"
     end
   end
-  resources :services, only: [:new, :create, :show, :update]
+  resources :services, except: [:edit]
   resources :members, only: [:new, :create, :destroy]
 
   namespace :admin do
@@ -26,7 +26,9 @@ Rails.application.routes.draw do
     resources :locations, except: [:edit, :new, :create]
     resources :taxonomies, except: [:new, :edit]
     resources :activity, only: [:index]
-    resources :users, except: [:edit]
+    resources :users, except: [:edit] do
+      get "reactivate"
+    end
   end
 
   namespace :api do

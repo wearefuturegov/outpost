@@ -4,6 +4,8 @@
     <div class="filters__body" hidden>
         <%= form_for admin_users_url, method: "get", html: {class: "filters__form"} do |f| %>
 
+            <%= hidden_field_tag "deactivated", params[:deactivated] %>
+
             <%= label_tag "filter_users", nil, class: "visually-hidden" %>
             <%= select_tag "filter_users", options_for_select([
                 ["Only administrators", "admins"],

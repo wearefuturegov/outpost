@@ -4,12 +4,6 @@
 <% end %>
 
 <% if @requests.present? %>
-  <header class="actions">
-      <%= link_to "Approve all", "", class: "button button--small", data: { confirm: "Are you sure you want to approve all changes?" } %>
-  </header>
-<% end %>
-
-<% if @requests.present? %>
   <div class="table-holder">
     <table class="table">
       <thead>

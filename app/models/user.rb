@@ -10,6 +10,8 @@ class User < ApplicationRecord
   validates :first_name, presence: true
   validates :last_name, presence: true
 
+  include Discard::Model
+  
   include PgSearch::Model
   pg_search_scope :search, 
     against: [:email, :first_name, :last_name], 
@@ -29,6 +31,11 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable,
          :lastseenable
 
+
+  def active_for_authentication? 
+    super && kept? 
+  end 
+        
   def display_name
     if first_name && last_name
       [first_name, last_name].join(' ')

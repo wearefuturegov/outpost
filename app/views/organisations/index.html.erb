@@ -21,7 +21,7 @@
 <div class="two-panels">
   <section class="panel" data-intro="Once you've created a service, it'll appear here." data-step="2">
     <h2 class="panel__title">Your services</h2>
-    <% if @organisation.services.present? %>
+    <% if @services.present? %>
       <table class="table">
           <thead>
             <tr>
@@ -31,7 +31,7 @@
             </tr>
           </thead>
           <tbody>
-            <% @organisation.services.each do |s| %>
+            <% @services.each do |s| %>
               <tr>
                 <td><%= link_to s.name, service_path(s) %></td>
                 <td><%= time_ago_in_words(s.updated_at).humanize %> ago</td>
@@ -47,7 +47,7 @@
 
   <section class="panel" data-intro="Once you invite someone, they'll be added to this list." data-step="4">
     <h2 class="panel__title">Your users</h2>
-    <% if @organisation.users.present? %>
+    <% if @users.present? %>
       <table class="table">
           <thead>
             <tr>
@@ -58,7 +58,7 @@
             </tr>
           </thead>
           <tbody>
-            <% @organisation.users.each do |u| %>
+            <% @users.each do |u| %>
               <tr>
                 <td><%= u.display_name %></td>
                 <td><%= short_time_ago_in_words(u.created_at).humanize %> ago</td>

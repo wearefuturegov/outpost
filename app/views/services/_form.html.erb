@@ -15,6 +15,12 @@
         </div>
     </div>
 
-    <%= f.submit "Submit for review", class: "button" %>
+
+    <div class="form-actions">
+        <%= f.submit "Submit for review", class: "button" %>
+        <% unless @service.discarded? %>
+            <%= link_to "Remove", service_path(@service), method: "delete", class: "button button--danger", data: {confirm: "Are you sure? All details associated with this service will be lost and it won't be visible to the public any more." } %>
+        <% end %>
+    </div>
 
 <% end %>

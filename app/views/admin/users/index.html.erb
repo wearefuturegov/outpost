@@ -1,5 +1,6 @@
 <% content_for :header do %>
     <h1 class="page-header__title">Users</h1>
+    <%= render "shared/users-nav" %>
 <% end %>
 
 <header class="actions">
@@ -8,49 +9,61 @@
     <%= render "filters" %>
   </div>
   <div class="actions__group">
-    <%= link_to "Invite user", new_admin_user_path, class: "button button--small" %>
+    <%= link_to "Invite user", new_admin_user_path, class: "button button--small button--add" %>
   </div>
 </header>
 
-<div class="table-holder">
-  <table class="table">
-    <thead>
-      <tr>
-        <th></th>
-        <th>Name or email</th>
-        <th>Admin</th>
-        <th>Organisation</th>
-        <th>Joined</th>
-        <th>Last seen</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @users.each do |u| %>
+<% if @users.any? %>
+  <div class="table-holder">
+    <table class="table">
+      <thead>
         <tr>
-          <td>
-            <div aria-hidden="true" class="user-circle">
-              <%= u.initials %>
-            </div>
-          </td>
-          <td>
-            <strong><%= link_to u.display_name, admin_user_path(u) %></strong>
-          </td>
-          <td>
-            <% if u.admin %>
-              <%= image_tag "tick-blue.svg", alt: "Admin" %>
-            <% end %>
-          </td>
-          <td><%= render "shared/poppables/organisation", o: u.organisation if u.organisation %></td>
-          <td><%= time_ago_in_words(u.created_at).humanize %> ago</td>
-          <td>
-            <% if u.last_seen %>
-              <%= time_ago_in_words(u.last_seen).humanize %> ago
-            <% else %>
-              Never logged in
-            <% end %>
-          </td>
+          <th></th>
+          <th>Name or email</th>
+          <th>Admin</th>
+          <th>Organisation</th>
+          <th>Joined</th>
+          <th>Last seen</th>
+          <% if params[:deactivated] %>
+            <th class="visually-hidden">Actions</th>
+          <% end %>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
-</div>
+      </thead>
+      <tbody>
+        <% @users.each do |u| %>
+          <tr>
+            <td>
+              <div aria-hidden="true" class="user-circle">
+                <%= u.initials %>
+              </div>
+            </td>
+            <td>
+              <strong><%= link_to u.display_name, admin_user_path(u) %></strong>
+            </td>
+            <td>
+              <% if u.admin %>
+                <%= image_tag "tick-blue.svg", alt: "Admin" %>
+              <% end %>
+            </td>
+            <td><%= render "shared/poppables/organisation", o: u.organisation if u.organisation %></td>
+            <td><%= time_ago_in_words(u.created_at).humanize %> ago</td>
+            <td>
+              <% if u.last_seen %>
+                <%= time_ago_in_words(u.last_seen).humanize %> ago
+              <% else %>
+                Never logged in
+              <% end %>
+            </td>
+            <% if u.discarded? %>
+              <td>
+                <%= link_to "Reactivate", admin_user_reactivate_path(u), data: {confirm: "Are you sure? This user will be able to log in again."} %>
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <p class="no-results">No results to show</p>
+<% end %>

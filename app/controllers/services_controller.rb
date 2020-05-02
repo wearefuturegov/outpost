@@ -1,5 +1,5 @@
 class ServicesController < ApplicationController
-    before_action :set_service, only: [:show, :update]
+    before_action :set_service, only: [:show, :update, :destroy]
 
     def new
         @service = current_user.organisation.services.new
@@ -25,6 +25,11 @@ class ServicesController < ApplicationController
         else
             render "show"
         end
+    end
+
+    def destroy
+        @service.archive
+        redirect_to organisations_path, notice: "That service has been removed and will no longer be visible."
     end
 
     private

@@ -75,6 +75,10 @@
     }
 }
 
+.bottom-margin{
+    margin-bottom: 25px;
+}
+
 .table-holder{
     overflow-x: auto;
     @media screen and (min-width: $breakpoint-l){

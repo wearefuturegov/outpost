@@ -1,30 +1,50 @@
 <div class="snapshot-preview__canvas">
 
     <dl class="snapshot-preview__list">
-        <dt class="snapshot-preview__label">Name</dt>
-        <dd class="snapshot-preview__diff"><%= inline_differ(current["name"],live["name"]) %></dd>
+        <% if current["name"].present? || live["name"].present? %>
+            <dt class="snapshot-preview__label">Name</dt>
+            <dd class="snapshot-preview__diff"><%= inline_differ(current["name"],live["name"]) %></dd>
+        <% end %>
 
-        <dt class="snapshot-preview__label">Description</dt>
-        <dd class="snapshot-preview__diff"><%= inline_differ(current["description"],live["description"]) %></dd>
+        <% if current["description"].present? || live["description"].present? %>
+            <dt class="snapshot-preview__label">Description</dt>
+            <dd class="snapshot-preview__diff"><%= inline_differ(current["description"],live["description"]) %></dd>
+        <% end %>
 
-        <dt class="snapshot-preview__label">Parent organisation</dt>
-        <dd class="snapshot-preview__diff"><%= Organisation.find(current["organisation_id"]).name %></dd>
+        <% if current["organisation_id"].present? || live["organisation_id"].present? %>
+            <dt class="snapshot-preview__label">Parent organisation</dt>
+            <dd class="snapshot-preview__diff"><%= Organisation.find(current["organisation_id"]).display_name %></dd>
+        <% end %>
 
-        <dt class="snapshot-preview__label">Website URL</dt>
-        <dd class="snapshot-preview__diff"><%= inline_differ(current["url"],live["url"]) %></dd>
+        <% if current["url"].present? || live["url"].present? %>
+            <dt class="snapshot-preview__label">Website</dt>
+            <dd class="snapshot-preview__diff"><%= inline_differ(current["url"],live["url"]) %></dd>
+        <% end %>
 
-        <dt class="snapshot-preview__label">Email</dt>
-        <dd class="snapshot-preview__diff"><%= inline_differ(current["email"],live["email"]) %></dd>
+        <% if current["email"].present? || live["email"].present? %>
+            <dt class="snapshot-preview__label">Email</dt>
+            <dd class="snapshot-preview__diff"><%= inline_differ(current["email"],live["email"]) %></dd>
+        <% end %>
+        
+        <% if current["phone"].present? || live["phone"].present? %>
+            <% if current["phone"]["number"].present? || live["phone"]["number"].present? %>
+                <dt class="snapshot-preview__label">Phone</dt>
+                <dd class="snapshot-preview__diff"><%= inline_differ(current["phone"]["number"], live["phone"]["number"]) %></dd>
+            <% end %>
+        <% end %>
 
-        <dt class="snapshot-preview__label">Phone</dt>
-        <dd class="snapshot-preview__diff"><%= inline_differ(current["phone"]["number"], live["phone"]["number"]) %></dd>
+        <% if current["contact"].present? || live["contact"].present? %>
+            <% if current["contact"]["name"].present? || live["contact"]["name"].present? %>
+                <dt class="snapshot-preview__label">Contact name</dt>
+                <dd class="snapshot-preview__diff"><%= inline_differ(current["contact"]["name"], live["contact"]["name"]) %></dd>
+            <% end %>
+            <% if current["contact"]["title"].present? || live["contact"]["title"].present? %>
+                <dt class="snapshot-preview__label">Contact role</dt>
+                <dd class="snapshot-preview__diff"><%= inline_differ(current["contact"]["title"], live["contact"]["title"]) %></dd>
+            <% end %>
+        <% end %>
 
-        <dt class="snapshot-preview__label">Contact name</dt>
-        <dd class="snapshot-preview__diff"><%= inline_differ(current["contact"]["name"], live["contact"]["name"]) %></dd>
-
-        <dt class="snapshot-preview__label">Contact role</dt>
-        <dd class="snapshot-preview__diff"><%= inline_differ(current["contact"]["title"], live["contact"]["title"]) %></dd>
-
+        <% if current["taxonomies"].any? || live["taxonomies"].any? %>
             <dt class="snapshot-preview__label">Categories</dt>
             <dd class="snapshot-preview__diff">
                 <%= differ(
@@ -32,27 +52,36 @@
                     live["taxonomies"].map { |n| n["name"] }.join(", ")
                 ) %>
             </dd>
+        <% end %>
 
-        <dt class="snapshot-preview__label">Locations</dt>
-        <dd class="snapshot-preview__diff">
-                <%= differ(
-                    current["locations"].map { |n| n["name"] || n["postcode"] }.join(", "),
-                    live["locations"].map { |n| n["name"] || n["postcode"] }.join(", ")
-                ) %>
-        </dd>
+        <% if current["locations"].any? || live["locations"].any? %>
+            <dt class="snapshot-preview__label">Locations</dt>
+            <dd class="snapshot-preview__diff">
+                    <%= differ(
+                        current["locations"].map { |n| n["name"] || n["postcode"] }.join(", "),
+                        live["locations"].map { |n| n["name"] || n["postcode"] }.join(", ")
+                    ) %>
+            </dd>
+        <% end %>
 
-        <dt class="snapshot-preview__label">SEND Needs</dt>
-        <dd class="snapshot-preview__diff">
-                <%= differ(
-                    current["send_needs"].map { |n| n["name"] }.join(", "),
-                    live["send_needs"].map { |n| n["name"] }.join(", ")
-                ) %>
-        </dd>
+        <% if current["send_needs"].any? || live["send_needs"].any? %>
+            <dt class="snapshot-preview__label">SEND Needs</dt>
+            <dd class="snapshot-preview__diff">
+                    <%= differ(
+                        current["send_needs"].map { |n| n["name"] }.join(", "),
+                        live["send_needs"].map { |n| n["name"] }.join(", ")
+                    ) %>
+            </dd>
+        <% end %>
 
-        <dt class="snapshot-preview__label">Visible from</dt>
-        <dd class="snapshot-preview__diff"><%= inline_differ(current["visible_from"],live["visible_from"]) %></dd>
+        <% if current["visible_from"] || live["visible_from"] %>
+            <dt class="snapshot-preview__label">Visible from</dt>
+            <dd class="snapshot-preview__diff"><%= inline_differ(current["visible_from"],live["visible_from"]) %></dd>
+        <% end %>
 
-        <dt class="snapshot-preview__label">Visible to</dt>
-        <dd class="snapshot-preview__diff"><%= inline_differ(current["visible_to"],live["visible_to"]) %></dd>
+        <% if current["visible_to"] || live["visible_to"] %>
+            <dt class="snapshot-preview__label">Visible to</dt>
+            <dd class="snapshot-preview__diff"><%= inline_differ(current["visible_to"],live["visible_to"]) %></dd>
+        <% end %>
     </dl>
 </div>

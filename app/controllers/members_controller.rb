@@ -15,6 +15,16 @@ class MembersController < ApplicationController
         end
     end
 
+    def destroy
+        @user = User.find(params[:id])
+        unless @user === current_user
+            @user.discard
+            redirect_to organisations_path, notice: "That user has been removed and won't be able to log in any more."
+        else
+            redirect_to organisations_path, notice: "You can't remove yourself."
+        end
+    end
+
     private
 
     def user_params
