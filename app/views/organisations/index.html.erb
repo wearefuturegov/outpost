@@ -10,7 +10,7 @@
 
 <header class="actions">
     <div>
-      <%= link_to "Add service", new_service_path, class: "button button--small", data: {intro: "Create your first service here.", step: 1} %>
+      <%= link_to "Add service", new_service_path, class: "button button--small", data: {intro: "List your first activity, group or other service here.", step: 1} %>
     </div>
     <div>
       <%= link_to "Edit organisation", edit_organisation_path(@organisation), class: "button button--inline" %>
@@ -35,7 +35,7 @@
               <tr>
                 <td><%= link_to s.name, service_path(s) %></td>
                 <td><%= time_ago_in_words(s.updated_at).humanize %> ago</td>
-                <td><span class="tag"><%= s.status %></span></td>
+                <td><%= status_tag(s.status) %></td>              
               </tr>
             <% end %>
           </tbody>
@@ -51,16 +51,24 @@
       <table class="table">
           <thead>
             <tr>
-              <th>Email</th>
-              <th>Created</th>
-              <th class="visually-hidden">Actions</td>
+              <th>Name</th>
+              <th>Invited</th>
+              <th>Last seen</th>
+              <th class="visually-hidden">Actions</th>
             </tr>
           </thead>
           <tbody>
             <% @organisation.users.each do |u| %>
               <tr>
-                <td><%= u.email %></td>
-                <td><%= time_ago_in_words(u.created_at).humanize %> ago</td>
+                <td><%= u.display_name %></td>
+                <td><%= short_time_ago_in_words(u.created_at).humanize %> ago</td>
+                <td>
+                  <% if u.last_seen %>
+                    <%= short_time_ago_in_words(u.last_seen).humanize %> ago
+                  <% else %>
+                    Never logged in
+                  <% end %>
+                </td>
                 <td><%= link_to "Remove", member_path(u), method: "delete", data: {confirm: "Are you sure you want to remove this user? They won't be able to log in any more"} %></td>
               </tr>
             <% end %>

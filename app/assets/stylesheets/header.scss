@@ -110,6 +110,9 @@
 
     .site-header__username{
         display: none;
+        &:active, &:focus{
+            color: $text;
+        }
         @media screen and (min-width: $breakpoint-l) {
             display: inline-block;
             margin-right: 10px;
