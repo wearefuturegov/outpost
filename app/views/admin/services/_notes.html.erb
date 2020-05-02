@@ -19,7 +19,7 @@
       <% end %>
     </div>
 
-    <%= form_for [:admin, @service, @service.notes.new] do |f| %>
+    <%= form_for [:admin, @service, @service.notes.new], url: admin_service_notes_path(@service) do |f| %>
         <div class="field">
             <%= f.label :body, class: "visually-hidden" %>
             <%= f.text_area :body , class: "field__input", placeholder: "Type a note...", maxlength: 200, required: true %>
