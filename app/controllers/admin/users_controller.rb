@@ -63,6 +63,12 @@ class Admin::UsersController < Admin::BaseController
       redirect_to request.referer, notice: "That user has been reactivated"
     end
 
+    def reset
+      token = User.find(params[:user_id]).send(:set_reset_password_token)
+      # mailer here
+      redirect_to admin_user_path(@user), notice: "Password reset instructions have been sent by email"
+    end
+
     private
 
     def set_user

@@ -27,7 +27,8 @@ Rails.application.routes.draw do
     resources :taxonomies, except: [:new, :edit]
     resources :activity, only: [:index]
     resources :users, except: [:edit] do
-      get "reactivate"
+      post "reset"
+      post "reactivate"
     end
   end
 

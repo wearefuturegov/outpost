@@ -4,7 +4,7 @@
       <div class="notice notice--cross">
         <div class="notice__body">
           <p>This user is deactivated and can't log in</p>
-          <%= link_to "Reactivate", admin_user_reactivate_path(@user), class: "notice__action", data: {confirm: "Are you sure? This user will be able to log in again."} %>
+          <%= link_to "Reactivate", admin_user_reactivate_path(@user), method: "post", class: "notice__action", data: {confirm: "Are you sure? This user will be able to log in again."} %>
         </div>
       </div>
     <% elsif @user.admin? %>
@@ -73,7 +73,9 @@
           </button>
           <div class="collapsible__content">
             <p class="bottom-margin">Users must reset their own passwords, but you can send the instructions by email.</p>
-            <%= link_to "Send reset instructions", "", class: "button button--small" %>
+
+            <%= link_to "Send reset instructions", admin_user_reset_path(@user), method: "post", class: "button button--small" %>
+
           </div>
         </div>
     </div>

@@ -9,4 +9,10 @@ class UserMailer < ApplicationMailer
         @org = @user.organisation
         mail(to: @user.email, subject: "You've been invited to the Buckinghamshire Family Information Service")
     end
+
+    def reset_instructions_email
+        @user = params[:user]
+        @token = params[:token]
+        mail(to: @user.email, subject: "Reset your password")
+    end
 end
