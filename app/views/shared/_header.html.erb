@@ -1,7 +1,7 @@
     <header class="site-header">
       <div class="<%= "container" unless full_width %> site-header__inner">
         <div class="site-header__masthead">
-          <%= link_to image_tag("logo.svg", alt: "Buckinghamshire Council", class: "site-header__logo"), root_path, class: "site-header__logo-link" %>
+          <%= link_to image_tag("logo.svg", alt: "Buckinghamshire Council", class: "site-header__logo"), "https://buckinghamshire.gov.uk", class: "site-header__logo-link" %>
         </div>
         <% if user_signed_in? %>
           <div class="site-header__actions">
@@ -10,7 +10,7 @@
           </div>
         <% end %>
         <nav class="site-header__service-name-holder">
-          <a href="#" class="site-header__service-name">Family Information Service</a>
+          <%= link_to "Family Information Service", root_path, class: "site-header__service-name"%>
           <strong class="site-header__phase-tag">Beta</strong>
         </nav>
       </div>
