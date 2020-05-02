@@ -1,20 +1,25 @@
 <% content_for :header do %>
-    <p class="page-header__caption">My organisation</p>
-    <h1 class="page-header__title"><%= @organisation.name || Dashboard %></h1>
+    <h1 class="page-header__title">
+      <% if @organisation.name.present? %>
+        <%= @organisation.name %>
+      <% else %>
+        Dashboard
+      <% end %>
+    </h1>
 <% end %>
 
 <header class="actions">
     <div>
+      <%= link_to "Add service", new_service_path, class: "button button--small", data: {intro: "Create your first service here.", step: 1} %>
     </div>
     <div>
-        <%= link_to "Edit organisation", edit_organisation_path(@organisation), class: "button button--inline" %>
-        <%= link_to "Invite new user", new_member_path, class: "button button--inline" %>
-        <%= link_to "Add service", new_service_path, class: "button button--small" %>
+      <%= link_to "Edit organisation", edit_organisation_path(@organisation), class: "button button--inline" %>
+      <%= link_to "Invite new user", new_member_path, class: "button button--inline", data: {intro: "You can also invite colleagues or friends to help you maintain your list of services.", step: 3} %>
     </div>
 </header>
 
 <div class="two-panels">
-  <section class="panel">
+  <section class="panel" data-intro="Once you've created a service, it'll appear here." data-step="2">
     <h2 class="panel__title">Your services</h2>
     <% if @organisation.services.present? %>
       <table class="table">
@@ -36,12 +41,12 @@
           </tbody>
       </table>
     <% else %>
-      <p class="no-results">This organisation has no services.</p>
+      <p class="no-results">This organisation has no services yet. Why not <strong><%= link_to "create one", new_service_path %></strong>?</p>
     <% end %>
   </section>
 
-  <section class="panel">
-    <h2 class="panel__title">Users</h2>
+  <section class="panel" data-intro="Once you invite someone, they'll be added to this list." data-step="4">
+    <h2 class="panel__title">Your users</h2>
     <% if @organisation.users.present? %>
       <table class="table">
           <thead>

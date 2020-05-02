@@ -18,6 +18,10 @@ class Organisation < ApplicationRecord
       }
 
     def display_name
-        self.name || "Unnamed organisation #{self.id}"
+      if self.name.present?
+        name
+      else
+        "Unnamed organisation #{self.id}"
+      end
     end
 end

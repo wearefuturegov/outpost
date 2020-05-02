@@ -1,8 +1,6 @@
-<% if user_signed_in? %>
+<% if user_signed_in? && current_user.admin? %>
     <nav class="site-nav">
         <div class="<%= "container" unless full_width %>">
-
-            <% if current_user.admin? %>
 
                 <%= link_to_unless_current "Dashboard", admin_root_path, class: "site-nav__link" do %>
                     <span class="site-nav__current">Dashboard</span>
@@ -39,18 +37,6 @@
                 <%= link_to_unless_current "Users", admin_users_path, class: "site-nav__link" do %>
                     <span class="site-nav__current">Users</span>
                 <% end %>
-
-            <% else %>
-
-                <%= link_to_unless_current "Your organisation", root_path, class: "site-nav__link" do %>
-                    <span class="site-nav__current">Your organisation</span>
-                <% end %>
-
-            <% end %>
-
-            <%= link_to_unless_current "Settings", edit_user_registration_path, class: "site-nav__link" do %>
-                <span class="site-nav__current">Settings</span>
-            <% end %>
 
         </div>
     </nav>

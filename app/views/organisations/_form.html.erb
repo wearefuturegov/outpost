@@ -22,9 +22,7 @@
 
   <% if params[:action] === "new" %>
     <%= f.submit "Save", class: "button" %>
-
-    <%= link_to "Skip for now", organisations_path, class: "button button--secondary" %>
-
+    <%= f.submit "Skip for now", class: "button button--secondary" %>
   <% else %>
     <%= f.submit "Update", class: "button" %>
   <% end %>
