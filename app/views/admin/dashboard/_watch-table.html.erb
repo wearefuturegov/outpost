@@ -1,5 +1,5 @@
 <% if @watches.present? %>
-    <table class="table table--small">
+    <table class="table">
         <thead>
         <tr>
             <th>Name</th>
@@ -16,7 +16,7 @@
                     </strong>
                 </td>
                 <td>
-                    <% s.service.taxonomies.limit(3).each do |t| %>
+                    <% s.service.taxonomies.top_level.limit(3).each do |t| %>
                         <span class="category"><%= t.name %></span>
                     <% end %>
                 </td>

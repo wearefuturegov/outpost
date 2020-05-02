@@ -1,6 +1,4 @@
 <% content_for :header do %>
-
-
     <% unless @service.approved? %>
         <div class="notice notice--pending">
             <div class="notice__body">
@@ -14,4 +12,16 @@
     <h1 class="page-header__title"><%= @service.name %></h1>
 <% end %>
 
-<%= render "form" %>
+
+<%= form_with model: @service, local: true, html: {class: "two-thirds"} do |f| %>
+
+    <%= render "shared/errors", model: @service %>
+
+    <%= render "fields", f: f %>
+
+    <div class="form-actions">
+        <%= f.submit "Submit for review", class: "button" %>
+        <%= link_to "Remove", service_path(@service), method: "delete", class: "button button--danger", data: {confirm: "Are you sure? All details associated with this service will be lost and it won't be visible to the public any more." } %>
+    </div>
+
+<% end %>

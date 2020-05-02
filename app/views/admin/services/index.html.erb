@@ -38,7 +38,7 @@
             <td>
               <%= render "shared/poppables/organisation", o: s.organisation if s.organisation %>
             <td>
-              <% s.taxonomies.slice(0, 3).each do |t| %>
+              <% s.taxonomies.top_level.each do |t| %>
                 <%= link_to t.name, admin_taxonomy_path(t), class: "category" %>
               <% end %>
             </td>

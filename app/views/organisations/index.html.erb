@@ -41,7 +41,7 @@
           </tbody>
       </table>
     <% else %>
-      <p class="no-results">This organisation has no services yet. Why not <strong><%= link_to "create one", new_service_path %></strong>?</p>
+      <p class="no-results">This organisation has no services yet. <strong><%= link_to "Create one?", new_service_path %></strong></p>
     <% end %>
   </section>
 
@@ -60,7 +60,12 @@
           <tbody>
             <% @users.each do |u| %>
               <tr>
-                <td><%= u.display_name %></td>
+                <td>
+                  <strong><%= u.display_name %></strong>
+                  <% if u.first_name.present? && u.last_name.present? %>
+                    <small><%= u.email %></small>
+                  <% end %>
+                </td>
                 <td><%= short_time_ago_in_words(u.created_at).humanize %> ago</td>
                 <td>
                   <% if u.last_seen %>
@@ -69,7 +74,9 @@
                     Never logged in
                   <% end %>
                 </td>
-                <td><%= link_to "Remove", member_path(u), method: "delete", data: {confirm: "Are you sure you want to remove this user? They won't be able to log in any more"} %></td>
+                <td>
+                  <%= link_to "Remove", member_path(u), method: "delete", data: {confirm: "Are you sure you want to remove this user? They won't be able to log in any more"} unless current_user === u %>
+                </td>
               </tr>
             <% end %>
           </tbody>

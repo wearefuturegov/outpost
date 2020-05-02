@@ -10,6 +10,8 @@ class Taxonomy < ApplicationRecord
 
     validates_presence_of :name, uniqueness: true
 
+    scope :top_level, -> { where(parent_id: nil)}
+
     def slug
         name.parameterize
     end

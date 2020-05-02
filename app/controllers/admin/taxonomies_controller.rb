@@ -35,7 +35,7 @@ class Admin::TaxonomiesController < Admin::BaseController
     private
 
     def set_taxonomies      
-      @taxonomies = Taxonomy.where(parent_id: nil).includes(children: [:parent])
+      @taxonomies = Taxonomy.top_level.includes(children: [:parent])
     end
   
     def set_taxonomy
@@ -44,7 +44,7 @@ class Admin::TaxonomiesController < Admin::BaseController
     end
 
     def set_possible_parents
-        @possible_parents = Taxonomy.where(parent_id: nil)
+        @possible_parents = Taxonomy.top_level
         @possible_parents = @possible_parents.where.not(id: params[:id]) if params[:id]
     end
   

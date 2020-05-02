@@ -10,7 +10,7 @@
     }
     td{
         padding: 15px 10px;
-        white-space: break-word;
+        word-wrap: break-word;
     }
     tbody tr:nth-of-type(odd){
         background: $pale;
