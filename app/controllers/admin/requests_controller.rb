@@ -6,6 +6,7 @@ class Admin::RequestsController < Admin::BaseController
     def update
         @request = Service.find(params[:id])
         @request.approve
-        redirect_to admin_requests_path, notice: "Changes have been approved"
+        byebug
+        redirect_to request.referer, notice: "Changes have been approved"
     end
 end
