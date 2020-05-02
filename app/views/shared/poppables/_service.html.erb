@@ -7,8 +7,9 @@
                 <%= link_to s.name, admin_service_path(s) %>
             </h3>
 
-            <p class="poppable-card__body"><%= s.description.truncate(45) %></p>
-
+            <% if s.description %>
+                <p class="poppable-card__body"><%= s.description.truncate(45) %></p>
+            <% end %>
             <p class="poppable-card__footer">
                 <span class="poppable-card__count poppable-card__count--locations">
                     <%= s.locations.count %>
