@@ -45,3 +45,16 @@ https://heroku.com/deploy)
 It's suitable for 12-factor app hosting like [Heroku](http://heroku.com).
 
 It has a `Procfile` that will [automatically run](https://devcenter.heroku.com/articles/release-phase) pending rails migrations on every deploy, to reduce downtime.
+
+
+## Config
+
+It needs the following extra environment variables to be set:
+
+- `GOOGLE_API_KEY` with the geocoding API enabled, to geocode postcodes
+- `GOOGLE_CLIENT_KEY` with the javascript and static maps APIs enabled, to add map views to admin screens
+
+- `SENDGRID_API_KEY` to send emails (production only)
+- `MAILER_HOST` where the app lives on the web, to correctly form urls in emails (production only)
+
+- `OFSTED_API_KEY` to access the feed of Ofsted items
