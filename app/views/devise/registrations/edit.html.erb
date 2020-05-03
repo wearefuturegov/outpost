@@ -72,10 +72,11 @@
 
     <div class="collapsible" id="change-email-password">
         <button class="collapsible__header">
-          <h2>Cancel account</h2>
+          <h2>Close account</h2>
         </button>
         <div class="collapsible__content">
-          <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: "button button--small" %></p>
+          <p class="bottom-margin">Closing your account clears all your personal data. It can't be undone. Any services you manage will remain listed unless you remove them.</p>
+          <%= button_to "Close account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: "button button--small" %></p>
         </div>
     </div>
   </aside>

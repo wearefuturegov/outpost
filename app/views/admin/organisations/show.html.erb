@@ -38,12 +38,15 @@
         <div class="collapsible__content">
           <% if @organisation.services.present? %>  
             <ul class="big-list">
-              <% @organisation.services.each do |s| %>
+              <% @organisation.services.limit(30).each do |s| %>
                 <li class="big-list__item">
                   <%= render "shared/poppables/service", s: s %>
                 </li>
               <% end %>
             </ul>
+            <% if @organisation.services.length > 30 %>
+              <p><em>Showing first 30 services</em></p>
+            <% end %>
           <% else %>
             <p class="no-results">This organisation has no services.</p>
           <% end %>
