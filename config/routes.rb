@@ -3,6 +3,11 @@ Rails.application.routes.draw do
   root "organisations#index"
 
   devise_for :users, :controllers => { registrations: 'registrations' }
+  devise_scope :user do
+    get "login", to: "devise/sessions#new"
+    get "register", to: "devise/registrations#new"
+  end
+  
   resources :organisations, only: [:index, :new, :create, :edit, :update] do
     collection do
       get "start"

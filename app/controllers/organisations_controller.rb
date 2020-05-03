@@ -7,9 +7,12 @@ class OrganisationsController < ApplicationController
     end
 
     def index
-        @services = @organisation.services.kept
-        @users = @organisation.users.kept
-        redirect_to new_organisation_path unless current_user.organisation.present?
+        unless current_user.organisation.present?
+            redirect_to new_organisation_path 
+        else
+            @services = @organisation.services.kept
+            @users = @organisation.users.kept
+        end
     end
 
     def new
