@@ -32,8 +32,7 @@ class User < ApplicationRecord
           :recoverable, 
           :rememberable, 
           :lastseenable, 
-          :secure_validatable, 
-          :session_limitable
+          :secure_validatable
 
 
   def active_for_authentication? 
