@@ -30,13 +30,16 @@
         </button>
         <div class="collapsible__content">
           <% if @taxonomy.services.present? %>  
-            <ul class="big-list">
-              <% @taxonomy.services.each do |s| %>
+            <ul class="big-list bottom-margin">
+              <% @taxonomy.services.limit(30).each do |s| %>
                 <li class="big-list__item">
                   <%= render "shared/poppables/service", s: s %>
                 </li>
               <% end %>
             </ul>
+            <% if @taxonomy.services.length > 30 %>
+              <p><em>Showing first 30 services</em></p>
+            <% end %>
           <% else %>
             <p class="no-results">This category has no services.</p>
           <% end %>
