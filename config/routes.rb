@@ -19,7 +19,7 @@ Rails.application.routes.draw do
       resources :notes, only: [:create, :destroy]
       resources :snapshots, only: [:index, :update]
       collection do 
-        resources :archive, only: [:index, :update]
+        resources :archive, only: [:update]
         resources :requests, only: [:index, :update]
       end
     end

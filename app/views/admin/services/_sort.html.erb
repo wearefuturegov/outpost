@@ -1,20 +1,20 @@
 <% if params[:order_by] === column %>
     <% if params[:order] === "asc" %>
 
-        <%= link_to admin_services_path(:order => "desc", :order_by => column), class: "sort" do %>
+        <%= link_to admin_services_path(@query.merge(:order => "desc", :order_by => column)), class: "sort" do %>
             <%= label %> <%= image_tag("asc-active.svg", alt: "Sort descending") %>
         <% end %>
         
     <% else %>
 
-        <%= link_to admin_services_path, class: "sort" do %>
+        <%= link_to admin_services_path(@query.merge(:order => nil, :order_by => nil)), class: "sort" do %>
             <%= label %> <%= image_tag("desc-active.svg", alt: "Stop sorting") %>
         <% end %>
 
     <% end %>
 <% else %>
 
-    <%= link_to admin_services_path(:order => "asc", :order_by => column), class: "sort" do %>
+    <%= link_to admin_services_path(@query.merge(:order => "asc", :order_by => column)), class: "sort" do %>
         <%= label %>
     <% end %>
 

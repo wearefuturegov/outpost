@@ -2,7 +2,15 @@ class Admin::ServicesController < Admin::BaseController
   before_action :set_service, only: [:show, :update, :destroy]
 
   def index
-    @services = Service.kept.page(params[:page]).includes(:taxonomies, :organisation)
+    @query = params.permit(:order, :order_by, :filter_taxonomy, :filter_status, :archived, :query)
+
+    @services = Service.page(params[:page]).includes(:taxonomies, :organisation)
+
+    if params[:archived] === "true"
+      @services = @services.discarded
+    else
+      @services = @services.kept
+    end
 
     @services = @services.alphabetical if params[:order] === "asc" && params[:order_by] === "name"
     @services = @services.reverse_alphabetical if params[:order] === "desc" && params[:order_by] === "name"

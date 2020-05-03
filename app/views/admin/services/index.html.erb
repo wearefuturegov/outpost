@@ -5,7 +5,7 @@
 
 <header class="actions">
   <div class="actions__group">
-    <%= render "shared/mini-search", path: admin_services_path %>
+    <%= render "shared/mini-search", path: admin_services_path(@query), clear_path: admin_services_path(@query.merge(:query => nil)) %>
     <%= render "filters" %>
   </div>
   <div class="actions__group">

@@ -65,7 +65,7 @@
                 <td>
                   <strong><%= u.display_name %></strong>
                   <% if u.first_name.present? && u.last_name.present? %>
-                    <small><%= u.email %></small>
+                    <p><small><%= u.email %></small></p>
                   <% end %>
                 </td>
                 <td><%= short_time_ago_in_words(u.created_at).humanize %> ago</td>

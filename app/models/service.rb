@@ -36,8 +36,8 @@ class Service < ApplicationRecord
   # sort scopes
   scope :oldest, ->  { order("updated_at ASC") }
   scope :newest, ->  { order("updated_at DESC") }
-  scope :alphabetical, ->  { order("name ASC") }
-  scope :reverse_alphabetical, ->  { order("name DESC") }
+  scope :alphabetical, ->  { order(name: :ASC) }
+  scope :reverse_alphabetical, ->  { order(name: :DESC) }
 
   # filter scopes
   scope :in_taxonomy, -> (id) { joins(:taxonomies).where("taxonomies.id in (?)", id)}

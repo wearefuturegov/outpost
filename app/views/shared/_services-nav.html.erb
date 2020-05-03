@@ -1,7 +1,11 @@
 <nav class="shortcuts">
-    <%= link_to_unless_current "All", admin_services_path, class: "shortcuts__link" do %>
+
+    <% if (params[:archived] === "true") || (params[:controller]=== "admin/requests") %>
+        <%= link_to "All", admin_services_path, class: "shortcuts__link" %>
+    <% else %>
         <span class="shortcuts__current">All</span>
     <% end %>
+
     <span class="shortcuts__count">(<%= @all_count %>)</span>
 
     <span class="shortcuts__divider">|</span>
@@ -12,11 +16,12 @@
     <span class="shortcuts__count">(<%= @pending_count %>)</span>
 
     <span class="shortcuts__divider">|</span>
-    
-    <%= link_to_unless_current "Archived", admin_archive_index_path, class: "shortcuts__link" do %>
-        <span class="shortcuts__current">
-            Archived 
-        </span>
+
+    <% if (params[:archived] === "true") %>
+        <span class="shortcuts__current">Archived </span>
+    <% else %>
+        <%= link_to_unless_current "Archived", admin_services_path(archived: true), class: "shortcuts__link" %>
     <% end %>
+
     <span class="shortcuts__count">(<%= @archived_count %>)</span>
 </nav>

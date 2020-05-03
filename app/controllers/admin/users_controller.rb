@@ -2,7 +2,7 @@ class Admin::UsersController < Admin::BaseController
     before_action :set_user, only: [:show, :update, :destroy]
     
     def index
-      @query = params.permit(:deactivated, :order, :order_by, :filter_users, :filter_logged_in)
+      @query = params.permit(:deactivated, :order, :order_by, :filter_users, :filter_logged_in, :query)
 
       @users = User.includes(:organisation).page(params[:page])
 
