@@ -22,7 +22,7 @@
           <th>Name or email</th>
           <th>Admin</th>
           <th>Organisation</th>
-          <th><%= render "sort", column: "joined", label: "Joined"%></th>
+          <th><%= render "sort", column: "created_at", label: "Joined"%></th>
           <th><%= render "sort", column: "last_seen", label: "Last seen"%></th>
           <% if params[:deactivated] %>
             <th class="visually-hidden">Actions</th>
@@ -64,6 +64,7 @@
       </tbody>
     </table>
   </div>
+  <%= paginate @users %>
 <% else %>
   <p class="no-results">No results to show</p>
 <% end %>

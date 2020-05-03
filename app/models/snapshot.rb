@@ -2,6 +2,8 @@ class Snapshot < ApplicationRecord
   belongs_to :user, optional: true
   belongs_to :service
 
+  paginates_per 20
+
   def restore
     # 1. Find the live version of the current object
     live_object = Service.find(self.service_id)

@@ -10,6 +10,8 @@ class User < ApplicationRecord
   validates :first_name, presence: true
   validates :last_name, presence: true
 
+  paginates_per 20
+
   include Discard::Model
   
   include PgSearch::Model
@@ -18,6 +20,12 @@ class User < ApplicationRecord
     using: {
       tsearch: { prefix: true }
     }
+
+  # sort scopes
+  scope :oldest, ->  { order("created_at ASC") }
+  scope :newest, ->  { order("created_at DESC") }
+  scope :rarely_seen, ->  { order("last_seen ASC") }
+  scope :latest_seen, ->  { order("last_seen DESC  NULLS LAST") }
 
   # filter scopes
   scope :admins, ->  { where(admin: true) }

@@ -2,7 +2,7 @@ class Admin::UsersController < Admin::BaseController
     before_action :set_user, only: [:show, :update, :destroy]
     
     def index
-      @users = User.order(:last_seen).includes(:organisation)
+      @users = User.includes(:organisation).page(params[:page])
 
       if params[:deactivated] === "true"
         @users = @users.discarded
@@ -10,13 +10,17 @@ class Admin::UsersController < Admin::BaseController
         @users = @users.kept
       end
 
+      @users = @users.rarely_seen if params[:order] === "asc" && params[:order_by] === "last_seen"
+      @users = @users.latest_seen if params[:order] === "desc" && params[:order_by] === "last_seen"
+      @users = @users.newest if params[:order] === "desc" && params[:order_by] === "created_at"
+      @users = @users.oldest if params[:order] === "asc" && params[:order_by] === "created_at"  
+
       @users = @users.community if params[:filter_users] === "community"
       @users = @users.admins if params[:filter_users] === "admins"
       @users = @users.never_seen if params[:filter_logged_in] === "never"
       @users = @users.only_seen if params[:filter_logged_in] === "only"
 
       @users = @users.search(params[:query]) if params[:query].present?
-
 
       @active_count = User.kept.count
       @deactivated_count = User.discarded.count
