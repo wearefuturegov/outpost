@@ -74,11 +74,11 @@
         background-repeat: no-repeat;
         margin-right: 25px;
         @media screen and (min-width: $breakpoint-m) {
-            margin-right: 40px;
+            margin-right: 30px;
         }
     }
     &.notice--administrator:before{
-        background-image: url(asset_path("admin.svg"));
+        background-image: url(asset_path("tick-circle.svg"));
     }
     &.notice--cross:before{
         background-image: url(asset_path("cross-circle.svg"));

@@ -22,8 +22,8 @@
           <th>Name or email</th>
           <th>Admin</th>
           <th>Organisation</th>
-          <th>Joined</th>
-          <th>Last seen</th>
+          <th><%= render "sort", column: "joined", label: "Joined"%></th>
+          <th><%= render "sort", column: "last_seen", label: "Last seen"%></th>
           <% if params[:deactivated] %>
             <th class="visually-hidden">Actions</th>
           <% end %>
