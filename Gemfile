@@ -25,6 +25,10 @@ gem 'pg_search'
 gem 'devise_lastseenable'
 gem 'differ'
 gem 'httparty'
+gem 'devise-security'
+gem 'rails_email_validator'
+gem 'email_address'
+
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
