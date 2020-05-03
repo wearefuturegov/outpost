@@ -4,7 +4,9 @@ class OrganisationsController < ApplicationController
     skip_before_action :authenticate_user!, only: [:start]
 
     def index
-        unless current_user.organisation.present?
+        if current_user.admin?
+            redirect_to admin_root_path
+        elsif !current_user.organisation.present?
             redirect_to new_organisation_path 
         else
             @services = @organisation.services.kept
