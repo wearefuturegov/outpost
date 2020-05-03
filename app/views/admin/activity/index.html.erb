@@ -28,7 +28,7 @@
               <% if a.user %>
                 <%= render "shared/poppables/user", u: a.user %>
               <% else %>
-                System
+                —
               <% end %>
             </td>
             <td><%= short_time_ago_in_words(a.created_at).humanize %> ago</td>
