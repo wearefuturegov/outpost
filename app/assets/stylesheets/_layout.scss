@@ -142,7 +142,7 @@
     }
     .shortcuts__count{
         margin-left: 5px;
-        color: transparentize($text, 0.25);
+        color: transparentize($text, 0.7);
         font-size: 1.1rem;
         @media screen and (min-width: $breakpoint-m){
             font-size: 1.3rem;
@@ -154,7 +154,7 @@
     .shortcuts__divider{
         margin-left: 7px;
         margin-right: 7px;
-        color: transparentize($text, 0.8);
+        color: transparentize($text, 0.7);
         @media screen and (min-width: $breakpoint-m){
             margin-left: 12px;
             margin-right: 12px;

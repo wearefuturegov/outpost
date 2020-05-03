@@ -4,7 +4,7 @@ class Admin::ServicesController < Admin::BaseController
   def index
     @query = params.permit(:order, :order_by, :filter_taxonomy, :filter_status, :archived, :query)
 
-    @services = Service.page(params[:page]).includes(:taxonomies, :organisation)
+    @services = Service.page(params[:page]).includes(:organisation)
 
     if params[:archived] === "true"
       @services = @services.discarded
@@ -40,8 +40,6 @@ class Admin::ServicesController < Admin::BaseController
     else
       render "show"
     end
-
-    # byebug
   end
 
   def new

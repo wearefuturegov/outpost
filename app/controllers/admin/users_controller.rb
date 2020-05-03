@@ -70,8 +70,9 @@ class Admin::UsersController < Admin::BaseController
     end
 
     def reset
-      token = User.find(params[:user_id]).send(:set_reset_password_token)
-      # mailer here
+      @user = User.find(params[:user_id])
+      token = @user.send(:set_reset_password_token)
+      UserMailer.with(token: token, user: @user).reset_instructions_email.deliver_later
       redirect_to admin_user_path(@user), notice: "Password reset instructions have been sent by email"
     end
 
