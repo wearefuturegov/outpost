@@ -1,0 +1,27 @@
+<% content_for :title do %>
+    Your changes have been approved
+<% end %>
+
+<% content_for :preheader do %>
+    Changes to <%= @service.name %> have been approved and are now visible.
+<% end %>
+
+<p>Your changes to <%= @service.name %> have been approved.</p>
+
+<p>They're now publicly visble in the Family Information Service directory.</p>
+
+<table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
+    <tbody>
+    <tr>
+        <td align="left">
+        <table role="presentation" border="0" cellpadding="0" cellspacing="0">
+            <tbody>
+            <tr>
+                <td> <a href="<%= service_url(@service) %>" target="_blank">See the service</a> </td>
+            </tr>
+            </tbody>
+        </table>
+        </td>
+    </tr>
+    </tbody>
+</table>
