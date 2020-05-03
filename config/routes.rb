@@ -8,11 +8,7 @@ Rails.application.routes.draw do
     get "register", to: "devise/registrations#new"
   end
   
-  resources :organisations, only: [:index, :new, :create, :edit, :update] do
-    collection do
-      get "start"
-    end
-  end
+  resources :organisations, only: [:index, :new, :create, :edit, :update]
   resources :services, except: [:edit]
   resources :members, only: [:new, :create, :destroy]
 

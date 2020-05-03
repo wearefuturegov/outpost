@@ -3,9 +3,6 @@ class OrganisationsController < ApplicationController
     before_action :set_organisation, only: [:index, :edit, :update]
     skip_before_action :authenticate_user!, only: [:start]
 
-    def start
-    end
-
     def index
         unless current_user.organisation.present?
             redirect_to new_organisation_path 
