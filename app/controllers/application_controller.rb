@@ -18,4 +18,8 @@ class ApplicationController < ActionController::Base
     ensure
       Current.user = nil
     end  
+
+    def no_admins
+      redirect_to admin_root_path if current_user.admin?
+    end
 end

@@ -1,12 +1,11 @@
 class OrganisationsController < ApplicationController
+    before_action :no_admins
     before_action :require_not_onboarded, only: [:new, :create]
     before_action :set_organisation, only: [:index, :edit, :update]
     skip_before_action :authenticate_user!, only: [:start]
 
     def index
-        if current_user.admin?
-            redirect_to admin_root_path
-        elsif !current_user.organisation.present?
+        unless current_user.organisation.present?
             redirect_to new_organisation_path 
         else
             @services = @organisation.services.kept

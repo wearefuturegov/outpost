@@ -1,5 +1,6 @@
 class MembersController < ApplicationController
-
+    before_action :no_admins
+    
     def new
         @user = User.new
     end

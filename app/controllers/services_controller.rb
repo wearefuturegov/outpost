@@ -1,4 +1,5 @@
 class ServicesController < ApplicationController
+    before_action :no_admins
     before_action :set_service, only: [:show, :update, :destroy]
 
     def new
