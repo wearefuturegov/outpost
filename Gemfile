@@ -28,6 +28,7 @@ gem 'httparty'
 gem 'devise-security'
 gem 'rails_email_validator'
 gem 'email_address'
+gem 'sendgrid-actionmailer'
 
 
 group :development, :test do
