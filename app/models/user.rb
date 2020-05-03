@@ -24,7 +24,7 @@ class User < ApplicationRecord
   # sort scopes
   scope :oldest, ->  { order("created_at ASC") }
   scope :newest, ->  { order("created_at DESC") }
-  scope :rarely_seen, ->  { order("last_seen ASC") }
+  scope :rarely_seen, ->  { order("last_seen ASC NULLS FIRST") }
   scope :latest_seen, ->  { order("last_seen DESC  NULLS LAST") }
 
   # filter scopes

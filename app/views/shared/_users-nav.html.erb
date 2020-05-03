@@ -10,10 +10,11 @@
 
     <span class="shortcuts__divider">|</span>
     
-    <%= link_to_unless_current "Deactivated", admin_users_path(deactivated: true), class: "shortcuts__link" do %>
-        <span class="shortcuts__current">
-            Deactivated
-        </span>
+    <% if params[:deactivated] %>
+        <span class="shortcuts__current">Deactivated</span>
+    <% else %>
+        <%= link_to_unless_current "Deactivated", admin_users_path(deactivated: true), class: "shortcuts__link" %>
     <% end %>
+    
     <span class="shortcuts__count">(<%= @deactivated_count %>)</span>
 </nav>
