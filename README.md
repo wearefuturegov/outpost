@@ -53,8 +53,10 @@ It needs the following extra environment variables to be set:
 
 - `GOOGLE_API_KEY` with the geocoding API enabled, to geocode postcodes
 - `GOOGLE_CLIENT_KEY` with the javascript and static maps APIs enabled, to add map views to admin screens
-
-- `SENDGRID_API_KEY` to send emails (production only)
-- `MAILER_HOST` where the app lives on the web, to correctly form urls in emails (production only)
-
 - `OFSTED_API_KEY` to access the feed of Ofsted items
+
+In production only:
+
+- `SENDGRID_API_KEY` to send emails
+- `MAILER_HOST` where the app lives on the web, to correctly form urls in emails
+- `MAILER_FROM` the email address emails will be delivered from
