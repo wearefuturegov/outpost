@@ -43,7 +43,7 @@ bucks_csv.each.with_index do |row, line|
 # CREATE USER IF DOESN'T ALREADY EXIST AND DID PREVIOUSLY
   if outpost_users.blank? & open_objects_users.any?
     open_objects_user = open_objects_users.first
-    password = SecureRandom.hex(8)
+    password = "A9#{SecureRandom.hex(8)}1Z"
     user = User.new
     user.email = open_objects_user['email']
     user.old_external_id = open_objects_user['externalId']
