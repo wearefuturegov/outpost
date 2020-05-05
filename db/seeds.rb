@@ -1,5 +1,7 @@
 require 'csv'
 
+start_time = Time.now
+
 # Seed users from old DB
 users_file = File.open('lib/seeds/users.csv', "r:ISO-8859-1")
 open_objects_users_csv = CSV.parse(users_file, headers: true)
@@ -15,7 +17,9 @@ bucks_csv.each do |row| # CREATE ORGS BASED ON TYPE
     organisation.email = row['contact_email']
     organisation.url = row['website']
     organisation.old_external_id = row['externalid']
-    organisation.save
+    unless organisation.save
+      byebug
+    end
   end
 end
 
@@ -37,13 +41,15 @@ bucks_csv.each.with_index do |row, line|
 
   if organisation.blank?
     organisation = Organisation.new
-    organisation.save
+    unless organisation.save
+      byebug
+    end
   end
 
 # CREATE USER IF DOESN'T ALREADY EXIST AND DID PREVIOUSLY
   if outpost_users.blank? & open_objects_users.any?
     open_objects_user = open_objects_users.first
-    password = "A9#{SecureRandom.hex(8)}1Z"
+    password = "A9b#{SecureRandom.hex(8)}1yZ"
     user = User.new
     user.email = open_objects_user['email']
     user.old_external_id = open_objects_user['externalId']
@@ -51,7 +57,9 @@ bucks_csv.each.with_index do |row, line|
     user.last_name = open_objects_user['lastName']
     user.organisation_id = organisation.id
     user.password = password
-    user.save
+    unless user.save
+      byebug
+    end
   end
 
 # CREATE SERVICE
@@ -83,7 +91,9 @@ bucks_csv.each.with_index do |row, line|
     location.latitude = row['latitude']
     location.longitude = row['longitude']
     location.country = 'GB'
-    location.save
+    unless location.save
+      byebug
+    end
     service.locations << location
   end
 
@@ -101,18 +111,24 @@ bucks_csv.each.with_index do |row, line|
     end
   end
 
-  service.save
+  unless service.save
+    byebug
+  end
 
   contact = Contact.new
   contact.service_id = service.id
   contact.name = row['contact_name']
   contact.title = row['contact_position']
-  contact.save
+  unless contact.save
+    byebug
+  end
 
   phone = Phone.new
   phone.contact_id = contact.id
   phone.number = row['contact_telephone']
-  phone.save
+  unless phone.save
+    byebug
+  end
 
 end
 
@@ -122,3 +138,7 @@ user_logins = YAML::load_file(user_logins_yaml)
 user_logins.each do |user_login|
   User.create!(user_login) unless (User.where(email: user_login["email"]).size > 0)
 end
+
+end_time = Time.now
+
+puts "Took #{(end_time - start_time)/60} minutes"
