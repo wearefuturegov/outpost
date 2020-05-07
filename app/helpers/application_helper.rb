@@ -50,6 +50,10 @@ module ApplicationHelper
             "record imported"
         when "approve"
             "approved"
+        when "ofsted_update"
+            "updated by ofsted feed"
+        when "ofsted_create"
+            "created by ofsted feed"
         end
     end
 
