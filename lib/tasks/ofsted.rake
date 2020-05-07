@@ -36,7 +36,6 @@ namespace :ofsted do
         childcare_services = ChildcareService.where(ofsted_reference_number: item["reference_number"])
 
         ofsted_item.assign_attributes(ofsted_item_params(item)) # Prepare for update
-        byebug
         if ofsted_item.provider_name_changed? # If changed, update corresponding service
 
           if ofsted_item.save # Save
@@ -46,9 +45,10 @@ namespace :ofsted do
           end
 
           childcare_services.each do |childcare_service| # Could be multiple childcare services
-            childcare_service.name = item["provider_name"]
-            childcare_service.approved = false
+
+            childcare_service.assign_attributes(childcare_service_params(item))
             childcare_service.snapshot_action = "ofsted_update"
+
             if childcare_service.save
               puts "Updated childcare service #{childcare_service.name}"
             else
@@ -93,13 +93,9 @@ namespace :ofsted do
             end
           end
 
-          childcare_service = ChildcareService.new( # create new service to correspond with ofsted service
-            name: item["provider_name"],
-            ofsted_reference_number: item["reference_number"],
-            organisation_id: organisation.id,
-            approved: false
-          )
+          childcare_service = organisation.services.build(childcare_service_params(item))
           childcare_service.snapshot_action = "ofsted_create"
+
           if childcare_service.save
             puts "Created chilldcare service: #{childcare_service.name}"
           else
@@ -166,6 +162,20 @@ def childcare_service_params item
   {
     name: item["provider_name"],
     ofsted_reference_number: item["reference_number"],
-    email: item["prov_email"]
+    email: item["prov_email"],
+    approved: false,
+    contact_attributes: {
+      phone_attributes: {
+        number: item["setting_telephone"]
+      }
+    },
+    locations_attributes: [
+      {
+        name: item["setting_name"],
+        address_1: item["setting_address_1"],
+        city: item["setting_town"],
+        postal_code: item["setting_postcode"]
+      }
+    ]
   }
 end
