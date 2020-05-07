@@ -1,0 +1,2 @@
+class OfstedItem < ApplicationRecord
+end
