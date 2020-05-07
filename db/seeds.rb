@@ -64,7 +64,10 @@ bucks_csv.each.with_index do |row, line|
 
 # CREATE SERVICE
 
-  service = ChildcareService.new if row['service_type'] == 'Childcare'
+  if row['service_type'] == 'Childcare'
+    service = ChildcareService.new
+    service.old_ofsted_external_id = row['registered_setting_identifier']
+  end
   service ||= Service.new
 
   service.name = row['title']
@@ -102,6 +105,45 @@ bucks_csv.each.with_index do |row, line|
     lines.each do |line|
       categories = line.split(' > ')
       categories.delete("Family Information")
+      parent_cateogry = categories.first
+      child_category = categories.last unless categories.size == 1 # is a parent category
+      parent_taxonomy = Taxonomy.find_or_create_by(name: parent_cateogry) if parent_cateogry
+      child_taxonomy = Taxonomy.find_or_create_by(name: child_category, parent_id: parent_taxonomy.id) if child_category # otherwise tries to create with name nil
+      service.taxonomies |= [parent_taxonomy] if parent_taxonomy
+      service.taxonomies |= [child_taxonomy] if child_taxonomy
+    end
+  end
+
+  unless row['parentchannel'] == nil
+    lines = row['parentchannel'].split("\n")
+    lines.each do |line|
+      categories = line.split(' > ')
+      parent_cateogry = categories.first
+      child_category = categories.last unless categories.size == 1 # is a parent category
+      parent_taxonomy = Taxonomy.find_or_create_by(name: parent_cateogry) if parent_cateogry
+      child_taxonomy = Taxonomy.find_or_create_by(name: child_category, parent_id: parent_taxonomy.id) if child_category # otherwise tries to create with name nil
+      service.taxonomies |= [parent_taxonomy] if parent_taxonomy
+      service.taxonomies |= [child_taxonomy] if child_taxonomy
+    end
+  end
+
+  unless row['youthchannel'] == nil
+    lines = row['youthchannel'].split("\n")
+    lines.each do |line|
+      categories = line.split(' > ')
+      parent_cateogry = categories.first
+      child_category = categories.last unless categories.size == 1 # is a parent category
+      parent_taxonomy = Taxonomy.find_or_create_by(name: parent_cateogry) if parent_cateogry
+      child_taxonomy = Taxonomy.find_or_create_by(name: child_category, parent_id: parent_taxonomy.id) if child_category # otherwise tries to create with name nil
+      service.taxonomies |= [parent_taxonomy] if parent_taxonomy
+      service.taxonomies |= [child_taxonomy] if child_taxonomy
+    end
+  end
+
+  unless row['childrenscentrechannel'] == nil
+    lines = row['childrenscentrechannel'].split("\n")
+    lines.each do |line|
+      categories = line.split(' > ')
       parent_cateogry = categories.first
       child_category = categories.last unless categories.size == 1 # is a parent category
       parent_taxonomy = Taxonomy.find_or_create_by(name: parent_cateogry) if parent_cateogry
