@@ -22,12 +22,13 @@ We're also building an [example front-end](https://github.com/wearefuturegov/sco
 
 ## Running it locally
 
-You need ruby installed and a postgresql server running.
+You need ruby and node.js installed, plus a postgresql server running.
 
 First, clone the repo: 
 
 ```
 bundle install
+npm install
 rails db:setup
 rails s
 
