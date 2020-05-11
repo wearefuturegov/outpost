@@ -26,9 +26,10 @@ Rails.application.routes.draw do
     resources :organisations, except: :edit
     resources :locations, except: [:edit, :new, :create]
     resources :taxonomies, except: [:new, :edit]
-    resources :ofsted, onlt: [:index] do
+    resources :ofsted, only: [:index] do
       collection do
         get "pending"
+        get "feed"
       end
     end
     resources :activity, only: [:index]
