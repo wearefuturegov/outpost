@@ -51,9 +51,9 @@ module ApplicationHelper
         when "approve"
             "approved"
         when "ofsted_update"
-            "updated by ofsted feed"
+            "updated from ofsted feed"
         when "ofsted_create"
-            "created by ofsted feed"
+            "created from ofsted feed"
         end
     end
 
@@ -106,19 +106,5 @@ module ApplicationHelper
         end
         link_to name, '#', class: "button button--small button--add", data: {id: id, fields: fields.gsub("\n", ""), add: true}
     end
-
-
-    # def compare(current_snapshot, last_version)
-    #     # byebug
-
-    #     # hash1 = { a: 1 , b: 2 }
-    #     # hash2 = { a: 2 , b: 2 }
-    
-    #     overlapping_elements = current_snapshot.to_a & last_version.to_a
-    
-    #     # exclusive_elements_from_hash1 = current_snapshot.to_a - overlapping_elements
-    #     exclusive_elements_from_hash2 = last_version.to_a - overlapping_elements
-
-    # end
     
 end
