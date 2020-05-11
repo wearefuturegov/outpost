@@ -18,7 +18,7 @@ bucks_csv.each do |row| # CREATE ORGS BASED ON TYPE
     organisation.url = row['website']
     organisation.old_external_id = row['externalid']
     unless organisation.save
-      byebug
+      puts "Organisation #{organisation.name} failed to save"
     end
   end
 end
@@ -29,10 +29,6 @@ bucks_csv.each.with_index do |row, line|
   open_objects_users = open_objects_users_csv.select{ |user_row| user_row['externalId'] == row['record_editor'] } # users from open objects csv
   outpost_users = User.where(old_external_id: row['record_editor']) # new database users already created by this seed
 
-  if (open_objects_users.count > 1) || (outpost_users.count > 1)
-    byebug # if never get here, then we know only ever one open object/outpost user
-  end
-
 # FIND OR CREATE ORG
 
   organisation = Organisation.where(old_external_id: row['parent_organisation']).first unless row['parent_organisation'].nil? # find from parent ID
@@ -42,7 +38,7 @@ bucks_csv.each.with_index do |row, line|
   if organisation.blank?
     organisation = Organisation.new
     unless organisation.save
-      byebug
+      puts "Organisation #{organisation.name} failed to save"
     end
   end
 
@@ -58,7 +54,7 @@ bucks_csv.each.with_index do |row, line|
     user.organisation_id = organisation.id
     user.password = password
     unless user.save
-      byebug
+      puts "User #{user.email} failed to save"
     end
   end
 
@@ -95,7 +91,7 @@ bucks_csv.each.with_index do |row, line|
     location.longitude = row['longitude']
     location.country = 'GB'
     unless location.save
-      byebug
+      puts "Location #{location.name} failed to save"
     end
     service.locations << location
   end
@@ -154,7 +150,7 @@ bucks_csv.each.with_index do |row, line|
   end
 
   unless service.save
-    byebug
+    puts "Service #{service.name} failed to save"
   end
 
   contact = Contact.new
@@ -162,14 +158,14 @@ bucks_csv.each.with_index do |row, line|
   contact.name = row['contact_name']
   contact.title = row['contact_position']
   unless contact.save
-    byebug
+    puts "Contact #{contact.name} failed to save"
   end
 
   phone = Phone.new
   phone.contact_id = contact.id
   phone.number = row['contact_telephone']
   unless phone.save
-    byebug
+    puts "Phone #{phone.name} failed to save"
   end
 
 end
