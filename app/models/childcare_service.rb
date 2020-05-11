@@ -6,5 +6,4 @@ class ChildcareService < Service
 
     scope :ofsted_pending, -> { where(ofsted_pending: true)}
 
-
 end

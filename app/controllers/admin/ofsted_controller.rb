@@ -9,12 +9,14 @@ class Admin::OfstedController < Admin::BaseController
     end
 
     def pending
+        @pending_services = ChildcareService.where(approved: false)
+        byebug
     end
 
     private
 
     def set_counts
-        # @pending_count = 
+        @pending_count = ChildcareService.where(approved: false).count
         @feed_count = OfstedItem.count
     end
 end
