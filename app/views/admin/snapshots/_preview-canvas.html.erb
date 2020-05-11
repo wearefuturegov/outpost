@@ -25,54 +25,6 @@
             <dt class="snapshot-preview__label">Email</dt>
             <dd class="snapshot-preview__diff"><%= inline_differ(current["email"],live["email"]) %></dd>
         <% end %>
-        
-        <% if current["phone"].present? || live["phone"].present? %>
-            <% if current["phone"]["number"].present? || live["phone"]["number"].present? %>
-                <dt class="snapshot-preview__label">Phone</dt>
-                <dd class="snapshot-preview__diff"><%= inline_differ(current["phone"]["number"], live["phone"]["number"]) %></dd>
-            <% end %>
-        <% end %>
-
-        <% if current["contact"].present? || live["contact"].present? %>
-            <% if current["contact"]["name"].present? || live["contact"]["name"].present? %>
-                <dt class="snapshot-preview__label">Contact name</dt>
-                <dd class="snapshot-preview__diff"><%= inline_differ(current["contact"]["name"], live["contact"]["name"]) %></dd>
-            <% end %>
-            <% if current["contact"]["title"].present? || live["contact"]["title"].present? %>
-                <dt class="snapshot-preview__label">Contact role</dt>
-                <dd class="snapshot-preview__diff"><%= inline_differ(current["contact"]["title"], live["contact"]["title"]) %></dd>
-            <% end %>
-        <% end %>
-
-        <% if current["taxonomies"].any? || live["taxonomies"].any? %>
-            <dt class="snapshot-preview__label">Categories</dt>
-            <dd class="snapshot-preview__diff">
-                <%= differ(
-                    current["taxonomies"].map { |n| n["name"] }.join(", "),
-                    live["taxonomies"].map { |n| n["name"] }.join(", ")
-                ) %>
-            </dd>
-        <% end %>
-
-        <% if current["locations"].any? || live["locations"].any? %>
-            <dt class="snapshot-preview__label">Locations</dt>
-            <dd class="snapshot-preview__diff">
-                    <%= differ(
-                        current["locations"].map { |n| n["name"] || n["postcode"] }.join(", "),
-                        live["locations"].map { |n| n["name"] || n["postcode"] }.join(", ")
-                    ) %>
-            </dd>
-        <% end %>
-
-        <% if current["send_needs"].any? || live["send_needs"].any? %>
-            <dt class="snapshot-preview__label">SEND Needs</dt>
-            <dd class="snapshot-preview__diff">
-                    <%= differ(
-                        current["send_needs"].map { |n| n["name"] }.join(", "),
-                        live["send_needs"].map { |n| n["name"] }.join(", ")
-                    ) %>
-            </dd>
-        <% end %>
 
         <% if current["visible_from"] || live["visible_from"] %>
             <dt class="snapshot-preview__label">Visible from</dt>

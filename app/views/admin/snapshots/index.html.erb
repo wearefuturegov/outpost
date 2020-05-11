@@ -52,6 +52,13 @@
                             </div>
                             <%= link_to "Restore this version", admin_service_snapshot_path(@service, s), method: "patch", data: {confirm: "Are you sure you want to restore this version? This will overwrite more recent changes."}, class: "button button--small" %>
                         </div>
+                    <% else %>
+                        <% unless s.service.approved %>
+                            <div class="snapshot-preview__actions">
+                                <div></div>
+                                <%= link_to "Approve this version", admin_request_path(@service), method: "patch", data: {confirm: "Are you sure? Approving these changes makes them publicly visible."}, class: "button button--small" %>
+                            </div>
+                        <% end %>
                     <% end %>
                     <%= render "preview-canvas", current: s.object, live: @snapshots.first.object %>
                 </article>
