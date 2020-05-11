@@ -4,9 +4,6 @@ if(snapshots){
     let controls = snapshots.querySelectorAll(".snapshots-tree__snapshot")
     let panels = snapshots.querySelectorAll(".snapshot-preview")
     
-    // panels.forEach(panel => panel.setAttribute("hidden", "true"))
-    // controls.forEach(control => control.setAttribute("aria-selected", "false"))
-    
     controls.forEach((control, i) => control.addEventListener("click", e => {
         e.preventDefault()
     

@@ -44,6 +44,8 @@ class Service < ApplicationRecord
   scope :scheduled, -> { where("visible_from > (?)", Date.today)}
   scope :hidden, -> { where("visible_to < (?)", Date.today)}
 
+  acts_as_taggable_on :labels
+
   paginates_per 20
   validates_presence_of :name
 

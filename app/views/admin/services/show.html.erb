@@ -95,6 +95,15 @@
         </div>
       </fieldset>
 
+      <fieldset class="collapsible" id="service-labels-editor">
+        <button class="collapsible__header">
+          <legend><h2>Labels</h2></legend>
+        </button>
+        <div class="collapsible__content">
+          <%= render "admin/services/editors/labels", s: s %>
+        </div>
+      </fieldset>
+
       <div class="form-actions">
         <%= s.submit "Update", class: "button" %>
         <% unless @service.discarded? %>

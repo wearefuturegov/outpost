@@ -29,6 +29,7 @@ gem 'devise-security'
 gem 'rails_email_validator'
 gem 'email_address'
 gem 'sendgrid-actionmailer'
+gem 'acts-as-taggable-on'
 
 
 group :development, :test do

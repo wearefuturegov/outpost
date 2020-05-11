@@ -77,6 +77,7 @@ class Admin::ServicesController < Admin::BaseController
       :email,
       :visible_from,
       :visible_to,
+      :label_list,
       taxonomy_ids: [],
       location_ids: [],
       send_need_ids: [],
