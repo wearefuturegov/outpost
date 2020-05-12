@@ -108,8 +108,7 @@
   <aside class="with-sidebar__sidebar">
   
       <div class="dark-panel">
-        <h3>This is an Ofsted service</h3>
-        <p>Some fields can't be edited.</p>
+        <p>This is an Ofsted service</p>
         <% if OfstedItem.find_by(reference_number: @service.ofsted_reference_number) %>
           <p><strong><%= link_to "See original", admin_ofsted_path(OfstedItem.find_by(reference_number: @service.ofsted_reference_number)) %></strong></p>
         <% end %>
