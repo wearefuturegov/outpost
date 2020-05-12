@@ -128,7 +128,7 @@ module ApplicationHelper
         if topic
             topic.gsub('-', ' ').capitalize
         else
-            "—"
+            "No topic"
         end
     end
     
