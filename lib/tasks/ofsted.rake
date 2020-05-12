@@ -89,7 +89,7 @@ namespace :ofsted do
             end
           end
 
-          ofsted_service = organisation.ofsted_services.build(ofsted_service_params(item))
+          ofsted_service = organisation.services.build(ofsted_service_params(item))
           ofsted_service.snapshot_action = "ofsted_create"
 
           if ofsted_service.save
@@ -159,7 +159,8 @@ def ofsted_service_params item
     name: item["provider_name"],
     ofsted_reference_number: item["reference_number"],
     email: item["prov_email"],
-    approved: false
+    approved: false,
+    type: 'OfstedService'
     # contact_attributes: {
     #   phone_attributes: {
     #     number: item["setting_telephone"]
