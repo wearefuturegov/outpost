@@ -23,7 +23,8 @@ class FeedbacksController < ApplicationController
 
     def feedback_params
         params.require(:feedback).permit(
-            :body
+            :body,
+            :topic
         )
     end
 

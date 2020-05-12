@@ -8,10 +8,20 @@
 
     <%= render "shared/errors", model: @feedback %>
 
+    <fieldset class="field-section">
+        <legend class="field-section__legend">What kind of feedback?</legend>
+        <% feedback_topics.each do |t| %>
+            <div class="field radio">
+                <%= f.radio_button :topic, t[:value], class: "radio__input" %>
+                <%= f.label "topic_#{t[:value]}", t[:label], class: "radio__label" %>
+            </div>
+        <% end %>
+    </fieldset>
+
     <div class="field-section">
         <div class="field">
             <%= f.label :body, class: "field__label"%>
-            <%= f.text_area :body, class: "field__input"%>
+            <%= f.text_area :body, class: "field__input", rows: "3" %>
         </div>
     </div>
 

@@ -106,5 +106,22 @@ module ApplicationHelper
         end
         link_to name, '#', class: "button button--small button--add", data: {id: id, fields: fields.gsub("\n", ""), add: true}
     end
+
+    def feedback_topics
+        [
+           {
+                label: "Something is out of date",
+                value: "out-of-date"
+           },
+           {
+                label: "I have extra information to add",
+                value: "missing-info"
+           },
+           {
+               label: "Something else",
+               value: "something-else"
+           }
+         ]
+    end
     
 end
