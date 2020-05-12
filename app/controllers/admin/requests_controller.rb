@@ -1,6 +1,6 @@
 class Admin::RequestsController < Admin::BaseController
     def index
-        @requests = Service.kept.where(approved: false).includes(:organisation, :service_taxonomies, :taxonomies)
+        @requests = Service.kept.where(approved: false).includes(:organisation, :service_taxonomies, :taxonomiescr)
     end
 
     def update

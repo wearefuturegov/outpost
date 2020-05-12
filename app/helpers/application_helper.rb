@@ -51,9 +51,9 @@ module ApplicationHelper
         when "approve"
             "approved"
         when "ofsted_update"
-            "updated from ofsted feed"
+            "updated from Ofsted feed"
         when "ofsted_create"
-            "created from ofsted feed"
+            "created from Ofsted feed"
         end
     end
 
