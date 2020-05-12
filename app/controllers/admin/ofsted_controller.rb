@@ -19,13 +19,13 @@ class Admin::OfstedController < Admin::BaseController
     end
 
     def pending
-        @pending_services = ChildcareService.ofsted_pending
+        @pending_services = OfstedService.ofsted_pending
     end
 
     private
 
     def set_counts
-        @pending_count = ChildcareService.ofsted_pending.count
+        @pending_count = OfstedService.ofsted_pending.count
         @feed_count = OfstedItem.count
     end
 end

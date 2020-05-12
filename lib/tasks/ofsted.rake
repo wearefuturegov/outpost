@@ -9,17 +9,13 @@ namespace :ofsted do
 
       #ofsted_item = OfstedItem.new
 
-      matching_childcare_services = Service.where(old_ofsted_external_id: row['externalid'])
-      matching_childcare_services.each do |cs|
+      matching_ofsted_services = OfstedService.where(old_ofsted_external_id: row['externalid'])
+      matching_ofsted_services.each do |os|
 
-        if cs.type != 'ChildcareService'
-          byebug
-        end
-
-        cs.ofsted_reference_number = row['reference_number']
-        cs.save
-        puts "Setting #{cs.name} reference number as: #{row['reference_number']}"
-        #childcare_service.save
+        os.ofsted_reference_number = row['reference_number']
+        os.save
+        puts "Setting #{os.name} reference number as: #{row['reference_number']}"
+        #ofsted_service.save
       end
     end
   end
@@ -33,7 +29,7 @@ namespace :ofsted do
       ofsted_item = OfstedItem.where(reference_number: item["reference_number"]).first # Check if ofsted item already exists
 
       if ofsted_item # If so, find childcafe related services
-        childcare_services = ChildcareService.where(ofsted_reference_number: item["reference_number"])
+        ofsted_services = OfstedService.where(ofsted_reference_number: item["reference_number"])
 
         ofsted_item.assign_attributes(ofsted_item_params(item)) # Prepare for update
         if ofsted_item.provider_name_changed? # If changed, update corresponding service
@@ -44,15 +40,15 @@ namespace :ofsted do
             puts "Failed to update ofsted item #{ofsted_item.provider_name}"
           end
 
-          childcare_services.each do |childcare_service| # Could be multiple childcare services
+          ofsted_services.each do |ofsted_service| # Could be multiple childcare services
 
-            childcare_service.assign_attributes(childcare_service_params(item))
-            childcare_service.snapshot_action = "ofsted_update"
+            ofsted_service.assign_attributes(ofsted_service_params(item))
+            ofsted_service.snapshot_action = "ofsted_update"
 
-            if childcare_service.save
-              puts "Updated childcare service #{childcare_service.name}"
+            if ofsted_service.save
+              puts "Updated childcare service #{ofsted_service.name}"
             else
-              puts "Failed to update childcare service #{childcare_service.name}"
+              puts "Failed to update childcare service #{ofsted_service.name}"
             end
           end
 
@@ -65,8 +61,8 @@ namespace :ofsted do
           puts "Failed to create ofsted item #{ofsted_item.provider_name}"
         end
 
-        childcare_services = ChildcareService.where(ofsted_reference_number: item["reference_number"])
-        if childcare_services.size > 0 # Service already exists for this ofsted record
+        ofsted_services = OfstedService.where(ofsted_reference_number: item["reference_number"])
+        if ofsted_services.size > 0 # Service already exists for this ofsted record
           puts "Childcare service already exists for this ofsted item"
         else
           user = User.where(email: item["prov_email"]).first # check if user already exists with provider email
@@ -93,13 +89,13 @@ namespace :ofsted do
             end
           end
 
-          childcare_service = organisation.services.build(childcare_service_params(item))
-          childcare_service.snapshot_action = "ofsted_create"
+          ofsted_service = organisation.ofsted_services.build(ofsted_service_params(item))
+          ofsted_service.snapshot_action = "ofsted_create"
 
-          if childcare_service.save
-            puts "Created chilldcare service: #{childcare_service.name}"
+          if ofsted_service.save
+            puts "Created chilldcare service: #{ofsted_service.name}"
           else
-            puts "Couldn't create childcare_service"
+            puts "Couldn't create ofsted_service"
           end
         end
       end
@@ -158,24 +154,24 @@ def ofsted_item_params item
   }
 end
 
-def childcare_service_params item
+def ofsted_service_params item
   {
     name: item["provider_name"],
     ofsted_reference_number: item["reference_number"],
     email: item["prov_email"],
-    approved: false,
-    contact_attributes: {
-      phone_attributes: {
-        number: item["setting_telephone"]
-      }
-    },
-    locations_attributes: [
-      {
-        name: item["setting_name"],
-        address_1: item["setting_address_1"],
-        city: item["setting_town"],
-        postal_code: item["setting_postcode"]
-      }
-    ]
+    approved: false
+    # contact_attributes: {
+    #   phone_attributes: {
+    #     number: item["setting_telephone"]
+    #   }
+    # },
+    # locations_attributes: [
+    #   {
+    #     name: item["setting_name"],
+    #     address_1: item["setting_address_1"],
+    #     city: item["setting_town"],
+    #     postal_code: item["setting_postcode"]
+    #   }
+    # ]
   }
 end
