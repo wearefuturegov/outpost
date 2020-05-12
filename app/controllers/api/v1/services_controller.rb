@@ -2,11 +2,9 @@ class API::V1::ServicesController < ApplicationController
   skip_before_action :authenticate_user!
 
   def index
-    if params[:coverage].present?
-      @services = ServiceAtLocation.kept.near(params[:coverage]).page(params[:page]).includes(:organisation)
-    else
-      @services = ServiceAtLocation.kept.order(:service_name).page(params[:page]).includes(:organisation)
-    end
+    @services = ServiceAtLocation.kept.near([params[:lat], params[:lng]], 20).page(params[:page]).includes(:organisation) if (params[:lat].present? && params[:lng].present?)
+    @services ||= ServiceAtLocation.kept.near(params[:coverage]).page(params[:page]).includes(:organisation) if params[:coverage].present?
+    @services ||= ServiceAtLocation.kept.order(:service_name).page(params[:page]).includes(:organisation)
 
     render json: {
       "totalElements": @services.total_count,
