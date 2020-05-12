@@ -123,5 +123,13 @@ module ApplicationHelper
            }
          ]
     end
+
+    def pretty_topic(topic)
+        if topic
+            topic.gsub('-', ' ').capitalize
+        else
+            "—"
+        end
+    end
     
 end

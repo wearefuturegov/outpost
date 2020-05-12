@@ -27,6 +27,11 @@
                                 <span class="site-nav__submenu-current">Categories</span>
                             <% end %>
                         </li>
+                        <li class="site-nav__submenu-item">
+                            <%= link_to_unless_current "Feedback", admin_feedbacks_path, class: "site-nav__submenu-link" do %>
+                                <span class="site-nav__submenu-current">Feedback</span>
+                            <% end %>
+                        </li>
                     </ul>
                 </div>
 

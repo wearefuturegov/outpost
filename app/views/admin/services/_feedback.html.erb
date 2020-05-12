@@ -5,19 +5,21 @@
   <div class="collapsible__content">
 
     <div class="notes-list">
-      <% if @service.feedbacks.present? %>
-        <% @service.feedbacks.each do |f| %>
+        <% if @service.feedbacks.present? %>
+            <% @service.feedbacks.each do |f| %>
 
-          <article class="notes-list__note">
-            <header class="notes-list__note-header">
+            <article class="notes-list__note">
+                <header class="notes-list__note-header">
 
-                <strong><%= f.topic.gsub('-', ' ').capitalize %></strong>
-                | <%= time_ago_in_words(f.created_at).humanize %> ago 
-            </header>
-            <p><%= f.body %></p>
-          </article>
+                    <strong><%= pretty_topic(f.topic) %></strong>
+                    | <%= time_ago_in_words(f.created_at).humanize %> ago 
+                </header>
+                <p><%= f.body %></p>
+            </article>
+            <% end %>
+        <% else %>
+            <p>No feedback submitted yet</p>
         <% end %>
-      <% end %>
     </ul>
 
   </div>

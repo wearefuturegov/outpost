@@ -1,0 +1,33 @@
+<% content_for :header do %>
+    <%= link_to "Back to services", admin_services_path, class: "go-back" %>
+    <h1 class="page-header__title">Public feedback</h1>
+<% end %>
+
+<% if @feedbacks.present? %>
+    <div class="table-holder">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Service</th>
+                <th>Topic</th>
+                <th>Body</th>
+                <th>Made</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <% @feedbacks.each do |f| %>
+                <tr>
+                    <td><%= render "shared/poppables/service", s: f.service %></td>
+                    <td><%= pretty_topic(f.topic) %></td>
+                    <td><%= f.body %></td>
+                    <td><%= short_time_ago_in_words(f.created_at).humanize %> ago</td>
+                </tr>
+            <% end %>
+            </tbody>
+        </table>
+    </div>
+    <%= paginate @feedbacks %>
+<% else %>
+    <p class="no-results">No feedback to show.</p>
+<% end %>
