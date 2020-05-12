@@ -11,4 +11,10 @@ class OfstedItem < ApplicationRecord
             tsearch: { prefix: true }
         }
 
+    # sort scopes
+    scope :oldest, ->  { order("registration_date ASC") }
+    scope :newest, ->  { order("registration_date DESC") }
+    scope :oldest_changed, ->  { order("last_change_date ASC") }
+    scope :newest_changed, ->  { order("last_change_date DESC") }
+
 end

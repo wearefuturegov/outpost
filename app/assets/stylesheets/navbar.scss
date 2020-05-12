@@ -7,6 +7,13 @@
         font-size: 1.1rem;
     }
 
+    .site-nav__inner{
+        display: flex;
+        flex-direction: row;
+        // justify-content: start;
+        align-items: start;
+    }
+
     .site-nav__link, .site-nav__current{
         display: inline-block;
         margin: 5px 15px 5px 0px;
@@ -19,6 +26,11 @@
         &:focus{
             outline: none;
         }
+    }
+
+    .site-nav--pull-right{
+        margin-left: auto;
+        margin-right: 0px;
     }
     
     .site-nav__submenu-holder{

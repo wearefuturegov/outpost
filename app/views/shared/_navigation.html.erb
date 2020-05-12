@@ -1,6 +1,6 @@
 <% if user_signed_in? && current_user.admin? %>
     <nav class="site-nav">
-        <div class="<%= "container" unless full_width %>">
+        <div class="site-nav__inner <%= "container" unless full_width %>">
 
                 <%= link_to_unless_current "Dashboard", admin_root_path, class: "site-nav__link" do %>
                     <span class="site-nav__current">Dashboard</span>
@@ -30,16 +30,16 @@
                     </ul>
                 </div>
 
-                <%= link_to_unless_current "Ofsted", pending_admin_ofsted_index_path, class: "site-nav__link" do %>
-                    <span class="site-nav__current">Ofsted</span>
-                <% end %>
-
                 <%= link_to_unless_current "Activity", admin_activity_index_path, class: "site-nav__link" do %>
                     <span class="site-nav__current">Activity</span>
                 <% end %>
 
                 <%= link_to_unless_current "Users", admin_users_path, class: "site-nav__link" do %>
                     <span class="site-nav__current">Users</span>
+                <% end %>
+
+                <%= link_to_unless_current "Ofsted", pending_admin_ofsted_index_path, class: "site-nav__link site-nav--pull-right" do %>
+                    <span class="site-nav__current site-nav--pull-right">Ofsted</span>
                 <% end %>
 
         </div>

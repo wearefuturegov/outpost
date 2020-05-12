@@ -1,14 +1,5 @@
 <nav class="shortcuts">
 
-
-    <%= link_to_unless_current "All", admin_ofsted_index_path, class: "shortcuts__link" do %>
-        <span class="shortcuts__current">All</span>
-    <% end %>
-
-    <span class="shortcuts__count">(<%= @childcare_count %>)</span>
-
-    <span class="shortcuts__divider">|</span>
-
     <%= link_to_unless_current "Pending", pending_admin_ofsted_index_path, class: "shortcuts__link" do %>
         <span class="shortcuts__current">Pending</span>
     <% end %>
@@ -17,11 +8,10 @@
 
     <span class="shortcuts__divider">|</span>
 
-    <%= link_to_unless_current "Browse feed", feed_admin_ofsted_index_path, class: "shortcuts__link" do %>
-        <span class="shortcuts__current">Browse feed</span>
+    <%= link_to_unless_current "Browse", admin_ofsted_index_path, class: "shortcuts__link" do %>
+        <span class="shortcuts__current">Browse</span>
     <% end %>
 
     <span class="shortcuts__count">(<%= @feed_count %>)</span>
-
 
 </nav>
