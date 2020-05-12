@@ -3,15 +3,16 @@
 .site-nav{
     background: $pale;
     padding: 10px $outer-spacing;
-    overflow-x: scroll;
     @media screen and (min-width: $breakpoint-m) {
         font-size: 1.1rem;
     }
 
     .site-nav__inner{
-        display: flex;
-        flex-direction: row;
-        align-items: start;
+        @media screen and (min-width: $breakpoint-m) {
+            display: flex;
+            flex-direction: row;
+            align-items: start;
+        }
     }
 
     .site-nav__link, .site-nav__current{
@@ -29,11 +30,9 @@
     }
 
     .site-nav--pull-right{
-        padding-right: 15px;
         @media screen and (min-width: $breakpoint-m) {
             margin-left: auto;
             margin-right: 0px;
-            padding-right: 0px;
         }
     }
     
