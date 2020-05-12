@@ -15,8 +15,8 @@
         <thead>
         <tr>
             <th>Reference</th>
-            <th>Provider name</th>
             <th>Setting name</th>
+            <th>Provider name</th>
             <th>Provision type</th>
             <th>Registration status</th>
             <th><%= render "sort", column: "last_change_date", label: "Last changed"%></th>
@@ -27,8 +27,8 @@
         <% @items.each do |i| %>
             <tr>
             <td><span class="id"><%= i.reference_number %></span></td>
-            <td><strong><%= link_to i.provider_name, admin_ofsted_path(i) %></strong></td>
-            <td><%= i.setting_name %></td>
+            <td><strong><%= link_to i.setting_name, admin_ofsted_path(i) %></strong></td>
+            <td><%= i.provider_name %></td>
             <td><%= i.provision_type %></td>
             <td><%= status_tag(i.registration_status) %></td>
             <td><%= short_time_ago_in_words(i.last_change_date).humanize + " ago"  if i.last_change_date %></td>
