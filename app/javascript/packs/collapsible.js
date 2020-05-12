@@ -24,6 +24,6 @@ collapsibles.forEach(collapsible => {
 
     controls.addEventListener("click", e => {
         e.preventDefault()
-        controls.getAttribute("aria-expanded") === "true" ? close() : open()
+        controls.getAttribute("aria-expanded") === "false" ? open() : close()
     })
 })
