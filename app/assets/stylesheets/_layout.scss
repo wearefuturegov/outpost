@@ -179,10 +179,7 @@
         &:hover{
             text-decoration: underline;
         }
-        &:focus{
-            color: $link;
-        }
-        &:active{
+        &:focus, &:active{
             color: $text;
         }
     }
