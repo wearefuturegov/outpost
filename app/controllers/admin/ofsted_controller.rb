@@ -19,7 +19,8 @@ class Admin::OfstedController < Admin::BaseController
     end
 
     def pending
-        @pending_services = OfstedService.ofsted_pending
+        @pending_updates = OfstedService.ofsted_pending_updates.includes(:organisation, :service_taxonomies, :taxonomies)
+        @pending_creates = OfstedService.ofsted_pending_creates.includes(:organisation, :service_taxonomies, :taxonomies)
     end
 
     private
