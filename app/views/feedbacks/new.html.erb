@@ -1,0 +1,20 @@
+<% content_for :header do %>
+    <%= link_to "Go back", :back, class: "go-back" %>
+    <h1 class="page-header__title two-thirds">Leave feedback</h1>
+    <p class="page-header__lede two-thirds">Help us improve our listings.</p>
+<% end %>
+
+<%= form_with model: [@service, @feedback], local: true, html: {class: "two-thirds"} do |f| %>
+
+    <%= render "shared/errors", model: @feedback %>
+
+    <div class="field-section">
+        <div class="field">
+            <%= f.label :body, class: "field__label"%>
+            <%= f.text_area :body, class: "field__input"%>
+        </div>
+    </div>
+
+    <%= f.submit "Send", class: "button"%>
+
+<% end %>
