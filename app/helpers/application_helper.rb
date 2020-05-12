@@ -118,6 +118,10 @@ module ApplicationHelper
                 value: "missing-info"
            },
            {
+                label: "The service is closed",
+                value: "service-has-closed"
+           },
+           {
                label: "Something else",
                value: "something-else"
            }
