@@ -115,8 +115,17 @@
   </div>
 
   <aside class="with-sidebar__sidebar">
+  
+      <div class="dark-panel">
+        <p>This is an Ofsted service</p>
+        <% if OfstedItem.find_by(reference_number: @service.ofsted_reference_number) %>
+          <p><strong><%= link_to "See original", admin_ofsted_path(OfstedItem.find_by(reference_number: @service.ofsted_reference_number)) %></strong></p>
+        <% end %>
+      </div>
+
       <%= render "snapshot-history" %>
       <%= render "notes" %>
+      <%= render "feedback" %>
   </aside>
 
 </div>

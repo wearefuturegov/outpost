@@ -51,9 +51,9 @@ module ApplicationHelper
         when "approve"
             "approved"
         when "ofsted_update"
-            "updated from ofsted feed"
+            "updated from Ofsted feed"
         when "ofsted_create"
-            "created from ofsted feed"
+            "created from Ofsted feed"
         end
     end
 
@@ -105,6 +105,35 @@ module ApplicationHelper
             render("admin/services/editors/location-fields", l: builder)
         end
         link_to name, '#', class: "button button--small button--add", data: {id: id, fields: fields.gsub("\n", ""), add: true}
+    end
+
+    def feedback_topics
+        [
+           {
+                label: "Something is out of date",
+                value: "out-of-date"
+           },
+           {
+                label: "I have extra information to add",
+                value: "missing-info"
+           },
+           {
+                label: "The service is closed",
+                value: "service-has-closed"
+           },
+           {
+               label: "Something else",
+               value: "something-else"
+           }
+         ]
+    end
+
+    def pretty_topic(topic)
+        if topic
+            topic.gsub('-', ' ').capitalize
+        else
+            "No topic"
+        end
     end
     
 end

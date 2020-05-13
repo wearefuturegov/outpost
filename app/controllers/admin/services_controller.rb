@@ -12,6 +12,8 @@ class Admin::ServicesController < Admin::BaseController
       @services = @services.kept
     end
 
+    @services = @services.where(type: "OfstedService") if params[:ofsted] === "true"
+
     @services = @services.alphabetical if params[:order] === "asc" && params[:order_by] === "name"
     @services = @services.reverse_alphabetical if params[:order] === "desc" && params[:order_by] === "name"
     @services = @services.newest if params[:order] === "desc" && params[:order_by] === "updated_at"

@@ -1,0 +1,21 @@
+<% content_for :header do %>    
+    <%= link_to "Back to feed", admin_ofsted_index_path, class: "go-back" %>
+    <div class="page-header__actions">
+      <h1 class="page-header__title two-thirds"><%= @item.setting_name %></h1>
+    </div>
+<% end %>
+
+<dl>
+  <% @item.attributes.each do |key, value| %>
+    <dt>
+      <strong><%= key.humanize %></strong>
+    </dt>
+    <dd style="margin-bottom: 15px">
+      <% unless value.blank? %>
+        <%= value %>
+      <% else %>
+        –
+      <% end %>
+    </dd>
+  <% end %>
+</dl>

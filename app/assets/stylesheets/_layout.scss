@@ -161,3 +161,29 @@
         }
     }
 }
+
+.crosshead{
+    margin-bottom: 25px;
+}
+
+.dark-panel{
+    padding: 35px;
+    margin-bottom: 65px;
+    background: $link;
+    p{
+        color: $white;
+        margin-bottom: 10px;
+    }
+    a{
+        color: $white;  
+        &:hover{
+            text-decoration: underline;
+        }
+        &:focus, &:active{
+            color: $text;
+        }
+    }
+    p:last-child{
+        margin-bottom: 0px;
+    }
+}

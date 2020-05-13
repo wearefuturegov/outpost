@@ -7,6 +7,14 @@
         font-size: 1.1rem;
     }
 
+    .site-nav__inner{
+        @media screen and (min-width: $breakpoint-m) {
+            display: flex;
+            flex-direction: row;
+            align-items: start;
+        }
+    }
+
     .site-nav__link, .site-nav__current{
         display: inline-block;
         margin: 5px 15px 5px 0px;
@@ -18,6 +26,13 @@
         font-weight: normal;
         &:focus{
             outline: none;
+        }
+    }
+
+    .site-nav--pull-right{
+        @media screen and (min-width: $breakpoint-m) {
+            margin-left: auto;
+            margin-right: 0px;
         }
     }
     

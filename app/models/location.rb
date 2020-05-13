@@ -3,8 +3,8 @@ class Location < ApplicationRecord
   has_many :services, through: :service_at_locations
   has_and_belongs_to_many :accessibilities
 
-  validates_presence_of :postal_code
-  validate :check_geocodes
+  # validates_presence_of :postal_code
+  # validate :check_geocodes
 
   before_validation :geocode
   geocoded_by :postal_code

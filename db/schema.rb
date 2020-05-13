@@ -10,7 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 2020_05_11_215423) do
+=======
+ActiveRecord::Schema.define(version: 2020_05_12_132140) do
+>>>>>>> master
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +35,15 @@ ActiveRecord::Schema.define(version: 2020_05_11_215423) do
     t.string "name"
     t.string "title"
     t.index ["service_id"], name: "index_contacts_on_service_id"
+  end
+
+  create_table "feedbacks", force: :cascade do |t|
+    t.bigint "service_id", null: false
+    t.text "body"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "topic"
+    t.index ["service_id"], name: "index_feedbacks_on_service_id"
   end
 
   create_table "locations", force: :cascade do |t|
@@ -255,6 +268,7 @@ ActiveRecord::Schema.define(version: 2020_05_11_215423) do
     t.index ["user_id"], name: "index_watches_on_user_id"
   end
 
+  add_foreign_key "feedbacks", "services"
   add_foreign_key "notes", "services"
   add_foreign_key "notes", "users"
   add_foreign_key "snapshots", "services"

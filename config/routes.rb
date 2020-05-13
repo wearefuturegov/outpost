@@ -9,8 +9,11 @@ Rails.application.routes.draw do
   end
   
   resources :organisations, only: [:index, :new, :create, :edit, :update]
-  resources :services, except: [:edit]
+  resources :services, except: [:edit] do
+    resources :feedbacks, only: [:index, :create]
+  end
   resources :members, only: [:new, :create, :destroy]
+
 
   namespace :admin do
     root "dashboard#index"
@@ -26,10 +29,10 @@ Rails.application.routes.draw do
     resources :organisations, except: :edit
     resources :locations, except: [:edit, :new, :create]
     resources :taxonomies, except: [:new, :edit]
-    resources :ofsted, only: [:index] do
+    resources :feedbacks, only: [:index]
+    resources :ofsted, only: [:index, :show] do
       collection do
         get "pending"
-        get "feed"
       end
     end
     resources :activity, only: [:index]

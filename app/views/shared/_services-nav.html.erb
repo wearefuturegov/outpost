@@ -1,12 +1,22 @@
 <nav class="shortcuts">
 
-    <% if (params[:archived] === "true") || (params[:controller]=== "admin/requests") %>
+    <% if (params[:ofsted] === "true") || (params[:archived] === "true") || (params[:controller]=== "admin/requests") %>
         <%= link_to "All", admin_services_path, class: "shortcuts__link" %>
     <% else %>
         <span class="shortcuts__current">All</span>
     <% end %>
 
     <span class="shortcuts__count">(<%= @all_count %>)</span>
+
+    <span class="shortcuts__divider">|</span>
+
+    <% if (params[:ofsted] === "true") %>
+        <span class="shortcuts__current">Ofsted</span>
+    <% else %>
+        <%= link_to "Ofsted", admin_services_path(ofsted: true), class: "shortcuts__link" %>
+    <% end %>
+
+    <span class="shortcuts__count">(<%= @ofsted_count %>)</span>
 
     <span class="shortcuts__divider">|</span>
 
@@ -18,10 +28,11 @@
     <span class="shortcuts__divider">|</span>
 
     <% if (params[:archived] === "true") %>
-        <span class="shortcuts__current">Archived </span>
+        <span class="shortcuts__current">Archived</span>
     <% else %>
-        <%= link_to_unless_current "Archived", admin_services_path(archived: true), class: "shortcuts__link" %>
+        <%= link_to "Archived", admin_services_path(archived: true), class: "shortcuts__link" %>
     <% end %>
 
     <span class="shortcuts__count">(<%= @archived_count %>)</span>
+
 </nav>

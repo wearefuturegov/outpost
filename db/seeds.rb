@@ -24,6 +24,7 @@ bucks_csv.each do |row| # CREATE ORGS BASED ON TYPE
 end
 
 bucks_csv.each.with_index do |row, line|
+  next unless (line % 6 == 0)
   puts "Processing line: #{line} of #{bucks_csv.size}"
 
   open_objects_users = open_objects_users_csv.select{ |user_row| user_row['externalId'] == row['record_editor'] } # users from open objects csv
@@ -61,8 +62,12 @@ bucks_csv.each.with_index do |row, line|
 # CREATE SERVICE
 
   if row['service_type'] == 'Childcare'
-    service = ChildcareService.new
-    service.old_ofsted_external_id = row['registered_setting_identifier']
+    service = OfstedService.new
+    if row['registered_setting_identifier'].present?
+      service.old_ofsted_external_id = row['registered_setting_identifier']
+    else
+      puts "No ofsted reeferene number"
+    end
   end
   service ||= Service.new
 
@@ -178,5 +183,8 @@ user_logins.each do |user_login|
 end
 
 end_time = Time.now
+
+Rake::Task['ofsted:set_reference_ids_on_existing_childcare_records'].invoke
+Rake::Task['ofsted:update_items'].invoke
 
 puts "Took #{(end_time - start_time)/60} minutes"
