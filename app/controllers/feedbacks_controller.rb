@@ -2,16 +2,16 @@ class FeedbacksController < ApplicationController
     skip_before_action :authenticate_user!
     before_action :set_service
 
-    def new
+    def index
         @feedback = @service.feedbacks.new
     end
 
     def create
         @feedback = @service.feedbacks.build(feedback_params)
         if @feedback.save
-            redirect_to new_service_feedback_path(@service), notice: "Submitted successfully"
+            redirect_to service_feedback_path(@service), notice: "Submitted successfully. Feel free to close this tab."
         else
-            render "new"
+            render "index"
         end
     end
 

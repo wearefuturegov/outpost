@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   
   resources :organisations, only: [:index, :new, :create, :edit, :update]
   resources :services, except: [:edit] do
-    resources :feedbacks, only: [:new, :create]
+    resources :feedbacks, only: [:index, :create]
   end
   resources :members, only: [:new, :create, :destroy]
 
