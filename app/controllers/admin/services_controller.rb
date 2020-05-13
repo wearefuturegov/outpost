@@ -48,7 +48,7 @@ class Admin::ServicesController < Admin::BaseController
   def new
     @service = Service.new
     @service.contacts << Contact.new
-    @service.contacts.phones << Phone.new
+    @service.contacts.last.phones << Phone.new
   end
 
   def create
