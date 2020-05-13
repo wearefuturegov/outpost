@@ -1,12 +1,12 @@
 @import "variables";
 
-.location-search{
-    .location-search__results{
+.nested-editor{
+    .nested-editor__results{
         list-style: none;
         margin: 0;
         margin-bottom: 25px;
     }
-    .location-search__result{
+    .nested-editor__result{
         position: relative;
         background: $pale;
         padding: 35px;
@@ -35,15 +35,15 @@
 
     }
 
-    .location-search__prompt,
-    .location-search__no-results{
+    .nested-editor__prompt,
+    .nested-editor__no-results{
         color: $grey;
         padding: 15px;
         text-align: center;
         margin-bottom: 25px;
     }
 
-    .location-search__closer{
+    .nested-editor__closer{
         margin-top: 25px;
         background: none;
         font-weight: normal;
@@ -65,14 +65,14 @@
 
     }
 
-    .location-search__name{
+    .nested-editor__name{
         margin-bottom: 7px;
     }
-    .location-search__address{
+    .nested-editor__address{
         color: $grey;
         font-size: 0.9rem;
     }
-    // .location-search__count{
+    // .nested-editor__count{
     //     font-size: 0.9rem;
     //     color: $grey;
     // }

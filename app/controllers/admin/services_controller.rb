@@ -84,11 +84,11 @@ class Admin::ServicesController < Admin::BaseController
       taxonomy_ids: [],
       location_ids: [],
       send_need_ids: [],
-      contact_attributes: [
+      contacts_attributes: [
         :id,
         :name,
         :title,
-        phone_attributes: [
+        phones_attributes: [
           :id,
           :number
         ]

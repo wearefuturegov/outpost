@@ -26,8 +26,8 @@ module HasSnapshots
                 :taxonomies, 
                 :send_needs,
                 :locations,
-                :phone,
-                :contact
+                :phones,
+                :contacts
             ]),
             object_changes: self.saved_changes.as_json
         )
