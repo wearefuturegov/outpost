@@ -38,6 +38,7 @@
     .filters__form{
         display: flex;
         flex-direction: row;
+        max-width: 600px;
     }
 
     .filters__select{
