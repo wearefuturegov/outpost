@@ -6,8 +6,8 @@ class Service < ApplicationRecord
 
   has_many :snapshots
 
-  has_one :contact
-  has_one :phone, through: :contact
+  has_many :contacts
+  has_many :phones, through: :contacts
 
   accepts_nested_attributes_for :contact
   accepts_nested_attributes_for :phone
