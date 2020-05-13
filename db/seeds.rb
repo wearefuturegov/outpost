@@ -158,23 +158,27 @@ bucks_csv.each.with_index do |row, line|
     puts "Service #{service.name} failed to save"
   end
 
-  contact = Contact.new
-  contact.service_id = service.id
-  contact.name = row['contact_name']
-  contact.title = row['contact_position']
-  unless contact.save
-    puts "Contact #{contact.name} failed to save"
+  if (row['contact_name'].present? || row['contact_position'].present?)
+    contact = Contact.new
+    contact.service_id = service.id
+    contact.name = row['contact_name']
+    contact.title = row['contact_position']
+    unless contact.save
+      puts "Contact #{contact.name} failed to save"
+    end
   end
 
-  numbers = row['contact_telephone'].split("\n") if row['contact_telephone']&.include? "\n"
-  numbers ||= [row['contact_telephone']]
+  if row['contact_telephone'].present?
+    numbers = row['contact_telephone'].split("\n") if row['contact_telephone']&.include? "\n"
+    numbers ||= [row['contact_telephone']]
 
-  numbers.each do |number|
-    phone = Phone.new
-    phone.contact_id = contact.id
-    phone.number = number
-    unless phone.save
-      puts "Phone #{phone.name} failed to save"
+    numbers.each do |number|
+      phone = Phone.new
+      phone.contact_id = contact.id
+      phone.number = number
+      unless phone.save
+        puts "Phone #{phone.name} failed to save"
+      end
     end
   end
 
