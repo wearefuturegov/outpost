@@ -1,12 +1,12 @@
-<section class="location-search">
+<section class="nested-editor">
 
-    <ul class="location-search__results" aria-live="polite">
+    <ul class="nested-editor__results" aria-live="polite">
         <%= s.fields_for :locations do |l| %>
-            <li class="location-search__result">
+            <li class="nested-editor__result">
                 <%= render "admin/services/editors/location-fields", l: l %>
             </li>
         <% end %>
     </ul>
 
-    <%= link_to_add_fields "Add location", s, :locations %>
+    <%= link_to_add_fields "Add location", s, :locations, "admin/services/editors/location-fields" %>
 </section>

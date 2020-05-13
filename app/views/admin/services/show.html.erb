@@ -46,6 +46,18 @@
         </div>
       </section>
 
+      <section class="collapsible" id="basics-editor">
+        <button class="collapsible__header">
+          <h2>
+            Contacts
+            <span class="collapsible__header-count">(<%= @service.contacts.length %>)</span>
+          </h2>
+        </button>
+        <div class="collapsible__content">
+          <%= render "admin/services/editors/contacts", s: s %>
+        </div>
+      </section>
+
       <section class="version-history collapsible" id="taxonomies-editor">
           <button class="collapsible__header" aria-expanded="true">
               <h2>

@@ -1,0 +1,24 @@
+<div class="field-section field-section--two-cols field-section--reduced-bottom-margin">
+
+    <div class="field">
+        <%= c.label :name, "Their name", class: "field__label" %>
+        <%= c.text_field :name, class: "field__input" %>
+    </div>
+
+    <div class="field">
+        <%= c.label :title, "Their role", class: "field__label" %>
+        <%= c.text_field :title, class: "field__input" %>
+    </div>
+
+    <%= c.fields_for :phones do |x| %>
+        <div class="field">
+            <%= x.label :number, "Phone", class: "field__label" %>
+            <%= x.text_field :number, class: "field__input" %>
+        </div>
+    <% end %>
+
+</div>
+
+<%= c.hidden_field :_destroy,  data: {destroy_field: true} %>
+
+<button class="nested-editor__closer" data-close="true">Remove this contact</button>

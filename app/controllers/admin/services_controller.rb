@@ -88,6 +88,7 @@ class Admin::ServicesController < Admin::BaseController
         :id,
         :name,
         :title,
+        :_destroy,
         phones_attributes: [
           :id,
           :number
