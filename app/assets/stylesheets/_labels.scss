@@ -1,0 +1,15 @@
+@import "variables";
+@import "@yaireo/tagify/dist/tagify.css";
+
+.tagify{
+    border-color: $text;
+    transition: 0s !important;
+
+    &:focus-within{
+        outline: 3px solid $focus;
+    }
+    
+    .tagify--focus{
+        border-color: $text;
+    }
+}

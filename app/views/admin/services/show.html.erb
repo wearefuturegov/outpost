@@ -97,7 +97,12 @@
 
       <fieldset class="collapsible" id="service-labels-editor">
         <button class="collapsible__header">
-          <legend><h2>Labels</h2></legend>
+          <legend>
+            <h2>
+              Labels
+              <span class="collapsible__header-count">(<%= @service.label_list.length %>)</span>
+            </h2>
+          </legend>
         </button>
         <div class="collapsible__content">
           <%= render "admin/services/editors/labels", s: s %>
@@ -116,12 +121,14 @@
 
   <aside class="with-sidebar__sidebar">
   
-      <div class="dark-panel">
-        <p>This is an Ofsted service</p>
-        <% if OfstedItem.find_by(reference_number: @service.ofsted_reference_number) %>
-          <p><strong><%= link_to "See original", admin_ofsted_path(OfstedItem.find_by(reference_number: @service.ofsted_reference_number)) %></strong></p>
-        <% end %>
-      </div>
+      <% if @service.type === "OfstedService" %>
+        <div class="dark-panel">
+          <p>This is an Ofsted service</p>
+          <% if OfstedItem.find_by(reference_number: @service.ofsted_reference_number) %>
+            <p><strong><%= link_to "See original", admin_ofsted_path(OfstedItem.find_by(reference_number: @service.ofsted_reference_number)) %></strong></p>
+          <% end %>
+        </div>
+      <% end %>
 
       <%= render "snapshot-history" %>
       <%= render "notes" %>

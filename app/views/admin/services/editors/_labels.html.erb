@@ -1,17 +1,12 @@
 <section class="labels">
 
-
     <div class="field">
         <%= s.label :label_list, "Choose or add labels", class: "field__label" %>
-        <%= s.text_field :label_list, class: "field__input", data: {choices: true} %>
+        <%= s.text_field :label_list, class: "field__input", data: {labels: true}, value: @service.label_list.to_s %>
     </div>
 
+    <script>
+        __LABELS__=<%= raw ActsAsTaggableOn::Tag.most_used.to_json %>
+    </script>
+
 </section>
-
-
-
-    <ul>
-        <% @service.label_list.each do |l| %>
-            <li><%= l %></li>
-        <% end %>
-    </ul>

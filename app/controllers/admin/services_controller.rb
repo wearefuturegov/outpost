@@ -29,7 +29,7 @@ class Admin::ServicesController < Admin::BaseController
 
   def show
     @watched = current_user.watches.where(service_id: @service.id).exists?
-    @snapshots = @service.snapshots.order(created_at: :desc).includes([:user])
+    @snapshots = @service.snapshots.includes(:user).order(created_at: :desc).includes([:user])
     if @service.snapshots.length > 4
       @snapshots = @snapshots.first(3)
       @snapshots.push(@service.snapshots.last)
