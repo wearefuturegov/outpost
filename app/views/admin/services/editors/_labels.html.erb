@@ -1,8 +1,17 @@
 <section class="labels">
 
+
     <div class="field">
         <%= s.label :label_list, "Choose or add labels", class: "field__label" %>
-        <%= s.text_field :label_list, class: "field__input" %>
+        <%= s.text_field :label_list, class: "field__input", data: {choices: true} %>
     </div>
 
 </section>
+
+
+
+    <ul>
+        <% @service.label_list.each do |l| %>
+            <li><%= l %></li>
+        <% end %>
+    </ul>
