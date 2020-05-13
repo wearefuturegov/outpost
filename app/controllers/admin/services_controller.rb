@@ -20,6 +20,7 @@ class Admin::ServicesController < Admin::BaseController
     @services = @services.oldest if params[:order] === "asc" && params[:order_by] === "updated_at"
 
     @services = @services.in_taxonomy(params[:filter_taxonomy]) if params[:filter_taxonomy].present?
+    @services = @services.tagged_with(params[:filter_label]) if params[:filter_label].present?
     @services = @services.scheduled if params[:filter_status].present? && params[:filter_status] === "scheduled"
     @services = @services.hidden if params[:filter_status].present? && params[:filter_status] === "expired"
 

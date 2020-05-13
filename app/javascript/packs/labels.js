@@ -4,6 +4,7 @@ let inputs = document.querySelectorAll("[data-labels]")
 
 inputs.forEach(input => {
     let tagify = new Tagify(input , {
-        whitelist: __LABELS__.map(label => label.name)
+        whitelist: __LABELS__.map(label => label.name),
+        originalInputValueFormat: valuesArr => valuesArr.map(item => item.value).join(',')
     })
 })
