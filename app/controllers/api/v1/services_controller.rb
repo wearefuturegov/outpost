@@ -21,12 +21,12 @@ class API::V1::ServicesController < ApplicationController
       "number": @services.current_page,
       "size": @services.limit_value,
       "content": serialized_services
-    }
+    }, include: "contacts,contacts.phones"
   end
 
   def show
     @service = Service.kept.find(params[:id])
-    render json: @service
+    render json: @service, include: "contacts,contacts.phones"
   end
 
   def serialized_services

@@ -7,6 +7,7 @@ class ServiceAtLocationSerializer < ActiveModel::Serializer
   attribute :distance, key: :distance_away, if: :location_search?
 
   has_one :location
+  has_many :contacts, through: :service
   belongs_to :organisation
 
   def location_search?
