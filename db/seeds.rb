@@ -166,11 +166,16 @@ bucks_csv.each.with_index do |row, line|
     puts "Contact #{contact.name} failed to save"
   end
 
-  phone = Phone.new
-  phone.contact_id = contact.id
-  phone.number = row['contact_telephone']
-  unless phone.save
-    puts "Phone #{phone.name} failed to save"
+  numbers = row['contact_telephone'].split("\n") if row['contact_telephone']&.include? "\n"
+  numbers ||= [row['contact_telephone']]
+
+  numbers.each do |number|
+    phone = Phone.new
+    phone.contact_id = contact.id
+    phone.number = number
+    unless phone.save
+      puts "Phone #{phone.name} failed to save"
+    end
   end
 
 end
