@@ -7,6 +7,8 @@ class ServiceAtLocation < ApplicationRecord
   paginates_per 20
 
   after_create :set_fields
+  has_many :contacts, through: :service
+  has_many :taxonomies, through: :service
 
   include Discard::Model
 
