@@ -8,6 +8,7 @@ class ServiceAtLocation < ApplicationRecord
 
   after_create :set_fields
   has_many :contacts, through: :service
+  has_many :taxonomies, through: :service
 
   include Discard::Model
 

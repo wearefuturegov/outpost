@@ -8,6 +8,7 @@ class ServiceAtLocationSerializer < ActiveModel::Serializer
 
   has_one :location
   has_many :contacts, through: :service
+  has_many :taxonomies, through: :service
   belongs_to :organisation
 
   def location_search?
