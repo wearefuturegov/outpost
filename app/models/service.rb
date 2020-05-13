@@ -9,8 +9,8 @@ class Service < ApplicationRecord
   has_many :contacts
   has_many :phones, through: :contacts
 
-  accepts_nested_attributes_for :contact
-  accepts_nested_attributes_for :phone
+  accepts_nested_attributes_for :contacts
+  accepts_nested_attributes_for :phones
 
   has_many :feedbacks
 

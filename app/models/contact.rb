@@ -2,5 +2,5 @@ class Contact < ApplicationRecord
   belongs_to :service
   has_many :phones
 
-  accepts_nested_attributes_for :phone
+  accepts_nested_attributes_for :phones
 end

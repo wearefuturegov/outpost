@@ -28,9 +28,9 @@
         <%= s.text_field :url, value: @service.url, class: "field__input" %>
     </div>
 
-    <%= s.fields_for :contact do |c| %>
+    <%= s.fields_for :contacts do |c| %>
 
-        <%= c.fields_for :phone do |x| %>
+        <%= c.fields_for :phones do |x| %>
             <div class="field">
                 <%= x.label :number, "Phone", class: "field__label" %>
                 <%= x.text_field :number, class: "field__input" %>
