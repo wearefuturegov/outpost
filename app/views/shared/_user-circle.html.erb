@@ -1,6 +1,8 @@
 <div aria-hidden="true" class="user-circle">
     <%= u.initials %>
-    <% if u.last_seen && u.last_seen < (Time.now + 10.minutes) %>
+    <% if u.last_seen && u.last_seen > (Time.now - 10.minutes) %>
         <div class="user-circle__active" title="Active"></div>
     <% end %>
 </div>
+
+<%= Time.now + 10.minutes %>
