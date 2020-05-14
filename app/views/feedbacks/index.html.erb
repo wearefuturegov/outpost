@@ -1,6 +1,8 @@
+<% content_for :title do %>Suggest an edit | <% end %>
+
 <% content_for :header do %>
-    <%= link_to "Go back", :back, class: "go-back" %>
-    <h1 class="page-header__title two-thirds">Leave feedback</h1>
+    <%= link_to "Go back", '', class: "go-back" %>
+    <h1 class="page-header__title two-thirds">Suggest an edit</h1>
     <p class="page-header__lede two-thirds">Help us improve our listings.</p>
 <% end %>
 
@@ -9,7 +11,7 @@
     <%= render "shared/errors", model: @feedback %>
 
     <fieldset class="field-section">
-        <legend class="field-section__legend">What kind of feedback?</legend>
+        <legend class="field-section__legend">What kind of suggestion?</legend>
         <% feedback_topics.each do |t| %>
             <div class="field radio">
                 <%= f.radio_button :topic, t[:value], class: "radio__input" %>

@@ -126,7 +126,7 @@ module ApplicationHelper
            },
            {
                 label: "I have extra information to add",
-                value: "missing-info"
+                value: "extra-information-to-add"
            },
            {
                 label: "The service is closed",
