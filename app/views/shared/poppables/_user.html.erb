@@ -3,9 +3,7 @@
 
     <div class="poppable-card">
         <div class="poppable-card__inner poppable-card__inner--with-user-circle">
-            <div aria-hidden="true" class="user-circle">
-              <%= u.initials %>
-            </div>
+            <%= render "shared/user-circle", u: u %>
 
             <h3 class="poppable-card__headline">
                 <%= link_to u.display_name, admin_user_path(u) %>

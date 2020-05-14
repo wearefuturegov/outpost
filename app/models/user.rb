@@ -22,10 +22,10 @@ class User < ApplicationRecord
     }
 
   # sort scopes
-  scope :oldest, ->  { order("created_at ASC") }
-  scope :newest, ->  { order("created_at DESC") }
-  scope :rarely_seen, ->  { order("last_seen ASC NULLS FIRST") }
-  scope :latest_seen, ->  { order("last_seen DESC  NULLS LAST") }
+  scope :oldest, ->  { reorder("created_at ASC") }
+  scope :newest, ->  { reorder("created_at DESC") }
+  scope :rarely_seen, ->  { reorder("last_seen ASC NULLS FIRST") }
+  scope :latest_seen, ->  { reorder("last_seen DESC  NULLS LAST") }
 
   # filter scopes
   scope :admins, ->  { where(admin: true) }
