@@ -4,7 +4,7 @@ class Admin::UsersController < Admin::BaseController
     def index
       @query = params.permit(:deactivated, :order, :order_by, :filter_users, :filter_logged_in, :query)
 
-      @users = User.includes(:organisation).page(params[:page]).order(last_seen: :asc)
+      @users = User.includes(:organisation).page(params[:page]).order("last_seen DESC  NULLS LAST")
 
       if params[:deactivated] === "true"
         @users = @users.discarded
