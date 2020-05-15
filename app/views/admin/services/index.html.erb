@@ -21,7 +21,7 @@
           <th class="visually-hidden">ID</th>
           <th><%= render "sort", column: "name", label: "Name"%></th>
           <th>Organisation</th>
-          <th>Categories</th>
+          <th>Taxonomies</th>
           <th><%= render "sort", column: "updated_at", label: "Last updated"%></th>
           <th>Status</th>
           <th class="visually-hidden">Notes</th>
@@ -38,7 +38,7 @@
               <%= render "shared/poppables/organisation", o: s.organisation if s.organisation %>
             <td>
               <% s.taxonomies.top_level.each do |t| %>
-                <%= link_to t.name, admin_taxonomy_path(t), class: "category" %>
+                <%= link_to t.name, admin_taxonomy_path(t), class: "taxonomy" %>
               <% end %>
             </td>
             <td><%= time_ago_in_words(s.updated_at).humanize %> ago</td>

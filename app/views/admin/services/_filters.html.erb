@@ -4,11 +4,11 @@
     <div class="filters__body" hidden>
         <%= form_for admin_services_url, method: "get", html: {class: "filters__form"} do |f| %>
 
-            <%= label_tag "filter_taxonomy", "Filter categories", class: "visually-hidden" %>
+            <%= label_tag "filter_taxonomy", "Filter taxonomies", class: "visually-hidden" %>
             <%= collection_select nil, :filter_taxonomy, 
             Taxonomy.all, 
             :id, :name, {
-                include_blank: "All categories",
+                include_blank: "All taxonomies",
                 selected: params[:filter_taxonomy]
             }, class: "filters__select" %>
 

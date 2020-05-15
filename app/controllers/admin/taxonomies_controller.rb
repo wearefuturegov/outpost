@@ -29,7 +29,7 @@ class Admin::TaxonomiesController < Admin::BaseController
 
     def destroy
       @taxonomy.destroy
-      redirect_to admin_taxonomies_path, notice: "Category has been deleted."
+      redirect_to admin_taxonomies_path, notice: "Taxonomy has been deleted."
     end
     
     private

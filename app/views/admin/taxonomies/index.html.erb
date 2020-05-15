@@ -1,6 +1,6 @@
 <% content_for :header do %>
     <%= link_to "Back to services", admin_services_path, class: "go-back" %>
-    <h1 class="page-header__title">Categories</h1>
+    <h1 class="page-header__title">Taxonomies</h1>
 <% end %>
 
 <div class="with-sidebar">
@@ -47,7 +47,7 @@
         <%= render "shared/errors", model: @taxonomy %>
 
         <div class="field-section">
-            <h2 class="field-section__legend">Add a new category</h2>
+            <h2 class="field-section__legend">Add a new taxonomy</h2>
             <%= render "fields", s: s %>
 
             <%= s.button "Create", class: "button button--small button--add" %>
