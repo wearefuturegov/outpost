@@ -4,8 +4,6 @@ let editors = document.querySelectorAll(".nested-editor")
 
 editors.forEach(editor => {
 
-    console.log(editor)
-
     let addButton = editor.querySelector("[data-add]")
     let results = editor.querySelector(".nested-editor__results")
 
