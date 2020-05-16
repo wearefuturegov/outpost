@@ -35,16 +35,16 @@ class Admin::TaxonomiesController < Admin::BaseController
     private
 
     def set_taxonomies      
-      @taxonomies = Taxonomy.top_level.includes(children: [:parent])
+      @taxonomies = Taxonomy.arrange
     end
   
     def set_taxonomy
       @taxonomy = Taxonomy.find(params[:id])
-      @possible_parents = Taxonomy.where.not(id: params[:id])
     end
 
     def set_possible_parents
-        @possible_parents = Taxonomy.where.not(id: params[:id]) if params[:id]
+      @possible_parents = Taxonomy.all
+      @possible_parents = @possible_parents.where.not(id: params[:id]) if params[:id]
     end
   
     def taxonomy_params
