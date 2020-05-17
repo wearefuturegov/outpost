@@ -3,19 +3,15 @@
     <h1 class="page-header__title">Taxonomies</h1>
 <% end %>
 
-<div class="with-sidebar">
-    <div class="two-thirds">
+<div class="two-panels">
+
+    <div class="panel">
         <% if @taxonomies.present? %>
-
             <%= tree_view(@taxonomies) %>
-
-
-
-
         <% end %>
     </div>
 
-    <aside class="with-sidebar__sidebar">
+    <aside class="panel">
         <%= form_for [:admin, @taxonomy] do |s| %>
 
         <%= render "shared/errors", model: @taxonomy %>
