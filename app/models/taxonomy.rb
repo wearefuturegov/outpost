@@ -1,7 +1,7 @@
 class Taxonomy < ApplicationRecord
 
     # has_ancestry
-    has_closure_tree
+    has_closure_tree order: 'name'
 
     has_many :service_taxonomies
     has_many :services, through: :service_taxonomies
