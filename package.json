@@ -12,6 +12,7 @@
     "google-maps": "^4.2.3",
     "intro.js": "^2.9.3",
     "js-worker-search": "^1.4.1",
+    "nodelist-foreach-polyfill": "^1.2.0",
     "turbolinks": "^5.2.0"
   },
   "version": "0.1.0",

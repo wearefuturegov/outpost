@@ -1,3 +1,5 @@
+import "nodelist-foreach-polyfill"
+
 import tabs from "./tabs"
 import collapsible from "./collapsible"
 import filters from "./filters"
