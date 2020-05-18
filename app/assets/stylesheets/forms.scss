@@ -218,6 +218,9 @@
             background-position: center;
             background-repeat: no-repeat;
         }
+        &:disabled + label:before{
+            background-color: transparentize($grey, 0.9);
+        }
     }
     .checkbox__label{
         cursor: pointer;
