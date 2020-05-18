@@ -16,6 +16,11 @@ class Admin::OfstedController < Admin::BaseController
 
     def show
         @item = OfstedItem.find(params[:id])
+        @versions = @item.versions.order(created_at: :desc)
+        if @item.versions.length > 4
+          @versions = @versions.first(3)
+          @versions.push(@service.versions.last)
+        end
     end
 
     def pending
