@@ -1,53 +1,23 @@
 <% content_for :header do %>
     <%= link_to "Back to services", admin_services_path, class: "go-back" %>
-    <h1 class="page-header__title">Categories</h1>
+    <h1 class="page-header__title">Taxonomies</h1>
 <% end %>
 
-<div class="with-sidebar">
-    <div class="two-thirds">
+<div class="two-panels">
+
+    <div class="panel">
         <% if @taxonomies.present? %>
-            <div class="table-holder">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Slug</th>
-                            <th>Parent</th>
-                            <th>Services</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% @taxonomies.each do |t| %>
-                            <tr>
-                                <td><%= link_to t.name, admin_taxonomy_path(t) %></td>
-                                <td><%= t.slug %></td>
-                                <td></td>
-                                <td><%= t.services.count %></td>
-                            </tr>
-                            <% if t.children.present? %>
-                                <% t.children.each do |c| %>
-                                    <tr>
-                                        <td><%= link_to "— #{c.name}", admin_taxonomy_path(c) %></td>
-                                        <td><%= c.slug %></td>
-                                        <td><%= c.parent.name %></td>
-                                        <td><%= c.services.count %></td>
-                                    </tr>
-                                <% end %>
-                            <% end %>
-                        <% end %>
-                    </tbody>
-                </table>
-            </div>
+            <%= tree_view(@taxonomies) %>
         <% end %>
     </div>
 
-    <aside class="with-sidebar__sidebar">
+    <aside class="panel">
         <%= form_for [:admin, @taxonomy] do |s| %>
 
         <%= render "shared/errors", model: @taxonomy %>
 
         <div class="field-section">
-            <h2 class="field-section__legend">Add a new category</h2>
+            <h2 class="field-section__legend">Add a new taxonomy</h2>
             <%= render "fields", s: s %>
 
             <%= s.button "Create", class: "button button--small button--add" %>

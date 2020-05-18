@@ -29,23 +29,22 @@ class Admin::TaxonomiesController < Admin::BaseController
 
     def destroy
       @taxonomy.destroy
-      redirect_to admin_taxonomies_path, notice: "Category has been deleted."
+      redirect_to admin_taxonomies_path, notice: "Taxonomy has been deleted."
     end
     
     private
 
     def set_taxonomies      
-      @taxonomies = Taxonomy.top_level.includes(children: [:parent])
+      @taxonomies = Taxonomy.includes([:service_taxonomies]).hash_tree
     end
   
     def set_taxonomy
       @taxonomy = Taxonomy.find(params[:id])
-      @possible_parents = Taxonomy.where.not(id: params[:id])
     end
 
     def set_possible_parents
-        @possible_parents = Taxonomy.top_level
-        @possible_parents = @possible_parents.where.not(id: params[:id]) if params[:id]
+      @possible_parents = Taxonomy.all
+      @possible_parents = @possible_parents.where.not(id: params[:id]) if params[:id]
     end
   
     def taxonomy_params

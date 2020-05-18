@@ -35,7 +35,6 @@ const createListMap = async mapHolder => {
         })
         bounds.extend(position)
         marker.addListener("click", () => {
-            console.log(location)
             window.location.href = `/admin/locations/${location.id}`
         })
     })

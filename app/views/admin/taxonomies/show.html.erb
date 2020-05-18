@@ -1,5 +1,5 @@
 <% content_for :header do %>
-    <%= link_to "Back to categories", admin_taxonomies_path, class: "go-back" %>
+    <%= link_to "Back to taxonomies", admin_taxonomies_path, class: "go-back" %>
     <div class="page-header__actions">
       <h1 class="page-header__title two-thirds"><%= @taxonomy.name %></h1>
     </div>
@@ -15,7 +15,7 @@
       </div>
       <div class="form-actions">
         <%= s.submit "Update", class: "button" %>
-        <%= link_to "Delete category", admin_taxonomy_path(@taxonomy), method: "delete", class: "button button--danger", data: {confirm: "Are you sure you want to delete this category and any children? This can't be undone." } %>
+        <%= link_to "Delete taxonomy", admin_taxonomy_path(@taxonomy), method: "delete", class: "button button--danger", data: {confirm: "Are you sure you want to delete this taxonomy and any children? This can't be undone." } %>
       </div>
     <% end %>
   </div>
@@ -41,7 +41,7 @@
               <p><em>Showing first 30 services</em></p>
             <% end %>
           <% else %>
-            <p class="no-results">This category has no services.</p>
+            <p class="no-results">This taxonomy has no services.</p>
           <% end %>
         </div>
       </div>

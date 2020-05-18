@@ -3,7 +3,7 @@
         <thead>
         <tr>
             <th>Name</th>
-            <th>Category</th>
+            <th>Taxonomy</th>
             <th>Last updated</th>
         </tr>
         </thead>
@@ -17,7 +17,7 @@
                 </td>
                 <td>
                     <% s.service.taxonomies.top_level.limit(3).each do |t| %>
-                        <span class="category"><%= t.name %></span>
+                        <span class="taxonomy"><%= t.name %></span>
                     <% end %>
                 </td>
                 <td><%= short_time_ago_in_words(s.service.updated_at) %> ago</td>
