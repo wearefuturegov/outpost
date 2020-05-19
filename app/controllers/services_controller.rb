@@ -42,7 +42,6 @@ class ServicesController < ApplicationController
     def service_params
         params.require(:service).permit(
           :name,
-          :organisation_id,
           :description,
           :url,
           :email,
