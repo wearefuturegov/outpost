@@ -8,16 +8,21 @@
 <div class="two-panels">
 
   <div class="panel">
-    <%= form_for [:admin, @taxonomy] do |s| %>
-      <%= render "shared/errors", model: @taxonomy %>
-      <div class="field-section">
-        <%= render "fields", s: s %>
-      </div>
-      <div class="form-actions">
-        <%= s.submit "Update", class: "button" %>
-        <%= link_to "Delete taxonomy", admin_taxonomy_path(@taxonomy), method: "delete", class: "button button--danger", data: {confirm: "Are you sure you want to delete this taxonomy and any children? This can't be undone." } %>
-      </div>
-    <% end %>
+
+      <% if @taxonomy.locked %>
+        <p class="no-results">This is a system taxonomy and can't be edited</p>
+      <% else %>
+        <%= form_for [:admin, @taxonomy] do |s| %>
+          <%= render "shared/errors", model: @taxonomy %>
+          <div class="field-section">
+            <%= render "fields", s: s %>
+          </div>
+          <div class="form-actions">
+            <%= s.submit "Update", class: "button" %>
+            <%= link_to "Delete taxonomy", admin_taxonomy_path(@taxonomy), method: "delete", class: "button button--danger", data: {confirm: "Are you sure you want to delete this taxonomy and any children? This can't be undone." } %>
+          </div>
+        <% end %>
+      <% end %>
   </div>
 
   <div class="panel">
