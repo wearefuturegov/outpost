@@ -1,31 +1,35 @@
 <div class="tabs">
 
     <ul class="tabs__nav">
-        <% Taxonomy.where(parent_id: nil).each do |t| %>
+        <% Taxonomy.roots.each do |t| %>
             <li class="tabs__nav-item">
                 <a href="#" class="tabs__nav-link"><%= t.name %></a>
             </li>
         <% end %>
     </ul>
 
-    <%= s.collection_check_boxes( :taxonomy_ids, Taxonomy.where(parent_id: nil), :id, :name) do |c| %>
-        
+    <%= s.collection_check_boxes( :taxonomy_ids, Taxonomy.roots, :id, :name) do |c| %>
         <div class="tabs__panel">
-            <div class="field checkbox checkbox--small">
-                <%= c.check_box class: "checkbox__input" %>
-                <%= c.label class: "checkbox__label" %>
-            </div>
 
-            <%# <div class="field-section field-section--two-cols"> %>
+            <div class="taxonomies-panel">
+
                 <%= s.collection_check_boxes( :taxonomy_ids, Taxonomy.where(parent_id: c.value), :id, :name) do |d| %>
-                    <div class="field checkbox checkbox--small checkbox--indented">
+                    <div class="field checkbox checkbox--small">
                         <%= d.check_box class: "checkbox__input" %>
                         <%= d.label class: "checkbox__label" %>
                     </div>
-                <% end %>
-            <%# </div> %>
-        </div>
 
+                    <%= s.collection_check_boxes( :taxonomy_ids, Taxonomy.where(parent_id: d.value), :id, :name) do |e| %>
+                        <div class="field checkbox checkbox--small checkbox--level-1">
+                            <%= e.check_box class: "checkbox__input" %>
+                            <%= e.label class: "checkbox__label" %>
+                        </div>
+                    <% end %>
+                <% end %>
+
+            </div>
+
+        </div>
     <% end %>
 
 </div>

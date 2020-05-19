@@ -14,5 +14,4 @@ class Taxonomy < ApplicationRecord
 
     scope :top_level, -> { where(parent_id: nil) }
 
-
 end

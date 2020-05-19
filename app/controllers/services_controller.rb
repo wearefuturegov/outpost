@@ -41,9 +41,38 @@ class ServicesController < ApplicationController
 
     def service_params
         params.require(:service).permit(
+          :name,
+          :organisation_id,
+          :description,
+          :url,
+          :email,
+          :visible_from,
+          :visible_to,
+          taxonomy_ids: [],
+          location_ids: [],
+          contacts_attributes: [
+            :id,
             :name,
-            :description
+            :title,
+            :_destroy,
+            phones_attributes: [
+              :id,
+              :number
+            ]
+          ],
+          locations_attributes: [
+            :id,
+            :name,
+            :address_1,
+            :city,
+            :postal_code,
+            # :latitude,
+            # :longitude,
+            # :google_place_id,
+            :_destroy,
+            accessibility_ids: []
+          ]
         )
-    end
+      end
 
 end

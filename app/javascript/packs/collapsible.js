@@ -12,6 +12,7 @@ collapsibles.forEach(collapsible => {
         content.setAttribute("hidden", "true")
         window.localStorage.setItem(key, false)
     }
+    console.log("fuck")
 
     const open = () => {
         controls.setAttribute("aria-expanded", "true")

@@ -194,6 +194,9 @@
     &:focus-within label:before{
         outline: 3px solid $focus;
     }
+    .subcategories{
+        display: none;
+    }
     .checkbox__input{
         font-size: 2rem;
         -webkit-appearance:none;
@@ -261,13 +264,24 @@
             }
         }
     }
-    &.checkbox--indented{
-        margin-left: 15px;
+    &.checkbox--level-1{
+        margin-left: 20px;
+    }
+    &.checkbox--level-2{
+        margin-left: 40px;
     }
 }
 
+.taxonomies-panel{
+    border: 1px solid $card-shadow;
+    background: $pale;
+    padding: 20px;
+    max-height: 300px;
+    overflow-y: auto;
+}
 
-  .field-section{
+
+.field-section{
     border: none;
     margin-bottom: 40px;
     @media screen and (min-width: $breakpoint-m) {
@@ -370,3 +384,17 @@
 
 
 
+.community-editor{
+    margin-bottom: 40px;
+    @media screen and (min-width: $breakpoint-m) {
+        margin-bottom: 50px;
+    }
+
+    &__title{
+        margin-bottom: 15px;
+    }
+    &__hint{
+        color: $grey;
+        margin-bottom: 25px;
+    }
+}

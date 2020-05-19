@@ -1,11 +1,26 @@
-<div class="field-section">
-    <div class="field">
-        <%= f.label :name, class: "field__label" %>
-        <%= f.text_field :name, class: "field__input" %>
-    </div>
+<section class="community-editor">
+    <h2 class="community-editor__title">Basics</h2>
+    <p class="community-editor__hint">Short explanation of form fields here</p>
+    <%= render "admin/services/editors/basics", s: f %>
+</section>
 
-    <div class="field">
-        <%= f.label :description, class: "field__label" %>
-        <%= f.text_area :description, class: "field__input" %>
-    </div>
-</div>
+<section class="community-editor">
+    <h2 class="community-editor__title">Taxonomies</h2>
+    <p class="community-editor__hint">Short explanation of form fields here</p>
+    <%= render "admin/services/editors/taxonomies", s: f %>
+</section>
+
+<section class="community-editor">
+    <h2 class="community-editor__title">Location</h2>
+    <p class="community-editor__hint">Short explanation of form fields here</p>
+    <%= render "admin/services/editors/locations", s: f %>
+</section>
+
+<section class="community-editor">
+    <h2 class="community-editor__title">Local offer and SEND</h2>
+</section>
+
+<section class="community-editor">
+    <h2 class="community-editor__title">Visibility</h2>
+    <%= render "admin/services/editors/dates", s: f %>
+</section>

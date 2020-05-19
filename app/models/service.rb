@@ -29,6 +29,7 @@ class Service < ApplicationRecord
 
   after_save :update_service_at_locations
   after_save :notify_watchers
+  before_save :recursively_add_parents
 
   accepts_nested_attributes_for :locations, allow_destroy: true,
     :reject_if => proc {|attributes|
@@ -103,5 +104,11 @@ class Service < ApplicationRecord
 
   def notify_watchers
     ServiceMailer.with(service: self).notify_watchers_email.deliver_later
+  end
+
+  def recursively_add_parents
+    self.taxonomies.each do |t|
+      # recursively add taxonomy parents in here
+    end
   end
 end
