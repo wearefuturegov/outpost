@@ -28,7 +28,7 @@
 }
 
 .field{
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     &.field--span-two-cols{
         grid-column: 1 / 3;
     }
@@ -37,6 +37,7 @@
         margin-bottom: 10px;
     }
     .field__hint{
+        font-size: 1rem;
         margin-top: -5px;
         margin-bottom: 10px;
         color: transparentize($text, 0.25);
@@ -386,8 +387,11 @@
 
 .community-editor{
     margin-bottom: 40px;
+    *:last-child{
+        margin-bottom: 0px;
+    }
     @media screen and (min-width: $breakpoint-m) {
-        margin-bottom: 50px;
+        margin-bottom: 60px;
     }
 
     &__title{
