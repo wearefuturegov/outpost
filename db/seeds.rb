@@ -109,7 +109,7 @@ bucks_csv.each.with_index do |row, line|
       categories = line.split(' > ')
       categories.delete("Family Information")
 
-      taxonomy = Taxonomy.find_or_create_by_path(categories.unshift("Category"))
+      taxonomy = Taxonomy.find_or_create_by_path(categories.unshift("Categories"))
       service.taxonomies |= [taxonomy] if taxonomy
     end
   end
@@ -118,7 +118,7 @@ bucks_csv.each.with_index do |row, line|
     lines = row['parentchannel'].split("\n")
     lines.each do |line|
       categories = line.split(' > ')
-      taxonomy = Taxonomy.find_or_create_by_path(categories.unshift("Category"))
+      taxonomy = Taxonomy.find_or_create_by_path(categories.unshift("Categories"))
       service.taxonomies |= [taxonomy] if taxonomy
     end
   end
@@ -127,7 +127,7 @@ bucks_csv.each.with_index do |row, line|
     lines = row['youthchannel'].split("\n")
     lines.each do |line|
       categories = line.split(' > ')
-      taxonomy = Taxonomy.find_or_create_by_path(categories.unshift("Category"))
+      taxonomy = Taxonomy.find_or_create_by_path(categories.unshift("Categories"))
       service.taxonomies |= [taxonomy] if taxonomy
     end
   end
@@ -136,7 +136,7 @@ bucks_csv.each.with_index do |row, line|
     lines = row['childrenscentrechannel'].split("\n")
     lines.each do |line|
       categories = line.split(' > ')
-      taxonomy = Taxonomy.find_or_create_by_path(categories.unshift("Category"))
+      taxonomy = Taxonomy.find_or_create_by_path(categories.unshift("Categories"))
       service.taxonomies |= [taxonomy] if taxonomy
     end
   end

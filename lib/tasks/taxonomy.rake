@@ -1,7 +1,7 @@
 namespace :taxonomy do
 
   task :create_categories_from_old_db => [ :environment ] do
-    top_level_taxonomy = Taxonomy.find_or_create_by(name: 'Category')
+    top_level_taxonomy = Taxonomy.find_or_create_by(name: 'Categories')
     csv_file = File.open('lib/seeds/bucksfis geo.csv', "r:ISO-8859-1")
     bucks_csv = CSV.parse(csv_file, headers: true)
     tree = {}
@@ -43,13 +43,13 @@ namespace :taxonomy do
     taxonomy_mapping_csv = CSV.parse(csv_file, headers: true)
     taxonomy_mapping_csv.each do |row|
       next unless row["Old taxonomy"].present?
-      
+
       # paths
-      old_path = row["Old taxonomy"].split(" > ").unshift("Category")
+      old_path = row["Old taxonomy"].split(" > ").unshift("Categories")
       puts "Old path: #{old_path}"
-      new_path = row["New taxonomy"].split(" > ").unshift("Category").map(&:strip) if row["New taxonomy"].present?
+      new_path = row["New taxonomy"].split(" > ").unshift("Categories").map(&:strip) if row["New taxonomy"].present?
       puts "New path: #{new_path}" if row["New taxonomy"].present?
-      additional_new_path = row["Additional new taxonomy"].split(" > ").unshift("Category").map(&:strip) if row["Additional new taxonomy"].present?
+      additional_new_path = row["Additional new taxonomy"].split(" > ").unshift("Categories").map(&:strip) if row["Additional new taxonomy"].present?
       puts "Additional new path: #{additional_new_path}" if row["Additional new taxonomy"].present?
 
       # taxonomies
@@ -75,7 +75,7 @@ namespace :taxonomy do
     taxonomy_mapping_csv = CSV.parse(csv_file, headers: true)
     taxonomy_mapping_csv.each do |row|
       next unless row["Old taxonomy"].present?
-      old_path = row["Old taxonomy"].split(" > ").unshift("Category")
+      old_path = row["Old taxonomy"].split(" > ").unshift("Categories")
       old_taxonomy = Taxonomy.find_by_path(old_path)
       old_taxonomy.destroy! if old_taxonomy.present?
       puts "deleted #{old_taxonomy.name}" if old_taxonomy.present?
