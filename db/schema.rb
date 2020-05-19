@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_19_122150) do
+ActiveRecord::Schema.define(version: 2020_05_19_150122) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -131,6 +131,12 @@ ActiveRecord::Schema.define(version: 2020_05_19_122150) do
     t.bigint "contact_id"
     t.string "number"
     t.index ["contact_id"], name: "index_phones_on_contact_id"
+  end
+
+  create_table "report_postcodes", force: :cascade do |t|
+    t.string "postcode"
+    t.string "ward"
+    t.string "childrens_centre"
   end
 
   create_table "service_at_locations", force: :cascade do |t|
