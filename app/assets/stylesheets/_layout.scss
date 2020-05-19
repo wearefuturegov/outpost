@@ -79,6 +79,14 @@
     margin-bottom: 25px;
 }
 
+.right-margin{
+    margin-right: 15px;
+}
+
+.align-right{
+    text-align: right;
+}
+
 .table-holder{
     overflow-x: auto;
     @media screen and (min-width: $breakpoint-l){

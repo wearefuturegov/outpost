@@ -1,0 +1,36 @@
+<% content_for :header do %>
+    <%= link_to "Back to services", admin_services_path, class: "go-back" %>
+    <h1 class="page-header__title">Labels</h1>
+<% end %>
+
+<% if @labels.present? %>
+  <div class="table-holder">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Services</th>
+          <th class="visually-hidden">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @labels.each do |l| %>
+          <tr>
+            <td><%= l.name %></td>
+            <td><%= Service.tagged_with(l).count %></td>
+            <td class="align-right">
+                <%= link_to 'See services', admin_services_path(:filter_label => l.name), class: "right-margin" %>
+                <%= link_to 'Remove', admin_label_path(l), method: "delete", data: {confirm: "Are you sure you want to remove this label?"} %>
+            </td>
+
+          </tr>
+        <% end %>
+
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <p class="no-results">No labels to show</p>
+<% end %>
+
+
