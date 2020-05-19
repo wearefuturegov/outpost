@@ -35,30 +35,32 @@ module ApplicationHelper
     def pretty_event(event)
         case event
         when "create"
-            "record created"
+            "Record created"
         when "update"
-            "updated"
+            "Updated"
         when "destroy"
-            "deleted"        
+            "Deleted"        
         when "restore"
-            "restored from a previous version"
+            "Restored from a previous version"
         when "archive"
             "archived"
         when "unarchive"
-            "removed from archive"
+            "Removed from archive"
         when "import"
-            "record imported"
+            "Record imported"
         when "approve"
-            "approved"
-        when "ofsted_update"
-            "updated from Ofsted feed"
+            "Approved"
+        when "created"
+            "Updated from Ofsted feed"
         when "ofsted_create"
-            "created from Ofsted feed"
+            "Created from Ofsted feed"
         end
     end
 
     def stepper_class(event)
         case event
+        when "ofsted_create"
+            "stepper__step--solid"   
         when "create"
             "stepper__step--solid"   
         when "archive"
