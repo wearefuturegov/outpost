@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
     end  
 
     def no_admins
-      if current_user.admin?
+      if current_user && current_user.admin?
         redirect_to admin_root_path, notice: "You're logged in as an administrator, so you can't access that part of the site right now."
       end
     end
