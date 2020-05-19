@@ -23,9 +23,11 @@ bucks_csv.each do |row| # CREATE ORGS BASED ON TYPE
   end
 end
 
+Rake::Task['taxonomy:create_categories_from_old_db'].invoke
+
 bucks_csv.each.with_index do |row, line|
   next unless (line % 6 == 0)
-  puts "Processing line: #{line} of #{bucks_csv.size}"
+  puts "Processing line (service build): #{line} of #{bucks_csv.size}"
 
   open_objects_users = open_objects_users_csv.select{ |user_row| user_row['externalId'] == row['record_editor'] } # users from open objects csv
   outpost_users = User.where(old_external_id: row['record_editor']) # new database users already created by this seed
@@ -106,12 +108,9 @@ bucks_csv.each.with_index do |row, line|
     lines.each do |line|
       categories = line.split(' > ')
       categories.delete("Family Information")
-      parent_cateogry = categories.first
-      child_category = categories.last unless categories.size == 1 # is a parent category
-      parent_taxonomy = Taxonomy.find_or_create_by(name: parent_cateogry) if parent_cateogry
-      child_taxonomy = Taxonomy.find_or_create_by(name: child_category, parent_id: parent_taxonomy.id) if child_category # otherwise tries to create with name nil
-      service.taxonomies |= [parent_taxonomy] if parent_taxonomy
-      service.taxonomies |= [child_taxonomy] if child_taxonomy
+
+      taxonomy = Taxonomy.find_or_create_by_path(categories.unshift("Category"))
+      service.taxonomies |= [taxonomy] if taxonomy
     end
   end
 
@@ -119,12 +118,8 @@ bucks_csv.each.with_index do |row, line|
     lines = row['parentchannel'].split("\n")
     lines.each do |line|
       categories = line.split(' > ')
-      parent_cateogry = categories.first
-      child_category = categories.last unless categories.size == 1 # is a parent category
-      parent_taxonomy = Taxonomy.find_or_create_by(name: parent_cateogry) if parent_cateogry
-      child_taxonomy = Taxonomy.find_or_create_by(name: child_category, parent_id: parent_taxonomy.id) if child_category # otherwise tries to create with name nil
-      service.taxonomies |= [parent_taxonomy] if parent_taxonomy
-      service.taxonomies |= [child_taxonomy] if child_taxonomy
+      taxonomy = Taxonomy.find_or_create_by_path(categories.unshift("Category"))
+      service.taxonomies |= [taxonomy] if taxonomy
     end
   end
 
@@ -132,12 +127,8 @@ bucks_csv.each.with_index do |row, line|
     lines = row['youthchannel'].split("\n")
     lines.each do |line|
       categories = line.split(' > ')
-      parent_cateogry = categories.first
-      child_category = categories.last unless categories.size == 1 # is a parent category
-      parent_taxonomy = Taxonomy.find_or_create_by(name: parent_cateogry) if parent_cateogry
-      child_taxonomy = Taxonomy.find_or_create_by(name: child_category, parent_id: parent_taxonomy.id) if child_category # otherwise tries to create with name nil
-      service.taxonomies |= [parent_taxonomy] if parent_taxonomy
-      service.taxonomies |= [child_taxonomy] if child_taxonomy
+      taxonomy = Taxonomy.find_or_create_by_path(categories.unshift("Category"))
+      service.taxonomies |= [taxonomy] if taxonomy
     end
   end
 
@@ -145,12 +136,8 @@ bucks_csv.each.with_index do |row, line|
     lines = row['childrenscentrechannel'].split("\n")
     lines.each do |line|
       categories = line.split(' > ')
-      parent_cateogry = categories.first
-      child_category = categories.last unless categories.size == 1 # is a parent category
-      parent_taxonomy = Taxonomy.find_or_create_by(name: parent_cateogry) if parent_cateogry
-      child_taxonomy = Taxonomy.find_or_create_by(name: child_category, parent_id: parent_taxonomy.id) if child_category # otherwise tries to create with name nil
-      service.taxonomies |= [parent_taxonomy] if parent_taxonomy
-      service.taxonomies |= [child_taxonomy] if child_taxonomy
+      taxonomy = Taxonomy.find_or_create_by_path(categories.unshift("Category"))
+      service.taxonomies |= [taxonomy] if taxonomy
     end
   end
 
@@ -195,5 +182,7 @@ end_time = Time.now
 
 Rake::Task['ofsted:set_reference_ids_on_existing_childcare_records'].invoke
 Rake::Task['ofsted:update_items'].invoke
+Rake::Task['taxonomy:map_to_new_taxonomy'].invoke
+Rake::Task['taxonomy:delete_old_taxonomies'].invoke
 
 puts "Took #{(end_time - start_time)/60} minutes"
