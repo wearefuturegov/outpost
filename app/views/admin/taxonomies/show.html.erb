@@ -24,6 +24,28 @@
       <div class="collapsible" id="taxonomy-services-list">
         <button class="collapsible__header">
           <h2>
+            Children
+            <span class="collapsible__header-count">(<%= @taxonomy.children.count %>)</span>
+          </h2>
+        </button>
+        <div class="collapsible__content">
+          <% if @taxonomy.children.present? %>  
+            <ul class="big-list bottom-margin">
+              <% @taxonomy.children.each do |c| %>
+                <li class="big-list__item">
+                  <%= link_to c.name, admin_taxonomy_path(c) %>
+                </li>
+              <% end %>
+            </ul>
+          <% else %>
+            <p class="no-results">This taxonomy has no children.</p>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="collapsible" id="taxonomy-services-list">
+        <button class="collapsible__header">
+          <h2>
             Services
             <span class="collapsible__header-count">(<%= @taxonomy.services.count %>)</span>
           </h2>
