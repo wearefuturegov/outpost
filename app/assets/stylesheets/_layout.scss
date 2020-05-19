@@ -196,3 +196,20 @@
         margin-bottom: 0px;
     }
 }
+
+.taxonomy-tree{
+    margin-left: 0px;
+    list-style: none;
+    font-size: 1.1rem;
+    ul{
+        margin-left: 25px;
+    }
+    &__item--depth-0{
+        font-weight: bold;
+    }
+    .taxonomy-tree__count{
+        font-weight: normal;
+        margin-left: 5px;
+        color: $grey;
+    }
+}
