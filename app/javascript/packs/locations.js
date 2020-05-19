@@ -9,6 +9,7 @@ editors.forEach(editor => {
 
     // Add custom
     addButton.addEventListener("click", e => {
+        console.log("fuck")
         e.preventDefault()
         let time = new Date().getTime()
         let regexp = new RegExp(addButton.dataset.id, 'g')
