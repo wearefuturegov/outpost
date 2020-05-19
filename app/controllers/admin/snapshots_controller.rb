@@ -1,4 +1,4 @@
-class Admin::SnapshotsController < ApplicationController
+class Admin::SnapshotsController < Admin::BaseController
     before_action :set_service
 
     def index
