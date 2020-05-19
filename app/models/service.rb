@@ -108,7 +108,7 @@ class Service < ApplicationRecord
 
   def recursively_add_parents
     self.taxonomies.each do |t|
-      # recursively add taxonomy parents in here
+      self.taxonomies << t.ancestors
     end
   end
 end
