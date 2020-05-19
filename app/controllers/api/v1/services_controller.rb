@@ -38,9 +38,11 @@ class API::V1::ServicesController < ApplicationController
     when 'services'
       'Things to do'
     when 'childcare'
-      'Childcare'
-    when 'schools'
-      'Education and Learning'
+      'Childcare and Early Years'
+    when '  '
+      'Education and learning'
+    when 'advice_support'
+      'Advice and support'
     end
   end
 
