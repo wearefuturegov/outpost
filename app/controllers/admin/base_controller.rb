@@ -1,6 +1,7 @@
 class Admin::BaseController < ApplicationController
     before_action :require_admin!
     before_action :set_counts, if: :should_count?
+    before_action :set_ofsted_pending_count
 
     private
 
@@ -19,6 +20,10 @@ class Admin::BaseController < ApplicationController
         @ofsted_count = OfstedService.kept.count
         @pending_count = Service.kept.where(approved: false).count
         @archived_count = Service.discarded.count
+    end
+
+    def set_ofsted_pending_count
+        @ofsted_pending_count = OfstedService.ofsted_pending.count
     end
 
 end

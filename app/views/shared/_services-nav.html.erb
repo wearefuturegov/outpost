@@ -11,9 +11,9 @@
     <span class="shortcuts__divider">|</span>
 
     <% if (params[:ofsted] === "true") %>
-        <span class="shortcuts__current">Ofsted</span>
+        <span class="shortcuts__current">Ofsted registered</span>
     <% else %>
-        <%= link_to "Ofsted", admin_services_path(ofsted: true), class: "shortcuts__link" %>
+        <%= link_to "Ofsted registered", admin_services_path(ofsted: true), class: "shortcuts__link" %>
     <% end %>
 
     <span class="shortcuts__count">(<%= @ofsted_count %>)</span>

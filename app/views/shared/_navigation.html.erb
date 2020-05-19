@@ -43,10 +43,14 @@
                     <span class="site-nav__current">Users</span>
                 <% end %>
 
-                <%= link_to_unless_current "Ofsted", pending_admin_ofsted_index_path, class: "site-nav__link site-nav--pull-right" do %>
-                    <span class="site-nav__current site-nav--pull-right">Ofsted</span>
-                <% end %>
-
+                <div class="site-nav__pull-right">
+                    <%= link_to_unless_current "Ofsted feed", pending_admin_ofsted_index_path, class: "site-nav__link" do %>
+                        <span class="site-nav__current site-nav--pull-right">Ofsted feed </span>
+                    <% end %>
+                    <% if @ofsted_pending_count > 0 %>
+                        <div class="badge"><%= @ofsted_pending_count %></div>
+                    <% end %>
+                </div>
         </div>
     </nav>
 <% end %>

@@ -31,7 +31,6 @@ class Admin::OfstedController < Admin::BaseController
     private
 
     def set_counts
-        @pending_count = OfstedService.ofsted_pending.count
         @feed_count = OfstedItem.count
     end
 end

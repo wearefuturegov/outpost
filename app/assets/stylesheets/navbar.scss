@@ -11,7 +11,7 @@
         @media screen and (min-width: $breakpoint-m) {
             display: flex;
             flex-direction: row;
-            align-items: start;
+            align-items: center;
         }
     }
 
@@ -29,7 +29,11 @@
         }
     }
 
-    .site-nav--pull-right{
+    .site-nav__pull-right{
+        .site-nav__link, .site-nav__current{
+            margin-right: 0px;
+        }
+
         @media screen and (min-width: $breakpoint-m) {
             margin-left: auto;
             margin-right: 0px;
@@ -88,5 +92,15 @@
         @media screen and (min-width: $breakpoint-m) {
             font-size: 1rem;
         }
+    }
+
+    .badge{
+        display: inline-block;
+        background: $error;
+        border-radius: 20px;
+        padding: 2px 7px;
+        font-size: 0.9rem;
+        color: $white;
+        margin-left: 5px;
     }
 }
