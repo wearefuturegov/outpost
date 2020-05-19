@@ -14,9 +14,9 @@ class OfstedItem < ApplicationRecord
         }
 
     # sort scopes
-    scope :oldest, ->  { order("registration_date ASC") }
-    scope :newest, ->  { order("registration_date DESC") }
-    scope :oldest_changed, ->  { order("last_change_date ASC") }
-    scope :newest_changed, ->  { order("last_change_date DESC") }
+    scope :oldest, ->  { reorder("registration_date ASC") }
+    scope :newest, ->  { reorder("registration_date DESC") }
+    scope :oldest_changed, ->  { reorder("last_change_date ASC") }
+    scope :newest_changed, ->  { reorder("last_change_date DESC") }
 
 end

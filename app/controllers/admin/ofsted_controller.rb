@@ -4,7 +4,7 @@ class Admin::OfstedController < Admin::BaseController
     def index
         @query = params.permit(:query)
 
-        @items = OfstedItem.page(params[:page])
+        @items = OfstedItem.page(params[:page]).order(setting_name: :ASC)
 
         @items = @items.search(params[:query]) if params[:query].present?
 
