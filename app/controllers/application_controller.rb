@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
     before_action :authenticate_user!
+    before_action :set_ofsted_pending_count
     around_action :set_current_user
 
     protected
@@ -21,5 +22,9 @@ class ApplicationController < ActionController::Base
 
     def no_admins
       redirect_to admin_root_path if current_user.admin?
+    end
+
+    def set_ofsted_pending_count
+      @ofsted_pending_count = OfstedService.ofsted_pending.count
     end
 end
