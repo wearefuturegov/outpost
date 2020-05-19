@@ -9,10 +9,10 @@ class Snapshot < ApplicationRecord
     live_object = Service.find(self.service_id)
 
     # 2. Restore need associations, recreating any deleted options
-    live_object.send_needs.destroy_all
-    self.object["send_needs"].each do |n|
-      live_object.send_needs << SendNeed.find_or_create_by(name: n["name"])
-    end
+    # live_object.send_needs.destroy_all
+    # self.object["send_needs"].each do |n|
+    #   live_object.send_needs << SendNeed.find_or_create_by(name: n["name"])
+    # end
     live_object.taxonomies.destroy_all
     self.object["taxonomies"].each do |n|
       live_object.taxonomies << Taxonomy.find_or_create_by(name: n["name"], parent_id: n["parent_id"])

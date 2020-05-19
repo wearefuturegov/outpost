@@ -85,15 +85,12 @@
       <fieldset class="collapsible" id="send-needs-editor">
         <button class="collapsible__header">
           <legend>
-            <h2>
-              Local offer and SEND
-              <span class="collapsible__header-count">(<%= @service.send_needs.length %>)</span>
-            </h2>
+            <h2>Local offer and SEND</h2>
           </legend>
         </button>
         <div class="collapsible__content">
           <div class="field-section field-section--two-cols field-section--no-bottom-margin">
-            <%= render "admin/services/editors/send-needs", s: s %>
+
           </div>
         </div>
       </fieldset>

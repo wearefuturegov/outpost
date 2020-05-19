@@ -24,7 +24,6 @@ module HasSnapshots
             action: snapshot_action,
             object: self.as_json(include: [
                 :taxonomies, 
-                :send_needs,
                 :locations,
                 :phones,
                 :contacts
