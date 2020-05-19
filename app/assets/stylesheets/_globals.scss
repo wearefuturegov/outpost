@@ -75,3 +75,7 @@ li{
 fieldset{
     border: none;
 }
+
+select::-ms-expand {
+    display: none;
+}

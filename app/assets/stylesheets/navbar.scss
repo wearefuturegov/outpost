@@ -49,6 +49,10 @@
         }
     }
 
+    .site-nav__submenu-holder:hover{
+        color: red !important;
+    }
+
     .site-nav__submenu{
         display: none;
         list-style: none;
