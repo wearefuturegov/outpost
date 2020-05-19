@@ -110,7 +110,25 @@ bucks_csv.each.with_index do |row, line|
       categories.delete("Family Information")
 
       taxonomy = Taxonomy.find_or_create_by_path(categories.unshift("Categories"))
-      service.taxonomies |= [taxonomy] if taxonomy
+      service.taxonomies |= [taxonomy]
+    end
+  end
+
+  unless row['lo_age_bands'] == nil
+    age_groups = row['lo_age_bands'].split("\n")
+    age_groups.each do |age_group|
+      age_group_taxonomy_path = ["Age groups", age_group]
+      taxonomy = Taxonomy.find_or_create_by_path(age_group_taxonomy_path)
+      service.taxonomies |= [taxonomy]
+    end
+  end
+
+  unless row['lo_needs_level'] == nil
+    send_needs = row['lo_needs_level'].split("\n")
+    send_needs.each do |send_need|
+      send_need_taxonomy_path = ["SEND needs", send_need]
+      taxonomy = Taxonomy.find_or_create_by_path(send_need_taxonomy_path)
+      service.taxonomies |= [taxonomy]
     end
   end
 
@@ -119,7 +137,7 @@ bucks_csv.each.with_index do |row, line|
     lines.each do |line|
       categories = line.split(' > ')
       taxonomy = Taxonomy.find_or_create_by_path(categories.unshift("Categories"))
-      service.taxonomies |= [taxonomy] if taxonomy
+      service.taxonomies |= [taxonomy]
     end
   end
 
@@ -128,7 +146,7 @@ bucks_csv.each.with_index do |row, line|
     lines.each do |line|
       categories = line.split(' > ')
       taxonomy = Taxonomy.find_or_create_by_path(categories.unshift("Categories"))
-      service.taxonomies |= [taxonomy] if taxonomy
+      service.taxonomies |= [taxonomy]
     end
   end
 
@@ -137,7 +155,7 @@ bucks_csv.each.with_index do |row, line|
     lines.each do |line|
       categories = line.split(' > ')
       taxonomy = Taxonomy.find_or_create_by_path(categories.unshift("Categories"))
-      service.taxonomies |= [taxonomy] if taxonomy
+      service.taxonomies |= [taxonomy]
     end
   end
 
@@ -184,5 +202,13 @@ Rake::Task['ofsted:set_reference_ids_on_existing_childcare_records'].invoke
 Rake::Task['ofsted:update_items'].invoke
 Rake::Task['taxonomy:map_to_new_taxonomy'].invoke
 Rake::Task['taxonomy:delete_old_taxonomies'].invoke
+
+over_25_taxonomny = Taxonomy.where(name: "25 plus").first
+over_25_taxonomny.name = "Over 25"
+over_25_taxonomny.save
+
+general_support_taxonomny = Taxonomy.where(name: "All Needs Met").first
+general_support_taxonomny.name = "General support"
+general_support_taxonomny.save
 
 puts "Took #{(end_time - start_time)/60} minutes"
