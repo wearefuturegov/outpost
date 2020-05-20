@@ -6,16 +6,16 @@ class Service < ApplicationRecord
 
   has_many :snapshots
 
-  has_many :contacts
-  has_many :phones, through: :contacts
+  has_one :local_offer
+  accepts_nested_attributes_for :local_offer, allow_destroy: true
 
+  has_many :contacts  
   accepts_nested_attributes_for :contacts, allow_destroy: true
+
+  has_many :phones, through: :contacts
   accepts_nested_attributes_for :phones
 
   has_many :feedbacks
-
-  has_many :service_at_locations
-  has_many :locations, through: :service_at_locations
 
   has_many :service_taxonomies
   has_many :taxonomies, through: :service_taxonomies
@@ -25,14 +25,17 @@ class Service < ApplicationRecord
 
   has_many :notes
 
-  after_save :update_service_at_locations
-  after_save :notify_watchers
-  before_save :recursively_add_parents
-
+  has_many :service_at_locations
+  has_many :locations, through: :service_at_locations
   accepts_nested_attributes_for :locations, allow_destroy: true,
     :reject_if => proc {|attributes|
       attributes.all? {|k,v| v.blank?}
     }
+
+  # callbacks
+  after_save :update_service_at_locations
+  after_save :notify_watchers
+  before_save :recursively_add_parents
 
   # sort scopes
   scope :oldest, ->  { order("updated_at ASC") }

@@ -78,14 +78,6 @@ module ApplicationHelper
         time_ago_in_words(val).gsub("about ", "")
     end
 
-    def last_seen_helper(value)
-        if value    
-            [time_ago_in_words(value).humanize, "ago"].join(" ")
-        else
-            "Never"
-        end
-    end
-
     def status_tag(status)
         if status === "pending"
             "<span class='tag tag--yellow'>Pending</span".html_safe
@@ -111,7 +103,6 @@ module ApplicationHelper
         link_to name, '#', class: "button button--small button--add", data: {id: id, fields: fields.gsub("\n", ""), add: true}
     end
 
-
     def link_to_add_contact_fields(name, f, association, view)
         new_object = f.object.send(association).klass.new
         id = new_object.object_id
@@ -120,35 +111,22 @@ module ApplicationHelper
             render(view, l: builder, c: builder)
         end
         link_to name, '#', class: "button button--small button--add", data: {id: id, fields: fields.gsub("\n", ""), add: true}
-    end
+    end  
 
-    def feedback_topics
-        [
-           {
-                label: "Something is out of date",
-                value: "out-of-date"
-           },
-           {
-                label: "I have extra information to add",
-                value: "extra-information-to-add"
-           },
-           {
-                label: "The service is closed",
-                value: "service-has-closed"
-           },
-           {
-               label: "Something else",
-               value: "something-else"
-           }
-         ]
-    end
 
-    def pretty_topic(topic)
-        if topic
-            topic.gsub('-', ' ').capitalize
-        else
-            "No topic"
+    def local_offer_checkbox(f, view)
+
+        new_object = LocalOffer.new
+
+        id = new_object.object_id
+
+        fields = f.fields_for(:local_offer, new_object) do |builder|
+            render(view, l: builder)
         end
+
+        # byebug
+
+        check_box_tag "local_offer", "1", f.object.local_offer, class: "checkbox__input", data: {id: id, fields: fields.gsub("\n", ""), local_offer: true}
     end
-    
+
 end

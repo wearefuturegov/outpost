@@ -1,0 +1,15 @@
+<div class="field-section field-section--reduced-bottom-margin" data-local-offer-fields>
+
+    <div class="field">
+        <%= l.label :description, "Description of support provided", class: "field__label" %>
+        <%= l.text_area :description, class: "field__input", rows: "5" %>
+    </div>
+
+    <div class="field">
+        <%= l.label :link, "Link to most recent SEND report", class: "field__label" %>
+        <%= l.text_field :link, class: "field__input" %>
+    </div>
+
+</div>
+
+<%= l.text_field :_destroy,  data: {destroy_field: true} %>

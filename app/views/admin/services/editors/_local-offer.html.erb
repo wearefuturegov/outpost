@@ -1,0 +1,12 @@
+<div class="local-offer-editor">
+
+    <div class="field checkbox">
+        <%= local_offer_checkbox(s, "admin/services/editors/local-offer-fields") %>
+        <%= label_tag "local_offer", "Part of local offer?", class: "checkbox__label" %>
+    </div>
+
+    <%= s.fields_for :local_offer do |l| %>
+        <%= render "admin/services/editors/local-offer-fields", l: l %>
+    <% end %>
+
+</div>

@@ -30,7 +30,7 @@ class Admin::ServicesController < Admin::BaseController
 
   def show
     @watched = current_user.watches.where(service_id: @service.id).exists?
-    @snapshots = @service.snapshots.includes(:user).order(created_at: :desc).includes([:user])
+    @snapshots = @service.snapshots.order(created_at: :desc).includes(:user)
     if @service.snapshots.length > 4
       @snapshots = @snapshots.first(3)
       @snapshots.push(@service.snapshots.last)
@@ -84,7 +84,14 @@ class Admin::ServicesController < Admin::BaseController
       :label_list,
       taxonomy_ids: [],
       location_ids: [],
-      send_need_ids: [],
+
+      local_offer_attributes: [
+        :id,
+        :description,
+        :link,
+        :_destroy,
+      ],
+
       contacts_attributes: [
         :id,
         :name,
