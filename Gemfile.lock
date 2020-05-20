@@ -305,6 +305,7 @@ GEM
       thread_safe (~> 0.1)
     tzinfo-data (1.2020.1)
       tzinfo (>= 1.0.0)
+    uk_postcode (2.1.5)
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.7)
@@ -380,6 +381,7 @@ DEPENDENCIES
   spring-watcher-listen (~> 2.0.0)
   turbolinks (~> 5)
   tzinfo-data
+  uk_postcode
   web-console (>= 3.3.0)
   webdrivers
   webpacker (~> 4.0)

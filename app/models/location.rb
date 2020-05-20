@@ -1,9 +1,20 @@
+class PostcodeValidator < ActiveModel::EachValidator
+  def validate_each(record, attribute, value)
+    ukpc = UKPostcode.parse(value)
+    unless ukpc.full_valid?
+      record.errors[attribute] << "doesn't seem to be valid. Please check it and try again."
+      # errors.add(:postal_code, "doesn't seem to be valid. Please check it and try again.")
+    end
+  end
+end
+
 class Location < ApplicationRecord
   has_many :service_at_locations
   has_many :services, through: :service_at_locations
   has_and_belongs_to_many :accessibilities
 
-  # validates_presence_of :postal_code
+  validates :postal_code, presence: true, postcode: true
+
   # validate :check_geocodes
 
   before_validation :geocode
@@ -11,6 +22,10 @@ class Location < ApplicationRecord
   after_save :update_service_at_locations
 
   paginates_per 20
+
+  def postal_code=(str)
+    super UKPostcode.parse(str).to_s
+  end
 
   # filter scopes
   scope :only_with_services, ->  { joins(:services) }

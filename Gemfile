@@ -31,6 +31,7 @@ gem 'email_address'
 gem 'sendgrid-actionmailer'
 gem 'acts-as-taggable-on'
 gem 'closure_tree'
+gem 'uk_postcode'
 
 
 group :development, :test do
