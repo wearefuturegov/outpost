@@ -1,7 +1,9 @@
 class Taxonomy < ApplicationRecord
 
     # has_ancestry
-    has_closure_tree order: 'name', dependent: :destroy
+    has_closure_tree order: 'sort_order', 
+        dependent: :destroy, 
+        numeric_order: true
 
     has_many :service_taxonomies
     has_many :services, through: :service_taxonomies
@@ -11,6 +13,8 @@ class Taxonomy < ApplicationRecord
     def slug
         name.parameterize
     end
+
+    # default_scope { order(order: :asc).order(name: :asc) }
 
     scope :categories, -> { where(parent_id: 1) }
 

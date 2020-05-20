@@ -1,9 +1,15 @@
 <div class="field">
     <%= s.label :name, class: "field__label" %>
-    <%= s.text_field :name, value: @taxonomy.name, class: "field__input" %>
+    <%= s.text_field :name, class: "field__input" %>
 </div>
 
 <div class="field">
     <%= s.label :parent_id, "Parent", class: "field__label" %>
     <%= s.collection_select( :parent_id, @possible_parents, :id, :name, {include_blank: ""}, class: "field__input") %>
+</div>
+
+<div class="field">
+    <%= s.label :sort_order, class: "field__label" %>
+    <p class="field__hint">Override the default sort order. Higher is later.</p>
+    <%= s.number_field :sort_order, class: "field__input" %>
 </div>

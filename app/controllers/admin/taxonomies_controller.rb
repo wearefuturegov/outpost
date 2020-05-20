@@ -50,7 +50,8 @@ class Admin::TaxonomiesController < Admin::BaseController
     def taxonomy_params
       params.require(:taxonomy).permit(
         :name,
-        :parent_id
+        :parent_id,
+        :sort_order
       )
     end
   
