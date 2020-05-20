@@ -30,7 +30,7 @@ class Location < ApplicationRecord
 
   include PgSearch::Model
   pg_search_scope :search, 
-    against: [:name, :address_1, :city, :postal_code, :state_province], 
+    against: [:id, :name, :address_1, :city, :postal_code, :state_province], 
     using: {
       tsearch: { prefix: true }
     }

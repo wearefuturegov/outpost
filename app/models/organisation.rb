@@ -12,7 +12,7 @@ class Organisation < ApplicationRecord
 
     include PgSearch::Model
     pg_search_scope :search, 
-      against: [:name], 
+      against: [:id, :name], 
       using: {
         tsearch: { prefix: true }
       }
