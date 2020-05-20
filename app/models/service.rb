@@ -20,8 +20,6 @@ class Service < ApplicationRecord
   has_many :service_taxonomies
   has_many :taxonomies, through: :service_taxonomies
 
-  has_and_belongs_to_many :send_needs
-
   has_many :watches
   has_many :users, through: :watches
 
