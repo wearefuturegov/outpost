@@ -16,7 +16,7 @@
                     </strong>
                 </td>
                 <td>
-                    <% s.service.taxonomies.top_level.limit(3).each do |t| %>
+                    <% s.service.taxonomies.categories.limit(3).each do |t| %>
                         <span class="taxonomy"><%= t.name %></span>
                     <% end %>
                 </td>

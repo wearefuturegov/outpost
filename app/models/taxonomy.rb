@@ -12,6 +12,6 @@ class Taxonomy < ApplicationRecord
         name.parameterize
     end
 
-    scope :top_level, -> { where(parent_id: nil) }
+    scope :categories, -> { where(parent_id: 1) }
 
 end
