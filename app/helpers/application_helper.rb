@@ -91,6 +91,8 @@ module ApplicationHelper
             "<span class='tag tag--yellow'>Pending</span".html_safe
         elsif status === "archived"
             "<span class='tag tag--grey'>Archived</span".html_safe
+        elsif status === "invisible"
+            "<span class='tag tag--grey'>Invisible</span".html_safe
         elsif status === "scheduled"
             "<span class='tag tag--grey'>Scheduled</span".html_safe
         elsif status === "expired"

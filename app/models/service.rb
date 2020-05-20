@@ -70,6 +70,8 @@ class Service < ApplicationRecord
       "archived"
     elsif !approved
       "pending"
+    elsif !visible
+      "invisible"
     elsif (visible_from.present? && (visible_from > Date.today))
       "scheduled"      
     elsif (visible_to.present? && (visible_to < Date.today))

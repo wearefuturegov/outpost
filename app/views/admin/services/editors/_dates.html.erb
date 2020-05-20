@@ -11,4 +11,9 @@
         <%= s.label :visible_to, "To", class: "field__label" %>
         <%= s.date_field :visible_to, class: "field__input" %>
     </div>
+
+    <div class="field checkbox">
+        <%= s.check_box :visible, class: "checkbox__input" %>
+        <%= s.label :visible, "Make this service publicly visible?", class: "checkbox__label" %>
+    </div>
 </div>

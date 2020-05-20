@@ -77,6 +77,7 @@ class Admin::ServicesController < Admin::BaseController
       :organisation_id,
       :description,
       :url,
+      :visible,
       :email,
       :visible_from,
       :visible_to,
