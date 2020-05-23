@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_20_184339) do
+ActiveRecord::Schema.define(version: 2020_05_23_182249) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,6 +40,15 @@ ActiveRecord::Schema.define(version: 2020_05_20_184339) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "topic"
     t.index ["service_id"], name: "index_feedbacks_on_service_id"
+  end
+
+  create_table "local_offers", force: :cascade do |t|
+    t.text "description"
+    t.bigint "service_id", null: false
+    t.string "link"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["service_id"], name: "index_local_offers_on_service_id"
   end
 
   create_table "locations", force: :cascade do |t|
@@ -131,6 +140,16 @@ ActiveRecord::Schema.define(version: 2020_05_20_184339) do
     t.bigint "contact_id"
     t.string "number"
     t.index ["contact_id"], name: "index_phones_on_contact_id"
+  end
+
+  create_table "regular_schedules", force: :cascade do |t|
+    t.bigint "service_id", null: false
+    t.time "opens_at"
+    t.time "closes_at"
+    t.integer "weekday"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["service_id"], name: "index_regular_schedules_on_service_id"
   end
 
   create_table "report_postcodes", force: :cascade do |t|
@@ -282,8 +301,10 @@ ActiveRecord::Schema.define(version: 2020_05_20_184339) do
   end
 
   add_foreign_key "feedbacks", "services"
+  add_foreign_key "local_offers", "services"
   add_foreign_key "notes", "services"
   add_foreign_key "notes", "users"
+  add_foreign_key "regular_schedules", "services"
   add_foreign_key "snapshots", "services"
   add_foreign_key "snapshots", "users"
   add_foreign_key "taggings", "tags"

@@ -93,6 +93,17 @@
         </div>
       </fieldset>
 
+      <fieldset class="collapsible" id="regular-schedule-editor">
+        <button class="collapsible__header">
+          <legend>
+            <h2>Opening hours</h2>
+          </legend>
+        </button>
+        <div class="collapsible__content">
+          <%= render "admin/services/editors/regular-schedule", s: s %>
+        </div>
+      </fieldset>
+
       <fieldset class="collapsible" id="service-visibility-editor">
         <button class="collapsible__header">
           <legend><h2>Visibility</h2></legend>

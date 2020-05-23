@@ -6,6 +6,9 @@ class Service < ApplicationRecord
 
   has_many :snapshots
 
+  has_many :regular_schedules
+  accepts_nested_attributes_for :regular_schedules, allow_destroy: true
+
   has_one :local_offer
   accepts_nested_attributes_for :local_offer, allow_destroy: true
 

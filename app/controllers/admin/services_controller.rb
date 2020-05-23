@@ -84,14 +84,19 @@ class Admin::ServicesController < Admin::BaseController
       :label_list,
       taxonomy_ids: [],
       location_ids: [],
-
       local_offer_attributes: [
         :id,
         :description,
         :link,
         :_destroy,
       ],
-
+      regular_schedules_attributes: [
+        :id,
+        :opens_at,
+        :closes_at,
+        :weekday,
+        :_destroy,
+      ],
       contacts_attributes: [
         :id,
         :name,
