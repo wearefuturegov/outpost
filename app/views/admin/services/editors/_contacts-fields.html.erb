@@ -1,4 +1,4 @@
-<div class="field-section field-section--two-cols field-section--no-bottom-margin">
+<div class="field-section field-section--two-cols field-section--reduced-bottom-margin">
 
     <div class="field">
         <%= c.label :name, "Their name", class: "field__label" %>
@@ -16,6 +16,14 @@
             <%= x.text_field :number, class: "field__input" %>
         </div>
     <% end %>
+
+</div>
+<div class="field-section field-section--two-cols field-section--no-bottom-margin">
+
+    <div class="field checkbox">
+        <%= c.check_box :visible, class: "checkbox__input"%>
+        <%= c.label :visible, "Make this contact publicly visible?", class: "checkbox__label" %>
+    </div>
 
 </div>
 

@@ -83,7 +83,7 @@ class Admin::ServicesController < Admin::BaseController
       :visible_to,
       :label_list,
       taxonomy_ids: [],
-      location_ids: [],
+      # location_ids: [],
       local_offer_attributes: [
         :id,
         :description,
@@ -107,6 +107,7 @@ class Admin::ServicesController < Admin::BaseController
         :id,
         :name,
         :title,
+        :visible,
         :_destroy,
         phones_attributes: [
           :id,
