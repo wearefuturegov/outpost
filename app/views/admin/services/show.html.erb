@@ -54,6 +54,10 @@
         <%= render "admin/services/editors/locations", s: s %>
       <% end %>
 
+      <%= render "shared/collapsible", name: "Fees", count: @service.cost_options.length, id: "fees-editor" do %>
+        <%= render "admin/services/editors/cost-options", s: s %>
+      <% end %>
+
       <%= render "shared/collapsible", name: "Local offer and SEND", id: "local-offer-editor" do %>
         <%= render "admin/services/editors/local-offer", s: s %>
       <% end %>

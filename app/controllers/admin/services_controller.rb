@@ -90,6 +90,12 @@ class Admin::ServicesController < Admin::BaseController
         :link,
         :_destroy,
       ],
+      cost_options_attributes: [
+        :id,
+        :option,
+        :amount,
+        :_destroy,
+      ],
       regular_schedules_attributes: [
         :id,
         :opens_at,
