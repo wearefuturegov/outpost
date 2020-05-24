@@ -79,3 +79,7 @@ fieldset{
 select::-ms-expand {
     display: none;
 }
+
+button[hidden]{
+    display: none;
+}

@@ -1,3 +1,5 @@
+include RegularScheduleHelper
+
 class Admin::ServicesController < Admin::BaseController
   before_action :set_service, only: [:show, :update, :destroy]
 
@@ -49,6 +51,10 @@ class Admin::ServicesController < Admin::BaseController
     @service = Service.new
     @service.contacts << Contact.new
     @service.contacts.last.phones << Phone.new
+
+    weekdays.each do |d|
+      @service.regular_schedules << RegularSchedule.new(weekday: d[:value])
+    end
   end
 
   def create

@@ -1,12 +1,26 @@
-<section class="nested-editor">
-
-    <ul class="nested-editor__results" aria-live="polite">
+<table class="schedule-editor__results table">
+    <thead>
+        <tr>
+            <th>Day</th>
+            <th>Opens at</th>
+            <th>Closes at</th>
+        </tr>
+    </thead>
+    <tbody>
         <%= s.fields_for :regular_schedules do |sched| %>
-            <li class="nested-editor__result">
-                <%= render "admin/services/editors/regular-schedule-fields", sched: sched %>
-            </li>
+            <tr class="schedule-editor__result">
+                <td>
+                    <%= weekdays.select{|d| d[:value] === sched.object.weekday}[0][:label] %>
+                </td>
+                <td class="field">
+                    <%= sched.label :opens_at, class: "visually-hidden" %>
+                    <%= sched.time_field :opens_at, class: "field__input", step: 60 %>
+                </td>
+                <td class="field">
+                    <%= sched.label :closes_at, class: "visually-hidden" %>
+                    <%= sched.time_field :closes_at, class: "field__input", step: 60 %>
+                </td>
+            </tr>
         <% end %>
-    </ul>
-
-    <%= link_to_add_fields "Add a day", s, :regular_schedules, "admin/services/editors/regular-schedule-fields" %>
-</section>
+    </tbody>
+</table>

@@ -1,5 +1,6 @@
 import "nodelist-foreach-polyfill"
 import "polyfill-array-includes"
+import "time-input-polyfill/auto"
 
 import tabs from "./tabs"
 import collapsible from "./collapsible"
@@ -10,5 +11,7 @@ import locations from "./locations"
 import intro from "./intro"
 import labels from "./labels"
 import localOffer from "./local-offer"
+import regularSchedule from "./regular-schedule"
+import openCloseAll from "./open-close-all"
 
 import choices from "./choices"

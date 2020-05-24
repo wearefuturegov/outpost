@@ -1,4 +1,4 @@
-import { initialise } from "./google"
+// import { initialise } from "./google"
 
 let editors = document.querySelectorAll(".nested-editor")
 
