@@ -39,7 +39,11 @@
 </div>
 
 <%# TODO FIX THIS %>
-<% if current["locations"].any? %>
+
+<%= locations_list(current["locations"]) %>
+
+
+<% if false %>
     <h3 class="bottom-margin">Locations</h3>
     <ul class="snapshot-preview__association">
         <% current["locations"].each do |l| %>
@@ -48,17 +52,6 @@
                 <p><%= l["address_1"] %></p>
                 <p><%= l["city"] %></p>
                 <p><%= l["postal_code"] %></p>
-            </li>
-        <% end %>
-    </ul>
-<% end %>
-
-<% if current["taxonomies"].any? %>
-    <h3 class="bottom-margin">Taxonomies</h3>
-    <ul class="snapshot-preview__association">
-        <% current["taxonomies"].each do |t| %>
-            <li>
-                <strong><%= t["name"] %></strong>
             </li>
         <% end %>
     </ul>

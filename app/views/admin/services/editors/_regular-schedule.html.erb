@@ -1,4 +1,4 @@
-<table class="schedule-editor__results table">
+<table class="table">
     <thead>
         <tr>
             <th>Day</th>
@@ -7,20 +7,25 @@
         </tr>
     </thead>
     <tbody>
-        <%= s.fields_for :regular_schedules do |sched| %>
-            <tr class="schedule-editor__result">
-                <td>
-                    <%= weekdays.select{|d| d[:value] === sched.object.weekday}[0][:label] %>
-                </td>
-                <td class="field">
-                    <%= sched.label :opens_at, class: "visually-hidden" %>
-                    <%= sched.time_field :opens_at, class: "field__input", step: 60 %>
-                </td>
-                <td class="field">
-                    <%= sched.label :closes_at, class: "visually-hidden" %>
-                    <%= sched.time_field :closes_at, class: "field__input", step: 60 %>
-                </td>
-            </tr>
+        <% weekdays.each do |day| %>
+            <%= s.fields_for :regular_schedules, RegularSchedule.new do |sched| %>
+                <tr>
+                    <td class="field">
+                        <div class="checkbox">
+                        <%= sched.check_box :weekday, class: "checkbox__input" %>
+                        <%= sched.label :weekday, day[:label], class: "checkbox__label" %>
+                        </div>
+                    </td>
+                    <td class="field">
+                        <%= sched.label :opens_at, class: "visually-hidden" %>
+                        <%= sched.time_field :opens_at, class: "field__input", step: 60 %>
+                    </td>
+                    <td class="field">
+                        <%= sched.label :closes_at, class: "visually-hidden" %>
+                        <%= sched.time_field :closes_at, class: "field__input", step: 60 %>
+                    </td>
+                </tr>
+            <% end %>
         <% end %>
     </tbody>
 </table>

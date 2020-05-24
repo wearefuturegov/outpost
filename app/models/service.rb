@@ -7,13 +7,13 @@ class Service < ApplicationRecord
   has_many :snapshots
 
   has_many :regular_schedules
-  accepts_nested_attributes_for :regular_schedules, allow_destroy: true
+  accepts_nested_attributes_for :regular_schedules, reject_if: proc { |attributes| attributes['weekday'].blank? }
 
   has_one :local_offer
   accepts_nested_attributes_for :local_offer, allow_destroy: true
 
   has_many :contacts  
-  accepts_nested_attributes_for :contacts, allow_destroy: true
+  accepts_nested_attributes_for :contacts, allow_destroy: true, reject_if: :all_blank
 
   has_many :phones, through: :contacts
   accepts_nested_attributes_for :phones
@@ -30,10 +30,7 @@ class Service < ApplicationRecord
 
   has_many :service_at_locations
   has_many :locations, through: :service_at_locations
-  accepts_nested_attributes_for :locations, allow_destroy: true,
-    :reject_if => proc {|attributes|
-      attributes.all? {|k,v| v.blank?}
-    }
+  accepts_nested_attributes_for :locations, allow_destroy: true, reject_if: :all_blank
 
   # callbacks
   after_save :update_service_at_locations

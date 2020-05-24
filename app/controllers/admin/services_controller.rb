@@ -49,12 +49,6 @@ class Admin::ServicesController < Admin::BaseController
 
   def new
     @service = Service.new
-    @service.contacts << Contact.new
-    @service.contacts.last.phones << Phone.new
-
-    weekdays.each do |d|
-      @service.regular_schedules << RegularSchedule.new(weekday: d[:value])
-    end
   end
 
   def create
