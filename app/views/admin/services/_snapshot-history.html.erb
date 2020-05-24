@@ -1,8 +1,4 @@
-<section class="mini-version-history collapsible" id="version-history">
-  <button class="collapsible__header" aria-expanded="true">
-    <h2>History</h2>
-  </button>
-  <div class="collapsible__content">
+<%= render "shared/collapsible", name: "History", id: "service-history" do %>
 
     <%= link_to "See full history", admin_service_snapshots_path(@service), class: "collapsible__action" %>
     
@@ -24,5 +20,4 @@
       </ul>
     <% end %>
 
-  </div>
-</section>
+<% end %>

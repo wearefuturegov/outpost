@@ -26,52 +26,38 @@
   </div>
 
   <div class="panel">
-      <div class="collapsible" id="taxonomy-children-list">
-        <button class="collapsible__header">
-          <h2>
-            Children
-            <span class="collapsible__header-count">(<%= @taxonomy.children.count %>)</span>
-          </h2>
-        </button>
-        <div class="collapsible__content">
-          <% if @taxonomy.children.present? %>  
-            <ul class="big-list bottom-margin">
-              <% @taxonomy.children.each do |c| %>
-                <li class="big-list__item">
-                  <%= link_to c.name, admin_taxonomy_path(c) %>
-                </li>
-              <% end %>
-            </ul>
-          <% else %>
-            <p class="no-results">This taxonomy has no children</p>
-          <% end %>
-        </div>
-      </div>
 
-      <div class="collapsible" id="taxonomy-services-list">
-        <button class="collapsible__header">
-          <h2>
-            Services
-            <span class="collapsible__header-count">(<%= @taxonomy.services.count %>)</span>
-          </h2>
-        </button>
-        <div class="collapsible__content">
-          <% if @taxonomy.services.present? %>  
-            <ul class="big-list bottom-margin">
-              <% @taxonomy.services.limit(30).each do |s| %>
-                <li class="big-list__item">
-                  <%= render "shared/poppables/service", s: s %>
-                </li>
-              <% end %>
-            </ul>
-            <% if @taxonomy.services.length > 30 %>
-              <p><em>Showing first 30 services</em></p>
+    <%= render "shared/collapsible", name: "Child taxonomies", count: @taxonomy.children.count, id: "taxonomy-children-list" do %>
+        <% if @taxonomy.children.present? %>  
+          <ul class="big-list bottom-margin">
+            <% @taxonomy.children.each do |c| %>
+              <li class="big-list__item">
+                <%= link_to c.name, admin_taxonomy_path(c) %>
+              </li>
             <% end %>
-          <% else %>
-            <p class="no-results">This taxonomy has no services</p>
+          </ul>
+        <% else %>
+          <p class="no-results">This taxonomy has no children</p>
+        <% end %>
+    <% end %>
+
+    <%= render "shared/collapsible", name: "Basics", count: @taxonomy.services.count, id: "basic-info-editor" do %>
+        <% if @taxonomy.services.present? %>  
+          <ul class="big-list bottom-margin">
+            <% @taxonomy.services.limit(30).each do |s| %>
+              <li class="big-list__item">
+                <%= render "shared/poppables/service", s: s %>
+              </li>
+            <% end %>
+          </ul>
+          <% if @taxonomy.services.length > 30 %>
+            <p><em>Showing first 30 services</em></p>
           <% end %>
-        </div>
-      </div>
+        <% else %>
+          <p class="no-results">This taxonomy has no services</p>
+        <% end %>
+    <% end %>
+    
   </div>
 
 </div>

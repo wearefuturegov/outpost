@@ -9,93 +9,73 @@
 
   <div class="two-thirds">
 
-      <section class="collapsible" id="ofsted-basics">
-        <button class="collapsible__header">
-          <h2>Basics</h2>
-        </button>
-        <div class="collapsible__content">
-          <div class="field-section field-section--two-cols">
-            <%= render "admin/ofsted/field", label: "Setting name", value: @item.setting_name %>
-            <%= render "admin/ofsted/field", label: "Provider name", value: @item.provider_name %>
-            <%= render "admin/ofsted/field", label: "Reference number", value: @item.reference_number %>
-            <%= render "admin/ofsted/field", label: "Status", value: @item.registration_status %>
-            <%= render "admin/ofsted/field", label: "Registration date", value: @item.registration_date %>
-          </div>
+      <%= render "shared/collapsible", name: "Basics", id: "ofsted-basics" do %>
+        <div class="field-section field-section--two-cols">
+          <%= render "admin/ofsted/field", label: "Setting name", value: @item.setting_name %>
+          <%= render "admin/ofsted/field", label: "Provider name", value: @item.provider_name %>
+          <%= render "admin/ofsted/field", label: "Reference number", value: @item.reference_number %>
+          <%= render "admin/ofsted/field", label: "Status", value: @item.registration_status %>
+          <%= render "admin/ofsted/field", label: "Registration date", value: @item.registration_date %>
+        </div>
 
-          <div class="field-section field-section--two-cols">
-            <%= render "admin/ofsted/field", label: "Provision type", value: @item.provision_type %>
-            <%= render "admin/ofsted/field", label: "Secondary provision type", value: @item.secondary_provision_type %>
-          </div>
+        <div class="field-section field-section--two-cols">
+          <%= render "admin/ofsted/field", label: "Provision type", value: @item.provision_type %>
+          <%= render "admin/ofsted/field", label: "Secondary provision type", value: @item.secondary_provision_type %>
+        </div>
 
-          <div class="field-section field-section--two-cols">
-            <%= render "admin/ofsted/field", label: "Special consideration", value: @item.special_consideration %>
-            <%= render "admin/ofsted/field", label: "Ofsted report", value: @item.link_to_ofsted_report %>
-            <%= render "admin/ofsted/field", label: "Registered person reference", value: @item.rp_reference_number %>
-            <%= render "admin/ofsted/field", label: "Related RPPs", value: @item.related_rpps %>
+        <div class="field-section field-section--two-cols">
+          <%= render "admin/ofsted/field", label: "Special consideration", value: @item.special_consideration %>
+          <%= render "admin/ofsted/field", label: "Ofsted report", value: @item.link_to_ofsted_report %>
+          <%= render "admin/ofsted/field", label: "Registered person reference", value: @item.rp_reference_number %>
+          <%= render "admin/ofsted/field", label: "Related RPPs", value: @item.related_rpps %>
+        </div>
+      <% end %>
+
+      <%= render "shared/collapsible", name: "Setting", id: "ofsted-setting" do %>
+        <div class="field-section field-section--two-cols">
+          <%= render "admin/ofsted/field", label: "Street address 1", value: @item.setting_address_1 %>
+          <%= render "admin/ofsted/field", label: "Street address 2", value: @item.setting_address_2 %>
+          <%= render "admin/ofsted/field", label: "Village/town", value: @item.setting_villagetown %>
+          <%= render "admin/ofsted/field", label: "Town", value: @item.setting_town %>
+          <%= render "admin/ofsted/field", label: "County", value: @item.setting_county %>
+          <%= render "admin/ofsted/field", label: "Postcode", value: @item.setting_postcode %>
+        </div>
+        <div class="field-section field-section--two-cols">
+          <%= render "admin/ofsted/field", label: "Telephone", value: @item.setting_telephone %>
+          <%= render "admin/ofsted/field", label: "Fax", value: @item.setting_fax %>
+          <%= render "admin/ofsted/field", label: "Email", value: @item.setting_email %>
+        </div>
+        <div class="field-section field-section--two-cols">
+          <%= render "admin/ofsted/field", label: "Ward", value: @item.location_ward %>
+          <%= render "admin/ofsted/field", label: "Primary planning area", value: @item.location_planning %>
+        </div>
+      <% end %>
+
+      <%= render "shared/collapsible", name: "Provider", id: "ofsted-provider" do %>
+        <div class="field-section field-section--two-cols">
+          <%= render "admin/ofsted/field", label: "Street address 1", value: @item.prov_address_1 %>
+          <%= render "admin/ofsted/field", label: "Street address 2", value: @item.prov_address_2 %>
+          <%= render "admin/ofsted/field", label: "Village/town", value: @item.prov_villagetown %>
+          <%= render "admin/ofsted/field", label: "Town", value: @item.prov_town %>
+          <%= render "admin/ofsted/field", label: "County", value: @item.prov_county %>
+          <%= render "admin/ofsted/field", label: "Postcode", value: @item.prov_postcode %>
+        </div>
+        <div class="field-section field-section--two-cols">
+          <%= render "admin/ofsted/field", label: "Telephone", value: @item.prov_telephone %>
+          <%= render "admin/ofsted/field", label: "Work telephone", value: @item.prov_work_telephone %>
+          <%= render "admin/ofsted/field", label: "Mobile", value: @item.prov_mobile %>
+          <%= render "admin/ofsted/field", label: "Fax", value: @item.prov_fax %>
+          <%= render "admin/ofsted/field", label: "Email", value: @item.prov_email %>
+        </div>
+        <div class="field-section field-section--two-cols">
+          <div class="checkbox">
+            <%= check_box_tag "consent_witheld", "", @item.prov_consent_withheld, class: "checkbox__input", disabled: true %>
+            <%= label_tag "consent_witheld", "Consent withheld?", class: "checkbox__label" %>
           </div>
         </div>
-      </section>
+      <% end %>
 
-      <section class="collapsible" id="ofsted-setting">
-        <button class="collapsible__header">
-          <h2>Setting</h2>
-        </button>
-        <div class="collapsible__content">
-          <div class="field-section field-section--two-cols">
-            <%= render "admin/ofsted/field", label: "Street address 1", value: @item.setting_address_1 %>
-            <%= render "admin/ofsted/field", label: "Street address 2", value: @item.setting_address_2 %>
-            <%= render "admin/ofsted/field", label: "Village/town", value: @item.setting_villagetown %>
-            <%= render "admin/ofsted/field", label: "Town", value: @item.setting_town %>
-            <%= render "admin/ofsted/field", label: "County", value: @item.setting_county %>
-            <%= render "admin/ofsted/field", label: "Postcode", value: @item.setting_postcode %>
-          </div>
-          <div class="field-section field-section--two-cols">
-            <%= render "admin/ofsted/field", label: "Telephone", value: @item.setting_telephone %>
-            <%= render "admin/ofsted/field", label: "Fax", value: @item.setting_fax %>
-            <%= render "admin/ofsted/field", label: "Email", value: @item.setting_email %>
-          </div>
-          <div class="field-section field-section--two-cols">
-            <%= render "admin/ofsted/field", label: "Ward", value: @item.location_ward %>
-            <%= render "admin/ofsted/field", label: "Primary planning area", value: @item.location_planning %>
-          </div>
-        </div>
-      </section>
-
-      <section class="collapsible" id="ofsted-provider">
-        <button class="collapsible__header">
-          <h2>Provider</h2>
-        </button>
-        <div class="collapsible__content">
-          <div class="field-section field-section--two-cols">
-            <%= render "admin/ofsted/field", label: "Street address 1", value: @item.prov_address_1 %>
-            <%= render "admin/ofsted/field", label: "Street address 2", value: @item.prov_address_2 %>
-            <%= render "admin/ofsted/field", label: "Village/town", value: @item.prov_villagetown %>
-            <%= render "admin/ofsted/field", label: "Town", value: @item.prov_town %>
-            <%= render "admin/ofsted/field", label: "County", value: @item.prov_county %>
-            <%= render "admin/ofsted/field", label: "Postcode", value: @item.prov_postcode %>
-          </div>
-          <div class="field-section field-section--two-cols">
-            <%= render "admin/ofsted/field", label: "Telephone", value: @item.prov_telephone %>
-            <%= render "admin/ofsted/field", label: "Work telephone", value: @item.prov_work_telephone %>
-            <%= render "admin/ofsted/field", label: "Mobile", value: @item.prov_mobile %>
-            <%= render "admin/ofsted/field", label: "Fax", value: @item.prov_fax %>
-            <%= render "admin/ofsted/field", label: "Email", value: @item.prov_email %>
-          </div>
-          <div class="field-section field-section--two-cols">
-            <div class="checkbox">
-              <%= check_box_tag "consent_witheld", "", @item.prov_consent_withheld, class: "checkbox__input", disabled: true %>
-              <%= label_tag "consent_witheld", "Consent withheld?", class: "checkbox__label" %>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="collapsible" id="ofsted-others">
-        <button class="collapsible__header">
-          <h2>Everything else</h2>
-        </button>
-        <div class="collapsible__content">
-
+        <%= render "shared/collapsible", name: "Everything else", id: "ofsted-everything-else" do %>
             <div class="tabs">
                 <ul class="tabs__nav">
                   <li class="tabs__nav-item">
@@ -148,8 +128,7 @@
                 <div class="tabs__panel" id="links-registrations"></div>
             </div>
 
-        </div>
-      </section>
+        <% end %>
 
   </div>
   <aside class="with-sidebar__sidebar">

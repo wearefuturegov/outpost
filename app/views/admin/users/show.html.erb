@@ -36,48 +36,36 @@
     </div>
 
     <div class="panel">
-      <div class="collapsible" id="user-activity-viewer">
-          <button class="collapsible__header">
-            <h2>Recent activity</h2>
-          </button>
-          <div class="collapsible__content">
-            <%= link_to "See all activity", admin_activity_index_url, class: "collapsible__action" %>
-          
-            <% if @activities.present? %>
-              <div class="table-holder">
-                <table class="table">
-                  <tbody>
-                    <% @activities.each do |a| %>
-                      <tr>
-                        <td>
-                          <%= link_to a.service.name, admin_service_url(a.service) %>
-                        </td>
-                        <td>
-                          <%= pretty_event(a.action).humanize %>
-                        </td>
-                        <td><%= short_time_ago_in_words(a.created_at).humanize %> ago</td>
-                      </tr>
-                    <% end %>
-                  </tbody>
-                </table>
-              </div>
-            <% else %>
-              <p class="no-results">No activity to show.</p>
-            <% end %>
-          </div>
-      </div>
 
-        <div class="collapsible" id="user-password-reset">
-          <button class="collapsible__header">
-            <h2>Password reset</h2>
-          </button>
-          <div class="collapsible__content">
-            <p class="bottom-margin">Users must reset their own passwords, but you can send the instructions by email.</p>
-
-            <%= link_to "Trigger reset", admin_user_reset_path(@user), method: "post", class: "button button--small" %>
-
-          </div>
-        </div>
-    </div>
+      <%= render "shared/collapsible", name: "Recent activity", id: "user-recent-activity" do %>
+          <%= link_to "See all activity", admin_activity_index_url, class: "collapsible__action" %>
+        
+          <% if @activities.present? %>
+            <div class="table-holder">
+              <table class="table">
+                <tbody>
+                  <% @activities.each do |a| %>
+                    <tr>
+                      <td>
+                        <%= link_to a.service.name, admin_service_url(a.service) %>
+                      </td>
+                      <td>
+                        <%= pretty_event(a.action).humanize %>
+                      </td>
+                      <td><%= short_time_ago_in_words(a.created_at).humanize %> ago</td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          <% else %>
+            <p class="no-results">No activity to show.</p>
+          <% end %>
+      <% end %>
+    
+      <%= render "shared/collapsible", name: "Password reset", id: "user-password-reset" do %>
+          <p class="bottom-margin">Users must reset their own passwords, but you can send the instructions by email.</p>
+          <%= link_to "Trigger reset", admin_user_reset_path(@user), method: "post", class: "button button--small" %>
+      <% end %>
 
 </div>

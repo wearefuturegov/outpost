@@ -38,95 +38,37 @@
 
       <%= render "shared/errors", model: @service %>
 
-      <section class="collapsible" id="basics-editor">
-        <button class="collapsible__header">
-          <h2>Basics</h2>
-        </button>
-        <div class="collapsible__content">
-          <%= render "admin/services/editors/basics", s: s %>
-        </div>
-      </section>
+      <%= render "shared/collapsible", name: "Basics", id: "basic-info-editor" do %>
+        <%= render "admin/services/editors/basics", s: s %>
+      <% end %>
 
-      <section class="collapsible" id="basics-editor">
-        <button class="collapsible__header">
-          <h2>
-            Contacts
-            <span class="collapsible__header-count">(<%= @service.contacts.length %>)</span>
-          </h2>
-        </button>
-        <div class="collapsible__content">
-          <%= render "admin/services/editors/contacts", s: s %>
-        </div>
-      </section>
+      <%= render "shared/collapsible", name: "Contacts", count: @service.contacts.length, id: "contacts-editor" do %>
+        <%= render "admin/services/editors/contacts", s: s %>
+      <% end %>
 
-      <section class="version-history collapsible" id="taxonomies-editor">
-          <button class="collapsible__header" aria-expanded="true">
-              <h2>
-                Taxonomies
-                <span class="collapsible__header-count">(<%= @service.taxonomies.length %>)</span>
-              </h2>
-          </button>
-          <div class="collapsible__content">
-            <%= render "admin/services/editors/taxonomies", s: s %>
-          </div>
-      </section>
+      <%= render "shared/collapsible", name: "Taxonomies", count: @service.taxonomies.length, id: "taxonomy-editor" do %>
+        <%= render "admin/services/editors/taxonomies", s: s %>
+      <% end %>
 
-      <section class="collapsible" id="locations-editor">
-        <button class="collapsible__header">
-          <h2>
-            Locations
-            <span class="collapsible__header-count">(<%= @service.locations.length %>)</span>
-          </h2>
-        </button>
-        <div class="collapsible__content">
-          <%= render "admin/services/editors/locations", s: s %>
-        </div>
-      </section>
+      <%= render "shared/collapsible", name: "Locations", count: @service.locations.length, id: "locations-editor" do %>
+        <%= render "admin/services/editors/locations", s: s %>
+      <% end %>
 
-      <fieldset class="collapsible" id="send-needs-editor">
-        <button class="collapsible__header">
-          <legend>
-            <h2>Local offer and SEND</h2>
-          </legend>
-        </button>
-        <div class="collapsible__content">
-          <%= render "admin/services/editors/local-offer", s: s %>
-        </div>
-      </fieldset>
+      <%= render "shared/collapsible", name: "Local offer and SEND", id: "local-offer-editor" do %>
+        <%= render "admin/services/editors/local-offer", s: s %>
+      <% end %>
 
-      <fieldset class="collapsible" id="regular-schedule-editor">
-        <button class="collapsible__header">
-          <legend>
-            <h2>Opening hours</h2>
-          </legend>
-        </button>
-        <div class="collapsible__content">
-          <%= render "admin/services/editors/regular-schedule", s: s %>
-        </div>
-      </fieldset>
+      <%= render "shared/collapsible", name: "Opening hours", id: "local-offer-editor" do %>
+        <%= render "admin/services/editors/regular-schedule", s: s %>
+      <% end %>
 
-      <fieldset class="collapsible" id="service-visibility-editor">
-        <button class="collapsible__header">
-          <legend><h2>Visibility</h2></legend>
-        </button>
-        <div class="collapsible__content">
-          <%= render "admin/services/editors/dates", s: s %>
-        </div>
-      </fieldset>
+      <%= render "shared/collapsible", name: "Visibility", id: "visibility-editor" do %>
+        <%= render "admin/services/editors/dates", s: s %>
+      <% end %>
 
-      <fieldset class="collapsible" id="service-labels-editor">
-        <button class="collapsible__header">
-          <legend>
-            <h2>
-              Labels
-              <span class="collapsible__header-count">(<%= @service.label_list.length %>)</span>
-            </h2>
-          </legend>
-        </button>
-        <div class="collapsible__content">
-          <%= render "admin/services/editors/labels", s: s %>
-        </div>
-      </fieldset>
+      <%= render "shared/collapsible", name: "Labels", count: @service.label_list.length, id: "labels-editor" do %>
+        <%= render "admin/services/editors/labels", s: s %>
+      <% end %>
 
       <div class="form-actions">
         <%= s.submit "Update", class: "button" %>

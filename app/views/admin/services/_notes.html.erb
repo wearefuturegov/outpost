@@ -1,8 +1,4 @@
-<section class="collapsible" id="notes">
-  <button class="collapsible__header" aria-expanded="true">
-    <h2>Notes <span class="collapsible__header-count">(<%= @service.notes.length %>)</span></h2>
-  </button>
-  <div class="collapsible__content">
+<%= render "shared/collapsible", name: "Notes", count: @service.notes.length, id: "service-notes" do %>
 
     <div class="notes-list">
       <% if @service.notes.present? %>
@@ -27,5 +23,4 @@
         <%= f.button "Add note", class: "button button--small button--add"%>
     <% end %>
 
-  </div>
-</section>
+<% end %>

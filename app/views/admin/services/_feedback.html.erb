@@ -1,16 +1,10 @@
-<section class="collapsible" id="notes">
-  <button class="collapsible__header" aria-expanded="true">
-    <h2>Feedback <span class="collapsible__header-count">(<%= @service.feedbacks.length %>)</span></h2>
-  </button>
-  <div class="collapsible__content">
-
+<%= render "shared/collapsible", name: "Feedback", count: @service.feedbacks.length, id: "service-feedback" do %>
     <div class="notes-list">
         <% if @service.feedbacks.present? %>
             <% @service.feedbacks.each do |f| %>
 
             <article class="notes-list__note">
                 <header class="notes-list__note-header">
-
                     <strong><%= pretty_topic(f.topic) %></strong>
                     | <%= time_ago_in_words(f.created_at).humanize %> ago 
                 </header>
@@ -21,6 +15,4 @@
             <p>No feedback submitted yet</p>
         <% end %>
     </div>
-
-  </div>
-</section>
+<% end %>

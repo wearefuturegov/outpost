@@ -1,0 +1,13 @@
+<div class="collapsible" id="<%= id %>">
+    <button class="collapsible__header">
+        <h2>
+            <%= name %>
+            <% if defined?(count) %>
+                <span class="collapsible__header-count">(<%= count %>)</span>
+            <% end %>
+        </h2>
+    </button>
+    <div class="collapsible__content">
+        <%= yield %>
+    </div>
+</div>

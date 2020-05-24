@@ -7,6 +7,7 @@ class Service < ApplicationRecord
   has_many :snapshots
 
   has_many :cost_options
+  accepts_nested_attributes_for :cost_options, allow_destroy: true, reject_if: :all_blank
 
   has_many :regular_schedules
   accepts_nested_attributes_for :regular_schedules, reject_if: proc { |attributes| attributes['weekday'].blank? }

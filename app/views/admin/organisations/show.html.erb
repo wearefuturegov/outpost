@@ -28,14 +28,7 @@
 
   <div class="panel">
 
-      <div class="collapsible" id="organisation-services-list">
-        <button class="collapsible__header">
-          <h2>
-            Services
-            <span class="collapsible__header-count">(<%= @organisation.services.count %>)</span>
-          </h2>
-        </button>
-        <div class="collapsible__content">
+        <%= render "shared/collapsible", name: "Services", count: @organisation.services.count, id: "organisation-services-list" do %>
           <% if @organisation.services.present? %>  
             <ul class="big-list">
               <% @organisation.services.limit(30).each do |s| %>
@@ -50,17 +43,9 @@
           <% else %>
             <p class="no-results">This organisation has no services.</p>
           <% end %>
-        </div>
-      </div>
+        <% end %>
 
-      <div class="collapsible" id="organisation-users-list">
-        <button class="collapsible__header">
-          <h2>
-            Users
-            <span class="collapsible__header-count">(<%= @organisation.users.count %>)</span>
-          </h2>
-        </button>
-        <div class="collapsible__content">
+        <%= render "shared/collapsible", name: "Users", count: @organisation.users.count, id: "organisation-users-list" do %>
           <% if @organisation.users.present? %>
             <ul class="big-list">
               <% @organisation.users.each do |u| %>
@@ -72,8 +57,7 @@
           <% else %>
             <p class="no-results">This organisation has no users.</p>
           <% end %>
-        </div>
-      </div>
+        <% end %>
 
   </div>
 </div>
