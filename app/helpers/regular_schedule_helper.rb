@@ -3,31 +3,31 @@ module RegularScheduleHelper
     def weekdays
         [
             {
-                label: "Sunday",
+                label: "Monday",
                 value: 1
             },
             {
-                label: "Monday",
+                label: "Tuesday",
                 value: 2
             },
             {
-                label: "Tuesday",
+                label: "Wednesday",
                 value: 3
             },
             {
-                label: "Wednesday",
+                label: "Thursday",
                 value: 4
             },
             {
-                label: "Thursday",
+                label: "Friday",
                 value: 5
             },
             {
-                label: "Friday",
+                label: "Saturday",
                 value: 6
             },
             {
-                label: "Saturday",
+                label: "Sunday",
                 value: 7
             },
         ]

@@ -85,6 +85,18 @@ class Service < ApplicationRecord
     end
   end
 
+  def open_today?
+    regular_schedules.exists?(weekday: Date.today.cwday)
+  end
+
+  def open_weekends?
+    regular_schedules.exists?(weekday: [6,7])
+  end
+
+  def open_after_six?
+    regular_schedules.exists?("closes_at < '18:00'")
+  end
+
   # custom actions with paper trail events
   def archive
     self.snapshot_action = "archive"
