@@ -63,13 +63,6 @@
       <% end %>
 
       <%= render "shared/collapsible", name: "Opening hours", id: "schedule-editor" do %>
-        
-        <% if @service.open_after_six? %>
-          open
-        <% else %>
-          not open
-        <% end %>
-
         <%= render "admin/services/editors/regular-schedule", s: s %>
       <% end %>
 
