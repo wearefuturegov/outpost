@@ -94,8 +94,7 @@ class Service < ApplicationRecord
   end
 
   def open_after_six?
-    # BROKEN
-    regular_schedules.exists?("closes_at < '18:00'")
+    regular_schedules.where("closes_at > ?", Time.parse("18:00")).exists?
   end
 
   # custom actions with paper trail events
