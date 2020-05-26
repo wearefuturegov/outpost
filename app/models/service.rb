@@ -10,7 +10,7 @@ class Service < ApplicationRecord
   accepts_nested_attributes_for :cost_options, allow_destroy: true, reject_if: :all_blank
 
   has_many :regular_schedules
-  accepts_nested_attributes_for :regular_schedules, reject_if: proc { |attributes| attributes['weekday'].blank? }
+  accepts_nested_attributes_for :regular_schedules, allow_destroy: true, reject_if: :all_blank
 
   has_one :local_offer
   accepts_nested_attributes_for :local_offer, allow_destroy: true

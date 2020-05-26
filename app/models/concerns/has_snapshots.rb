@@ -25,8 +25,9 @@ module HasSnapshots
             object: self.as_json(include: [
                 :taxonomies, 
                 :locations,
-                :phones,
-                :contacts
+                :contacts,
+                :cost_options,
+                :local_offer
             ]),
             object_changes: self.saved_changes.as_json
         )

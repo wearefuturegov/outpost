@@ -1,4 +1,4 @@
-<table class="table">
+<table class="table schedule-editor">
     <thead>
         <tr>
             <th>Day</th>
@@ -8,12 +8,13 @@
     </thead>
     <tbody>
         <% weekdays.each do |day| %>
-            <%= s.fields_for :regular_schedules, RegularSchedule.new do |sched| %>
+            <%= s.fields_for :regular_schedules, s.object.regular_schedules.find_or_initialize_by(weekday: day[:value]) do |sched| %>
                 <tr>
                     <td class="field">
+                        <%= sched.hidden_field :weekday %>
                         <div class="checkbox">
-                        <%= sched.check_box :weekday, class: "checkbox__input" %>
-                        <%= sched.label :weekday, day[:label], class: "checkbox__label" %>
+                            <%= sched.check_box :_destroy, {checked: sched.object.persisted?, class: "checkbox__input"}, "0", "1" %>
+                            <%= sched.label :_destroy, day[:label], class: "checkbox__label" %>
                         </div>
                     </td>
                     <td class="field">

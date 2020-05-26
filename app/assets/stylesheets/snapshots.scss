@@ -183,14 +183,14 @@
 
 .snapshot-preview{
     padding-top: 35px;
-    .snapshot-preview__actions{
+    &__actions{
         display: flex;
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
         margin-bottom: 25px;
     }
-    .snapshot-preview__canvas{
+    &__canvas{
         padding: 55px;
         background: $white;
         box-shadow: 0px 4px 10px transparentize($card-shadow, 0.5);
@@ -199,23 +199,34 @@
             margin-bottom: 0px;
         }
     }
-    .snapshot-preview__label{
+    &__list{
+        margin-bottom: 35px;
+    }
+    &__label{
         font-weight: bold;
         font-size: 1.1rem;
         margin-bottom: 7px;
     }
-    .snapshot-preview__diff{
+    &__diff{
         margin-bottom: 35px;
     }
-    .snapshot-preview__key{
+    &__key{
         margin-top: 10px;
         font-size: 0.9rem;
     }
+    &__grid{
+        @media screen and (min-width: $breakpoint-m){
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 35px;
+        }
+    }
     .changed{
-        display: inline-block;
+        // display: inline-block;
         padding: 0px 5px;
-        background: transparentize($link, 0.9);
-        color: darken($link, 10);
+        // font-weight: normal;
+        background: transparentize($focus, 0.8);
+        color: darken($focus, 20);
     }
 
     del.differ{
