@@ -94,6 +94,7 @@ class Service < ApplicationRecord
   end
 
   def open_after_six?
+    # BROKEN
     regular_schedules.exists?("closes_at < '18:00'")
   end
 
