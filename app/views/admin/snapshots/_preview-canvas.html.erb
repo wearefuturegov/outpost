@@ -2,66 +2,70 @@
 
     <dl class="snapshot-preview__list">
 
-        <dt class="snapshot-preview__label <%= "changed" unless current["name"] === live["name"] %>">Name</dt>
-        <dd class="snapshot-preview__diff <%= "changed" unless current["name"] === live["name"] %>">
-            <%= current["name"] %>
+        <dt class="snapshot-preview__label">Name</dt>
+        <dd class="snapshot-preview__diff <%= "changed" unless current[:name] === live["name"] %>">
+            <%= current[:name] %>
         </dd>
 
         <dt class="snapshot-preview__label">Description</dt>
         <dd class="snapshot-preview__diff">
-            <%= current["description"] %>
+            <%= current[:description] %>
         </dd>
 
+        <dt class="snapshot-preview__label">Parent organisation</dt>
+        <dd class="snapshot-preview__diff">
+            <%= Organisation.find(current[:organisation_id]).display_name %>
+        </dd>
 
-        <% if current["organisation_id"].present? || live["organisation_id"].present? %>
-            <dt class="snapshot-preview__label">Parent organisation</dt>
-            <dd class="snapshot-preview__diff"><%= Organisation.find(current[:organisation_id]).display_name %></dd>
-        <% end %>
+        <dt class="snapshot-preview__label">Website</dt>
+        <dd class="snapshot-preview__diff">
+            <%= current[:url] %>
+        </dd>
 
-        <% if current["url"].present? || live["url"].present? %>
-            <dt class="snapshot-preview__label">Website</dt>
-            <dd class="snapshot-preview__diff"><%= inline_differ(current["url"],live["url"]) %></dd>
-        <% end %>
+        <dt class="snapshot-preview__label">Email</dt>
+        <dd class="snapshot-preview__diff">
+            <%= current[:email] %>
+        </dd>
 
-        <% if current["email"].present? || live["email"].present? %>
-            <dt class="snapshot-preview__label">Email</dt>
-            <dd class="snapshot-preview__diff"><%= inline_differ(current["email"],live["email"]) %></dd>
-        <% end %>
+        <dt class="snapshot-preview__label">Visible from</dt>
+        <dd class="snapshot-preview__diff">
+            <%= current[:visible_from] %>
+        </dd>
 
-        <% if current["visible_from"] || live["visible_from"] %>
-            <dt class="snapshot-preview__label">Visible from</dt>
-            <dd class="snapshot-preview__diff"><%= inline_differ(current["visible_from"],live["visible_from"]) %></dd>
-        <% end %>
+        <dt class="snapshot-preview__label">Visible to</dt>
+        <dd class="snapshot-preview__diff">
+            <%= current[:visible_to] %>
+        </dd>
 
-        <% if current["visible_to"] || live["visible_to"] %>
-            <dt class="snapshot-preview__label">Visible to</dt>
-            <dd class="snapshot-preview__diff"><%= inline_differ(current["visible_to"],live["visible_to"]) %></dd>
-        <% end %>
+        <dt class="snapshot-preview__label">Publicly visible?</dt>
+        <dd class="snapshot-preview__diff">
+            <%= current[:visible] %>
+        </dd>
     </dl>
 
-</div>
-<div class="snapshot-preview__canvas">
 
     <div class="snapshot-preview__grid">
 
         <div>
             <h3 class="bottom-margin">Opening hours</h3>
             <ul class="snapshot-preview__association">
-                <% if current["regular_schedules"] %>
-                <% current["regular_schedules"].each do |s| %>
-                    <li>
-                        <strong><%= weekdays.select{ |w| w[:value] === s["weekday"]}.last[:label] %></strong>
-                        <p><%= s["opens_at"] %> to <%= s["closes_at"] %></p>
-                    </li>
-                <% end %>
+                <% if current[:regular_schedules] %>
+                    <% current[:regular_schedules].each do |s| %>
+                        <li>
+                            <strong><%= weekdays.select{ |w| w[:value] === s["weekday"]}.last[:label] %></strong>
+                            <p><%= Time.parse(s["opens_at"]).strftime("%H:%M") %> to <%= Time.parse(s["closes_at"]).strftime("%H:%M") %></p>
+                        </li>
+                    <% end %>
                 <% end %>
             </ul>
         </div>
 
         <div>
             <h3 class="bottom-margin">Local offer</h3>
-
-            <p><%= current[:local_offer] %></p>
+                <% if current[:regular_schedules] %>
+                    <p><%= current[:local_offer]["description"] %></p>
+                    <p><%= current[:local_offer]["link"] %></p>
+                <% end %>
         </div>
 
         <div>
