@@ -1,5 +1,3 @@
-include RegularScheduleHelper
-
 class Admin::ServicesController < Admin::BaseController
   before_action :set_service, only: [:show, :update, :destroy]
 

@@ -15,7 +15,7 @@
 
         <% if current["organisation_id"].present? || live["organisation_id"].present? %>
             <dt class="snapshot-preview__label">Parent organisation</dt>
-            <dd class="snapshot-preview__diff"><%= Organisation.find(current["organisation_id"]).display_name %></dd>
+            <dd class="snapshot-preview__diff"><%= Organisation.find(current[:organisation_id]).display_name %></dd>
         <% end %>
 
         <% if current["url"].present? || live["url"].present? %>
@@ -39,12 +39,58 @@
         <% end %>
     </dl>
 
+</div>
+<div class="snapshot-preview__canvas">
+
     <div class="snapshot-preview__grid">
+
+        <div>
+            <h3 class="bottom-margin">Opening hours</h3>
+            <ul class="snapshot-preview__association">
+                <% if current["regular_schedules"] %>
+                <% current["regular_schedules"].each do |s| %>
+                    <li>
+                        <strong><%= weekdays.select{ |w| w[:value] === s["weekday"]}.last[:label] %></strong>
+                        <p><%= s["opens_at"] %> to <%= s["closes_at"] %></p>
+                    </li>
+                <% end %>
+                <% end %>
+            </ul>
+        </div>
+
+        <div>
+            <h3 class="bottom-margin">Local offer</h3>
+
+            <p><%= current[:local_offer] %></p>
+        </div>
+
+        <div>
+            <h3 class="bottom-margin">Contacts</h3>
+            <ul class="snapshot-preview__association">
+                <% current[:contacts].each do |c| %>
+                    <li>
+                        <strong><%= c["name"] %></strong>
+                        <p><%= c["title"] %></p>
+                    </li>
+                <% end %>
+            </ul>
+        </div>
+
+        <div>
+            <h3 class="bottom-margin">Taxonomies</h3>
+            <ul class="snapshot-preview__association">
+                <% current[:taxonomies].each do |t| %>
+                    <li>
+                        <%= t["name"] %>
+                    </li>
+                <% end %>
+            </ul>
+        </div>
 
         <div>
             <h3 class="bottom-margin">Locations</h3>
             <ul class="snapshot-preview__association">
-                <% current["locations"].each do |l| %>
+                <% current[:locations].each do |l| %>
                     <li>
                         <strong><%= l["name"] %></strong>
                         <p><%= l["address_1"] %></p>
@@ -55,34 +101,11 @@
             </ul>
         </div>
 
-        <div>
-            <h3 class="bottom-margin">Taxonomies</h3>
-            <ul class="snapshot-preview__association">
-                <% current["taxonomies"].each do |t| %>
-                    <li>
-                        <%= t["name"] %>
-                    </li>
-                <% end %>
-            </ul>
-        </div>
-
-        <div>
-            <h3 class="bottom-margin">Contacts</h3>
-            <ul class="snapshot-preview__association">
-                <% current["contacts"].each do |c| %>
-                    <li>
-                        <strong><%= c["name"] %></strong>
-                        <p><%= c["title"] %></p>
-                    </li>
-                <% end %>
-            </ul>
-        </div>
-
         <% if current["cost_options"].present? %>
             <div>
                 <h3 class="bottom-margin">Fees</h3>
                 <ul class="snapshot-preview__association">
-                    <% current["cost_options"].each do |c| %>
+                    <% current[:cost_options].each do |c| %>
                         <li>
                             <strong><%= c["option"] %></strong>
                             <p>£<%= c["amount"] %></p>

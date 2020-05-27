@@ -60,7 +60,7 @@
                             </div>
                         <% end %>
                     <% end %>
-                    <%= render "preview-canvas", current: s.object, live: @snapshots.first.object %>
+                    <%= render "preview-canvas", current: s.object.symbolize_keys, live: @snapshots.first.object %>
                 </article>
             <% end %>
         <% end %>

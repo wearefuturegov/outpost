@@ -27,7 +27,8 @@ module HasSnapshots
                 :locations,
                 :contacts,
                 :cost_options,
-                :local_offer
+                :local_offer,
+                :regular_schedules
             ]),
             object_changes: self.saved_changes.as_json
         )
