@@ -3,10 +3,12 @@
 <% end %>
 
 <% content_for :preheader do %>
-    A member of the public has submitted new feedback for your service:  <%= @service.name %>
+    A member of the public has submitted new feedback for your service
 <% end %>
 
-<p>A member of the public has submitted new feedback for your service: <%= @service.name %>.</p>
+<p>A member of the public has submitted new feedback for your service:</p>
+
+<p><em><%= @service.name %></em></p>
 
 <p>Feedback is visible only to you and council administrators.</p>
 
