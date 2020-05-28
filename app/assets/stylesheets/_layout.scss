@@ -206,6 +206,9 @@
     }
     &__item--depth-0{
         font-weight: bold;
+        .taxonomy-tree__count{
+            display: none;
+        }
     }
     .taxonomy-tree__count{
         font-weight: normal;
