@@ -10,7 +10,8 @@ Rails.application.routes.draw do
   
   resources :organisations, only: [:index, :new, :create, :edit, :update]
   resources :services, except: [:edit] do
-    resources :feedbacks, only: [:index, :create]
+    get "feedback", to: "feedbacks#index"
+    post "feedback", to: "feedbacks#create"
   end
   resources :members, only: [:new, :create, :destroy]
 
@@ -49,4 +50,5 @@ Rails.application.routes.draw do
       resources :taxonomies, only: [:index]
     end
   end
+
 end

@@ -5,7 +5,7 @@
     <p class="page-header__lede two-thirds">Help us improve our listings.</p>
 <% end %>
 
-<%= form_with model: [@service, @feedback], url: service_feedbacks_path(@service), local: true, html: {class: "two-thirds"} do |f| %>
+<%= form_with model: [@service, @feedback], url: service_feedback_path(@service), local: true, html: {class: "two-thirds"} do |f| %>
 
     <%= render "shared/errors", model: @feedback %>
 

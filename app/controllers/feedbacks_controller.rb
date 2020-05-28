@@ -10,7 +10,7 @@ class FeedbacksController < ApplicationController
     def create
         @feedback = @service.feedbacks.build(feedback_params)
         if @feedback.save
-            redirect_to service_feedbacks_path(@service), notice: "Submitted successfully. Feel free to close this tab."
+            render "create"
         else
             render "index"
         end
