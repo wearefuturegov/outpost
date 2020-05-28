@@ -12,8 +12,10 @@
     <div class="field field--span-two-cols" data-word-count="true">
         <%= s.label :description, class: "field__label" %>
         <%= s.text_area :description, value: @service.description, class: "field__input", rows: 5 %>
-        <p class="field__lower-hint">Descriptions over 30 words may be shortened</p>
-        <span class="field__word-counter"></span>
+        <div class="field__footer">
+            <p class="field__lower-hint">Descriptions over 30 words may be shortened</p>
+            <span class="field__word-counter"></span>
+        </div>
     </div>
 </div>
 
