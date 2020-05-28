@@ -5,10 +5,10 @@
         <%= c.text_field :option, class: "field__input", placeholder: "eg. adults, under 16s" %>
     </div>
 
-    <div class="field">
+    <div class="field field--required">
         <%= c.label :amount, class: "field__label" %>
         <span class="field__prefix">£</span>
-        <%= c.number_field :amount, class: "field__input field__input--with-prefix", step: "0.01", min: "0" %>
+        <%= c.number_field :amount, class: "field__input field__input--with-prefix", step: "0.01", min: "0", required: true %>
     </div>
 
 </div>

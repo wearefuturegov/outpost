@@ -13,5 +13,6 @@ import labels from "./labels"
 import localOffer from "./local-offer"
 import regularSchedule from "./regular-schedule"
 import openCloseAll from "./open-close-all"
+import wordCount from "./word-count"
 
 import choices from "./choices"

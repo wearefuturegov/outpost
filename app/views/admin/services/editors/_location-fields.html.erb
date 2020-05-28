@@ -11,9 +11,9 @@
         <%= l.label :city, "Town or area", class: "field__label" %>
         <%= l.text_field :city, class: "field__input", data: {field: "postal_town"} %>
     </div>
-    <div class="field">
+    <div class="field field--required">
         <%= l.label :postal_code, "Postcode", class: "field__label" %>
-        <%= l.text_field :postal_code, class: "field__input", data: {field: "postal_code"} %>
+        <%= l.text_field :postal_code, class: "field__input", data: {field: "postal_code"}, required: true %>
     </div>
 </div>
 

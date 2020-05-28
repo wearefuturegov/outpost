@@ -18,10 +18,10 @@
     <table class="table">
       <thead>
         <tr>
-          <th>Name</th>
+          <th><%= render "sort", column: "name", label: "Name"%></th>
           <th>Services</th>
           <th>Users</th>
-          <th>Updated at</th>
+          <th><%= render "sort", column: "updated_at", label: "Last updated"%></th>
         </tr>
       </thead>
       <tbody>

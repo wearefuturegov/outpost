@@ -18,10 +18,10 @@
     <%= f.text_field :state_province, class: "field__input" %>
 </div>
 
-<div class="field one-half">
+<div class="field field--required one-half">
     <%= f.label :postal_code, "Postcode", class: "field__label" %>
     <p class="field__hint">Coordinates are automatically calculated from postcode</p>
-    <%= f.text_field :postal_code, class: "field__input" %>
+    <%= f.text_field :postal_code, class: "field__input", required: true %>
 </div>
 
 <%= f.hidden_field :country, value: "GB" %>

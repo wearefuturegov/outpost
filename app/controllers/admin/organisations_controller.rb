@@ -2,10 +2,16 @@ class Admin::OrganisationsController < Admin::BaseController
   before_action :set_organisation, only: [:show, :edit, :update]
 
   def index
+    @query = params.permit(:order, :order_by, :filter_users, :filter_services, :query)
+
     @organisations = Organisation.page(params[:page])
       .includes(:services, :users)
       .page(params[:page])
-      .order(updated_at: :DESC)
+
+    @organisations = @organisations.alphabetical if params[:order] === "asc" && params[:order_by] === "name"
+    @organisations = @organisations.reverse_alphabetical if params[:order] === "desc" && params[:order_by] === "name"
+    @organisations = @organisations.newest if params[:order] === "desc" && params[:order_by] === "updated_at"
+    @organisations = @organisations.oldest if params[:order] === "asc" && params[:order_by] === "updated_at"
 
     @organisations = @organisations.only_with_services if params[:filter_services] === "with"
     @organisations = @organisations.only_with_users if params[:filter_users] === "with"

@@ -37,6 +37,12 @@
         display: inline-block;
         margin-bottom: 10px;
     }
+    &--required .field__label:after{
+        content: "*";
+        font-weight: bold;
+        color: $error;
+        margin-left: 2px;
+    }
     .field__hint{
         font-size: 1rem;
         margin-top: -5px;
@@ -61,6 +67,23 @@
         }
         &--with-prefix{
             padding-left: 23px;
+        }
+    }
+    &__lower-hint{
+        font-size: 0.9rem;
+        margin-top: 5px;
+        color: transparentize($text, 0.25);
+        float: left;
+    }
+    &__word-counter{
+        font-size: 0.9rem;
+        margin-top: 5px;
+        color: $text;
+        // font-weight: bold;
+        float: right;
+        margin-left: 15px;
+        &--warn{
+            font-weight: bold;
         }
     }
     &__prefix{

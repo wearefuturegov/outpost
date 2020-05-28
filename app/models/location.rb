@@ -24,6 +24,9 @@ class Location < ApplicationRecord
   #   super UKPostcode.parse(str).to_s
   # end
 
+  scope :alphabetical, ->  { order(name: :ASC) }
+  scope :reverse_alphabetical, ->  { order(name: :DESC) }
+
   # filter scopes
   scope :only_with_services, ->  { joins(:services) }
   scope :only_without_services, ->  { left_joins(:service_at_locations).where(service_at_locations: {id: nil}) }
