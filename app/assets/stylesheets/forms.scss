@@ -69,6 +69,9 @@
             padding-left: 23px;
         }
     }
+    textarea{
+        min-width: 100%;
+    }
     &__footer{
         display: flex;
         justify-content: space-between;

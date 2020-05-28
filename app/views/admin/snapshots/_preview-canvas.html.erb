@@ -62,7 +62,7 @@
 
         <div>
             <h3 class="bottom-margin">Local offer</h3>
-                <% if current[:regular_schedules] %>
+                <% if current[:local_offer] %>
                     <p><%= current[:local_offer]["description"] %></p>
                     <p><%= current[:local_offer]["link"] %></p>
                 <% end %>
