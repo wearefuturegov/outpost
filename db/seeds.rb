@@ -212,3 +212,9 @@ general_support_taxonomny.name = "General support"
 general_support_taxonomny.save
 
 puts "Took #{(end_time - start_time)/60} minutes"
+
+# lock top-level taxa
+Taxonomy.roots.each do |t|
+  t.locked = true
+  t.save
+end
