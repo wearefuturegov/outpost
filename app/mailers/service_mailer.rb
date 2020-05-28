@@ -18,4 +18,14 @@ class ServiceMailer < ApplicationMailer
             )
         end
     end
+
+    def notify_owner_of_feedback_email
+        @service = params[:service]
+        @service.organisation.users.each do |u|
+            mail(
+                to: u.email, 
+                subject: "There's new feedback on your service"
+            )
+        end
+    end
 end
