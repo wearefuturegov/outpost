@@ -1,0 +1,35 @@
+<h1><%= @organisation.display_name %> timetable</h1>
+
+<% if @organisation.services.any? %>
+<ul>
+    <% @organisation.services.each do |s| %>
+        <li>
+            <h2><%= s.name %></h2>
+
+            <% if s.regular_schedules.any? %>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Day</th>
+                        <th>Starts</th>
+                        <th>Ends</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                        <% s.regular_schedules.each do |sched| %>
+                            <tr>
+                                <td><%= sched.weekday %></td>
+                                <td><%= sched.opens_at %></td>
+                                <td><%= sched.closes_at %></td>
+                            </tr>
+                        <% end %>
+                    </tbody>
+                </table>
+            <% else %>
+                <p>Always available</p>
+            <% end %>
+        </li>
+    <% end %>
+</ul>
+<% end %>

@@ -28,6 +28,11 @@ class Admin::OrganisationsController < Admin::BaseController
   def edit
   end
 
+  def timetable
+    @organisation = Organisation.find(params[:organisation_id])
+    render :layout => "printable"
+  end
+
   def update
     if @organisation.update(organisation_params)
       redirect_to admin_organisation_path

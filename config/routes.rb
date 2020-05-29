@@ -27,7 +27,9 @@ Rails.application.routes.draw do
         resources :requests, only: [:index, :update]
       end
     end
-    resources :organisations, except: :edit
+    resources :organisations, except: :edit do
+      get "timetable", to: "organisations#timetable"
+    end
     resources :labels, only: [:index, :destroy]
     resources :locations, except: [:edit, :new, :create]
     resources :taxonomies, except: [:new, :edit]
