@@ -59,5 +59,10 @@
           <% end %>
         <% end %>
 
+        <%= render "shared/collapsible", name: "Timetable", id: "organisation-timetable" do %>
+          <p class="bottom-margin">Build a timetable for all the services in this organisation.</p>
+          <%= link_to "See timetable", "#", class: "button button--small" %>
+        <% end %>
+
   </div>
 </div>
