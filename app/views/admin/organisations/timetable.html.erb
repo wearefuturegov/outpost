@@ -19,9 +19,12 @@
 
                         <% s.regular_schedules.each do |sched| %>
                             <tr>
-                                <td><%= sched.weekday %></td>
-                                <td><%= sched.opens_at %></td>
-                                <td><%= sched.closes_at %></td>
+                                <td><%= pretty_weekday(sched) %></td>
+                                <td><%= sched.opens_at.strftime("%H:%M") %></td>
+                                <td><%= sched.closes_at.strftime("%H:%M") %></td>
+
+
+
                             </tr>
                         <% end %>
                     </tbody>

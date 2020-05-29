@@ -52,7 +52,7 @@
                 <% if current[:regular_schedules] %>
                     <% current[:regular_schedules].each do |s| %>
                         <li>
-                            <strong><%= weekdays.select{ |w| w[:value] === s["weekday"]}.last[:label] %></strong>
+                            <strong><%= pretty_weekday(s) %></strong>
                             <p><%= Time.parse(s["opens_at"]).strftime("%H:%M") %> to <%= Time.parse(s["closes_at"]).strftime("%H:%M") %></p>
                         </li>
                     <% end %>
