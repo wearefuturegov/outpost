@@ -103,13 +103,20 @@ bucks_csv.each.with_index do |row, line|
     service.locations << location
   end
 
-  unless row['familychannel'] == nil
-    lines = row['familychannel'].split("\n")
-    lines.each do |line|
-      categories = line.split(' > ')
-      categories.delete("Family Information")
+  unless row['attributes'] == nil
+    attributes = row['attributes'].split("\n")
+    attributes.each do |attribute|
+      cost_taxonomy_path = ["Cost", attribute]
+      taxonomy = Taxonomy.find_or_create_by_path(cost_taxonomy_path)
+      service.taxonomies |= [taxonomy]
+    end
+  end
 
-      taxonomy = Taxonomy.find_or_create_by_path(categories.unshift("Categories"))
+  unless row['coronavirus_status'] == nil
+    coronavirus_statuses = row['coronavirus_status'].split("\n")
+    coronavirus_statuses.each do |coronavirus_status|
+      coronavirus_status_path = ["Coronavirus status", coronavirus_status]
+      taxonomy = Taxonomy.find_or_create_by_path(coronavirus_status_path)
       service.taxonomies |= [taxonomy]
     end
   end
@@ -128,6 +135,17 @@ bucks_csv.each.with_index do |row, line|
     send_needs.each do |send_need|
       send_need_taxonomy_path = ["SEND needs", send_need]
       taxonomy = Taxonomy.find_or_create_by_path(send_need_taxonomy_path)
+      service.taxonomies |= [taxonomy]
+    end
+  end
+
+  unless row['familychannel'] == nil
+    lines = row['familychannel'].split("\n")
+    lines.each do |line|
+      categories = line.split(' > ')
+      categories.delete("Family Information")
+
+      taxonomy = Taxonomy.find_or_create_by_path(categories.unshift("Categories"))
       service.taxonomies |= [taxonomy]
     end
   end
