@@ -334,6 +334,13 @@
             column-gap: 25px;
         }
     }
+    &.field-section--three-cols{
+        @media screen and (min-width: $breakpoint-m) {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            column-gap: 25px;
+        }
+    }
     &.field-section--panel{
         padding: 25px;
         background: $pale;
