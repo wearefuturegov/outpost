@@ -8,9 +8,7 @@
     <%= render "shared/mini-search", path: admin_users_path(@query), clear_path: admin_users_path(@query.merge(:query => nil)) %>
     <%= render "filters" %>
   </div>
-  <div class="actions__group">
-    <%= link_to "Invite user", new_admin_user_path, class: "button button--small button--add" %>
-  </div>
+  <%= link_to "Invite user", new_admin_user_path, class: "button button--small button--add actions__pull-right" %>
 </header>
 
 <% if @users.any? %>

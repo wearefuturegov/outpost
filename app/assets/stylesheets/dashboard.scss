@@ -8,7 +8,10 @@
 }
 
 .panel{
-    margin-bottom: 25px;
+    margin-bottom: 45px;
+    &:last-of-type{
+        margin-bottom: 0px;
+    }
     @media screen and (min-width: $breakpoint-m){
         margin-right: 80px;
         margin-bottom: 0px;

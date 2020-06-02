@@ -87,6 +87,8 @@
         margin-top: 5px;
         color: $text;
         margin-left: 15px;
+        min-width: 55px;
+        text-align: right;
         &--warn{
             font-weight: bold;
         }

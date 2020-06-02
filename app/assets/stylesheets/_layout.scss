@@ -60,14 +60,32 @@
 }
 
 .actions{
-    margin-bottom: 25px;
+    margin-bottom: 35px;
+
+    .button{
+        margin-bottom: 10px;
+    }
+
+    &__pull-right{
+        display: inline-block;
+        width: auto;
+    }
+
     @media screen and (min-width: $breakpoint-m){
         margin-bottom: 40px;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
 
-        .actions__group{
+        .button--inline{
+            margin-bottom: 0px;
+        }
+
+
+        &__pull-right{
+            margin-left: auto;
+        }
+        &__group{
             display: flex;
             flex-direction: row;
             align-items: flex-start;
