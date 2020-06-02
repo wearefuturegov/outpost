@@ -1,32 +1,10 @@
-<table class="table schedule-editor">
-    <thead>
-        <tr>
-            <th>Day</th>
-            <th>Opens at</th>
-            <th>Closes at</th>
-        </tr>
-    </thead>
-    <tbody>
-        <% weekdays.each do |day| %>
-            <%= s.fields_for :regular_schedules, s.object.regular_schedules.find_or_initialize_by(weekday: day[:value]) do |sched| %>
-                <tr>
-                    <td class="field">
-                        <%= sched.hidden_field :weekday %>
-                        <div class="checkbox">
-                            <%= sched.check_box :_destroy, {checked: sched.object.persisted?, class: "checkbox__input"}, "0", "1" %>
-                            <%= sched.label :_destroy, day[:label], class: "checkbox__label" %>
-                        </div>
-                    </td>
-                    <td class="field">
-                        <%= sched.label :opens_at, class: "visually-hidden" %>
-                        <%= sched.time_field :opens_at, class: "field__input", step: 60 %>
-                    </td>
-                    <td class="field">
-                        <%= sched.label :closes_at, class: "visually-hidden" %>
-                        <%= sched.time_field :closes_at, class: "field__input", step: 60 %>
-                    </td>
-                </tr>
-            <% end %>
+<section class="nested-editor">
+    <ul class="nested-editor__results" aria-live="polite">
+        <%= s.fields_for :regular_schedules do |sched| %>
+            <li class="nested-editor__result">
+                <%= render "admin/services/editors/regular-schedule-fields", sched: sched %>
+            </li>
         <% end %>
-    </tbody>
-</table>
+    </ul>
+    <%= link_to_add_fields "Add a schedule", s, :regular_schedules, "admin/services/editors/regular-schedule-fields" %>
+</section>
