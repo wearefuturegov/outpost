@@ -54,6 +54,8 @@ module ApplicationHelper
             "Updated from Ofsted feed"
         when "ofsted_create"
             "Created from Ofsted feed"
+        when "ofsted_cancelled"
+            "Cancelled by Ofsted feed"
         end
     end
 

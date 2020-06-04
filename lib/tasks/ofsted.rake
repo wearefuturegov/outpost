@@ -25,6 +25,10 @@ namespace :ofsted do
     response = HTTParty.get("https://bucks-ofsted-feed.herokuapp.com?api_key=#{ENV["OFSTED_API_KEY"]}")
     items = JSON.parse(response.body)
 
+    # check_for_new(items)
+    # check_for_updates(items)
+    # check_for_deleted(items)
+
     items.each do |item| # Iterate through iterms returend from Ofsted feed API
       ofsted_item = OfstedItem.where(reference_number: item["reference_number"]).first # Check if ofsted item already exists
 
@@ -32,13 +36,23 @@ namespace :ofsted do
         ofsted_services = OfstedService.where(ofsted_reference_number: item["reference_number"])
 
         ofsted_item.assign_attributes(ofsted_item_params(item)) # Prepare for update
-        if ofsted_item.provider_name_changed? # If changed, update corresponding service
 
-          if ofsted_item.save # Save
-            puts "Updated ofsted item #{ofsted_item.provider_name}"
-          else
-            puts "Failed to update ofsted item #{ofsted_item.provider_name}"
+        if ofsted_item.registration_status_changed?
+          if ofsted_item.registration_status == "Cancelled"
+            ofsted_services.each do |ofsted_service|
+              ofsted_service.discard
+              ofsted_service.snapshot_action = "ofsted_cancelled"
+              ofsted_service.approved = false
+              if ofsted_service.save
+                puts "Updated childcare service #{ofsted_service.name}"
+              else
+                puts "Failed to update childcare service #{ofsted_service.name}"
+              end
+            end
           end
+        end
+
+        if ofsted_item.setting_name_changed? # If changed, update corresponding service
 
           ofsted_services.each do |ofsted_service| # Could be multiple childcare services
 
@@ -53,6 +67,13 @@ namespace :ofsted do
           end
 
         end
+
+        if ofsted_item.save # Save
+          puts "Updated ofsted item #{ofsted_item.provider_name}"
+        else
+          puts "Failed to update ofsted item #{ofsted_item.provider_name}"
+        end
+
       else # if no ofsted item found, create new one
         ofsted_item = OfstedItem.new(ofsted_item_params(item))
         if ofsted_item.save
@@ -70,7 +91,7 @@ namespace :ofsted do
           if user # use existing org and user if so
             puts "User #{user.email} already exists"
             organisation = user.organisation
-            puts "Organisation: #{organisation.name}"
+            puts "Organisation: #{organisation.try(:name)}"
           else # ortherwise create new org and user
             organisation = Organisation.new
             organisation.save
@@ -101,8 +122,26 @@ namespace :ofsted do
       end
 
     end
+
+    # OfstedItem.all.each do |ofsted_item| # check for deleted
+    #   unless items.select { |item| item["reference_number"].to_i == ofsted_item.reference_number }.present?
+    #     byebug
+    #     ofsted_service = ofsted_item.ofsted_service
+    #     ofsted_service.snapshot_action = "ofsted_delete"
+    #     ofsted_service.discard
+    #   end
+    # end
+
   end
 end
+
+# def check_for_new(items)
+#   items.each do |item| # Iterate through iterms returend from Ofsted feed API
+#     ofsted_item = OfstedItem.where(reference_number: item["reference_number"]).first # Check if ofsted item already exists
+#     unless items
+#   end
+# end
+
 
 def ofsted_item_params item
   {
@@ -156,7 +195,7 @@ end
 
 def ofsted_service_params item
   {
-    name: item["provider_name"],
+    name: item["setting_name"],
     ofsted_reference_number: item["reference_number"],
     email: item["prov_email"],
     approved: false,

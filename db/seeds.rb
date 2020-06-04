@@ -26,7 +26,7 @@ end
 Rake::Task['taxonomy:create_categories_from_old_db'].invoke
 
 bucks_csv.each.with_index do |row, line|
-  next unless (line % 6 == 0)
+  #next unless (line % 6 == 0)
   puts "Processing line (service build): #{line} of #{bucks_csv.size}"
 
   open_objects_users = open_objects_users_csv.select{ |user_row| user_row['externalId'] == row['record_editor'] } # users from open objects csv
