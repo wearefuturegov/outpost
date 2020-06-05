@@ -25,6 +25,10 @@
   <div class="field-section">
     <div class="field checkbox">
       <%= f.check_box :admin, class: "checkbox__input" %>
-      <%= f.label :admin, "Make user an administrator", class: "checkbox__label" %>
+      <%= f.label :admin, "User can administer services?", class: "checkbox__label" %>
+    </div>
+    <div class="field checkbox">
+      <%= f.check_box :admin_users, class: "checkbox__input" %>
+      <%= f.label :admin_users, "User can administer other users?", class: "checkbox__label" %>
     </div>
   </div>
