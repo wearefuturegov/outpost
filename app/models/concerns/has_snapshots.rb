@@ -18,6 +18,7 @@ module HasSnapshots
     end
 
     def capture(snapshot_action)
+        # byebug
         new_snapshot = Snapshot.new(
             service: self,
             user: Current.user,

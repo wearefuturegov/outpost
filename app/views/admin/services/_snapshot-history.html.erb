@@ -1,6 +1,6 @@
 <%= render "shared/collapsible", name: "History", id: "service-history" do %>
 
-    <%= link_to "See full history", admin_service_snapshots_path(@service), class: "collapsible__action" %>
+    <%= link_to "Compare versions", admin_service_snapshots_path(@service), class: "collapsible__action" %>
     
     <% if @snapshots.present? %>
       <ul class="stepper <%= "stepper--summarised" if @service.snapshots.length > 4 %>">

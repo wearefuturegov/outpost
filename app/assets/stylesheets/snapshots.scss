@@ -199,6 +199,7 @@
             margin-bottom: 0px;
         }
     }
+
     &__list{
         margin-bottom: 35px;
     }
@@ -221,26 +222,30 @@
             gap: 35px;
         }
     }
-    .changed{
-        // display: inline-block;
-        padding: 0px 5px;
-        // font-weight: normal;
-        background: transparentize($focus, 0.8);
-        color: darken($focus, 20);
-    }
 
-    del.differ{
-        display: inline-block;
-        padding: 0px 5px;
-        color: darken($error, 10);
-        background: transparentize($error, 0.9);
-    }
-    ins.differ{
-        display: inline-block;
-        padding: 0px 5px;
-        color: darken($green, 10);
-        background: transparentize($green, 0.9);
-        text-decoration: none;
+    .diff {
+        ul{
+            line-height: 1.5;
+            font-size: 0.85rem;
+        }
+
+        .unchanged:hover{
+            background-color: inherit;
+        }
+
+        .del{
+            background: transparentize($error, 0.9);
+            strong{            
+                background: lighten(transparentize($error, 0.75), 10)
+            }
+        }
+
+        .ins{
+            background: transparentize($green, 0.8);
+            strong{
+                background: lighten(transparentize($green, 0.5), 15)
+            }
+        }
     }
 
     table{
