@@ -13,7 +13,7 @@ module SnapshotsHelper
             else
                 element
             end
-        end.join("\n")
+        end.join("\n\n")
     end
 
     def diff(left, right)
