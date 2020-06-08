@@ -7,8 +7,8 @@ class User < ApplicationRecord
 
   belongs_to :organisation, optional: true, counter_cache: true
 
-  # validates :first_name, presence: true
-  # validates :last_name, presence: true
+  validates :first_name, presence: true
+  validates :last_name, presence: true
 
   paginates_per 20
 
