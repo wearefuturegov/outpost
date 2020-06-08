@@ -1,4 +1,4 @@
-require 'differ/string'
+# require 'differ/string'
 
 module ApplicationHelper
 
@@ -19,18 +19,18 @@ module ApplicationHelper
           .truncate(25)
     end
 
-    def inline_differ(one, two)
-        if one && two
-            $; = ' '
-            (one - two).format_as(:html).html_safe
-        end
-    end
+    # def inline_differ(one, two)
+    #     if one && two
+    #         $; = ' '
+    #         (one - two).format_as(:html).html_safe
+    #     end
+    # end
 
-    def differ(one, two)
-        if one && two
-            Differ.diff_by_word(one, two).format_as(:html).html_safe
-        end
-    end
+    # def differ(one, two)
+    #     if one && two
+    #         Differ.diff_by_word(one, two).format_as(:html).html_safe
+    #     end
+    # end
 
     def pretty_event(event)
         case event

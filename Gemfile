@@ -23,7 +23,6 @@ gem 'rack-cors'
 gem 'geocoder'
 gem 'pg_search'
 gem 'devise_lastseenable'
-gem 'differ'
 gem 'httparty'
 gem 'devise-security'
 gem 'rails_email_validator'
@@ -32,6 +31,7 @@ gem 'sendgrid-actionmailer'
 gem 'acts-as-taggable-on'
 gem 'closure_tree'
 gem 'uk_postcode'
+gem 'diffy'
 
 
 group :development, :test do
