@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_08_221257) do
+ActiveRecord::Schema.define(version: 2020_06_08_222250) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(version: 2020_06_08_221257) do
     t.string "name"
     t.string "title"
     t.boolean "visible", default: true
+    t.string "email"
     t.index ["service_id"], name: "index_contacts_on_service_id"
   end
 
@@ -196,7 +197,6 @@ ActiveRecord::Schema.define(version: 2020_06_08_221257) do
     t.bigint "organisation_id"
     t.string "name"
     t.text "description"
-    t.string "email"
     t.string "url"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -209,6 +209,7 @@ ActiveRecord::Schema.define(version: 2020_06_08_221257) do
     t.integer "ofsted_reference_number"
     t.string "old_ofsted_external_id"
     t.boolean "visible", default: true
+    t.boolean "needs_referral"
     t.index ["discarded_at"], name: "index_services_on_discarded_at"
     t.index ["organisation_id"], name: "index_services_on_organisation_id"
   end

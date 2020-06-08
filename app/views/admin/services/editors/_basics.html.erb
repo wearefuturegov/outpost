@@ -17,15 +17,15 @@
             <span class="field__word-counter"></span>
         </div>
     </div>
+
+    <div class="field checkbox">
+        <%= s.check_box :needs_referral, class: "checkbox__input"%>
+        <%= s.label :needs_referral, "Service needs referral?", class: "checkbox__label" %>
+    </div>
 </div>
 
 <div class="field-section field-section--two-cols">
     <h3 class="field field--span-two-cols">Contact details</h3>
-
-    <div class="field">
-        <%= s.label :email, class: "field__label" %>
-        <%= s.email_field :email, value: @service.email, class: "field__input" %>
-    </div>
 
     <div class="field">
         <%= s.label :url, "Website", class: "field__label" %>

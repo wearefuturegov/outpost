@@ -81,6 +81,7 @@ class Admin::ServicesController < Admin::BaseController
       :visible_from,
       :visible_to,
       :label_list,
+      :needs_referral,
       taxonomy_ids: [],
       # location_ids: [],
       local_offer_attributes: [

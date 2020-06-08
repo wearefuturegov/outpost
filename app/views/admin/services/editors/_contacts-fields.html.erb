@@ -10,6 +10,11 @@
         <%= c.text_field :title, class: "field__input" %>
     </div>
 
+    <div class="field">
+        <%= c.label :email, class: "field__label" %>
+        <%= c.email_field :email, class: "field__input" %>
+    </div>
+
     <%= c.fields_for :phones do |x| %>
         <div class="field">
             <%= x.label :number, "Phone", class: "field__label" %>
