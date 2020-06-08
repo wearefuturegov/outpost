@@ -19,12 +19,10 @@
 
 </div>
 <div class="field-section field-section--two-cols field-section--no-bottom-margin">
-
     <div class="field checkbox">
         <%= c.check_box :visible, class: "checkbox__input"%>
         <%= c.label :visible, "Make this contact publicly visible?", class: "checkbox__label" %>
     </div>
-
 </div>
 
 <%= c.hidden_field :_destroy,  data: {destroy_field: true} %>

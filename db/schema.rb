@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_04_182621) do
+ActiveRecord::Schema.define(version: 2020_06_08_221257) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,7 +30,7 @@ ActiveRecord::Schema.define(version: 2020_06_04_182621) do
     t.bigint "service_id"
     t.string "name"
     t.string "title"
-    t.boolean "visible"
+    t.boolean "visible", default: true
     t.index ["service_id"], name: "index_contacts_on_service_id"
   end
 
@@ -72,6 +72,7 @@ ActiveRecord::Schema.define(version: 2020_06_04_182621) do
     t.string "postal_code"
     t.string "country"
     t.string "google_place_id"
+    t.boolean "visible", default: true
   end
 
   create_table "notes", force: :cascade do |t|

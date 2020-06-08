@@ -17,7 +17,7 @@
     </div>
 </div>
 
-<fieldset class="field-section field-section--two-cols field-section--no-bottom-margin">
+<fieldset class="field-section field-section--two-cols field-section--reduced-bottom-margin">
     <legend class="field field--span-two-cols">Accessibility</legend>
     <%= l.collection_check_boxes( :accessibility_ids, Accessibility.all, :id, :display_name) do |c| %>
     <div class="checkbox checkbox--small">
@@ -26,6 +26,12 @@
     </div>
     <% end %>
 </fieldset>
+<div class="field-section field-section--two-cols field-section--no-bottom-margin">
+    <div class="field checkbox">
+        <%= l.check_box :visible, class: "checkbox__input"%>
+        <%= l.label :visible, "Make this location publicly visible?", class: "checkbox__label" %>
+    </div>
+</div>
 
 <button type="button" class="nested-editor__closer" data-close="true">Remove this location</button>
 
