@@ -5,7 +5,6 @@ if(field){
     const counter = field.querySelector(".field__word-counter")
 
     const updateCounter = value => {
-        console.log(value)
         let count = value.split(" ").filter(String).length
         count > 30 ? counter.classList.add("field__word-counter--warn") : counter.classList.remove("field__word-counter--warn")
         counter.innerText = count === 1 ? `${count} word` : `${count} words`

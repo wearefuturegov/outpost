@@ -1,6 +1,7 @@
 @import "variables";
 
 .collapsible{
+    position: relative;
     margin-bottom: 65px;
     .collapsible__header{
         width: 100%;

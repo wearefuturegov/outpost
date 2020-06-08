@@ -234,3 +234,40 @@
         color: $grey;
     }
 }
+
+.help-button{
+    position: absolute;
+    top: 0px;
+    right: 40px;
+    display: inline-block;
+    height: 25px;
+    width: 25px;
+    font-size: 0;
+    border: 3px solid $text;
+    border-radius: 100%;
+    opacity: 0.33;
+    background: none;
+    &:after{
+        content: "?";
+        font-size: 1rem;
+        font-weight: bold;
+    }
+    &:hover, &:focus{
+        opacity: 0.5;
+    }
+    &:focus{
+        opacity: 1;
+        border-color: $focus;
+        color: $focus;
+    }
+}
+
+.tippy-box {
+    border-radius: 0px;
+
+    .tippy-content{
+        max-width: 250px;
+        background-color: $text;
+        color: $white;
+    }
+}

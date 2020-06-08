@@ -1,4 +1,4 @@
-<%= render "shared/collapsible", name: "Feedback", count: @service.feedbacks.length, id: "service-feedback" do %>
+<%= render "shared/collapsible", name: "Feedback", count: @service.feedbacks.length, id: "service-feedback", help_text: "Feedback and suggested edits submitted by members of the public" do %>
     <div class="notes-list">
         <% if @service.feedbacks.present? %>
             <% @service.feedbacks.each do |f| %>

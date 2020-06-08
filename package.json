@@ -15,6 +15,7 @@
     "nodelist-foreach-polyfill": "^1.2.0",
     "polyfill-array-includes": "^2.0.0",
     "time-input-polyfill": "^1.0.9",
+    "tippy.js": "^6.2.3",
     "turbolinks": "^5.2.0"
   },
   "version": "0.1.0",

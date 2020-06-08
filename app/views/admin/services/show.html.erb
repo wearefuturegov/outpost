@@ -47,15 +47,15 @@
         <%= render "admin/services/editors/basics", s: s %>
       <% end %>
 
-      <%= render "shared/collapsible", name: "Contacts", count: @service.contacts.length, id: "contacts-editor" do %>
+      <%= render "shared/collapsible", name: "Contacts", count: @service.contacts.length, id: "contacts-editor", help_text: "Provide individual people who act as points of contact for the public" do %>
         <%= render "admin/services/editors/contacts", s: s %>
       <% end %>
 
-      <%= render "shared/collapsible", name: "Taxonomies", count: @service.taxonomies.length, id: "taxonomy-editor" do %>
+      <%= render "shared/collapsible", name: "Taxonomies", count: @service.taxonomies.length, id: "taxonomy-editor", help_text: "Help users understand what kind of service this is" do %>
         <%= render "admin/services/editors/taxonomies", s: s %>
       <% end %>
 
-      <%= render "shared/collapsible", name: "Locations", count: @service.locations.length, id: "locations-editor" do %>
+      <%= render "shared/collapsible", name: "Locations", count: @service.locations.length, id: "locations-editor", help_text: "Provide locations where this service can be used" do %>
         <%= render "admin/services/editors/locations", s: s %>
       <% end %>
 
@@ -67,11 +67,11 @@
         <%= render "admin/services/editors/local-offer", s: s %>
       <% end %>
 
-      <%= render "shared/collapsible", name: "Scheduling", id: "schedule-editor" do %>
+      <%= render "shared/collapsible", name: "Scheduling", id: "schedule-editor", help_text: "Build a set of regular opening times for the service" do %>
         <%= render "admin/services/editors/regular-schedule", s: s %>
       <% end %>
 
-      <%= render "shared/collapsible", name: "Visibility", id: "visibility-editor" do %>
+      <%= render "shared/collapsible", name: "Visibility", id: "visibility-editor", help_text: "Use these fields to show and hide a service on particular dates" do %>
         <%= render "admin/services/editors/dates", s: s %>
       <% end %>
 
