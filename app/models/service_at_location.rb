@@ -21,7 +21,7 @@ class ServiceAtLocation < ApplicationRecord
     self.service_name = service.name
     self.service_description = service.description
     self.service_url = service.url
-    self.service_email = service.email
+    # self.service_email = service.email
     self.discarded_at = service.discarded_at
     self.save
   end

@@ -18,20 +18,21 @@
         </div>
     </div>
 
-    <div class="field checkbox">
-        <%= s.check_box :needs_referral, class: "checkbox__input"%>
-        <%= s.label :needs_referral, "Service needs referral?", class: "checkbox__label" %>
-    </div>
-</div>
-
-<div class="field-section field-section--two-cols">
-    <h3 class="field field--span-two-cols">Contact details</h3>
-
-    <div class="field">
+    <div class="field field--span-two-cols">
         <%= s.label :url, "Website", class: "field__label" %>
         <%= s.url_field :url, value: @service.url, class: "field__input" %>
         <p class="field__lower-hint">Must start with http:// or https://</p>
     </div>
+
+    <div class="field checkbox">
+        <%= s.check_box :needs_referral, class: "checkbox__input"%>
+        <%= s.label :needs_referral, "This service needs referral?", class: "checkbox__label" %>
+    </div>
 </div>
 
+<div class="field-section field-section--two-cols">
+    <h3 class="field field--span-two-cols">Social links</h3>
+
+
+</div>
 
