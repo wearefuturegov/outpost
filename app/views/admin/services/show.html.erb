@@ -47,7 +47,7 @@
         <%= render "admin/services/editors/basics", s: s %>
       <% end %>
 
-      <%= render "shared/collapsible", name: "Contacts", count: @service.contacts.length, id: "contacts-editor", help_text: "Provide individual people who act as points of contact for the public" do %>
+      <%= render "shared/collapsible", name: "Contacts", count: @service.contacts.length, id: "contacts-editor", help_text: "Provide individual points of contact for users" do %>
         <%= render "admin/services/editors/contacts", s: s %>
       <% end %>
 
