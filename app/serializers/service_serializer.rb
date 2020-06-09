@@ -1,5 +1,5 @@
 class ServiceSerializer < ActiveModel::Serializer
-  attributes :id, :name, :description, :url, :email
+  attributes :id, :name, :description, :url
 
   has_many :locations
   has_many :contacts
