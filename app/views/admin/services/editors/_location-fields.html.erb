@@ -26,10 +26,14 @@
     </div>
     <% end %>
 </fieldset>
-<div class="field-section field-section--two-cols field-section--no-bottom-margin">
-    <div class="field checkbox">
+<div class="field-section field-section--no-bottom-margin">
+    <div class="field checkbox checkbox--small">
         <%= l.check_box :visible, class: "checkbox__input"%>
         <%= l.label :visible, "Make this location publicly visible?", class: "checkbox__label" %>
+    </div>
+    <div class="field checkbox checkbox--small">
+        <%= l.check_box :mask_exact_address, class: "checkbox__input"%>
+        <%= l.label :mask_exact_address, "Hide the exact street address?", class: "checkbox__label" %>
     </div>
 </div>
 

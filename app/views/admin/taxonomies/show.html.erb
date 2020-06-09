@@ -41,7 +41,7 @@
         <% end %>
     <% end %>
 
-    <%= render "shared/collapsible", name: "Basics", count: @taxonomy.services.count, id: "basic-info-editor" do %>
+    <%= render "shared/collapsible", name: "Services", count: @taxonomy.services.count, id: "basic-info-editor" do %>
         <% if @taxonomy.services.present? %>  
           <ul class="big-list bottom-margin">
             <% @taxonomy.services.limit(30).each do |s| %>

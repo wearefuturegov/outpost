@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_08_222250) do
+ActiveRecord::Schema.define(version: 2020_06_09_192517) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -210,6 +210,9 @@ ActiveRecord::Schema.define(version: 2020_06_08_222250) do
     t.string "old_ofsted_external_id"
     t.boolean "visible", default: true
     t.boolean "needs_referral"
+    t.string "twitter_url"
+    t.string "facebook_url"
+    t.string "youtube_url"
     t.index ["discarded_at"], name: "index_services_on_discarded_at"
     t.index ["organisation_id"], name: "index_services_on_organisation_id"
   end

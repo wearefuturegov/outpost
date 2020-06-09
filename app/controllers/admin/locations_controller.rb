@@ -44,6 +44,8 @@ class Admin::LocationsController < Admin::BaseController
             :state_province,
             :postal_code,
             :country,
+            :visible,
+            :mask_exact_address,
             accessibility_ids: []
         )
     end

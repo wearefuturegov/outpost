@@ -36,3 +36,14 @@
         <%= f.text_field :longitude, class: "field__input", disabled: true %>
     </div>
 </div>
+
+<div class="field-section">
+    <div class="field checkbox">
+        <%= f.check_box :visible, class: "checkbox__input"%>
+        <%= f.label :visible, "Make this location publicly visible?", class: "checkbox__label" %>
+    </div>
+    <div class="field checkbox">
+        <%= f.check_box :mask_exact_address, class: "checkbox__input"%>
+        <%= f.label :mask_exact_address, "Hide the exact street address?", class: "checkbox__label" %>
+    </div>
+</div>

@@ -121,6 +121,7 @@ class Admin::ServicesController < Admin::BaseController
         :city,
         :postal_code,        
         :visible,
+        :mask_exact_address,
         # :latitude,
         # :longitude,
         # :google_place_id,
