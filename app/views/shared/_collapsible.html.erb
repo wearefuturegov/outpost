@@ -8,7 +8,7 @@
         </h2>
     </button>
     <% if defined?(help_text) %>
-        <button class="help-button" role="button" data-tippy-content="<%= help_text %>">Help with this section</button>
+        <button class="help-button" type="button" data-tippy-content="<%= help_text %>">Help with this section</button>
     <% end %>
     <div class="collapsible__content">
         <%= yield %>

@@ -276,8 +276,29 @@
         background-color: $text;
         color: $white;
     }
+    .tippy-arrow {
+        color: $text;
+    }
 }
 
-.tippy-arrow {
-    color: $text;
+.taxonomies-bulk-action{
+    font-size: 0.9rem;
+    float: right;
+    color: $link;
+    background: none;
+    border: none;
+    margin-top: 10px;
+    margin-left: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    &:hover{
+        text-decoration: underline;
+    }
+    &:focus{
+        background: $focus;
+        outline: 3px solid $focus;
+    }
+    &:active{
+        color: $text;
+    }
 }
