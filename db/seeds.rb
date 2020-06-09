@@ -75,7 +75,6 @@ bucks_csv.each.with_index do |row, line|
 
   service.name = row['title']
   service.description = ActionView::Base.full_sanitizer.sanitize(row['description'])
-  service.email = row['contact_email']
   service.url = row['website']
 
   service.organisation = organisation
@@ -186,6 +185,7 @@ bucks_csv.each.with_index do |row, line|
     contact.service_id = service.id
     contact.name = row['contact_name']
     contact.title = row['contact_position']
+    contact.email = row['contact_email']
     unless contact.save
       puts "Contact #{contact.name} failed to save"
     end
