@@ -30,7 +30,7 @@ describe "get all services endpoint", type: :request do
     end
   end
 
-  describe 'Service queries', type: :request do
+  describe 'Taxonomy queries', type: :request do
 
     before do
       @organisation = FactoryBot.create(:organisation)
@@ -66,6 +66,48 @@ describe "get all services endpoint", type: :request do
 
     it_behaves_like "a taxonomy filtered endpoint", "A,B" do
       let(:ids) { [@services[2].id ]}
+    end
+  end
+
+  describe 'Service searching', type: :request do
+    before do
+      @organisation = FactoryBot.create(:organisation)
+      @services = FactoryBot.create_list(:service, 2, organisation: @organisation)
+
+      root_taxonomy = Taxonomy.create(name: 'Categories')
+      taxonomy_fizz_buzz = Taxonomy.create(name: 'Fizzbuzz', parent_id: root_taxonomy.id)
+      taxonomy_foo_bar = Taxonomy.create(name: 'Foobar', parent_id: root_taxonomy.id)
+
+      @services[0].taxonomies << taxonomy_fizz_buzz
+      @services[1].taxonomies << taxonomy_foo_bar
+
+      ServiceAtLocation.where(service_id: @services[0].id).update(service_name: 'A complex name')
+      ServiceAtLocation.where(service_id: @services[1].id).update(service_description: 'A specific description')
+    end
+
+    RSpec.shared_examples "a searchable endpoint" do |search_query|
+      it 'filters the services based on keywords' do
+        get "/api/v1/services?keywords=#{search_query}"
+        response_body = JSON.parse(response.body)
+        service_ids = response_body['content'].map {|c| c['id'] }
+        expect(service_ids).to match_array(ids)
+      end
+    end
+
+    it_behaves_like "a searchable endpoint", "Fizz" do
+      let(:ids) { [@services[0].id ]}
+    end
+
+    it_behaves_like "a searchable endpoint", "foo" do
+      let(:ids) { [@services[1].id ]}
+    end
+
+    it_behaves_like "a searchable endpoint", "Complex" do
+      let(:ids) { [@services[0].id ]}
+    end
+
+    it_behaves_like "a searchable endpoint", "specific" do
+      let(:ids) { [@services[1].id ]}
     end
   end
 end
