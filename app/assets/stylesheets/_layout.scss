@@ -266,6 +266,17 @@
             border-color: $focus;
             color: $focus;
         }
+
+        &--small{
+            margin-left: 5px;
+            height: 20px;
+            width: 20px;
+            position: inherit;
+            border-width: 2.5px;
+            &:after{
+                font-size: 0.8rem;
+            }
+        }
     }
 }
 

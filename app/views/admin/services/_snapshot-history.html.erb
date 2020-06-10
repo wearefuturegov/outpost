@@ -10,6 +10,8 @@
                     <%= pretty_event(shot.action) %>
                     <% if shot.user.present? %>
                       by <strong><%= render "shared/poppables/user", u: shot.user %></strong>
+                    <% else %>
+                      by system
                     <% end %>
                   </div>
                   <p class="stepper__time">

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_09_192517) do
+ActiveRecord::Schema.define(version: 2020_06_10_132957) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -74,6 +74,7 @@ ActiveRecord::Schema.define(version: 2020_06_09_192517) do
     t.string "country"
     t.string "google_place_id"
     t.boolean "visible", default: true
+    t.boolean "mask_exact_address"
   end
 
   create_table "notes", force: :cascade do |t|
@@ -213,6 +214,9 @@ ActiveRecord::Schema.define(version: 2020_06_09_192517) do
     t.string "twitter_url"
     t.string "facebook_url"
     t.string "youtube_url"
+    t.string "linkedin_url"
+    t.string "instagram_url"
+    t.string "referral_url"
     t.index ["discarded_at"], name: "index_services_on_discarded_at"
     t.index ["organisation_id"], name: "index_services_on_organisation_id"
   end

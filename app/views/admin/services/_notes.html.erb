@@ -1,4 +1,4 @@
-<%= render "shared/collapsible", name: "Notes", count: @service.notes.length, id: "service-notes" do %>
+<%= render "shared/collapsible", name: "Notes", count: @service.notes.length, id: "service-notes", help_text: "Use notes to log phone calls and other information not captured automatically" do %>
 
     <div class="notes-list">
       <% if @service.notes.present? %>
