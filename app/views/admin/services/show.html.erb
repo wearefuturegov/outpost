@@ -55,7 +55,7 @@
         <%= render "admin/services/editors/taxonomies", s: s %>
       <% end %>
 
-      <%= render "shared/collapsible", name: "Locations", count: @service.locations.length, id: "locations-editor", help_text: "Provide locations where this service can be used" do %>
+      <%= render "shared/collapsible", name: "Locations", count: @service.locations.length, id: "locations-editor", help_text: "Provide locations where this service can be used. For a fully remote or virtual service, leave this blank." do %>
         <%= render "admin/services/editors/locations", s: s %>
       <% end %>
 
