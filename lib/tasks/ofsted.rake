@@ -197,7 +197,6 @@ def ofsted_service_params item
   {
     name: item["setting_name"],
     ofsted_reference_number: item["reference_number"],
-    email: item["prov_email"],
     approved: false,
     type: 'OfstedService'
     # contact_attributes: {

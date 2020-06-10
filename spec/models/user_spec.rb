@@ -15,9 +15,4 @@ RSpec.describe User, type: :model do
       user.password = nil
       expect(user.save).to eq(false)
     end
-
-    it "should save successfully" do
-      expect(user.save).to eq(true)
-    end
-
 end
