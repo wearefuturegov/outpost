@@ -18,8 +18,10 @@
     .site-nav__link, .site-nav__current{
         display: inline-block;
         margin: 5px 15px 5px 0px;
-        margin-right: 15px;
         font-weight: bold;
+        @media screen and (min-width: $breakpoint-m) {
+            margin-right: 20px;
+        }
     }
 
     .site-nav__current{
@@ -47,10 +49,18 @@
         &:focus-within .site-nav__submenu{
             display: block;
         }
-    }
-
-    .site-nav__submenu-holder:hover{
-        color: red !important;
+        &--with-badge{
+            margin-right: 15px;
+            @media screen and (min-width: $breakpoint-m) {
+                margin-right: 20px;
+            }
+            a, span{
+                margin-right: 0px;
+            }
+        }
+        &:hover{
+            color: red !important;
+        }
     }
 
     .site-nav__submenu{
@@ -102,9 +112,9 @@
         display: inline-block;
         background: $error;
         border-radius: 20px;
-        padding: 2px 7px;
-        font-size: 0.9rem;
+        padding: 2px 6.4px;
+        font-size: 0.8rem;
         color: $white;
-        margin-left: 5px;
+        margin-left: 2px;
     }
 }
