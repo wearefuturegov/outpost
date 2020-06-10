@@ -26,7 +26,8 @@ class API::V1::ServicesController < ApplicationController
 
   def show
     @service = Service.kept.find(params[:id])
-    render json: @service, include: "organisation,locations,contacts,contacts.phones,taxonomies"
+    service_json = ServiceSerializer.new(@service).to_json(root: false)
+    render json: service_json, include: "organisation,locations,contacts,contacts.phones,taxonomies"
   end
 
   def serialized_services
