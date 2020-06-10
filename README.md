@@ -61,3 +61,4 @@ In production only:
 - `SENDGRID_API_KEY` to send emails
 - `MAILER_HOST` where the app lives on the web, to correctly form urls in emails
 - `MAILER_FROM` the email address emails will be delivered from
+

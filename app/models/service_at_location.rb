@@ -10,6 +10,26 @@ class ServiceAtLocation < ApplicationRecord
   has_many :contacts, through: :service
   has_many :taxonomies, through: :service
 
+  scope :in_taxonomies, -> (taxonomies) {
+    query = taxonomies.map{|e| e.titleize.downcase }
+    matching_services = Service.joins(:taxonomies).group(:id)
+        .where("lower(taxonomies.name) in (?)", query)
+        .having('count(distinct taxonomy_id) = ?', taxonomies.length)
+        .select(:id)
+
+    where(:service_id => matching_services)
+  }
+
+  include PgSearch::Model
+  pg_search_scope :search,
+                  associated_against: {
+                      taxonomies: [:name]
+                  },
+                  against: [:id, :service_name, :service_description],
+                  using: {
+                      tsearch: { prefix: true }
+                  }
+
   include Discard::Model
 
   def set_fields
