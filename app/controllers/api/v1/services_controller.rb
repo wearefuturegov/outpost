@@ -11,6 +11,11 @@ class API::V1::ServicesController < ApplicationController
     elsif params[:coverage].present?
       service_at_location_scope = service_at_location_scope.near(params[:coverage])
     end
+
+    if params[:keywords].present?
+      service_at_location_scope = service_at_location_scope.search(params[:keywords])
+    end
+
     service_at_location_scope = service_at_location_scope.page(params[:page]).includes(:organisation)
 
     @services = service_at_location_scope

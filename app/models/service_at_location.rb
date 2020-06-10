@@ -20,6 +20,16 @@ class ServiceAtLocation < ApplicationRecord
     where(:service_id => matching_services)
   }
 
+  include PgSearch::Model
+  pg_search_scope :search,
+                  associated_against: {
+                      taxonomies: [:name]
+                  },
+                  against: [:id, :service_name, :service_description],
+                  using: {
+                      tsearch: { prefix: true }
+                  }
+
   include Discard::Model
 
   def set_fields
