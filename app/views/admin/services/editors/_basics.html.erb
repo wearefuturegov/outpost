@@ -18,14 +18,23 @@
         </div>
     </div>
 
-    <div class="field checkbox">
+    <div class="field checkbox field--span-two-cols">
         <%= s.check_box :needs_referral, class: "checkbox__input"%>
         <%= s.label :needs_referral, "This service needs a referral", class: "checkbox__label" %>
     </div>
 
-    <div class="field field--span-two-cols">
+    <div class="field">
         <%= s.label :url, "Website", class: "field__label" %>
         <%= s.url_field :url, class: "field__input" %>
+        <p class="field__lower-hint">Must start with http:// or https://</p>
+    </div>
+
+    <div class="field">
+        <%= s.label :referral_url, class: "field__label" do %>
+            Referral URL
+            <button class="help-button help-button--small" type="button" data-tippy-content="Provide a URL that lets the user quickly access the service, if different to the main website. This could be referral guidance.">What does this mean?</button>
+        <% end %>
+        <%= s.url_field :referral_url, class: "field__input" %>
         <p class="field__lower-hint">Must start with http:// or https://</p>
     </div>
 </div>
