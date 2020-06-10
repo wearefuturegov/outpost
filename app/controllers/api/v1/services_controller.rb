@@ -2,14 +2,14 @@ class API::V1::ServicesController < ApplicationController
   skip_before_action :authenticate_user!
 
   def index
-    service_type = convert_service_type(params[:service_type])
-
     service_at_location_scope = ServiceAtLocation.kept
-    service_at_location_scope = service_at_location_scope.joins(service: :taxonomies).where(taxonomies: { name: service_type } ) if service_type.present?
-    if (params[:lat].present? && params[:lng].present?)
-      service_at_location_scope = service_at_location_scope.near([params[:lat], params[:lng]], 20).page(params[:page]).includes(:organisation)
+    unless taxonomy_params.nil?
+      service_at_location_scope = service_at_location_scope.in_taxonomies(taxonomy_params)
+    end
+    if params[:lat].present? && params[:lng].present?
+      service_at_location_scope = service_at_location_scope.near([params[:lat], params[:lng]], 20)
     elsif params[:coverage].present?
-      service_at_location_scope = service_at_location_scope.near(params[:coverage]).page(params[:page]).includes(:organisation)
+      service_at_location_scope = service_at_location_scope.near(params[:coverage])
     end
     service_at_location_scope = service_at_location_scope.page(params[:page]).includes(:organisation)
 
@@ -34,7 +34,15 @@ class API::V1::ServicesController < ApplicationController
     ActiveModel::Serializer::CollectionSerializer.new(@services)
   end
 
-  def convert_service_type service_type
+  private
+
+  def taxonomy_params
+    service_type_query = params[:service_type] || params[:taxonomies]
+    return nil unless service_type_query
+    service_type_query.split(',').map {|s|convert_service_type(s)}
+  end
+
+  def convert_service_type(service_type)
     case service_type
     when 'services'
       'Things to do'
@@ -44,7 +52,8 @@ class API::V1::ServicesController < ApplicationController
       'Education and learning'
     when 'advice_support'
       'Advice and support'
+    else
+      service_type
     end
   end
-
 end
