@@ -1,4 +1,5 @@
 class Admin::OfstedController < Admin::BaseController
+    before_action :ofsted_admins_only
     before_action :set_counts
     
     def index
@@ -30,5 +31,11 @@ class Admin::OfstedController < Admin::BaseController
 
     def set_counts
         @feed_count = OfstedItem.count
+    end
+
+    def ofsted_admins_only
+      unless current_user.admin_ofsted? 
+        redirect_to admin_root_path, notice: "You don't have permission to see the Ofsted feed."
+      end
     end
 end

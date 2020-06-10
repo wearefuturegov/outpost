@@ -8,7 +8,9 @@
     <%= render "shared/mini-search", path: admin_users_path(@query), clear_path: admin_users_path(@query.merge(:query => nil)) %>
     <%= render "filters" %>
   </div>
-  <%= link_to "Invite user", new_admin_user_path, class: "button button--small button--add actions__pull-right" %>
+  <% if current_user.admin_users? %>
+    <%= link_to "Invite user", new_admin_user_path, class: "button button--small button--add actions__pull-right" %>
+  <% end %>
 </header>
 
 <% if @users.any? %>
@@ -18,7 +20,9 @@
         <tr>
           <th></th>
           <th>Name or email</th>
-          <th>Admin</th>
+          <th>Manage services</th>
+          <th>Manage Ofsted</th>
+          <th>Manage users</th>
           <th>Organisation</th>
           <th><%= render "sort", column: "created_at", label: "Joined"%></th>
           <th><%= render "sort", column: "last_seen", label: "Last seen"%></th>
@@ -38,7 +42,21 @@
             </td>
             <td>
               <% if u.admin %>
-                <%= image_tag "tick-blue.svg", alt: "Admin" %>
+                <%= image_tag "tick-blue.svg", alt: "Yes" %>
+              <% else %>
+                —
+              <% end %>
+            </td>
+            <td>
+              <% if u.admin_ofsted %>
+                <%= image_tag "tick-blue.svg", alt: "Yes" %>
+              <% else %>
+                —
+              <% end %>
+            </td>
+            <td>
+              <% if u.admin_users %>
+                <%= image_tag "tick-blue.svg", alt: "Yes" %>
               <% else %>
                 —
               <% end %>

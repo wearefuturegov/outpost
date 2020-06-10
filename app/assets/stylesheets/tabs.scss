@@ -22,4 +22,10 @@
             }
         }
     }
+
+    .tabs__panel::after{
+        content: "";
+        display: block;
+        clear: both;
+    }
 }

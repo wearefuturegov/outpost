@@ -1,5 +1,5 @@
 class Admin::UsersController < Admin::BaseController
-    # before_action :check_privileges, only: [:create, :update, :destroy, :reactivate, :reset]
+    before_action :user_admins_only, only: [:new, :create, :update, :destroy, :reactivate]
     before_action :set_user, only: [:show, :update, :destroy]
     
     def index
@@ -46,7 +46,7 @@ class Admin::UsersController < Admin::BaseController
 
     def update
       if @user.update(user_params)
-        redirect_to admin_users_path, notice: "User has been updated"
+        redirect_to admin_user_path(@user), notice: "User has been updated"
       else
         render "show"
       end
@@ -79,11 +79,11 @@ class Admin::UsersController < Admin::BaseController
 
     private
 
-    # def check_privileges
-    #   unless current_user.admin_users? 
-    #     redirect_to admin_root_path, notice: "You don't have permission to administer other users."
-    #   end
-    # end
+    def user_admins_only
+      unless current_user.admin_users? 
+        redirect_to request.referer, notice: "You don't have permission to edit other users."
+      end
+    end
 
     def set_user
       @user = User.find(params[:id])
@@ -95,6 +95,7 @@ class Admin::UsersController < Admin::BaseController
         :first_name,
         :last_name,
         :admin,
+        :admin_ofsted,
         :admin_users,
         :organisation_id
       )
