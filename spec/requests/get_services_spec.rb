@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe "get all services", type: :request do
-  let!(:organisations) { FactoryBot.create_list(:organisation_with_services, 5) }
 
   before { get '/api/v1/services' }
 
