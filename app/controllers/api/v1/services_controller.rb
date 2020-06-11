@@ -2,31 +2,9 @@ class API::V1::ServicesController < ApplicationController
   skip_before_action :authenticate_user!
 
   def index
-    service_at_location_scope = ServiceAtLocation.kept
-    unless taxonomy_params.nil?
-      service_at_location_scope = service_at_location_scope.in_taxonomies(taxonomy_params)
-    end
-    if params[:lat].present? && params[:lng].present?
-      service_at_location_scope = service_at_location_scope.near([params[:lat], params[:lng]], 20)
-    elsif params[:coverage].present?
-      service_at_location_scope = service_at_location_scope.near(params[:coverage])
-    end
-
-    if params[:keywords].present?
-      service_at_location_scope = service_at_location_scope.search(params[:keywords])
-    end
-
-    service_at_location_scope = service_at_location_scope.page(params[:page]).includes(:organisation)
-
-    @services = service_at_location_scope
-
-    render json: {
-      "totalElements": @services.total_count,
-      "totalPages": @services.total_pages,
-      "number": @services.current_page,
-      "size": @services.limit_value,
-      "content": serialized_services
-    }, include: "organisation,location,contacts,contacts.phones,taxonomies"
+    result = ApprovedServices.all.map { |s| JSON.parse(s['object']) }
+    result = Kaminari.paginate_array(result).page(params[:page])
+    render json: result
   end
 
   def show
