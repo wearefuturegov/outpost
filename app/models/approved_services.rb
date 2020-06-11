@@ -26,10 +26,11 @@ class ApprovedServices
         -- aggregate the taxonomy and locations joins, and turn them into an object holding the array
         -- e.g. row 1, taxonomy 1, row 1 taxonomy 2
         -- becomes { 'taxonomies', [{...taxonomy 1}, {... taxonomy 2}]
-        json_build_object('taxonomies', json_agg(row_to_json(st))) as taxonomy,
+        json_build_object('taxonomies', json_agg(row_to_json(t))) as taxonomy,
         json_build_object('locations', json_agg(row_to_json(l))) as location from services c
 
         inner join service_taxonomies st on c.id = st.service_id
+        inner join taxonomies t on t.id = st.taxonomy_id
         inner join service_at_locations sl on c.id = sl.service_id
         inner join locations l on sl.location_id = l.id
         group by c.id) as json_columns) object
