@@ -1,23 +1,23 @@
 
 <div class="field-section field-section--two-cols">
     <p class="field-section__hint">All must start with http:// or https://</p>
-    <div class="field">
+    <div class="field <%= mark_unapproved_field("facebook_url") %>">
         <%= s.label :facebook_url, "Facebook URL", class: "field__label" %>
         <%= s.url_field :facebook_url, class: "field__input" %>
     </div>
-    <div class="field">
+    <div class="field <%= mark_unapproved_field("twitter_url") %>">
         <%= s.label :twitter_url, "Twitter URL", class: "field__label" %>
         <%= s.url_field :twitter_url, class: "field__input" %>
     </div>
-    <div class="field">
+    <div class="field <%= mark_unapproved_field("youtube_url") %>">
         <%= s.label :youtube_url, "Youtube URL", class: "field__label" %>
         <%= s.url_field :youtube_url, class: "field__input" %>
     </div>
-    <div class="field">
+    <div class="field <%= mark_unapproved_field("instagram_url") %>">
         <%= s.label :instagram_url, "Instagram URL", class: "field__label" %>
         <%= s.url_field :instagram_url, class: "field__input" %>
     </div>
-    <div class="field">
+    <div class="field <%= mark_unapproved_field("linkedin_url") %>">
         <%= s.label :linkedin_url, "LinkedIn URL", class: "field__label" %>
         <%= s.url_field :linkedin_url, class: "field__input" %>
     </div>

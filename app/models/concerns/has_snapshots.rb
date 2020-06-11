@@ -18,19 +18,11 @@ module HasSnapshots
     end
 
     def capture(snapshot_action)
-        # byebug
         new_snapshot = Snapshot.new(
             service: self,
             user: Current.user,
             action: snapshot_action,
-            object: self.as_json(include: [
-                :taxonomies, 
-                :locations,
-                :contacts,
-                :cost_options,
-                :local_offer,
-                :regular_schedules
-            ]),
+            object: self.as_json,
             object_changes: self.saved_changes.as_json
         )
         new_snapshot.save

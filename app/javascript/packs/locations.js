@@ -1,4 +1,5 @@
 // import { initialise } from "./google"
+import tippy from "tippy.js"
 
 let editors = document.querySelectorAll(".nested-editor")
 
@@ -16,6 +17,9 @@ editors.forEach(editor => {
         newResult.classList.add("nested-editor__result")
         newResult.innerHTML = addButton.dataset.fields.replace(regexp, time)
         results.appendChild(newResult)
+
+        // activate tippies
+        tippy("[data-tippy-content]") 
     })
 
     // Remove this location

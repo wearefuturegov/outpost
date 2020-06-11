@@ -4,9 +4,7 @@ class Admin::SnapshotsController < Admin::BaseController
 
     def index
         @snapshots = @service.snapshots.order(created_at: :desc).includes([:user])
-        @live_object = @service.as_json(include: [
-            :taxonomies
-        ])
+        @live_object = @service.as_json
         render :layout => "full-width"
     end
 

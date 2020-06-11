@@ -1,15 +1,15 @@
 <div class="field-section field-section--two-cols">
-    <div class="field field--required">
+    <div class="field field--required <%= mark_unapproved_field("name") %>">
         <%= s.label :name, class: "field__label" %>
         <%= s.text_field :name, value: @service.name, class: "field__input", required: true %>
     </div>
 
-    <div class="field field--required">
+    <div class="field field--required <%= mark_unapproved_field("organisation_id") %>">
         <%= s.label :organisation_id, "Parent organisation", class: "field__label" %>
         <%= s.collection_select( :organisation_id, Organisation.all, :id, :display_name, {}, class: "field__input", data: {choices: true})%>
     </div>
 
-    <div class="field field--span-two-cols" data-word-count="true">
+    <div class="field field--span-two-cols <%= mark_unapproved_field("description") %>" data-word-count="true">
         <%= s.label :description, class: "field__label" %>
         <%= s.text_area :description, value: @service.description, class: "field__input", rows: 5 %>
         <div class="field__footer">
@@ -18,18 +18,20 @@
         </div>
     </div>
 
-    <div class="field checkbox field--span-two-cols">
+    <div class="field field--span-two-cols <%= mark_unapproved_field("needs_referral") %>">
+        <div class="checkbox">
         <%= s.check_box :needs_referral, class: "checkbox__input"%>
         <%= s.label :needs_referral, "This service needs a referral", class: "checkbox__label" %>
+        </div>
     </div>
 
-    <div class="field">
+    <div class="field <%= mark_unapproved_field("url") %>">
         <%= s.label :url, "Website", class: "field__label" %>
         <%= s.url_field :url, class: "field__input" %>
         <p class="field__lower-hint">Must start with http:// or https://</p>
     </div>
 
-    <div class="field">
+    <div class="field <%= mark_unapproved_field("referral_url") %>">
         <%= s.label :referral_url, class: "field__label" do %>
             Referral URL
             <button class="help-button help-button--small" type="button" data-tippy-content="Provide a URL that lets the user quickly access the service, if different to the main website. This could be referral guidance.">What does this mean?</button>

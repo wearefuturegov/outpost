@@ -38,7 +38,6 @@ class Admin::ServicesController < Admin::BaseController
   end
 
   def update
-    # byebug
     if @service.update(service_params)
       redirect_to admin_service_url(@service), notice: "Service has been updated."
     else
@@ -67,7 +66,7 @@ class Admin::ServicesController < Admin::BaseController
   private
 
   def set_service
-    @service = Service.includes(notes: [:user]).find(params[:id])
+    @service = Service.includes(notes: [:user], snapshots: [:user]).find(params[:id])
   end
 
   def service_params
@@ -77,8 +76,12 @@ class Admin::ServicesController < Admin::BaseController
       :description,
       :url,
       :referral_url,
+      :facebook_url, 
+      :twitter_url, 
+      :youtube_url, 
+      :instagram_url, 
+      :linkedin_url,
       :visible,
-      :email,
       :visible_from,
       :visible_to,
       :label_list,
@@ -109,6 +112,7 @@ class Admin::ServicesController < Admin::BaseController
         :name,
         :title,
         :visible,
+        :email,
         :_destroy,
         phones_attributes: [
           :id,

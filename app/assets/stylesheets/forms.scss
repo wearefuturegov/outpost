@@ -129,6 +129,22 @@
     }
 }
 
+.changed{
+    position: relative;
+    border-left: 5px solid $focus;
+    padding-left: 15px;
+    padding-top: 40px;
+    &:before{
+        content: "Changed";
+        font-weight: bold;
+        color: darken($focus, 10);
+        font-size: 1.3rem;
+        position: absolute;
+        top: 0px;
+        float: left;
+    }
+}
+
 .button{
     display: block;
     width: 100%;

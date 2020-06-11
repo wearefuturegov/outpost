@@ -1,8 +1,10 @@
 <div class="local-offer-editor" aria-live="polite">
 
-    <div class="field checkbox">
-        <%= local_offer_checkbox(s, "admin/services/editors/local-offer-fields") %>
-        <%= label_tag "local_offer", "Part of local offer?", class: "checkbox__label" %>
+    <div class="field <%= mark_unapproved_field("local_offer") %>">
+        <div class="checkbox">
+            <%= local_offer_checkbox(s, "admin/services/editors/local-offer-fields") %>
+            <%= label_tag "local_offer", "Part of local offer?", class: "checkbox__label" %>
+        </div>
     </div>
 
     <%= s.fields_for :local_offer do |l| %>

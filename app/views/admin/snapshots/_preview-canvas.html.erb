@@ -6,6 +6,8 @@
             <div class="snapshot-preview__diff">
                 <% if live[key].is_a?(Array) %>
                     <%= diff(ordered(current[key]), ordered(live[key])) %>
+                <% elsif live[key].is_a?(Hash) %>
+                    <%= diff(ordered_hash(current[key]), ordered_hash(live[key])) %>
                 <% else %>
                     <%= diff(current[key].to_s, live[key].to_s) %>
                 <% end %>
