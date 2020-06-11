@@ -1,12 +1,12 @@
 
 <div class="field-section field-section--reduced-bottom-margin" data-local-offer-fields>
 
-    <div class="field field--required <%= mark_unapproved_field("local_offer", "description") %>">
+    <div class="field field--required">
         <%= l.label :description, "Description of support provided", class: "field__label" %>
         <%= l.text_area :description, class: "field__input", rows: "5", required: true %>
     </div>
 
-    <div class="field <%= mark_unapproved_field("local_offer", "link") %>">
+    <div class="field">
         <%= l.label :link, "Link to most recent SEND report", class: "field__label" %>
         <%= l.url_field :link, class: "field__input" %>
         <p class="field__lower-hint">Must start with http:// or https://</p>

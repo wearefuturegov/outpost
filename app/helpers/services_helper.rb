@@ -6,7 +6,19 @@ module ServicesHelper
         end
     end
 
-    def mark_unapproved_section(attribute)
+    def mark_unapproved_local_offer
+        if @service.unapproved_changes?("local_offer")
+            content_tag(:div, class: "changed") do
+                yield
+            end
+        else
+            content_tag(:div) do
+                yield
+            end
+        end
+    end
+
+    def mark_unapproved_array(attribute)
         if @service.unapproved_changes_array?(attribute)
             content_tag(:div, class: "changed") do
                 yield
