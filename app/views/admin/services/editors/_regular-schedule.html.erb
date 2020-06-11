@@ -1,10 +1,12 @@
-<section class="nested-editor">
-    <ul class="nested-editor__results" aria-live="polite">
-        <%= s.fields_for :regular_schedules do |sched| %>
-            <li class="nested-editor__result">
-                <%= render "admin/services/editors/regular-schedule-fields", sched: sched %>
-            </li>
-        <% end %>
-    </ul>
-    <%= link_to_add_fields "Add a schedule", s, :regular_schedules, "admin/services/editors/regular-schedule-fields" %>
-</section>
+<%= mark_unapproved_array("regular_schedules") do %>
+    <section class="nested-editor">
+        <ul class="nested-editor__results" aria-live="polite">
+            <%= s.fields_for :regular_schedules do |sched| %>
+                <li class="nested-editor__result">
+                    <%= render "admin/services/editors/regular-schedule-fields", sched: sched %>
+                </li>
+            <% end %>
+        </ul>
+        <%= link_to_add_fields "Add a schedule", s, :regular_schedules, "admin/services/editors/regular-schedule-fields" %>
+    </section>
+<% end %>

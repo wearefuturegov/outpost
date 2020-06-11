@@ -18,7 +18,6 @@ class MembersController < ApplicationController
     end
 
     def destroy
-        byebug
         @user = User.find(params[:id])
         @user.discard
         redirect_to organisations_path, notice: "That user has been removed and won't be able to log in any more."

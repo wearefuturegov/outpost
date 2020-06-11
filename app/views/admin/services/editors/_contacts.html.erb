@@ -1,12 +1,16 @@
-<section class="nested-editor">
+<%= mark_unapproved_array("contacts") do %>
 
-    <ul class="nested-editor__results" aria-live="polite">
-        <%= s.fields_for :contacts do |c| %>
-            <li class="nested-editor__result">
-                <%= render "admin/services/editors/contacts-fields", c: c %>
-            </li>
-        <% end %>
-    </ul>
+    <section class="nested-editor">
 
-    <%= link_to_add_contact_fields "Add a contact", s, :contacts, "admin/services/editors/contacts-fields" %>
-</section>
+        <ul class="nested-editor__results" aria-live="polite">
+            <%= s.fields_for :contacts do |c| %>
+                <li class="nested-editor__result">
+                    <%= render "admin/services/editors/contacts-fields", c: c %>
+                </li>
+            <% end %>
+        </ul>
+
+        <%= link_to_add_contact_fields "Add a contact", s, :contacts, "admin/services/editors/contacts-fields" %>
+    </section>
+
+<% end %>

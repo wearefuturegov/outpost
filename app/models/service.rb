@@ -129,4 +129,47 @@ class Service < ApplicationRecord
     #   self.taxonomies << t.ancestors
     # end
   end
+
+  # return the most recent approved snapshot, if it exists
+  def last_approved_snapshot
+    Snapshot
+      .where(service: self.id)
+      .where("object->>'approved' = 'true'")
+      .order(created_at: :desc)
+      .first
+  end
+
+  # include nested taxonomies in json representation by default
+  def as_json(options={})
+    options[:include] = [
+      :taxonomies, 
+      :locations,
+      :contacts,
+      :cost_options,
+      :local_offer,
+      :regular_schedules
+    ]
+    super
+  end
+
+  def unapproved_changes?(attribute, child_attribute = false)
+    if self.approved?
+      false
+    else
+      if(child_attribute)
+        self.as_json[attribute][child_attribute].to_s != self.last_approved_snapshot.object[attribute][child_attribute].to_s
+      else
+        self.as_json[attribute].to_s != self.last_approved_snapshot.object[attribute].to_s
+      end
+    end
+  end
+
+  def unapproved_changes_array?(attribute)
+    if self.approved?
+      false
+    else
+      self.as_json[attribute].to_a.sort_by{ |o| o["id"]} != self.last_approved_snapshot.object[attribute].to_a.sort_by{ |o| o["id"]}
+    end
+  end
+
 end

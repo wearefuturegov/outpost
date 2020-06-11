@@ -28,13 +28,9 @@
 
 <header class="actions">
   <%= render "shared/watch" %>
-  <a class="button button--inline actions__pull-right" href="#">See live</a>
-  <button class="button button--inline" data-close-all="true">Close all</button>
+  <button class="button button--inline actions__pull-right" data-open-all>Open all</button>
+  <button class="button button--inline" data-close-all>Close all</button>
 </header>
-
-<% unless @service.approved? %> 
-  <%= changed_fields(@service) %>
-<% end %>
 
 <div class="with-sidebar">
 
