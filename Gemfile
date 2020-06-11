@@ -32,7 +32,7 @@ gem 'acts-as-taggable-on'
 gem 'closure_tree'
 gem 'uk_postcode'
 gem 'diffy'
-gem 'mongoid'
+gem 'mongo'
 
 
 group :development, :test do
