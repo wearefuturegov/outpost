@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_10_182350) do
+ActiveRecord::Schema.define(version: 2020_06_11_100245) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -185,6 +185,16 @@ ActiveRecord::Schema.define(version: 2020_06_10_182350) do
     t.index ["discarded_at"], name: "index_service_at_locations_on_discarded_at"
   end
 
+  create_table "service_change_request", force: :cascade do |t|
+    t.bigint "service_id", null: false
+    t.bigint "user_id", null: false
+    t.json "object", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["service_id"], name: "index_service_change_request_on_service_id"
+    t.index ["user_id"], name: "index_service_change_request_on_user_id"
+  end
+
   create_table "service_taxonomies", force: :cascade do |t|
     t.bigint "taxonomy_id"
     t.bigint "service_id"
@@ -286,8 +296,8 @@ ActiveRecord::Schema.define(version: 2020_06_10_182350) do
     t.datetime "remember_created_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "organisation_id"
     t.boolean "admin"
+    t.bigint "organisation_id"
     t.string "first_name"
     t.string "last_name"
     t.datetime "last_seen"
@@ -327,6 +337,8 @@ ActiveRecord::Schema.define(version: 2020_06_10_182350) do
   add_foreign_key "notes", "services"
   add_foreign_key "notes", "users"
   add_foreign_key "regular_schedules", "services"
+  add_foreign_key "service_change_request", "services"
+  add_foreign_key "service_change_request", "users"
   add_foreign_key "snapshots", "services"
   add_foreign_key "snapshots", "users"
   add_foreign_key "taggings", "tags"
