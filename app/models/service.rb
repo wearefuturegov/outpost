@@ -129,4 +129,14 @@ class Service < ApplicationRecord
     #   self.taxonomies << t.ancestors
     # end
   end
+
+  # return the most recent approved snapshot, if it exists
+  def last_approved_snapshot
+    Snapshot
+      .where(service: self.id)
+      .where("object->>'approved' = 'true'")
+      .order(created_at: :desc)
+      .first
+  end
+
 end

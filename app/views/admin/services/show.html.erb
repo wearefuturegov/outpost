@@ -33,7 +33,7 @@
 </header>
 
 <% unless @service.approved? %> 
-  <%= changed_fields(@service) %>
+  <%= @service.last_approved_snapshot %>
 <% end %>
 
 <div class="with-sidebar">
