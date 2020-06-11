@@ -1,6 +1,7 @@
 class Service < ApplicationRecord
 
   include HasSnapshots
+  include MongoIndexCallbacks
 
   belongs_to :organisation, counter_cache: true
 
