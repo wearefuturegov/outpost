@@ -2,7 +2,8 @@ class API::V1::ServicesController < ApplicationController
   skip_before_action :authenticate_user!
 
   def index
-    result = ApprovedServices.all.take(5).map { |s| JSON.parse(s['object']) }
+    result = ApprovedServices.all.map { |s| JSON.parse(s['object']) }
+    result = Kaminari.paginate_array(result).page(params[:page])
     render json: result
   end
 
