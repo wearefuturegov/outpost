@@ -141,15 +141,16 @@ class Service < ApplicationRecord
   end
 
   # include nested taxonomies in json representation by default
+  # https://www.tigraine.at/2011/11/17/rails-to_json-nested-includes-and-methods/
   def as_json(options={})
-    options[:include] = [
-      :taxonomies, 
-      :locations,
-      :contacts,
-      :cost_options,
-      :local_offer,
-      :regular_schedules
-    ]
+    options[:include] = {
+      :taxonomies => {}, 
+      :locations => { :methods => :coordinates },
+      :contacts => {},
+      :cost_options => {},
+      :local_offer => {},
+      :regular_schedules => {}
+    }
     super
   end
 

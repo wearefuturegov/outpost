@@ -57,6 +57,10 @@ class Location < ApplicationRecord
     array.join(", ")
   end
 
+  def coordinates
+    [longitude.to_f, latitude.to_f]
+  end
+
   private
 
   def should_geocode?

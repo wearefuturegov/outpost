@@ -5,7 +5,7 @@ task :mongo => :environment  do
     collection = client.database[:indexed_services]
 
     # 1. wipe the collection
-    collection.drop
+    collection.remove({})
 
     # 2. insert new approved services (simple)
     approved_results = Service.where(approved: true).each do |result|
