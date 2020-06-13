@@ -57,8 +57,11 @@ class Location < ApplicationRecord
     array.join(", ")
   end
 
-  def coordinates
-    [longitude.to_f, latitude.to_f]
+  def geometry
+    {
+      type: "Point",  
+      coordinates: [longitude.to_f, latitude.to_f]
+    }
   end
 
   private
