@@ -37,7 +37,7 @@ class Service < ApplicationRecord
   accepts_nested_attributes_for :locations, allow_destroy: true, reject_if: :all_blank
 
   # callbacks
-  after_save :update_service_at_locations
+  # after_save :update_service_at_locations
   after_save :notify_watchers
   before_save :recursively_add_parents
 
@@ -115,11 +115,11 @@ class Service < ApplicationRecord
     self.save
   end
 
-  def update_service_at_locations
-    self.service_at_locations.each do |service_at_location|
-      service_at_location.update_service_fields
-    end
-  end
+  # def update_service_at_locations
+  #   self.service_at_locations.each do |service_at_location|
+  #     service_at_location.update_service_fields
+  #   end
+  # end
 
   def notify_watchers
     ServiceMailer.with(service: self).notify_watchers_email.deliver_later
@@ -142,14 +142,15 @@ class Service < ApplicationRecord
 
   # include nested taxonomies in json representation by default
   def as_json(options={})
-    options[:include] = [
-      :taxonomies, 
-      :locations,
-      :contacts,
-      :cost_options ,
-      :local_offer,
-      :regular_schedules
-    ]
+    options[:include] = {
+      :organisation => {},
+      :locations => { methods: :geometry },
+      :taxonomies => { methods: :slug },
+      :contacts => {},
+      :local_offer => {},
+      :cost_options => {},
+      :regular_schedules => {}
+    }
     super
   end
 
