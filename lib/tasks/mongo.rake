@@ -15,6 +15,7 @@ task :mongo => :environment  do
         record = result.as_json(include: {
             location: { methods: :geometry },
             service: { include: [
+                :organisation => {},
                 :taxonomies => { methods: :slug },
                 :contacts => {},
                 :local_offer => {},
