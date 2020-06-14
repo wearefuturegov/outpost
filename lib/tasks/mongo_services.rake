@@ -20,10 +20,10 @@ task :mongo_services => :environment  do
         approved_alternative = result.last_approved_snapshot
         if approved_alternative
             collection.insert_one(approved_alternative.object)
-            puts "✅ Alternative approved snapshot of #{result.name} indexed"
+            puts "🤔 Alternative approved snapshot of #{result.name} indexed"
             unapproved_count = unapproved_count + 1
         else
-            puts "🚨⏭ No alternative approved snapshot of #{result.name} exists. Skipping."
+            puts "🚨 No alternative approved snapshot of #{result.name} exists. Skipping."
         end
     end 
 
