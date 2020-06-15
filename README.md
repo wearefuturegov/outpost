@@ -18,7 +18,7 @@ A [standards-driven](https://opencommunity.org.uk/) API and comprehensive set of
 
 It's a rails app backed by a postgres database.
 
-Outpost works alongside a [seperate API component](github.com/wearefuturegov/outpost-api-service/).
+Outpost works alongside a [seperate API component](https://github.com/wearefuturegov/outpost-api-service/).
 
 We're also building an [example front-end](https://github.com/wearefuturegov/scout-x) for Outpost.
 
