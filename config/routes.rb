@@ -39,7 +39,7 @@ Rails.application.routes.draw do
         get "pending"
       end
     end
-    resources :activity, only: [:index]
+    resources :activity, only: [:index, :show]
     resources :users, except: [:edit] do
       post "reset"
       post "reactivate"

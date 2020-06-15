@@ -1,5 +1,9 @@
 <% content_for :header do %>
+  <% if params[:id] %>
+    <h1 class="page-header__title">Activity log for <%= User.find(params[:id]).display_name %></h1>
+  <% else %>
     <h1 class="page-header__title">Activity log</h1>
+  <% end %>
 <% end %>
 
 <% if @activities.present? %>
