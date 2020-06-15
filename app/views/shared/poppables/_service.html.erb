@@ -1,5 +1,5 @@
 <span class="poppable">
-    <%= link_to s.name, admin_service_url(s), class: "poppable__control" %>
+    <%= link_to s.name.truncate(25), admin_service_url(s), class: "poppable__control" %>
 
     <div class="poppable-card">
         <div class="poppable-card__inner">

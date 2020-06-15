@@ -81,7 +81,9 @@ module ApplicationHelper
     end
 
     def status_tag(status)
-        if status === "pending"
+        if status === "marked for deletion"
+            "<span class='tag tag--red'>Marked for deletion</span".html_safe
+        elsif status === "pending"
             "<span class='tag tag--yellow'>Pending</span".html_safe
         elsif status === "archived"
             "<span class='tag tag--grey'>Archived</span".html_safe

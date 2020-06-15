@@ -71,6 +71,11 @@
         border-color: darken($focus, 30);
         background: transparentize($focus, 0.9);
     }
+    &.tag--red{
+        color: $error;
+        border-color: $error;
+        background: transparentize($error, 0.9);
+    }
     &.tag--grey{
         color: $grey;
         border-color: $grey;

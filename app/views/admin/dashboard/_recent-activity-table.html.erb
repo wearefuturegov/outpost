@@ -4,7 +4,6 @@
       <thead>
         <tr>
             <th>Service</th>
-            <th class="visually-hidden">Event</th>
             <th>By</th>
             <th>At</th>
         </tr>
@@ -13,10 +12,7 @@
         <% @activities.each do |a| %>
           <tr>
             <td>
-              <%= render "shared/poppables/service", s: a.service %>
-            </td>
-            <td>
-              <%= pretty_event(a.action).humanize %>
+              <%= render "shared/poppables/service", s: a.service %> was <%= a.action %>d
             </td>
             <td>
               <%= render "shared/poppables/user", u: a.user if a.user %>

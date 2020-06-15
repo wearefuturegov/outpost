@@ -71,7 +71,9 @@ class Service < ApplicationRecord
   end
 
   def status
-    if discarded?
+    if marked_for_deletion?
+      "marked for deletion"
+    elsif discarded?
       "archived"
     elsif !approved
       "pending"
