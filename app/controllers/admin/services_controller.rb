@@ -89,6 +89,7 @@ class Admin::ServicesController < Admin::BaseController
       :current_vacancies,
       :pick_up_drop_off_service,
       :needs_referral,
+      :marked_for_deletion,
       taxonomy_ids: [],
       local_offer_attributes: [
         :id,

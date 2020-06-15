@@ -83,6 +83,8 @@
         <%= render "admin/services/editors/labels", s: s %>
       <% end %>
 
+      <%= render "admin/services/permenant-deletion", s: s %>
+
       <div class="form-actions">
         <%= s.submit "Update", class: "button" %>
         <% unless @service.discarded? %>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_15_135522) do
+ActiveRecord::Schema.define(version: 2020_06_15_142458) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -211,6 +211,7 @@ ActiveRecord::Schema.define(version: 2020_06_15_135522) do
     t.string "bccn_membership_number"
     t.boolean "current_vacancies"
     t.boolean "pick_up_drop_off_service"
+    t.datetime "marked_for_deletion"
     t.index ["discarded_at"], name: "index_services_on_discarded_at"
     t.index ["organisation_id"], name: "index_services_on_organisation_id"
   end

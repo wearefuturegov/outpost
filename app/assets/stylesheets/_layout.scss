@@ -313,3 +313,21 @@
         color: $text;
     }
 }
+
+
+.danger-zone{
+    border: 2px solid $error;
+    background: transparentize($error, 0.9);
+    padding: 25px;
+    margin-bottom: 65px;
+    h2{
+        margin-bottom: 10px;
+    }
+
+    p{
+        margin-bottom: 20px;
+    }
+    .field{
+        margin-bottom: 0px;
+    }
+}

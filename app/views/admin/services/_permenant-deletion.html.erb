@@ -1,0 +1,13 @@
+<div class="danger-zone">
+    <h2>Danger zone</h2>
+    <p>Permanently deleted services will be removed after 30 days. They can't be recovered by anyone.</p>
+
+    <% if s.object.discarded? %>
+        <div class="field">
+            <div class="checkbox">
+                <%= s.check_box :marked_for_deletion, {class: "checkbox__input", checked: @service.marked_for_deletion?}, Time.now %>
+                <%= s.label :marked_for_deletion, "Mark this service for permanent deletion?", class: "checkbox__label" %>
+            </div>
+        </div>
+    <% end %>
+</div>
