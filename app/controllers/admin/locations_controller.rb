@@ -24,7 +24,7 @@ class Admin::LocationsController < Admin::BaseController
 
     def update
         if @location.update(location_params)
-            redirect_to admin_location_path(@location), notice: "Location has been updated"
+            redirect_to admin_location_path(@location), notice: "Location has been updated."
         else
             render "show"
         end

@@ -60,7 +60,7 @@ class Admin::ServicesController < Admin::BaseController
 
   def destroy
     @service.archive
-    redirect_to admin_services_path, notice: "That service has been archived"
+    redirect_to admin_services_path, notice: "That service has been archived."
   end
 
   private

@@ -20,6 +20,12 @@
     }
 }
 
+.one-half{
+    @media screen and (min-width: $breakpoint-m){
+        max-width: 50%;
+    }
+}
+
 .page-header{
     padding: 40px $outer-spacing;
     @media screen and (min-width: $breakpoint-m){

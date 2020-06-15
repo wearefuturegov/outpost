@@ -12,7 +12,7 @@ class Admin::TaxonomiesController < Admin::BaseController
   
     def update
       if @taxonomy.update(taxonomy_params)
-        redirect_to admin_taxonomy_path, notice: "Taxonomy has been updated"
+        redirect_to admin_taxonomy_path, notice: "Taxonomy has been updated."
       else
         render "show"
       end
@@ -21,7 +21,7 @@ class Admin::TaxonomiesController < Admin::BaseController
     def create
       @taxonomy = Taxonomy.create(taxonomy_params)
       if @taxonomy.save
-        redirect_to admin_taxonomies_path, notice: "Taxonomy has been created"
+        redirect_to admin_taxonomies_path, notice: "Taxonomy has been created."
       else
         render "index"
       end
@@ -29,7 +29,7 @@ class Admin::TaxonomiesController < Admin::BaseController
 
     def destroy
       @taxonomy.destroy
-      redirect_to admin_taxonomies_path, notice: "Taxonomy has been deleted"
+      redirect_to admin_taxonomies_path, notice: "Taxonomy has been deleted."
     end
     
     private

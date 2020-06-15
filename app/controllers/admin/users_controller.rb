@@ -46,7 +46,7 @@ class Admin::UsersController < Admin::BaseController
 
     def update
       if @user.update(user_params)
-        redirect_to admin_user_path(@user), notice: "User has been updated"
+        redirect_to admin_user_path(@user), notice: "User has been updated."
       else
         render "show"
       end
@@ -59,22 +59,22 @@ class Admin::UsersController < Admin::BaseController
     def destroy
       unless @user === current_user
         @user.discard
-        redirect_to admin_users_path, notice: "That user has been deactivated"
+        redirect_to admin_users_path, notice: "That user has been deactivated."
       else
-        redirect_to admin_user_path(@user), notice: "You can't deactivate yourself"
+        redirect_to admin_user_path(@user), notice: "You can't deactivate yourself."
       end
     end
 
     def reactivate
       User.find(params[:user_id]).undiscard
-      redirect_to request.referer, notice: "That user has been reactivated"
+      redirect_to request.referer, notice: "That user has been reactivated."
     end
 
     def reset
       @user = User.find(params[:user_id])
       token = @user.send(:set_reset_password_token)
       UserMailer.with(token: token, user: @user).reset_instructions_email.deliver_later
-      redirect_to admin_user_path(@user), notice: "Password reset instructions have been sent by email"
+      redirect_to admin_user_path(@user), notice: "Password reset instructions have been sent by email."
     end
 
     private
