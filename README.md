@@ -18,13 +18,17 @@ A [standards-driven](https://opencommunity.org.uk/) API and comprehensive set of
 
 It's a rails app backed by a postgres database.
 
+Outpost works alongside a [seperate API component](https://github.com/wearefuturegov/outpost-api-service/).
+
 We're also building an [example front-end](https://github.com/wearefuturegov/scout-x) for Outpost.
 
 ## Running it locally
 
-You need ruby and node.js installed, plus a postgresql server running.
+You need ruby and node.js installed, plus PostgreSQL server running.
 
-First, clone the repo: 
+If you want to build a public index for the API, you'll also need a local MongoDB server.
+
+First, clone the repo. Then:
 
 ```
 bundle install
@@ -38,6 +42,12 @@ rspec
 
 For the database seed to succeed, you need a source data file `bucksfis.csv` in the `lib/seeds` folder.
 
+### Building the public index
+
+Outpost's API component relies on a public index stored on MongoDB.
+
+You can run `rails mongo_services` to build the public index for the first time. Active record callbacks keep it up to date as services are changed, but it's a good idea to occasionally refresh the index by re-running that rake task
+
 ## Running it on the web
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](
@@ -46,7 +56,6 @@ https://heroku.com/deploy)
 It's suitable for 12-factor app hosting like [Heroku](http://heroku.com).
 
 It has a `Procfile` that will [automatically run](https://devcenter.heroku.com/articles/release-phase) pending rails migrations on every deploy, to reduce downtime.
-
 
 ## Config
 
@@ -61,4 +70,3 @@ In production only:
 - `SENDGRID_API_KEY` to send emails
 - `MAILER_HOST` where the app lives on the web, to correctly form urls in emails
 - `MAILER_FROM` the email address emails will be delivered from
-
