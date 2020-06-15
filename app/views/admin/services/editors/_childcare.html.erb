@@ -1,0 +1,24 @@
+<div class="field-section">
+    <div class="field <%= mark_unapproved_field("bccn_membership_number") %>">
+        <%= s.label :bccn_membership_number, class: "field__label" do %>
+            BCCN membership number
+            <button class="help-button help-button--small" type="button" data-tippy-content="If this service is a member of the Buckinghamshire Community Childminding Network, add the membership number.">What does this mean?</button>
+        <% end %>
+        <%= s.text_field :bccn_membership_number, class: "field__input" %>
+    </div>
+
+    <div class="field <%= mark_unapproved_field("current_vacancies") %>">
+        <div class="checkbox">
+            <%= s.check_box :current_vacancies, class: "checkbox__input"%>
+            <%= s.label :current_vacancies, "Has vacancies for new children", class: "checkbox__label" %>
+        </div>
+    </div>
+
+    <div class="field <%= mark_unapproved_field("pick_up_drop_off_service") %>">
+        <div class="checkbox">
+            <%= s.check_box :pick_up_drop_off_service, class: "checkbox__input"%>
+            <%= s.label :pick_up_drop_off_service, "Offers a pick-up or drop-off service", class: "checkbox__label" %>
+        </div>
+    </div>
+
+</div>

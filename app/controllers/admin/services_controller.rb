@@ -85,9 +85,11 @@ class Admin::ServicesController < Admin::BaseController
       :visible_from,
       :visible_to,
       :label_list,
+      :bccn_membership_number,
+      :current_vacancies,
+      :pick_up_drop_off_service,
       :needs_referral,
       taxonomy_ids: [],
-      # location_ids: [],
       local_offer_attributes: [
         :id,
         :description,
