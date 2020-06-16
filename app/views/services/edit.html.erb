@@ -8,7 +8,7 @@
 
 <ul class="list-unstyled multi-steps">
   <% service_creation_steps.each do |step| %>
-    <li class="<%= 'is-active' if @stage == step %>"><%= link_to step, edit_service_path(@service, :stage => step) %></li>
+    <li class="<%= 'is-active' if @stage == step %>"><%= step %></li>
   <% end %>
 </ul>
 

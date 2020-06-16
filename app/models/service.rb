@@ -157,7 +157,7 @@ class Service < ApplicationRecord
   end
 
   def unapproved_changes?(attribute, child_attribute = false)
-    if self.approved?
+    if self.approved? || self.last_approved_snapshot.nil?
       false
     else
       if(child_attribute)

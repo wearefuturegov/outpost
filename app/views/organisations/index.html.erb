@@ -31,7 +31,7 @@
           <tbody>
             <% @services.each do |s| %>
               <tr>
-                <td><%= link_to s.name, edit_service_path(s) %></td>
+                <td><%= link_to s.name, service_path(s) %></td>
                 <td><%= time_ago_in_words(s.updated_at).humanize %> ago</td>
                 <td><%= status_tag(s.status) %></td>              
               </tr>

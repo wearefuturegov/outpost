@@ -1,7 +1,7 @@
 module ServicesHelper
 
   def service_creation_steps
-    ['Basic Information', 'Access', 'Categorisation', 'Further Info']
+    ['Basic Information', 'Access', 'Categorisation', 'Further Info', 'Confirmation']
   end
 
   def mark_unapproved_field(attribute, child_attribute = false)
