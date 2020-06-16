@@ -25,14 +25,13 @@ class ServicesController < ApplicationController
     end
 
     def update
-        unless params[:service]
-            redirect_to edit_service_path(@service, :stage => next_stage)
-            return
-        end
-
         @service.approved = false
-        if @service.update(service_params)
-            redirect_to edit_service_path(@service, :stage => next_stage)
+        if params[:service].nil? || @service.update(service_params)
+            if params[:stage]
+                redirect_to edit_service_path(@service, :stage => next_stage)
+            else
+                redirect_to root_path
+            end
         else
             render "show"
         end
