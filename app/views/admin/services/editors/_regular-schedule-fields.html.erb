@@ -5,11 +5,11 @@
     </div>
     <div class="field field--required">
         <%= sched.label :opens_at, class: "field__label" %>
-        <%= sched.time_field :opens_at, class: "field__input", step: 60, required: true %>
+        <%= sched.time_field :opens_at, value: sched.object.opens_at&.strftime("%H:%M"), class: "field__input", step: 60, required: true %>
     </div>
     <div class="field field--required">
         <%= sched.label :closes_at, class: "field__label" %>
-        <%= sched.time_field :closes_at, class: "field__input", step: 60, required: true %>
+        <%= sched.time_field :closes_at, value: sched.object.closes_at&.strftime("%H:%M"), class: "field__input", step: 60, required: true %>
     </div>
 </div>
 
