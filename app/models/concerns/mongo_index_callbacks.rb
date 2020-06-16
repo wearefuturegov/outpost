@@ -11,7 +11,7 @@ module MongoIndexCallbacks
         collection = client.database[:indexed_services]
         if self.approved?
             collection.find_one_and_update({id: self.id}, self.as_json, {upsert: true})
-        else
+        elsif self.last_approved_snapshot
             collection.find_one_and_update({id: self.id}, self.last_approved_snapshot.object, {upsert: true})
         end
     end

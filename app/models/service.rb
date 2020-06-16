@@ -171,8 +171,10 @@ class Service < ApplicationRecord
   def unapproved_changes_array?(attribute)
     if self.approved?
       false
-    else
+    elsif self.last_approved_snapshot
       self.as_json[attribute].to_a.sort_by{ |o| o["id"]} != self.last_approved_snapshot.object[attribute].to_a.sort_by{ |o| o["id"]}
+    else
+      false
     end
   end
 
