@@ -1,1 +1,16 @@
-<h2>Categorisation Placeholder</h2>
+
+<%= render "shared/collapsible", name: "Categories", id: "categories-editor" do %>
+  <%= render "taxonomy_panel", form: form, parent_taxonomy: Taxonomy.where(name: 'Categories').first %>
+<% end %>
+
+<%= render "shared/collapsible", name: "Age Groups", id: "age-groups-editor" do %>
+  <%= render "taxonomy_panel", form: form, parent_taxonomy: Taxonomy.where(name: 'Age groups').first %>
+<% end %>
+
+<%= render "shared/collapsible", name: "SEND Needs", id: "send-needs-editor" do %>
+  <%= render "taxonomy_panel", form: form, parent_taxonomy: Taxonomy.where(name: 'SEND needs').first %>
+<% end %>
+
+<div class="form-actions">
+  <%= form.submit "Continue", class: "button" %>
+</div>

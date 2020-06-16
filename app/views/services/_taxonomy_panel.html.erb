@@ -1,0 +1,16 @@
+<div class="tabs__panel">
+  <div class="taxonomies-panel">
+    <%= form.collection_check_boxes( :taxonomy_ids, Taxonomy.where(parent_id: parent_taxonomy.id), :id, :name) do |d| %>
+      <div class="field checkbox checkbox--small">
+        <%= d.check_box class: "checkbox__input" %>
+        <%= d.label class: "checkbox__label" %>
+      </div>
+      <%= form.collection_check_boxes( :taxonomy_ids, Taxonomy.where(parent_id: d.value), :id, :name) do |e| %>
+        <div class="field checkbox checkbox--small checkbox--level-1">
+          <%= e.check_box class: "checkbox__input" %>
+          <%= e.label class: "checkbox__label" %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>

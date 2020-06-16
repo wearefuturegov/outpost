@@ -27,7 +27,9 @@ class ServicesController < ApplicationController
     def update
         @service.approved = false
         if @service.update(service_params)
-            redirect_to edit_service_path(@service, :stage => 'access')
+            stages = helpers.service_creation_steps
+            next_step = stages[stages.index(params[:stage]) + 1]
+            redirect_to edit_service_path(@service, :stage => next_step)
         else
             render "show"
         end
@@ -45,7 +47,7 @@ class ServicesController < ApplicationController
     end
 
     def service_params
-        params.require(:service).permit(
+        params.permit(:service).permit(
           :name,
           :description,
           :url,
