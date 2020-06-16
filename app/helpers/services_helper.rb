@@ -4,6 +4,16 @@ module ServicesHelper
     ['Basic Information', 'Access', 'Categorisation', 'Further Info', 'Confirmation']
   end
 
+  def next_stage(stage)
+    stages = service_creation_steps
+    stages[stages.index(stage) + 1]
+  end
+
+  def prev_stage(stage)
+    stages = service_creation_steps
+    stages[stages.index(stage) - 1]
+  end
+
   def mark_unapproved_field(attribute, child_attribute = false)
     if @service.unapproved_changes?(attribute, child_attribute = false)
       "field--changed"

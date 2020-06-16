@@ -9,9 +9,7 @@ class ServicesController < ApplicationController
     def create
         @service = current_user.organisation.services.build(service_params)
         @service.approved = false
-        if @service.save
-            redirect_to edit_service_path(@service, :stage => 'Access')
-        else
+        unless @service.save
             render "new"
         end
     end
@@ -28,7 +26,7 @@ class ServicesController < ApplicationController
         @service.approved = false
         if params[:service].nil? || @service.update(service_params)
             if params[:stage]
-                redirect_to edit_service_path(@service, :stage => next_stage)
+                redirect_to edit_service_path(@service, :stage => helpers.next_stage(params[:stage]))
             else
                 redirect_to root_path
             end
@@ -43,11 +41,6 @@ class ServicesController < ApplicationController
     end
 
     private
-
-    def next_stage
-        stages = helpers.service_creation_steps
-        stages[stages.index(params[:stage]) + 1]
-    end
 
     def set_service
         @service = current_user.organisation.services.find(params[:id])

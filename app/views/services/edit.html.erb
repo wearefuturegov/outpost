@@ -2,7 +2,11 @@
 <% end %>
 
 <% content_for :header do %>
-  <%= link_to "Go back", organisations_path, class: "go-back" %>
+  <% if service_creation_steps.index(@stage) == 0 %>
+    <%= link_to "Go back", organisations_path, class: "go-back" %>
+    <% else %>
+    <%= link_to "Go back", edit_service_path(@service, :stage => prev_stage(@stage)), class: "go-back" %>
+  <% end %>
   <h1 class="page-header__title"><%= "Edit Service #{@stage.titleize}" %></h1>
 <% end %>
 

@@ -5,4 +5,6 @@
     <h1 class="page-header__title">Add a service</h1>
 <% end %>
 
-<%= render "edit_basic_information" %>
+<%= form_for @service, :html=>{ :id=>"update",:remote=>true } do |form| %>
+  <%= render "edit_basic_information", form: form %>
+<% end %>
