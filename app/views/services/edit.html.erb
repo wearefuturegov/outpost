@@ -1,0 +1,20 @@
+<% content_for :title do %>Edit a service |
+<% end %>
+
+<% content_for :header do %>
+  <%= link_to "Go back", organisations_path, class: "go-back" %>
+  <h1 class="page-header__title"><%= "Edit #{@service.name} #{@stage.titleize}" %></h1>
+<% end %>
+
+<ul class="list-unstyled multi-steps">
+  <% service_creation_steps.each do |step| %>
+    <li class="<%= 'is-active' if @stage == step %>"><%= link_to step, edit_service_path(@service, :stage => step) %></li>
+  <% end %>
+</ul>
+
+<%= form_for @service do |form| %>
+  <%= hidden_field_tag 'stage', @stage %>
+  <% if service_creation_steps.include? @stage %>
+    <%= render "edit_#{@stage.parameterize.underscore}", form: form %>
+  <% end %>
+<% end %>

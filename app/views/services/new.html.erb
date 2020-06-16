@@ -5,15 +5,4 @@
     <h1 class="page-header__title">Add a service</h1>
 <% end %>
 
-
-<%= form_with model: @service, local: true, html: {class: "two-thirds"} do |f| %>
-
-    <%= render "shared/errors", model: @service %>
-
-    <%= render "fields", f: f %>
-
-    <div class="form-actions">
-        <%= f.submit "Submit for review", class: "button" %>
-    </div>
-
-<% end %>
+<%= render "edit_basic_information" %>

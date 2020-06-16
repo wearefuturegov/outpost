@@ -1,0 +1,22 @@
+<%= form_for @service do |form| %>
+
+  <%= render "shared/collapsible", name: "Contacts", count: @service.contacts.length, id: "contacts-editor", help_text: "Provide individual points of contact for users." do %>
+    <%= render "admin/services/editors/contacts", s: form %>
+  <% end %>
+
+  <%= render "shared/collapsible", name: "Locations", count: @service.locations.length, id: "locations-editor", help_text: "Provide locations where this service can be used. For a fully remote or virtual service, leave this blank." do %>
+    <%= render "admin/services/editors/locations", s: form %>
+  <% end %>
+
+  <%= render "shared/collapsible", name: "Scheduling", count: @service.regular_schedules.length, id: "schedule-editor", help_text: "Build a set of regular opening times for the service." do %>
+    <%= render "admin/services/editors/regular-schedule", s: form %>
+  <% end %>
+
+  <%= render "shared/collapsible", name: "Fees", count: @service.cost_options.length, id: "fees-editor" do %>
+    <%= render "admin/services/editors/cost-options", s: form %>
+  <% end %>
+
+  <div class="form-actions">
+    <%= form.submit "Continue", class: "button" %>
+  </div>
+<% end %>

@@ -1,6 +1,6 @@
 class ServicesController < ApplicationController
     before_action :no_admins
-    before_action :set_service, only: [:show, :update, :destroy]
+    before_action :set_service, only: [:edit, :show, :update, :destroy]
 
     def new
         @service = current_user.organisation.services.new
@@ -10,19 +10,24 @@ class ServicesController < ApplicationController
         @service = current_user.organisation.services.build(service_params)
         @service.approved = false
         if @service.save
-            redirect_to organisations_path, notice: "Your service has been submitted for review. You'll be emailed when it's approved."
+            redirect_to edit_service_path(@service, :stage => 'access')
         else
             render "new"
         end
     end
 
+    def edit
+        @stage = params[:stage] || 'basic-information'
+    end
+
     def show
+
     end
 
     def update
         @service.approved = false
         if @service.update(service_params)
-            redirect_to organisations_path, notice: "Your changes have been submitted for review. You'll be emailed when they're approved."
+            redirect_to edit_service_path(@service, :stage => 'access')
         else
             render "show"
         end
