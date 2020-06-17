@@ -3,17 +3,88 @@
     <%= render "shortcut-nav" %>
 <% end %>
 
-<% if @new.any? %>
-    <h2 class="crosshead">New</h2>
-    <% render "admin/ofsted/pending-table", items: @new %>
-<% end %>
+<div class="table-holder">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Reference</th>
+                <th>Provider name</th>
+                <th>Setting name</th>
+                <th>Provision type</th>
+                <th>Registration status</th>
+                <th>Last changed</th>
+                <th>Registration date</th>
+                <th class="visually-hidden">Actions</th>
+            </tr>
+        </thead>
 
-<% if @changed.any? %>
-    <h2 class="crosshead">Changed</h2>
-    <% render "admin/ofsted/pending-table", items: @changed %>
-<% end %>
+        <% if @new.any? %>
+            <%# <h2 class="crosshead">New</h2> %>
+            <thead>
+                <tr>
+                    <th>New</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% @new.each do |i| %>
+                    <tr>
+                        <td><span class="id"><%= i.reference_number %></span></td>
+                        <td><%= i.provider_name %></td>
+                        <td><strong><%= link_to i.setting_name, admin_ofsted_path(i) %></strong></td>
+                        <td><%= i.provision_type %></td>
+                        <td><%= status_tag(i.registration_status) %></td>
+                        <td><%= short_time_ago_in_words(i.last_change_date).humanize + " ago"  if i.last_change_date %></td>
+                        <td><%= i.registration_date %></td>
+                        <td><%= link_to "Dismiss", admin_ofsted_dismiss_path(i), method: "put" %>
+                    </tr>
+                <% end %>
+            </tbody>
+        <% end %>
 
-<% if @deleted.any? %>
-    <h2 class="crosshead">Deleted</h2>
-    <% render "admin/ofsted/pending-table", items: @deleted %>
-<% end %>
+        <% if @changed.any? %>
+            <%# <h2 class="crosshead">Changed</h2> %>
+            <thead>
+                <tr>
+                    <th>Changed</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% @changed.each do |i| %>
+                    <tr>
+                        <td><span class="id"><%= i.reference_number %></span></td>
+                        <td><%= i.provider_name %></td>
+                        <td><strong><%= link_to i.setting_name, admin_ofsted_path(i) %></strong></td>
+                        <td><%= i.provision_type %></td>
+                        <td><%= status_tag(i.registration_status) %></td>
+                        <td><%= short_time_ago_in_words(i.last_change_date).humanize + " ago"  if i.last_change_date %></td>
+                        <td><%= i.registration_date %></td>
+                        <td><%= link_to "Dismiss", admin_ofsted_dismiss_path(i), method: "put" %>
+                    </tr>
+                <% end %>
+            </tbody>
+        <% end %>
+
+        <% if @deleted.any? %>
+            <%# <h2 class="crosshead">Deleted</h2> %>
+            <thead>
+                <tr>
+                    <th>Deleted</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% @deleted.each do |i| %>
+                    <tr>
+                        <td><span class="id"><%= i.reference_number %></span></td>
+                        <td><%= i.provider_name %></td>
+                        <td><strong><%= link_to i.setting_name, admin_ofsted_path(i) %></strong></td>
+                        <td><%= i.provision_type %></td>
+                        <td><%= status_tag(i.registration_status) %></td>
+                        <td><%= short_time_ago_in_words(i.last_change_date).humanize + " ago"  if i.last_change_date %></td>
+                        <td><%= i.registration_date %></td>
+                        <td><%= link_to "Dismiss", admin_ofsted_dismiss_path(i), method: "put" %>
+                    </tr>
+                <% end %>
+            </tbody>
+        <% end %>
+    </table>
+</div>

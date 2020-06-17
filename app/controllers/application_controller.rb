@@ -27,7 +27,7 @@ class ApplicationController < ActionController::Base
     end
 
     def set_pending_counts
-      @ofsted_pending_count = OfstedService.ofsted_pending.count
+      @ofsted_pending_count = OfstedItem.where.not(status: nil).count
       @pending_count = Service.kept.where(approved: false).count
     end
 end

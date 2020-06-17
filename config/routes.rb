@@ -35,9 +35,9 @@ Rails.application.routes.draw do
     resources :taxonomies, except: [:new, :edit]
     resources :feedbacks, only: [:index]
     resources :ofsted, only: [:index, :show] do
+      put "dismiss"
       collection do
         get "pending"
-        put "dismiss"
       end
     end
     resources :activity, only: [:index, :show]
