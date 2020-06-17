@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_15_142458) do
+ActiveRecord::Schema.define(version: 2020_06_17_112450) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -127,10 +127,10 @@ ActiveRecord::Schema.define(version: 2020_06_15_142458) do
     t.string "child_services_register"
     t.string "certificate_condition"
     t.text "childcare_period", array: true
-    t.string "childcare_age"
-    t.string "inspection"
-    t.string "notice_history"
-    t.string "welfare_notice_history"
+    t.jsonb "childcare_age"
+    t.jsonb "inspection"
+    t.jsonb "notice_history"
+    t.jsonb "welfare_notice_history"
     t.string "linked_registration"
     t.datetime "lastupdated"
     t.datetime "created_at", null: false
@@ -281,8 +281,8 @@ ActiveRecord::Schema.define(version: 2020_06_15_142458) do
     t.datetime "remember_created_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "organisation_id"
     t.boolean "admin"
+    t.bigint "organisation_id"
     t.string "first_name"
     t.string "last_name"
     t.datetime "last_seen"
