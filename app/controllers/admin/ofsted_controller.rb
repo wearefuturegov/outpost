@@ -1,6 +1,7 @@
 class Admin::OfstedController < Admin::BaseController
     before_action :ofsted_admins_only
     before_action :set_counts
+    before_action :set_item, only: [:show, :dismiss]
     
     def index
         @query = params.permit(:query)
@@ -16,7 +17,6 @@ class Admin::OfstedController < Admin::BaseController
     end
 
     def show
-        @item = OfstedItem.find(params[:id])
         @versions = @item.versions.order(created_at: :desc)
         if @item.versions.length > 4
           @versions = @versions.first(3)
@@ -25,6 +25,14 @@ class Admin::OfstedController < Admin::BaseController
     end
 
     def pending
+      @new = OfstedItem.where(status: "new")
+      @changed = OfstedItem.where(status: "changed")
+      @deleted = OfstedItem.where(status: "deleted")
+    end
+
+    def dismiss
+      @item.status = nil
+      @item.save
     end
 
     private
@@ -37,5 +45,9 @@ class Admin::OfstedController < Admin::BaseController
       unless current_user.admin_ofsted? 
         redirect_to admin_root_path, notice: "You don't have permission to see the Ofsted feed."
       end
+    end
+
+    def set_item
+      @item = OfstedItem.find(params[:id])
     end
 end

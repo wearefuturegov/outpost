@@ -1,0 +1,30 @@
+<div class="table-holder">
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Reference</th>
+            <th>Provider name</th>
+            <th>Setting name</th>
+            <th>Provision type</th>
+            <th>Registration status</th>
+            <th><%= render "sort", column: "last_change_date", label: "Last changed"%></th>
+            <th><%= render "sort", column: "registration_date", label: "Registration date"%></th>
+            <th class="visually-hidden">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% items.each do |i| %>
+            <tr>
+                <td><span class="id"><%= i.reference_number %></span></td>
+                <td><%= i.provider_name %></td>
+                <td><strong><%= link_to i.setting_name, admin_ofsted_path(i) %></strong></td>
+                <td><%= i.provision_type %></td>
+                <td><%= status_tag(i.registration_status) %></td>
+                <td><%= short_time_ago_in_words(i.last_change_date).humanize + " ago"  if i.last_change_date %></td>
+                <td><%= i.registration_date %></td>
+                <td><%= link_to "Dismiss", dismiss_admin_ofsted_index_path(i), method: "put" %>
+            </tr>
+        <% end %>
+        </tbody>
+    </table>
+</div>`

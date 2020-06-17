@@ -37,6 +37,7 @@ Rails.application.routes.draw do
     resources :ofsted, only: [:index, :show] do
       collection do
         get "pending"
+        put "dismiss"
       end
     end
     resources :activity, only: [:index, :show]

@@ -3,8 +3,17 @@
     <%= render "shortcut-nav" %>
 <% end %>
 
-<h2 class="crosshead">Archived</h2>
+<% if @new.any? %>
+    <h2 class="crosshead">New</h2>
+    <% render "admin/ofsted/pending-table", items: @new %>
+<% end %>
 
-<h2 class="crosshead">Changed</h2>
+<% if @changed.any? %>
+    <h2 class="crosshead">Changed</h2>
+    <% render "admin/ofsted/pending-table", items: @changed %>
+<% end %>
 
-<h2 class="crosshead">New</h2>
+<% if @deleted.any? %>
+    <h2 class="crosshead">Deleted</h2>
+    <% render "admin/ofsted/pending-table", items: @deleted %>
+<% end %>
