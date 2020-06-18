@@ -1,10 +1,9 @@
 <div class="field-section">
-    <div class="field <%= mark_unapproved_field("bccn_membership_number") %>">
-        <%= s.label :bccn_membership_number, class: "field__label" do %>
-            BCCN membership number
-            <button class="help-button help-button--small" type="button" data-tippy-content="If this service is a member of the Buckinghamshire Community Childminding Network, add the membership number.">What does this mean?</button>
-        <% end %>
-        <%= s.text_field :bccn_membership_number, class: "field__input" %>
+    <div class="field <%= mark_unapproved_field("bccn_member") %>">
+      <div class="checkbox">
+        <%= s.check_box :bccn_member, class: "checkbox__input"%>
+        <%= s.label :bccn_member, "BCCN Member", class: "checkbox__label" %>
+      </div>
     </div>
 
     <div class="field <%= mark_unapproved_field("current_vacancies") %>">
