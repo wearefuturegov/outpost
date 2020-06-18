@@ -1,0 +1,29 @@
+<%= form_for @service do |form| %>
+
+  <section class="community-editor">
+    <h2 class="community-editor__title">Contacts</h2>
+    <p class="community-editor__hint">Add individuals who members of the public can contact.</p>
+    <%= render "admin/services/editors/contacts", s: form %>
+  </section>
+
+  <section class="community-editor">
+    <h2 class="community-editor__title">Locations</h2>
+    <p class="community-editor__hint">Provide locations where this service can be used. For a fully remote or virtual service, leave this blank.</p>
+    <%= render "admin/services/editors/locations", s: form %>
+  </section>
+
+  <section class="community-editor">
+    <h2 class="community-editor__title">Schedules</h2>
+    <p class="community-editor__hint">Build a set of regular opening times for the service.</p>
+    <%= render "admin/services/editors/regular-schedule", s: form %>
+  </section>
+
+  <section class="community-editor">
+    <h2 class="community-editor__title">Fees</h2>
+    <%= render "admin/services/editors/cost-options", s: form %>
+  </section>
+
+  <div class="form-actions">
+    <%= form.submit "Continue", class: "button" %>
+  </div>
+<% end %>

@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   end
   
   resources :organisations, only: [:index, :new, :create, :edit, :update]
-  resources :services, except: [:edit] do
+  resources :services do
     get "feedback", to: "feedbacks#index"
     post "feedback", to: "feedbacks#create"
   end

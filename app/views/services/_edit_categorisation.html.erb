@@ -1,0 +1,19 @@
+
+<section class="community-editor">
+  <h2 class="community-editor__title">Categories</h2>
+  <%= render "taxonomy_panel", form: form, parent_taxonomy: Taxonomy.where(name: 'Categories').first %>
+</section>
+
+<section class="community-editor">
+  <h2 class="community-editor__title">Age groups</h2>
+  <%= render "taxonomy_panel", form: form, parent_taxonomy: Taxonomy.where(name: 'Age groups').first %>
+</section>
+
+<section class="community-editor">
+  <h2 class="community-editor__title">SEND Needs</h2>
+  <%= render "taxonomy_panel", form: form, parent_taxonomy: Taxonomy.where(name: 'SEND needs').first %>
+</section>
+
+<div class="form-actions">
+  <%= form.submit "Continue", class: "button" %>
+</div>

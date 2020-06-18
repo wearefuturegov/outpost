@@ -1,6 +1,6 @@
 class ServicesController < ApplicationController
     before_action :no_admins
-    before_action :set_service, only: [:show, :update, :destroy]
+    before_action :set_service, only: [:edit, :show, :update, :destroy]
 
     def new
         @service = current_user.organisation.services.new
@@ -9,20 +9,27 @@ class ServicesController < ApplicationController
     def create
         @service = current_user.organisation.services.build(service_params)
         @service.approved = false
-        if @service.save
-            redirect_to organisations_path, notice: "Your service has been submitted for review. You'll be emailed when it's approved."
-        else
+        unless @service.save
             render "new"
         end
     end
 
+    def edit
+        @stage = params[:stage] || 'Basic Information'
+    end
+
     def show
+
     end
 
     def update
         @service.approved = false
-        if @service.update(service_params)
-            redirect_to organisations_path, notice: "Your changes have been submitted for review. You'll be emailed when they're approved."
+        if params[:service].nil? || @service.update(service_params)
+            if params[:stage]
+                redirect_to edit_service_path(@service, :stage => helpers.next_stage(params[:stage]))
+            else
+                redirect_to root_path
+            end
         else
             render "show"
         end
@@ -47,29 +54,54 @@ class ServicesController < ApplicationController
           :email,
           :visible_from,
           :visible_to,
+          :bccn_membership_number,
+          :current_vacancies,
+          :pick_up_drop_off_service,
           taxonomy_ids: [],
-          location_ids: [],
-          contacts_attributes: [
-            :id,
-            :name,
-            :title,
-            :_destroy,
-            phones_attributes: [
+          local_offer_attributes: [
               :id,
-              :number
-            ]
+              :description,
+              :link,
+              :_destroy,
+          ],
+          cost_options_attributes: [
+              :id,
+              :option,
+              :amount,
+              :_destroy,
+          ],
+          regular_schedules_attributes: [
+              :id,
+              :opens_at,
+              :closes_at,
+              :weekday,
+              :_destroy,
+          ],
+          contacts_attributes: [
+              :id,
+              :name,
+              :title,
+              :visible,
+              :email,
+              :_destroy,
+              phones_attributes: [
+                  :id,
+                  :number
+              ]
           ],
           locations_attributes: [
-            :id,
-            :name,
-            :address_1,
-            :city,
-            :postal_code,
-            # :latitude,
-            # :longitude,
-            # :google_place_id,
-            :_destroy,
-            accessibility_ids: []
+              :id,
+              :name,
+              :address_1,
+              :city,
+              :postal_code,
+              :visible,
+              :mask_exact_address,
+              # :latitude,
+              # :longitude,
+              # :google_place_id,
+              :_destroy,
+              accessibility_ids: []
           ]
         )
       end

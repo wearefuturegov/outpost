@@ -1,0 +1,18 @@
+<section class="community-editor">
+  <h2 class="community-editor__title">Local Offer</h2>
+  <%= render "admin/services/editors/local-offer", s: form %>
+</section>
+
+<section class="community-editor">
+  <h2 class="community-editor__title">Childcare</h2>
+  <%= render "admin/services/editors/childcare", s: form %>
+</section>
+
+<section class="community-editor">
+  <h2 class="community-editor__title">Visibility</h2>
+  <%= render "admin/services/editors/dates", s: form %>
+</section>
+
+<div class="form-actions">
+  <%= form.submit "Continue", class: "button" %>
+</div>

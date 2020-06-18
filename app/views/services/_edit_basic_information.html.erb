@@ -1,0 +1,43 @@
+  <div class="field-section field-section--two-cols">
+    <div class="field field--required">
+      <%= form.label :name, class: "field__label" %>
+      <%= form.text_field :name, value: @service.name, class: "field__input", required: true %>
+    </div>
+
+    <div class="field field--span-two-cols " data-word-count="true">
+      <%= form.label :description, class: "field__label" %>
+      <%= form.text_area :description, value: @service.description, class: "field__input", rows: 5 %>
+      <div class="field__footer">
+        <p class="field__lower-hint">Descriptions over 30 words may be shortened</p>
+        <span class="field__word-counter"></span>
+      </div>
+    </div>
+
+    <div class="field field--span-two-cols ">
+      <div class="checkbox">
+        <%= form.check_box :needs_referral, class: "checkbox__input" %>
+        <%= form.label :needs_referral, "This service needs a referral", class: "checkbox__label" %>
+      </div>
+    </div>
+
+    <div class="field">
+      <%= form.label :url, "Website", class: "field__label" %>
+      <%= form.url_field :url, class: "field__input" %>
+      <p class="field__lower-hint">Must start with http:// or https://</p>
+    </div>
+
+    <div class="field">
+      <%= form.label :referral_url, class: "field__label" do %>
+        Referral URL
+        <button class="help-button help-button--small" type="button" data-tippy-content="Provide a URL that lets the user quickly access the service, if different to the main website. This could be referral guidance.">What
+          does this mean?
+        </button>
+      <% end %>
+      <%= form.url_field :referral_url, class: "field__input" %>
+      <p class="field__lower-hint">Must start with http:// or https://</p>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= form.submit "Continue", class: "button" %>
+  </div>
