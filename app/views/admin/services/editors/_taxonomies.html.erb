@@ -9,19 +9,19 @@
         </ul>
         <%= s.collection_check_boxes( :taxonomy_ids, Taxonomy.roots, :id, :name) do |c| %>
             <div class="tabs__panel">
-                <div class="taxonomies-panel">
-                    <%= s.collection_check_boxes( :taxonomy_ids, Taxonomy.where(parent_id: c.value), :id, :name) do |d| %>
-                        <div class="field checkbox checkbox--small">
-                            <%= d.check_box class: "checkbox__input" %>
-                            <%= d.label class: "checkbox__label" %>
-                        </div>
-                        <%= s.collection_check_boxes( :taxonomy_ids, Taxonomy.where(parent_id: d.value), :id, :name) do |e| %>
-                            <div class="field checkbox checkbox--small checkbox--level-1">
-                                <%= e.check_box class: "checkbox__input" %>
-                                <%= e.label class: "checkbox__label" %>
-                            </div>
-                        <% end %>
-                    <% end %>
+              <div class="taxonomies-panel">
+                  <%= s.collection_check_boxes( :taxonomy_ids, sorted_by_selected(Taxonomy.where(parent_id: c.value), @service), :id, :name) do |d| %>
+                      <div class="field checkbox checkbox--small">
+                          <%= d.check_box class: "checkbox__input" %>
+                          <%= d.label class: "checkbox__label" %>
+                      </div>
+                      <%= s.collection_check_boxes( :taxonomy_ids, sorted_by_selected(Taxonomy.where(parent_id: d.value), @service), :id, :name) do |e| %>
+                          <div class="field checkbox checkbox--small checkbox--level-1">
+                              <%= e.check_box class: "checkbox__input" %>
+                              <%= e.label class: "checkbox__label" %>
+                          </div>
+                      <% end %>
+                  <% end %>
                 </div>
                 <button class="taxonomies-bulk-action" type="button" data-taxonomies-select-all>Select all</button>
                 <button class="taxonomies-bulk-action" type="button" data-taxonomies-deselect-all>Deselect all</button>
