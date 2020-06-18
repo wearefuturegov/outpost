@@ -12,4 +12,19 @@ module TaxonomiesHelper
         end
     end
 
+    # Sort a list of taxonomies by first if the taxonomy or it's children are selected
+    def sorted_by_selected(taxonomies, service)
+        taxonomy_ids = service.taxonomies.to_a.map(&:id)
+        taxonomies.sort do |a, b|
+            a_selected = taxonomy_ids.include?(a.id)
+            b_selected = taxonomy_ids.include?(b.id)
+            if a_selected == b_selected
+                a.name <=> b.name
+            elsif a_selected
+                -1
+            else
+                1
+            end
+        end
+    end
 end
