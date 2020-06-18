@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_17_175918) do
+ActiveRecord::Schema.define(version: 2020_06_18_103747) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -209,10 +209,10 @@ ActiveRecord::Schema.define(version: 2020_06_17_175918) do
     t.string "linkedin_url"
     t.string "instagram_url"
     t.string "referral_url"
-    t.string "bccn_membership_number"
     t.boolean "current_vacancies"
     t.boolean "pick_up_drop_off_service"
     t.datetime "marked_for_deletion"
+    t.boolean "bccn_member", default: false
     t.index ["discarded_at"], name: "index_services_on_discarded_at"
     t.index ["organisation_id"], name: "index_services_on_organisation_id"
   end
@@ -282,8 +282,8 @@ ActiveRecord::Schema.define(version: 2020_06_17_175918) do
     t.datetime "remember_created_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "organisation_id"
     t.boolean "admin"
+    t.bigint "organisation_id"
     t.string "first_name"
     t.string "last_name"
     t.datetime "last_seen"

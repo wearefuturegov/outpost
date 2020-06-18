@@ -54,7 +54,7 @@ class ServicesController < ApplicationController
           :email,
           :visible_from,
           :visible_to,
-          :bccn_membership_number,
+          :bccn_member,
           :current_vacancies,
           :pick_up_drop_off_service,
           taxonomy_ids: [],
