@@ -5,6 +5,12 @@
     <h1 class="page-header__title">Add a service</h1>
 <% end %>
 
+<ul class="list-unstyled multi-steps">
+  <% service_creation_steps.each do |step| %>
+    <li class="<%= 'is-active' if 'Basic Information' == step %>"><%= step %></li>
+  <% end %>
+</ul>
+
 <%= form_for @service, :html=>{ :id=>"update",:remote=>true } do |form| %>
   <%= render "edit_basic_information", form: form %>
 <% end %>
