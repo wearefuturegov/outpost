@@ -25,112 +25,46 @@ namespace :ofsted do
     response = HTTParty.get("https://bucks-ofsted-feed.herokuapp.com?api_key=#{ENV["OFSTED_API_KEY"]}")
     items = JSON.parse(response.body)
 
-    # check_for_new(items)
-    # check_for_updates(items)
-    # check_for_deleted(items)
-
     items.each do |item| # Iterate through iterms returend from Ofsted feed API
       ofsted_item = OfstedItem.where(reference_number: item["reference_number"]).first # Check if ofsted item already exists
 
       if ofsted_item # If so, find childcafe related services
-        ofsted_services = OfstedService.where(ofsted_reference_number: item["reference_number"])
 
         ofsted_item.assign_attributes(ofsted_item_params(item)) # Prepare for update
 
-        if ofsted_item.registration_status_changed?
-          if ofsted_item.registration_status == "Cancelled"
-            ofsted_services.each do |ofsted_service|
-              ofsted_service.discard
-              ofsted_service.snapshot_action = "ofsted_cancelled"
-              ofsted_service.approved = false
-              if ofsted_service.save
-                puts "Updated childcare service #{ofsted_service.name}"
-              else
-                puts "Failed to update childcare service #{ofsted_service.name}"
-              end
-            end
+        if ofsted_item.changed?
+          ofsted_item.status = "changed"
+          if ofsted_item.save # Save
+            puts "Updated ofsted item #{ofsted_item.provider_name}"
+          else
+            puts "Failed to update ofsted item #{ofsted_item.provider_name}"
           end
-        end
-
-        if ofsted_item.setting_name_changed? # If changed, update corresponding service
-
-          ofsted_services.each do |ofsted_service| # Could be multiple childcare services
-
-            ofsted_service.assign_attributes(ofsted_service_params(item))
-            ofsted_service.snapshot_action = "ofsted_update"
-
-            if ofsted_service.save
-              puts "Updated childcare service #{ofsted_service.name}"
-            else
-              puts "Failed to update childcare service #{ofsted_service.name}"
-            end
-          end
-
-        end
-
-        if ofsted_item.save # Save
-          puts "Updated ofsted item #{ofsted_item.provider_name}"
-        else
-          puts "Failed to update ofsted item #{ofsted_item.provider_name}"
         end
 
       else # if no ofsted item found, create new one
         ofsted_item = OfstedItem.new(ofsted_item_params(item))
+        ofsted_item.status = "new"
+
         if ofsted_item.save
           puts "Created ofsted item #{ofsted_item.provider_name}"
         else
           puts "Failed to create ofsted item #{ofsted_item.provider_name}"
         end
 
-        ofsted_services = OfstedService.where(ofsted_reference_number: item["reference_number"])
-        if ofsted_services.size > 0 # Service already exists for this ofsted record
-          puts "Childcare service already exists for this ofsted item"
-        else
-          user = User.where(email: item["prov_email"]).first # check if user already exists with provider email
-
-          if user # use existing org and user if so
-            puts "User #{user.email} already exists"
-            organisation = user.organisation
-            puts "Organisation: #{organisation.try(:name)}"
-          else # ortherwise create new org and user
-            organisation = Organisation.new
-            organisation.save
-
-            user = User.new # Create new user otherwise
-            user.email = item["prov_email"]
-            user.first_name = item["provider_name"].split.first
-            user.last_name = item["provider_name"].split.last
-            user.password = "A9b#{SecureRandom.hex(8)}1yZ"
-            user.organisation_id = organisation.id
-
-            if user.save
-              puts "Created user: #{user.email}"
-            else
-              puts "Couldn't create user, errors: #{user.errors.details}"
-            end
-          end
-
-          ofsted_service = organisation.services.build(ofsted_service_params(item))
-          ofsted_service.snapshot_action = "ofsted_create"
-
-          if ofsted_service.save
-            puts "Created chilldcare service: #{ofsted_service.name}"
-          else
-            puts "Couldn't create ofsted_service"
-          end
-        end
       end
 
     end
 
-    # OfstedItem.all.each do |ofsted_item| # check for deleted
-    #   unless items.select { |item| item["reference_number"].to_i == ofsted_item.reference_number }.present?
-    #     byebug
-    #     ofsted_service = ofsted_item.ofsted_service
-    #     ofsted_service.snapshot_action = "ofsted_delete"
-    #     ofsted_service.discard
-    #   end
-    # end
+    OfstedItem.all.each do |ofsted_item| # check for deleted
+      unless items.select { |item| item["reference_number"].to_i == ofsted_item.reference_number }.present?
+        ofsted_item.status = "deleted"
+        if ofsted_item.save
+          puts "Set ofsted item status to deleted"
+        else
+          puts "Failed to update ofsted item"
+        end
+      end
+    end
 
   end
 end
@@ -190,27 +124,5 @@ def ofsted_item_params item
     welfare_notice_history: item["welfare_notice_history"],
     linked_registration: item["linked_registration"],
     lastupdated: item["lastupdated"] #datetime
-  }
-end
-
-def ofsted_service_params item
-  {
-    name: item["setting_name"],
-    ofsted_reference_number: item["reference_number"],
-    approved: false,
-    type: 'OfstedService'
-    # contact_attributes: {
-    #   phone_attributes: {
-    #     number: item["setting_telephone"]
-    #   }
-    # },
-    # locations_attributes: [
-    #   {
-    #     name: item["setting_name"],
-    #     address_1: item["setting_address_1"],
-    #     city: item["setting_town"],
-    #     postal_code: item["setting_postcode"]
-    #   }
-    # ]
   }
 end
