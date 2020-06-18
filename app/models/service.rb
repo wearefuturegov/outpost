@@ -128,9 +128,10 @@ class Service < ApplicationRecord
   end
 
   def recursively_add_parents
-    # self.taxonomies.each do |t|
-    #   self.taxonomies << t.ancestors
-    # end
+    self.taxonomies.each do |t|
+      self.taxonomies << t.ancestors
+    end
+    self.taxonomies = self.taxonomies.distinct
   end
 
   # return the most recent approved snapshot, if it exists
