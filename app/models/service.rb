@@ -167,7 +167,7 @@ class Service < ApplicationRecord
       # eql? lets us do a slightly more intelligent comparison than simple "===" equality
       unless(value.eql?(last_approved_snapshot.object[key]))
         # we don't care about these fields
-        unless ["updated_at", "approved", "discarded_at"].include?(key)
+        unless ["updated_at", "approved", "discarded_at", "organisation"].include?(key)
           changed_fields << key
         end
       end
