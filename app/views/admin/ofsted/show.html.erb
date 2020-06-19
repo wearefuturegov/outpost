@@ -5,6 +5,15 @@
     </div>
 <% end %>
 
+<header class="actions">
+  <%= link_to "Create linked service", new_admin_service_path(ofsted_item_id: @item.id, setting_name: @item.setting_name), class: "button button--small button--add", disabled: @item.service.present? %>
+  <% if @item.service.present? %>
+    <button class="help-button help-button--small" type="button" data-tippy-content="This feed item is already linked to a service. You can only link one at a time.">What does this mean?</button>
+  <% end %>
+  <button class="button button--inline actions__pull-right" data-open-all>Open all</button>
+  <button class="button button--inline" data-close-all>Close all</button>
+</header>
+
 <div class="with-sidebar">
 
   <div class="two-thirds">
@@ -106,7 +115,6 @@
                     <a href="#links-registrations" class="tabs__nav-link">Linked registrations</a>
                   </li>
                 </ul>
-
                 <div class="tabs__panel" id="childcare-period">
                   <% if @item.childcare_period.any? %>
                     <ul class="big-list">
@@ -118,20 +126,45 @@
                     <p class="no-results">Nothing to show</p>
                   <% end %>
                 </div>
-                <div class="tabs__panel" id="registration-history"></div>
-                <div class="tabs__panel" id="childcare-services-register"></div>
-                <div class="tabs__panel" id="certificate-conditions"></div>
-                <div class="tabs__panel" id="childcare-ages"></div>
-                <div class="tabs__panel" id="inspections"></div>
-                <div class="tabs__panel" id="notice-history"></div>
-                <div class="tabs__panel" id="welfare-notice-history"></div>
-                <div class="tabs__panel" id="links-registrations"></div>
+                <div class="tabs__panel" id="registration-history">
+                  <%= render "admin/ofsted/mini-table", t: @item.registration_status_history %>
+                </div>
+                <div class="tabs__panel" id="childcare-services-register">
+                  <%= render "admin/ofsted/mini-table", t: @item.child_services_register %>
+                </div>
+                <div class="tabs__panel" id="certificate-conditions">
+                  <%= render "admin/ofsted/mini-table", t: @item.certificate_condition %>
+                </div>
+                <div class="tabs__panel" id="childcare-ages">
+                  <%= render "admin/ofsted/mini-table", t: @item.childcare_age %>
+                </div>
+                <div class="tabs__panel" id="inspections">
+                  <%= render "admin/ofsted/mini-table", t: @item.inspection %>
+                </div>
+                <div class="tabs__panel" id="notice-history">
+                  <%= render "admin/ofsted/mini-table", t: @item.notice_history %>
+                </div>
+                <div class="tabs__panel" id="welfare-notice-history">
+                  <%= render "admin/ofsted/mini-table", t: @item.welfare_notice_history %>
+                </div>
+                <div class="tabs__panel" id="links-registrations">
+                  <%= render "admin/ofsted/mini-table", t: @item.linked_registration %>
+                </div>
             </div>
 
         <% end %>
 
   </div>
   <aside class="with-sidebar__sidebar">
+
+      <% if @item.service %>
+        <div class="dark-panel">
+          <p>
+            This Ofsted feed item is linked to <strong><%= link_to "a service", admin_service_path(@item.service) %></strong>
+          </p>
+        </div>
+      <% end %>
+
     <%= render "admin/ofsted/history" %>
   </aside>
 </div>

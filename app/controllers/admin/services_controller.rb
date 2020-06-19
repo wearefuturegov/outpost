@@ -12,7 +12,7 @@ class Admin::ServicesController < Admin::BaseController
       @services = @services.kept
     end
 
-    @services = @services.where(type: "OfstedService") if params[:ofsted] === "true"
+    @services = @services.ofsted_registered if params[:ofsted] === "true"
 
     @services = @services.alphabetical if params[:order] === "asc" && params[:order_by] === "name"
     @services = @services.reverse_alphabetical if params[:order] === "desc" && params[:order_by] === "name"
@@ -47,6 +47,7 @@ class Admin::ServicesController < Admin::BaseController
 
   def new
     @service = Service.new
+    @ofsted_item = OfstedItem.find(params[:ofsted_item_id]) if params[:ofsted_item_id]
   end
 
   def create
@@ -90,6 +91,7 @@ class Admin::ServicesController < Admin::BaseController
       :pick_up_drop_off_service,
       :needs_referral,
       :marked_for_deletion,
+      :ofsted_item_id,
       taxonomy_ids: [],
       local_offer_attributes: [
         :id,

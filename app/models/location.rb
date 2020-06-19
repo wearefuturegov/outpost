@@ -16,7 +16,6 @@ class Location < ApplicationRecord
 
   before_validation :geocode
   geocoded_by :postal_code
-  # after_save :update_service_at_locations
 
   paginates_per 20
 
@@ -73,12 +72,6 @@ class Location < ApplicationRecord
   def postcode_changed_or_lat_long_blank
     postal_code_changed? || latitude.blank? || longitude.blank?
   end
-
-  # def update_service_at_locations
-  #   self.service_at_locations.each do |service_at_location|
-  #     service_at_location.update_location_fields
-  #   end
-  # end
 
   def checkbox_attributes
     {

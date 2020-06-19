@@ -1,7 +1,7 @@
 <div class="field-section field-section--two-cols">
     <div class="field field--required <%= mark_unapproved_field("name") %>">
         <%= s.label :name, class: "field__label" %>
-        <%= s.text_field :name, value: @service.name, class: "field__input", required: true %>
+        <%= s.text_field :name, value: @service.name || params[:setting_name], class: "field__input", required: true %>
     </div>
 
     <div class="field field--required <%= mark_unapproved_field("organisation_id") %>">

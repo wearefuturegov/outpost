@@ -17,22 +17,20 @@
           </p>
         </div>
 
-        <% if s.last_approved_snapshot %>
-          <div class="pending-status">
-            <strong>Changed service</strong>
-            <p><%= s.last_approved_snapshot %></p>
-          </div>
-        <% elsif s.discarded_at  %>
+        <% if s.discarded?  %>
           <div class="pending-status pending-status--deleted">
             <strong>Archived service</strong>
+          </div>
+        <% elsif s.last_approved_snapshot %>
+          <div class="pending-status">
+            <strong>Changed service</strong>
+            <p><%= s.unapproved_fields.join(", ").humanize %></p>
           </div>
         <% else %>
           <div class="pending-status pending-status--new">
             <strong>New service</strong>
           </div>
         <% end %>
-
-
         <%= link_to "Approve", admin_request_path(s), method: "patch", class: "button" %>
       </li>
     <% end %>

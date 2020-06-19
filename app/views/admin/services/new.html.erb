@@ -1,12 +1,27 @@
 <% content_for :header do %>
+
+    <% if @ofsted_item.present? %>
+      <div class="notice">
+        <div class="notice__body">
+          <p>
+            You're creating a service linked to an Ofsted feed item:
+            <%= link_to @ofsted_item.display_name, admin_ofsted_path(@ofsted_item) %>
+          </p>
+        </div>
+      </div>
+    <% end %>
+
     <%= link_to "Back to services", admin_services_path, class: "go-back" %>
     <h1 class="page-header__title two-thirds">Add a new service</h1>
 <% end %>
+
 
 <div class="with-sidebar">
 
   <div class="two-thirds">
     <%= form_for [:admin, @service] do |s| %>
+
+      <%= s.hidden_field :ofsted_item_id, value: params[:ofsted_item_id] %>
 
       <%= render "shared/errors", model: @service %>
 

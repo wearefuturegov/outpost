@@ -2,8 +2,12 @@ class Service < ApplicationRecord
 
   include HasSnapshots
   # include MongoIndexCallbacks
+  include Discard::Model
 
+  # associations
   belongs_to :organisation, counter_cache: true
+
+  belongs_to :ofsted_item, required: false
 
   has_many :snapshots
 
@@ -37,9 +41,11 @@ class Service < ApplicationRecord
   accepts_nested_attributes_for :locations, allow_destroy: true, reject_if: :all_blank
 
   # callbacks
-  # after_save :update_service_at_locations
   after_save :notify_watchers
   before_save :recursively_add_parents
+
+  # scopes
+  scope :ofsted_registered, ->  { where.not(ofsted_item_id: nil) }
 
   # sort scopes
   scope :oldest, ->  { order("updated_at ASC") }
@@ -53,11 +59,10 @@ class Service < ApplicationRecord
   scope :hidden, -> { where("visible_to < (?)", Date.today)}
 
   acts_as_taggable_on :labels
-
   paginates_per 20
-  validates_presence_of :name
 
-  include Discard::Model
+  # validations
+  validates_presence_of :name
 
   include PgSearch::Model
   pg_search_scope :search, 
@@ -86,6 +91,10 @@ class Service < ApplicationRecord
     else
       "active"
     end
+  end
+
+  def ofsted_registered?
+    ofsted_item_id != nil
   end
 
   def open_today?
@@ -117,12 +126,7 @@ class Service < ApplicationRecord
     self.save
   end
 
-  # def update_service_at_locations
-  #   self.service_at_locations.each do |service_at_location|
-  #     service_at_location.update_service_fields
-  #   end
-  # end
-
+  # callbacks
   def notify_watchers
     ServiceMailer.with(service: self).notify_watchers_email.deliver_later
   end
@@ -132,22 +136,6 @@ class Service < ApplicationRecord
       self.taxonomies << t.ancestors
     end
     self.taxonomies = self.taxonomies.distinct
-  end
-
-  # return the most recent approved snapshot, if it exists
-  def last_approved_snapshot
-    Snapshot
-      .where(service: self.id)
-      .where("object->>'approved' = 'true'")
-      .order(created_at: :desc)
-      .first
-  end
-
-  def unapproved_fields
-    Hashdiff.diff(
-      self.as_json, 
-      last_approved_snapshot.object
-    )
   end
 
   # include nested taxonomies in json representation by default
@@ -164,25 +152,34 @@ class Service < ApplicationRecord
     super
   end
 
-  def unapproved_changes?(attribute, child_attribute = false)
-    if self.approved? || self.last_approved_snapshot.nil?
-      false
-    else
-      if(child_attribute)
-        self.as_json[attribute][child_attribute].to_s != self.last_approved_snapshot.object[attribute][child_attribute].to_s
-      else
-        self.as_json[attribute].to_s != self.last_approved_snapshot.object[attribute].to_s
-      end
-    end
+  # return the most recent approved snapshot, if it exists
+  def last_approved_snapshot
+    Snapshot
+      .where(service: self.id)
+      .where("object->>'approved' = 'true'")
+      .order(created_at: :desc)
+      .first
   end
 
-  def unapproved_changes_array?(attribute)
-    if self.approved?
+  def unapproved_fields
+    changed_fields = []
+    self.as_json.each do |key, value|
+      # eql? lets us do a slightly more intelligent comparison than simple "===" equality
+      unless(value.eql?(last_approved_snapshot.object[key]))
+        # we don't care about these fields
+        unless ["updated_at", "approved", "discarded_at"].include?(key)
+          changed_fields << key
+        end
+      end
+    end
+    changed_fields
+  end
+
+  def unapproved_changes?(attribute, meh=false)
+    if self.approved? || last_approved_snapshot.nil?
       false
-    elsif self.last_approved_snapshot
-      self.as_json[attribute].to_a.sort_by{ |o| o["id"]} != self.last_approved_snapshot.object[attribute].to_a.sort_by{ |o| o["id"]}
     else
-      false
+      !self.as_json[attribute].eql?(last_approved_snapshot.object[attribute])
     end
   end
 

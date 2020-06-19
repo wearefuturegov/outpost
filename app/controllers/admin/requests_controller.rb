@@ -1,6 +1,6 @@
 class Admin::RequestsController < Admin::BaseController
     def index
-        @requests = Service.kept
+        @requests = Service
             .where(approved: false)
             .includes(:organisation, :service_taxonomies, :taxonomies)
             .order(updated_at: :DESC)

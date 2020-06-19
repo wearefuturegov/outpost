@@ -33,7 +33,7 @@ module ServicesHelper
   end
 
   def mark_unapproved_array(attribute)
-    if @service.unapproved_changes_array?(attribute)
+    if @service.unapproved_changes?(attribute)
       content_tag(:div, class: "changed") do
         yield
       end

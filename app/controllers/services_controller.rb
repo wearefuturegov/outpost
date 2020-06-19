@@ -35,8 +35,8 @@ class ServicesController < ApplicationController
     end
 
     def destroy
-        @service.archive
         @service.approved = false
+        @service.archive
         redirect_to organisations_path, notice: "That service will be removed as soon as a Council staff member approves it."
     end
 

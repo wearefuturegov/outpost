@@ -97,12 +97,11 @@
 
   <aside class="with-sidebar__sidebar">
   
-      <% if @service.type === "OfstedService" %>
+      <% if @service.ofsted_item %>
         <div class="dark-panel">
-          <p>This is an Ofsted service</p>
-          <% if OfstedItem.find_by(reference_number: @service.ofsted_reference_number) %>
-            <p><strong><%= link_to "See original", admin_ofsted_path(OfstedItem.find_by(reference_number: @service.ofsted_reference_number)) %></strong></p>
-          <% end %>
+          <p>
+            This service is linked to <strong><%= link_to "an Ofsted feed item", admin_ofsted_path(@service.ofsted_item) %></strong>
+          </p>
         </div>
       <% end %>
 

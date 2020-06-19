@@ -82,9 +82,18 @@
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+        align-items: center;
 
         .button--inline{
             margin-bottom: 0px;
+        }
+
+        .button{
+            margin-bottom: 0px;
+        }
+
+        .help-button{
+            margin-left: 10px;
         }
 
 

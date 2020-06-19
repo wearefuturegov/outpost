@@ -1,6 +1,8 @@
 class OfstedItem < ApplicationRecord
   has_paper_trail
 
+  has_one :service
+
   include Discard::Model
   
   include PgSearch::Model
@@ -20,8 +22,7 @@ class OfstedItem < ApplicationRecord
   scope :oldest_changed, ->  { reorder("last_change_date ASC") }
   scope :newest_changed, ->  { reorder("last_change_date DESC") }
 
-  def ofsted_service
-    OfstedService.where(ofsted_reference_number: reference_number).first
+  def display_name
+    setting_name || provider_name
   end
-
 end
