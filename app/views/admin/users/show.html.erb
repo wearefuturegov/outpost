@@ -22,7 +22,7 @@
 <div class="two-panels">
 
     <div class="panel">
-        <%= form_for [:admin, @user] do |f| %>
+        <%= form_for [:admin, @user], data: {warn_unsaved_changes: true} do |f| %>
             <%= render "shared/errors", model: @user %>
             <%= render "fields", f: f %>
 

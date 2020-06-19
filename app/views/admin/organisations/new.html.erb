@@ -7,7 +7,7 @@
     </div>
 <% end %>
 
-<%= form_for [:admin, @organisation], html: {class: "two-thirds"} do |f| %>
+<%= form_for [:admin, @organisation], html: {class: "two-thirds"}, data: {warn_unsaved_changes: true} do |f| %>
   <%= render "shared/errors", model: @organisation %>
   <div class="field-section">
     <%= render "fields", f: f %>

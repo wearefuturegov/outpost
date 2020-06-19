@@ -6,7 +6,7 @@
 <div class="two-panels">
 
     <div class="panel">
-      <%= form_for [:admin, @location] do |f| %>
+      <%= form_for [:admin, @location], data: {warn_unsaved_changes: true} do |f| %>
         <%= render "shared/errors", model: @location %>
 
         <%= render "shared/collapsible", name: "Address", id: "location-address" do %>

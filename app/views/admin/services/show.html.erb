@@ -35,7 +35,7 @@
 <div class="with-sidebar">
 
   <div class="two-thirds">
-    <%= form_for(@service, as: :service, url: admin_service_path(@service), method: :put) do |s| %>
+    <%= form_for(@service, as: :service, url: admin_service_path(@service), method: :put, data: {warn_unsaved_changes: true}) do |s| %>
 
       <%= render "shared/errors", model: @service %>
 

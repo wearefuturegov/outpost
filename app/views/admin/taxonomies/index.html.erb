@@ -12,7 +12,7 @@
     </div>
 
     <aside class="panel">
-        <%= form_for [:admin, @taxonomy] do |s| %>
+        <%= form_for [:admin, @taxonomy], data: {warn_unsaved_changes: true} do |s| %>
 
         <%= render "shared/errors", model: @taxonomy %>
 
