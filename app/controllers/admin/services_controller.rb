@@ -118,11 +118,8 @@ class Admin::ServicesController < Admin::BaseController
         :title,
         :visible,
         :email,
+        :phone,
         :_destroy,
-        phones_attributes: [
-          :id,
-          :number
-        ]
       ],
       locations_attributes: [
         :id,

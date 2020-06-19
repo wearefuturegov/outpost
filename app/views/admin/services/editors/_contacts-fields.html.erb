@@ -15,12 +15,10 @@
         <%= c.email_field :email, class: "field__input" %>
     </div>
 
-    <%= c.fields_for :phones do |x| %>
-        <div class="field">
-            <%= x.label :number, "Phone", class: "field__label" %>
-            <%= x.text_field :number, class: "field__input" %>
-        </div>
-    <% end %>
+    <div class="field">
+        <%= c.label :phone, "Phone", class: "field__label" %>
+        <%= c.text_field :phone, class: "field__input" %>
+    </div>
 
 </div>
 <div class="field-section field-section--two-cols field-section--no-bottom-margin">

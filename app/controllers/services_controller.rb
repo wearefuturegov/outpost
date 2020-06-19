@@ -83,11 +83,8 @@ class ServicesController < ApplicationController
               :title,
               :visible,
               :email,
+              :phone,
               :_destroy,
-              phones_attributes: [
-                  :id,
-                  :number
-              ]
           ],
           locations_attributes: [
               :id,

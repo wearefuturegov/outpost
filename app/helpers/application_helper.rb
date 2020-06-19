@@ -104,7 +104,6 @@ module ApplicationHelper
     def link_to_add_contact_fields(name, f, association, view)
         new_object = f.object.send(association).klass.new
         id = new_object.object_id
-        new_object.phones << Phone.new
         fields = f.fields_for(association, new_object, child_index: id) do |builder|
             render(view, l: builder, c: builder)
         end

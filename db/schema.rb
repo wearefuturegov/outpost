@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_19_165342) do
+ActiveRecord::Schema.define(version: 2020_06_19_224151) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(version: 2020_06_19_165342) do
     t.string "title"
     t.boolean "visible", default: true
     t.string "email"
+    t.string "phone"
     t.index ["service_id"], name: "index_contacts_on_service_id"
   end
 
@@ -150,12 +151,6 @@ ActiveRecord::Schema.define(version: 2020_06_19_165342) do
     t.string "old_external_id"
     t.integer "users_count", default: 0, null: false
     t.integer "services_count", default: 0, null: false
-  end
-
-  create_table "phones", force: :cascade do |t|
-    t.bigint "contact_id"
-    t.string "number"
-    t.index ["contact_id"], name: "index_phones_on_contact_id"
   end
 
   create_table "regular_schedules", force: :cascade do |t|
