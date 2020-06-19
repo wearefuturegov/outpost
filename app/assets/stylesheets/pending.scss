@@ -1,0 +1,67 @@
+.pending-list{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+
+.pending-panel{
+    background: $pale;
+    padding: 25px;
+    margin-bottom: 10px;
+
+    p{
+        font-size: 0.9rem;
+    }
+
+    h2{
+        margin-bottom: 10px;
+    }
+
+    div{
+        margin-bottom: 20px;
+    }
+
+    strong{
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    @media screen and (min-width: $breakpoint-m) {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+
+        div{
+            width: 33%;
+            margin-bottom: 0px;
+        }
+    }
+
+    .pending-status{
+        position: relative;
+        padding-left: 20px;
+
+        &:before{
+            position: absolute;
+            left: 0px;
+            top: 5px;
+            content: "";
+            display: inline-block;
+            background-color: $focus;
+            height: 10px;
+            width: 10px;
+            border-radius: 100%;
+            margin-right: 10px;
+        }
+        &--new:before{
+            background-color: $green;
+        }
+        &--deleted:before{
+            background-color: $error;
+        }
+    }
+
+
+}

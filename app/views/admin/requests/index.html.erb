@@ -4,52 +4,26 @@
 <% end %>
 
 <% if @requests.present? %>
-  <div class="table-holder">
-    <table class="table">
-      <thead>
-        <tr>
-          <th class="visually-hidden">ID</th>
-          <th>Name</th>
-          <th>Organisation</th>
-          <th>Taxonomies</th>
-          <th>Last updated</th>
-          <th>Status</th>
-          <th class="visually-hidden">Notes</th>
-          <th class="visually-hidden">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @requests.each do |s| %>
-          <tr>
-            <td><span class="id"><%= s.id %></span></td>
-            <td>
-              <strong><%= link_to s.display_name.truncate(25), admin_service_path(s) %><strong>
-            </td>
-            <td>
-              <%= render "shared/poppables/organisation", o: s.organisation if s.organisation %>
-            </td>
-            <td>
-              <% s.taxonomies.each do |t| %>
-                <span class="taxonomy"><%= t.name %></span>
-              <% end %>
-            </td>
-            <td><%= time_ago_in_words(s.updated_at) %> ago</td>
-            <td><%= status_tag(s.status) %></td>
-            <td>
-              <% if s.notes.count > 0 %>
-                <span class="table-icon table-icon--notes">
-                  <%= s.notes.count %>
-                </span>
-              <% end %>
-            </td>
-            <td><%= link_to "Approve",  admin_request_path(s), method: "patch" %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
+  <ul class="pending-list">
+    <% @requests.each do |s| %>
+      <li class="pending-panel">
+        <div>
+          <h2><%= link_to s.display_name.truncate(25), admin_service_path(s) %></h2>
+          <p>
+            <%= time_ago_in_words(s.updated_at).humanize %> ago
+            <% if s.snapshots.last.user %>
+              by <%= render "shared/poppables/user", u: s.snapshots.last.user %>
+            <% end %>
+          </p>
+        </div>
+        <div class="pending-status">
+          <strong>Changed</strong>
+          <p>Name, Description, URL</p>
+        </div>
+        <%= link_to "Approve", admin_request_path(s), method: "patch", class: "button" %>
+      </li>
+    <% end %>
+  </ul>
 <% else %>
   <p class="no-results">No results to show</p>
 <% end %>
-
-

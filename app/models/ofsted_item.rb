@@ -1,6 +1,8 @@
 class OfstedItem < ApplicationRecord
   has_paper_trail
 
+  include Discard::Model
+  
   include PgSearch::Model
   pg_search_scope :search, 
       against: [

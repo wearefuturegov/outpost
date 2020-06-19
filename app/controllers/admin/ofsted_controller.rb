@@ -25,9 +25,9 @@ class Admin::OfstedController < Admin::BaseController
     end
 
     def pending
-      @new = OfstedItem.where(status: "new")
-      @changed = OfstedItem.where(status: "changed")
-      @deleted = OfstedItem.where(status: "deleted")
+      @requests = OfstedItem.where
+        .not(status: nil)
+        .order(status: :ASC)
     end
 
     def dismiss

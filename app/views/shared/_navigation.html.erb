@@ -10,7 +10,7 @@
                     <%= link_to_unless_current "Services", admin_services_path, class: "site-nav__link" do %>
                         <span class="site-nav__current" tabindex="0">Services</span>
                     <% end %>
-                    <% if @ofsted_pending_count > 0 %>
+                    <% if @pending_count > 0 %>
                         <div class="badge"><%= @pending_count %></div>
                     <% end %>
                 
