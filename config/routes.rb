@@ -35,6 +35,7 @@ Rails.application.routes.draw do
     resources :feedbacks, only: [:index]
     resources :ofsted, only: [:index, :show] do
       put "dismiss"
+      get "versions"
       collection do
         get "pending"
         get "archive"

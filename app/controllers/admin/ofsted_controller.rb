@@ -16,7 +16,7 @@ class Admin::OfstedController < Admin::BaseController
 
     def show
         @item = OfstedItem.find(params[:id])
-        @versions = @item.versions.order(created_at: :desc)
+        @versions = @item.versions.order(created_at: :asc).reverse
         if @item.versions.length > 4
           @versions = @versions.first(3)
           @versions.push(@service.versions.last)
@@ -34,6 +34,12 @@ class Admin::OfstedController < Admin::BaseController
       @items = @items.newest_changed if params[:order] === "desc" && params[:order_by] === "last_change_date"
       @items = @items.oldest_changed if params[:order] === "asc" && params[:order_by] === "last_change_date"
       render "index"
+    end
+
+    def versions
+      @item = OfstedItem.find(params[:ofsted_id])
+      @snapshots = @item.versions.reverse
+      render :layout => "full-width"
     end
 
     def pending

@@ -1,4 +1,14 @@
-<% content_for :header do %>    
+<% content_for :header do %> 
+
+    <% if @item.discarded? %>
+      <div class="notice notice--cross">
+        <div class="notice__body">
+          <p>This item is no longer present in the Ofsted feed.</p>
+        </div>
+      </div>
+    <% end %>
+
+
     <%= link_to "Back to raw feed", admin_ofsted_index_path, class: "go-back" %>
     <div class="page-header__actions">
       <h1 class="page-header__title two-thirds"><%= @item.setting_name %></h1>

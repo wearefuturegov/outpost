@@ -1,0 +1,51 @@
+<% content_for :header do %>
+    <%= link_to "Back to Ofsted item", admin_ofsted_path(params[:ofsted_id]), class: "go-back" %>
+    <h1 class="page-header__title">Compare versions</h1>
+<% end %>
+
+<div class="snapshots">
+    <aside class="snapshots__sidebar">
+        <% if @snapshots.any? %>
+            <ul class="snapshots-tree">
+                <% @snapshots.each do |s| %>
+                    <li class="snapshots-tree__snapshot" <%= "aria-selected" if s === @snapshots.first %>>
+                        <h3 class="snapshots-tree__snapshot-title">
+                            <%= link_to s.created_at.strftime('%d %B %Y, %H:%M'), "##{s.id}", class: "snapshots-tree__snapshot-link", data: { no_turbolink: true } %>
+                        </h3>
+
+                        <% if s === @snapshots.first %>
+                            <p><em>Current version</em><p>
+                        <% elsif s === @snapshots.last %>
+                            <p><em>Earliest version</em><p>
+                        <% end %>
+
+                        <% unless s.event === "update"%>
+                            <p class="snapshots-tree__snapshot-action">
+                                <%= s.event.humanize %>
+                            </p>
+                        <% end %>
+                    </li>
+                <% end %>
+            </ul>
+        <% end %>
+    </aside>
+
+    <div class="snapshots__previews">
+        <% if @snapshots.any? %>
+            <% @snapshots.each do |s| %>
+                <article class="snapshot-preview" id="<%= s.id %>" <%= "hidden" unless s === @snapshots.first %> >
+                    <% unless s === @snapshots.first %>
+                        <div class="snapshot-preview__actions">
+                            <h3>Changes since this version</h3>
+                            <p class="snapshot-preview__key diff">
+                                <span class="del">Removed since</span>
+                                <span class="ins">Added since</span>
+                            </p>
+                        </div>
+                    <% end %>
+                    <%= render "preview-canvas", current: s, live: @item %>
+                </article>
+            <% end %>
+        <% end %>
+    </div>
+</div>
