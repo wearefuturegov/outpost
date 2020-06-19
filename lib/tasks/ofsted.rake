@@ -58,6 +58,7 @@ namespace :ofsted do
     OfstedItem.all.each do |ofsted_item| # check for deleted
       unless items.select { |item| item["reference_number"].to_i == ofsted_item.reference_number }.present?
         ofsted_item.status = "deleted"
+        ofsted_item.discarded_at = Time.now
         if ofsted_item.save
           puts "Set ofsted item status to deleted"
         else
