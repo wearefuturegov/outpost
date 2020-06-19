@@ -32,9 +32,7 @@ gem 'acts-as-taggable-on'
 gem 'closure_tree'
 gem 'uk_postcode'
 gem 'diffy'
-gem 'hashdiff'
 gem 'mongo'
-
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
