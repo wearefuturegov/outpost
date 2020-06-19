@@ -14,5 +14,13 @@
 
     <span class="shortcuts__count">(<%= @ofsted_pending_count %>)</span>
 
+    <span class="shortcuts__divider">|</span>
+
+    <%= link_to_unless_current "Archived", archive_admin_ofsted_index_path, class: "shortcuts__link" do %>
+        <span class="shortcuts__current">Archived</span>
+    <% end %>
+
+    <span class="shortcuts__count">(<%= @archived_count %>)</span>
+
 
 </nav>

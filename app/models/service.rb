@@ -143,6 +143,13 @@ class Service < ApplicationRecord
       .first
   end
 
+  def unapproved_fields
+    Hashdiff.diff(
+      self.as_json, 
+      last_approved_snapshot.object
+    )
+  end
+
   # include nested taxonomies in json representation by default
   def as_json(options={})
     options[:include] = {

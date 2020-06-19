@@ -19,7 +19,6 @@ class ServicesController < ApplicationController
     end
 
     def show
-
     end
 
     def update
@@ -31,13 +30,14 @@ class ServicesController < ApplicationController
                 redirect_to root_path
             end
         else
-            render "show"
+            render "show", notice: "That service will be updated as soon as a Council staff member approves it."
         end
     end
 
     def destroy
         @service.archive
-        redirect_to organisations_path, notice: "That service has been removed and will no longer be visible."
+        @service.approved = false
+        redirect_to organisations_path, notice: "That service will be removed as soon as a Council staff member approves it."
     end
 
     private

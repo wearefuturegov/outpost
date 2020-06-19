@@ -5,7 +5,7 @@
 
 <header class="actions">
   <div class="actions__group">
-    <%= render "shared/mini-search", path: admin_ofsted_index_path(@query), clear_path: admin_ofsted_index_path(@query.merge(:query => nil)) %>
+    <%= render "shared/mini-search", path: request.original_url, clear_path: admin_ofsted_index_path(@query.merge(:query => nil)) %>
   </div>
 </header>
 

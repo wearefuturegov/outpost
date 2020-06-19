@@ -5,10 +5,9 @@ class Admin::OfstedController < Admin::BaseController
     def index
         @query = params.permit(:query)
 
-        @items = OfstedItem.page(params[:page]).order(setting_name: :ASC)
+        @items = OfstedItem.kept.page(params[:page]).order(setting_name: :ASC)
 
         @items = @items.search(params[:query]) if params[:query].present?
-
         @items = @items.newest if params[:order] === "desc" && params[:order_by] === "registration_date"
         @items = @items.oldest if params[:order] === "asc" && params[:order_by] === "registration_date"
         @items = @items.newest_changed if params[:order] === "desc" && params[:order_by] === "last_change_date"
@@ -24,10 +23,24 @@ class Admin::OfstedController < Admin::BaseController
         end
     end
 
+    def archive
+      @query = params.permit(:query)
+
+      @items = OfstedItem.discarded.page(params[:page]).order(setting_name: :ASC)
+      
+      @items = @items.search(params[:query]) if params[:query].present?
+      @items = @items.newest if params[:order] === "desc" && params[:order_by] === "registration_date"
+      @items = @items.oldest if params[:order] === "asc" && params[:order_by] === "registration_date"
+      @items = @items.newest_changed if params[:order] === "desc" && params[:order_by] === "last_change_date"
+      @items = @items.oldest_changed if params[:order] === "asc" && params[:order_by] === "last_change_date"
+      render "index"
+    end
+
     def pending
       @requests = OfstedItem.where
         .not(status: nil)
         .order(status: :ASC)
+        .order(updated_at: :ASC)
     end
 
     def dismiss
@@ -41,6 +54,7 @@ class Admin::OfstedController < Admin::BaseController
 
     def set_counts
         @feed_count = OfstedItem.count
+        @archived_count = OfstedItem.discarded.count
     end
 
     def ofsted_admins_only

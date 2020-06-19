@@ -15,7 +15,6 @@ Rails.application.routes.draw do
   end
   resources :members, only: [:new, :create, :destroy]
 
-
   namespace :admin do
     root "dashboard#index"
     resources :services, except: :edit do
@@ -38,6 +37,7 @@ Rails.application.routes.draw do
       put "dismiss"
       collection do
         get "pending"
+        get "archive"
       end
     end
     resources :activity, only: [:index, :show]
