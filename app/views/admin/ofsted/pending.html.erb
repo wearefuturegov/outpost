@@ -9,7 +9,7 @@
     <% @requests.each do |s| %>
       <li class="pending-panel">
         <div>
-          <h2><%= link_to s.setting_name.truncate(25), admin_service_path(s) %></h2>
+          <h2><%= link_to s.setting_name.truncate(25), admin_ofsted_path(s) %></h2>
           <p>
             <%= time_ago_in_words(s.updated_at).humanize %> ago
           </p>
