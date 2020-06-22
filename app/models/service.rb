@@ -152,6 +152,11 @@ class Service < ApplicationRecord
     super
   end
 
+  # fields that we don't care about for versioning purposes
+  def ignorable_fields
+    ["created_at", "updated_at", "approved", "discarded_at", "organisation"]
+  end
+
   # return the most recent approved snapshot, if it exists
   def last_approved_snapshot
     Snapshot
@@ -167,7 +172,7 @@ class Service < ApplicationRecord
       # eql? lets us do a slightly more intelligent comparison than simple "===" equality
       unless(value.eql?(last_approved_snapshot.object[key]))
         # we don't care about these fields
-        unless ["updated_at", "approved", "discarded_at", "organisation"].include?(key)
+        unless ignorable_fields.include?(key)
           changed_fields << key
         end
       end

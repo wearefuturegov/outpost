@@ -25,4 +25,10 @@ class OfstedItem < ApplicationRecord
   def display_name
     setting_name || provider_name
   end
+
+  # fields we don't care about for version history purposes
+  def ignorable_fields
+    ["status", "updated_at", "created_at", "discarded_at"]
+  end
+  
 end

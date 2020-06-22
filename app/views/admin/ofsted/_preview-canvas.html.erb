@@ -1,5 +1,5 @@
 <div class="snapshot-preview__canvas">
-    <% l = live.as_json.except!("status", "updated_at", "created_at", "discarded_at") %>
+    <% l = live.as_json.except!(*live.ignorable_fields) %>
     <% if current.reify %>
         <% c = current.reify.as_json %>
         <% l.keys.each do |key, value| %>
