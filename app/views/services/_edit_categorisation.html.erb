@@ -48,7 +48,7 @@
 
 <section class="community-editor">
   <h2 class="community-editor__title">SEND Needs</h2>
-  <p class="community-editor__hint">Which special educational needs can you support? Choose all that apply.</p>
+  <p class="community-editor__hint">Which special educational needs can you provide special support for? Choose all that apply.</p>
   <div class="field-section field-section--two-cols field-section--no-bottom-margin">
     <%= form.collection_check_boxes( :taxonomy_ids, Taxonomy.where(parent_id: Taxonomy.where(name: 'SEND needs').first), :id, :name) do |c| %>
         <div class="field checkbox">

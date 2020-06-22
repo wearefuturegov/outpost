@@ -43,6 +43,7 @@
     }
     .page-header__title{
         font-size: 2.5rem;
+        line-height: 1.1;
         @media screen and (min-width: $breakpoint-m){
             font-size: 3.5rem;
         }
@@ -346,5 +347,44 @@
     }
     .field{
         margin-bottom: 0px;
+    }
+}
+
+.confirmation-box{
+    position: relative;
+    background: $link;
+    padding: 40px;
+    color: white;
+    font-size: 2rem;
+    line-height: 1.1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    &:before{
+        content: "";
+        display: block;
+        height: 60px;
+        width: 60px;
+        background-image: asset_url("tick-circle.svg");
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        margin-bottom: 25px;
+    }
+    @media screen and (min-width: $breakpoint-m){
+        padding: 60px;
+        font-size: 2.3rem;
+        flex-direction: row;
+        justify-content: flex-start;
+        text-align: left;
+        &:before{
+            min-width: 55px;
+            height: 55px;
+            width: 55px;
+            margin-bottom: 0px;
+            margin-right: 60px;
+        }
     }
 }
