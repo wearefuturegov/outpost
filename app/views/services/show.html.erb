@@ -78,11 +78,15 @@
                     <%= render "admin/services/editors/cost-options", s: form %>
                 <% end %>
 
+                <%= render "shared/collapsible", name: "Social media", id: "social-media-editor" do %>
+                    <%= render "admin/services/editors/social-media", s: form %>
+                <% end %>
+
                 <%= render "shared/collapsible", name: "Taxonomies", count: @service.taxonomies.length, id: "taxonomy-editor" do %>
                     <%= render "admin/services/editors/taxonomies", s: form %>
                 <% end %>
 
-                <%= render "shared/collapsible", name: "Local offer", id: "local-offer-editor" do %>
+                <%= render "shared/collapsible", name: "Local offer and SEND", id: "local-offer-editor" do %>
                     <%= render "admin/services/editors/local-offer", s: form %>
                 <% end %>
 
