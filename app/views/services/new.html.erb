@@ -2,15 +2,19 @@
 
 <% content_for :header do %>
     <%= link_to "Go back", organisations_path, class: "go-back" %>
+
+    <p class="page-header__caption">Step 1 of 5</p>
     <h1 class="page-header__title">Add a service</h1>
 <% end %>
 
+<% if false %>
 <ul class="list-unstyled multi-steps">
   <% service_creation_steps.each do |step| %>
     <li class="<%= 'is-active' if 'Basic Information' == step %>"><%= step %></li>
   <% end %>
 </ul>
+<% end %>
 
-<%= form_for @service, :html=>{ :id=>"update",:remote=>true } do |form| %>
+<%= form_for @service, :html=>{ :id=>"update", :remote=>true, :class=> "two-thirds" } do |form| %>
   <%= render "edit_basic_information", form: form %>
 <% end %>

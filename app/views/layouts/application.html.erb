@@ -2,8 +2,22 @@
 <html lang="en">
   <%= render "shared/head" %>
   <body>
+
+
     <!-- <a href="#content" class="skiplink">Skip to main content</a> -->
+    
+
     <%= render "shared/header", full_width: false %>
+
+    <% unless current_user && current_user.admin? %>
+      <section class="beta-banner">
+        <div class="beta-banner__inner container">
+          <strong class="beta-banner__tag">Beta</strong>
+          <p class="beta-banner__message">This is a new service — <a href="#">your feedback</a> helps us improve it.</p>
+        </div>
+      </section>
+    <% end %>
+
     <%= render "shared/navigation", full_width: false %>
 
     <header class="page-header" id="content">

@@ -1,0 +1,38 @@
+@import "variables";
+
+.beta-banner{
+    // background: $focus;
+    padding: 10px 15px;
+    font-size: 0.9rem;
+    .beta-banner__inner{
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+    }
+    .beta-banner__tag{
+      background: $focus;
+      color: $text;
+      text-transform: uppercase;
+      padding: 3px 7px;
+      margin-right: 10px;
+    }
+    .beta-banner__message{
+      padding-top: 1px;
+      font-size: 0.9rem;
+    //   font-size: 1rem;
+    }
+    a{
+      color: $link;
+      text-decoration: none;
+      &:hover{
+          text-decoration: underline;
+      }
+      &:active{
+        color: $text;
+      }
+      &:focus{
+        background: $focus;
+        outline: 3px solid $focus;
+      }
+    }
+  }

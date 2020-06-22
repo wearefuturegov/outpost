@@ -32,11 +32,13 @@
         padding: 60px $outer-spacing;
     }
     .page-header__caption{
-        margin-bottom: 20px;
-        font-weight: bold;
+        display: block;
+        margin-bottom: 15px;
+        // font-weight: bold;
+        font-size: 1.1rem;
         color: transparentize($text, 0.25);
         @media screen and (min-width: $breakpoint-m){
-            font-size: 1.1rem;
+            font-size: 1.2rem;
         }
     }
     .page-header__title{

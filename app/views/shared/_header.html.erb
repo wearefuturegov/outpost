@@ -11,7 +11,9 @@
     <% end %>
     <nav class="site-header__service-name-holder">
       <%= link_to "Family Information Service", root_path, class: "site-header__service-name"%>
-      <strong class="site-header__phase-tag">Beta</strong>
+      <% if current_user && current_user.admin? %>
+        <strong class="site-header__phase-tag">Beta</strong>
+      <% end %>
     </nav>
   </div>
 </header>

@@ -25,6 +25,10 @@
             width: 12px;
         }
     }
+
+    & + .page-header__caption{
+        margin-top: 25px;
+    }
 }
 
 .field{
