@@ -1,6 +1,6 @@
 <div class="snapshot-preview__canvas">
 
-    <% live.each do |key, value |%>
+    <% live.except!("approved", "updated_at", "created_at", "discarded_at").each do |key, value |%>
         <% if value.present? || current[key].present? %>
             <h4 class="snapshot-preview__label"><%= key.humanize %></h4>
             <div class="snapshot-preview__diff">

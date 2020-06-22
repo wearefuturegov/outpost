@@ -8,11 +8,6 @@ class Admin::SnapshotsController < Admin::BaseController
         render :layout => "full-width"
     end
 
-    def show
-        @service = @snapshot
-        render "admin/services/show"
-    end
-
     def update
         @snapshot.restore
         redirect_to admin_service_snapshots_path(@service)
