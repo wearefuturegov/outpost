@@ -1,18 +1,40 @@
+<% content_for :header do %>
+  <% if service_creation_steps.index(@stage) == 0 %>
+    <%= link_to "Go back", organisations_path, class: "go-back" %>
+    <% else %>
+    <%= link_to "Go back", edit_service_path(@service, :stage => prev_stage(@stage)), class: "go-back" %>
+  <% end %>
+
+  <p class="page-header__caption">Step 4 of 4</p>
+  <h1 class="page-header__title two-thirds">More information about your service</h1>
+<% end %>
+
 <section class="community-editor">
   <h2 class="community-editor__title">Local Offer</h2>
+  <p class="community-editor__hint"></p>
   <%= render "admin/services/editors/local-offer", s: form %>
 </section>
 
-<section class="community-editor">
-  <h2 class="community-editor__title">Childcare</h2>
-  <%= render "admin/services/editors/childcare", s: form %>
-</section>
+<% if form.object.in_taxonomy?(18) %>
+  <section class="community-editor">
+    <h2 class="community-editor__title">Childcare</h2>
+    <p class="community-editor__hint"></p>
+    <%= render "admin/services/editors/childcare", s: form %>
+  </section>
+<% end %>
 
 <section class="community-editor">
   <h2 class="community-editor__title">Visibility</h2>
-  <%= render "admin/services/editors/dates", s: form %>
+  <p class="community-editor__hint">Change how your service will appear in <a href="#" target="blank">public search results</a>.</p>
+
+  <div class="field">
+      <div class="checkbox">
+          <%= form.check_box :visible, class: "checkbox__input" %>
+          <%= form.label :visible, "Make this service publicly visible", class: "checkbox__label" %>
+      </div>
+  </div>
 </section>
 
 <div class="form-actions">
-  <%= form.submit "Continue", class: "button" %>
+  <%= form.submit "Finish and send", class: "button" %>
 </div>

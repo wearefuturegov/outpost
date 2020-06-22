@@ -8,6 +8,10 @@ if(form){
         input.addEventListener("change", () => unsavedChanges = true)
     })
 
+    form.querySelectorAll("[data-add]").forEach(input => {
+        input.addEventListener("click", () => unsavedChanges = true)
+    })
+
     const message = "You might have unsaved changes. Do you want to continue?"
 
     form.addEventListener("submit", e => unsavedChanges = false)

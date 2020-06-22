@@ -17,5 +17,6 @@ import wordCount from "./word-count"
 import helpTips from "./help-tips"
 import bulkTaxonomiesActions from "./bulk-taxonomies-actions"
 import warnUnsavedChanges from "./warn-unsaved-changes"
+import showIfChecked from "./show-if-checked"
 
 import choices from "./choices"

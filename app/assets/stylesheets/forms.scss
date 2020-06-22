@@ -270,6 +270,7 @@
 .checkbox{
     position: relative;
     padding: 10px 0px 10px 50px;
+    margin-bottom: 15px;
     &:focus-within label:before{
         outline: 3px solid $focus;
     }
@@ -392,6 +393,7 @@
         margin-bottom: 25px;
     }
     .field-section__legend{
+        grid-column: 1 / 3;
         font-size: 1.5rem;
         font-weight: bold;
         margin-bottom: 20px;
@@ -420,6 +422,7 @@
 .radio{
     position: relative;
     padding: 10px 0px 10px 55px;
+    margin-bottom: 15px;
     &:focus-within label:before{
         outline: none;
         box-shadow: 0px 0px 0px 3px $focus;

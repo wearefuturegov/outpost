@@ -1,8 +1,19 @@
+<% content_for :header do %>
+  <% if service_creation_steps.index(@stage) == 0 %>
+    <%= link_to "Go back", organisations_path, class: "go-back" %>
+    <% else %>
+    <%= link_to "Go back", edit_service_path(@service, :stage => prev_stage(@stage)), class: "go-back" %>
+  <% end %>
+
+  <p class="page-header__caption">Step 2 of 4</p>
+  <h1 class="page-header__title two-thirds">How can people access your service?</h1>
+<% end %>
+
 <%= form_for @service do |form| %>
 
   <section class="community-editor">
     <h2 class="community-editor__title">Contacts</h2>
-    <p class="community-editor__hint">Add individuals who members of the public can contact.</p>
+    <p class="community-editor__hint">Add individuals who members of the public can contact. For example, organisers or session leaders.</p>
     <%= render "admin/services/editors/contacts", s: form %>
   </section>
 
@@ -20,6 +31,7 @@
 
   <section class="community-editor">
     <h2 class="community-editor__title">Fees</h2>
+    <p class="community-editor__hint">If your service has charges or fees, add them here.</p>
     <%= render "admin/services/editors/cost-options", s: form %>
   </section>
 

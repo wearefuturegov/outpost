@@ -80,6 +80,7 @@ select::-ms-expand {
     display: none;
 }
 
-button[hidden]{
+button[hidden],
+.field-section.field-section--two-cols[hidden]{
     display: none;
 }

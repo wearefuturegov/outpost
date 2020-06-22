@@ -1,43 +1,55 @@
-  <div class="field-section field-section--two-cols">
-    <div class="field field--required">
-      <%= form.label :name, class: "field__label" %>
-      <%= form.text_field :name, value: @service.name, class: "field__input", required: true %>
-    </div>
+<% content_for :header do %>
+    <%= link_to "Go back", organisations_path, class: "go-back" %>
+    <p class="page-header__caption">Step 1 of 4</p>
+    <h1 class="page-header__title">Add a service</h1>
+<% end %>
 
-    <div class="field field--span-two-cols " data-word-count="true">
-      <%= form.label :description, class: "field__label" %>
-      <%= form.text_area :description, value: @service.description, class: "field__input", rows: 5 %>
-      <div class="field__footer">
-        <p class="field__lower-hint">Descriptions over 30 words may be shortened</p>
-        <span class="field__word-counter"></span>
-      </div>
-    </div>
-
-    <div class="field field--span-two-cols ">
-      <div class="checkbox">
-        <%= form.check_box :needs_referral, class: "checkbox__input" %>
-        <%= form.label :needs_referral, "This service needs a referral", class: "checkbox__label" %>
-      </div>
-    </div>
-
-    <div class="field">
-      <%= form.label :url, "Website", class: "field__label" %>
-      <%= form.url_field :url, class: "field__input" %>
-      <p class="field__lower-hint">Must start with http:// or https://</p>
-    </div>
-
-    <div class="field">
-      <%= form.label :referral_url, class: "field__label" do %>
-        Referral URL
-        <button class="help-button help-button--small" type="button" data-tippy-content="Provide a URL that lets the user quickly access the service, if different to the main website. This could be referral guidance.">What
-          does this mean?
-        </button>
-      <% end %>
-      <%= form.url_field :referral_url, class: "field__input" %>
-      <p class="field__lower-hint">Must start with http:// or https://</p>
-    </div>
+<div class="field-section field-section--two-cols">
+  <div class="field field--required">
+    <%= form.label :name, class: "field__label" %>
+    <p class="field__hint">Good names are short but recognisable</p>
+    <%= form.text_field :name, value: @service.name, class: "field__input", required: true %>
   </div>
 
-  <div class="form-actions">
-    <%= form.submit "Continue", class: "button" %>
+  <div class="field field--span-two-cols">
+    <%= form.label :description, class: "field__label" %>
+    <p class="field__hint">Explain in a few sentences what your service does and who it helps</p>
+    <%= form.text_area :description, value: @service.description, class: "field__input", rows: 5 %>
   </div>
+
+  <div class="field">
+    <%= form.label :url, "Website", class: "field__label" %>
+    <p class="field__hint">Must start with http:// or https://</p>
+    <%= form.url_field :url, class: "field__input" %>
+  </div>
+</div>
+
+
+<fieldset class="field-section">
+  <legend class="field-section__legend">Does this service need a referral?</legend>
+  <p class="field-section__hint">For example, from a GP or social worker.</p>
+
+  <div class="radio field" >
+    <%= form.radio_button :needs_referral, true, class: "radio__input", required: true, data: { show_if_checked_trigger: true } %>
+    <%= form.label "needs_referral_true", "Yes", class: "radio__label" %>
+  </div>
+
+  <div class="radio field">
+    <%= form.radio_button :needs_referral, false, class: "radio__input", required: true, data: { hide_if_checked_trigger: true } %>
+    <%= form.label "needs_referral_false", "No", class: "radio__label" %>
+  </div>
+</fieldset>
+
+
+<div class="field-section field-section--two-cols" data-show-if-checked-result>
+  <legend class="field-section__legend">Where can people get a referral?</legend>
+  <div class="field">
+    <%= form.label :referral_url, "Add a webpage where instructions can be found", class: "field__label" %>
+    <p class="field__hint">Must start with http:// or https://</p>
+    <%= form.url_field :referral_url, class: "field__input" %>
+  </div>
+</div>
+
+<div class="form-actions">
+  <%= form.submit "Continue", class: "button" %>
+</div>

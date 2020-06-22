@@ -1,8 +1,16 @@
-<div class="notice__body">
-  <strong>You have successfully submitted this service for review</strong>
-  <p>A council staff member will review and publish these changes soon. You can still make more changes in the meantime.</p>
-</div>
-<br/>
-<div class="form-actions">
-  <%= link_to "Back to dashboard", root_path, class: "button" %>
-</div>
+<% content_for :header do %>
+  <%= link_to "Back to dashboard", organisations_path, class: "go-back" %>
+  <h1 class="page-header__title two-thirds">Your service has been successfully submitted</h1>
+<% end %>
+
+  <h2 class="small-bottom-margin">What happens next?</h2>
+  <p class="small-bottom-margin">A council staff member will review and publish these changes soon. At busy times, this can take several days.</p>
+  <p class="small-bottom-margin">You'll get an email when your listing is published.</p>
+  <p class="big-bottom-margin">You can still make more changes in the meantime. The more complete your listing is, the faster it will be approved.</p>
+
+  <h2 class="small-bottom-margin">If you have questions</h2>
+  <p class="big-bottom-margin">You can <a href="#">contact us</a> to ask about the process.</p>
+
+  <div class="form-actions">
+    <%= link_to "Back to dashboard", root_path, class: "button" %>
+  </div>

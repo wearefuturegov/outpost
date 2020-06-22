@@ -75,6 +75,10 @@ class Service < ApplicationRecord
     self.name || "Unnamed service"
   end
 
+  def in_taxonomy?(id)
+    taxonomies.where("taxonomies.id in (?)", id).exists?
+  end
+
   def status
     if marked_for_deletion?
       "marked for deletion"
