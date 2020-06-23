@@ -57,6 +57,9 @@ class Service < ApplicationRecord
   scope :in_taxonomy, -> (id) { joins(:taxonomies).where("taxonomies.id in (?)", id)}
   scope :scheduled, -> { where("visible_from > (?)", Date.today)}
   scope :hidden, -> { where("visible_to < (?)", Date.today)}
+  scope :publicly_visible, -> {
+    where(visible: true)
+  }
 
   acts_as_taggable_on :labels
   paginates_per 20
@@ -192,4 +195,7 @@ class Service < ApplicationRecord
     end
   end
 
+  def publicly_visible?
+    visible && discarded_at.nil?
+  end
 end
