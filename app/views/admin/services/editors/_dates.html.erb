@@ -1,6 +1,14 @@
 
 <div class="field-section field-section--two-cols field-section--no-bottom-margin">
-    <p class="field-section__hint">Leave them blank to keep a service always visible.
+
+    <div class="field <%= mark_unapproved_field("visible") %>">
+        <div class="checkbox">
+            <%= s.check_box :visible, class: "checkbox__input" %>
+            <%= s.label :visible, "Make this service publicly visible", class: "checkbox__label" %>
+        </div>
+    </div>
+
+    <p class="field-section__hint">Use these fields to show and hide a service on particular dates. Leave them blank to keep a service always visible.</p>
 
     <div class="field">
         <%= s.label :visible_from, "From", class: "field__label" %>
@@ -10,13 +18,5 @@
     <div class="field">
         <%= s.label :visible_to, "To", class: "field__label" %>
         <%= s.date_field :visible_to, class: "field__input" %>
-    </div>
-
-
-    <div class="field <%= mark_unapproved_field("visible") %>">
-        <div class="checkbox">
-            <%= s.check_box :visible, class: "checkbox__input" %>
-            <%= s.label :visible, "Make this service publicly visible", class: "checkbox__label" %>
-        </div>
     </div>
 </div>
