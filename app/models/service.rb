@@ -1,7 +1,7 @@
 class Service < ApplicationRecord
 
   include HasSnapshots
-  # include MongoIndexCallbacks
+  include MongoIndexCallbacks
   include Discard::Model
 
   # associations
@@ -192,4 +192,13 @@ class Service < ApplicationRecord
     end
   end
 
+  def publicly_visible?
+    visible && discarded_at.nil?
+  end
+
+  def self.convert_time_fields(service_object)
+    service_object['visible_from'] = DateTime.strptime(service_object["visible_from"], '%Y-%m-%d').to_time.utc if service_object['visible_from']
+    service_object['visible_to'] = DateTime.strptime(service_object["visible_to"], '%Y-%m-%d').to_time.utc if service_object['visible_to']
+    service_object
+  end
 end
