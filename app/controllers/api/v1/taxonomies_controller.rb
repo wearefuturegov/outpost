@@ -11,7 +11,7 @@ class API::V1::TaxonomiesController < ApplicationController
         taxonomies.map do |t, children|
             {
                 label: t.name,
-                slug: t.name.parameterize,
+                slug: t.slug,
                 level: t.depth,
                 children: json_tree(children)
             }
