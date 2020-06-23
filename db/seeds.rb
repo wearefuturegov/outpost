@@ -176,6 +176,7 @@ bucks_csv.each.with_index do |row, line|
     end
   end
 
+  service.skip_mongo_callbacks = true
   unless service.save
     puts "Service #{service.name} failed to save"
   end

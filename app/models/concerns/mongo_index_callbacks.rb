@@ -2,8 +2,10 @@ module MongoIndexCallbacks
 
     extend ActiveSupport::Concern
 
+    attr_accessor :skip_mongo_callbacks
+
     included do
-        after_save :update_index
+        after_save :update_index, unless: :skip_mongo_callbacks
     end
 
     def update_index

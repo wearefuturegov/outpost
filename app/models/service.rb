@@ -1,7 +1,7 @@
 class Service < ApplicationRecord
 
   include HasSnapshots
-  # include MongoIndexCallbacks
+  include MongoIndexCallbacks
   include Discard::Model
 
   # associations
