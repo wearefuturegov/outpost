@@ -21,8 +21,7 @@
 
             <%= render "shared/errors", model: @service %>
 
-            <section class="community-editor">
-                <div class="field-section field-section--two-cols">
+                <div class="field-section field-section--two-cols field-section--reduced-bottom-margin">
                     <div class="field field--required">
                         <%= form.label :name, class: "field__label" %>
                         <p class="field__hint">Good names are short but recognisable</p>
@@ -47,6 +46,9 @@
                             <%= form.label :visible, "Make this service publicly visible", class: "checkbox__label" %>
                         </div>
                     </div>
+                </div>
+                <div class="field-section field-section--two-cols">
+                    <h2 class="field field--span-two-cols">Referrals</h2>
 
                     <div class="field field--span-two-cols">
                         <div class="checkbox">
@@ -61,6 +63,7 @@
                         <%= form.url_field :referral_url, class: "field__input" %>
                     </div>
                 </div>
+
 
                 <%= render "shared/collapsible", name: "Contacts", count: @service.contacts.length, id: "contacts-editor" do %>
                     <%= render "admin/services/editors/contacts", s: form %>
@@ -85,8 +88,6 @@
                 <%= render "shared/collapsible", name: "Local offer", id: "local-offer-editor" do %>
                     <%= render "admin/services/editors/local-offer", s: form %>
                 <% end %>
-
-            </section>
 
             <div class="form-actions">
                 <%= form.submit "Submit for review", class: "button" %>

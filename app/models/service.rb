@@ -184,7 +184,7 @@ class Service < ApplicationRecord
     changed_fields
   end
 
-  def unapproved_changes?(attribute, meh=false)
+  def unapproved_changes?(attribute)
     if self.approved? || last_approved_snapshot.nil?
       false
     else
