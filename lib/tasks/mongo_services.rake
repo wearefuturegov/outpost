@@ -12,7 +12,7 @@ task :mongo_services => :environment  do
 
     # 2. insert new approved services (simple)
     approved_results = Service.publicly_visible.where(approved: true, discarded_at: nil).each do |result|
-        collection.insert_one(result.as_json)
+        collection.insert_one(Service.convert_time_fields(result.as_json))
         puts "✅ #{result.name} indexed"
     end
 
@@ -30,7 +30,7 @@ task :mongo_services => :environment  do
             next
         end
 
-        collection.insert_one(approved_alternative.object)
+        collection.insert_one(Service.convert_time_fields(approved_alternative.object))
         puts "🤔 Alternative approved snapshot of #{result.name} indexed"
         unapproved_count = unapproved_count + 1
     end 
