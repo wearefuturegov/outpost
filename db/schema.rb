@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_19_224151) do
+ActiveRecord::Schema.define(version: 2020_06_23_122942) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,6 +60,7 @@ ActiveRecord::Schema.define(version: 2020_06_19_224151) do
     t.string "link"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.jsonb "survey_answers"
     t.index ["service_id"], name: "index_local_offers_on_service_id"
   end
 
@@ -166,7 +167,7 @@ ActiveRecord::Schema.define(version: 2020_06_19_224151) do
   create_table "report_postcodes", force: :cascade do |t|
     t.string "postcode"
     t.string "ward"
-    t.string "childrens_centre"
+    t.string "family_centre"
   end
 
   create_table "service_at_locations", force: :cascade do |t|
