@@ -11,7 +11,7 @@ task :mongo_services => :environment  do
     collection.delete_many({})
 
     # 2. insert new approved services (simple)
-    approved_results = Service.publicly_visible.where(approved: true, discarded_at: nil).each do |result|
+    approved_results = Service.where(approved: true, discarded_at: nil, visible: true).each do |result|
         collection.insert_one(Service.convert_time_fields(result.as_json))
         puts "✅ #{result.name} indexed"
     end

@@ -57,9 +57,6 @@ class Service < ApplicationRecord
   scope :in_taxonomy, -> (id) { joins(:taxonomies).where("taxonomies.id in (?)", id)}
   scope :scheduled, -> { where("visible_from > (?)", Date.today)}
   scope :hidden, -> { where("visible_to < (?)", Date.today)}
-  scope :publicly_visible, -> {
-    where(visible: true)
-  }
 
   acts_as_taggable_on :labels
   paginates_per 20
@@ -200,8 +197,8 @@ class Service < ApplicationRecord
   end
 
   def self.convert_time_fields(service_object)
-    service_object['visible_from'] = DateTime.strptime(service_object["visible_from"], '%Y-%m-%d').to_time.utc
-    service_object['visible_to'] = DateTime.strptime(service_object["visible_to"], '%Y-%m-%d').to_time.utc
+    service_object['visible_from'] = DateTime.strptime(service_object["visible_from"], '%Y-%m-%d').to_time.utc if service_object['visible_from']
+    service_object['visible_to'] = DateTime.strptime(service_object["visible_to"], '%Y-%m-%d').to_time.utc if service_object['visible_to']
     service_object
   end
 end
