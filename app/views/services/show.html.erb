@@ -81,6 +81,10 @@
                     <%= render "admin/services/editors/cost-options", s: form %>
                 <% end %>
 
+                <%= render "shared/collapsible", name: "Social media", id: "social-media-editor" do %>
+                    <%= render "admin/services/editors/social-media", s: form %>
+                <% end %>
+                                 
                 <%= render "shared/collapsible", name: "Categorisation", count: @service.taxonomies.length, id: "taxonomy-editor" do %>
                     <%= render "admin/services/editors/taxonomies", s: form %>
                 <% end %>

@@ -38,6 +38,7 @@ class Admin::ServicesController < Admin::BaseController
   end
 
   def update
+    # byebug
     if @service.update(service_params)
       redirect_to admin_service_url(@service), notice: "Service has been updated."
     else
@@ -99,6 +100,10 @@ class Admin::ServicesController < Admin::BaseController
         :description,
         :link,
         :_destroy,
+        survey_answers: [
+          :question,
+          :answer
+        ]
       ],
       cost_options_attributes: [
         :id,
