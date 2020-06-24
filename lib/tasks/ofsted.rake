@@ -1,21 +1,33 @@
 namespace :ofsted do
 
-  # To be run once initially
-  task :set_reference_ids_on_existing_childcare_records => :environment  do
+  task :create_initial_items => :environment do
+    response = HTTParty.get("https://bucks-ofsted-feed.herokuapp.com?api_key=#{ENV["OFSTED_API_KEY"]}")
+    items = JSON.parse(response.body)
+
+    items.each do |item|
+      ofsted_item = OfstedItem.new(ofsted_item_params(item))
+
+      if ofsted_item.save
+        puts "Created ofsted item #{ofsted_item.provider_name}"
+      else
+        puts "Failed to create ofsted item #{ofsted_item.provider_name}"
+      end
+    end
+  end
+
+  task :set_open_objects_external_ids do
     ofsted_file = File.open('lib/seeds/ofsted.csv', "r:ISO-8859-1")
     open_objects_ofsted_csv = CSV.parse(ofsted_file, headers: true)
 
     open_objects_ofsted_csv.each do |row|
-
-      #ofsted_item = OfstedItem.new
-
-      matching_ofsted_services = OfstedService.where(old_ofsted_external_id: row['externalid'])
-      matching_ofsted_services.each do |os|
-
-        os.ofsted_reference_number = row['reference_number']
-        os.save
-        puts "Setting #{os.name} reference number as: #{row['reference_number']}"
-        #ofsted_service.save
+      ofsted_item = OfstedItem.where(reference_number: row['reference_number']).first
+      if ofsted_item
+        ofsted_item.open_objects_external_id = row['externalid']
+        if ofsted_item.save
+          puts "Set ofsted item OO externalID #{ofsted_item.open_objects_external_id}"
+        else
+          puts "Failed to update OO externalID #{ofsted_item.open_objects_external_id}"
+        end
       end
     end
   end
@@ -28,7 +40,7 @@ namespace :ofsted do
     items.each do |item| # Iterate through iterms returend from Ofsted feed API
       ofsted_item = OfstedItem.where(reference_number: item["reference_number"]).first # Check if ofsted item already exists
 
-      if ofsted_item # If so, find childcafe related services
+      if ofsted_item
 
         ofsted_item.assign_attributes(ofsted_item_params(item)) # Prepare for update
 
