@@ -58,6 +58,9 @@ class ServicesController < ApplicationController
           :bccn_member,
           :current_vacancies,
           :pick_up_drop_off_service,
+          :free,
+          :needs_referral, 
+          :referral_url,
           taxonomy_ids: [],
           local_offer_attributes: [
               :id,

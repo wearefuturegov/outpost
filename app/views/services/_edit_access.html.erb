@@ -25,15 +25,26 @@
 
   <section class="community-editor">
     <h2 class="community-editor__title">Schedules</h2>
-    <p class="community-editor__hint">Provide opening hours or session times for this service. If you have multiple unrelated sessions, consider adding different services for each one.</p>
+    <p class="community-editor__hint">Provide opening hours or session times for this service. If you have several unrelated sessions, consider adding different services for each one.</p>
     <%= render "admin/services/editors/regular-schedule", s: form %>
   </section>
 
-  <section class="community-editor">
-    <h2 class="community-editor__title">Fees</h2>
-    <p class="community-editor__hint">If your service has charges or fees, add them here.</p>
-    <%= render "admin/services/editors/cost-options", s: form %>
-  </section>
+  <% unless @service.free? %>
+    <section class="community-editor">
+      <h2 class="community-editor__title">Fees</h2>
+      <p class="community-editor__hint">Add details about your service's charges or fees.</p>
+      <section class="nested-editor">
+          <ul class="nested-editor__results" aria-live="polite">
+              <%= form.fields_for :cost_options do |c| %>
+                  <li class="nested-editor__result">
+                      <%= render "admin/services/editors/cost-options-fields", c: c %>
+                  </li>
+              <% end %>
+          </ul>
+          <%= link_to_add_fields "Add a fee", form, :cost_options, "admin/services/editors/cost-options-fields" %>
+      </section>
+    </section>
+  <% end %>
 
   <div class="form-actions">
     <%= form.submit "Continue", class: "button" %>
