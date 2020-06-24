@@ -79,5 +79,4 @@ class Location < ApplicationRecord
       one_line_address: one_line_address
     }
   end
-
 end
