@@ -41,4 +41,8 @@ class Snapshot < ApplicationRecord
     live_object.snapshot_action = "restore"
     live_object.save
   end
+
+  def publicly_visible?
+    object['visible'] && object['discarded_at'].nil?
+  end
 end

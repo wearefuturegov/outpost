@@ -63,14 +63,14 @@ bucks_csv.each.with_index do |row, line|
 
 # CREATE SERVICE
 
-  if row['service_type'] == 'Childcare'
-    service = OfstedService.new
-    if row['registered_setting_identifier'].present?
-      service.old_ofsted_external_id = row['registered_setting_identifier']
-    else
-      puts "No ofsted reeferene number"
-    end
-  end
+  # if row['service_type'] == 'Childcare'
+  #   service = OfstedItem.new
+  #   if row['registered_setting_identifier'].present?
+  #     service.old_ofsted_external_id = row['registered_setting_identifier']
+  #   else
+  #     puts "No ofsted reeferene number"
+  #   end
+  # end
   service ||= Service.new
 
   service.name = row['title']
@@ -176,6 +176,7 @@ bucks_csv.each.with_index do |row, line|
     end
   end
 
+  service.skip_mongo_callbacks = true
   unless service.save
     puts "Service #{service.name} failed to save"
   end

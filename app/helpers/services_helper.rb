@@ -14,14 +14,14 @@ module ServicesHelper
     stages[stages.index(stage) - 1]
   end
 
-  def mark_unapproved_field(attribute, child_attribute = false)
-    if @service.unapproved_changes?(attribute, child_attribute = false)
+  def mark_unapproved_field(attribute)
+    if @service.unapproved_changes?(attribute) && current_user.admin?
       "field--changed"
     end
   end
 
   def mark_unapproved_local_offer
-    if @service.unapproved_changes?("local_offer")
+    if @service.unapproved_changes?("local_offer") && current_user.admin?
       content_tag(:div, class: "changed") do
         yield
       end
@@ -33,7 +33,7 @@ module ServicesHelper
   end
 
   def mark_unapproved_array(attribute)
-    if @service.unapproved_changes?(attribute)
+    if @service.unapproved_changes?(attribute) && current_user.admin?
       content_tag(:div, class: "changed") do
         yield
       end

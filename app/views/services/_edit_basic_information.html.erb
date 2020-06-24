@@ -1,7 +1,7 @@
 <% content_for :header do %>
     <%= link_to "Back to dashboard", organisations_path, class: "go-back" %>
     <p class="page-header__caption">Step 1 of 4</p>
-    <h1 class="page-header__title">Add a service</h1>
+    <h1 class="page-header__title">Add a new service</h1>
 <% end %>
 
 <div class="field-section field-section--two-cols">
@@ -24,6 +24,30 @@
   </div>
 </div>
 
+<fieldset class="field-section">
+  <legend class="field-section__legend">Should this service be listed in public search results?</legend>
+  <p class="field-section__hint">If so, members of the public will be able to see and contact the service.</p>
+  <div class="radio field" >
+    <%= form.radio_button :visible, true, class: "radio__input", required: true %>
+    <%= form.label "visible_true", "Yes", class: "radio__label" %>
+  </div>
+  <div class="radio field">
+    <%= form.radio_button :visible, false, class: "radio__input", required: true %>
+    <%= form.label "visible_false", "No", class: "radio__label" %>
+  </div>
+</fieldset>
+
+<fieldset class="field-section">
+  <legend class="field-section__legend">Is this service free to use?</legend>
+  <div class="radio field" >
+    <%= form.radio_button :free, true, class: "radio__input", required: true %>
+    <%= form.label "free_true", "Yes", class: "radio__label" %>
+  </div>
+  <div class="radio field">
+    <%= form.radio_button :free, false, class: "radio__input", required: true %>
+    <%= form.label "free_false", "No", class: "radio__label" %>
+  </div>
+</fieldset>
 
 <fieldset class="field-section">
   <legend class="field-section__legend">Does this service need a referral?</legend>

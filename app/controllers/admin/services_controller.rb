@@ -92,6 +92,7 @@ class Admin::ServicesController < Admin::BaseController
       :pick_up_drop_off_service,
       :needs_referral,
       :marked_for_deletion,
+      :free,
       :ofsted_item_id,
       taxonomy_ids: [],
       local_offer_attributes: [

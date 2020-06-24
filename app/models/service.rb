@@ -1,7 +1,7 @@
 class Service < ApplicationRecord
 
   include HasSnapshots
-  # include MongoIndexCallbacks
+  include MongoIndexCallbacks
   include Discard::Model
 
   # associations
@@ -184,7 +184,7 @@ class Service < ApplicationRecord
     changed_fields
   end
 
-  def unapproved_changes?(attribute, meh=false)
+  def unapproved_changes?(attribute)
     if self.approved? || last_approved_snapshot.nil?
       false
     else
@@ -192,4 +192,7 @@ class Service < ApplicationRecord
     end
   end
 
+  def publicly_visible?
+    visible && discarded_at.nil?
+  end
 end
