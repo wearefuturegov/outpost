@@ -46,8 +46,17 @@ class IndexedServicesSerializer < ActiveModel::Serializer
     end
 
     def address_1
-      return '***' if object.mask_exact_address
+      return nil if object.mask_exact_address
       object.address_1
+    end
+
+    def postal_code
+      if object.mask_exact_address and object.postal_code
+        postal_chunks = object.postal_code.split(' ')
+        return postal_chunks[0] if postal_chunks.any?
+        return nil
+      end
+      object.postal_code
     end
   end
 
