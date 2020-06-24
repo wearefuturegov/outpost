@@ -1,29 +1,30 @@
-
 <div data-local-offer-fields>
-    <div class="field-section">
-        <div class="field field--required">
-            <%= l.label :description, "Description of support provided", class: "field__label" %>
-            <%= l.text_area :description, class: "field__input", rows: 5, required: true %>
-        </div>
-
-        <div class="field">
-            <%= l.label :link, "Link to most recent SEND report", class: "field__label" %>
-            <%= l.url_field :link, class: "field__input" %>
-            <p class="field__lower-hint">Must start with http:// or https://</p>
-        </div>
+  <div class="field-section">
+    <div class="field field--required">
+      <%= l.label :description, "Description of support provided", class: "field__label" %>
+      <%= l.text_area :description, class: "field__input", rows: 5, required: true %>
     </div>
 
-    <fieldset class="field-section">
-        <legend class="field-section__legend">Details about your support</legend>
-<% l.object.questions.each do |q| %>
-    <%= l.fields_for :survey_answers, OpenStruct.new({question: q}) do |m| %>
+    <div class="field">
+      <%= l.label :link, "Link to most recent SEND report", class: "field__label" %>
+      <%= l.url_field :link, class: "field__input" %>
+      <p class="field__lower-hint">Must start with http:// or https://</p>
+    </div>
+  </div>
+
+  <fieldset class="field-section">
+    <legend class="field-section__legend">Details about your support</legend>
+    <% survey_answers = @service.local_offer&.survey_answers || [] %>
+    <% l.object.questions.each do |q| %>
+      <% current_answer = survey_answers.detect { |h| h['id'] == q[:id] } || { id: q[:id] } %>
+      <%= l.fields_for 'survey_answers[]', OpenStruct.new(current_answer) do |m| %>
         <div class="field">
-            <%= m.label :answer, q, class: "field__label" %>
-            <%= m.text_area :answer, rows: 3, class: "field__input" %>
+          <%= m.label :answer, q[:text], class: "field__label" %>
+          <%= m.text_area :answer, rows: 3, class: "field__input" %>
         </div>
+      <% end %>
     <% end %>
-<% end %>
-    </fieldset>
+  </fieldset>
 </div>
 
-<%= l.hidden_field :_destroy,  data: {destroy_field: true} %>
+<%= l.hidden_field :_destroy, data: {destroy_field: true} %>
