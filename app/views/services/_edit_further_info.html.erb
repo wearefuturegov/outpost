@@ -10,7 +10,7 @@
 <% end %>
 
 <section class="community-editor">
-  <h2 class="community-editor__title">Local Offer</h2>
+  <h2 class="community-editor__title">Is your service part of the local offer?</h2>
   <p class="community-editor__hint">We need extra information from services that are part of the Local Offer.</p>
   <%= render "admin/services/editors/local-offer", s: form %>
 </section>
@@ -18,22 +18,29 @@
 <% if form.object.in_taxonomy?(18) %>
   <section class="community-editor">
     <h2 class="community-editor__title">Childcare</h2>
-    <p class="community-editor__hint"></p>
-    <%= render "admin/services/editors/childcare", s: form %>
+    <p class="community-editor__hint">We need extra information from childcare providers. Choose all that apply.</p>
+    <div class="field-section">
+        <div class="field">
+          <div class="checkbox">
+            <%= form.check_box :bccn_member, class: "checkbox__input"%>
+            <%= form.label :bccn_member, "This service is a member of the Community Childminding Network (BCCN)", class: "checkbox__label" %>
+          </div>
+        </div>
+        <div class="field">
+            <div class="checkbox">
+                <%= form.check_box :current_vacancies, class: "checkbox__input"%>
+                <%= form.label :current_vacancies, "This service has vacancies for new children now", class: "checkbox__label" %>
+            </div>
+        </div>
+        <div class="field">
+            <div class="checkbox">
+                <%= form.check_box :pick_up_drop_off_service, class: "checkbox__input"%>
+                <%= form.label :pick_up_drop_off_service, "This service offers a pick-up or drop-off service from nearby schools", class: "checkbox__label" %>
+            </div>
+        </div>
+    </div>
   </section>
 <% end %>
-
-<section class="community-editor">
-  <h2 class="community-editor__title">Visibility</h2>
-  <p class="community-editor__hint">Change how your service will appear in <a href="#" target="blank">public search results</a>.</p>
-
-  <div class="field">
-      <div class="checkbox">
-          <%= form.check_box :visible, class: "checkbox__input" %>
-          <%= form.label :visible, "Make this service publicly visible", class: "checkbox__label" %>
-      </div>
-  </div>
-</section>
 
 <div class="form-actions">
   <%= form.submit "Finish and send", class: "button" %>

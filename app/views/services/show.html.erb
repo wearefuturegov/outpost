@@ -81,12 +81,16 @@
                     <%= render "admin/services/editors/cost-options", s: form %>
                 <% end %>
 
-                <%= render "shared/collapsible", name: "Taxonomies", count: @service.taxonomies.length, id: "taxonomy-editor" do %>
+                <%= render "shared/collapsible", name: "Categorisation", count: @service.taxonomies.length, id: "taxonomy-editor" do %>
                     <%= render "admin/services/editors/taxonomies", s: form %>
                 <% end %>
 
-                <%= render "shared/collapsible", name: "Local offer", id: "local-offer-editor" do %>
+                <%= render "shared/collapsible", name: "Local offer", id: "local-offer-editor", help_text: "Optional extra questions for services which are part of the local offer." do %>
                     <%= render "admin/services/editors/local-offer", s: form %>
+                <% end %>
+
+                <%= render "shared/collapsible", name: "Childcare", id: "childcare-editor", help_text: "Optional extra questions for childcare providers only." do %>
+                    <%= render "admin/services/editors/childcare", s: form %>
                 <% end %>
 
             <div class="form-actions">

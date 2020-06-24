@@ -24,6 +24,18 @@
   </div>
 </div>
 
+<fieldset class="field-section">
+  <legend class="field-section__legend">Should this service appear in public search results?</legend>
+  <p class="field-section__hint">If so, members of the public will be able to see and contact the service.</p>
+  <div class="radio field" >
+    <%= form.radio_button :visible, true, class: "radio__input", required: true %>
+    <%= form.label "visible_true", "Yes", class: "radio__label" %>
+  </div>
+  <div class="radio field">
+    <%= form.radio_button :visible, false, class: "radio__input", required: true %>
+    <%= form.label "visible_false", "No", class: "radio__label" %>
+  </div>
+</fieldset>
 
 <fieldset class="field-section">
   <legend class="field-section__legend">Does this service need a referral?</legend>
