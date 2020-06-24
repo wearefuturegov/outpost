@@ -12,7 +12,7 @@ task :mongo_services => :environment  do
 
     # 2. insert new approved services (simple)
     approved_results = Service.where(approved: true, discarded_at: nil, visible: true).each do |result|
-        collection.insert_one(Service.convert_time_fields(result.as_json))
+        collection.insert_one(IndexedServicesSerializer.new(result).as_json)
         puts "✅ #{result.name} indexed"
     end
 
@@ -23,6 +23,7 @@ task :mongo_services => :environment  do
         unless approved_alternative
             puts "🚨 No alternative approved snapshot of #{result.name} exists. Skipping."
             next
+            next
         end
 
         unless approved_alternative.publicly_visible?
@@ -30,7 +31,7 @@ task :mongo_services => :environment  do
             next
         end
 
-        collection.insert_one(Service.convert_time_fields(approved_alternative.object))
+        collection.insert_one(IndexedServicesSerializer.new(Service.from_hash(approved_alternative.object)).as_json)
         puts "🤔 Alternative approved snapshot of #{result.name} indexed"
         unapproved_count = unapproved_count + 1
     end 
