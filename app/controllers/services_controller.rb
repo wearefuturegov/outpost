@@ -106,6 +106,7 @@ class ServicesController < ApplicationController
           ]
         )
 
+        # map fields_for submitted values, which are of the form 'id => { answer: text }' into an array of '[{ id: id, answer: text }]'
         if result_params['local_offer_attributes']&.[]('survey_answers')
             result_params['local_offer_attributes']['survey_answers'] =
                 result_params['local_offer_attributes']['survey_answers'].to_h.map{|k,v| { id: k.to_i, answer: v['answer']}}
