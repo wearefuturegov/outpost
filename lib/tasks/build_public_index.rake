@@ -1,4 +1,4 @@
-task :mongo_services => :environment  do
+task :build_public_index => :environment  do
     Mongo::Logger.logger.level = Logger::FATAL
 
     puts "⏰ Connecting to mongo database..."
