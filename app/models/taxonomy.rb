@@ -19,6 +19,6 @@ class Taxonomy < ApplicationRecord
     scope :categories, -> { where(parent_id: 1) }
 
     def update_index
-        UpdateIndexFromTaxonomyJob.perform_later(self)
+        UpdateIndexTaxonomiesJob.perform_later(self)
     end
 end

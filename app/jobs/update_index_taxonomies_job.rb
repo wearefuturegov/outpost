@@ -1,4 +1,4 @@
-class UpdateIndexFromTaxonomyJob < ApplicationJob
+class UpdateIndexTaxonomiesJob < ApplicationJob
   queue_as :default
 
   def perform(taxon)
