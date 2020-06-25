@@ -24,6 +24,8 @@ bucks_csv.each do |row| # CREATE ORGS BASED ON TYPE
 end
 
 Rake::Task['taxonomy:create_categories_from_old_db'].invoke
+Rake::Task['ofsted:create_initial_items'].invoke
+Rake::Task['ofsted:set_open_objects_external_ids'].invoke
 
 bucks_csv.each.with_index do |row, line|
   #next unless (line % 6 == 0)
@@ -63,15 +65,14 @@ bucks_csv.each.with_index do |row, line|
 
 # CREATE SERVICE
 
-  # if row['service_type'] == 'Childcare'
-  #   service = OfstedItem.new
-  #   if row['registered_setting_identifier'].present?
-  #     service.old_ofsted_external_id = row['registered_setting_identifier']
-  #   else
-  #     puts "No ofsted reeferene number"
-  #   end
-  # end
   service ||= Service.new
+
+  if row['service_type'] == 'Childcare'
+    if row['registered_setting_identifier'].present?
+      ofsted_item = OfstedItem.where(open_objects_external_id: row['registered_setting_identifier']).first
+      service.ofsted_item_id = ofsted_item.id if ofsted_item
+    end
+  end
 
   service.name = row['title']
   service.description = ActionView::Base.full_sanitizer.sanitize(row['description'])
@@ -218,8 +219,6 @@ end
 
 end_time = Time.now
 
-Rake::Task['ofsted:set_reference_ids_on_existing_childcare_records'].invoke
-Rake::Task['ofsted:update_items'].invoke
 Rake::Task['taxonomy:map_to_new_taxonomy'].invoke
 Rake::Task['taxonomy:delete_old_taxonomies'].invoke
 
