@@ -19,10 +19,6 @@ class Taxonomy < ApplicationRecord
     scope :categories, -> { where(parent_id: 1) }
 
     def update_index
-        client = Mongo::Client.new(ENV["MONGODB_URI"] || 'mongodb://127.0.0.1:27017/outpost_development')
-        collection = client.database[:indexed_services]
-        query = collection.find({ "taxonomies.id": { "$eq": self.id } }, { id: 1 })
-        services = Service.find(query.map { |d| d['id'] })
-        services.each {|s| s.update_index }
+        UpdateIndexFromTaxonomyJob.perform_later(self)
     end
 end
