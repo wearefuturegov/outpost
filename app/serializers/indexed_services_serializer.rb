@@ -1,9 +1,18 @@
 class IndexedServicesSerializer < ActiveModel::Serializer
 
   def attributes(*args)
-    object.attributes.symbolize_keys.except(:visible, :notes_count, :ofsted_reference_number,
-                                            :old_ofsted_external_id, :ofsted_item_id, :organisation_id, :approved,
-                                            :label_list, :discarded_at, :marked_for_deletion)
+    object.attributes.symbolize_keys.except(
+      :visible, 
+      :notes_count, 
+      :ofsted_reference_number,                              
+      :old_ofsted_external_id, 
+      :ofsted_item_id, 
+      :organisation_id, 
+      :approved,                              
+      :label_list, 
+      :discarded_at, 
+      :marked_for_deletion
+    )
   end
 
   has_many :locations do
