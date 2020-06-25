@@ -60,10 +60,8 @@ class IndexedServicesSerializer < ActiveModel::Serializer
     end
 
     def postal_code
-      if object.mask_exact_address and object.postal_code
-        postal_chunks = object.postal_code.split(' ')
-        return postal_chunks[0] if postal_chunks.any?
-        return nil
+      if object.mask_exact_address and object.postal_codes
+        return UKPostcode.parse("W1A 2AB").outcode
       end
       object.postal_code
     end
