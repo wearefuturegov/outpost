@@ -1,5 +1,3 @@
-# require 'differ/string'
-
 module ApplicationHelper
 
     def map(lat, long)
@@ -18,19 +16,6 @@ module ApplicationHelper
           .delete_suffix("/")
           .truncate(25)
     end
-
-    # def inline_differ(one, two)
-    #     if one && two
-    #         $; = ' '
-    #         (one - two).format_as(:html).html_safe
-    #     end
-    # end
-
-    # def differ(one, two)
-    #     if one && two
-    #         Differ.diff_by_word(one, two).format_as(:html).html_safe
-    #     end
-    # end
 
     def pretty_event(event)
         case event
@@ -110,7 +95,6 @@ module ApplicationHelper
         link_to name, '#', class: "button button--small button--add", data: {id: id, fields: fields.gsub("\n", ""), add: true}
     end  
 
-
     def local_offer_checkbox(f, view)
         new_object = LocalOffer.new
         id = new_object.object_id
@@ -119,5 +103,4 @@ module ApplicationHelper
         end
         check_box_tag "local_offer", "1", f.object.local_offer, class: "checkbox__input", data: {id: id, fields: fields.gsub("\n", ""), local_offer: true}
     end
-
 end

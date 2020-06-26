@@ -86,6 +86,8 @@ class Admin::ServicesController < Admin::BaseController
       :visible,
       :visible_from,
       :visible_to,
+      :min_age,
+      :max_age,
       :label_list,
       :bccn_member,
       :current_vacancies,
