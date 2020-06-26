@@ -123,11 +123,19 @@ bucks_csv.each.with_index do |row, line|
 
   unless row['lo_age_bands'] == nil
     age_groups = row['lo_age_bands'].split("\n")
-    age_groups.each do |age_group|
-      age_group_taxonomy_path = ["Age groups", age_group]
-      taxonomy = Taxonomy.find_or_create_by_path(age_group_taxonomy_path)
-      service.taxonomies |= [taxonomy]
+
+    min_age = age_groups.map {|x| x.scan(/\d+/)}.flatten.map(&:to_i).min
+    max_age = age_groups.map {|x| x.scan(/\d+/)}.flatten.map(&:to_i).max
+
+    max_age = nil if age_groups.include? "25 plus"
+
+    if age_groups.include? "All ages"
+      min_age = nil
+      max_age = nil
     end
+
+    service.min_age = min_age
+    service.max_age = max_age
   end
 
   unless row['lo_needs_level'] == nil
@@ -237,6 +245,9 @@ Rake::Task['taxonomy:delete_old_taxonomies'].invoke
 over_25_taxonomny = Taxonomy.where(name: "25 plus").first
 over_25_taxonomny.name = "Over 25"
 over_25_taxonomny.save
+
+age_taxonomy = Taxonomy.where(name: "Age groups")
+age_taxonomy.destroy!
 
 all_needs_met_taxonomy = Taxonomy.where(name: "All Needs Met").first
 all_needs_met_taxonomy.destroy!
