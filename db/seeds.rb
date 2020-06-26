@@ -28,7 +28,7 @@ Rake::Task['ofsted:create_initial_items'].invoke
 Rake::Task['ofsted:set_open_objects_external_ids'].invoke
 
 bucks_csv.each.with_index do |row, line|
-  #next unless (line % 6 == 0)
+  next unless (line % 6 == 0)
   puts "Processing line (service build): #{line} of #{bucks_csv.size}"
 
   open_objects_users = open_objects_users_csv.select{ |user_row| user_row['externalId'] == row['record_editor'] } # users from open objects csv
@@ -182,28 +182,36 @@ bucks_csv.each.with_index do |row, line|
     puts "Service #{service.name} failed to save"
   end
 
-  if (row['contact_name'].present? || row['contact_position'].present? || row['contact_telephone'].present?)
+  if (row['contact_name'].present? || row['contact_telephone'].present? || row['contact_email'].present?) # contact just needs one of these ethings to save
     contact = Contact.new
     contact.service_id = service.id
     contact.name = row['contact_name']
     contact.title = row['contact_position']
     contact.email = row['contact_email']
-    unless contact.save
-      puts "Contact #{contact.name} failed to save"
-    end
-  end
 
-  if row['contact_telephone'].present?
-    numbers = row['contact_telephone'].split("\n") if row['contact_telephone']&.include? "\n"
-    numbers ||= [row['contact_telephone']]
+    # If more than one number, add first to contact with name, email and position, and create blank contacts for remaining numbers
+    if row['contact_telephone'].present?
+      if row['contact_telephone']&.include? "\n"
+        numbers = row['contact_telephone'].split("\n")
+        contact.phone = numbers.first
 
-    numbers.each do |number|
-      contact.phone = number
-      unless contact.save
-        puts "Phone #{number} failed to save"
+        unless contact.save
+          puts "Contact #{contact.name} failed to save"
+          byebug
+        end
+
+        numbers = numbers.drop(1) # now create contacts for remaining numbers
+        numbers.each do |number|
+          contact = Contact.new
+          contact.phone = number
+          contact.service_id = service.id
+          unless contact.save
+            puts "Phone #{number} failed to save"
+            byebug
+          end
+        end
       end
     end
-    
   end
 
 end
@@ -212,8 +220,8 @@ end
 user_logins_yaml = Rails.root.join('lib', 'seeds', 'user_logins.yml')
 user_logins = YAML::load_file(user_logins_yaml)
 user_logins.each do |user_login|
-  user_login.admin_users = true
-  user_login.admin_ofsted = true
+  user_login["admin_users"] = true
+  user_login["admin_ofsted"] = true
   User.create!(user_login) unless (User.where(email: user_login["email"]).size > 0)
 end
 
