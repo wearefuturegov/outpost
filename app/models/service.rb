@@ -139,7 +139,7 @@ class Service < ApplicationRecord
     self.taxonomies.each do |t|
       self.taxonomies << t.ancestors
     end
-    self.taxonomies = self.taxonomies.distinct
+    self.taxonomies = self.taxonomies.uniq
   end
 
   # include nested taxonomies in json representation by default
