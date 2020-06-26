@@ -137,6 +137,9 @@ bucks_csv.each.with_index do |row, line|
       taxonomy = Taxonomy.find_or_create_by_path(send_need_taxonomy_path)
       service.taxonomies |= [taxonomy]
     end
+    if send_needs.include? "All Needs Met"
+      service.taxonomies |= Taxonomy.find_by_path("SEND needs").children
+    end
   end
 
   unless row['familychannel'] == nil
@@ -178,6 +181,7 @@ bucks_csv.each.with_index do |row, line|
   end
 
   service.skip_mongo_callbacks = true
+
   unless service.save
     puts "Service #{service.name} failed to save"
   end
@@ -234,9 +238,8 @@ over_25_taxonomny = Taxonomy.where(name: "25 plus").first
 over_25_taxonomny.name = "Over 25"
 over_25_taxonomny.save
 
-general_support_taxonomny = Taxonomy.where(name: "All Needs Met").first
-general_support_taxonomny.name = "General support"
-general_support_taxonomny.save
+all_needs_met_taxonomy = Taxonomy.where(name: "All Needs Met").first
+all_needs_met_taxonomy.destroy!
 
 puts "Took #{(end_time - start_time)/60} minutes"
 
