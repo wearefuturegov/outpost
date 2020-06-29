@@ -105,6 +105,17 @@ bucks_csv.each.with_index do |row, line|
     location.latitude = row['latitude']
     location.longitude = row['longitude']
     location.country = 'GB'
+
+    # add accessibility info to locations
+    unless row['venue_facilities'] == nil
+      options = row['venue_facilities'].split("\n")
+      # remove unwanted values
+      options = options - ["Accessible Website", "Cooking"]
+      options.each do |option|
+        location.accessibilities << Accessibility.find_or_initialize_by({name: option.downcase.capitalize})
+      end
+    end
+
     unless location.save
       puts "Location #{location.name} failed to save"
     end
