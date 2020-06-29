@@ -67,6 +67,10 @@ bucks_csv.each.with_index do |row, line|
 
   service ||= Service.new
 
+  if (row['ecd_opt_out_website'] == "Hide completely from public website") || (row['ecd_opt_out_website'] == "Admin access only, never on website")
+    service.visible = false
+  end
+
   if row['service_type'] == 'Childcare'
     if row['registered_setting_identifier'].present?
       ofsted_item = OfstedItem.where(open_objects_external_id: row['registered_setting_identifier']).first
@@ -81,14 +85,18 @@ bucks_csv.each.with_index do |row, line|
   service.organisation = organisation
 
   service.snapshot_action = "import"
-  if (row['ecd_opt_out_website'] == 'Hide completely from public website') || (row['ecd_opt_out_website'] == 'Admin access only, never on website')
-    service.discarded_at = Time.now
-  end
 
   if row['venue_name'].present? && (Location.where('lower(name) = ?', row['venue_name'].downcase).size > 0) # Assign location if already exists
     service.locations << Location.where('lower(name) = ?', row['venue_name'].downcase).first
   else # Otherwise create a new one
     location = Location.new
+
+    if row['ecd_opt_out_website'] == "Hide street level location and don't show on maps"
+      location.visible = false
+    elsif row['ecd_opt_out_website'] == "Hide street level location but show on maps"
+      location.mask_exact_address = true
+    end
+
     location.name = row['venue_name']
     location.address_1 = [row['venue_address_1'], row['venue_address_2']].join(' ')
     location.city = row['venue_address_4']
