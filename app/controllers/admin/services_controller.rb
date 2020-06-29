@@ -72,7 +72,7 @@ class Admin::ServicesController < Admin::BaseController
   end
 
   def service_params
-    params.require(:service).permit(
+    result_params = params.require(:service).permit(
       :name,
       :organisation_id,
       :description,
@@ -86,6 +86,8 @@ class Admin::ServicesController < Admin::BaseController
       :visible,
       :visible_from,
       :visible_to,
+      :min_age,
+      :max_age,
       :label_list,
       :bccn_member,
       :current_vacancies,
@@ -142,6 +144,14 @@ class Admin::ServicesController < Admin::BaseController
         accessibility_ids: []
       ]
     )
+
+    # map fields_for submitted values, which are of the form 'id => { answer: text }' into an array of '[{ id: id, answer: text }]'
+    if result_params['local_offer_attributes']&.[]('survey_answers')
+      result_params['local_offer_attributes']['survey_answers'] =
+          result_params['local_offer_attributes']['survey_answers'].to_h.map{|k,v| { id: k.to_i, answer: v['answer']}}
+    end
+
+    result_params
   end
 
 end

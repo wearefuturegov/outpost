@@ -1,9 +1,18 @@
 class IndexedServicesSerializer < ActiveModel::Serializer
 
   def attributes(*args)
-    object.attributes.symbolize_keys.except(:visible, :notes_count, :ofsted_reference_number,
-                                            :old_ofsted_external_id, :ofsted_item_id, :organisation_id, :approved,
-                                            :label_list, :discarded_at, :marked_for_deletion)
+    object.attributes.symbolize_keys.except(
+      :visible, 
+      :notes_count, 
+      :ofsted_reference_number,                              
+      :old_ofsted_external_id, 
+      :ofsted_item_id, 
+      :organisation_id, 
+      :approved,                              
+      :label_list, 
+      :discarded_at, 
+      :marked_for_deletion
+    )
   end
 
   has_many :locations do
@@ -52,10 +61,8 @@ class IndexedServicesSerializer < ActiveModel::Serializer
     end
 
     def postal_code
-      if object.mask_exact_address and object.postal_code
-        postal_chunks = object.postal_code.split(' ')
-        return postal_chunks[0] if postal_chunks.any?
-        return nil
+      if object.mask_exact_address and object.postal_codes
+        return UKPostcode.parse("W1A 2AB").outcode
       end
       object.postal_code
     end
@@ -73,10 +80,17 @@ class IndexedServicesSerializer < ActiveModel::Serializer
     end
   end
 
+  class IndexedOrganisationSerializer < ActiveModel::Serializer
+    def attributes(*args)
+      object.attributes.symbolize_keys.except(:created_at, :updated_at, :users_count, :services_count, :old_external_id)
+    end
+  end
+
   def self.serializer_for(model, options)
     return IndexedLocationSerializer if model.class == Location
     return IndexedContactsSerializer if model.class == Contact
     return IndexedTaxonomySerializer if model.class == Taxonomy
+    return IndexedOrganisationSerializer if model.class == Organisation
     super
   end
 end

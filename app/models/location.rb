@@ -1,18 +1,10 @@
-class PostcodeValidator < ActiveModel::EachValidator
-  def validate_each(record, attribute, value)
-    ukpc = UKPostcode.parse(value)
-    unless ukpc.full_valid?
-      record.errors[attribute] << "doesn't seem to be valid. Please check it and try again."
-    end
-  end
-end
-
 class Location < ApplicationRecord
   has_many :service_at_locations
   has_many :services, through: :service_at_locations
   has_and_belongs_to_many :accessibilities
 
-  # validates :postal_code, presence: true, postcode: true
+  validates :postal_code, presence: true
+  validate :postal_code_is_valid
 
   before_validation :geocode
   geocoded_by :postal_code
@@ -22,9 +14,12 @@ class Location < ApplicationRecord
   attr_accessor :skip_mongo_callbacks
   after_save :update_index, unless: :skip_mongo_callbacks
 
-  # def postal_code=(str)
-  #   super UKPostcode.parse(str).to_s
-  # end
+  def postal_code_is_valid
+    parsed = UKPostcode.parse(postal_code)
+    unless parsed.full_valid?
+      errors.add(:base, :invalid_postcode)
+    end
+  end
 
   scope :alphabetical, ->  { order(name: :ASC) }
   scope :reverse_alphabetical, ->  { order(name: :DESC) }

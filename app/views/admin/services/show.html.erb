@@ -70,6 +70,10 @@
       <%= render "shared/collapsible", name: "Social media", id: "social-media-editor" do %>
         <%= render "admin/services/editors/social-media", s: s %>
       <% end %>
+
+      <%= render "shared/collapsible", name: "Ages", id: "visibility-editor" do %>
+        <%= render "admin/services/editors/ages", s: s %>
+      <% end %>
       
       <%= render "shared/collapsible", name: "Childcare details", id: "childcare-editor", help_text: "Extra information about childcare only. Ignore these fields for non-childcare services." do %>
         <%= render "admin/services/editors/childcare", s: s %>

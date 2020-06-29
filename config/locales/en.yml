@@ -30,4 +30,15 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  activerecord:
+    errors:
+      models:
+        service/contacts:
+          format: '%{message}'
+        contact:
+          missing_contact_details: "Each contact needs either a name, email or phone number"
+        
+        service/locations:
+          format: '%{message}'
+        location:
+          invalid_postcode: "That postcode doesn't seem to be valid. Please check it and try again."

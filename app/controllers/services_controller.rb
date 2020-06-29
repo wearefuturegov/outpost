@@ -61,6 +61,8 @@ class ServicesController < ApplicationController
           :free,
           :needs_referral, 
           :referral_url,
+          :min_age,
+          :max_age,
           taxonomy_ids: [],
           local_offer_attributes: [
               :id,

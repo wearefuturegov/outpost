@@ -89,6 +89,10 @@
                     <%= render "admin/services/editors/taxonomies", s: form %>
                 <% end %>
 
+                <%= render "shared/collapsible", name: "Ages", id: "ages-editor" do %>
+                    <%= render "admin/services/editors/ages", s: form %>
+                <% end %>
+
                 <%= render "shared/collapsible", name: "Local offer", id: "local-offer-editor", help_text: "Optional extra questions for services which are part of the local offer." do %>
                     <%= render "admin/services/editors/local-offer", s: form %>
                 <% end %>

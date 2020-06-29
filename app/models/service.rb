@@ -64,6 +64,13 @@ class Service < ApplicationRecord
 
   # validations
   validates_presence_of :name
+  validate :validate_ages
+
+  def validate_ages
+    if min_age.present? && max_age.present? && min_age > max_age
+      errors.add(:base, "The maximum age can't be less than the minimum age")
+    end
+  end
 
   include PgSearch::Model
   pg_search_scope :search, 
@@ -140,7 +147,7 @@ class Service < ApplicationRecord
     self.taxonomies.each do |t|
       self.taxonomies << t.ancestors
     end
-    self.taxonomies = self.taxonomies.distinct
+    self.taxonomies = self.taxonomies.uniq
   end
 
   def skip_nested_indexes
