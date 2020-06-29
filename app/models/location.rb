@@ -19,6 +19,9 @@ class Location < ApplicationRecord
 
   paginates_per 20
 
+  attr_accessor :skip_mongo_callbacks
+  after_save :update_index, unless: :skip_mongo_callbacks
+
   # def postal_code=(str)
   #   super UKPostcode.parse(str).to_s
   # end
@@ -78,5 +81,9 @@ class Location < ApplicationRecord
       name: display_name,
       one_line_address: one_line_address
     }
+  end
+
+  def update_index
+    UpdateIndexLocationsJob.perform_later(self)
   end
 end
