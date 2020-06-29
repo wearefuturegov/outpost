@@ -1,5 +1,4 @@
 class IndexedServicesSerializer < ActiveModel::Serializer
-
   def attributes(*args)
     object.attributes.symbolize_keys.except(
       :visible, 
@@ -24,7 +23,12 @@ class IndexedServicesSerializer < ActiveModel::Serializer
   end
 
   belongs_to :organisation
+
   has_many :taxonomies
+  has_many :regular_schedules
+  has_many :cost_options
+
+  has_one :local_offer
 
   def visible_from
     DateTime.strptime(object.visible_from, '%Y-%m-%d').to_time.utc if object.visible_from
@@ -32,76 +36,5 @@ class IndexedServicesSerializer < ActiveModel::Serializer
 
   def visible_to
     DateTime.strptime(object.visible_to, '%Y-%m-%d').to_time.utc if object.visible_to
-  end
-
-  class IndexedLocationSerializer < ActiveModel::Serializer
-
-    attribute :id
-    attribute :name
-    attribute :description
-    attribute :address_1
-    attribute :city
-    attribute :state_province
-    attribute :postal_code
-    attribute :country
-    attribute :google_place_id
-    attribute :geometry
-
-    has_many :accessibilities
-
-    def geometry
-      return {
-          type: "Point",
-          coordinates: [object.longitude.to_f.round(2), object.latitude.to_f.round(2)]
-      } if object.mask_exact_address
-      object.geometry
-    end
-
-    def address_1
-      return nil if object.mask_exact_address
-      object.address_1
-    end
-
-    def postal_code
-      if object.mask_exact_address and object.postal_code
-        return UKPostcode.parse("W1A 2AB").outcode
-      end
-      object.postal_code
-    end
-
-    class IndexedAccessibilitiesSerializer < ActiveModel::Serializer
-      attribute :name
-    end
-  
-    def self.serializer_for(model, options)
-      return IndexedAccessibilitiesSerializer if model.class == Accessibility
-      super
-    end
-  end
-
-  class IndexedContactsSerializer < ActiveModel::Serializer
-    def attributes(*args)
-      object.attributes.symbolize_keys.except(:created_at, :updated_at, :service_id, :visible)
-    end
-  end
-
-  class IndexedTaxonomySerializer < ActiveModel::Serializer
-    def attributes(*args)
-      object.attributes.symbolize_keys.except(:created_at, :updated_at, :locked)
-    end
-  end
-
-  class IndexedOrganisationSerializer < ActiveModel::Serializer
-    def attributes(*args)
-      object.attributes.symbolize_keys.except(:created_at, :updated_at, :users_count, :services_count, :old_external_id)
-    end
-  end
-
-  def self.serializer_for(model, options)
-    return IndexedLocationSerializer if model.class == Location
-    return IndexedContactsSerializer if model.class == Contact
-    return IndexedTaxonomySerializer if model.class == Taxonomy
-    return IndexedOrganisationSerializer if model.class == Organisation
-    super
   end
 end
