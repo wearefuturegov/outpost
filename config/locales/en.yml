@@ -34,6 +34,11 @@ en:
     errors:
       models:
         service/contacts:
-          format: 'Contacts: %{message}'
+          format: '%{message}'
         contact:
-          missing_contact_details: "Please provide either the name, email or phone number for the contact"
+          missing_contact_details: "Each contact needs either a name, email or phone number"
+        
+        service/locations:
+          format: '%{message}'
+        location:
+          invalid_postcode: "That postcode doesn't seem to be valid. Please check it and try again."
