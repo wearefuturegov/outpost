@@ -30,4 +30,10 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  activerecord:
+    errors:
+      models:
+        service/contacts:
+          format: 'Contacts: %{message}'
+        contact:
+          missing_contact_details: "Please provide either the name, email or phone number for the contact"
