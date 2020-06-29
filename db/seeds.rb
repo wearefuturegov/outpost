@@ -119,6 +119,7 @@ bucks_csv.each.with_index do |row, line|
     unless location.save
       puts "Location #{location.name} failed to save"
     end
+    location.skip_postcode_validation = true
     service.locations << location
   end
 
@@ -209,6 +210,7 @@ bucks_csv.each.with_index do |row, line|
 
   service.skip_mongo_callbacks = true
 
+  service.locations.each {|l| l.skip_postcode_validation = true }
   unless service.save
     puts "Service #{service.name} failed to save"
   end
