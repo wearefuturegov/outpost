@@ -116,10 +116,10 @@ bucks_csv.each.with_index do |row, line|
       end
     end
 
+    location.skip_postcode_validation = true
     unless location.save
       puts "Location #{location.name} failed to save"
     end
-    location.skip_postcode_validation = true
     service.locations << location
   end
 
@@ -262,13 +262,6 @@ end_time = Time.now
 
 Rake::Task['taxonomy:map_to_new_taxonomy'].invoke
 Rake::Task['taxonomy:delete_old_taxonomies'].invoke
-
-over_25_taxonomny = Taxonomy.where(name: "25 plus").first
-over_25_taxonomny.name = "Over 25"
-over_25_taxonomny.save
-
-age_taxonomy = Taxonomy.where(name: "Age groups")
-age_taxonomy.destroy!
 
 all_needs_met_taxonomy = Taxonomy.where(name: "All Needs Met").first
 all_needs_met_taxonomy.destroy!
