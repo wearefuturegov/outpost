@@ -47,6 +47,8 @@ class IndexedServicesSerializer < ActiveModel::Serializer
     attribute :google_place_id
     attribute :geometry
 
+    has_many :accessibilities
+
     def geometry
       return {
           type: "Point",
@@ -65,6 +67,15 @@ class IndexedServicesSerializer < ActiveModel::Serializer
         return UKPostcode.parse("W1A 2AB").outcode
       end
       object.postal_code
+    end
+
+    class IndexedAccessibilitiesSerializer < ActiveModel::Serializer
+      attribute :name
+    end
+  
+    def self.serializer_for(model, options)
+      return IndexedAccessibilitiesSerializer if model.class == Accessibility
+      super
     end
   end
 
