@@ -36,6 +36,7 @@ class IndexedServicesSerializer < ActiveModel::Serializer
 
   class IndexedLocationSerializer < ActiveModel::Serializer
 
+    attribute :id
     attribute :name
     attribute :description
     attribute :address_1
@@ -69,13 +70,13 @@ class IndexedServicesSerializer < ActiveModel::Serializer
 
   class IndexedContactsSerializer < ActiveModel::Serializer
     def attributes(*args)
-      object.attributes.symbolize_keys.except(:id, :created_at, :updated_at, :service_id, :visible)
+      object.attributes.symbolize_keys.except(:created_at, :updated_at, :service_id, :visible)
     end
   end
 
   class IndexedTaxonomySerializer < ActiveModel::Serializer
     def attributes(*args)
-      object.attributes.symbolize_keys.except(:id, :created_at, :updated_at, :locked)
+      object.attributes.symbolize_keys.except(:created_at, :updated_at, :locked)
     end
   end
 

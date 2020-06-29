@@ -12,6 +12,9 @@ class Location < ApplicationRecord
 
   paginates_per 20
 
+  attr_accessor :skip_mongo_callbacks
+  after_save :update_index, unless: :skip_mongo_callbacks
+
   def postal_code_is_valid
     parsed = UKPostcode.parse(postal_code)
     unless parsed.full_valid?
@@ -76,4 +79,7 @@ class Location < ApplicationRecord
     }
   end
 
+  def update_index
+    UpdateIndexLocationsJob.perform_later(self)
+  end
 end

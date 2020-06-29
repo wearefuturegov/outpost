@@ -43,6 +43,7 @@ class Service < ApplicationRecord
   # callbacks
   after_save :notify_watchers
   before_save :recursively_add_parents
+  before_save :skip_nested_indexes
 
   # scopes
   scope :ofsted_registered, ->  { where.not(ofsted_item_id: nil) }
@@ -147,6 +148,10 @@ class Service < ApplicationRecord
       self.taxonomies << t.ancestors
     end
     self.taxonomies = self.taxonomies.uniq
+  end
+
+  def skip_nested_indexes
+    (self.taxonomies + self.locations + [self.organisation]).each {|t| t.skip_mongo_callbacks = true }
   end
 
   # include nested taxonomies in json representation by default

@@ -46,7 +46,7 @@ For the database seed to succeed, you need a source data file `bucksfis.csv` in 
 
 Outpost's API component relies on a public index stored on MongoDB.
 
-You can run `rails mongo_services` to build the public index for the first time. Active record callbacks keep it up to date as services are changed, but it's a good idea to occasionally refresh the index by re-running that rake task
+You can run `rails build_public_index` to build the public index for the first time. Active record callbacks keep it up to date as services are changed, but it's a good idea to occasionally refresh the index by re-running that rake task
 
 ## Running it on the web
 
