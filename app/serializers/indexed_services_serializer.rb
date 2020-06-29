@@ -79,10 +79,17 @@ class IndexedServicesSerializer < ActiveModel::Serializer
     end
   end
 
+  class IndexedOrganisationSerializer < ActiveModel::Serializer
+    def attributes(*args)
+      object.attributes.symbolize_keys.except(:created_at, :updated_at, :users_count, :services_count, :old_external_id)
+    end
+  end
+
   def self.serializer_for(model, options)
     return IndexedLocationSerializer if model.class == Location
     return IndexedContactsSerializer if model.class == Contact
     return IndexedTaxonomySerializer if model.class == Taxonomy
+    return IndexedTaxonomySerializer if model.class == Organisation
     super
   end
 end
