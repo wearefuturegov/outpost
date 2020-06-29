@@ -60,7 +60,7 @@ class IndexedServicesSerializer < ActiveModel::Serializer
     end
 
     def postal_code
-      if object.mask_exact_address and object.postal_codes
+      if object.mask_exact_address and object.postal_code
         return UKPostcode.parse("W1A 2AB").outcode
       end
       object.postal_code
