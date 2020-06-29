@@ -89,7 +89,7 @@ class IndexedServicesSerializer < ActiveModel::Serializer
     return IndexedLocationSerializer if model.class == Location
     return IndexedContactsSerializer if model.class == Contact
     return IndexedTaxonomySerializer if model.class == Taxonomy
-    return IndexedTaxonomySerializer if model.class == Organisation
+    return IndexedOrganisationSerializer if model.class == Organisation
     super
   end
 end
