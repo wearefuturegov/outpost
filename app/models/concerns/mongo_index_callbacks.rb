@@ -9,7 +9,9 @@ module MongoIndexCallbacks
     end
 
     def update_index
-        client = Mongo::Client.new(ENV["MONGODB_URI"] || 'mongodb://127.0.0.1:27017/outpost_development')
+        client = Mongo::Client.new(ENV["MONGODB_URI"] || 'mongodb://127.0.0.1:27017/outpost_development', {
+            retry_writes: false
+        })
         collection = client.database[:indexed_services]
         if self.approved? && self.publicly_visible?
             collection.find_one_and_update({id: self.id}, IndexedServicesSerializer.new(self).as_json, {upsert: true})
