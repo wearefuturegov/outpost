@@ -5,8 +5,7 @@ class Contact < ApplicationRecord
 
   def validate_not_blank
     if name.blank? && email.blank? && phone.blank?
-      errors.add(:base, "Each contact needs either a name, email or phone number")
+      errors.add(:base, :missing_contact_details)
     end
   end
-
 end
