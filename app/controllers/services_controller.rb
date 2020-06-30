@@ -27,10 +27,15 @@ class ServicesController < ApplicationController
             if params[:stage]
                 redirect_to edit_service_path(@service, :stage => helpers.next_stage(params[:stage]))
             else
-                redirect_to root_path
+                redirect_to service_path(@service), notice: "That service will be updated as soon as a Council staff member approves it."
             end
         else
-            render "show", notice: "That service will be updated as soon as a Council staff member approves it."
+            if params[:stage]
+                @stage = params[:stage]
+                render "edit"
+                return
+            end
+            render "show"
         end
     end
 
