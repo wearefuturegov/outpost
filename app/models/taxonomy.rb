@@ -12,6 +12,10 @@ class Taxonomy < ApplicationRecord
     
     validates_presence_of :name, uniqueness: true
 
+    def slug
+        name.parameterize
+    end
+
     scope :categories, -> { where(parent_id: 1) }
 
     def update_index
