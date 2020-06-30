@@ -17,6 +17,7 @@ bucks_csv.each do |row| # CREATE ORGS BASED ON TYPE
     organisation.email = row['contact_email']
     organisation.url = row['website']
     organisation.old_external_id = row['externalid']
+    organisation.skip_mongo_callbacks=true
     unless organisation.save
       puts "Organisation #{organisation.name} failed to save"
     end
@@ -42,6 +43,7 @@ bucks_csv.each.with_index do |row, line|
 
   if organisation.blank?
     organisation = Organisation.new
+    organisation.skip_mongo_callbacks=true
     unless organisation.save
       puts "Organisation #{organisation.name} failed to save"
     end
@@ -117,6 +119,7 @@ bucks_csv.each.with_index do |row, line|
     end
 
     location.skip_postcode_validation = true
+    location.skip_mongo_callbacks = true
     unless location.save
       puts "Location #{location.name} failed to save"
     end
@@ -127,7 +130,7 @@ bucks_csv.each.with_index do |row, line|
     attributes = row['attributes'].split("\n")
     attributes.each do |attribute|
       cost_taxonomy_path = ["Cost", attribute]
-      taxonomy = Taxonomy.find_or_create_by_path(cost_taxonomy_path)
+      taxonomy = Taxonomy.create_with(skip_mongo_callbacks: true).find_or_create_by_path(cost_taxonomy_path)
       service.taxonomies |= [taxonomy]
     end
   end
@@ -136,7 +139,7 @@ bucks_csv.each.with_index do |row, line|
     coronavirus_statuses = row['coronavirus_status'].split("\n")
     coronavirus_statuses.each do |coronavirus_status|
       coronavirus_status_path = ["Coronavirus status", coronavirus_status]
-      taxonomy = Taxonomy.find_or_create_by_path(coronavirus_status_path)
+      taxonomy = Taxonomy.create_with(skip_mongo_callbacks: true).find_or_create_by_path(coronavirus_status_path)
       service.taxonomies |= [taxonomy]
     end
   end
@@ -162,7 +165,7 @@ bucks_csv.each.with_index do |row, line|
     send_needs = row['lo_needs_level'].split("\n")
     send_needs.each do |send_need|
       send_need_taxonomy_path = ["SEND needs", send_need]
-      taxonomy = Taxonomy.find_or_create_by_path(send_need_taxonomy_path)
+      taxonomy = Taxonomy.create_with(skip_mongo_callbacks: true).find_or_create_by_path(send_need_taxonomy_path)
       service.taxonomies |= [taxonomy]
     end
     if send_needs.include? "All Needs Met"
@@ -176,7 +179,7 @@ bucks_csv.each.with_index do |row, line|
       categories = line.split(' > ')
       categories.delete("Family Information")
 
-      taxonomy = Taxonomy.find_or_create_by_path(categories.unshift("Categories"))
+      taxonomy = Taxonomy.create_with(skip_mongo_callbacks: true).find_or_create_by_path(categories.unshift("Categories"))
       service.taxonomies |= [taxonomy]
     end
   end
@@ -185,7 +188,7 @@ bucks_csv.each.with_index do |row, line|
     lines = row['parentchannel'].split("\n")
     lines.each do |line|
       categories = line.split(' > ')
-      taxonomy = Taxonomy.find_or_create_by_path(categories.unshift("Categories"))
+      taxonomy = Taxonomy.create_with(skip_mongo_callbacks: true).find_or_create_by_path(categories.unshift("Categories"))
       service.taxonomies |= [taxonomy]
     end
   end
@@ -194,7 +197,7 @@ bucks_csv.each.with_index do |row, line|
     lines = row['youthchannel'].split("\n")
     lines.each do |line|
       categories = line.split(' > ')
-      taxonomy = Taxonomy.find_or_create_by_path(categories.unshift("Categories"))
+      taxonomy = Taxonomy.create_with(skip_mongo_callbacks: true).find_or_create_by_path(categories.unshift("Categories"))
       service.taxonomies |= [taxonomy]
     end
   end
@@ -203,7 +206,7 @@ bucks_csv.each.with_index do |row, line|
     lines = row['childrenscentrechannel'].split("\n")
     lines.each do |line|
       categories = line.split(' > ')
-      taxonomy = Taxonomy.find_or_create_by_path(categories.unshift("Categories"))
+      taxonomy = Taxonomy.create_with(skip_mongo_callbacks: true).find_or_create_by_path(categories.unshift("Categories"))
       service.taxonomies |= [taxonomy]
     end
   end
@@ -262,6 +265,7 @@ end_time = Time.now
 
 Rake::Task['taxonomy:map_to_new_taxonomy'].invoke
 Rake::Task['taxonomy:delete_old_taxonomies'].invoke
+Rake::Task['taxonomy:populate_parents'].invoke
 
 all_needs_met_taxonomy = Taxonomy.where(name: "All Needs Met").first
 all_needs_met_taxonomy.destroy!
@@ -271,5 +275,6 @@ puts "Took #{(end_time - start_time)/60} minutes"
 # lock top-level taxa
 Taxonomy.roots.each do |t|
   t.locked = true
+  t.skip_mongo_callbacks = true
   t.save
 end
