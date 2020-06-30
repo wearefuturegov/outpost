@@ -129,9 +129,14 @@ bucks_csv.each.with_index do |row, line|
   unless row['attributes'] == nil
     attributes = row['attributes'].split("\n")
     attributes.each do |attribute|
-      cost_taxonomy_path = ["Cost", attribute]
-      taxonomy = Taxonomy.create_with(skip_mongo_callbacks: true).find_or_create_by_path(cost_taxonomy_path)
-      service.taxonomies |= [taxonomy]
+
+      if attribute === "Free/Low Cost"
+        service.free = true
+      end
+
+      # cost_taxonomy_path = ["Cost", attribute]
+      # taxonomy = Taxonomy.create_with(skip_mongo_callbacks: true).find_or_create_by_path(cost_taxonomy_path)
+      # service.taxonomies |= [taxonomy]
     end
   end
 
