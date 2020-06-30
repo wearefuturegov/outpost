@@ -82,6 +82,13 @@ namespace :taxonomy do
     end
   end
 
+  task :populate_parents => [ :environment ] do
+    Service.includes(:taxonomies).each do |s|
+      s.skip_mongo_callbacks = true
+      s.save
+    end
+  end
+
 end
 
 def list_children(taxonomy)
