@@ -4,7 +4,7 @@ class TaxonomySerializer < ActiveModel::Serializer
     attributes :slug
 
     def slug
-        name.parameterize
+        object.name.parameterize
     end
 
 end
