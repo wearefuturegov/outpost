@@ -2,14 +2,13 @@
 class LocationSerializer < ActiveModel::Serializer
     attribute :id
     attribute :name
-    
     attribute :address_1
     attribute :city
     attribute :state_province
     attribute :postal_code
     attribute :country
-    attribute :google_place_id
     attribute :geometry
+    attribute :mask_exact_address
 
     has_many :accessibilities
 
