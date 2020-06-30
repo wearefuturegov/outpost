@@ -1,7 +1,7 @@
 namespace :taxonomy do
 
   task :create_categories_from_old_db => [ :environment ] do
-    top_level_taxonomy = Taxonomy.find_or_create_by(name: 'Categories')
+    top_level_taxonomy = Taxonomy.create_with(skip_mongo_callbacks: true).find_or_create_by(name: 'Categories')
     csv_file = File.open('lib/seeds/bucksfis geo.csv', "r:ISO-8859-1")
     bucks_csv = CSV.parse(csv_file, headers: true)
     tree = {}
@@ -24,7 +24,7 @@ namespace :taxonomy do
           categories = line.split(' > ')
           categories.delete("Family Information")
           categories.each do |category|
-            taxonomy = Taxonomy.find_or_create_by(name: category, parent_id: parent.id)
+            taxonomy = Taxonomy.create_with(skip_mongo_callbacks: true).find_or_create_by(name: category, parent_id: parent.id)
             parent = taxonomy
           end
         end
@@ -55,16 +55,18 @@ namespace :taxonomy do
       # taxonomies
       old_taxonomy = Taxonomy.find_by_path(old_path)
       puts "Old taxa: #{old_taxonomy.name}" if old_taxonomy.present?
-      new_taxonomy = Taxonomy.find_or_create_by_path(new_path) if new_path.present?
+      new_taxonomy = Taxonomy.create_with(skip_mongo_callbacks: true).find_or_create_by_path(new_path) if new_path.present?
       puts "New taxa: #{new_taxonomy.name}" if new_taxonomy.present?
-      additional_new_taxonomy = Taxonomy.find_or_create_by_path(additional_new_path) if additional_new_path.present?
+      additional_new_taxonomy = Taxonomy.create_with(skip_mongo_callbacks: true).find_or_create_by_path(additional_new_path) if additional_new_path.present?
       puts "Additional new taxa: #{additional_new_taxonomy.name}" if additional_new_taxonomy.present?
 
       new_taxonomy.services = old_taxonomy.services if (new_taxonomy.present? && old_taxonomy.present?)
+      new_taxonomy.skip_mongo_callbacks = true if new_taxonomy.present?
       new_taxonomy.save if new_taxonomy.present?
       puts "New taxa service count: #{new_taxonomy.services.count}" if new_taxonomy.present?
 
       additional_new_taxonomy.services = old_taxonomy.services if (additional_new_taxonomy.present? && old_taxonomy.present?)
+      additional_new_taxonomy.skip_mongo_callbacks = true if additional_new_taxonomy.present?
       additional_new_taxonomy.save if additional_new_taxonomy.present?
       puts "Additional new taxa service count: #{additional_new_taxonomy.services.count}" if additional_new_taxonomy.present?
     end
