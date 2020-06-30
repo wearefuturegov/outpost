@@ -28,7 +28,7 @@ class IndexedServicesSerializer < ActiveModel::Serializer
   has_many :regular_schedules
   has_many :cost_options
 
-  has_one :local_offer
+  has_one :local_offer, unless: -> { object.local_offer&.marked_for_destruction? }
 
   def visible_from
     DateTime.strptime(object.visible_from, '%Y-%m-%d').to_time.utc if object.visible_from
