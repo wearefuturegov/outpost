@@ -10,11 +10,11 @@ class RegularScheduleSerializer < ActiveModel::Serializer
   end
 
   def opens_at
-    DateTime.strptime(object.opens_at, '%Y-%m-%d').to_time.utc if object.opens_at
+    object.opens_at.to_s(:time)   
   end
 
   def closes_at
-    DateTime.strptime(object.closes_at, '%Y-%m-%d').to_time.utc if object.closes_at
+    object.closes_at.to_s(:time)   
   end
 
 end

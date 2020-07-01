@@ -42,3 +42,9 @@ en:
           format: '%{message}'
         location:
           invalid_postcode: "That postcode doesn't seem to be valid. Please check it and try again."
+
+        service/regular_schedules:
+          format: '%{message}'
+        regular_schedule:
+          impossible_hours: "Each day's closing time must be later than that day's opening time"
+        
