@@ -1,5 +1,5 @@
 class TaxonomySerializer < ActiveModel::Serializer
-
+    attributes :id
     attributes :name
     attributes :slug
 
