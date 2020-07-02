@@ -8,9 +8,9 @@ on:
     branches: [ '*' ]
 
 jobs:
-  build:
+  test:
 
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
 
     services:
       postgres:
@@ -23,6 +23,13 @@ jobs:
           - 5432:5432
         # needed because the postgres container does not provide a healthcheck
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+      mongo:
+        image: mongo
+        env:
+          MONGO_INITDB_ROOT_USERNAME: root
+          MONGO_INITDB_ROOT_PASSWORD: password
+        ports:
+          - 27017:27017
 
     steps:
       - uses: actions/checkout@v2
@@ -56,5 +63,6 @@ jobs:
       - name: Run cucumber tests
         env:
           RAILS_ENV: test
+          MONGODB_URI: mongodb://root:password@localhost:27017/outpost_development?authSource=admin
         run: |
           bundle exec cucumber --fail-fast
