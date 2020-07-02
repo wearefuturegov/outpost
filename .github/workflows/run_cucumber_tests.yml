@@ -1,11 +1,7 @@
 name: Ruby Cucumber Tests
 # As opposed to the ci env used before on the Ruby action
 
-on:
-  push:
-    branches: [ '*' ]
-  pull_request:
-    branches: [ '*' ]
+on: [push]
 
 jobs:
   test:
@@ -18,7 +14,7 @@ jobs:
         env:
           POSTGRES_USER: outpost
           POSTGRES_PASSWORD: password
-          POSTGRES_DB: outpost_development
+          POSTGRES_DB: outpost_test
         ports:
           - 5432:5432
         # needed because the postgres container does not provide a healthcheck

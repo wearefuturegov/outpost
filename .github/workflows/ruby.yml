@@ -11,9 +11,11 @@ jobs:
 
     services:
       postgres:
-        image: postgres:11.6-alpine
+        image: postgres:11.7-alpine
         env:
+          POSTGRES_USER: outpost
           POSTGRES_PASSWORD: password
+          POSTGRES_DB: outpost_test
         ports:
           - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
@@ -65,10 +67,7 @@ jobs:
 
       - name: Setup database and run tests
         env:
-          PGHOST: localhost
-          PGUSER: postgres
           RAILS_ENV: test
-          PGPASSWORD: password
         run: |
           bundle exec rails db:drop
           bundle exec rails db:create
