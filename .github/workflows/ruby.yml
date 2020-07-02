@@ -19,6 +19,13 @@ jobs:
         ports:
           - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+      mongo:
+        image: mongo
+        env:
+          MONGO_INITDB_ROOT_USERNAME: root
+          MONGO_INITDB_ROOT_PASSWORD: password
+        ports:
+          - 27017:27017
 
     steps:
       - name: Checkout repository
@@ -35,7 +42,7 @@ jobs:
         uses: actions/cache@v1
         with:
           path: vendor/bundle
-          key: ${{ runner.os }}-gem-use-ruby-${{ hashFiles('**/Gemfile.lock') }}
+          key: ${{ runner.os }}-gems1-${{ hashFiles('**/Gemfile.lock') }}
 
       - name: Read Node.js version to install from `.nvmrc`
         run: echo "##[set-output name=NVMRC;]$(cat .nvmrc)"
@@ -68,6 +75,7 @@ jobs:
       - name: Setup database and run tests
         env:
           RAILS_ENV: test
+          MONGODB_URI: mongodb://root:password@localhost:27017/outpost_development?authSource=admin
         run: |
           bundle exec rails db:drop
           bundle exec rails db:create
