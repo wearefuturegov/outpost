@@ -2,7 +2,7 @@ task :build_public_index => :environment  do
     Mongo::Logger.logger.level = Logger::FATAL
 
     puts "⏰ Connecting to mongo database..."
-    client = Mongo::Client.new(ENV["MONGODB_URI"] || 'mongodb://127.0.0.1:27017/outpost_development', {
+    client = Mongo::Client.new(ENV["MONGODB_URI"] || 'mongodb://root:password@localhost:27017/outpost_development?authSource=admin', {
         retry_writes: false
     })
     collection = client.database[:indexed_services]
