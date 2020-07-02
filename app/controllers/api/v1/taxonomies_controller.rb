@@ -10,7 +10,7 @@ class API::V1::TaxonomiesController < ApplicationController
     def json_tree(taxonomies)
         taxonomies.map do |t, children|
             {
-                id: t.id
+                id: t.id,
                 label: t.name,
                 slug: t.slug,
                 level: t.depth,
