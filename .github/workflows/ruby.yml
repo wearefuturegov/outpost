@@ -43,6 +43,8 @@ jobs:
         with:
           path: vendor/bundle
           key: ${{ runner.os }}-gems1-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gems1-
 
       - name: Read Node.js version to install from `.nvmrc`
         run: echo "##[set-output name=NVMRC;]$(cat .nvmrc)"
