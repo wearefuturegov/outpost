@@ -31,8 +31,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
       - name: Install native postgres client
-          run: |
-            sudo apt-get -y install libpq-dev
+        run: |
+          sudo apt-get -y install libpq-dev
       - name: Set up Ruby 2.6.0
           uses: actions/setup-ruby@v1
           with:
