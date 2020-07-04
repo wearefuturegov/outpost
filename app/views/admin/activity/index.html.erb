@@ -19,7 +19,6 @@
       </thead>
       <tbody>
 
-
         <% @activities.each do |a| %>
           <tr>
             <td>
@@ -44,7 +43,7 @@
   </div>
   <%= paginate @activities %>
 <% else %>
-  <p class="no-results">No activity to show.</p>
+  <p class="no-results">No activity to show for this user</p>
 <% end %>
 
 
