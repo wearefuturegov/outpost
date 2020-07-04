@@ -27,7 +27,7 @@ class LocationSerializer < ActiveModel::Serializer
 
     def postal_code
         if object.mask_exact_address and object.postal_code
-        return UKPostcode.parse("W1A 2AB").outcode
+            return UKPostcode.parse(object.postal_code).outcode
         end
         object.postal_code
     end
