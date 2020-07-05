@@ -50,11 +50,11 @@
   <p class="community-editor__hint">Which ages can your service accomodate? Leave them blank if your service caters for all ages.</p>
   <div class="field-section field-section--two-cols field-section--no-bottom-margin">
     <div class="field">
-        <%= form.label :min_age, "From", class: "field__label" %>
+        <%= form.label :min_age, "Minimum", class: "field__label" %>
         <%= form.number_field :min_age, class: "field__input", min: 0, max: 120 %>
     </div>
     <div class="field">
-        <%= form.label :max_age, "To", class: "field__label" %>
+        <%= form.label :max_age, "Maximum", class: "field__label" %>
         <%= form.number_field :max_age, class: "field__input", min: 0, max: 120 %>
     </div>
   </div>
