@@ -6,6 +6,7 @@ class Location < ApplicationRecord
   attr_accessor :skip_postcode_validation
   validates :postal_code, presence: true,  unless: :skip_postcode_validation
   validate :postal_code_is_valid,  unless: :skip_postcode_validation
+  valudates :name, presence: true,  unless: :skip_postcode_validation
 
   before_validation :geocode
   geocoded_by :postal_code
