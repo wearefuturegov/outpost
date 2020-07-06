@@ -33,10 +33,14 @@
 }
 
 .no-results{
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     color: $grey;
-    margin: 55px auto;
-    text-align: center;
+    margin-bottom: 55px;
+    &--big{
+        font-size: 1.3rem;
+        margin: 55px auto;
+        text-align: center;
+    }
 }
 
 .big-numbers{
