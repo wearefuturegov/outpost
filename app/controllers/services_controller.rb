@@ -27,7 +27,7 @@ class ServicesController < ApplicationController
             if params[:stage]
                 redirect_to edit_service_path(@service, :stage => helpers.next_stage(params[:stage]))
             else
-                redirect_to service_path(@service), notice: "That service will be updated as soon as a Council staff member approves it."
+                redirect_to service_path(@service), notice: "That service will be updated as soon as we approve it."
             end
         else
             if params[:stage]
@@ -42,7 +42,7 @@ class ServicesController < ApplicationController
     def destroy
         @service.approved = false
         @service.archive
-        redirect_to organisations_path, notice: "That service will be removed as soon as a Council staff member approves it."
+        redirect_to organisations_path, notice: "That service will be removed as soon as we approve it."
     end
 
     private
