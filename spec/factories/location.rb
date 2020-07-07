@@ -7,7 +7,7 @@ FactoryBot.define do
     address_1 { Faker::Address.street_address }
     city { Faker::Address.city }
     state_province { Faker::Address.state }
-    postal_code { Faker::Address.postcode }
+    postal_code { 'N1 1AA' }
     country { Faker::Address.country }
   end
 end

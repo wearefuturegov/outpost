@@ -1,0 +1,64 @@
+name: Ruby Cucumber Tests
+# As opposed to the ci env used before on the Ruby action
+
+on: [push]
+
+jobs:
+  test:
+
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:11.7-alpine
+        env:
+          POSTGRES_USER: outpost
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: outpost_test
+        ports:
+          - 5432:5432
+        # needed because the postgres container does not provide a healthcheck
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+      mongo:
+        image: mongo
+        env:
+          MONGO_INITDB_ROOT_USERNAME: root
+          MONGO_INITDB_ROOT_PASSWORD: password
+        ports:
+          - 27017:27017
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Ruby 2.6.0
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: 2.6
+      - name: Ruby gem cache
+        uses: actions/cache@v1
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems1-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gems1-
+      - name: Install gems
+        run: |
+          bundle config path vendor/bundle
+          bundle install --jobs 4 --retry 3
+      - name: Setup database
+        env:
+          RAILS_ENV: test
+        run: |
+          bundle exec rails db:drop
+          bundle exec rails db:create
+          bundle exec rails db:migrate
+      - name: Compile assets
+        env:
+          RAILS_ENV: test
+        run: |
+          bundle exec rails assets:precompile
+      - name: Run cucumber tests
+        env:
+          RAILS_ENV: test
+          MONGODB_URI: mongodb://root:password@localhost:27017/outpost_development?authSource=admin
+        run: |
+          bundle exec cucumber --fail-fast
