@@ -71,3 +71,13 @@ In production only:
 - `MAILER_HOST` where the app lives on the web, to correctly form urls in emails
 - `MAILER_FROM` the email address emails will be delivered from
 
+## Running it locally
+
+With [docker-compose](https://docs.docker.com/compose/) and [docker](https://www.docker.com/), after cloning the project:
+
+- Bring up the databases with `docker-compose up`
+- Populate your environment variables
+- Run the application with `rails s`
+
+## E2E Test Coverage
+See the readme [here](https://github.com/wearefuturegov/outpost/tree/master/features)
