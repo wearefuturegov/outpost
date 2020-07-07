@@ -59,4 +59,5 @@ group :test do
   gem 'shoulda-matchers'
   gem 'faker'
   gem 'factory_bot_rails'
+  gem 'webmock'
 end
