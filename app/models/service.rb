@@ -3,6 +3,7 @@ class Service < ApplicationRecord
   include HasSnapshots
   include MongoIndexCallbacks
   include Discard::Model
+  include NormalizeBlankValues
 
   # associations
   belongs_to :organisation, counter_cache: true
