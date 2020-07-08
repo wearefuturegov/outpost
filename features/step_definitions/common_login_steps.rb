@@ -1,7 +1,15 @@
-Given('I am logged in as a user') do
+Given(/I am logged in as (.*)user/) do |type|
   @organisation = Organisation.create(name: 'Test Organisation')
-  @login_user = User.create(first_name: 'User', last_name: 'Test', password: 'Password1', email: 'user@emailaddress.com', organisation: @organisation)
+  if type == 'an ofsted admin '
+    @login_user = User.create(first_name: 'User', last_name: 'Test', password: 'Password1', email: 'user@emailaddress.com', organisation: @organisation, admin: true, admin_ofsted: true)
+  else
+    @login_user = User.create(first_name: 'User', last_name: 'Test', password: 'Password1', email: 'user@emailaddress.com', organisation: @organisation)
+  end
   @login_user.save!
+  login
+end
+
+def login
   visit('/')
   email_input = find('#user_email')
   email_input.click
@@ -12,7 +20,9 @@ Given('I am logged in as a user') do
   password_input.send_keys('Password1')
   click_button('Log in')
 
-  tutorial_popup = find('.introjs-button.introjs-skipbutton')
-  tutorial_popup.click
+  if page.has_css?('.introjs-button.introjs-skipbutton', wait: 1)
+    tutorial_popup = find('.introjs-button.introjs-skipbutton')
+    tutorial_popup.click
+  end
   sleep(1)
 end

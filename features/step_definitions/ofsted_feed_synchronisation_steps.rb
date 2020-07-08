@@ -5,10 +5,12 @@ Rake.application.rake_require "tasks/ofsted"
 Rake::Task.define_task(:environment)
 
 Given('a service exists with a corresponding Ofsted feed item') do
-  @ofsted_data = JSON.load File.open "features/support/data/ofsted_response_start.json"
-  @organisation = Organisation.create({})
-  @ofsted_item = OfstedItem.create!(reference_number: 123456)
-  @service = Service.create!({ organisation: @organisation, name: 'Test Service' })
+  mock_ofsted_response JSON.load File.open "features/support/data/ofsted_response_start.json"
+
+  rake.tasks.each {|t| t.reenable }
+  rake.invoke_task('ofsted:create_initial_items')
+
+  @ofsted_item = OfstedItem.where(reference_number: 123456).first
 end
 
 And('the feed item has changed in the Ofsted feed') do
