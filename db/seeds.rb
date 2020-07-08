@@ -3,10 +3,10 @@ require 'csv'
 start_time = Time.now
 
 # Seed users from old DB
-users_file = File.open('lib/seeds/users.csv', "r:ISO-8859-1")
+users_file = File.open('lib/seeds/users.csv', "r:utf-8")
 open_objects_users_csv = CSV.parse(users_file, headers: true)
 
-csv_file = File.open('lib/seeds/bucksfis geo.csv', "r:ISO-8859-1")
+csv_file = File.open('lib/seeds/bucksfis geo.csv', "r:utf-8")
 bucks_csv = CSV.parse(csv_file, headers: true)
 
 bucks_csv.each do |row| # CREATE ORGS BASED ON TYPE
