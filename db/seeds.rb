@@ -88,43 +88,39 @@ bucks_csv.each.with_index do |row, line|
 
   service.snapshot_action = "import"
 
-  if row['venue_name'].present? && (Location.where('lower(name) = ?', row['venue_name'].downcase).size > 0) # Assign location if already exists
-    service.locations << Location.where('lower(name) = ?', row['venue_name'].downcase).first
-  else # Otherwise create a new one
-    location = Location.new
 
-    if row['ecd_opt_out_website'] == "Hide street level location and don't show on maps"
-      location.visible = false
-    elsif row['ecd_opt_out_website'] == "Hide street level location but show on maps"
-      location.mask_exact_address = true
-    end
-
-    location.name = row['venue_name']
-    location.address_1 = [row['venue_address_1'], row['venue_address_2']].join(' ')
-    location.city = row['venue_address_4']
-    location.state_province = 'Buckinghamshire'
-    location.postal_code = row['venue_postcode']
-    location.latitude = row['latitude']
-    location.longitude = row['longitude']
-    location.country = 'GB'
-
-    # add accessibility info to locations
-    unless row['venue_facilities'] == nil
-      options = row['venue_facilities'].split("\n")
-      # remove unwanted values
-      options = options - ["Accessible Website", "Cooking"]
-      options.each do |option|
-        location.accessibilities << Accessibility.find_or_initialize_by({name: option.downcase.capitalize})
-      end
-    end
-
-    location.skip_postcode_validation = true
-    location.skip_mongo_callbacks = true
-    unless location.save
-      puts "Location #{location.name} failed to save"
-    end
-    service.locations << location
+  location = Location.new
+  if row['ecd_opt_out_website'] == "Hide street level location and don't show on maps"
+    location.visible = false
+  elsif row['ecd_opt_out_website'] == "Hide street level location but show on maps"
+    location.mask_exact_address = true
   end
+
+  location.name = row['venue_name']
+  location.address_1 = [row['venue_address_1'], row['venue_address_2']].join(' ')
+  location.city = row['venue_address_4']
+  location.state_province = 'Buckinghamshire'
+  location.postal_code = row['venue_postcode']
+  location.latitude = row['latitude']
+  location.longitude = row['longitude']
+  location.country = 'GB'
+
+  # add accessibility info to locations
+  unless row['venue_facilities'] == nil
+    options = row['venue_facilities'].split("\n")
+    # remove unwanted values
+    options = options - ["Accessible Website", "Cooking"]
+    options.each do |option|
+      location.accessibilities << Accessibility.find_or_initialize_by({name: option.downcase.capitalize})
+    end
+  end
+
+  location.skip_postcode_validation = true
+  location.skip_mongo_callbacks = true
+  unless location.save
+    puts "Location #{location.name} failed to save"
+  end
+  service.locations << location
 
   unless row['attributes'] == nil
     attributes = row['attributes'].split("\n")
