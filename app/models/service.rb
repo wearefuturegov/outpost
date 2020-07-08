@@ -45,10 +45,33 @@ class Service < ApplicationRecord
   before_save :recursively_add_parents
   before_save :skip_nested_indexes
 
+  filterrific(
+    default_filter_params: { sorted_by: "name_asc" },
+    available_filters: [
+      :sorted_by,
+      :in_taxonomy,
+      :with_status,
+      :search_query
+    ]
+  )
+
   # scopes
   scope :ofsted_registered, ->  { where.not(ofsted_item_id: nil) }
 
   # sort scopes
+
+  scope :search_query, ->(query) { search(query) }
+  scope :sorted_by, ->(sort_option) {
+    # extract the sort direction from the param value.
+    direction = /desc$/.match?(sort_option) ? "desc" : "asc"
+    case sort_option.to_s
+    when /^name_/
+      reorder("LOWER(services.name) #{direction}")
+    else
+      raise(ArgumentError, "Invalid sort option: #{sort_option.inspect}")
+    end
+  }
+
   scope :oldest, ->  { order("updated_at ASC") }
   scope :newest, ->  { order("updated_at DESC") }
   scope :alphabetical, ->  { order(name: :ASC) }
@@ -56,8 +79,19 @@ class Service < ApplicationRecord
 
   # filter scopes
   scope :in_taxonomy, -> (id) { joins(:taxonomies).where("taxonomies.id in (?)", id)}
+  scope :with_status, -> (status) {
+    case status
+    when "scheduled"
+      scheduled
+    when "expired"
+      expired
+    else
+      raise(ArgumentError, "Invalid status: #{status}")
+    end
+  }
+
   scope :scheduled, -> { where("visible_from > (?)", Date.today)}
-  scope :hidden, -> { where("visible_to < (?)", Date.today)}
+  scope :expired, -> { where("visible_to < (?)", Date.today)}
 
   acts_as_taggable_on :labels
   paginates_per 20
@@ -65,6 +99,20 @@ class Service < ApplicationRecord
   # validations
   validates_presence_of :name
   validate :validate_ages
+
+  def self.options_for_status
+    [
+      ["Only scheduled", "scheduled"],
+      ["Only expired", "expired"]
+    ]
+  end
+
+  def self.options_for_sorted_by
+    [
+      ["Alphabetical (A-Z)", "name_asc"],
+      ["Alphabetical (Z-A)", "name_desc"]
+    ]
+  end
 
   def validate_ages
     if min_age.present? && max_age.present? && min_age > max_age
