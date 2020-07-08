@@ -1,29 +1,50 @@
+require 'rake'
+rake = Rake::Application.new
+Rake.application = rake
+Rake.application.rake_require "tasks/ofsted"
+Rake::Task.define_task(:environment)
+
 Given('a service exists with a corresponding Ofsted feed item') do
-  @ofsted_data = JSON.load File.open "features/support/data/ofsted_response_1.json"
+  @ofsted_data = JSON.load File.open "features/support/data/ofsted_response_start.json"
   @organisation = Organisation.create({})
   @ofsted_item = OfstedItem.create!(reference_number: 123456)
   @service = Service.create!({ organisation: @organisation, name: 'Test Service' })
 end
 
-And('the feed item has changed') do
-  @ofsted_data[0]['provider_name'] = 'Changed name'
-  mock_ofsted_response(@ofsted_data)
+And('the feed item has changed in the Ofsted feed') do
+  mock_ofsted_response JSON.load File.open "features/support/data/ofsted_response_changed_name.json"
+end
+
+And('a feed item has been added to the Ofsted feed') do
+  mock_ofsted_response JSON.load File.open "features/support/data/ofsted_response_added_item.json"
+end
+
+And('the feed item has been removed from the Ofsted feed') do
+  mock_ofsted_response JSON.load File.open "features/support/data/ofsted_response_deleted_item.json"
 end
 
 When('outpost is synchronised with the Ofsted feed') do
-  require "rake"
-  @rake = Rake::Application.new
-  Rake.application = @rake
-  Rake.application.rake_require "tasks/ofsted"
-  Rake::Task.define_task(:environment)
-  Rake.application.invoke_task('ofsted:update_items')
+  rake.tasks.each {|t| t.reenable }
+  rake.invoke_task('ofsted:update_items')
 end
 
 Then('the Ofsted item should be flagged for review') do
-  ofsted_items = OfstedItem.all
-  expect(ofsted_items.length).to eq(1)
-  expect(ofsted_items[0].provider_name).to eq 'Changed name'
-  expect(ofsted_items[0].status).to eq 'changed'
+  @ofsted_item = OfstedItem.where(reference_number: 123456).first
+  expect(@ofsted_item.provider_name).to eq 'Changed name'
+  expect(@ofsted_item.status).to eq 'changed'
+end
+
+Then('an Ofsted item should be added') do
+  expect(OfstedItem.count).to eq(2)
+  new_ofsted_item = OfstedItem.where(reference_number: 234567).first
+  expect(new_ofsted_item.provider_name).to eq 'New Provider'
+  expect(new_ofsted_item.status).to eq 'new'
+end
+
+Then('the Ofsted item should be removed') do
+  @ofsted_item = OfstedItem.where(reference_number: 123456).first
+  expect(@ofsted_item.status).to eq 'deleted'
+  expect(@ofsted_item.discarded_at).not_to be nil?
 end
 
 def mock_ofsted_response(hash)
