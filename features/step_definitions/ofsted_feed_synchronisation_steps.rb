@@ -5,6 +5,7 @@ Rake.application.rake_require "tasks/ofsted"
 Rake::Task.define_task(:environment)
 
 Given('a service exists with a corresponding Ofsted feed item') do
+  OfstedItem.delete_all
   mock_ofsted_response JSON.load File.open "features/support/data/ofsted_response_start.json"
 
   rake.tasks.each {|t| t.reenable }
