@@ -12,6 +12,8 @@ class Service < ApplicationRecord
 
   has_many :snapshots
 
+  has_many :service_meta
+
   has_many :cost_options
   accepts_nested_attributes_for :cost_options, allow_destroy: true, reject_if: :all_blank
 

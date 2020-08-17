@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
-ActiveRecord::Schema.define(version: 2020_06_26_144243) do
+ActiveRecord::Schema.define(version: 2020_08_17_155203) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,6 +52,12 @@ ActiveRecord::Schema.define(version: 2020_06_26_144243) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "topic"
     t.index ["service_id"], name: "index_feedbacks_on_service_id"
+  end
+
+  create_table "inspection", id: false, force: :cascade do |t|
+    t.bigint "id"
+    t.string "provider_name"
+    t.json "json_array_elements"
   end
 
   create_table "local_offers", force: :cascade do |t|
@@ -175,6 +180,15 @@ ActiveRecord::Schema.define(version: 2020_06_26_144243) do
   create_table "service_at_locations", force: :cascade do |t|
     t.integer "service_id", null: false
     t.integer "location_id", null: false
+  end
+
+  create_table "service_meta", force: :cascade do |t|
+    t.bigint "service_id", null: false
+    t.string "key"
+    t.string "value"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["service_id"], name: "index_service_meta_on_service_id"
   end
 
   create_table "service_taxonomies", force: :cascade do |t|
@@ -327,6 +341,7 @@ ActiveRecord::Schema.define(version: 2020_06_26_144243) do
   add_foreign_key "notes", "services"
   add_foreign_key "notes", "users"
   add_foreign_key "regular_schedules", "services"
+  add_foreign_key "service_meta", "services"
   add_foreign_key "services", "ofsted_items"
   add_foreign_key "snapshots", "services"
   add_foreign_key "snapshots", "users"
