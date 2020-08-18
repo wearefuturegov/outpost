@@ -142,6 +142,11 @@ class Admin::ServicesController < Admin::BaseController
         # :google_place_id,
         :_destroy,
         accessibility_ids: []
+      ],
+      meta_attributes: [
+        :id,
+        :key,
+        :value
       ]
     )
 

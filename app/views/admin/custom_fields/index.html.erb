@@ -18,7 +18,9 @@
             <tbody>
               <% @fields.each do |f| %>
                 <tr>
-                  <td><%= f.key %></td>
+                  <td>
+                    <strong><%= f.key %></strong>
+                  </td>
                   <td><%= f.field_type.humanize %></td>
                   <td>
                     <%= link_to "Remove", admin_custom_field_path(f), method: "delete", data: {confirm: "Are you sure? You won't be able to see or edit data for this field."} %>

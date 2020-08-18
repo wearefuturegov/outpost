@@ -1,0 +1,17 @@
+<div class="field-section">
+
+    <% CustomField.all.each do |field| %>
+        <%= s.fields_for :meta, s.object.meta.find_or_initialize_by(key: field.key) do |c| %>
+            
+            <%= c.hidden_field :key %>
+
+            <div class="field">
+                <%= c.label :value, field.key, class: "field__label" %>
+                <%= c.text_field :value, class: "field__input" %>
+            </div>
+
+        <% end %>
+    <% end %>
+
+
+</div>
