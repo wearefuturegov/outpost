@@ -27,6 +27,7 @@ class IndexedServicesSerializer < ActiveModel::Serializer
   has_many :taxonomies
   has_many :regular_schedules
   has_many :cost_options
+  has_many :meta
 
   has_one :local_offer, unless: -> { object.local_offer&.marked_for_destruction? }
 

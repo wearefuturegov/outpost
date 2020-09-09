@@ -164,6 +164,7 @@ class Service < ApplicationRecord
       :organisation => {},
       :locations => { methods: :geometry },
       :taxonomies => { methods: :slug },
+      :meta => {},
       :contacts => {},
       :local_offer => {},
       :cost_options => {},
