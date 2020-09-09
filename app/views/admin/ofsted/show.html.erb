@@ -176,5 +176,20 @@
       <% end %>
 
     <%= render "admin/ofsted/history" %>
+
+
+    <%= render "shared/collapsible", name: "Other settings by this provider", id: "ofsted-other-settings" do %> 
+        <% if @related_items.present? %>
+          <ul class="big-list">
+            <% @related_items.each do |i| %>
+              <li class="big-list__item">
+                <%= link_to i.setting_name, admin_ofsted_path(i) %>
+              </li>
+            <% end %>
+          </ul>
+        <% else %>
+          <p>No other settings registered to this provider.</p>
+        <% end %>
+    <% end %>
   </aside>
 </div>
