@@ -87,6 +87,10 @@
         <%= render "admin/services/editors/labels", s: s %>
       <% end %>
 
+      <%= render "shared/collapsible", name: "Custom fields", id: "custom-fields-editor" do %>
+        <%= render "admin/services/editors/custom-fields", s: s %>
+      <% end %>
+
       <%= render "admin/services/permenant-deletion", s: s %>
 
       <div class="form-actions">

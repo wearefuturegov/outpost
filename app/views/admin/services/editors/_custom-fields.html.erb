@@ -1,0 +1,32 @@
+<div class="field-section">
+
+    <% CustomField.all.each do |field| %>
+        <%= s.fields_for :meta, s.object.meta.find_or_initialize_by(key: field.key) do |c| %>
+            <%= c.hidden_field :key %>
+
+            <% if field.field_type === "checkbox" %>
+
+                <div class="field">
+                    <div class="checkbox">
+                        <%= c.check_box :value, class: "checkbox__input"%>
+                        <%= c.label :value, field.key, class: "checkbox__label" %>
+                    </div>
+                </div>
+
+            <% elsif field.field_type === "number" %>
+                <div class="field">
+                    <%= c.label :value, field.key, class: "field__label" %>
+                    <%= c.number_field :value, class: "field__input" %>
+                </div>
+            <% else %>
+            <div class="field">
+                <%= c.label :value, field.key, class: "field__label" %>
+                <%= c.text_field :value, class: "field__input" %>
+            </div>
+            <% end %>
+
+        <% end %>
+    <% end %>
+
+
+</div>
