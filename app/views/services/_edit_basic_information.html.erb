@@ -11,10 +11,10 @@
     <%= form.text_field :name, value: @service.name, class: "field__input", required: true %>
   </div>
 
-  <div class="field field--span-two-cols">
+  <div class="field field--required field--span-two-cols">
     <%= form.label :description, class: "field__label" %>
-    <p class="field__hint">Explain in a few sentences what your service does and who it helps</p>
-    <%= form.text_area :description, value: @service.description, class: "field__input", rows: 5 %>
+    <p class="field__hint">Explain in a few sentences what your service does and who it helps.</p>
+    <%= form.text_area :description, value: @service.description, class: "field__input", rows: 5, required: true %>
   </div>
 
   <div class="field">
@@ -25,7 +25,7 @@
 </div>
 
 <fieldset class="field-section">
-  <legend class="field-section__legend">Should this service be listed in public search results?</legend>
+  <legend class="field-section__legend field-section__legend--required">Should this service be listed in public search results?</legend>
   <p class="field-section__hint">If so, members of the public will be able to see and contact the service.</p>
   <div class="radio field" >
     <%= form.radio_button :visible, true, class: "radio__input", required: true %>
@@ -38,7 +38,7 @@
 </fieldset>
 
 <fieldset class="field-section">
-  <legend class="field-section__legend">Is this service free to use?</legend>
+  <legend class="field-section__legend field-section__legend--required">Is this service free to use?</legend>
   <div class="radio field" >
     <%= form.radio_button :free, true, class: "radio__input", required: true %>
     <%= form.label "free_true", "Yes", class: "radio__label" %>
@@ -50,7 +50,7 @@
 </fieldset>
 
 <fieldset class="field-section">
-  <legend class="field-section__legend">Does this service need a referral?</legend>
+  <legend class="field-section__legend field-section__legend--required">Does this service need a referral?</legend>
   <p class="field-section__hint">For example, from a GP or social worker.</p>
 
   <div class="radio field" >
@@ -69,9 +69,10 @@
   <legend class="field-section__legend">Where can people get a referral?</legend>
   <div class="field">
     <%= form.label :referral_url, "Add a webpage where instructions can be found", class: "field__label" %>
-    <p class="field__hint">Must start with http:// or https://</p>
+    <p class="field__hint">If the instructions aren't online, leave this blank and add them to the description instead. Must start with http:// or https://</p>
     <%= form.url_field :referral_url, class: "field__input" %>
   </div>
+
 </div>
 
 <div class="form-actions">

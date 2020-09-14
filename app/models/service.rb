@@ -68,6 +68,7 @@ class Service < ApplicationRecord
 
   # validations
   validates_presence_of :name
+  validates_presence_of :description
   validate :validate_ages
 
   def validate_ages
