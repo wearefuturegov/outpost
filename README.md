@@ -10,7 +10,7 @@
 
 ---
 
-![Run tests](https://github.com/wearefuturegov/outpost/workflows/Run%20tests/badge.svg)
+[![Run tests](https://github.com/wearefuturegov/outpost/workflows/Run%20tests/badge.svg)](/wearefuturegov/outpost/actions)
 
 **[Staging site here](https://outpost-staging.herokuapp.com/)**
 

@@ -8,6 +8,7 @@ end
 
 And('I have entered valid service details for all pages') do
   click_fill_in('#service_name', 'Test service')
+  click_fill_in('#service_description', 'Test service description')
   find('label[for=service_free_true]').click
   find('label[for=service_needs_referral_false]').click
   click_link_or_button('Continue')
