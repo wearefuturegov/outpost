@@ -30,13 +30,4 @@
         <%= s.url_field :url, class: "field__input" %>
         <p class="field__lower-hint">Must start with http:// or https://</p>
     </div>
-
-    <div class="field <%= mark_unapproved_field("referral_url") %>">
-        <%= s.label :referral_url, class: "field__label" do %>
-            Referral URL
-            <button class="help-button help-button--small" type="button" data-tippy-content="Provide a URL that lets the user quickly access the service, if different to the main website. This could be referral guidance.">What does this mean?</button>
-        <% end %>
-        <%= s.url_field :referral_url, class: "field__input" %>
-        <p class="field__lower-hint">Must start with http:// or https://</p>
-    </div>
 </div>

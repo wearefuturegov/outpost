@@ -129,6 +129,12 @@ class Admin::ServicesController < Admin::BaseController
         :phone,
         :_destroy,
       ],
+      links_attributes: [
+        :id,
+        :label,
+        :url,
+        :_destroy
+      ],
       locations_attributes: [
         :id,
         :name,

@@ -1,0 +1,13 @@
+<%= mark_unapproved_array("links") do %>
+
+    <section class="nested-editor">
+        <ul class="nested-editor__results" aria-live="polite">
+            <%= s.fields_for :links do |c| %>
+                <li class="nested-editor__result">
+                    <%= render "admin/services/editors/links-fields", c: c %>
+                </li>
+            <% end %>
+        </ul>
+        <%= link_to_add_fields "Add a link", s, :links, "admin/services/editors/links-fields" %>
+    </section>
+<% end %>
