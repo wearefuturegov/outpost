@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_17_205135) do
+ActiveRecord::Schema.define(version: 2020_09_28_124150) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,6 +65,15 @@ ActiveRecord::Schema.define(version: 2020_08_17_205135) do
     t.bigint "id"
     t.string "provider_name"
     t.json "json_array_elements"
+  end
+
+  create_table "links", force: :cascade do |t|
+    t.string "label"
+    t.string "url"
+    t.bigint "service_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["service_id"], name: "index_links_on_service_id"
   end
 
   create_table "local_offers", force: :cascade do |t|
@@ -223,12 +232,6 @@ ActiveRecord::Schema.define(version: 2020_08_17_205135) do
     t.string "old_ofsted_external_id"
     t.boolean "visible", default: true
     t.boolean "needs_referral"
-    t.string "twitter_url"
-    t.string "facebook_url"
-    t.string "youtube_url"
-    t.string "linkedin_url"
-    t.string "instagram_url"
-    t.string "referral_url"
     t.boolean "current_vacancies"
     t.boolean "pick_up_drop_off_service"
     t.datetime "marked_for_deletion"
@@ -344,6 +347,7 @@ ActiveRecord::Schema.define(version: 2020_08_17_205135) do
 
   add_foreign_key "cost_options", "services"
   add_foreign_key "feedbacks", "services"
+  add_foreign_key "links", "services"
   add_foreign_key "local_offers", "services"
   add_foreign_key "notes", "services"
   add_foreign_key "notes", "users"
