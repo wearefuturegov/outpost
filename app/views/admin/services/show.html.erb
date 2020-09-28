@@ -43,12 +43,12 @@
         <%= render "admin/services/editors/basics", s: s %>
       <% end %>
 
-      <%= render "shared/collapsible", name: "Contacts", count: @service.contacts.length, id: "contacts-editor", help_text: "Provide individual points of contact for users." do %>
-        <%= render "admin/services/editors/contacts", s: s %>
-      <% end %>
-
       <%= render "shared/collapsible", name: "Taxonomies", count: @service.taxonomies.length, id: "taxonomy-editor", help_text: "Help users understand what kind of service this is." do %>
         <%= render "admin/services/editors/taxonomies", s: s %>
+      <% end %>
+
+      <%= render "shared/collapsible", name: "Contacts", count: @service.contacts.length, id: "contacts-editor", help_text: "Provide individual points of contact for users." do %>
+        <%= render "admin/services/editors/contacts", s: s %>
       <% end %>
 
       <%= render "shared/collapsible", name: "Locations", count: @service.locations.length, id: "locations-editor", help_text: "Provide locations where this service can be used. For a fully remote or virtual service, leave this blank." do %>
@@ -59,16 +59,16 @@
         <%= render "admin/services/editors/cost-options", s: s %>
       <% end %>
 
-      <%= render "shared/collapsible", name: "Local offer and SEND", id: "local-offer-editor" do %>
-        <%= render "admin/services/editors/local-offer", s: s %>
-      <% end %>
-
       <%= render "shared/collapsible", name: "Scheduling", count: @service.regular_schedules.length, id: "schedule-editor", help_text: "Build a set of regular opening times for the service." do %>
         <%= render "admin/services/editors/regular-schedule", s: s %>
       <% end %>
 
-      <%= render "shared/collapsible", name: "Social media", id: "social-media-editor" do %>
-        <%= render "admin/services/editors/social-media", s: s %>
+      <%= render "shared/collapsible", name: "Links", id: "links-editor" do %>
+        <%= render "admin/services/editors/links", s: s %>
+      <% end %>
+
+      <%= render "shared/collapsible", name: "Local offer and SEND", id: "local-offer-editor" do %>
+        <%= render "admin/services/editors/local-offer", s: s %>
       <% end %>
 
       <%= render "shared/collapsible", name: "Ages", id: "visibility-editor" do %>
@@ -82,7 +82,7 @@
       <%= render "shared/collapsible", name: "Visibility", id: "visibility-editor", help_text: "Control if and when the service is listed in public search results." do %>
         <%= render "admin/services/editors/dates", s: s %>
       <% end %>
-
+ 
       <%= render "shared/collapsible", name: "Labels", count: @service.label_list.length, id: "labels-editor", help_text: "Use labels to group services together in whatever way you need." do %>
         <%= render "admin/services/editors/labels", s: s %>
       <% end %>

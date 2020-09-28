@@ -46,21 +46,12 @@
                             <%= form.label :visible, "Make this service publicly visible", class: "checkbox__label" %>
                         </div>
                     </div>
-                </div>
-                <div class="field-section field-section--two-cols">
-                    <h2 class="field field--span-two-cols">Referrals</h2>
 
                     <div class="field field--span-two-cols">
                         <div class="checkbox">
                             <%= form.check_box :needs_referral, class: "checkbox__input"%>
                             <%= form.label :needs_referral, "Does this service need a referral?", class: "checkbox__label" %>
                         </div>
-                    </div>
-
-                    <div class="field">
-                        <%= form.label :referral_url, "Referral instructions webpage", class: "field__label" %>
-                        <p class="field__hint">Must start with http:// or https://</p>
-                        <%= form.url_field :referral_url, class: "field__input" %>
                     </div>
                 </div>
 
@@ -81,8 +72,8 @@
                     <%= render "admin/services/editors/cost-options", s: form %>
                 <% end %>
 
-                <%= render "shared/collapsible", name: "Social media", id: "social-media-editor" do %>
-                    <%= render "admin/services/editors/social-media", s: form %>
+                <%= render "shared/collapsible", name: "Links", id: "social-media-editor" do %>
+                    <%= render "admin/services/editors/links", s: form %>
                 <% end %>
                                  
                 <%= render "shared/collapsible", name: "Categorisation", count: @service.taxonomies.length, id: "taxonomy-editor" do %>

@@ -12,6 +12,9 @@ class Service < ApplicationRecord
 
   has_many :snapshots
 
+  has_many :links
+  accepts_nested_attributes_for :links, allow_destroy: true, reject_if: :all_blank
+
   has_many :meta, class_name: "ServiceMeta"
   accepts_nested_attributes_for :meta
 
