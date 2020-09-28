@@ -64,17 +64,6 @@
   </div>
 </fieldset>
 
-
-<div class="field-section field-section--two-cols" data-show-if-checked-result>
-  <legend class="field-section__legend">Where can people get a referral?</legend>
-  <div class="field">
-    <%= form.label :referral_url, "Add a webpage where instructions can be found", class: "field__label" %>
-    <p class="field__hint">If the instructions aren't online, leave this blank and add them to the description instead. Must start with http:// or https://</p>
-    <%= form.url_field :referral_url, class: "field__input" %>
-  </div>
-
-</div>
-
 <div class="form-actions">
   <%= form.submit "Continue", class: "button" %>
 </div>
