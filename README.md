@@ -10,7 +10,7 @@
 
 ---
 
-[![Run tests](https://github.com/wearefuturegov/outpost/workflows/Run%20tests/badge.svg)](/wearefuturegov/outpost/actions)
+[![Run tests](https://github.com/wearefuturegov/outpost/workflows/Run%20tests/badge.svg)](https://github.com/wearefuturegov/outpost/actions)
 
 **[Staging site here](https://outpost-staging.herokuapp.com/)**
 
@@ -36,8 +36,8 @@ npm install
 rails db:setup
 rails s
 
-# run tests
-rspec
+# run end-to-end and unit tests
+rake
 ```
 
 For the database seed to succeed, you need a source data file `bucksfis.csv` in the `lib/seeds` folder.
@@ -46,7 +46,9 @@ For the database seed to succeed, you need a source data file `bucksfis.csv` in 
 
 Outpost's API component relies on a public index stored on MongoDB.
 
-You can run `rails build_public_index` to build the public index for the first time. Active record callbacks keep it up to date as services are changed, but it's a good idea to occasionally refresh the index by re-running that rake task
+You can run `rails build_public_index` to build the public index for the first time. Active record callbacks keep it up to date as services are changed.
+
+In production, it's a good idea to occasionally refresh the index by running that rake task on a schedule.
 
 ## Running it on the web
 
@@ -79,5 +81,5 @@ With [docker-compose](https://docs.docker.com/compose/) and [docker](https://www
 - Populate your environment variables
 - Run the application with `rails s`
 
-## E2E Test Coverage
+## E2E test coverage
 See the readme [here](https://github.com/wearefuturegov/outpost/tree/master/features)
