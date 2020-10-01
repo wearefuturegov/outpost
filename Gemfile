@@ -33,6 +33,7 @@ gem 'closure_tree'
 gem 'uk_postcode'
 gem 'diffy'
 gem 'mongo'
+gem 'doorkeeper'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

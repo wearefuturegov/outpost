@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   
   root "organisations#index"
 
+  use_doorkeeper
   devise_for :users, :controllers => { registrations: 'registrations' }
   devise_scope :user do
     get "login", to: "devise/sessions#new"
@@ -52,6 +53,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :taxonomies, only: [:index]
+      get "me", to: "me#show"
     end
   end
 
