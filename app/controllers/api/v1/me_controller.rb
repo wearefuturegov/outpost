@@ -1,4 +1,5 @@
 class API::V1::MeController < ApplicationController
+    skip_before_action :authenticate_user!
     before_action :doorkeeper_authorize!
     
     def show
