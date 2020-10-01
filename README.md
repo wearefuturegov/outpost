@@ -16,7 +16,7 @@
 
 A [standards-driven](https://opencommunity.org.uk/) API and comprehensive set of admin tools for managing records about local community services, groups and activities.
 
-It's a rails app backed by a postgres database.
+It's a Rails app backed by a postgres database. It can also act as an OAuth provider via [Doorkeeper](https://github.com/doorkeeper-gem/doorkeeper).
 
 Outpost works alongside a [seperate API component](https://github.com/wearefuturegov/outpost-api-service/).
 
@@ -41,6 +41,14 @@ rake
 ```
 
 For the database seed to succeed, you need a source data file `bucksfis.csv` in the `lib/seeds` folder.
+
+### With Docker
+
+With [docker-compose](https://docs.docker.com/compose/) and [docker](https://www.docker.com/), after cloning the project:
+
+- Bring up the databases with `docker-compose up`
+- Populate your environment variables
+- Run the application with `rails s`
 
 ### Building the public index
 
@@ -73,13 +81,11 @@ In production only:
 - `MAILER_HOST` where the app lives on the web, to correctly form urls in emails
 - `MAILER_FROM` the email address emails will be delivered from
 
-## Running it locally
+## OAuth provider
 
-With [docker-compose](https://docs.docker.com/compose/) and [docker](https://www.docker.com/), after cloning the project:
+Outpost can work as an identity provider for other apps. Users with the highest permissions can access the `/oauth/applications` route to create credentials.
 
-- Bring up the databases with `docker-compose up`
-- Populate your environment variables
-- Run the application with `rails s`
+Once authenticated, consumer apps can fetch information about the currently logged in user with the `/api/v1/me` endpoint.
 
-## E2E test coverage
+## End-to-end test coverage
 See the readme [here](https://github.com/wearefuturegov/outpost/tree/master/features)
