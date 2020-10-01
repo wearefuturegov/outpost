@@ -59,6 +59,6 @@ jobs:
       - name: Run cucumber tests
         env:
           RAILS_ENV: test
-          MONGODB_URI: mongodb://root:password@localhost:27017/outpost_development?authSource=admin
+          DB_URI: mongodb://root:password@localhost:27017/outpost_development?authSource=admin
         run: |
           bundle exec cucumber --fail-fast
