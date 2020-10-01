@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   
+  use_doorkeeper
   root "organisations#index"
 
   devise_for :users, :controllers => { registrations: 'registrations' }

@@ -134,6 +134,8 @@ GEM
     discard (1.2.0)
       activerecord (>= 4.2, < 7)
     docile (1.3.2)
+    doorkeeper (5.4.0)
+      railties (>= 5)
     dotenv (2.7.4)
     dotenv-rails (2.7.4)
       dotenv (= 2.7.4)
@@ -391,6 +393,7 @@ DEPENDENCIES
   devise_lastseenable
   diffy
   discard (~> 1.2)
+  doorkeeper
   dotenv-rails
   email_address
   factory_bot_rails
