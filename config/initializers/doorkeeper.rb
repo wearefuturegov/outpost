@@ -9,7 +9,9 @@ Doorkeeper.configure do
   end
 
   admin_authenticator do
-    current_user || redirect_to(new_user_session_url)
+    unless current_user.admin_users === true
+      redirect_to new_user_session_url
+    end
   end
 
 end
