@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
   
-  use_doorkeeper
   root "organisations#index"
 
+  use_doorkeeper
   devise_for :users, :controllers => { registrations: 'registrations' }
   devise_scope :user do
     get "login", to: "devise/sessions#new"
