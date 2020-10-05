@@ -1,6 +1,7 @@
 @import "variables";
 
 .notes-list__note{
+    word-break: break-word;
     margin-bottom: 25px;
     .notes-list__note-header{
         font-size: 0.9rem;
