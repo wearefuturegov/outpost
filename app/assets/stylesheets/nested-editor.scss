@@ -9,7 +9,7 @@
     .nested-editor__result{
         position: relative;
         background: $pale;
-        padding: 25px;
+        padding: 20px;
         margin-bottom: 10px;
         animation: fadeIn 0.3s ease-out;
         border: 1px solid $card-shadow;
@@ -44,7 +44,7 @@
     }
 
     .nested-editor__closer{
-        margin-top: 25px;
+        margin-top: 0px;
         background: none;
         font-weight: normal;
         color: $link;
