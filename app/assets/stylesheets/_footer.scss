@@ -1,0 +1,10 @@
+.site-footer{
+    background: $grey1;
+    padding: 60px $outer-spacing;
+    @media screen and (min-width: $breakpoint-m){
+        padding: 80px $outer-spacing;
+    }
+    *{
+        color: $white;
+    }
+}

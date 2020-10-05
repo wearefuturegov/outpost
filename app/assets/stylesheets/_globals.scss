@@ -1,13 +1,24 @@
-// resets and global styles
-
-@import "variables";
 
 *{
-    margin: 0;
-    padding: 0;
     box-sizing: border-box;
     font-family: Helvetica Neue, Arial, Helvetica, sans-serif;
-    color: $text;
+}
+
+body{
+    margin: 0;
+}
+
+p, label{
+    line-height: 1.5;
+    color: $grey1;
+    @media screen and (min-width: $breakpoint-m){
+        font-size: 1.1rem;
+    }
+}
+
+h1, h2, h3, h4, h5{
+    color: $grey1;
+    line-height: 1.1;
 }
 
 a{
@@ -17,28 +28,13 @@ a{
         text-decoration: underline
     }
     &:active{
-        color: $text
+        color: $grey1;
     }
     &:focus{
-        color: $text;
+        color: $grey1;
         outline: 2px solid $focus;
         background: $focus;
     }
-}
-
-p{
-    line-height: 1.5;
-    @media screen and (min-width: $breakpoint-m){
-        font-size: 1.1rem;
-    }
-}
-
-h1, h2, h3, h4, h5 {
-    line-height: 1;
-}
-
-ol, ul{
-    margin-left: 25px;
 }
 
 img{
@@ -46,41 +42,50 @@ img{
     height: auto;
 }
 
-li{
-    padding-left: 15px;
-    margin-bottom: 10px;
-    &:last-child{
-        margin-bottom: 0px;
+ol, ul{
+    margin-left: 25px;
+    color: $grey1;
+    li{
+        padding-left: 15px;
+        margin-bottom: 10px;
+        &:last-child{
+            margin-bottom: 0px;
+        }
     }
 }
 
-.turbolinks-progress-bar {
-    background-color: $focus;
+input, textarea{
+    width: 100%;
+    max-width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    background: $white;
+    border: 2px solid $grey1;
+    border-radius: 0px;
+    &:focus{
+        outline: 3px solid $focus;
+    }
+    @media screen and (min-width: $breakpoint-m) {
+        font-size: 1.1rem;
+    }
+    &:disabled{
+        background: transparentize($grey2, 0.9);
+    }
 }
 
-*::-moz-focus-inner {
-    border: 0;
-}
-
-.visually-hidden{
-    position: absolute !important;
-    height: 1px; 
-    width: 1px;
-    overflow: hidden;
-    clip: rect(1px 1px 1px 1px);
-    clip: rect(1px, 1px, 1px, 1px);
-    white-space: nowrap;
-}
-
-fieldset{
-    border: none;
-}
-
-select::-ms-expand {
-    display: none;
-}
-
-button[hidden],
-.field-section.field-section--two-cols[hidden]{
-    display: none;
+table{
+    width: 100%;
+    border-collapse: collapse;
+    th{
+        font-weight: bold;
+        text-align: left;
+        padding: 10px;
+    }
+    td{
+        padding: 15px 10px;
+        word-wrap: break-word;
+    }
+    tbody tr:nth-of-type(odd){
+        background: $pale;
+    }
 }

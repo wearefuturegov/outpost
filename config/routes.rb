@@ -10,10 +10,12 @@ Rails.application.routes.draw do
   end
   
   resources :organisations, only: [:index, :new, :create, :edit, :update]
-  resources :services do
-    get "feedback", to: "feedbacks#index"
-    post "feedback", to: "feedbacks#create"
+  resources :services, only: [:new, :create, :show, :update, :destroy] do
+    resources :task_list, only: [:index]
+    resources :feedback, only: [:index, :create]
   end
+
+
   resources :members, only: [:new, :create, :destroy]
 
   namespace :admin do

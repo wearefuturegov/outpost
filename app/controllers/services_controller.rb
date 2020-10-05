@@ -1,21 +1,18 @@
 class ServicesController < ApplicationController
     before_action :no_admins
-    before_action :set_service, only: [:edit, :show, :update, :destroy]
+    before_action :set_service, except: [:new, :create]
 
     def new
         @service = current_user.organisation.services.new
     end
 
     def create
-        @service = current_user.organisation.services.build(service_params)
-        @service.approved = false
-        unless @service.save
-            render "new"
+        @service = current_user.organisation.services.new(service_params)
+        if @service.save
+            redirect_to service_task_list_index_path(@service)
+        else
+            render :new
         end
-    end
-
-    def edit
-        @stage = params[:stage] || 'Basic Information'
     end
 
     def show

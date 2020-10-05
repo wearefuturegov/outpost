@@ -87,6 +87,12 @@
         &--with-prefix{
             padding-left: 23px;
         }
+
+        &--one-half{
+            @media screen and (min-width: $breakpoint-m) {
+                width: 50%;
+            }
+        }
     }
     textarea{
         min-width: 100%;

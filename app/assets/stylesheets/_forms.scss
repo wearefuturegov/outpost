@@ -1,0 +1,38 @@
+.field{
+    margin-bottom: 25px;
+    @media screen and (min-width: $breakpoint-m){
+        margin-bottom: 35px;
+    }
+
+    &__label{
+        display: block;
+        margin-bottom: 7px;
+
+        &--bold{
+            font-weight: bold;
+            @media screen and (min-width: $breakpoint-m){
+                font-size: 1.2rem;
+            }
+        }
+    }
+
+    &__hint{
+        margin: 0;
+        margin-bottom: 15px;
+        color: $grey2;
+    }
+}
+
+.button{
+    @include button;
+}
+
+.field-group{
+    &--two-cols{
+        @media screen and (min-width: $breakpoint-m){
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            column-gap: 35px;
+        }
+    }
+}

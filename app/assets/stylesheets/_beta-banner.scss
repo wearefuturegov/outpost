@@ -1,0 +1,23 @@
+.beta-banner{
+  padding: 10px 15px;
+  font-size: 0.9rem;
+
+  &__inner{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  &__tag{
+    background: $focus;
+    color: $grey1;
+    text-transform: uppercase;
+    padding: 3px 7px;
+    margin-right: 10px;
+  }
+
+  &__message{
+    font-size: 1rem;
+    margin: 0;
+  }
+}

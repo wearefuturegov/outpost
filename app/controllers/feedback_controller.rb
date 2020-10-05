@@ -1,4 +1,4 @@
-class FeedbacksController < ApplicationController
+class FeedbackController < ApplicationController
     skip_before_action :authenticate_user!
     before_action :no_admins
     before_action :set_service

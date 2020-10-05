@@ -3,10 +3,6 @@
   <%= render "shared/head" %>
   <body>
 
-
-    <!-- <a href="#content" class="skiplink">Skip to main content</a> -->
-    
-
     <%= render "shared/header", full_width: false %>
 
     <% unless current_user && current_user.admin? %>
@@ -20,20 +16,19 @@
 
     <%= render "shared/navigation", full_width: false %>
 
-    <header class="page-header" id="content">
-      <div class="container">
-          <% if notice || alert %>
-              <div class="alert">
-                <%= notice %>
-                <%= alert %>
-              </div>
-          <% end %>
-          <%= yield :header %>
-      </div>
-    </header>
-
     <div class="page-content">
       <div class="container">
+
+        <header class="page-header">
+              <% if notice || alert %>
+                  <div class="alert">
+                    <%= notice %>
+                    <%= alert %>
+                  </div>
+              <% end %>
+              <%= yield :header %>
+        </header>
+
         <%= yield %>
       </div>
     </div>
