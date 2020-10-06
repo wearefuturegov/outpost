@@ -1,0 +1,48 @@
+
+.mini-search{
+
+    &__form{
+        position: relative;
+        margin-bottom: 25px;
+        @media screen and (min-width: $breakpoint-m) {
+            margin-bottom: 0px;
+            width: 250px;
+            display: inline-block;
+            margin-right: 10px;
+        }
+    }
+
+    &__input{
+        padding: 7px;
+        height: 42px;
+        font-size: 1rem;
+        color: $grey1;
+        border: 2px solid $grey1;
+        width: 100%;
+        padding-right: 50px;
+        &:focus{
+            outline: 3px solid $focus;
+        }
+    }
+
+    &__submit{
+        background: none;
+        border: none;
+        position: absolute;
+        right: 2px;
+        top: 2px;
+        height: 38px;
+        padding: 10px 12px;
+        img{
+            height: 100%;
+            width: auto;
+        }
+        cursor: pointer;
+        &:hover{
+            background: $pale;
+        }
+        &:focus{
+            outline: 3px solid $focus;
+        }
+    }
+}

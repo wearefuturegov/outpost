@@ -2,7 +2,7 @@
     @media screen and (min-width: $breakpoint-m){
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 25px;
+        column-gap: 25px;
     }    
     @media screen and (min-width: $breakpoint-l){
         grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -10,6 +10,8 @@
 }
 
 .big-number{
+    margin-bottom: 25px;
+
     &__number{
         font-weight: bold;
         font-size: 2.5rem;

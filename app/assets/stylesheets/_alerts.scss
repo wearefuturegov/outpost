@@ -1,0 +1,10 @@
+.alert{
+    background: transparentize($focus, 0.9);
+    padding: 25px;
+    border-left: 5px solid $focus;
+    margin-bottom: 40px;
+
+    @media screen and (min-width: $breakpoint-m) {
+        font-size: 1.1rem;
+    }
+}

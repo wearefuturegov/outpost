@@ -3,7 +3,8 @@
 @import "globals";
 
 // vendor
-// @import "vendor/intro";
+@import "vendor/tippy";
+@import "vendor/choices";
 
 // utility classes
 @import "layout";
@@ -21,3 +22,14 @@
 @import "big-numbers";
 @import "tags";
 @import "task-list";
+@import "poppables";
+@import "user-circles";
+@import "tables";
+@import "collapsibles";
+@import "help-tips";
+@import "choices";
+@import "pagination";
+@import "maps";
+@import "mini-search";
+@import "alerts";
+@import "errors";

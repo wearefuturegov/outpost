@@ -65,3 +65,20 @@
         box-shadow: none;
     }
 }
+
+@mixin danger-button{
+    @include button;
+
+    background-color: $error;
+    box-shadow: 0px 4px 0px darken($error, 7.5);
+    color: white;
+
+    &:hover{
+        background-color: darken($error, 2.5);
+        box-shadow: 0px 4px 0px darken($error, 10);
+    }
+    &:active{
+        background-color: darken($error, 10);
+        color: white;
+    }
+}

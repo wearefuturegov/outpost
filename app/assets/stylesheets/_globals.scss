@@ -48,7 +48,7 @@ img{
 }
 
 ol, ul{
-    margin-left: 25px;
+    padding-left: 30px;
     color: $grey1;
     li{
         padding-left: 15px;
@@ -76,7 +76,7 @@ input, textarea{
     @media screen and (min-width: $breakpoint-m) {
         font-size: 1.1rem;
     }
-    &:disabled{
+    &[type=text]:disabled{
         background: transparentize($grey2, 0.9);
     }
 }

@@ -1,10 +1,9 @@
 <% if @activities.present? %>
   <div class="table-holder">
-    <table class="table">
-      <thead>
+    <table>
+      <thead class="visually-hidden">
         <tr>
             <th>Service</th>
-            <th>By</th>
             <th>At</th>
         </tr>
       </thead>
@@ -12,17 +11,16 @@
         <% @activities.each do |a| %>
           <tr>
             <td>
-              <%= render "shared/poppables/service", s: a.service %> was <%= a.action %>d
+              <%= render "shared/poppables/service", s: a.service %> was <%= a.action %>d by               <%= render "shared/poppables/user", u: a.user if a.user %>
             </td>
             <td>
-              <%= render "shared/poppables/user", u: a.user if a.user %>
+              <%= short_time_ago_in_words(a.created_at).humanize %> ago
             </td>
-            <td><%= short_time_ago_in_words(a.created_at).humanize %> ago</td>
           </tr>
         <% end %>
       </tbody>
     </table>
   </div>
 <% else %>
-  <p class="no-results no-results--big">No recent activity to show</p>
+  <p class="no-results">No recent activity to show</p>
 <% end %>

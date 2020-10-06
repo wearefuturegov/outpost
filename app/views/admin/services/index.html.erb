@@ -28,7 +28,7 @@
       <tbody>
         <% @services.each do |s| %>
           <tr>
-            <td><span class="id"><%= s.id %></span></td>
+            <td><span class="table__small"><%= s.id %></span></td>
             <td>
               <strong><%= link_to s.display_name.truncate(25), admin_service_path(s) %><strong>
             </td>

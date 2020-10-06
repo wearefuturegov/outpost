@@ -1,3 +1,14 @@
+.button{
+    @include button;
+    &--outline{
+        @include outline-button;
+    }
+    &--danger{
+        @include danger-button;
+    }
+}
+
+
 .field{
     margin-bottom: 25px;
     @media screen and (min-width: $breakpoint-m){
@@ -23,10 +34,6 @@
     }
 }
 
-.button{
-    @include button;
-}
-
 .field-group{
     &--two-cols{
         @media screen and (min-width: $breakpoint-m){
@@ -43,8 +50,8 @@
 
     &__input{
         position: absolute;
-        width: 25px;
-        height: 25px;
+        width: 40px;
+        height: 40px;
         opacity: 0;
 
         &:focus{
@@ -57,10 +64,10 @@
             position: absolute;
             content: "";
             display: block;
-            height: 20px;
-            width: 20px;
-            left: 5px;
-            top: 5px;
+            height: 30px;
+            width: 30px;
+            left: 7px;
+            top: 7px;
             background-image: url(asset_path("tick.svg"));
             background-size: contain;
             background-position: center;
@@ -76,8 +83,8 @@
         &:before{
             content: "";
             display: block;
-            width: 25px;
-            height: 25px;
+            width: 40px;
+            height: 40px;
             border: 2px solid $grey1;
             margin-right: 15px;
         }
@@ -93,6 +100,7 @@
     padding: 0;
     margin: 0;
     margin-bottom: 25px;
+
     @media screen and (min-width: $breakpoint-m){
         margin-bottom: 35px;
     }

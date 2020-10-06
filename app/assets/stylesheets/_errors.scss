@@ -1,0 +1,26 @@
+
+.error{
+    padding: 25px;
+    margin-bottom: 40px;
+    background: transparentize($error, 0.9);
+    border-left: 5px solid $error;
+
+    @media screen and (min-width: $breakpoint-m) {
+        margin-bottom: 50px;
+    }
+
+    &__title{
+        margin-top: 0px;
+        margin-bottom: 20px;
+        line-height: 1.1;
+    }
+
+    &__list {
+        margin-bottom: 0px;
+        *{
+            @media screen and (min-width: $breakpoint-m) {
+                font-size: 1.1rem;
+            }
+        }
+    }
+}

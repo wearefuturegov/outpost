@@ -1,0 +1,67 @@
+.collapsible{
+    position: relative;
+    margin-bottom: 45px;
+    @media screen and (min-width: $breakpoint-m) {
+        margin-bottom: 55px;
+    }
+
+    &__header{
+        width: 100%;
+        background: none;
+        border: none;
+        padding: 0;
+        padding-bottom: 15px;
+        border-bottom: 5px solid $grey1;
+        margin-bottom: 25px;
+        cursor: pointer;
+        text-align: left;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 1rem;
+
+        &:after{
+            margin-left: 15px;
+            content: "";
+            display: inline-block;
+            width: 25px;
+            height: 20px;
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-image: url(asset_path("down-arrow.svg"));
+        }
+
+        &[aria-expanded=false]{
+            margin-bottom: 0px;
+            &:after{
+                background-image: url(asset_path("up-arrow.svg"));
+    
+            }
+        }
+
+        &:focus{
+            outline: none;
+            border-color: $focus;
+        }
+
+        h2{
+            margin: 0;
+        }
+    }
+    
+    &__header-count{
+        font-weight: normal;
+    }
+    
+    &__content{
+        max-width: 100%;
+    }
+    
+    &__action{
+        display: inline-block;
+        font-weight: bold;
+        margin-bottom: 25px;
+    }
+}

@@ -1,0 +1,57 @@
+.help-button{
+    display: none;
+
+    @media screen and (min-width: $breakpoint-m){
+        position: absolute;
+        padding: 0;
+        top: 0px;
+        right: 40px;
+        display: inline-block;
+        height: 25px;
+        width: 25px;
+        font-size: 0;
+        border: 3px solid $grey1;
+        border-radius: 100%;
+        opacity: 0.33;
+        background: none;
+
+        &:after{
+            content: "?";
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        &:hover, &:focus{
+            opacity: 0.5;
+        }
+
+        &:focus{
+            opacity: 1;
+            border-color: $focus;
+            color: $focus;
+        }
+
+        &--small{
+            margin-left: 5px;
+            height: 20px;
+            width: 20px;
+            position: inherit;
+            border-width: 2.5px;
+            &:after{
+                font-size: 0.8rem;
+            }
+        }
+    }
+}
+
+.tippy-box {
+    border-radius: 0px;
+    .tippy-content{
+        max-width: 250px;
+        background-color: $grey1;
+        color: $white;
+    }
+    .tippy-arrow {
+        color: $grey1;
+    }
+}

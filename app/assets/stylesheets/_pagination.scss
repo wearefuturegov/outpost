@@ -1,0 +1,19 @@
+.pagination{
+    margin-top: 40px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    span{
+        margin-right: 10px;
+
+        @media screen and (min-width: $breakpoint-m) {
+            font-size: 1.1rem;
+            margin-right: 15px;
+        }
+        
+        &:last-of-type{
+            margin-right: 0px;
+        }
+    }
+}

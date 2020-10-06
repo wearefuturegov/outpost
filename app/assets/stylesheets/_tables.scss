@@ -1,0 +1,21 @@
+.table-holder{
+    overflow-x: auto;
+    margin-bottom: 45px;
+
+    table{
+        margin-bottom: 0px;
+    }
+    @media screen and (min-width: $breakpoint-m) {
+        margin-bottom: 55px;
+    }
+    @media screen and (min-width: $breakpoint-l){
+        overflow-x: inherit;
+    }
+}
+
+.table{
+    &__small{
+        font-size: 0.9rem;
+        color: $grey2;
+    }
+}
