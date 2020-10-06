@@ -1,11 +1,11 @@
-<% content_for :title do %>Add a service | <% end %>
+<% content_for :title do %>Name and description | <% end %>
 
 <% content_for :header do %>
-    <%= link_to "Go back", organisations_path, class: "go-back" %>
-    <h1 class="page-header__title two-thirds">List a new service</h1>
+    <%= link_to "Go back", service_path(@service), class: "go-back" %>
+    <h1 class="page-header__title two-thirds">Name and description</h1>
 <% end %>
 
-<%= form_with model: @service, html: {class: "two-thirds"} do |s| %>
+<%= form_with model: @service, url: service_path(@service, :section => params[:section]), html: {class: "two-thirds"} do |s| %>
 
     <div class="field">
         <%= s.label :name, "What is your service called?", class: "field__label field__label--bold" %>
@@ -20,5 +20,4 @@
     </div>
 
     <button class="button">Continue</button>
-
 <% end %>

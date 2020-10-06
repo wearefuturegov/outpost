@@ -10,49 +10,48 @@
     </h1>
 <% end %>
 
-<div data-intro="Once you've created a service, it'll appear here." data-step="2">
-  <h2 class="page-subheading">Your services</h2>
+<h2 class="page-subheading">Your services</h2>
 
-  <%= link_to "Add service", new_service_path, class: "button button--small", data: {intro: "List your first activity, group or other service here.", step: 1} %>
-  <%= link_to "Edit organisation name", edit_organisation_path(@organisation), class: "button button--inline actions__pull-right" %>
+<%= link_to "Add service", new_service_path, class: "button"%>
+<%= link_to "Edit organisation name", edit_organisation_path(@organisation), class: "button" %>
 
-  <% if @services.present? %>
-    <table class="table">
-        <thead>
+<% if @services.present? %>
+  <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Categories</th>
+          <th>Last updated</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @services.each do |s| %>
           <tr>
-            <th>Name</th>
-            <th>Categories</th>
-            <th>Last updated</th>
-            <th>Status</th>
+            <td><%= link_to s.name, service_path(s) %></td>
+            <td>              
+              <%= s.taxonomies.categories.map {|c| c.name }.join(", ") %>
+            </td>
+            <td><%= time_ago_in_words(s.updated_at).humanize %> ago</td>
+            <td><%= status_tag(s.status) %></td>              
           </tr>
-        </thead>
-        <tbody>
-          <% @services.each do |s| %>
-            <tr>
-              <td><%= link_to s.name, service_path(s) %></td>
-              <td>              
-                <%= s.taxonomies.categories.map {|c| c.name }.join(", ") %>
-              </td>
-              <td><%= time_ago_in_words(s.updated_at).humanize %> ago</td>
-              <td><%= status_tag(s.status) %></td>              
-            </tr>
-          <% end %>
-        </tbody>
-    </table>
-  <% else %>
-    <p class="no-results">This organisation has no services yet. <strong><%= link_to "Create one?", new_service_path %></strong></p>
-  <% end %>
-</div>
+        <% end %>
+      </tbody>
+  </table>
+<% else %>
+  <p class="no-results">You don't have any services listed yet. Start by <strong><%= link_to "adding one", new_service_path %></strong>.</p>
+<% end %>
 
 
-<div data-intro="Once you invite someone, they'll be added to this list." data-step="4">
-  <h2 class="page-subheading">Your users</h2>
-  <%= link_to "Invite new user", new_member_path, class: "button button--inline", data: {intro: "You can also invite colleagues or friends to help you maintain your list of services.", step: 3} %>
-  <% if @users.present? %>
+<h2 class="page-subheading">Your users</h2>
+<%= link_to "Invite new user", new_member_path, class: "button" %>
+<% if @users.present? %>
+  <div class="table-holder">
     <table class="table">
         <thead>
           <tr>
             <th>Name</th>
+            <th>Email</th>
             <th>Invited</th>
             <th>Last seen</th>
             <th class="visually-hidden">Actions</th>
@@ -61,12 +60,8 @@
         <tbody>
           <% @users.each do |u| %>
             <tr>
-              <td>
-                <strong><%= u.display_name %></strong>
-                <% if u.first_name.present? && u.last_name.present? %>
-                  <p><small><%= u.email %></small></p>
-                <% end %>
-              </td>
+              <td><strong><%= u.display_name %></strong></td>
+              <td><%= u.email %></td>
               <td><%= short_time_ago_in_words(u.created_at).humanize %> ago</td>
               <td>
                 <% if u.last_seen %>
@@ -76,13 +71,13 @@
                 <% end %>
               </td>
               <td>
-                <%= link_to "Remove", member_path(u), method: "delete", data: {confirm: "Are you sure you want to remove this user? They won't be able to log in any more"} unless current_user === u %>
+                <%= link_to "Remove", member_path(u), method: "delete", §: {confirm: "Are you sure you want to remove this user? They won't be able to log in any more"} unless current_user === u %>
               </td>
             </tr>
           <% end %>
         </tbody>
     </table>
-  <% else %>
-    <p class="no-results">This organisation has no users</p>
-  <% end %>
-</div>
+  </div>
+<% else %>
+  <p class="no-results">This organisation has no users</p>
+<% end %>

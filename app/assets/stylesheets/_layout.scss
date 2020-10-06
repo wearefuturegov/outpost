@@ -4,6 +4,16 @@
     margin-right: auto;
 }
 
+.visually-hidden{
+    position: absolute !important;
+    height: 1px; 
+    width: 1px;
+    overflow: hidden;
+    clip: rect(1px 1px 1px 1px);
+    clip: rect(1px, 1px, 1px, 1px);
+    white-space: nowrap;
+}
+
 .page-content{
     padding: 40px 20px 50px 20px;
     @media screen and (min-width: $breakpoint-m){
@@ -27,7 +37,30 @@
     }
 }
 
-
 .margin-bottom{
     margin-bottom: 25px;
+}
+
+.table-holder{
+    overflow-x: auto;
+    margin-bottom: 45px;
+    
+    table{
+        margin-bottom: 0px;
+    }
+
+    @media screen and (min-width: $breakpoint-m) {
+        margin-bottom: 55px;
+    }
+
+    @media screen and (min-width: $breakpoint-l){
+        overflow-x: inherit;
+    }
+}
+
+.no-results{
+    margin-bottom: 45px;
+    @media screen and (min-width: $breakpoint-m) {
+        margin-bottom: 55px;
+    }
 }

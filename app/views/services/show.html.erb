@@ -1,106 +1,62 @@
-<% content_for :title do %><%= @service.name %> | <% end %>
-
 <% content_for :header do %>
-    <% unless @service.approved? %>
-        <div class="notice notice--pending">
-            <div class="notice__body">
-                <strong><p>This service has pending changes</p></strong>
-                <p>We will review and publish these changes soon. You can still make more changes in the meantime.</p>    
-            </div>
-        </div>
-    <% end %>
-
-    <%= link_to "Go back", organisations_path, class: "go-back" %>
-    <h1 class="page-header__title"><%= @service.name %></h1>
+    <h1 class="page-header__title two-thirds">List a new service</h1>
 <% end %>
 
-<div class="with-sidebar">
-
-  <div class="two-thirds">
-        <%= form_with model: @service, local: true do |form| %>
-
-            <%= render "shared/errors", model: @service %>
-
-                <div class="field-section field-section--two-cols field-section--reduced-bottom-margin">
-                    <div class="field field--required">
-                        <%= form.label :name, class: "field__label" %>
-                        <p class="field__hint">Good names are short but recognisable</p>
-                        <%= form.text_field :name, value: @service.name, class: "field__input", required: true %>
-                    </div>
-
-                    <div class="field field--span-two-cols">
-                        <%= form.label :description, class: "field__label" %>
-                        <p class="field__hint">Explain in a few sentences what your service does and who it helps</p>
-                        <%= form.text_area :description, value: @service.description, class: "field__input", rows: 5 %>
-                    </div>
-
-                    <div class="field">
-                        <%= form.label :url, "Website", class: "field__label" %>
-                        <p class="field__hint">Must start with http:// or https://</p>
-                        <%= form.url_field :url, class: "field__input" %>
-                    </div>
-
-                    <div class="field field--span-two-cols">
-                        <div class="checkbox">
-                            <%= form.check_box :visible, class: "checkbox__input" %>
-                            <%= form.label :visible, "Make this service publicly visible", class: "checkbox__label" %>
-                        </div>
-                    </div>
-
-                    <div class="field field--span-two-cols">
-                        <div class="checkbox">
-                            <%= form.check_box :needs_referral, class: "checkbox__input"%>
-                            <%= form.label :needs_referral, "Does this service need a referral?", class: "checkbox__label" %>
-                        </div>
-                    </div>
-                </div>
+<% if @completion_count < task_list_sections.flatten.count  %>
+    <h2>Submission incomplete</h2>
+    <p>You've completed <%= @completion_count %> of <%= task_list_sections.flatten.count %> sections</p>
+<% else %>
+    <h2>Ready to submit</h2>
+    <p>You can now finish and send this application</p>
+    <%= link_to "Finish and send", confirmation_service_task_list_index_path(@service), class: "button" %>
+<% end %>
 
 
-                <%= render "shared/collapsible", name: "Contacts", count: @service.contacts.length, id: "contacts-editor" do %>
-                    <%= render "admin/services/editors/contacts", s: form %>
-                <% end %>
+<ol class="task-list two-thirds">
+    <li class="task-list__section">
+        <h2 class="task-list__heading">Basic information</h2>
+        <ul class="task-list__sublist">
+            <% task_list_sections[0].each do |s| %>
+                <li class="task-list__item">
+                    <%= link_to s, edit_service_path(@service, :section => s.parameterize.underscore) %>
+                    <% if session[:completed_sections].include?(s.parameterize.underscore) %>
+                        <span class="task-list__tag task-list__tag--done">Done</span>
+                    <% else %>
+                        <span class="task-list__tag">To do</span>
+                    <% end %>
+                </li>
+            <% end %>
+        </ul>
+    </li>
+    <li class="task-list__section">
+        <h2 class="task-list__heading">Help people find your service</h2>
+        <ul class="task-list__sublist">
+            <% task_list_sections[1].each do |s| %>
+                <li class="task-list__item">
+                    <%= link_to s, edit_service_path(@service, :section => s.parameterize.underscore) %>
+                    <% if session[:completed_sections].include?(s.parameterize.underscore) %>
+                        <span class="task-list__tag task-list__tag--done">Done</span>
+                    <% else %>
+                        <span class="task-list__tag">To do</span>
+                    <% end %>
+                </li>
+            <% end %>
+        </ul>
+    </li>
+    <li class="task-list__section">
+        <h2 class="task-list__heading">Extra information</h2>
+        <ul class="task-list__sublist">
+            <% task_list_sections[2].each do |s| %>
+                <li class="task-list__item">
+                    <%= link_to s, edit_service_path(@service, :section => s.parameterize.underscore) %>
+                    <% if session[:completed_sections].include?(s.parameterize.underscore) %>
+                        <span class="task-list__tag task-list__tag--done">Done</span>
+                    <% else %>
+                        <span class="task-list__tag">To do</span>
+                    <% end %>
+                </li>
+            <% end %>
+        </ul>
+    </li>
 
-                <%= render "shared/collapsible", name: "Locations", count: @service.locations.length, id: "locations-editor" do %>
-                    <%= render "admin/services/editors/locations", s: form %>
-                <% end %>
-
-                <%= render "shared/collapsible", name: "Scheduling", count: @service.regular_schedules.length, id: "schedule-editor" do %>
-                    <%= render "admin/services/editors/regular-schedule", s: form %>
-                <% end %>
-
-                <%= render "shared/collapsible", name: "Fees", count: @service.cost_options.length, id: "fees-editor" do %>
-                    <%= render "admin/services/editors/cost-options", s: form %>
-                <% end %>
-
-                <%= render "shared/collapsible", name: "Links", id: "social-media-editor" do %>
-                    <%= render "admin/services/editors/links", s: form %>
-                <% end %>
-                                 
-                <%= render "shared/collapsible", name: "Categorisation", count: @service.taxonomies.length, id: "taxonomy-editor" do %>
-                    <%= render "admin/services/editors/taxonomies", s: form %>
-                <% end %>
-
-                <%= render "shared/collapsible", name: "Ages", id: "ages-editor" do %>
-                    <%= render "admin/services/editors/ages", s: form %>
-                <% end %>
-
-                <%= render "shared/collapsible", name: "Local offer", id: "local-offer-editor", help_text: "Optional extra questions for services which are part of the local offer." do %>
-                    <%= render "admin/services/editors/local-offer", s: form %>
-                <% end %>
-
-                <%= render "shared/collapsible", name: "Childcare", id: "childcare-editor", help_text: "Optional extra questions for childcare providers only." do %>
-                    <%= render "admin/services/editors/childcare", s: form %>
-                <% end %>
-
-            <div class="form-actions">
-                <%= form.submit "Submit for review", class: "button" %>
-                <%= link_to "Remove", service_path(@service), method: "delete", class: "button button--danger", data: {confirm: "Are you sure? All details associated with this service will be lost and it won't be visible to the public any more." } %>
-            </div>
-        <% end %>
-    </div>
-
-    <aside class="with-sidebar__sidebar">
-        <%= render "admin/services/feedback" %>
-    </aside>
-
-</div>
+</ol>

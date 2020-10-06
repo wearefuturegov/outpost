@@ -10,7 +10,6 @@
     "choices.js": "^9.0.1",
     "dotenv": "^8.2.0",
     "google-maps": "^4.2.3",
-    "intro.js": "^2.9.3",
     "js-worker-search": "^1.4.1",
     "nodelist-foreach-polyfill": "^1.2.0",
     "polyfill-array-includes": "^2.0.0",

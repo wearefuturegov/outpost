@@ -11,6 +11,7 @@
 
     &__lede{
         font-size: 1.2rem;
+        margin-bottom: 25px;
         @media screen and (min-width: $breakpoint-m){
             font-size: 1.3rem;
         }

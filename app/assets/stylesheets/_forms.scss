@@ -36,3 +36,64 @@
         }
     }
 }
+
+.checkbox{
+    position: relative;
+    margin-bottom: 15px;
+
+    &__input{
+        position: absolute;
+        width: 25px;
+        height: 25px;
+        opacity: 0;
+
+        &:focus{
+            outline: none;
+            & + label:before{
+                outline: 3px solid $focus;
+            }
+        }
+        &:checked + label:after{
+            position: absolute;
+            content: "";
+            display: block;
+            height: 20px;
+            width: 20px;
+            left: 5px;
+            top: 5px;
+            background-image: url(asset_path("tick.svg"));
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+    }
+
+    &__label{ 
+        cursor: pointer;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        &:before{
+            content: "";
+            display: block;
+            width: 25px;
+            height: 25px;
+            border: 2px solid $grey1;
+            margin-right: 15px;
+        }
+    }
+
+    &--level-1{
+        margin-left: 25px;
+    }
+}
+
+.checkbox-group{
+    border: none;
+    padding: 0;
+    margin: 0;
+    margin-bottom: 25px;
+    @media screen and (min-width: $breakpoint-m){
+        margin-bottom: 35px;
+    }
+}

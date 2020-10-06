@@ -11,13 +11,8 @@ Rails.application.routes.draw do
   
   # community users
   resources :organisations, only: [:index, :new, :create, :edit, :update]
-  resources :services, only: [:new, :create, :show, :update, :destroy] do
-    resources :task_list, only: [:index] do 
-      collection do
-        get "edit", to: "task_list#edit"
-        put "update", to: "task_list#update"
-      end
-    end
+  resources :services, except: [:index] do
+    get "confirmation", to: "services#confirmation"
     resources :feedback, only: [:index, :create]
   end
   resources :members, only: [:new, :create, :destroy]

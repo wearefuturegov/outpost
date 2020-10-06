@@ -1,0 +1,17 @@
+<% content_for :title do %>Website and social media | <% end %>
+
+<% content_for :header do %>
+    <%= link_to "Go back", service_path(@service), class: "go-back" %>
+    <h1 class="page-header__title two-thirds">Website and social media</h1>
+<% end %>
+
+<%= form_with model: @service, url: service_path(@service, :section => params[:section]), html: {class: "two-thirds"} do |s| %>
+
+    <div class="field">
+        <%= s.label :url, "Website", class: "field__label field__label--bold" %>
+        <p class="field__hint">If you have a website, give the URL. Must start with http:// or https://</p>
+        <%= s.url_field :url, class: "field__input one-half" %>
+    </div>
+
+    <button class="button">Continue</button>
+<% end %>

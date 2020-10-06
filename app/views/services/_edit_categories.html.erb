@@ -1,0 +1,33 @@
+<% content_for :title do %>Categories | <% end %>
+
+<% content_for :header do %>
+    <%= link_to "Go back", service_path(@service), class: "go-back" %>
+    <h1 class="page-header__title two-thirds">Categories</h1>
+    <p class="page-header__lede">Help people find your service by adding it to relevant categories</p>
+<% end %>
+
+<%= form_with model: @service, url: service_path(@service, :section => params[:section]), html: {class: "two-thirds"} do |s| %>
+
+    <fieldset class="checkbox-group">
+        <legend class="visually-hidden">Categories</legend>
+        <% tree = Taxonomy.hash_tree %>
+        <%= s.collection_check_boxes( :taxonomy_ids, tree.keys, :id, :name) do |c| %>
+            <% branch = tree[c.object] %>
+            <%= s.collection_check_boxes( :taxonomy_ids, sorted_by_selected(branch.keys, @service), :id, :name) do |d| %>
+                <div class="field checkbox">
+                    <%= d.check_box class: "checkbox__input" %>
+                    <%= d.label class: "checkbox__label" %>
+                </div>
+                <% leaf = branch[d.object] %>
+                <%= s.collection_check_boxes( :taxonomy_ids, sorted_by_selected(leaf.keys, @service), :id, :name) do |e| %>
+                    <div class="field checkbox checkbox--level-1">
+                        <%= e.check_box class: "checkbox__input" %>
+                        <%= e.label class: "checkbox__label" %>
+                    </div>
+                <% end %>
+            <% end %>
+        <% end %>
+    </fieldset>
+
+    <button class="button">Continue</button>
+<% end %>

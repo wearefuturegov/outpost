@@ -3,17 +3,21 @@
 @import "globals";
 
 // vendor
-@import "vendor/intro";
+// @import "vendor/intro";
 
-// utils
+// utility classes
 @import "layout";
 
-// page elements
+// common page layout
 @import "header";
 @import "beta-banner";
+@import "nav";
 @import "page-header";
+@import "footer";
+
+// everything else
 @import "go-back";
 @import "forms";
+@import "big-numbers";
 @import "tags";
-@import "intro";
-@import "footer";
+@import "task-list";
