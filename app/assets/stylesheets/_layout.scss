@@ -11,6 +11,10 @@
     }
 }
 
+.page-subheading{
+    font-size: 1.8rem;
+}
+
 .two-thirds{
     @media screen and (min-width: $breakpoint-m){
         max-width: 66.67%;
@@ -21,4 +25,9 @@
     @media screen and (min-width: $breakpoint-m){
         max-width: 50%;
     }
+}
+
+
+.margin-bottom{
+    margin-bottom: 25px;
 }

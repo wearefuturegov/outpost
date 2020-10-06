@@ -1,4 +1,5 @@
 @mixin button{
+    display: block;
     background: $green;
     font-size: 1.1rem;
     font-weight: bold;
@@ -6,13 +7,16 @@
     box-shadow: 0px 4px 0px $green-dark;
     width: 100%;
     text-align: center;
-    padding: 12px 45px;
+    padding: 12px 35px;
+    margin-bottom: 25px;
     color: $grey1;
     cursor: pointer;
     text-decoration: none;
     @media screen and (min-width: $breakpoint-m) {
         font-size: 1.2rem;
         width: inherit;
+        display: inline-block;
+        margin-right: 10px;
     }
 
     &:hover{
@@ -22,7 +26,7 @@
     }
     &:active{
         background: darken($green, 5);
-        box-shadow: none;
+        box-shadow: none !important;
         transform: translateY(4px);
     }
 
@@ -30,5 +34,34 @@
         outline: none;
         background: $focus;
         box-shadow: 0px 4px 0px $grey1;
+    }
+}
+
+
+@mixin outline-button{
+    @include button;
+
+    background: none;
+    border: 2px solid $link;
+    color: $link;
+    box-shadow: none;
+
+    &:hover{
+        background: none;
+        box-shadow: none;
+        border-color: darken($link, 10);
+        color: darken($link, 10);
+    }
+    &:active{
+        background: none;
+        box-shadow: none !important;
+        border-color: $grey1;
+        color: $grey1;
+        transform: translateY(0px);
+    }
+    &:focus{
+        background: none;
+        outline: 3px solid $focus;
+        box-shadow: none;
     }
 }

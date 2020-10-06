@@ -1,0 +1,70 @@
+.introjs-overlay{
+    background: $grey1;
+    opacity: 0.5;
+}
+
+.introjs-tooltip{
+    padding: 20px;
+    background: $white;
+    border-radius: 2px;
+    border: 1px solid $grey3;
+    box-shadow: 0 2px 5px transparentize($grey1, 0.5);
+}
+
+.introjs-helperLayer{
+    box-shadow: 0 2px 5px transparentize($grey1, 0.5); 
+}
+
+.introjs-helperNumberLayer{
+    background: $error;
+    box-shadow: 0 2px 5px transparentize($grey1, 0.5);
+    text-shadow: none;
+}
+
+.introjs-progress{
+    background: transparentize($grey3, 0.5);
+    border-radius: 0px;
+    height: 5px;
+    .introjs-progressbar{
+        background: $focus;
+    }
+}
+
+.introjs-tooltipbuttons{
+    display: flex;
+    flex-direction: row;
+}
+
+.introjs-button{
+    font: inherit;
+    background: none;
+    border: none;
+    color: $link;
+    font-size: 0.9rem;
+    padding: 3px 6px;
+    border-radius: 0px;
+    box-shadow: none;
+    text-shadow: none;
+    &:focus{
+        background: none;
+        color: $link;
+    }
+    &:hover{
+        background: $pale;
+        box-shadow: none;
+    }
+    &.introjs-disabled{
+        pointer-events: none;
+        color: transparentize($grey1, 0.75);
+        &:hover{
+            background: none;
+        }
+    }
+
+    &.introjs-skipbutton{
+        margin-right: auto;
+    }
+    &.introjs-nextbutton{
+        margin-left: 5px;
+    }
+}

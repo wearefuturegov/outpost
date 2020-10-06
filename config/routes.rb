@@ -9,15 +9,20 @@ Rails.application.routes.draw do
     get "register", to: "devise/registrations#new"
   end
   
+  # community users
   resources :organisations, only: [:index, :new, :create, :edit, :update]
   resources :services, only: [:new, :create, :show, :update, :destroy] do
-    resources :task_list, only: [:index]
+    resources :task_list, only: [:index] do 
+      collection do
+        get "edit", to: "task_list#edit"
+        put "update", to: "task_list#update"
+      end
+    end
     resources :feedback, only: [:index, :create]
   end
-
-
   resources :members, only: [:new, :create, :destroy]
 
+  # admin users
   namespace :admin do
     root "dashboard#index"
     resources :services, except: :edit do
@@ -52,6 +57,7 @@ Rails.application.routes.draw do
     end
   end
 
+  # api
   namespace :api do
     namespace :v1 do
       resources :taxonomies, only: [:index]

@@ -5,14 +5,6 @@ class ApplicationController < ActionController::Base
 
     protected
 
-    # def after_sign_in_path_for(resource)
-    #     admin_root_path
-    # end 
-
-    # def after_sign_up_path_for(resource)
-    #     '/organisations'
-    # end
-
     def set_current_user
       Current.user = current_user
       yield

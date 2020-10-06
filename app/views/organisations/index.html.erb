@@ -10,77 +10,79 @@
     </h1>
 <% end %>
 
-<header class="actions">
+<div data-intro="Once you've created a service, it'll appear here." data-step="2">
+  <h2 class="page-subheading">Your services</h2>
+
   <%= link_to "Add service", new_service_path, class: "button button--small", data: {intro: "List your first activity, group or other service here.", step: 1} %>
-  <%= link_to "Edit organisation", edit_organisation_path(@organisation), class: "button button--inline actions__pull-right" %>
+  <%= link_to "Edit organisation name", edit_organisation_path(@organisation), class: "button button--inline actions__pull-right" %>
+
+  <% if @services.present? %>
+    <table class="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Categories</th>
+            <th>Last updated</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @services.each do |s| %>
+            <tr>
+              <td><%= link_to s.name, service_path(s) %></td>
+              <td>              
+                <%= s.taxonomies.categories.map {|c| c.name }.join(", ") %>
+              </td>
+              <td><%= time_ago_in_words(s.updated_at).humanize %> ago</td>
+              <td><%= status_tag(s.status) %></td>              
+            </tr>
+          <% end %>
+        </tbody>
+    </table>
+  <% else %>
+    <p class="no-results">This organisation has no services yet. <strong><%= link_to "Create one?", new_service_path %></strong></p>
+  <% end %>
+</div>
+
+
+<div data-intro="Once you invite someone, they'll be added to this list." data-step="4">
+  <h2 class="page-subheading">Your users</h2>
   <%= link_to "Invite new user", new_member_path, class: "button button--inline", data: {intro: "You can also invite colleagues or friends to help you maintain your list of services.", step: 3} %>
-</header>
-
-<div class="two-panels">
-  <section class="panel" data-intro="Once you've created a service, it'll appear here." data-step="2">
-    <h2 class="panel__title">Your services</h2>
-    <% if @services.present? %>
-      <table class="table">
-          <thead>
+  <% if @users.present? %>
+    <table class="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Invited</th>
+            <th>Last seen</th>
+            <th class="visually-hidden">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @users.each do |u| %>
             <tr>
-              <th>Name</th>
-              <th>Last updated</th>
-              <th>Status</th>
+              <td>
+                <strong><%= u.display_name %></strong>
+                <% if u.first_name.present? && u.last_name.present? %>
+                  <p><small><%= u.email %></small></p>
+                <% end %>
+              </td>
+              <td><%= short_time_ago_in_words(u.created_at).humanize %> ago</td>
+              <td>
+                <% if u.last_seen %>
+                  <%= short_time_ago_in_words(u.last_seen).humanize %> ago
+                <% else %>
+                  Never logged in
+                <% end %>
+              </td>
+              <td>
+                <%= link_to "Remove", member_path(u), method: "delete", data: {confirm: "Are you sure you want to remove this user? They won't be able to log in any more"} unless current_user === u %>
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            <% @services.each do |s| %>
-              <tr>
-                <td><%= link_to s.name, service_path(s) %></td>
-                <td><%= time_ago_in_words(s.updated_at).humanize %> ago</td>
-                <td><%= status_tag(s.status) %></td>              
-              </tr>
-            <% end %>
-          </tbody>
-      </table>
-    <% else %>
-      <p class="no-results">This organisation has no services yet. <strong><%= link_to "Create one?", new_service_path %></strong></p>
-    <% end %>
-  </section>
-
-  <section class="panel" data-intro="Once you invite someone, they'll be added to this list." data-step="4">
-    <h2 class="panel__title">Your users</h2>
-    <% if @users.present? %>
-      <table class="table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Invited</th>
-              <th>Last seen</th>
-              <th class="visually-hidden">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% @users.each do |u| %>
-              <tr>
-                <td>
-                  <strong><%= u.display_name %></strong>
-                  <% if u.first_name.present? && u.last_name.present? %>
-                    <p><small><%= u.email %></small></p>
-                  <% end %>
-                </td>
-                <td><%= short_time_ago_in_words(u.created_at).humanize %> ago</td>
-                <td>
-                  <% if u.last_seen %>
-                    <%= short_time_ago_in_words(u.last_seen).humanize %> ago
-                  <% else %>
-                    Never logged in
-                  <% end %>
-                </td>
-                <td>
-                  <%= link_to "Remove", member_path(u), method: "delete", data: {confirm: "Are you sure you want to remove this user? They won't be able to log in any more"} unless current_user === u %>
-                </td>
-              </tr>
-            <% end %>
-          </tbody>
-      </table>
-    <% else %>
-      <p class="no-results">This organisation has no users</p>
-    <% end %>
-  </section>
+          <% end %>
+        </tbody>
+    </table>
+  <% else %>
+    <p class="no-results">This organisation has no users</p>
+  <% end %>
 </div>

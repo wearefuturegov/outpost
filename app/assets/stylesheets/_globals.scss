@@ -19,6 +19,11 @@ p, label{
 h1, h2, h3, h4, h5{
     color: $grey1;
     line-height: 1.1;
+    margin-top: 35px;
+    margin-bottom: 25px;
+    @media screen and (min-width: $breakpoint-m){
+        font-size: 1.5rem;
+    }
 }
 
 a{
@@ -76,6 +81,10 @@ input, textarea{
 table{
     width: 100%;
     border-collapse: collapse;
+    margin-bottom: 35px;
+    @media screen and (min-width: $breakpoint-m) {
+        margin-bottom: 45px;
+    }
     th{
         font-weight: bold;
         text-align: left;
@@ -84,8 +93,15 @@ table{
     td{
         padding: 15px 10px;
         word-wrap: break-word;
+        &:first-of-type a{
+            font-weight: bold;
+        }
     }
     tbody tr:nth-of-type(odd){
         background: $pale;
+    }
+
+    p{
+        margin: 0;
     }
 }
