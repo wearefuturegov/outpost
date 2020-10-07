@@ -129,6 +129,11 @@ class ServicesController < ApplicationController
             # :google_place_id,
             :_destroy,
             accessibility_ids: []
+        ],
+        meta_attributes: [
+          :id,
+          :key,
+          :value
         ]
         )
         # map fields_for submitted values, which are of the form 'id => { answer: text }' into an array of '[{ id: id, answer: text }]'

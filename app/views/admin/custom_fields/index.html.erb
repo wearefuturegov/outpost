@@ -12,6 +12,7 @@
               <tr>
                 <th>Label</th>
                 <th>Field type</th>
+                <th>Public</th>
                 <th class="visually-hidden">Actions</th>
               </tr>
             </thead>
@@ -22,6 +23,13 @@
                     <strong><%= f.key %></strong>
                   </td>
                   <td><%= f.field_type.humanize %></td>
+                  <td>
+                    <% if f.public %>
+                      <%= image_tag "tick-blue.svg", alt: "Yes" %>
+                    <% else %>
+                      —
+                    <% end %>
+                  </td>
                   <td>
                     <%= link_to "Remove", admin_custom_field_path(f), method: "delete", data: {confirm: "Are you sure? You won't be able to see or edit data for this field."} %>
                   </td>
@@ -37,7 +45,8 @@
     <div class="panel">
         <%= form_for [:admin, @new_field], data: {warn_unsaved_changes: true} do |f| %>
           <%= render "shared/errors", model: @new_field %>
-          <h2 class="field-section__legend">Add a new field</h2>
+          <h2 class="field-group__legend">Add a new field</h2>
+          
           <%= render "fields", f: f %>
           <div class="form-actions">
             <%= f.button "Create", class: "button button--small button--add" %>

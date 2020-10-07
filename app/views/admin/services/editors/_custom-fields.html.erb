@@ -1,6 +1,6 @@
 <div class="field-section">
 
-    <% CustomField.all.each do |field| %>
+    <% CustomField.visible_to(current_user).each do |field| %>
         <%= s.fields_for :meta, s.object.meta.find_or_initialize_by(key: field.key) do |c| %>
             <%= c.hidden_field :key %>
 
