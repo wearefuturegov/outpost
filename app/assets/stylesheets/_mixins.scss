@@ -7,7 +7,7 @@
     box-shadow: 0px 4px 0px $green-dark;
     width: 100%;
     text-align: center;
-    padding: 12px 35px;
+    padding: 12px 45px;
     margin-bottom: 25px;
     color: $grey1;
     cursor: pointer;
@@ -65,6 +65,22 @@
         box-shadow: none;
     }
 }
+
+@mixin secondary-button{
+    @include button;
+
+    background-color: $grey5;
+    box-shadow: 0px 4px 0px $grey3;
+
+    &:hover{
+        background-color: darken($grey5, 5);
+        box-shadow: 0px 4px 0px darken($grey3, 2.5);
+    }
+    &:active{
+        background-color: darken($grey5, 7.5);
+    }
+}
+
 
 @mixin danger-button{
     @include button;

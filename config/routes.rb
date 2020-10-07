@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   # community users
   resources :organisations, only: [:index, :new, :create, :edit, :update]
   resources :services, except: [:index] do
-    get "confirmation", to: "services#confirmation"
+    post "confirmation", to: "services#confirmation"
     resources :feedback, only: [:index, :create]
   end
   resources :members, only: [:new, :create, :destroy]

@@ -3,11 +3,10 @@
     <h1 class="page-header__title">Locations</h1>
 <% end %>
 
+<%= render "filters" %>
+
 <header class="actions">
-  <div class="actions__group">
-    <%= render "shared/mini-search", path: admin_locations_path, clear_path: admin_locations_path %>
-    <%= render "filters" %>
-  </div>
+  <%= render "shared/mini-search", path: admin_locations_path, clear_path: admin_locations_path %>
 </header>
 
 <div class="with-sidebar">

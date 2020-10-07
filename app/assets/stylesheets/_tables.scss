@@ -54,3 +54,15 @@
         background-image: url(asset_path("note-icon.svg"));
     }
 }
+
+.sort{
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    img{
+        margin-left: 7px;
+        display: block;
+        height: 8px;
+        margin-bottom: 2px;
+    }
+}

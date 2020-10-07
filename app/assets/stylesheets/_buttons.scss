@@ -1,10 +1,14 @@
 .button{
     @include button;
-    &--outline{
-        @include outline-button;
-    }
+    // &--outline{
+    //     @include outline-button;
+    // }
     &--danger{
         @include danger-button;
+    }
+
+    &--secondary{
+        @include secondary-button;
     }
 
     &[disabled]{

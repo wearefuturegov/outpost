@@ -11,7 +11,8 @@ class ServicesController < ApplicationController
         @service.approved = false
         if @service.save
             session[:currently_creating] = @service.id
-            session[:completed_sections] = []
+            # mark first item done
+            session[:completed_sections] = ["name_and_description"]
             redirect_to service_path(@service)
         else
             render :new

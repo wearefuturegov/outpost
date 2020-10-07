@@ -1,7 +1,8 @@
 class Admin::RequestsController < Admin::BaseController
     def index
+        # byebug
         @requests = Service
-            .where(approved: false)
+            .where(approved: nil)
             .includes(:organisation, :service_taxonomies, :taxonomies)
             .order(updated_at: :DESC)
     end

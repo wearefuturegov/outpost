@@ -18,7 +18,7 @@
     <% else %>
         <h2>Ready to submit</h2>
         <p>You can now finish and send this application.</p>
-        <%= link_to "Finish and send", service_confirmation_path(@service), class: "button" %>
+        <%= link_to "Finish and send", service_confirmation_path(@service), class: "button", method: "post" %>
     <% end %>
 <% end %>
 

@@ -17,7 +17,7 @@ class Admin::BaseController < ApplicationController
     def set_counts
         @all_count = Service.kept.count
         @ofsted_count = Service.kept.ofsted_registered.count
-        @pending_count = Service.kept.where(approved: false).count
+        @pending_count = Service.kept.where(approved: nil).count
         @archived_count = Service.discarded.count
     end
 end

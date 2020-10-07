@@ -3,11 +3,10 @@
     <%= render "shared/users-nav" %>
 <% end %>
 
+<%= render "filters" %>
+
 <header class="actions">
-  <div class="actions__group">
-    <%= render "shared/mini-search", path: admin_users_path(@query), clear_path: admin_users_path(@query.merge(:query => nil)) %>
-    <%= render "filters" %>
-  </div>
+  <%= render "shared/mini-search", path: admin_users_path(@query), clear_path: admin_users_path(@query.merge(:query => nil)) %>
   <% if current_user.admin_users? %>
     <%= link_to "Invite user", new_admin_user_path, class: "button button--small button--add actions__pull-right" %>
   <% end %>
