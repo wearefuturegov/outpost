@@ -9,6 +9,7 @@ class ServicesController < ApplicationController
     def create
         @service = current_user.organisation.services.new(service_params)
         if @service.save
+            session[:currently_creating] = @service.id
             session[:completed_sections] = []
             redirect_to service_path(@service)
         else
@@ -17,7 +18,7 @@ class ServicesController < ApplicationController
     end
 
     def show
-        @service = current_user.organisation.services.find(params[:id])
+        @currently_creating = session[:currently_creating] === @service.id
         @completion_count = session[:completed_sections].try(:length) || 0
     end
 
@@ -26,6 +27,7 @@ class ServicesController < ApplicationController
     end
 
     def confirmation
+        session[:currently_creating] = nil
         session[:completed_sections] = []
     end
 

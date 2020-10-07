@@ -1,0 +1,8 @@
+<%= link_to s, edit_service_path(@service, :section => s.parameterize.underscore) %>
+<% if @currently_creating %>
+    <% if session[:completed_sections].include?(s.parameterize.underscore) %>
+        <span class="task-list__tag task-list__tag--done">Done</span>
+    <% else %>
+        <span class="task-list__tag">To do</span>
+    <% end %>
+<% end %>

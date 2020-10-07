@@ -1,16 +1,22 @@
 <% content_for :header do %>
-    <h1 class="page-header__title two-thirds">List a new service</h1>
+    <% if @currently_creating %>
+        <h1 class="page-header__title two-thirds">List a new service</h1>
+    <% else %>
+        <%= link_to "Go back", organisations_path, class: "go-back" %>
+        <h1 class="page-header__title two-thirds"><%= @service.name %></h1>
+    <% end %>
 <% end %>
 
-<% if @completion_count < task_list_sections.flatten.count  %>
-    <h2>Submission incomplete</h2>
-    <p>You've completed <%= @completion_count %> of <%= task_list_sections.flatten.count %> sections.</p>
-<% else %>
-    <h2>Ready to submit</h2>
-    <p>You can now finish and send this application.</p>
-    <%= link_to "Finish and send", service_confirmation_path(@service), class: "button" %>
+<% if @currently_creating %>
+    <% if @completion_count < task_list_sections.flatten.count  %>
+        <h2>Submission incomplete</h2>
+        <p>You've completed <%= @completion_count %> of <%= task_list_sections.flatten.count %> sections.</p>
+    <% else %>
+        <h2>Ready to submit</h2>
+        <p>You can now finish and send this application.</p>
+        <%= link_to "Finish and send", service_confirmation_path(@service), class: "button" %>
+    <% end %>
 <% end %>
-
 
 <ol class="task-list two-thirds">
     <li class="task-list__section">
@@ -18,12 +24,7 @@
         <ul class="task-list__sublist">
             <% task_list_sections[0].each do |s| %>
                 <li class="task-list__item">
-                    <%= link_to s, edit_service_path(@service, :section => s.parameterize.underscore) %>
-                    <% if session[:completed_sections].include?(s.parameterize.underscore) %>
-                        <span class="task-list__tag task-list__tag--done">Done</span>
-                    <% else %>
-                        <span class="task-list__tag">To do</span>
-                    <% end %>
+                    <%= render "task_list_item", s: s %>
                 </li>
             <% end %>
         </ul>
@@ -33,12 +34,7 @@
         <ul class="task-list__sublist">
             <% task_list_sections[1].each do |s| %>
                 <li class="task-list__item">
-                    <%= link_to s, edit_service_path(@service, :section => s.parameterize.underscore) %>
-                    <% if session[:completed_sections].include?(s.parameterize.underscore) %>
-                        <span class="task-list__tag task-list__tag--done">Done</span>
-                    <% else %>
-                        <span class="task-list__tag">To do</span>
-                    <% end %>
+                    <%= render "task_list_item", s: s %>
                 </li>
             <% end %>
         </ul>
@@ -48,12 +44,7 @@
         <ul class="task-list__sublist">
             <% task_list_sections[2].each do |s| %>
                 <li class="task-list__item">
-                    <%= link_to s, edit_service_path(@service, :section => s.parameterize.underscore) %>
-                    <% if session[:completed_sections].include?(s.parameterize.underscore) %>
-                        <span class="task-list__tag task-list__tag--done">Done</span>
-                    <% else %>
-                        <span class="task-list__tag">To do</span>
-                    <% end %>
+                    <%= render "task_list_item", s: s %>
                 </li>
             <% end %>
         </ul>
