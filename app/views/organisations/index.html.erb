@@ -11,10 +11,10 @@
 <% end %>
 
 <h2 class="page-subheading">Your services</h2>
-
-<%= link_to "Add service", new_service_path, class: "button button--add"%>
-<%= link_to "Edit organisation name", edit_organisation_path(@organisation), class: "button button--secondary" %>
-
+<div class="actions">
+  <%= link_to "Add service", new_service_path, class: "button button--add"%>
+  <%= link_to "Edit organisation name", edit_organisation_path(@organisation), class: "button button--secondary" %>
+</div>
 <% if @services.present? %>
   <table class="table">
       <thead>
@@ -50,7 +50,9 @@
 
 
 <h2 class="page-subheading">Your users</h2>
-<%= link_to "Invite new user", new_member_path, class: "button button--add" %>
+<div class="actions">
+  <%= link_to "Invite new user", new_member_path, class: "button button--add" %>
+</div>
 <% if @users.present? %>
   <div class="table-holder">
     <table class="table">
