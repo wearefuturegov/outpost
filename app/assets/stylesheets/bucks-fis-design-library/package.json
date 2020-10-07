@@ -1,5 +1,13 @@
 {
   "name": "bucks-fis-design-library",
-  "version": "1.0.5",
-  "author": "FutureGov"
+  "version": "1.0.6",
+  "author": "FutureGov <dev@wearefuturegov.com> (https://wearefuturegov.com)",
+  "description": "A simple sass library for Buckinghamshire Council",
+  "keywords": [
+    "sass",
+    "design system",
+    "style guide"
+  ],
+  "repository": "github:wearefuturegov/outpost",
+  "homepage": "https://www.buckinghamshire.gov.uk/"
 }

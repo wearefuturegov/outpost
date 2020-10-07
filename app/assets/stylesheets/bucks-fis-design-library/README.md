@@ -16,15 +16,6 @@ Most of the styles depend on these dependencies:
 @import "globals";
 ```
 
-It comes bundled with these optional vendor styles:
-
-```
-@import "vendor/tippy";
-@import "vendor/choices";
-@import "vendor/tagify";
-@import "vendor/diff";
-```
-
 And utility layout classes:
 
 ```
