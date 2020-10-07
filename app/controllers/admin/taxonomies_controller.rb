@@ -34,8 +34,8 @@ class Admin::TaxonomiesController < Admin::BaseController
     
     private
 
-    def set_taxonomies      
-      @taxonomies = Taxonomy.includes(:services).hash_tree
+    def set_taxonomies
+      @taxonomies = Taxonomy.hash_tree
     end
   
     def set_taxonomy
