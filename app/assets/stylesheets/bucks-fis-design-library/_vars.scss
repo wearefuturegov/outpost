@@ -1,24 +1,24 @@
 // colors
-$grey1: #212121;
-$grey2: #343434;
-$grey3: #999999;
-$grey4: #E2DFD2;
-$grey5: #EEEEEE;
+$grey1: #212121 !default;
+$grey2: #343434 !default;
+$grey3: #999999 !default;
+$grey4: #E2DFD2 !default;
+$grey5: #EEEEEE !default;
 
-$pale: #f7f6f2;
-$white: #FFFFFF;
+$pale: #f7f6f2 !default;
+$white: #FFFFFF !default;
 
-$link: #2c2d84;
-$focus: #FFB81C;
-$error: #a80707;
+$link: #2c2d84 !default;
+$focus: #FFB81C !default;
+$error: #a80707 !default;
 
-$green: #9fc63b;
-$green-dark: #80a02e;
+$green: #9fc63b !default;
+$green-dark: #80a02e !default;
 
 // widths
-$max-width: 1200px;
-$outer-spacing: 20px;
+$max-width: 1200px !default;
+$outer-spacing: 20px !default;
 
 // breakpoints
-$breakpoint-m: 750px;
-$breakpoint-l: 1100px;
+$breakpoint-m: 750px !default;
+$breakpoint-l: 1100px !default;
