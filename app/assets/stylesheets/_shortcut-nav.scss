@@ -1,0 +1,40 @@
+
+.shortcuts{
+    margin-top: 40px;
+    line-height: 1.5;
+    padding-bottom: 25px;
+    @media screen and (min-width: $breakpoint-m){
+        padding-bottom: 35px;
+    }
+
+    &__link,
+    &__current{
+        font-size: 1.1rem;
+        @media screen and (min-width: $breakpoint-m){
+            font-size: 1.3rem;
+        }
+    }
+    
+    &__count{
+        margin-left: 5px;
+        color: $grey3;
+        font-size: 1.1rem;
+        @media screen and (min-width: $breakpoint-m){
+            font-size: 1.3rem;
+        }
+    }
+    
+    &__link{
+        font-weight: bold;
+    }
+    
+    &__divider{
+        margin-left: 7px;
+        margin-right: 7px;
+        color: $grey4;
+        @media screen and (min-width: $breakpoint-m){
+            margin-left: 12px;
+            margin-right: 12px;
+        }
+    }
+}

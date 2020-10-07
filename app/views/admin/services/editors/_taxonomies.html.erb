@@ -10,7 +10,7 @@
         <% tree = Taxonomy.hash_tree %>
         <%= s.collection_check_boxes( :taxonomy_ids, tree.keys, :id, :name) do |c| %>
             <div class="tabs__panel">
-              <div class="taxonomies-panel">
+              <div class="tabs__checkbox-area">
                   <% branch = tree[c.object] %>
                   <%= s.collection_check_boxes( :taxonomy_ids, sorted_by_selected(branch.keys, @service), :id, :name) do |d| %>
                       <div class="field checkbox checkbox--small">
@@ -26,8 +26,8 @@
                       <% end %>
                   <% end %>
                 </div>
-                <button class="taxonomies-bulk-action" type="button" data-taxonomies-select-all>Select all</button>
-                <button class="taxonomies-bulk-action" type="button" data-taxonomies-deselect-all>Deselect all</button>
+                <button class="inline-button" type="button" data-taxonomies-select-all>Select all</button>
+                <button class="inline-button" type="button" data-taxonomies-deselect-all>Deselect all</button>
             </div>
         <% end %>
     </div>

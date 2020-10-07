@@ -1,5 +1,4 @@
-<div class="field-section field-section--two-cols field-section--no-bottom-margin">
-
+<div class="field-group field-group--two-cols field-group--no-margins">
     <div class="field">
         <%= c.label :option, "Who is this fee for?", class: "field__label" %>
         <%= c.text_field :option, class: "field__input", placeholder: "eg. adults, under 16s" %>
@@ -10,9 +9,7 @@
         <span class="field__prefix">£</span>
         <%= c.number_field :amount, class: "field__input field__input--with-prefix", step: "0.01", min: "0", required: true %>
     </div>
-
 </div>
-
 <%= c.hidden_field :_destroy,  data: {destroy_field: true} %>
 
-<button type="button" class="nested-editor__closer" data-close="true">Remove this fee</button>
+<button type="button" class="repeater__closer" data-close="true" title="Remove this fee">Remove this fee</button>

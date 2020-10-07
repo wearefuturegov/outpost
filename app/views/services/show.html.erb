@@ -4,11 +4,11 @@
 
 <% if @completion_count < task_list_sections.flatten.count  %>
     <h2>Submission incomplete</h2>
-    <p>You've completed <%= @completion_count %> of <%= task_list_sections.flatten.count %> sections</p>
+    <p>You've completed <%= @completion_count %> of <%= task_list_sections.flatten.count %> sections.</p>
 <% else %>
     <h2>Ready to submit</h2>
-    <p>You can now finish and send this application</p>
-    <%= link_to "Finish and send", confirmation_service_task_list_index_path(@service), class: "button" %>
+    <p>You can now finish and send this application.</p>
+    <%= link_to "Finish and send", service_confirmation_path(@service), class: "button" %>
 <% end %>
 
 

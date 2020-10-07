@@ -1,3 +1,7 @@
+<% content_for :title do %>
+  <%= @service.name %> | 
+<% end %>
+
 <% content_for :header do %>
 
     <% if @service.discarded? %>
@@ -28,8 +32,8 @@
 
 <header class="actions">
   <%= render "shared/watch" %>
-  <button data-open-all>Open all</button>
-  <button data-close-all>Close all</button>
+  <button class="inline-button actions__pull-right" data-open-all>Open all</button>
+  <button class="inline-button" data-close-all>Close all</button>
 </header>
 
 <div class="with-sidebar">
@@ -63,7 +67,7 @@
         <%= render "admin/services/editors/regular-schedule", s: s %>
       <% end %>
 
-      <%= render "shared/collapsible", name: "Links", id: "links-editor" do %>
+      <%= render "shared/collapsible", name: "Links", count: @service.links.length, id: "links-editor" do %>
         <%= render "admin/services/editors/links", s: s %>
       <% end %>
 
@@ -75,7 +79,7 @@
         <%= render "admin/services/editors/ages", s: s %>
       <% end %>
       
-      <%= render "shared/collapsible", name: "Childcare details", id: "childcare-editor", help_text: "Extra information about childcare only. Ignore these fields for non-childcare services." do %>
+      <%= render "shared/collapsible", name: "Childcare", id: "childcare-editor", help_text: "Extra information about childcare only. Ignore these fields for non-childcare services." do %>
         <%= render "admin/services/editors/childcare", s: s %>
       <% end %>
 

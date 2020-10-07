@@ -11,23 +11,21 @@
 
     <div class="field field--span-two-cols <%= mark_unapproved_field("description") %>" data-word-count="true">
         <%= s.label :description, class: "field__label" %>
+        <p class="field__hint">Will be shortened to 30 words in some places</p>
         <%= s.text_area :description, value: @service.description, class: "field__input", rows: 5 %>
-        <div class="field__footer">
-            <p class="field__lower-hint">Descriptions over 30 words may be shortened</p>
-            <span class="field__word-counter"></span>
-        </div>
-    </div>
-
-    <div class="field field--span-two-cols <%= mark_unapproved_field("needs_referral") %>">
-        <div class="checkbox">
-        <%= s.check_box :needs_referral, class: "checkbox__input"%>
-        <%= s.label :needs_referral, "This service needs a referral", class: "checkbox__label" %>
-        </div>
+        <p class="field__word-counter"></p>
     </div>
 
     <div class="field <%= mark_unapproved_field("url") %>">
         <%= s.label :url, "Website", class: "field__label" %>
+        <p class="field__hint">Must start with http:// or https://</p>
         <%= s.url_field :url, class: "field__input" %>
-        <p class="field__lower-hint">Must start with http:// or https://</p>
+    </div>
+
+    <div class="field field--span-two-cols <%= mark_unapproved_field("needs_referral") %>">
+        <div class="checkbox">
+            <%= s.check_box :needs_referral, class: "checkbox__input"%>
+            <%= s.label :needs_referral, "This service needs a referral", class: "checkbox__label" %>
+        </div>
     </div>
 </div>

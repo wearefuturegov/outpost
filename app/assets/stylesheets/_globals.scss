@@ -21,8 +21,14 @@ h1, h2, h3, h4, h5{
     line-height: 1.1;
     margin-top: 35px;
     margin-bottom: 25px;
+    font-weight: bold;
+    padding-left: 0px;
     @media screen and (min-width: $breakpoint-m){
         font-size: 1.5rem;
+    }
+
+    &:first-child{
+        margin-top: 0px;
     }
 }
 
@@ -47,6 +53,12 @@ img{
     height: auto;
 }
 
+fieldset{
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
 ol, ul{
     padding-left: 30px;
     color: $grey1;
@@ -62,23 +74,8 @@ ol, ul{
     }
 }
 
-input, textarea{
-    width: 100%;
-    max-width: 100%;
-    padding: 10px;
-    font-size: 1rem;
-    background: $white;
-    border: 2px solid $grey1;
-    border-radius: 0px;
-    &:focus{
-        outline: 3px solid $focus;
-    }
-    @media screen and (min-width: $breakpoint-m) {
-        font-size: 1.1rem;
-    }
-    &[type=text]:disabled{
-        background: transparentize($grey2, 0.9);
-    }
+input, textarea, select{
+    @include input;
 }
 
 table{
@@ -107,4 +104,25 @@ table{
     p{
         margin: 0;
     }
+}
+
+
+select{
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    background-image: url(asset_path("select-down.svg"));
+    background-position: center right;
+    background-repeat: no-repeat;
+    padding-right: 45px;
+    border-radius: 0px;
+
+    &::-ms-expand {
+        display: none;
+    }
+}
+
+
+.turbolinks-progress-bar {
+    background-color: $focus;
 }

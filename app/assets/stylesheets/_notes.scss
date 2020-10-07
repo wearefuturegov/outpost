@@ -1,0 +1,13 @@
+.notes-list{
+
+    &__note{
+        word-break: break-word;
+        margin-bottom: 25px;
+    }
+
+    &__note-header{
+        font-size: 0.9rem;
+        color: $grey2;
+        margin-bottom: 7px;
+    }
+}

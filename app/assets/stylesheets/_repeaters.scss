@@ -1,0 +1,43 @@
+.repeater{
+
+    &__panels{
+        list-style: none;
+        padding-left: 0px;
+        margin-top: 0;
+    }
+
+    &__panel{
+        background: $pale;
+        border: 1px solid $grey4;
+        position: relative;
+        padding: 35px 25px;
+
+        &[hidden]{
+            display: none;
+        }
+    }
+
+    &__closer{
+        cursor: pointer;
+        font-size: 0;
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 37px;
+        width: 37px;
+        border: none;
+        background: none;
+        background-image: url(asset_path("clear.svg"));
+        background-size: 32px;
+        background-position: center;
+        background-repeat: no-repeat;
+
+        &:hover{
+            background-color: $grey4;
+        }
+
+        &:focus{
+            outline: 3px solid $focus;
+        }
+    }
+}

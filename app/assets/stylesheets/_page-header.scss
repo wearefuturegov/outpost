@@ -1,5 +1,8 @@
 .page-header{
-    padding-bottom: 10px;
+    padding-bottom: 20px;
+    @media screen and (min-width: $breakpoint-m){
+        padding-bottom: 30px;
+    }
 
     &__title{
         margin-top: 0;
@@ -15,6 +18,15 @@
         @media screen and (min-width: $breakpoint-m){
             font-size: 1.3rem;
         }
+    }
+
+    &--full-width{
+        padding: 30px 20px 20px 20px;
+
+        .page-header__title{
+            font-size: 2.5rem;
+        }
+
     }
 
 }

@@ -8,4 +8,9 @@
     <%= f.select :field_type, CustomField.types.collect { |t| [t, t.parameterize]}, {}, class: "field__input" %>
 </div>
 
+<div class="field checkbox">
+    <%= f.check_box :public, class: "checkbox__input"%>
+    <%= f.label :public, "Make visible to community users?", class: "checkbox__label" %>
+</div>
+
 

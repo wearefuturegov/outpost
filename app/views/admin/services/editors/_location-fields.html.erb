@@ -1,5 +1,5 @@
-<div class="field-section field-section--two-cols field-section--reduced-bottom-margin">
-    <div class="field field--span-two-cols field--required">
+<div class="field-group field-group--two-cols">
+    <div class="field field--required">
         <%= l.label :name, "Venue or building name", class: "field__label" %>
         <%= l.text_field :name, class: "field__input", data: {field: "premise"}, required: true  %>
     </div>
@@ -17,16 +17,18 @@
     </div>
 </div>
 
-<fieldset class="field-section field-section--two-cols field-section--reduced-bottom-margin">
-    <legend class="field field--span-two-cols">Accessibility</legend>
+<fieldset class="field-group field-group--two-cols margin-bottom">
+    <legend class="field-group__legend">Accessibility</legend>
+
     <%= l.collection_check_boxes( :accessibility_ids, Accessibility.all, :id, :display_name) do |c| %>
-    <div class="checkbox checkbox--small">
-        <%= c.check_box class: "checkbox__input" %>
-        <%= c.label class: "checkbox__label" %>
-    </div>
+        <div class="field checkbox checkbox--small">
+            <%= c.check_box class: "checkbox__input" %>
+            <%= c.label class: "checkbox__label" %>
+        </div>
     <% end %>
 </fieldset>
-<div class="field-section field-section--reduced-bottom-margin">
+
+<div class="field-group field-group--no-margins">
     <div class="field checkbox checkbox--small">
         <%= l.check_box :visible, class: "checkbox__input"%>
         <%= l.label :visible, "Make this location publicly visible", class: "checkbox__label" %>
@@ -37,13 +39,9 @@
             Hide the exact street address
             <button class="help-button help-button--small" type="button" data-tippy-content="If checked, only the first part of the postcode will be publicly visible, and the map pin will be less precise.">What does this mean?</button>
         <% end %>
-</div>
+    </div>
 </div>
 
-<button type="button" class="nested-editor__closer" data-close="true">Remove this location</button>
-
-<%# <%= l.hidden_field :google_place_id, data: {field: "google_place_id"} %>
-<%# <%= l.hidden_field :latitude, data: {field: "latitude"} %>
-<%# <%= l.hidden_field :longitude, data: {field: "longitude"} %>
+<button type="button" class="repeater__closer" data-close="true" title="Remove this location">Remove this location</button>
 
 <%= l.hidden_field :_destroy,  data: {destroy_field: true} %>

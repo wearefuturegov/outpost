@@ -82,3 +82,24 @@
         color: white;
     }
 }
+
+
+@mixin input{
+    width: 100%;
+    max-width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    background-color: $white;
+    border: 2px solid $grey1;
+    border-radius: 0px;
+    &:focus{
+        outline: 3px solid $focus;
+    }
+    @media screen and (min-width: $breakpoint-m) {
+        font-size: 1.1rem;
+    }
+    &[type=text]:disabled{
+        color: $grey1;
+        background: transparentize($grey2, 0.9);
+    }
+}

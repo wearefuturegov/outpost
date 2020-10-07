@@ -4,9 +4,9 @@
 <% end %>
 
 <% if @requests.present? %>
-  <ul class="pending-list">
+  <ul class="todo-list">
     <% @requests.each do |s| %>
-      <li class="pending-panel">
+      <li class="todo-list__item">
         <div>
           <h2><%= link_to s.display_name.truncate(25), admin_service_path(s) %></h2>
           <p>
@@ -18,16 +18,16 @@
         </div>
 
         <% if s.discarded?  %>
-          <div class="pending-status pending-status--deleted">
+          <div class="todo-status todo-status--deleted">
             <strong>Archived service</strong>
           </div>
         <% elsif s.last_approved_snapshot %>
-          <div class="pending-status">
+          <div class="todo-status">
             <strong>Changed service</strong>
             <p><%= s.unapproved_fields.join(", ").humanize %></p>
           </div>
         <% else %>
-          <div class="pending-status pending-status--new">
+          <div class="todo-status todo-status--new">
             <strong>New service</strong>
           </div>
         <% end %>

@@ -1,22 +1,22 @@
-@import "variables";
 
 .tagify{
-    border-color: $text;
+    border-color: $grey1;
     transition: 0s !important;
 
     &:focus-within{
         outline: 3px solid $focus;
     }
     
-    .tagify--focus{
+    &--focus{
         border-color: $text;
     }
 
-    .tagify__input, .tagify__tag-text{
-        color: $text;
+    &__input, 
+    &__tag-text{
+        color: $grey1;
     }
 
-    .tagify__tag > div::before{
+    &__tag > div::before{
         box-shadow: 0 0 0 1.1em $pale inset;
         border-radius: 0px;
     }

@@ -1,0 +1,90 @@
+.stepper{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    &__link{
+        display: block;
+        text-decoration: none;
+        &:hover{
+            background: $pale;
+        }
+        &:focus{
+            background: inherit;
+            outline:3px solid $focus;
+        }
+    }
+
+    &__time{
+        margin-top: 5px;
+        font-size: 0.9rem;
+        color: $grey2;
+        margin-bottom: 0px;
+    }
+
+    &__step{
+        position: relative;
+        margin-bottom: 0px;
+        padding: 0px 0px 20px 50px;
+        // stick
+        &:before{
+            content: "";
+            display: block;
+            position: absolute;
+            left: 7.5px;
+            top: 15px;
+            border-left: 2px solid $grey1;
+            height: 100%;
+        }
+        &:last-of-type{
+            padding-bottom: 0px;
+            &:before{
+                content: none;
+            }
+        }
+        // circle
+        &:after{
+            content: "";
+            display: block;
+            position: absolute;
+            left: 0px;
+            top: 5px;
+            width: 13px;
+            height: 13px;
+            border: 2px solid $grey1;
+            border-radius: 200px;
+            background: $white;
+            z-index: 2;
+        }
+    }
+
+    &__step--solid{
+        &:after{
+            background: $grey1;
+        }
+    }
+    &__step--cross{
+        &:after{
+            background: $grey1;
+            width: 5px;
+            height: 5px;
+            top: 8px;
+            left: 4px;
+        }
+    }
+    &__step--tick{
+        &:after{
+            background-color: $grey1;
+            background-image: url(asset_path("tick-white.svg"));
+            background-size: 75%;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+    }
+
+    &.stepper--summarised{
+        .stepper__step:nth-last-child(2):before{
+            border-left: 2px dashed $grey1;
+        }
+    }
+}

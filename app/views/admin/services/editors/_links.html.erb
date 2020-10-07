@@ -1,9 +1,9 @@
 <%= mark_unapproved_array("links") do %>
 
-    <section class="nested-editor">
-        <ul class="nested-editor__results" aria-live="polite">
+    <section class="repeater">
+        <ul class="repeater__panels" aria-live="polite">
             <%= s.fields_for :links do |c| %>
-                <li class="nested-editor__result">
+                <li class="repeater__panel">
                     <%= render "admin/services/editors/links-fields", c: c %>
                 </li>
             <% end %>

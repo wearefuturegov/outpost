@@ -1,5 +1,4 @@
-<div class="field-section field-section--two-cols field-section--no-bottom-margin">
-
+<div class="field-group field-group--two-cols field-group--no-margins">
     <div class="field field--required">
         <%= c.label :label, "Label", class: "field__label" %>
         <%= c.text_field :label, class: "field__input", placeholder: "eg. Facebook, Twitter" %>
@@ -9,9 +8,9 @@
         <%= c.label :url, "URL", class: "field__label" %>
         <%= c.url_field :url, class: "field__input", required: true %>
     </div>
-
 </div>
 
 <%= c.hidden_field :_destroy,  data: {destroy_field: true} %>
 
-<button type="button" class="nested-editor__closer" data-close="true">Remove this link</button>
+
+<button type="button" class="repeater__closer" data-close="true" title="Remove this link">Remove this link</button>

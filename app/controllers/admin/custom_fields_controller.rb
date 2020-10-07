@@ -28,7 +28,8 @@ class Admin::CustomFieldsController < Admin::BaseController
     def custom_field_params
         params.require(:custom_field).permit(
           :key,
-          :field_type
+          :field_type,
+          :public
         )
     end
   

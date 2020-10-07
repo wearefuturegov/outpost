@@ -13,5 +13,11 @@
         <%= s.url_field :url, class: "field__input one-half" %>
     </div>
 
-    <button class="button">Continue</button>
+    <h2>Social media</h2>
+    <p>Add links to your service's social media profiles or associated websites</p>
+    <%= render "admin/services/editors/links", s: s %>
+
+    <div class="form-actions">
+        <button class="button">Continue</button>
+    </div>
 <% end %>

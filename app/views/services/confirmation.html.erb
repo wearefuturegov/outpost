@@ -1,1 +1,29 @@
-Confirmation page
+<% content_for :title do %>Confirmation | <% end %>
+
+<% content_for :header do %>
+    <div class="confirmation-panel two-thirds">
+        <h1 class="confirmation-panel__heading">Your service has been successfully submitted</h1>
+        <p class="confirmation-panel__caption"><%= @service.name %></p>
+    </div>
+<% end %>
+
+<div class="two-thirds confirmation-body">
+
+    <h2>What happens next</h2>
+
+    <p>We will review and publish these changes soon. At busy times, this can take several days.</p>
+
+    <p>You'll get an email when your listing is published.</p>
+
+    <p>You can still make more changes in the meantime. The more complete and specific your listing is, the faster it will be approved.</p>
+
+
+    <h2>If you have questions</h2>
+
+    <p>You can <a href="#">contact us</a> to ask about the process.</p>
+
+    <div class="form-actions">
+        <%= link_to "Return to dashboard", organisations_path, class: "button button--outline"%>
+    </div>
+
+</div>

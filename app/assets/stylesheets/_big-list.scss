@@ -1,0 +1,14 @@
+.big-list{
+    margin: 0px;
+    padding: 0;
+
+    &__item{
+        padding: 0px;
+        margin-bottom: 10px;
+        display: block;
+
+        @media screen and (min-width: $breakpoint-m){
+            font-size: 1.1rem;
+        }
+    }
+}

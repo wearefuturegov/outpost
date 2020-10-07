@@ -5,6 +5,8 @@
 // vendor
 @import "vendor/tippy";
 @import "vendor/choices";
+@import "vendor/tagify";
+@import "vendor/diff";
 
 // utility classes
 @import "layout";
@@ -14,10 +16,12 @@
 @import "beta-banner";
 @import "nav";
 @import "page-header";
+@import "shortcut-nav";
 @import "footer";
 
-// everything else
+// components
 @import "go-back";
+@import "buttons";
 @import "forms";
 @import "big-numbers";
 @import "tags";
@@ -32,4 +36,14 @@
 @import "maps";
 @import "mini-search";
 @import "alerts";
+@import "notices";
 @import "errors";
+@import "tagify";
+@import "repeaters";
+@import "stepper";
+@import "todo";
+@import "notes";
+@import "tabs";
+@import "snapshots";
+@import "big-list";
+@import "confirmation";

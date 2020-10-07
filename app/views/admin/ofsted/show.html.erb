@@ -20,16 +20,16 @@
   <% if @item.service.present? %>
     <button class="help-button help-button--small" type="button" data-tippy-content="This feed item is already linked to a service. You can only link one at a time.">What does this mean?</button>
   <% end %>
-  <button class="button button--inline actions__pull-right" data-open-all>Open all</button>
-  <button class="button button--inline" data-close-all>Close all</button>
+  <button class="inline-button actions__pull-right" data-open-all>Open all</button>
+  <button class="inline-button" data-close-all>Close all</button>
 </header>
 
 <div class="with-sidebar">
 
-  <div class="two-thirds">
+  <div>
 
       <%= render "shared/collapsible", name: "Basics", id: "ofsted-basics" do %>
-        <div class="field-section field-section--two-cols">
+        <div class="field-group field-group--two-cols">
           <%= render "admin/ofsted/field", label: "Setting name", value: @item.setting_name %>
           <%= render "admin/ofsted/field", label: "Provider name", value: @item.provider_name %>
           <%= render "admin/ofsted/field", label: "Reference number", value: @item.reference_number %>
@@ -37,12 +37,12 @@
           <%= render "admin/ofsted/field", label: "Registration date", value: @item.registration_date %>
         </div>
 
-        <div class="field-section field-section--two-cols">
+        <div class="field-group field-group--two-cols">
           <%= render "admin/ofsted/field", label: "Provision type", value: @item.provision_type %>
           <%= render "admin/ofsted/field", label: "Secondary provision type", value: @item.secondary_provision_type %>
         </div>
 
-        <div class="field-section field-section--two-cols">
+        <div class="field-group field-group--two-cols">
           <%= render "admin/ofsted/field", label: "Special consideration", value: @item.special_consideration %>
           <%= render "admin/ofsted/field", label: "Ofsted report", value: @item.link_to_ofsted_report %>
           <%= render "admin/ofsted/field", label: "Registered person reference", value: @item.rp_reference_number %>
@@ -51,7 +51,7 @@
       <% end %>
 
       <%= render "shared/collapsible", name: "Setting", id: "ofsted-setting" do %>
-        <div class="field-section field-section--two-cols">
+        <div class="field-group field-group--two-cols">
           <%= render "admin/ofsted/field", label: "Street address 1", value: @item.setting_address_1 %>
           <%= render "admin/ofsted/field", label: "Street address 2", value: @item.setting_address_2 %>
           <%= render "admin/ofsted/field", label: "Village/town", value: @item.setting_villagetown %>
@@ -59,19 +59,19 @@
           <%= render "admin/ofsted/field", label: "County", value: @item.setting_county %>
           <%= render "admin/ofsted/field", label: "Postcode", value: @item.setting_postcode %>
         </div>
-        <div class="field-section field-section--two-cols">
+        <div class="field-group field-group--two-cols">
           <%= render "admin/ofsted/field", label: "Telephone", value: @item.setting_telephone %>
           <%= render "admin/ofsted/field", label: "Fax", value: @item.setting_fax %>
           <%= render "admin/ofsted/field", label: "Email", value: @item.setting_email %>
         </div>
-        <div class="field-section field-section--two-cols">
+        <div class="field-group field-group--two-cols">
           <%= render "admin/ofsted/field", label: "Ward", value: @item.location_ward %>
           <%= render "admin/ofsted/field", label: "Primary planning area", value: @item.location_planning %>
         </div>
       <% end %>
 
       <%= render "shared/collapsible", name: "Provider", id: "ofsted-provider" do %>
-        <div class="field-section field-section--two-cols">
+        <div class="field-group field-group--two-cols">
           <%= render "admin/ofsted/field", label: "Street address 1", value: @item.prov_address_1 %>
           <%= render "admin/ofsted/field", label: "Street address 2", value: @item.prov_address_2 %>
           <%= render "admin/ofsted/field", label: "Village/town", value: @item.prov_villagetown %>
@@ -79,14 +79,14 @@
           <%= render "admin/ofsted/field", label: "County", value: @item.prov_county %>
           <%= render "admin/ofsted/field", label: "Postcode", value: @item.prov_postcode %>
         </div>
-        <div class="field-section field-section--two-cols">
+        <div class="field-group field-group--two-cols">
           <%= render "admin/ofsted/field", label: "Telephone", value: @item.prov_telephone %>
           <%= render "admin/ofsted/field", label: "Work telephone", value: @item.prov_work_telephone %>
           <%= render "admin/ofsted/field", label: "Mobile", value: @item.prov_mobile %>
           <%= render "admin/ofsted/field", label: "Fax", value: @item.prov_fax %>
           <%= render "admin/ofsted/field", label: "Email", value: @item.prov_email %>
         </div>
-        <div class="field-section field-section--two-cols">
+        <div class="field-group field-group--two-cols">
           <div class="checkbox">
             <%= check_box_tag "consent_witheld", "", @item.prov_consent_withheld, class: "checkbox__input", disabled: true %>
             <%= label_tag "consent_witheld", "Consent withheld?", class: "checkbox__label" %>

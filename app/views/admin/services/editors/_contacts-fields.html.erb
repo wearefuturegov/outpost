@@ -1,5 +1,4 @@
-<div class="field-section field-section--two-cols field-section--reduced-bottom-margin">
-
+<div class="field-group field-group--two-cols">
     <div class="field">
         <%= c.label :name, "Their name", class: "field__label" %>
         <%= c.text_field :name, class: "field__input" %>
@@ -20,14 +19,14 @@
         <%= c.text_field :phone, class: "field__input" %>
     </div>
 
-</div>
-<div class="field-section field-section--two-cols field-section--reduced-bottom-margin">
     <div class="field checkbox checkbox--small">
         <%= c.check_box :visible, class: "checkbox__input"%>
         <%= c.label :visible, "Make this contact publicly visible", class: "checkbox__label" %>
     </div>
 </div>
 
+
+
 <%= c.hidden_field :_destroy,  data: {destroy_field: true} %>
 
-<button type="button" class="nested-editor__closer" data-close="true">Remove this contact</button>
+<button type="button" class="repeater__closer" data-close="true" title="Remove this contact">Remove this contact</button>

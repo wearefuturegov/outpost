@@ -18,7 +18,7 @@
 
 <div class="with-sidebar">
 
-  <div class="two-thirds">
+  <div>
     <%= form_for [:admin, @service], data: {warn_unsaved_changes: true} do |s| %>
 
       <%= s.hidden_field :ofsted_item_id, value: params[:ofsted_item_id] %>
@@ -53,14 +53,14 @@
       <% end %>
 
       <%= render "shared/collapsible", name: "Social media", id: "social-media-editor" do %>
-        <%= render "admin/services/editors/social-media", s: s %>
+        <%= render "admin/services/editors/links", s: s %>
       <% end %>
 
       <%= render "shared/collapsible", name: "Ages", id: "visibility-editor" do %>
         <%= render "admin/services/editors/ages", s: s %>
       <% end %>
       
-      <%= render "shared/collapsible", name: "Childcare details", id: "childcare-editor", help_text: "Extra information about childcare only. Ignore these fields for non-childcare services." do %>
+      <%= render "shared/collapsible", name: "Childcare", id: "childcare-editor", help_text: "Extra information about childcare only. Ignore these fields for non-childcare services." do %>
         <%= render "admin/services/editors/childcare", s: s %>
       <% end %>
 

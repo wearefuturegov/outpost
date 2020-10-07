@@ -1,15 +1,5 @@
-.button{
-    @include button;
-    &--outline{
-        @include outline-button;
-    }
-    &--danger{
-        @include danger-button;
-    }
-}
-
-
 .field{
+    position: relative;
     margin-bottom: 25px;
     @media screen and (min-width: $breakpoint-m){
         margin-bottom: 35px;
@@ -32,15 +22,55 @@
         margin-bottom: 15px;
         color: $grey2;
     }
+
+    &__prefix{
+        position: absolute;
+        top: 33px;
+        padding: 12px;
+        left: 0px;
+        pointer-events: none;
+    }
+
+    &__input{
+
+        &--with-prefix{
+            padding-left: 23px;
+        }
+    }
+
+    &__word-counter{
+        font-size: 0.9rem;
+        color: $grey2;
+        margin: 0;
+        margin-top: 5px;
+    }
 }
 
 .field-group{
-    &--two-cols{
+    &--two-cols,
+    &--three-cols{
         @media screen and (min-width: $breakpoint-m){
             display: grid;
             grid-template-columns: 1fr 1fr;
-            column-gap: 35px;
+            column-gap: 25px;
         }
+    }
+    &--three-cols{
+        @media screen and (min-width: $breakpoint-m){
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+    }
+
+    &--no-margins{
+        @media screen and (min-width: $breakpoint-m){
+            .field{
+                margin-bottom: 0px;
+            }
+        }
+    }
+
+    &__legend{
+        margin-bottom: 15px;
     }
 }
 
@@ -53,6 +83,7 @@
         width: 40px;
         height: 40px;
         opacity: 0;
+        z-index: -1;
 
         &:focus{
             outline: none;
@@ -64,14 +95,19 @@
             position: absolute;
             content: "";
             display: block;
-            height: 30px;
-            width: 30px;
-            left: 7px;
-            top: 7px;
+            height: 26px;
+            width: 26px;
+            left: 9px;
+            top: 50%;
+            transform: translateY(-50%);
             background-image: url(asset_path("tick.svg"));
             background-size: contain;
             background-position: center;
             background-repeat: no-repeat;
+        }
+
+        &[disabled] + label:before{
+            background: transparentize($grey1, 0.9);
         }
     }
 
@@ -85,8 +121,29 @@
             display: block;
             width: 40px;
             height: 40px;
+            background: white;
             border: 2px solid $grey1;
             margin-right: 15px;
+            flex-shrink: 0;
+        }
+    }
+
+    &.checkbox--small{
+        margin-bottom: 10px;
+
+        .checkbox__label:before{
+            width: 25px;
+            height: 25px;
+        }
+
+        .checkbox__input{
+            width: 25px;
+            height: 25px;
+            &:checked + label:after{
+                height: 18px;
+                width: 18px;
+                left: 6px;
+            }
         }
     }
 
@@ -103,5 +160,12 @@
 
     @media screen and (min-width: $breakpoint-m){
         margin-bottom: 35px;
+    }
+}
+
+.form-actions{
+    margin-top: 45px;
+    @media screen and (min-width: $breakpoint-m) {
+        margin-top: 55px;
     }
 }

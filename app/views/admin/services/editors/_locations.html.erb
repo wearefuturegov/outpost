@@ -1,8 +1,8 @@
 <%= mark_unapproved_array("locations") do %>
-    <section class="nested-editor">
-        <ul class="nested-editor__results" aria-live="polite">
+    <section class="repeater">
+        <ul class="repeater__panels" aria-live="polite">
             <%= s.fields_for :locations do |l| %>
-                <li class="nested-editor__result">
+                <li class="repeater__panel">
                     <%= render "admin/services/editors/location-fields", l: l %>
                 </li>
             <% end %>

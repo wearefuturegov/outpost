@@ -3,7 +3,7 @@
     <h1 class="page-header__title">Custom fields</h1>
 <% end %>
 
-<div class="two-panels">
+<div class="half-and-half">
     <div class="panel">
       <% if @fields.present? %>
         <div class="table-holder">
@@ -37,10 +37,10 @@
     <div class="panel">
         <%= form_for [:admin, @new_field], data: {warn_unsaved_changes: true} do |f| %>
           <%= render "shared/errors", model: @new_field %>
-          <div class="field-section">
-              <h2 class="field-section__legend">Add a new field</h2>
-              <%= render "fields", f: f %>
-              <%= f.button "Create", class: "button button--small button--add" %>
+          <h2 class="field-section__legend">Add a new field</h2>
+          <%= render "fields", f: f %>
+          <div class="form-actions">
+            <%= f.button "Create", class: "button button--small button--add" %>
           </div>
         <% end %>
     </div>

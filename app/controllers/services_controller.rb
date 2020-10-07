@@ -25,14 +25,23 @@ class ServicesController < ApplicationController
         render "_edit_#{params[:section]}"
     end
 
+    def confirmation
+        session[:completed_sections] = []
+    end
+
     def update
         if params[:section]
             session[:completed_sections].push(params[:section])
         end
-        if @service.update(service_params)
-            redirect_to service_path(@service)
+        if params[:service]
+            @service.approved = false
+            if @service.update(service_params)
+                redirect_to service_path(@service)
+            else
+                render :edit
+            end
         else
-            render :edit
+            redirect_to service_path(@service)
         end
     end
 
@@ -45,7 +54,7 @@ class ServicesController < ApplicationController
     private
 
     def set_service
-        @service = current_user.organisation.services.find(params[:id])
+        @service = current_user.organisation.services.find(params[:id] || params[:service_id])
     end
 
     def service_params

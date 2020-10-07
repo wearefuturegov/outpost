@@ -1,4 +1,4 @@
-<div class="field-section field-section--three-cols field-section--no-bottom-margin">
+<div class="field-group field-group--three-cols field-group--no-margins">
     <div class="field">
         <%= sched.label :weekday, "Day", class: "field__label" %>
         <%= sched.select :weekday, weekdays.collect {|d| [ d[:label], d[:value] ] }, {}, class: "field__input"  %>
@@ -13,6 +13,7 @@
     </div>
 </div>
 
+
 <%= sched.hidden_field :_destroy,  data: {destroy_field: true} %>
 
-<button type="button" class="nested-editor__closer" data-close="true">Remove this schedule</button>
+<button type="button" class="repeater__closer" data-close="true" title="Remove this schedule">Remove this schedule</button>

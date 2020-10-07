@@ -19,7 +19,7 @@
     </div>
 <% end %>
 
-<div class="two-panels">
+<div class="half-and-half">
 
     <div class="panel">
         <%= form_for [:admin, @user], data: {warn_unsaved_changes: true} do |f| %>
@@ -68,7 +68,7 @@
     
       <%= render "shared/collapsible", name: "Password reset", id: "user-password-reset" do %>
           <p class="bottom-margin">Users must reset their own passwords, but you can send the instructions by email.</p>
-          <%= link_to "Trigger reset", admin_user_reset_path(@user), method: "post", class: "button button--small" %>
+          <%= link_to "Trigger reset", admin_user_reset_path(@user), method: "post", class: "button button--outline" %>
       <% end %>
   </div>
 </div>
