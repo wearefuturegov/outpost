@@ -33,7 +33,13 @@
               <%= s.taxonomies.categories.map {|c| c.name }.join(", ") %>
             </td>
             <td><%= time_ago_in_words(s.updated_at).humanize %> ago</td>
-            <td><%= status_tag(s.status) %></td>              
+            <td>  
+              <% if session[:currently_creating] === s.id %>
+                <span class="tag tag--grey">Incomplete</span>
+              <% else %>
+                <%= status_tag(s.status) %>
+              <% end %>
+            </td>              
           </tr>
         <% end %>
       </tbody>
