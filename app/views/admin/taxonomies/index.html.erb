@@ -16,8 +16,9 @@
 
         <%= render "shared/errors", model: @taxonomy %>
 
-        <div class="field-section">
-            <h2 class="field-section__legend">Add a new taxonomy</h2>
+        <div class="field-group">
+            <h2 class="field-group__legend">Add a new taxonomy</h2>
+            
             <%= render "fields", s: s %>
             <%= s.button "Create", class: "button button--small button--add" %>
         </div>

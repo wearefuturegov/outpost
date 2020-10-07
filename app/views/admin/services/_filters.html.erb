@@ -1,7 +1,7 @@
-<div class="filters">
-    <button class="filters__control" aria-expanded="false">Filters</button>
+<details class="filters">
+    <summary class="filters__control" aria-expanded="false">Filters</summary>
 
-    <div class="filters__body" hidden>
+    <div class="filters__body">
         <%= form_for admin_services_url, method: "get", html: {class: "filters__form"} do |f| %>
 
             <%= label_tag "filter_taxonomy", "Filter taxonomies", class: "visually-hidden" %>
@@ -28,4 +28,4 @@
 
         <% end %>
     </div>
-</div>
+</details>
