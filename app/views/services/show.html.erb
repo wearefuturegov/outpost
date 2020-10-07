@@ -2,6 +2,10 @@
     <% if @currently_creating %>
         <h1 class="page-header__title two-thirds">List a new service</h1>
     <% else %>
+        <% unless @service.approved %>
+            <div class="notice">These changes are awaiting approval. Feel free to make more edits in the meantime.</div>
+        <% end %>
+        
         <%= link_to "Go back", organisations_path, class: "go-back" %>
         <h1 class="page-header__title two-thirds"><%= @service.name %></h1>
     <% end %>
