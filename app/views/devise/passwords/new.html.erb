@@ -7,10 +7,12 @@
 <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
   <%= render "devise/shared/error_messages", resource: resource %>
 
-  <div class="field one-third">
+  <div class="field one-half">
     <%= f.label :email, "Your account email", class: "field__label" %>
     <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "field__input", value: params[:email] %>
   </div>
 
-  <%= f.submit "Continue", class: "button" %>
+  <div class="form-actions">
+    <%= f.submit "Continue", class: "button" %>
+  </div>
 <% end %>

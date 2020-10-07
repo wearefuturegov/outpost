@@ -8,13 +8,13 @@
   <%= f.hidden_field :reset_password_token %>
 
   <div class="field-section">
-    <div class="field one-third">
+    <div class="field one-half">
       <%= f.label :password, "New password", class: "field__label" %>
       <p class="field__hint">At least 8 characters, including at least one uppercase character and a number.</p>
       <%= f.password_field :password, autofocus: true, autocomplete: "new-password", class: "field__input" %>
     </div>
 
-    <div class="field one-third">
+    <div class="field one-half">
       <%= f.label :password_confirmation, "Confirm new password", class: "field__label" %>
       <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "field__input" %>
     </div>

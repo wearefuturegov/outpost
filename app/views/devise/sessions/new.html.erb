@@ -3,12 +3,12 @@
 <% end %>
 
 <%= form_for(resource, as: resource_name, url: session_path(resource_name) ) do |f| %>
-  <div class="field one-third">
+  <div class="field one-half">
     <%= f.label :email, class: "field__label" %>
     <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "field__input" %>
   </div>
 
-  <div class="field one-third">
+  <div class="field one-half">
     <%= f.label :password, class: "field__label" %>
     <%= f.password_field :password, autocomplete: "current-password", class: "field__input" %>
   </div>
@@ -19,8 +19,9 @@
       <%= f.label :remember_me, class: "checkbox__label" %>
     </div>
   <% end %>
-
-  <%= f.submit "Log in", class: "button button--with-bottom-margin" %>
+  <div class="form-actions">
+    <%= f.submit "Log in", class: "button button--with-bottom-margin" %>
+  </div>
 <% end %>
 
 <%= render "devise/shared/links" %>
