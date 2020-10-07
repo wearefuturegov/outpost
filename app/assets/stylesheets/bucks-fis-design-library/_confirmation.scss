@@ -2,10 +2,8 @@
     border: 3px solid $green;
     text-align: center;
     padding: 35px;
-    margin-bottom: 25px;
     @media screen and (min-width: $breakpoint-m) {
         padding: 45px 65px;
-        margin-bottom: 35px;
     }
 
     &__heading{

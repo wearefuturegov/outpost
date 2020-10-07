@@ -71,6 +71,10 @@
     @media screen and (min-width: $breakpoint-l){
         column-gap: 55px;
     }
+
+    p:first-child{
+        margin-top: 0px;
+    }
 }
 
 .actions{
