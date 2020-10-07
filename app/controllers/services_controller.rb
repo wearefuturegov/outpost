@@ -8,6 +8,7 @@ class ServicesController < ApplicationController
 
     def create
         @service = current_user.organisation.services.new(service_params)
+        @service.approved = false
         if @service.save
             session[:currently_creating] = @service.id
             session[:completed_sections] = []
