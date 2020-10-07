@@ -10,7 +10,7 @@
                 <% @snapshots.each do |s| %>
                     <li class="snapshots-tree__snapshot" <%= "aria-selected" if s === @snapshots.first %>>
                         <h3 class="snapshots-tree__snapshot-title">
-                            <%= link_to s.created_at.strftime('%d %B %Y, %H:%M'), "##{s.id}", class: "snapshots-tree__snapshot-link", data: { no_turbolink: true } %>
+                            <%= link_to s.created_at.strftime('%-d %B %Y, %H:%M'), "##{s.id}", class: "snapshots-tree__snapshot-link", data: { no_turbolink: true } %>
                         </h3>
 
                         <% if s === @snapshots.first %>
