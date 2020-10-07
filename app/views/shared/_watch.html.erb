@@ -1,9 +1,9 @@
 <% if @watched %>
-  <%= form_with url: admin_service_watch_path(@service), method: :delete, local: true do |f| %>
+  <%= form_with url: admin_service_watch_path(@service), method: :delete do |f| %>
     <%= f.submit "Unwatch", class: "button button--secondary" %>
   <% end %>
 <% else %>
-  <%= form_with url: admin_service_watch_index_path(@service), local: true do |f| %>
+  <%= form_with url: admin_service_watch_index_path(@service) do |f| %>
     <%= f.submit "Watch", class: "button button--secondary" %>
   <% end %>
 <% end %>
