@@ -53,7 +53,6 @@
                                     <span class="ins">Added since</span>
                                 </p>
                             </div>
-                            <%= link_to "Restore this version", admin_service_snapshot_path(@service, s), method: "patch", data: {confirm: "Are you sure you want to restore this version? This will overwrite more recent changes."}, class: "button button--small" %>
                         </div>
                     <% else %>
                         <% unless s.service.approved %>
