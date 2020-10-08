@@ -3,30 +3,33 @@ class Admin::UsersController < Admin::BaseController
     before_action :set_user, only: [:show, :update, :destroy]
     
     def index
-      @query = params.permit(:deactivated, :order, :order_by, :filter_users, :filter_logged_in, :query)
+      @filterrific = initialize_filterrific(
+        User,
+        params[:filterrific],
+        select_options: {
+          sorted_by: User.options_for_sorted_by,
+          roles: User.options_for_roles
+        },
+        persistence_id: "shared_key",
+        default_filter_params: {},
+        available_filters: [
+          :sorted_by, 
+          :search,
+          :roles
+        ],
+        sanitize_params: true,
+      ) || return
+  
+      @users = @filterrific.find.page(params[:page])
 
-      @users = User.includes(:organisation).page(params[:page]).order("last_seen DESC  NULLS LAST")
+      @active_count = User.kept.count
+      @deactivated_count = User.discarded.count
 
       if params[:deactivated] === "true"
         @users = @users.discarded
       else
         @users = @users.kept
       end
-
-      @users = @users.rarely_seen if params[:order] === "asc" && params[:order_by] === "last_seen"
-      @users = @users.latest_seen if params[:order] === "desc" && params[:order_by] === "last_seen"
-      @users = @users.newest if params[:order] === "desc" && params[:order_by] === "created_at"
-      @users = @users.oldest if params[:order] === "asc" && params[:order_by] === "created_at"  
-
-      @users = @users.community if params[:filter_users] === "community"
-      @users = @users.admins if params[:filter_users] === "admins"
-      @users = @users.never_seen if params[:filter_logged_in] === "never"
-      @users = @users.only_seen if params[:filter_logged_in] === "only"
-
-      @users = @users.search(params[:query]) if params[:query].present?
-
-      @active_count = User.kept.count
-      @deactivated_count = User.discarded.count
     end
 
     def new

@@ -11,7 +11,7 @@ class Organisation < ApplicationRecord
     default_filter_params: { sorted_by: "created_at_desc"},
     available_filters: [
       :sorted_by,
-      :search_query,
+      :search,
       :users,
       :services
     ],
@@ -33,10 +33,6 @@ class Organisation < ApplicationRecord
     when "without"
       left_joins(:services).where(services: {id: nil})
     end
-  }
-
-  scope :search_query, ->(search_query) { 
-    search(search_query) 
   }
 
   scope :sorted_by, ->(sort_option) {

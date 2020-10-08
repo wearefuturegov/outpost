@@ -21,17 +21,50 @@ class User < ApplicationRecord
       tsearch: { prefix: true }
     }
 
-  # sort scopes
-  scope :oldest, ->  { reorder("created_at ASC") }
-  scope :newest, ->  { reorder("created_at DESC") }
-  scope :rarely_seen, ->  { reorder("last_seen ASC NULLS FIRST") }
-  scope :latest_seen, ->  { reorder("last_seen DESC  NULLS LAST") }
+  filterrific(
+    default_filter_params: { sorted_by: "created_at_desc"},
+    available_filters: [
+      :sorted_by,
+      :search,
+      :roles
+    ],
+  )
 
-  # filter scopes
-  scope :admins, ->  { where(admin: true) }
-  scope :community, ->  { where("admin is false or admin is null") }
-  scope :never_seen, ->  { where(last_seen: nil) }
-  scope :only_seen, ->  { where(last_seen: nil) }
+  scope :roles, ->(value) { 
+    case value.to_s
+    when "community"
+      where("admin is false or admin is null")
+    when "admin"
+      where(admin: true)
+    end
+  }
+
+  scope :sorted_by, ->(sort_option) {
+    direction = /desc$/.match?(sort_option) ? "desc" : "asc"
+    case sort_option.to_s
+    when /^created_at_/
+      order("created_at #{direction}")
+    when /^last_seen_/
+      order("last_seen #{direction}")
+    end
+  }
+
+  def self.options_for_sorted_by
+    [
+      ["Joined recently", "created_at_desc"],
+      ["Joined earliest", "created_at_asc"],
+      ["Last seen", "last_seen_asc"],
+      ["Rarely seen", "last_seen_desc"]
+    ]
+  end
+
+  def self.options_for_roles
+    [
+      ["All", "false"],
+      ["Only community users", "community"],
+      ["Only admins", "admin"]
+    ]
+  end
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable

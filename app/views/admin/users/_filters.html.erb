@@ -1,17 +1,38 @@
-<details class="filters">
+
+<%= form_for_filterrific @filterrific do |f| %>
+
+  <details class="filters" <%= "open" if params[:filterrific] %>>
     <summary class="filters__control" aria-expanded="false">Filters</summary>
-
     <div class="filters__body">
-        <%= form_for admin_users_url, method: "get", html: {class: "filters__form"} do |f| %>
-
-            <%= hidden_field_tag "deactivated", params[:deactivated] %>
-
-            <%= label_tag "filter_users", nil, class: "visually-hidden" %>
-            <%= select_tag "filter_users", options_for_select([
-                ["Only administrators", "admins"],
-                ["Only community users", "community"],
-            ], params[:filter_users]), include_blank: "All roles", class: "filters__select" %>
-
-        <% end %>
+  
+      <%= f.label :sorted_by, "Sort", class: "visually-hidden" %>
+      <%= f.select :sorted_by, @filterrific.select_options[:sorted_by], {}, { class: "filters__select", data: { autosubmit: true } } %>
+      
+      <%= f.label :roles, "Filter roles", class: "visually-hidden" %>
+      <%= f.select :roles, @filterrific.select_options[:roles], {}, { class: "filters__select", data: { autosubmit: true } }  %>
+      
     </div>
-</details>
+  </details>
+
+  <header class="actions">
+
+    <div class="mini-search">
+        <div class="mini-search__form">
+            <%= f.label :search, "Search query", class: "visually-hidden" %>
+            <%= f.text_field :search, class: "mini-search__input" %>
+            <% if params[:filterrific].present? %>
+                <%= link_to image_tag("clear.svg", alt: "Clear search"), reset_filterrific_url, class: "mini-search__submit" %>
+            <% else %>
+                <button class="mini-search__submit">
+                    <%= image_tag "search.svg", alt: "Submit search" %>
+                </button>
+            <% end %>
+        </div>
+    </div>
+
+    <% if current_user.admin_users? %>
+        <%= link_to "Invite user", new_admin_user_path, class: "button button--small button--add actions__pull-right" %>
+    <% end %>
+  </header>
+
+<% end %>

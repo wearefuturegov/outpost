@@ -14,7 +14,7 @@ class Admin::OrganisationsController < Admin::BaseController
       default_filter_params: {},
       available_filters: [
         :sorted_by, 
-        :search_query,
+        :search,
         :users,
         :services
       ],
@@ -22,12 +22,6 @@ class Admin::OrganisationsController < Admin::BaseController
     ) || return
 
     @organisations = @filterrific.find.page(params[:page])
-
-    respond_to do |format|
-      format.html
-      format.js
-    end
-
   end
 
   def show

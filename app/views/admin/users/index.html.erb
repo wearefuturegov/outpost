@@ -5,13 +5,6 @@
 
 <%= render "filters" %>
 
-<header class="actions">
-  <%= render "shared/mini-search", path: admin_users_path(@query), clear_path: admin_users_path(@query.merge(:query => nil)) %>
-  <% if current_user.admin_users? %>
-    <%= link_to "Invite user", new_admin_user_path, class: "button button--small button--add actions__pull-right" %>
-  <% end %>
-</header>
-
 <% if @users.any? %>
   <div class="table-holder">
     <table class="table">
@@ -23,8 +16,8 @@
           <th>Manage Ofsted</th>
           <th>Manage users</th>
           <th>Organisation</th>
-          <th><%= render "sort", column: "created_at", label: "Joined"%></th>
-          <th><%= render "sort", column: "last_seen", label: "Last seen"%></th>
+          <th>Joined</th>
+          <th>Last seen</th>
           <% if params[:deactivated] %>
             <th class="visually-hidden">Actions</th>
           <% end %>

@@ -21,8 +21,8 @@
 
     <div class="mini-search">
         <div class="mini-search__form">
-            <%= f.label :search_query, "Search query", class: "visually-hidden" %>
-            <%= f.text_field :search_query, class: "mini-search__input" %>
+            <%= f.label :search, "Search query", class: "visually-hidden" %>
+            <%= f.text_field :search, class: "mini-search__input" %>
             <% if params[:filterrific].present? %>
                 <%= link_to image_tag("clear.svg", alt: "Clear search"), reset_filterrific_url, class: "mini-search__submit" %>
             <% else %>
