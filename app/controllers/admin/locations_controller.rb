@@ -2,22 +2,31 @@ class Admin::LocationsController < Admin::BaseController
     before_action :set_location, only: [:show, :update]
 
     def index
-        @query = params.permit(:order, :order_by, :filter_services, :query)
-
-        @locations = Location.page(params[:page])
-
-        @locations = @locations.search(params[:query]) if params[:query].present?
-        @locations = @locations.only_with_services if params[:filter_services] === "with"
-        @locations = @locations.only_without_services if params[:filter_services] === "without"
-
-        @locations = @locations.alphabetical if params[:order] === "asc" && params[:order_by] === "name"
-        @locations = @locations.reverse_alphabetical if params[:order] === "desc" && params[:order_by] === "name"
+        @filterrific = initialize_filterrific(
+          Location,
+          params[:filterrific],
+          select_options: {
+            sorted_by: Location.options_for_sorted_by,
+            services: Location.options_for_services
+          },
+          persistence_id: "shared_key",
+          default_filter_params: {},
+          available_filters: [
+            :sorted_by, 
+            :search,
+            :services
+          ],
+          sanitize_params: true,
+        ) || return
+    
+        @locations = @filterrific.find.page(params[:page])
 
         respond_to do |format|
             format.html
             format.json { render :json => @locations }
         end
-    end
+      end
+
 
     def show
     end

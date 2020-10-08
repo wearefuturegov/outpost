@@ -23,12 +23,12 @@ class Location < ApplicationRecord
     end
   end
 
-  scope :alphabetical, ->  { order(name: :ASC) }
-  scope :reverse_alphabetical, ->  { order(name: :DESC) }
+  # scope :alphabetical, ->  { order(name: :ASC) }
+  # scope :reverse_alphabetical, ->  { order(name: :DESC) }
 
-  # filter scopes
-  scope :only_with_services, ->  { joins(:services) }
-  scope :only_without_services, ->  { left_joins(:service_at_locations).where(service_at_locations: {id: nil}) }
+  # # filter scopes
+  # scope :only_with_services, ->  { joins(:services) }
+  # scope :only_without_services, ->  { left_joins(:service_at_locations).where(service_at_locations: {id: nil}) }
 
   include PgSearch::Model
   pg_search_scope :search, 
@@ -36,6 +36,49 @@ class Location < ApplicationRecord
     using: {
       tsearch: { prefix: true }
     }
+
+  filterrific(
+    default_filter_params: { sorted_by: "name_asc"},
+    available_filters: [
+      :sorted_by,
+      :search,
+      :services
+    ],
+  )
+
+  scope :services, ->(value) { 
+    case value.to_s
+    when "with"
+      joins(:services)
+    when "without"
+      left_joins(:services).where(services: {id: nil})
+    end
+  }
+
+  scope :sorted_by, ->(sort_option) {
+    direction = /desc$/.match?(sort_option) ? "desc" : "asc"
+    case sort_option.to_s
+    when /^name_/
+      order("LOWER(locations.name) #{direction} NULLS LAST")
+    end
+  }
+
+  def self.options_for_sorted_by
+    [
+      ["Z-A", "name_desc"],
+      ["A-Z", "name_asc"],
+    ]
+  end
+
+  def self.options_for_services
+    [
+      ["All", "false"],
+      ["Only with services", "with"],
+      ["Only without services", "without"]
+    ]
+  end
+
+
 
   def display_name
     if name.present?
