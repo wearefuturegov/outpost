@@ -19,6 +19,8 @@ class Organisation < ApplicationRecord
   scope :alphabetical, ->  { order(name: :ASC) }
   scope :reverse_alphabetical, ->  { order(name: :DESC) }
 
+  validates_uniqueness_of :name
+
   include PgSearch::Model
   pg_search_scope :search, 
     against: [:id, :name], 

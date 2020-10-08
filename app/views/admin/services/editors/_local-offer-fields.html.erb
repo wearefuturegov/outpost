@@ -12,8 +12,10 @@
     </div>
   </div>
 
-  <fieldset class="field-section">
-    <legend class="field-section__legend">Details about your support</legend>
+  <fieldset class="field-group">
+    <legend class="field-group__legend">
+      <h2>Details about your support
+    </legend>
     <% survey_answers = @service.local_offer&.survey_answers || [] %>
     <% l.object.questions.each do |q| %>
       <% current_answer = survey_answers.detect { |h| h['id'] == q[:id] } || { id: q[:id] } %>

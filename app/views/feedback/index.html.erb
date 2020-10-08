@@ -1,0 +1,30 @@
+<% content_for :title do %>Suggest an edit | <% end %>
+
+<% content_for :header do %>
+    <h1 class="page-header__title two-thirds">Suggest an edit</h1>
+<% end %>
+
+<%= form_with model: [@service, @feedback], url: service_feedback_index_path(@service), local: true, html: {class: "two-thirds"} do |f| %>
+
+    <%= render "shared/errors", model: @feedback %>
+
+    <fieldset class="field-group field">
+        <legend class="field-group__legend">What kind of suggestion?</legend>
+        <% feedback_topics.each do |t| %>
+            <div class="field radio">
+                <%= f.radio_button :topic, t[:value], class: "radio__input" %>
+                <%= f.label "topic_#{t[:value]}", t[:label], class: "radio__label" %>
+            </div>
+        <% end %>
+    </fieldset>
+
+    <div class="field">
+        <%= f.label :body, "How could this listing be improved?", class: "field__label"%>
+        <%= f.text_area :body, class: "field__input", rows: "3" %>
+    </div>
+
+    <div class="form-actions">
+        <%= f.submit "Send", class: "button"%>
+    </div>
+
+<% end %>

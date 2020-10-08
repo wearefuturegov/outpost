@@ -5,7 +5,9 @@
     <h1 class="page-header__title two-thirds">List a new service</h1>
 <% end %>
 
-<%= form_with model: @service, html: {class: "two-thirds"} do |s| %>
+<%= form_for @service, html: {class: "two-thirds"} do |s| %>
+    
+    <%= render "shared/errors", model: @service %>
 
     <div class="field">
         <%= s.label :name, "What is your service called?", class: "field__label field__label--bold" %>

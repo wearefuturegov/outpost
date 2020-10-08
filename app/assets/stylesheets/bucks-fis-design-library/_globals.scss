@@ -8,7 +8,7 @@ body{
     margin: 0;
 }
 
-p, label{
+p, label, legend{
     line-height: 1.5;
     color: $grey1;
     @media screen and (min-width: $breakpoint-m){

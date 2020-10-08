@@ -1,15 +1,6 @@
-<%= form_with model: @organisation, html: {class: "two-thirds"} do |f| %>
+<%= form_for @organisation, html: {class: "two-thirds"} do |f| %>
 
-    <% if @organisation.errors.full_messages.any? %>
-        <div class="error">
-            <h2 class="error__title">Errors stopped this service being saved:</h2>
-            <ul class="error__list">
-                <% @organisation.errors.full_messages.each do |e| %>
-                    <li><%= e %></li>
-                <% end %>
-            </ul>
-        </div>
-    <% end %>
+    <%= render "shared/errors", model: @organisation %>
 
     <div class="field-section field-section--two-cols">
         <div class="field">
