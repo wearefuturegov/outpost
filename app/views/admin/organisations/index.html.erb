@@ -5,20 +5,15 @@
 
 <%= render "filters" %>
 
-<header class="actions">
-  <%= render "shared/mini-search", path: admin_organisations_path, clear_path: admin_organisations_path %>
-  <%= link_to "Add organisation", new_admin_organisation_path, class: "button button--small button--add  actions__pull-right" %>
-</header>
-
 <% if @organisations.present? %>
   <div class="table-holder">
     <table class="table">
       <thead>
         <tr>
-          <th><%= render "sort", column: "name", label: "Name"%></th>
+          <th>Name</th>
           <th>Services</th>
           <th>Users</th>
-          <th><%= render "sort", column: "updated_at", label: "Last updated"%></th>
+          <th>Last updated</th>
         </tr>
       </thead>
       <tbody>

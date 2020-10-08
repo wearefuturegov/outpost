@@ -2,24 +2,32 @@ class Admin::OrganisationsController < Admin::BaseController
   before_action :set_organisation, only: [:show, :edit, :update]
 
   def index
-    @query = params.permit(:order, :order_by, :filter_users, :filter_services, :query)
+    @filterrific = initialize_filterrific(
+      Organisation,
+      params[:filterrific],
+      select_options: {
+        sorted_by: Organisation.options_for_sorted_by,
+        users: Organisation.options_for_users,
+        services: Organisation.options_for_services
+      },
+      persistence_id: "shared_key",
+      default_filter_params: {},
+      available_filters: [
+        :sorted_by, 
+        :search_query,
+        :users,
+        :services
+      ],
+      sanitize_params: true,
+    ) || return
 
-    @organisations = Organisation.page(params[:page])
-      .includes(:services, :users)
-      .page(params[:page])
+    @organisations = @filterrific.find.page(params[:page])
 
-    @organisations = @organisations.alphabetical if params[:order] === "asc" && params[:order_by] === "name"
-    @organisations = @organisations.reverse_alphabetical if params[:order] === "desc" && params[:order_by] === "name"
-    @organisations = @organisations.newest if params[:order] === "desc" && params[:order_by] === "updated_at"
-    @organisations = @organisations.oldest if params[:order] === "asc" && params[:order_by] === "updated_at"
+    respond_to do |format|
+      format.html
+      format.js
+    end
 
-    @organisations = @organisations.only_with_services if params[:filter_services] === "with"
-    @organisations = @organisations.only_with_users if params[:filter_users] === "with"
-
-    @organisations = @organisations.only_with_users if params[:filter_users] === "with"
-    @organisations = @organisations.only_without_users if params[:filter_users] === "without"
-
-    @organisations = @organisations.search(params[:query]) if params[:query].present?
   end
 
   def show

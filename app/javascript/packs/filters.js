@@ -1,11 +1,8 @@
-let allFilters = document.querySelectorAll(".filters")
+let allFilters = document.querySelectorAll("[data-autosubmit]")
 
-allFilters.forEach(filters => {
-
-    let form = filters.querySelector(".filters__form")
-
-    form.addEventListener("change", () => {
-        form.submit()
+allFilters.forEach(filter => {
+    filter.addEventListener("change", () => {
+        console.log(filter)
+        filter.form.submit()
     })
-
 })

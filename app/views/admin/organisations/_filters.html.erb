@@ -1,21 +1,39 @@
-<details class="filters">
+
+<%= form_for_filterrific @filterrific do |f| %>
+
+  <details class="filters" <%= "open" if params[:filterrific] %>>
     <summary class="filters__control" aria-expanded="false">Filters</summary>
-
     <div class="filters__body">
-        <%= form_for admin_organisations_url, method: "get", html: {class: "filters__form"} do |f| %>
+  
+      <%= f.label :sorted_by, "Sort", class: "visually-hidden" %>
+      <%= f.select :sorted_by, @filterrific.select_options[:sorted_by], {}, { class: "filters__select", data: { autosubmit: true } } %>
+      
+      <%= f.label :users, "Filter users", class: "visually-hidden" %>
+      <%= f.select :users, @filterrific.select_options[:users], {}, { class: "filters__select", data: { autosubmit: true } }  %>
+      
+      <%= f.label :services, "Filter services", class: "visually-hidden" %>
+      <%= f.select :services, @filterrific.select_options[:services], {}, { class: "filters__select", data: { autosubmit: true } } %>
 
-            <%= label_tag "filter_services", nil, class: "visually-hidden" %>
-            <%= select_tag "filter_services", options_for_select([
-                ["Only with services", "with"],
-                ["Only without services", "without"],
-            ], params[:filter_services]), include_blank: "All", class: "filters__select" %>
-
-            <%= label_tag "filter_users", nil, class: "visually-hidden" %>
-            <%= select_tag "filter_users", options_for_select([
-                ["Only with users", "with"],
-                ["Only without users", "without"],
-            ], params[:filter_users]), include_blank: "All", class: "filters__select" %>
-
-        <% end %>
     </div>
-</details>
+  </details>
+
+  <header class="actions">
+
+    <div class="mini-search">
+        <div class="mini-search__form">
+            <%= f.label :search_query, "Search query", class: "visually-hidden" %>
+            <%= f.text_field :search_query, class: "mini-search__input" %>
+            <% if params[:filterrific].present? %>
+                <%= link_to image_tag("clear.svg", alt: "Clear search"), reset_filterrific_url, class: "mini-search__submit" %>
+            <% else %>
+                <button class="mini-search__submit">
+                    <%= image_tag "search.svg", alt: "Submit search" %>
+                </button>
+            <% end %>
+        </div>
+    </div>
+
+    <%= link_to "Add organisation", new_admin_organisation_path, class: "button button--small button--add  actions__pull-right" %>
+  </header>
+
+<% end %>

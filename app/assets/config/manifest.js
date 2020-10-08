@@ -3,3 +3,5 @@
 
 //= link application.scss
 //= link application.css
+
+//= link filterrific/filterrific-spinner.gif
