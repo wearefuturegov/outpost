@@ -6,20 +6,22 @@
             <div class="notice">These changes are awaiting approval. Feel free to make more edits in the meantime.</div>
         <% end %>
         
-        <%= link_to "Go back", organisations_path, class: "go-back" %>
+        <%= link_to "Back to dashboard", organisations_path, class: "go-back" %>
         <h1 class="page-header__title two-thirds"><%= @service.name %></h1>
     <% end %>
 <% end %>
 
 <% if @currently_creating %>
-    <% if @completion_count < task_list_sections.flatten.count  %>
-        <h2>Submission incomplete</h2>
-        <p>You've completed <%= @completion_count %> of <%= task_list_sections.flatten.count %> sections.</p>
-    <% else %>
-        <h2>Ready to submit</h2>
-        <p>You can now finish and send this application.</p>
-        <%= link_to "Finish and send", service_confirmation_path(@service), class: "button", method: "post" %>
-    <% end %>
+    <div class="task-list-summary">
+        <% if @completion_count < task_list_sections.flatten.count  %>
+            <h2>Submission incomplete</h2>
+            <p>You've completed <%= @completion_count %> of <%= task_list_sections.flatten.count %> sections.</p>
+        <% else %>
+            <h2>Ready to submit</h2>
+            <p>You can now finish and send this application.</p>
+            <%= link_to "Finish and send", service_confirmation_path(@service), class: "button", method: "post" %>
+        <% end %>
+    </div>
 <% end %>
 
 <ol class="task-list two-thirds">
