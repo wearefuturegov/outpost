@@ -1,7 +1,7 @@
 
 <%= form_for_filterrific @filterrific do |f| %>
 
-  <%= hidden_field_tag :deactivated, params[:deactivated] # preserve shortcut nav state %>
+  <%= hidden_field_tag :deactivated, params[:deactivated] %>
 
   <details class="filters" <%= "open" if params[:filterrific] %>>
     <summary class="filters__control" aria-expanded="false">Filters</summary>
