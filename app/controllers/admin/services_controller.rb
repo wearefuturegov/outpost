@@ -19,7 +19,7 @@ class Admin::ServicesController < Admin::BaseController
     ) or return
 
     @services = @filterrific.find.page(params[:page])
-    @services = @filterrific.ofsted_registered if params[:ofsted] === "true"
+    @services = @services.ofsted_registered if params[:ofsted] === "true"
 
     if params[:archived] === "true"
       @services = @services.discarded
