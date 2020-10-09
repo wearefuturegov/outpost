@@ -5,9 +5,9 @@
 
 
 <% if @requests.present? %>
-  <ul class="pending-list">
+  <ul class="todo-list">
     <% @requests.each do |s| %>
-      <li class="pending-panel">
+      <li class="todo-panel">
         <div>
           <h2><%= link_to s.setting_name.truncate(25), admin_ofsted_path(s) %></h2>
           <p>
@@ -15,15 +15,15 @@
           </p>
         </div>
         <% if s.status === "new" %>
-            <div class="pending-status pending-status--new">
+            <div class="todo-status todo-status--new">
                 <strong>New provider</strong>
             </div>
         <% elsif s.status === "deleted"%>
-            <div class="pending-status pending-status--deleted">
+            <div class="todo-status todo-status--deleted">
                 <strong>Deleted</strong>
             </div>
         <% else %>
-            <div class="pending-status">
+            <div class="todo-status">
             <strong>Changed</strong>
             <p><%= s.versions.last.changeset.map{ |key, value| key.humanize }.join(", ") %></p>
             </div>
@@ -33,5 +33,5 @@
     <% end %>
   </ul>
 <% else %>
-  <p class="no-results  no-results--big">Nothing pending right now</p>
+  <p class="no-results  no-results--big">Nothing todo right now</p>
 <% end %>
