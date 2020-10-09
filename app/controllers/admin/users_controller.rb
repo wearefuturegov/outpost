@@ -10,7 +10,7 @@ class Admin::UsersController < Admin::BaseController
           sorted_by: User.options_for_sorted_by,
           roles: User.options_for_roles
         },
-        persistence_id: "shared_key",
+        persistence_id: false,
         default_filter_params: {},
         available_filters: [
           :sorted_by, 

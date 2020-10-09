@@ -13,7 +13,7 @@ class Admin::ServicesController < Admin::BaseController
         in_taxonomy: Taxonomy.options_for_select,
         with_status: Service.options_for_status
       },
-      persistence_id: "shared_key",
+      persistence_id: false,
       default_filter_params: {},
       available_filters: [:in_taxonomy, :with_status, :search, :sorted_by],
     ) or return

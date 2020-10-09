@@ -9,7 +9,7 @@ class Admin::LocationsController < Admin::BaseController
             sorted_by: Location.options_for_sorted_by,
             services: Location.options_for_services
           },
-          persistence_id: "shared_key",
+          persistence_id: false,
           default_filter_params: {},
           available_filters: [
             :sorted_by, 

@@ -104,6 +104,8 @@ class Service < ApplicationRecord
   # validations
   validates_presence_of :name
   validates_uniqueness_of :name
+  validates :name, length: { minimum: 2 }
+  validates :name, length: { maximum: 100 }
   validate :validate_ages
 
   def self.options_for_status

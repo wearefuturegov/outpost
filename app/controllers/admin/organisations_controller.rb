@@ -10,7 +10,7 @@ class Admin::OrganisationsController < Admin::BaseController
         users: Organisation.options_for_users,
         services: Organisation.options_for_services
       },
-      persistence_id: "shared_key",
+      persistence_id: false,
       default_filter_params: {},
       available_filters: [
         :sorted_by, 
