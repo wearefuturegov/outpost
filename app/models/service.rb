@@ -104,8 +104,9 @@ class Service < ApplicationRecord
   # validations
   validates_presence_of :name
   validates_uniqueness_of :name
-  validates_presence_of :description
+  # validates_presence_of :description unless current_user.admin?
   validate :validate_ages
+  # validate :validate_description_unless_admin
 
   def self.options_for_status
     [
@@ -125,6 +126,12 @@ class Service < ApplicationRecord
   def validate_ages
     if min_age.present? && max_age.present? && min_age > max_age
       errors.add(:base, "The maximum age can't be less than the minimum age")
+    end
+  end
+
+  def validate_description_unless_admin
+    unless description.present? || current_user.admin?
+      errors.add(:description, "can't be blank")
     end
   end
 
