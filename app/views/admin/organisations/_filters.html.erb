@@ -31,6 +31,10 @@
                 </button>
             <% end %>
         </div>
+
+        <% if params[:filterrific].present? %>
+          <p class="mini-search__count"><%= @organisations.total_count %> matches</p>
+        <% end %>
     </div>
 
     <%= link_to "Add organisation", new_admin_organisation_path, class: "button button--small button--add  actions__pull-right" %>

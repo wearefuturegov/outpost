@@ -41,7 +41,6 @@ Rails.application.routes.draw do
       get "versions"
       collection do
         get "pending"
-        get "archive"
       end
     end
     resources :activity, only: [:index, :show]

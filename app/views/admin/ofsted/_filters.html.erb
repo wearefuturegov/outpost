@@ -1,7 +1,7 @@
 
 <%= form_for_filterrific @filterrific do |f| %>
 
-  <%= hidden_field_tag :deactivated, params[:deactivated] %>
+  <%= hidden_field_tag :archived, params[:archived] %>
 
   <details class="filters" <%= "open" if params[:filterrific] %>>
     <summary class="filters__control" aria-expanded="false">Filters</summary>
@@ -9,9 +9,6 @@
   
       <%= f.label :sorted_by, "Sort", class: "visually-hidden" %>
       <%= f.select :sorted_by, @filterrific.select_options[:sorted_by], {}, { class: "filters__select", data: { autosubmit: true } } %>
-      
-      <%= f.label :roles, "Filter roles", class: "visually-hidden" %>
-      <%= f.select :roles, @filterrific.select_options[:roles], {}, { class: "filters__select", data: { autosubmit: true } }  %>
       
     </div>
   </details>
@@ -32,13 +29,9 @@
         </div>
 
         <% if params[:filterrific].present? %>
-          <p class="mini-search__count"><%= @users.total_count %> matches</p>
+          <p class="mini-search__count"><%= @items.total_count %> matches</p>
         <% end %>
     </div>
-
-    <% if current_user.admin_users? %>
-        <%= link_to "Invite user", new_admin_user_path, class: "button button--small button--add actions__pull-right" %>
-    <% end %>
   </header>
 
 <% end %>

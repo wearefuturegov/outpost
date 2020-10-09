@@ -16,11 +16,38 @@ class OfstedItem < ApplicationRecord
           tsearch: { prefix: true }
       }
 
-  # sort scopes
-  scope :oldest, ->  { reorder("registration_date ASC") }
-  scope :newest, ->  { reorder("registration_date DESC") }
-  scope :oldest_changed, ->  { reorder("last_change_date ASC") }
-  scope :newest_changed, ->  { reorder("last_change_date DESC") }
+
+  filterrific(
+    default_filter_params: { sorted_by: "recent"},
+    available_filters: [
+      :sorted_by,
+      :search
+    ],
+  )
+
+  scope :sorted_by, ->(sort_option) {
+    direction = /desc$/.match?(sort_option) ? "desc" : "asc"
+    case sort_option.to_s
+    when /^recent/
+      order("last_change_date desc")
+    when /^name_/
+      order("LOWER(ofsted_items.setting_name) #{direction} NULLS LAST")
+    when /^created_at_/
+      order("registration_date #{direction}")
+    else
+      raise(ArgumentError, "Invalid sort option: #{sort_option.inspect}")
+    end
+  }
+
+  def self.options_for_sorted_by
+    [
+      ["Recently updated", "recent"],
+      ["A-Z", "name_asc"],
+      ["Z-A", "name_desc"],
+      ["Oldest added", "created_at_desc"],
+      ["Newest added", "created_at_asc"]
+    ]
+  end
 
   def display_name
     setting_name || provider_name

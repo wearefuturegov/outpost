@@ -1,6 +1,9 @@
 <nav class="shortcuts">
 
-    <%= link_to_unless_current "All", admin_ofsted_index_path, class: "shortcuts__link" do %>
+
+    <% if (params[:archived] === "true") || (params[:action]=== "pending") %>
+        <%= link_to "All", admin_ofsted_index_path, class: "shortcuts__link" %>
+    <% else %>
         <span class="shortcuts__current">All</span>
     <% end %>
 
@@ -16,7 +19,9 @@
 
     <span class="shortcuts__divider">|</span>
 
-    <%= link_to_unless_current "Archived", archive_admin_ofsted_index_path, class: "shortcuts__link" do %>
+    <% unless params[:archived] === "true" %>
+        <%= link_to "Archived", admin_ofsted_index_path(:archived => true), class: "shortcuts__link" %>
+    <% else %>
         <span class="shortcuts__current">Archived</span>
     <% end %>
 

@@ -28,6 +28,10 @@
                 </button>
             <% end %>
         </div>
+
+        <% if params[:filterrific].present? %>
+          <p class="mini-search__count"><%= @locations.total_count %> matches</p>
+        <% end %>
     </div>
     
   </header>

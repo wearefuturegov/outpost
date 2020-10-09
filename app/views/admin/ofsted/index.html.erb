@@ -3,11 +3,7 @@
     <%= render "shortcut-nav" %>
 <% end %>
 
-<header class="actions">
-  <div class="actions__group">
-    <%= render "shared/mini-search", path: request.original_url, clear_path: admin_ofsted_index_path(@query.merge(:query => nil)) %>
-  </div>
-</header>
+<%= render "filters" %>
 
 <% if @items.present? %>
     <div class="table-holder">
@@ -19,8 +15,8 @@
                 <th>Provider name</th>
                 <th>Provision type</th>
                 <th>Registration status</th>
-                <th><%= render "sort", column: "last_change_date", label: "Last changed"%></th>
-                <th><%= render "sort", column: "registration_date", label: "Registration date"%></th>
+                <th>Last changed</th>
+                <th>Registration date</th>
             </tr>
             </thead>
             <tbody>

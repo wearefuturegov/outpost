@@ -3,15 +3,29 @@ class Admin::OfstedController < Admin::BaseController
     before_action :set_counts
     
     def index
-        @query = params.permit(:query)
+      @filterrific = initialize_filterrific(
+        OfstedItem,
+        params[:filterrific],
+        select_options: {
+          sorted_by: OfstedItem.options_for_sorted_by
+        },
+        persistence_id: false,
+        default_filter_params: {},
+        available_filters: [
+          :sorted_by, 
+          :search
+        ],
+        sanitize_params: true,
+      ) || return
+  
+      @items = @filterrific.find.page(params[:page])
 
-        @items = OfstedItem.kept.page(params[:page]).order(setting_name: :ASC)
-
-        @items = @items.search(params[:query]) if params[:query].present?
-        @items = @items.newest if params[:order] === "desc" && params[:order_by] === "registration_date"
-        @items = @items.oldest if params[:order] === "asc" && params[:order_by] === "registration_date"
-        @items = @items.newest_changed if params[:order] === "desc" && params[:order_by] === "last_change_date"
-        @items = @items.oldest_changed if params[:order] === "asc" && params[:order_by] === "last_change_date"
+      # shortcut nav
+      if params[:archived] === "true"
+        @items = @items.discarded
+      else
+        @items = @items.kept
+      end
     end
 
     def show
@@ -22,19 +36,6 @@ class Admin::OfstedController < Admin::BaseController
           @versions = @versions.first(3)
           @versions.push(@service.versions.last)
         end
-    end
-
-    def archive
-      @query = params.permit(:query)
-
-      @items = OfstedItem.discarded.page(params[:page]).order(setting_name: :ASC)
-      
-      @items = @items.search(params[:query]) if params[:query].present?
-      @items = @items.newest if params[:order] === "desc" && params[:order_by] === "registration_date"
-      @items = @items.oldest if params[:order] === "asc" && params[:order_by] === "registration_date"
-      @items = @items.newest_changed if params[:order] === "desc" && params[:order_by] === "last_change_date"
-      @items = @items.oldest_changed if params[:order] === "asc" && params[:order_by] === "last_change_date"
-      render "index"
     end
 
     def versions

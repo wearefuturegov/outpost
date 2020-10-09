@@ -8,7 +8,7 @@ class Organisation < ApplicationRecord
   paginates_per 20
 
   filterrific(
-    default_filter_params: { sorted_by: "created_at_desc"},
+    default_filter_params: { sorted_by: "recent"},
     available_filters: [
       :sorted_by,
       :search,
@@ -38,19 +38,24 @@ class Organisation < ApplicationRecord
   scope :sorted_by, ->(sort_option) {
     direction = /desc$/.match?(sort_option) ? "desc" : "asc"
     case sort_option.to_s
+    when /^recent/
+      order("updated_at desc")
+    when /^name_/
+      order("LOWER(organisations.name) #{direction}")
     when /^created_at_/
       order("created_at #{direction}")
-    when /^name_/
-      order("LOWER(organisations.name) #{direction} NULLS LAST")
+    else
+      raise(ArgumentError, "Invalid sort option: #{sort_option.inspect}")
     end
   }
 
   def self.options_for_sorted_by
     [
-      ["Newest first", "created_at_desc"],
-      ["Oldest first", "created_at_asc"],
-      ["Z-A", "name_desc"],
+      ["Recently updated", "recent"],
       ["A-Z", "name_asc"],
+      ["Z-A", "name_desc"],
+      ["Oldest added", "created_at_desc"],
+      ["Newest added", "created_at_asc"]
     ]
   end
 
