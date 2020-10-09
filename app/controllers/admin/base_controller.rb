@@ -4,6 +4,12 @@ class Admin::BaseController < ApplicationController
 
     private
 
+    def user_admins_only
+        unless current_user.admin_users? 
+          redirect_to request.referer, notice: "You don't have permission to edit other users."
+        end
+    end
+
     def require_admin!
         unless current_user.admin === true
             redirect_to root_path

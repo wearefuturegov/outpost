@@ -3,6 +3,11 @@
     <%= f.text_field :key, class: "field__input" %>
 </div>
 
+<div class="field">
+    <%= f.label :hint, "Instructions", class: "field__label" %>
+    <%= f.text_area :hint, class: "field__input", rows: 2 %>
+</div>
+
 <div class="field field--required">
     <%= f.label :field_type, "Field type", class: "field__label" %>
     <%= f.select :field_type, CustomField.types.collect { |t| [t, t.parameterize]}, {}, class: "field__input" %>

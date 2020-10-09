@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_07_140013) do
+ActiveRecord::Schema.define(version: 2020_10_09_214941) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 2020_10_07_140013) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "public"
+    t.string "hint"
   end
 
   create_table "feedbacks", force: :cascade do |t|
@@ -60,6 +61,12 @@ ActiveRecord::Schema.define(version: 2020_10_07_140013) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "topic"
     t.index ["service_id"], name: "index_feedbacks_on_service_id"
+  end
+
+  create_table "inspection", id: false, force: :cascade do |t|
+    t.bigint "id"
+    t.string "provider_name"
+    t.json "json_array_elements"
   end
 
   create_table "links", force: :cascade do |t|
