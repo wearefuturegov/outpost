@@ -1,31 +1,39 @@
-<details class="filters">
+<%= form_for_filterrific @filterrific do |f| %>
+
+  <%= hidden_field_tag :archived, params[:archived] %>
+
+  <details class="filters" <%= "open" if params[:filterrific] %>>
     <summary class="filters__control" aria-expanded="false">Filters</summary>
-
     <div class="filters__body">
-        <%= form_for admin_services_url, method: "get", html: {class: "filters__form"} do |f| %>
+      <%= f.label :sorted_by, "Sort", class: "visually-hidden" %>
+      <%= f.select :sorted_by, @filterrific.select_options[:sorted_by], {}, { class: "filters__select", data: { autosubmit: true } } %>
 
-            <%= label_tag "filter_taxonomy", "Filter taxonomies", class: "visually-hidden" %>
-            <%= collection_select nil, :filter_taxonomy, 
-            Taxonomy.all, 
-            :id, :name, {
-                include_blank: "All taxonomies",
-                selected: params[:filter_taxonomy]
-            }, class: "filters__select" %>
+      <%= f.label :with_status, "Status", class: "visually-hidden" %>
+      <%= f.select :with_status, @filterrific.select_options[:with_status], {}, { class: "filters__select", data: { autosubmit: true } }  %>
 
-            <%= label_tag "filter_status", nil, class: "visually-hidden" %>
-            <%= select_tag "filter_status", options_for_select([
-                ["Only scheduled", "scheduled"],
-                ["Only expired", "expired"],
-            ], params[:filter_status]), include_blank: "All status", class: "filters__select" %>
+      <%= f.label :in_taxonomy, "Taxonomy", class: "visually-hidden" %>
+      <%= f.select :in_taxonomy, @filterrific.select_options[:in_taxonomy], {}, { class: "filters__select", data: { autosubmit: true } }  %>
 
-            <%= label_tag "filter_label", "Filter labels", class: "visually-hidden" %>
-            <%= collection_select nil, :filter_label, 
-            ActsAsTaggableOn::Tag.most_used, 
-            :name, :name, {
-                include_blank: "All labels",
-                selected: params[:filter_label]
-            }, class: "filters__select" %>
-
-        <% end %>
     </div>
-</details>
+  </details>
+
+  <header class="actions">
+
+    <div class="mini-search">
+      <div class="mini-search__form">
+        <%= f.label :search, "Search query", class: "visually-hidden" %>
+        <%= f.text_field :search, class: "mini-search__input" %>
+        <% if params[:filterrific].present? %>
+          <%= link_to image_tag("clear.svg", alt: "Clear search"), reset_filterrific_url, class: "mini-search__submit" %>
+        <% else %>
+          <button class="mini-search__submit">
+            <%= image_tag "search.svg", alt: "Submit search" %>
+          </button>
+        <% end %>
+      </div>
+    </div>
+
+    <%= link_to "Add service", new_admin_service_path, class: "button button--small button--add  actions__pull-right" %>
+  </header>
+
+<% end %>

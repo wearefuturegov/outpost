@@ -2,9 +2,24 @@ class Admin::ServicesController < Admin::BaseController
   before_action :set_service, only: [:show, :update, :destroy]
 
   def index
-    @query = params.permit(:order, :order_by, :filter_taxonomy, :filter_status, :archived, :query)
 
-    @services = Service.page(params[:page]).includes(:organisation)
+    # @services = @services.tagged_with(params[:filter_label]) if params[:filter_label].present?
+
+    @filterrific = initialize_filterrific(
+      Service,
+      params[:filterrific],
+      select_options: {
+        sorted_by: Service.options_for_sorted_by,
+        in_taxonomy: Taxonomy.options_for_select,
+        with_status: Service.options_for_status
+      },
+      persistence_id: "shared_key",
+      default_filter_params: {},
+      available_filters: [:in_taxonomy, :with_status, :search, :sorted_by],
+    ) or return
+
+    @services = @filterrific.find.page(params[:page])
+    @services = @filterrific.ofsted_registered if params[:ofsted] === "true"
 
     if params[:archived] === "true"
       @services = @services.discarded
@@ -12,20 +27,6 @@ class Admin::ServicesController < Admin::BaseController
       @services = @services.kept
     end
 
-    @services = @services.ofsted_registered if params[:ofsted] === "true"
-
-    @services = @services.alphabetical if params[:order] === "asc" && params[:order_by] === "name"
-    @services = @services.reverse_alphabetical if params[:order] === "desc" && params[:order_by] === "name"
-    @services = @services.newest if params[:order] === "desc" && params[:order_by] === "updated_at"
-    @services = @services.oldest if params[:order] === "asc" && params[:order_by] === "updated_at"
-
-    @services = @services.in_taxonomy(params[:filter_taxonomy]) if params[:filter_taxonomy].present?
-    @services = @services.tagged_with(params[:filter_label]) if params[:filter_label].present?
-    @services = @services.scheduled if params[:filter_status].present? && params[:filter_status] === "scheduled"
-    @services = @services.hidden if params[:filter_status].present? && params[:filter_status] === "expired"
-
-    @services = @services.search(params[:query]).page(params[:page]) if params[:query].present?
-    @services = @services.order(updated_at: :DESC) # default sort
   end
 
   def show

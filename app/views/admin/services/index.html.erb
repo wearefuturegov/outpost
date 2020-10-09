@@ -2,55 +2,12 @@
     <h1 class="page-header__title">Services</h1>
     <%= render "shared/services-nav" %>
 <% end %>
+
 <%= render "filters" %>
-
-<header class="actions">
-  <%= render "shared/mini-search", path: admin_services_path(@query), clear_path: admin_services_path(@query.merge(:query => nil)) %>
-  <%= link_to "Add service", new_admin_service_path, class: "button button--small button--add actions__pull-right" %>
-</header>
-
 
 <% if @services.present? %>
   <div class="table-holder">
-    <table class="table">
-      <thead>
-        <tr>
-          <th class="visually-hidden">ID</th>
-          <th><%= render "sort", column: "name", label: "Name"%></th>
-          <th>Organisation</th>
-          <th>Taxonomies</th>
-          <th><%= render "sort", column: "updated_at", label: "Last updated"%></th>
-          <th>Status</th>
-          <th class="visually-hidden">Notes</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @services.each do |s| %>
-          <tr>
-            <td><span class="table__small"><%= s.id %></span></td>
-            <td>
-              <strong><%= link_to s.display_name.truncate(25), admin_service_path(s) %><strong>
-            </td>
-            <td>
-              <%= render "shared/poppables/organisation", o: s.organisation if s.organisation %>
-            <td>
-              <% s.taxonomies.categories.each do |t| %>
-                <%= link_to t.name, admin_taxonomy_path(t), class: "taxonomy" %>
-              <% end %>
-            </td>
-            <td><%= time_ago_in_words(s.updated_at).humanize %> ago</td>
-            <td><%= status_tag(s.status) %></td>
-            <td>
-              <% if s.notes.size > 0 %>
-                <span class="table-icon table-icon--notes">
-                  <%= s.notes.size %>
-                </span>
-              <% end %>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+    <%= render partial: 'list', locals: { services: @services } %>
   </div>
   <%= paginate @services %>
 <% else %>

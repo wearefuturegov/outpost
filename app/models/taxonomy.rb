@@ -21,4 +21,8 @@ class Taxonomy < ApplicationRecord
     def update_index
         UpdateIndexTaxonomiesJob.perform_later(self)
     end
+
+    def self.options_for_select
+      order("LOWER(name)").map { |e| [e.name, e.id] }.unshift(["None", ""])
+    end
 end
