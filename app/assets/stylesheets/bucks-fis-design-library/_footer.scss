@@ -1,12 +1,38 @@
 .site-footer{
     background: $grey1;
-    padding: 60px $outer-spacing;
+    padding: 30px $outer-spacing 50px $outer-spacing;
     
     @media screen and (min-width: $breakpoint-m){
-        padding: 80px $outer-spacing;
+        padding: 30px $outer-spacing 60px $outer-spacing;
+        font-size: 1rem;
     }
 
     *{
         color: $white;
     }
+
+    a{
+        text-decoration: underline;
+        &:hover{
+            text-decoration: none;
+        }
+    }
+
+    &__menu{
+        line-height: 2;
+    }
+
+    &__link{
+        display: inline-block;
+        margin-right: 15px;
+    }
+
+    &__license{
+        margin: 40px 0px;
+        img{
+            display: block;
+            margin-bottom: 10px;
+        }
+    }
+
 }
