@@ -104,9 +104,7 @@ class Service < ApplicationRecord
   # validations
   validates_presence_of :name
   validates_uniqueness_of :name
-  # validates_presence_of :description unless current_user.admin?
   validate :validate_ages
-  # validate :validate_description_unless_admin
 
   def self.options_for_status
     [
