@@ -6,7 +6,6 @@ class Location < ApplicationRecord
   attr_accessor :skip_postcode_validation
   validates :postal_code, presence: true,  unless: :skip_postcode_validation
   validate :postal_code_is_valid,  unless: :skip_postcode_validation
-  validates :name, presence: true,  unless: :skip_postcode_validation
 
   before_validation :geocode
   geocoded_by :postal_code
@@ -22,13 +21,6 @@ class Location < ApplicationRecord
       errors.add(:base, :invalid_postcode)
     end
   end
-
-  # scope :alphabetical, ->  { order(name: :ASC) }
-  # scope :reverse_alphabetical, ->  { order(name: :DESC) }
-
-  # # filter scopes
-  # scope :only_with_services, ->  { joins(:services) }
-  # scope :only_without_services, ->  { left_joins(:service_at_locations).where(service_at_locations: {id: nil}) }
 
   include PgSearch::Model
   pg_search_scope :search, 
