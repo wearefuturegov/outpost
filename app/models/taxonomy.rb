@@ -11,7 +11,9 @@ class Taxonomy < ApplicationRecord
     after_save :update_index, unless: :skip_mongo_callbacks
     
     validates_presence_of :name, uniqueness: true
-
+    validates :name, length: { minimum: 2 }
+    validates :name, length: { maximum: 100 }
+    
     def slug
         name.parameterize
     end
