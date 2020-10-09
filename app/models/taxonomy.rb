@@ -25,6 +25,6 @@ class Taxonomy < ApplicationRecord
     end
 
     def self.options_for_select
-      order("LOWER(name)").map { |e| [e.name, e.id] }.unshift(["None", ""])
+      order("LOWER(name)").map { |e| [e.name, e.id] }.unshift(["All taxonomies", ""])
     end
 end

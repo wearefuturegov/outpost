@@ -26,9 +26,6 @@
 
     &__body{
         margin-top: 25px;
-    }
-
-    &__form{
         @media screen and (min-width: $breakpoint-m) {
             display: flex;
             flex-direction: row;
@@ -37,9 +34,13 @@
     }
 
     &__select{
+        display: block;
+        margin-bottom: 10px;
         @media screen and (min-width: $breakpoint-m) {
             margin-right: 10px;
-            max-width: 200px;
+            max-width: 210px;
+            margin-bottom: 0px;
+            flex: 1;
         }
     }
 }

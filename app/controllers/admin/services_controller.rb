@@ -2,17 +2,26 @@ class Admin::ServicesController < Admin::BaseController
   before_action :set_service, only: [:show, :update, :destroy]
 
   def index
+
+
     @filterrific = initialize_filterrific(
       Service,
       params[:filterrific],
       select_options: {
         sorted_by: Service.options_for_sorted_by,
         in_taxonomy: Taxonomy.options_for_select,
-        with_status: Service.options_for_status
+        with_status: Service.options_for_status,
+        tagged_with: Service.options_for_labels
       },
       persistence_id: false,
       default_filter_params: {},
-      available_filters: [:in_taxonomy, :with_status, :search, :sorted_by],
+      available_filters: [
+        :in_taxonomy, 
+        :tagged_with, 
+        :with_status, 
+        :search, 
+        :sorted_by
+      ],
     ) or return
 
     @services = @filterrific.find.page(params[:page])

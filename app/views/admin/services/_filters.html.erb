@@ -14,6 +14,9 @@
       <%= f.label :in_taxonomy, "Taxonomy", class: "visually-hidden" %>
       <%= f.select :in_taxonomy, @filterrific.select_options[:in_taxonomy], {}, { class: "filters__select", data: { autosubmit: true } }  %>
 
+      <%= f.label :in_taxonomy, "Labels", class: "visually-hidden" %>
+      <%= f.select :tagged_with, @filterrific.select_options[:tagged_with], {}, { class: "filters__select", data: { autosubmit: true } }  %>
+
     </div>
   </details>
 
@@ -31,7 +34,14 @@
           </button>
         <% end %>
       </div>
+
+      <% if params[:filterrific].present? %>
+        <p class="mini-search__count"><%= @services.total_count %> matches</p>
+      <% end %>
+
     </div>
+
+
 
     <%= link_to "Add service", new_admin_service_path, class: "button button--small button--add  actions__pull-right" %>
   </header>

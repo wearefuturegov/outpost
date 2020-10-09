@@ -1,6 +1,13 @@
 
 .mini-search{
 
+    @media screen and (min-width: $breakpoint-m) {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
     &__form{
         position: relative;
         margin-bottom: 25px;
@@ -43,6 +50,16 @@
         }
         &:focus{
             outline: 3px solid $focus;
+        }
+    }
+
+    &__count{
+        color: $grey2;
+        text-align: center;
+        font-size: 0.9rem;
+        @media screen and (min-width: $breakpoint-m) {
+            margin: 0;
+            margin-left: 10px;
         }
     }
 }
