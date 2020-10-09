@@ -43,9 +43,9 @@ class User < ApplicationRecord
     direction = /desc$/.match?(sort_option) ? "desc" : "asc"
     case sort_option.to_s
     when /^created_at_/
-      order("created_at #{direction}")
+      order("created_at #{direction}  NULLS LAST")
     when /^last_seen_/
-      order("last_seen #{direction}")
+      order("last_seen #{direction}  NULLS LAST")
     end
   }
 
@@ -53,14 +53,14 @@ class User < ApplicationRecord
     [
       ["Joined recently", "created_at_desc"],
       ["Joined earliest", "created_at_asc"],
-      ["Last seen", "last_seen_asc"],
-      ["Rarely seen", "last_seen_desc"]
+      ["Last seen", "last_seen_desc"],
+      ["Rarely seen", "last_seen_asc"]
     ]
   end
 
   def self.options_for_roles
     [
-      ["All", "false"],
+      ["All roles", "false"],
       ["Only community users", "community"],
       ["Only admins", "admin"]
     ]
