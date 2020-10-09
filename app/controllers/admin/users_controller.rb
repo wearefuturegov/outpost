@@ -25,6 +25,7 @@ class Admin::UsersController < Admin::BaseController
       @active_count = User.kept.count
       @deactivated_count = User.discarded.count
 
+      # shortcut nav
       if params[:deactivated] === "true"
         @users = @users.discarded
       else

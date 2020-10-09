@@ -2,9 +2,6 @@ class Admin::ServicesController < Admin::BaseController
   before_action :set_service, only: [:show, :update, :destroy]
 
   def index
-
-    # @services = @services.tagged_with(params[:filter_label]) if params[:filter_label].present?
-
     @filterrific = initialize_filterrific(
       Service,
       params[:filterrific],
@@ -19,14 +16,14 @@ class Admin::ServicesController < Admin::BaseController
     ) or return
 
     @services = @filterrific.find.page(params[:page])
+    
+    # shortcut nav
     @services = @services.ofsted_registered if params[:ofsted] === "true"
-
     if params[:archived] === "true"
       @services = @services.discarded
     else
       @services = @services.kept
     end
-
   end
 
   def show

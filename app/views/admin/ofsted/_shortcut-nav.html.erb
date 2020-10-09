@@ -1,7 +1,7 @@
 <nav class="shortcuts">
 
-    <%= link_to_unless_current "Browse feed", admin_ofsted_index_path, class: "shortcuts__link" do %>
-        <span class="shortcuts__current">Browse feed</span>
+    <%= link_to_unless_current "All", admin_ofsted_index_path, class: "shortcuts__link" do %>
+        <span class="shortcuts__current">All</span>
     <% end %>
 
     <span class="shortcuts__count">(<%= @feed_count %>)</span>
