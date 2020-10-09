@@ -44,8 +44,8 @@ class OfstedItem < ApplicationRecord
       ["Recently updated", "recent"],
       ["A-Z", "name_asc"],
       ["Z-A", "name_desc"],
-      ["Oldest added", "created_at_desc"],
-      ["Newest added", "created_at_asc"]
+      ["Oldest added", "created_at_asc"],
+      ["Newest added", "created_at_desc"]
     ]
   end
 
