@@ -1,0 +1,19 @@
+.feedback-list{
+    @media screen and (min-width: $breakpoint-m) {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 25px;
+    }
+}
+
+.feedback-card{
+    background: $pale;
+    padding: 25px;
+    margin-bottom: 15px;
+
+
+
+    &__meta{
+        color: $grey2;
+    }
+}
