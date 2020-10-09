@@ -7,7 +7,7 @@
 <% if @requests.present? %>
   <ul class="todo-list">
     <% @requests.each do |s| %>
-      <li class="todo-panel">
+      <li class="todo-list__item">
         <div>
           <h2><%= link_to s.setting_name.truncate(25), admin_ofsted_path(s) %></h2>
           <p>
