@@ -37,7 +37,7 @@ class Admin::OrganisationsController < Admin::BaseController
 
   def update
     if @organisation.update(organisation_params)
-      redirect_to admin_organisation_path, notice: "Organisation has been updated."
+      redirect_to admin_organisation_path(@organisation), notice: "Organisation has been updated."
     else
       render "show"
     end
@@ -50,7 +50,7 @@ class Admin::OrganisationsController < Admin::BaseController
   def create
     @organisation = Organisation.create(organisation_params)
     if @organisation.save
-      redirect_to admin_organisation_path, notice: "Organisation has been created."
+      redirect_to admin_organisation_path(@organisation), notice: "Organisation has been created."
     else
       render "new"
     end
