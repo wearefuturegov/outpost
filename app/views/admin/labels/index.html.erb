@@ -11,6 +11,7 @@
           <th>Name</th>
           <th>Services</th>
           <th>Last updated</th>
+          <th>Created</th>
           <th class="visually-hidden">Actions</th>
         </tr>
       </thead>
@@ -20,6 +21,7 @@
             <td><%= l.name %></td>
             <td><%= Service.tagged_with(l).count %></td>
             <td><%= time_ago_in_words(l.updated_at).humanize %> ago</td>
+            <td><%= time_ago_in_words(l.created_at).humanize %> ago</td>
             <td class="align-right">
                 <%= link_to 'See services', admin_services_path(filterrific: { tagged_with: l.name }), class: "right-margin" %>
                 <%# link_to 'Remove', admin_label_path(l), method: "delete", data: {confirm: "Are you sure you want to remove this label?"} %>
