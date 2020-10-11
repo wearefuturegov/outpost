@@ -14,6 +14,7 @@
           <th>Services</th>
           <th>Users</th>
           <th>Last updated</th>
+          <th>Created</th>
         </tr>
       </thead>
       <tbody>
@@ -23,6 +24,7 @@
             <td><%= o.services.length %></td>
             <td><%= o.users.length %></td>
             <td><%= time_ago_in_words(o.updated_at).humanize %> ago</td>
+            <td><%= time_ago_in_words(o.created_at).humanize %> ago</td>
           </tr>
         <% end %>
       </tbody>
