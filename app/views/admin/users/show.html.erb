@@ -26,6 +26,8 @@
             <%= render "shared/errors", model: @user %>
             <%= render "fields", f: f %>
 
+                    <%= render "admin/users/labels", s: f %>
+
             <% if current_user.admin_users? %>
               <div class="form-actions">
                 <%= f.submit "Update", class: "button", data: {confirm: "Only edit other users if you're sure you know what you're doing. Do you want to continue?"} %>

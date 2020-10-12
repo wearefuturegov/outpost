@@ -10,6 +10,8 @@ class User < ApplicationRecord
   validates :first_name, presence: true
   validates :last_name, presence: true
 
+  acts_as_taggable_on :labels
+  
   paginates_per 20
 
   include Discard::Model
@@ -26,7 +28,8 @@ class User < ApplicationRecord
     available_filters: [
       :sorted_by,
       :search,
-      :roles
+      :roles,
+      :tagged_with
     ],
   )
 
@@ -64,6 +67,10 @@ class User < ApplicationRecord
       ["Only community users", "community"],
       ["Only admins", "admin"]
     ]
+  end
+
+  def self.options_for_labels
+    ActsAsTaggableOn::Tag.most_used.map { |t| [t.name, t.name] }.unshift(["All labels", ""])
   end
 
   # Include default devise modules. Others available are:

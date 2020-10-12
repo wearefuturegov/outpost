@@ -13,6 +13,9 @@
       <%= f.label :roles, "Filter roles", class: "visually-hidden" %>
       <%= f.select :roles, @filterrific.select_options[:roles], {}, { class: "filters__select", data: { autosubmit: true } }  %>
       
+      <%= f.label :in_taxonomy, "Labels", class: "visually-hidden" %>
+      <%= f.select :tagged_with, @filterrific.select_options[:tagged_with], {}, { class: "filters__select", data: { autosubmit: true } }  %>
+
     </div>
   </details>
 

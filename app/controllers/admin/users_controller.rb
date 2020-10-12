@@ -8,14 +8,16 @@ class Admin::UsersController < Admin::BaseController
         params[:filterrific],
         select_options: {
           sorted_by: User.options_for_sorted_by,
-          roles: User.options_for_roles
+          roles: User.options_for_roles,
+          tagged_with: Service.options_for_labels
         },
         persistence_id: false,
         default_filter_params: {},
         available_filters: [
           :sorted_by, 
           :search,
-          :roles
+          :roles,
+          :tagged_with
         ],
         sanitize_params: true,
       ) || return
@@ -95,7 +97,8 @@ class Admin::UsersController < Admin::BaseController
         :admin,
         :admin_ofsted,
         :admin_users,
-        :organisation_id
+        :organisation_id,
+        :label_list,
       )
     end
 end
