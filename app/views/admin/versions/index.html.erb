@@ -24,13 +24,13 @@
                             <p><em>Earliest version</em><p>
                         <% end %>
 
-                        <% if s.user %>
-                            <p class="snapshots-tree__snapshot-user"><%= s.user.display_name %></p>
+                        <% if s.whodunnit %>
+                            <p class="snapshots-tree__snapshot-user"><%= User.find(s.whodunnit).display_name %></p>
                         <% end %>
 
-                        <% unless s.action === "update"%>
+                        <% unless s.event === "update"%>
                             <p class="snapshots-tree__snapshot-action">
-                                <%= s.action.humanize %>
+                                <%= s.event.humanize %>
                             </p>
                         <% end %>
 
@@ -55,7 +55,7 @@
                             </div>
                         </div>
                     <% else %>
-                        <% unless s.service.approved %>
+                        <% unless @service.approved %>
                             <div class="snapshot-preview__actions">
                                 <div></div>
                                 <%= link_to "Approve this version", admin_request_path(@service), method: "patch", data: {confirm: "Are you sure? Approving these changes makes them publicly visible."}, class: "button button--small" %>

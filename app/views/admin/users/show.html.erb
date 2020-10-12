@@ -42,7 +42,7 @@
       <%= render "shared/collapsible", name: "Recent activity", id: "user-recent-activity" do %>
           <% if @activities.present? %>
             
-            <%= link_to "See all activity", admin_activity_url(@user), class: "collapsible__action" %>
+            <%= link_to "See all activity", admin_activity_index_url(user: @user), class: "collapsible__action" %>
             
             <div class="table-holder">
               <table class="table">
@@ -50,10 +50,8 @@
                   <% @activities.each do |a| %>
                     <tr>
                       <td>
-                        <%= link_to a.service.name, admin_service_url(a.service) %>
-                      </td>
-                      <td>
-                        <%= pretty_event(a.action).humanize %>
+                        <%= pretty_event(a.event).humanize %>
+                        <%= link_to Service.find(a.item_id).name, admin_service_url(a.item_id) %>
                       </td>
                       <td><%= short_time_ago_in_words(a.created_at).humanize %> ago</td>
                     </tr>

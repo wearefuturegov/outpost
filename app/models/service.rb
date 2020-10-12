@@ -1,9 +1,16 @@
 class Service < ApplicationRecord
 
-  include HasSnapshots
   include MongoIndexCallbacks
   include Discard::Model
   include NormalizeBlankValues
+
+  has_paper_trail(
+    on: [:create, :destroy, :touch, :update],
+    meta: {
+      object: proc { |s| s.as_json },
+      object_changes: proc { |s| s.saved_changes.as_json }
+    }
+  )
 
   # associations
   belongs_to :organisation, counter_cache: true
@@ -197,17 +204,17 @@ class Service < ApplicationRecord
 
   # custom actions with paper trail events
   def archive
-    self.snapshot_action = "archive"
+    self.paper_trail_event = "archive"
     self.discard
   end
 
   def restore
-    self.snapshot_action = "unarchive"
+    self.paper_trail_event = "unarchive"
     self.undiscard
   end
 
   def approve
-    self.snapshot_action = "approve"
+    self.paper_trail_event = "approve"
     self.approved = true
     self.save
   end
@@ -250,8 +257,7 @@ class Service < ApplicationRecord
 
   # return the most recent approved snapshot, if it exists
   def last_approved_snapshot
-    Snapshot
-      .where(service: self.id)
+    self.versions
       .where("object->>'approved' = 'true'")
       .order(created_at: :desc)
       .first

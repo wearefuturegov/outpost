@@ -1,25 +1,26 @@
 <%= render "shared/collapsible", name: "History", id: "service-history" do %>
 
-    <%= link_to "Compare versions", admin_service_snapshots_path(@service), class: "collapsible__action" %>
+    <%= link_to "Compare versions", admin_service_versions_path(@service), class: "collapsible__action" %>
     
-    <% if @snapshots.present? %>
-      <ul class="stepper <%= "stepper--summarised" if @service.snapshots.length > 4 %>">
-          <% @snapshots.each do |shot| %>
-              <li class="stepper__step <%= stepper_class(shot.action) %>">
+    <% if @versions.present? %>
+      <ul class="stepper <%= "stepper--summarised" if @service.versions.length > 4 %>">
+          <% @versions.each do |v| %>
+              <li class="stepper__step <%= stepper_class(v.event) %>">
                   <div>
-                    <%= pretty_event(shot.action) %>
-                    <% if shot.user.present? %>
-                      by <strong><%= render "shared/poppables/user", u: shot.user %></strong>
+                    <%= pretty_event(v.event)&.humanize %>
+                    <% if v.whodunnit.present? %>
+                      by <strong><%= render "shared/poppables/user", u: User.find(v.whodunnit) %></strong>
                     <% else %>
                       by system
                     <% end %>
                   </div>
                   <p class="stepper__time">
-                    <%= time_ago_in_words(shot.created_at).humanize %> ago
+                    <%= time_ago_in_words(v.created_at).humanize %> ago
                   </p>
               </li>
           <% end %>
       </ul>
+    <% else %>
+      <p class="no-results">No versions to show</p>
     <% end %>
-
 <% end %>

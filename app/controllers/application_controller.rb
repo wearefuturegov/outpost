@@ -1,16 +1,9 @@
 class ApplicationController < ActionController::Base
     before_action :authenticate_user!
     before_action :set_pending_counts
-    around_action :set_current_user
+    before_action :set_paper_trail_whodunnit
 
     protected
-
-    def set_current_user
-      Current.user = current_user
-      yield
-    ensure
-      Current.user = nil
-    end  
 
     def no_admins
       if current_user && current_user.admin?

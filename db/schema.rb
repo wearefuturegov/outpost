@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_09_214941) do
+ActiveRecord::Schema.define(version: 2020_10_12_202649) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -375,9 +375,9 @@ ActiveRecord::Schema.define(version: 2020_10_09_214941) do
     t.bigint "item_id", null: false
     t.string "event", null: false
     t.string "whodunnit"
-    t.text "object"
     t.datetime "created_at"
-    t.text "object_changes"
+    t.json "object"
+    t.json "object_changes"
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 

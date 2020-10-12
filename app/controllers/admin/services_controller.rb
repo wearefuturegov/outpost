@@ -2,8 +2,6 @@ class Admin::ServicesController < Admin::BaseController
   before_action :set_service, only: [:show, :update, :destroy]
 
   def index
-
-
     @filterrific = initialize_filterrific(
       Service,
       params[:filterrific],
@@ -37,15 +35,14 @@ class Admin::ServicesController < Admin::BaseController
 
   def show
     @watched = current_user.watches.where(service_id: @service.id).exists?
-    @snapshots = @service.snapshots.order(created_at: :desc).includes(:user)
-    if @service.snapshots.length > 4
-      @snapshots = @snapshots.first(3)
-      @snapshots.push(@service.snapshots.last)
+    @versions = @service.versions.reverse
+    if @service.versions.length > 4
+      @versions = @versions.first(3)
+      @versions.push(@service.versions.first)
     end
   end
 
   def update
-    # byebug
     if @service.update(service_params)
       redirect_to admin_service_url(@service), notice: "Service has been updated."
     else
@@ -75,7 +72,7 @@ class Admin::ServicesController < Admin::BaseController
   private
 
   def set_service
-    @service = Service.includes(notes: [:user], snapshots: [:user]).find(params[:id])
+    @service = Service.includes(notes: [:user]).find(params[:id])
   end
 
   def service_params

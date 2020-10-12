@@ -59,7 +59,7 @@ class Admin::UsersController < Admin::BaseController
     end
 
     def show
-      @activities = Snapshot.order("created_at DESC").where(user: params[:id]).limit(5).includes(:service)
+      @activities = PaperTrail::Version.order("created_at DESC").where(whodunnit: params[:id]).limit(5)
     end
 
     def destroy
