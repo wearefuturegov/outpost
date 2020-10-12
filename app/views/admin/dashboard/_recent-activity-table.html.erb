@@ -11,7 +11,7 @@
         <% @activities.each do |a| %>
           <tr>
             <td>
-              <%= render "shared/poppables/service", s: a.service %> was <%= a.action %>d by               <%= render "shared/poppables/user", u: a.user if a.user %>
+              <%= render "shared/poppables/service", s: a.service %> <%= pretty_event(a.action).downcase %> by <%= render "shared/poppables/user", u: a.user if a.user %>
             </td>
             <td>
               <%= short_time_ago_in_words(a.created_at).humanize %> ago
