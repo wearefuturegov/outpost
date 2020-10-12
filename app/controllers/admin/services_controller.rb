@@ -43,6 +43,8 @@ class Admin::ServicesController < Admin::BaseController
   end
 
   def update
+    # force paper trail version to be saved
+    @service.updated_at = Time.now
     if @service.update(service_params)
       redirect_to admin_service_url(@service), notice: "Service has been updated."
     else
