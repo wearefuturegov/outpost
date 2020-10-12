@@ -46,6 +46,15 @@
     @media screen and (min-width: $breakpoint-l){
         column-gap: 55px;
     }
+
+    & > *:first-child{
+        margin-bottom: 35px;
+        @supports(display: grid){
+            @media screen and (min-width: $breakpoint-m) {
+                margin-bottom: 0px;
+            }
+        }
+    }
 }
 
 .margin-bottom{
@@ -70,6 +79,15 @@
     }
     @media screen and (min-width: $breakpoint-l){
         column-gap: 55px;
+    }
+
+    & > *:first-child{
+        margin-bottom: 35px;
+        @supports(display: grid){
+            @media screen and (min-width: $breakpoint-m) {
+                margin-bottom: 0px;
+            }
+        }
     }
 
     p:first-child{
