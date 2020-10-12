@@ -76,9 +76,18 @@
     }
 
     &--no-margins{
-        @media screen and (min-width: $breakpoint-m){
-            .field{
+        .field{
+            margin-bottom: 25px;
+            &:last-of-type{
                 margin-bottom: 0px;
+            }
+        }
+
+        @supports(display: grid){
+            @media screen and (min-width: $breakpoint-m){
+                .field{
+                    margin-bottom: 0px;
+                }
             }
         }
     }

@@ -38,6 +38,7 @@
     }
 
     &__tag{
+        display: inline-block;
         font-weight: bold;
         padding: 4px 10px;
         background: $grey4;

@@ -1,8 +1,19 @@
-import "core-js"
 
 import "nodelist-foreach-polyfill"
 import "polyfill-array-includes"
 import "time-input-polyfill/auto"
+import datasetPolyfill from "conglomerate-element-dataset"
+
+datasetPolyfill()
+
+// polyfill .remove()
+if (!('remove' in Element.prototype)) {
+  Element.prototype.remove = function() {
+      if (this.parentNode) {
+          this.parentNode.removeChild(this);
+      }
+  };
+}
 
 import tabs from "./tabs"
 import collapsible from "./collapsible"
@@ -19,5 +30,4 @@ import helpTips from "./help-tips"
 import bulkTaxonomiesActions from "./bulk-taxonomies-actions"
 import warnUnsavedChanges from "./warn-unsaved-changes"
 import showIfChecked from "./show-if-checked"
-
 import choices from "./choices"

@@ -28,7 +28,6 @@ editors.forEach(editor => {
             e.preventDefault()
             if(window.confirm("Are you sure you want to remove this item?")){
                 let result = e.target.parentNode
-                console.log(result)
                 result.setAttribute("hidden", "true")
                 result.querySelectorAll(".field").forEach(field => field.remove())
                 result.querySelector("input[data-destroy-field]").value = "true"
