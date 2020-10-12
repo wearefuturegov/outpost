@@ -147,12 +147,11 @@ class Service < ApplicationRecord
     against: [:id, :name, :description], 
     using: {
       tsearch: { prefix: true }
+    }, 
+    associated_against: {
+      locations: [:postal_code],
+      meta: [:value]
     }
-
-  pg_search_scope :search, associated_against: {
-    locations: [:postal_code],
-    meta: [:value]
-  }
 
   def display_name
     self.name || "Unnamed service"
