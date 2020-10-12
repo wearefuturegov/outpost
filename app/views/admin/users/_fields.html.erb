@@ -21,6 +21,8 @@
     <%= f.collection_select( :organisation_id, Organisation.all, :id, :display_name, {include_blank: "None"}, class: "field__input", data: {choices: true}, disabled: !current_user.admin_users?)%>
   </div>
 
+  <%= render "admin/users/labels", s: f %>
+
   <div class="field-group">
     <div class="field checkbox">
       <%= f.check_box :admin, class: "checkbox__input", disabled: !current_user.admin_users? %>
