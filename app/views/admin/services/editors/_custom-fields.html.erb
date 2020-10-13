@@ -1,9 +1,8 @@
-<div class="">
-
-    <% CustomFieldSection.visible_to(current_user).each do |section| %>
-        <h3><%= section.name %></h3>
+<% CustomFieldSection.visible_to(current_user).each do |section| %>
+    <div class="field-group">
+        <h3 class="field-group__legend"><%= section.name %></h3>
         <% if section.hint.present? %>
-            <p><%= section.hint %></p>
+            <p class="field-group__hint"><%= section.hint %></p>
         <% end %>
 
         <% section.custom_fields.each do |field| %>
@@ -43,7 +42,6 @@
 
             <% end %>
         <% end %>
+    </div>
 
-    <% end %>
-
-</div>
+<% end %>

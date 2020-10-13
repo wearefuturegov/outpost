@@ -17,7 +17,7 @@
     </div>
 </div>
 
-<fieldset class="field-group field-group--two-cols margin-bottom">
+<fieldset class="field-group field-group--two-cols field-group--no-top-margin margin-bottom">
     <legend class="field-group__legend">Accessibility</legend>
 
     <%= l.collection_check_boxes( :accessibility_ids, Accessibility.all, :id, :display_name) do |c| %>
