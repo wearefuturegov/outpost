@@ -30,7 +30,7 @@ class Admin::OfstedController < Admin::BaseController
 
     def show
         @item = OfstedItem.find(params[:id])
-        @related_items = OfstedItem.where(rp_reference_number: @item.rp_reference_number).where.not(id: params[:id])
+        @related_items = OfstedItem.where(rp_reference_number: @item.rp_reference_number).where.not(id: params[:id]) if @item.rp_reference_number.present?
         @versions = @item.versions.order(created_at: :asc).reverse
         if @item.versions.length > 4
           @versions = @versions.first(3)
