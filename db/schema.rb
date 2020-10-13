@@ -384,9 +384,9 @@ ActiveRecord::Schema.define(version: 2020_10_13_123405) do
     t.bigint "item_id", null: false
     t.string "event", null: false
     t.string "whodunnit"
-    t.text "object"
     t.datetime "created_at"
     t.text "object_changes"
+    t.text "object"
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
