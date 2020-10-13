@@ -1,7 +1,10 @@
-<div class="field-section">
+<div class="">
 
     <% CustomFieldSection.visible_to(current_user).each do |section| %>
         <h3><%= section.name %></h3>
+        <% if section.hint.present? %>
+            <p><%= section.hint %></p>
+        <% end %>
 
         <% section.custom_fields.each do |field| %>
             <%= s.fields_for :meta, s.object.meta.find_or_initialize_by(key: field.key) do |c| %>

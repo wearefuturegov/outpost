@@ -34,7 +34,7 @@ class ServicesController < ApplicationController
     end
 
     def update
-        if params[:section]
+        if params[:section] && session[:completed_sections]
             session[:completed_sections].push(params[:section])
         end
         if params[:service]
