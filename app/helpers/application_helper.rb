@@ -60,7 +60,7 @@ module ApplicationHelper
             "<span class='tag'>Active</span".html_safe
         elsif status === "marked for deletion"
             "<span class='tag tag--red'>Marked for deletion</span".html_safe
-        elsif status === "pending"
+        elsif status === "pending" || status === "proposed"
             "<span class='tag tag--yellow'>Pending</span".html_safe
         else
             "<span class='tag tag--grey'>#{status.capitalize}</span".html_safe
