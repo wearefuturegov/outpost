@@ -26,7 +26,7 @@
                     <td><strong><%= link_to i.setting_name, admin_ofsted_path(i) %></strong></td>
                     <td><%= i.provider_name %></td>
                     <td><%= i.provision_type %></td>
-                    <td><%= i.registration_status %></td>
+                    <td><%= status_tag(i.registration_status) %></td>
                     <td><%= short_time_ago_in_words(i.last_change_date).humanize + " ago"  if i.last_change_date %></td>
                     <td><%= i.registration_date %></td>
                 </tr>

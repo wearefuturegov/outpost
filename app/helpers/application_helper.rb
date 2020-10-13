@@ -56,20 +56,14 @@ module ApplicationHelper
     end
 
     def status_tag(status)
-        if status === "marked for deletion"
+        if status.downcase === "active"
+            "<span class='tag'>Active</span".html_safe
+        elsif status === "marked for deletion"
             "<span class='tag tag--red'>Marked for deletion</span".html_safe
         elsif status === "pending"
             "<span class='tag tag--yellow'>Pending</span".html_safe
-        elsif status === "archived"
-            "<span class='tag tag--grey'>Archived</span".html_safe
-        elsif status === "invisible"
-            "<span class='tag tag--grey'>Invisible</span".html_safe
-        elsif status === "scheduled"
-            "<span class='tag tag--grey'>Scheduled</span".html_safe
-        elsif status === "expired"
-            "<span class='tag tag--grey'>Expired</span".html_safe
         else
-            "<span class='tag'>Active</span".html_safe
+            "<span class='tag tag--grey'>#{status.capitalize}</span".html_safe
         end
     end
 
