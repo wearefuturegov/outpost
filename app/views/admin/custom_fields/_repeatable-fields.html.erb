@@ -1,0 +1,20 @@
+<div class="field-group field-group--two-cols">
+    <div class="field field--required">
+        <%= c.label :key, "Label", class: "field__label" %>
+        <%= c.text_field :key, class: "field__input" %>
+    </div>
+
+    <div class="field field--required">
+        <%= c.label :field_type, "Field type", class: "field__label" %>
+        <%= c.select :field_type, CustomField.types.collect { |t| [t, t.parameterize]}, {}, class: "field__input" %>
+    </div>
+</div>
+
+<div class="field">
+    <%= c.label :hint, "Instructions", class: "field__label" %>
+    <%= c.text_area :hint, class: "field__input", rows: 1 %>
+</div>
+
+<%= c.hidden_field :_destroy,  data: {destroy_field: true} %>
+
+<button type="button" class="repeater__closer" data-close="true" title="Remove this field">Remove this field</button>

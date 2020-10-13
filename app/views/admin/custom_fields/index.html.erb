@@ -3,55 +3,14 @@
     <h1 class="page-header__title">Custom fields</h1>
 <% end %>
 
-<div class="half-and-half">
-    <div class="panel">
-      <% if @fields.present? %>
-        <div class="table-holder">
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Label</th>
-                <th>Field type</th>
-                <th>Public</th>
-                <th class="visually-hidden">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <% @fields.each do |f| %>
-                <tr>
-                  <td>
-                    <strong><%= f.key %></strong>
-                  </td>
-                  <td><%= f.field_type.humanize %></td>
-                  <td>
-                    <% if f.public %>
-                      <%= image_tag "tick-blue.svg", alt: "Yes" %>
-                    <% else %>
-                      —
-                    <% end %>
-                  </td>
-                  <td>
-                    <%= link_to "Remove", admin_custom_field_path(f), method: "delete", data: {confirm: "Are you sure? Data for this field will become invisible."} %>
-                  </td>
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
-        </div>
-      <% else %>
-        <p class="no-results no-results--big">No fields have been set up</p>
-      <% end %>
-    </div>
-    <div class="panel">
-        <%= form_for [:admin, @new_field], data: {warn_unsaved_changes: true} do |f| %>
-          <%= render "shared/errors", model: @new_field %>
-          <h2 class="field-group__legend">Add a new field</h2>
-          
-          <%= render "fields", f: f %>
-          <div class="form-actions">
-            <%= f.button "Create", class: "button button--small button--add" %>
-          </div>
-        <% end %>
-    </div>
+<header class="actions">
+  <%= link_to "Add section", new_admin_custom_field_path, class: "button button--small button--add  actions__pull-right" %>
+</header>
 
-</div>
+<% if @sections.present? %>
+  <% @sections.each do |s| %>
+    <p><%= link_to s.name, admin_custom_field_path(s) %></p>
+  <% end %>
+<% else %>
+  <p class="no-results no-results--big">No fields have been set up</p>
+<% end %>

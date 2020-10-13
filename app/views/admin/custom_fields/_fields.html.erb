@@ -1,24 +1,29 @@
-<div class="field field--required">
-    <%= f.label :key, "Label", class: "field__label" %>
-    <%= f.text_field :key, class: "field__input" %>
-</div>
+    <div class="field field--required">
+        <%= f.label :name, "Name", class: "field__label" %>
+        <p class="field__hint">A word or short phrase that all users will understand.</p>
+        <%= f.text_field :name, class: "field__input" %>
+    </div>
 
-<div class="field">
-    <%= f.label :hint, "Instructions", class: "field__label" %>
-    <%= f.text_area :hint, class: "field__input", rows: 2 %>
-</div>
+    <div class="field">
+        <%= f.label :hint, "Instructions", class: "field__label" %>
+        <p class="field__hint">Keep this brief. A few words or a short sentence is enough.</p>
+        <%= f.text_area :hint, class: "field__input", rows: 2 %>
+    </div>
 
-<div class="field field--required">
-    <%= f.label :field_type, "Field type", class: "field__label" %>
-    <%= f.select :field_type, CustomField.types.collect { |t| [t, t.parameterize]}, {}, class: "field__input" %>
-</div>
+    <div class="field checkbox">
+        <%= f.check_box :public, class: "checkbox__input"%>
+        <%= f.label :public, "Make visible to community users?", class: "checkbox__label" %>
+    </div>
 
-<div class="field">
-    <%= f.label :custom_field_section_id, "Parent section", class: "field__label" %>
-    <%= f.collection_select( :custom_field_section_id, CustomFieldSection.all, :id, :name, {}, class: "field__input")%>
-</div>
+    <h2>Fields</h2>
+    <section class="repeater">
+        <ul class="repeater__panels" aria-live="polite">
+            <%= f.fields_for :custom_fields do |c| %>
+                <li class="repeater__panel">
+                    <%= render "admin/custom_fields/repeatable-fields", c: c %>
+                </li>
+            <% end %>
+        </ul>
 
-<div class="field checkbox">
-    <%= f.check_box :public, class: "checkbox__input"%>
-    <%= f.label :public, "Make visible to community users?", class: "checkbox__label" %>
-</div>
+        <%= link_to_add_contact_fields "Add a field", f, :custom_fields, "admin/custom_fields/repeatable-fields" %>
+    </section>

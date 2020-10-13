@@ -1,38 +1,41 @@
 class Admin::CustomFieldsController < Admin::BaseController
   before_action :user_admins_only
-  before_action :set_fields_and_new_field, only: [:index, :create]
 
   def index
+    @sections = CustomFieldSection.all
+  end
+
+  def new
+    @section = CustomFieldSection.new
   end
 
   def create
-    @new_field = CustomField.create(custom_field_params)
-    if @new_field.save
-      redirect_to admin_custom_fields_path, notice: "Field has been created."
+    @section = CustomFieldSection.new(custom_field_section_params)
+    if @section.save
+      redirect_to admin_custom_fields_path, notice: "Fields have been created"
     else
-      render "index"
+      render "new"
     end
   end
 
-  def destroy
-    CustomField.find(params[:id]).destroy
-    redirect_to admin_custom_fields_path, notice: "Field has been removed."
+  def show
+    @section = CustomFieldSection.find(params[:id])
   end
 
   private
 
-  def set_fields_and_new_field
-    @fields = CustomField.all
-    @new_field = CustomField.new
-  end
-
-  def custom_field_params
-      params.require(:custom_field).permit(
-        :key,
-        :field_type,
+  def custom_field_section_params
+      params.require(:custom_field_section).permit(
+        :name,
         :hint,
-        :public
+        :public,
+        custom_field_attributes: [
+          :key,
+          :field_type,
+          :hint,
+          :_destroy
+        ]
       )
   end
 
-  end
+end
