@@ -10,6 +10,4 @@ class CustomField < ApplicationRecord
             "Checkbox"
         ]
     end
-
-    scope :visible_to, -> (current_user){ current_user.admin ? all : where(public: true) }
 end

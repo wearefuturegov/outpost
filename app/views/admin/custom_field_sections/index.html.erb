@@ -1,0 +1,25 @@
+<% content_for :header do %>
+    <%= link_to "Back to services", admin_services_path, class: "go-back" %>
+    <h1 class="page-header__title">Custom fields</h1>
+<% end %>
+
+<header class="actions">
+  <%= link_to "Add section", new_admin_custom_field_section_path, class: "button button--small button--add  actions__pull-right" %>
+</header>
+
+<% if @sections.present? %>
+  <ul class="todo-list">
+  <% @sections.each do |s| %>
+      <li class="todo-list__item">
+        <div>
+          <h2><%= link_to s.name, admin_custom_field_section_path(s) %></h2>
+          <p>
+            <%= s.custom_fields.map{ |f| f.key }.join(", ") %>
+          </p>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p class="no-results no-results--big">No fields have been set up</p>
+<% end %>

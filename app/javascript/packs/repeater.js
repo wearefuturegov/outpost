@@ -8,7 +8,7 @@ editors.forEach(editor => {
     let addButton = editor.querySelector("[data-add]")
     let results = editor.querySelector(".repeater__panels")
 
-    // Add custom
+    // Add item
     addButton.addEventListener("click", e => {
         e.preventDefault()
         let time = new Date().getTime()
@@ -18,11 +18,11 @@ editors.forEach(editor => {
         newResult.innerHTML = addButton.dataset.fields.replace(regexp, time)
         results.appendChild(newResult)
 
-        // activate tippies
+        // activate any tippies
         tippy("[data-tippy-content]") 
     })
 
-    // Remove this location
+    // Remove item
     editor.addEventListener("click", e => {
         if(e.target.dataset.close){
             e.preventDefault()

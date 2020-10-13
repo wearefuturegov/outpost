@@ -43,7 +43,7 @@
 
                         <% if current_user.admin_users? %>
                             <li class="site-nav__submenu-item">
-                                <%= link_to_unless_current "Custom fields", admin_custom_fields_path, class: "site-nav__submenu-link" do %>
+                                <%= link_to_unless_current "Custom fields", admin_custom_field_sections_path, class: "site-nav__submenu-link" do %>
                                     <span class="site-nav__submenu-current">Custom fields</span>
                                 <% end %>
                             </li>

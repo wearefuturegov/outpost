@@ -44,9 +44,7 @@ Rails.application.routes.draw do
       end
     end
     resources :activity, only: [:index, :show]
-
-    resources :custom_fields, except: [:edit]
-
+    resources :custom_field_sections, except: [:edit]
     resources :users, except: [:edit] do
       post "reset"
       post "reactivate"
