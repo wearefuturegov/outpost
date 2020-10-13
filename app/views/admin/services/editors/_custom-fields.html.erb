@@ -10,35 +10,28 @@
                 <%= c.hidden_field :key %>
 
                 <% if field.field_type === "checkbox" %>
-
                     <div class="field">
                         <div class="checkbox">
                             <%= c.check_box :value, class: "checkbox__input"%>
                             <%= c.label :value, field.key, class: "checkbox__label" %>
                         </div>
                     </div>
-
-                <% elsif field.field_type === "number" %>
-
-                    <div class="field">
-                        <%= c.label :value, field.key, class: "field__label" %>
-                        <% if field.hint.present? %>
-                            <p class="field__hint"><%= field.hint %></p>
-                        <% end %>
-                        <%= c.number_field :value, class: "field__input" %>
-                    </div>
-
                 <% else %>
-
                     <div class="field">
                         <%= c.label :value, field.key, class: "field__label" %>
                         <% if field.hint.present? %>
                             <p class="field__hint"><%= field.hint %></p>
                         <% end %>
-                        <%= c.text_field :value, class: "field__input" %>
+                        <% if field.field_type === "number" %>
+                            <%= c.number_field :value, class: "field__input" %>
+                        <% elsif field.field_type === "select"%>
+                            <%= c.select :value, field.options.split(","), {}, class: "field__select" %>
+                        <% else %>
+                            <%= c.text_field :value, class: "field__input" %>
+                        <% end %>
                     </div>
-
                 <% end %>
+
 
             <% end %>
         <% end %>

@@ -6,8 +6,13 @@
 
     <div class="field field--required">
         <%= c.label :field_type, "Field type", class: "field__label" %>
-        <%= c.select :field_type, CustomField.types.collect { |t| [t, t.parameterize]}, {}, class: "field__input" %>
+        <%= c.select :field_type, CustomField.types.collect { |t| [t, t.parameterize]}, {}, class: "field__input", data: { type: true } %>
     </div>
+</div>
+
+<div class="field" data-options>
+    <%= c.label :options, "Options", class: "field__label" %>
+    <%= c.text_field :options, class: "field__input", data: { labels: true } %>
 </div>
 
 <div class="field">

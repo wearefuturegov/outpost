@@ -7,7 +7,8 @@ class CustomField < ApplicationRecord
         [
             "Text",
             "Number",
-            "Checkbox"
+            "Checkbox",
+            "Select"
         ]
     end
 end

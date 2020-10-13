@@ -1,5 +1,6 @@
 // import { initialise } from "./google"
 import tippy from "tippy.js"
+import Tagify from "@yaireo/tagify"
 
 let editors = document.querySelectorAll(".repeater")
 
@@ -20,6 +21,26 @@ editors.forEach(editor => {
 
         // activate any tippies
         tippy("[data-tippy-content]") 
+
+        // activate any tagifies
+        let tagifyInput = newResult.querySelector("[data-labels]")
+        if(tagifyInput){
+            new Tagify(tagifyInput, {
+                originalInputValueFormat: valuesArr => valuesArr.map(item => item.value).join(',')
+            })
+        }
+
+        // activate options business
+        let type = newResult.querySelector("[data-type]")
+        let options = newResult.querySelector("[data-options]")
+        options.setAttribute("hidden", "true")
+        type.addEventListener("change", e => {
+            if(type.value === "select"){
+                options.removeAttribute("hidden")
+            } else {
+                options.setAttribute("hidden", "true")
+            }
+        })
     })
 
     // Remove item

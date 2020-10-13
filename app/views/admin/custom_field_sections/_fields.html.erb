@@ -28,7 +28,7 @@
 <section class="repeater">
     <ul class="repeater__panels" aria-live="polite">
         <%= f.fields_for :custom_fields do |c| %>
-            <li class="repeater__panel">
+            <li class="repeater__panel" data-custom-fields>
                 <%= render "admin/custom_field_sections/repeatable-fields", c: c %>
             </li>
         <% end %>

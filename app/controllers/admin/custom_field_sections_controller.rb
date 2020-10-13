@@ -52,6 +52,7 @@ class Admin::CustomFieldSectionsController < Admin::BaseController
           :key,
           :field_type,
           :hint,
+          :options,
           :_destroy
         ]
       )
