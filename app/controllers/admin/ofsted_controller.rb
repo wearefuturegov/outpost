@@ -34,7 +34,7 @@ class Admin::OfstedController < Admin::BaseController
         @versions = @item.versions.order(created_at: :asc).reverse
         if @item.versions.length > 4
           @versions = @versions.first(3)
-          @versions.push(@service.versions.last)
+          @versions.push(@item.versions.first)
         end
     end
 
