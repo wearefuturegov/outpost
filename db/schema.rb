@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_12_202649) do
+ActiveRecord::Schema.define(version: 2020_10_14_094218) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,13 +45,24 @@ ActiveRecord::Schema.define(version: 2020_10_12_202649) do
     t.index ["service_id"], name: "index_cost_options_on_service_id"
   end
 
+  create_table "custom_field_sections", force: :cascade do |t|
+    t.string "name"
+    t.string "hint"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.boolean "public"
+    t.integer "sort_order"
+  end
+
   create_table "custom_fields", force: :cascade do |t|
     t.string "key"
     t.string "field_type"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.boolean "public"
     t.string "hint"
+    t.bigint "custom_field_section_id", null: false
+    t.string "options"
+    t.index ["custom_field_section_id"], name: "index_custom_fields_on_custom_field_section_id"
   end
 
   create_table "feedbacks", force: :cascade do |t|
@@ -276,10 +287,7 @@ ActiveRecord::Schema.define(version: 2020_10_12_202649) do
     t.string "old_ofsted_external_id"
     t.boolean "visible", default: true
     t.boolean "needs_referral"
-    t.boolean "current_vacancies"
-    t.boolean "pick_up_drop_off_service"
     t.datetime "marked_for_deletion"
-    t.boolean "bccn_member", default: false
     t.bigint "ofsted_item_id"
     t.boolean "free"
     t.integer "min_age"
@@ -391,6 +399,7 @@ ActiveRecord::Schema.define(version: 2020_10_12_202649) do
   end
 
   add_foreign_key "cost_options", "services"
+  add_foreign_key "custom_fields", "custom_field_sections"
   add_foreign_key "feedbacks", "services"
   add_foreign_key "links", "services"
   add_foreign_key "local_offers", "services"
