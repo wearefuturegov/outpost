@@ -5,10 +5,15 @@ let inputs = document.querySelectorAll("[data-labels]")
 
 if(inputs){
     inputs.forEach(input => {
-        let tagify = new Tagify(input , {
-            whitelist: __LABELS__.map(label => label.name),
-            originalInputValueFormat: valuesArr => valuesArr.map(item => item.value).join(',')
-        })
+        if(window.__LABELS__){
+            new Tagify(input , {
+                whitelist: window.__LABELS__.map(label => label.name),
+                originalInputValueFormat: valuesArr => valuesArr.map(item => item.value).join(',')
+            })
+        } else {
+            new Tagify(input , {
+                originalInputValueFormat: valuesArr => valuesArr.map(item => item.value).join(',')
+            })
+        }
     })
 }
-

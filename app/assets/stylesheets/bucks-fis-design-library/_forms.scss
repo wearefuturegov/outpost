@@ -61,18 +61,30 @@
 }
 
 .field-group{
-    &--two-cols,
-    &--three-cols{
+    margin-top: 45px;
+
+    &:first-child{
+        margin-top: 0px;
+    }
+
+    &--two-cols{
         @media screen and (min-width: $breakpoint-m){
             display: grid;
             grid-template-columns: 1fr 1fr;
             column-gap: 25px;
         }
     }
+
     &--three-cols{
         @media screen and (min-width: $breakpoint-m){
+            display: grid;
             grid-template-columns: 1fr 1fr 1fr;
+            column-gap: 25px;
         }
+    }
+
+    &--no-top-margin{
+        margin-top: 0px;
     }
 
     &--no-margins{
@@ -82,7 +94,6 @@
                 margin-bottom: 0px;
             }
         }
-
         @supports(display: grid){
             @media screen and (min-width: $breakpoint-m){
                 .field{
@@ -94,7 +105,17 @@
 
     &__legend{
         margin-top: 0px;
-        margin-bottom: 15px;
+        margin-bottom: 25px;
+
+        *{
+            margin-bottom: 0px;
+        }
+    }
+
+    &__hint{
+        margin-top: -15px;
+        margin-bottom: 25px;
+        color: $grey2;
     }
 }
 

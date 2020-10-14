@@ -1,0 +1,38 @@
+<div class="field field--required">
+    <%= f.label :name, "Name", class: "field__label" %>
+    <p class="field__hint">A word or short phrase that all users will understand.</p>
+    <%= f.text_field :name, class: "field__input" %>
+</div>
+
+<div class="field">
+    <%= f.label :hint, "Instructions", class: "field__label" %>
+    <p class="field__hint">Keep this brief. A few words or a short sentence is enough.</p>
+    <%= f.text_area :hint, class: "field__input", rows: 2 %>
+</div>
+
+<div class="field">
+    <%= f.label :sort_order, class: "field__label" %>
+    <p class="field__hint">Override the default sort order. Higher is later.</p>
+    <%= f.number_field :sort_order, class: "field__input one-half" %>
+</div>
+
+<div class="field checkbox">
+    <%= f.check_box :public, class: "checkbox__input"%>
+    <%= f.label :public, class: "checkbox__label" do %>
+        Make visible to community users?
+        <button class="help-button help-button--small" type="button" data-tippy-content="If checked, all fields in this section can be seen and edited by residents.">What does this mean?</button>
+    <% end %>
+</div>
+
+<h2 class="page-subheading">Fields</h2>
+<section class="repeater">
+    <ul class="repeater__panels" aria-live="polite">
+        <%= f.fields_for :custom_fields do |c| %>
+            <li class="repeater__panel" data-custom-fields>
+                <%= render "admin/custom_field_sections/repeatable-fields", c: c %>
+            </li>
+        <% end %>
+    </ul>
+
+    <%= link_to_add_contact_fields "Add a field", f, :custom_fields, "admin/custom_field_sections/repeatable-fields" %>
+</section>

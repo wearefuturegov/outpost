@@ -1,0 +1,15 @@
+<% content_for :header do %>
+    <%= link_to "Back to custom fields", admin_custom_field_sections_path, class: "go-back" %>
+    <h1 class="page-header__title"><%= @section.name %></h1>
+<% end %>
+
+<%= form_for @section, url: admin_custom_field_section_path, html: {class: "two-thirds"}, data: {warn_unsaved_changes: true} do |f| %>
+    <%= render "shared/errors", model: @section %>
+    
+    <%= render "admin/custom_field_sections/fields", f: f %>
+
+    <div class="form-actions">
+        <%= f.button "Update", class: "button" %>
+        <%= link_to "Remove", admin_custom_field_section_path(@section), method: "delete", class: "button button--danger", data: {confirm: "Are you sure? Data in these fields will become invisible." } %>
+    </div>
+<% end %>

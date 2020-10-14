@@ -23,6 +23,10 @@
 
 .page-subheading{
     font-size: 1.8rem;
+    margin-top: 45px;
+    @media screen and (min-width: $breakpoint-m) {
+        margin-top: 55px;
+    }
 }
 
 .two-thirds{

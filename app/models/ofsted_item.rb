@@ -21,6 +21,8 @@ class OfstedItem < ApplicationRecord
     default_filter_params: { sorted_by: "recent"},
     available_filters: [
       :sorted_by,
+      :with_status,
+      :with_provision,
       :search
     ],
   )
@@ -39,6 +41,23 @@ class OfstedItem < ApplicationRecord
     end
   }
 
+  scope :with_status, -> (registration_status) {
+    where('lower(registration_status) = ?', registration_status.downcase)
+  }
+
+  scope :with_provision, -> (provision_type) {
+    where('lower(provision_type) = ?', provision_type.downcase)
+  }
+
+  def self.options_for_with_provision
+    [
+      ["All provision types", ""],
+      ["Home Childcarer"],
+      ["Childcare on Non Domestic Premises"],
+      ["Childminder"]
+    ]
+  end
+
   def self.options_for_sorted_by
     [
       ["Recently updated", "recent"],
@@ -46,6 +65,17 @@ class OfstedItem < ApplicationRecord
       ["Z-A", "name_desc"],
       ["Oldest added", "created_at_asc"],
       ["Newest added", "created_at_desc"]
+    ]
+  end
+
+  def self.options_for_with_status
+    [
+      ["All statuses", ""],
+      ["Active", "active"],
+      ["Cancelled", "cancelled"],
+      ["Proposed", "proposed"],
+      ["Inactive", "inactive"],
+      ["Resigned", "resigned"]
     ]
   end
 

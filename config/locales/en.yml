@@ -40,7 +40,11 @@ en:
         
         service/locations:
           format: '%{message}'
+
         location:
+          attributes:
+            postal_code: 
+              blank: "Postcode can't be blank"
           invalid_postcode: "That postcode doesn't seem to be valid. Please check it and try again."
 
         service/regular_schedules:

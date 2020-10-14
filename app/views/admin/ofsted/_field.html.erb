@@ -1,4 +1,10 @@
-<div class="field">
-    <%= label_tag label.parameterize, label, class: "field__label" %>
-    <%= text_field_tag label.parameterize, value, class: "field__input", disabled: true %>
+<div class="read-only-field">
+    <p class="read-only-field__label"><%= label %></p>
+    <p class="read-only-field__value">
+        <% if value.present? %>
+            <%= value %>
+        <% else %>
+            —
+        <% end %>
+    </p>
 </div>

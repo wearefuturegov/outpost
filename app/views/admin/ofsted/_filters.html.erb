@@ -10,6 +10,12 @@
       <%= f.label :sorted_by, "Sort", class: "visually-hidden" %>
       <%= f.select :sorted_by, @filterrific.select_options[:sorted_by], {}, { class: "filters__select", data: { autosubmit: true } } %>
       
+      <%= f.label :with_status, "Status", class: "visually-hidden" %>
+      <%= f.select :with_status, @filterrific.select_options[:with_status], {}, { class: "filters__select", data: { autosubmit: true } }  %>
+
+      <%= f.label :with_provision, "Provision", class: "visually-hidden" %>
+      <%= f.select :with_provision, @filterrific.select_options[:with_provision], {}, { class: "filters__select", data: { autosubmit: true } }  %>
+
     </div>
   </details>
 

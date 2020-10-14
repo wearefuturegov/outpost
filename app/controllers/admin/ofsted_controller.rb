@@ -7,12 +7,16 @@ class Admin::OfstedController < Admin::BaseController
         OfstedItem,
         params[:filterrific],
         select_options: {
-          sorted_by: OfstedItem.options_for_sorted_by
+          sorted_by: OfstedItem.options_for_sorted_by,
+          with_status: OfstedItem.options_for_with_status,
+          with_provision: OfstedItem.options_for_with_provision
         },
         persistence_id: false,
         default_filter_params: {},
         available_filters: [
           :sorted_by, 
+          :with_status,
+          :with_provision,
           :search
         ],
         sanitize_params: true,
@@ -30,11 +34,11 @@ class Admin::OfstedController < Admin::BaseController
 
     def show
         @item = OfstedItem.find(params[:id])
-        @related_items = OfstedItem.where(rp_reference_number: @item.rp_reference_number).where.not(id: params[:id])
+        @related_items = OfstedItem.where(rp_reference_number: @item.rp_reference_number).where.not(id: params[:id]) if @item.rp_reference_number.present?
         @versions = @item.versions.order(created_at: :asc).reverse
         if @item.versions.length > 4
           @versions = @versions.first(3)
-          @versions.push(@service.versions.last)
+          @versions.push(@item.versions.first)
         end
     end
 

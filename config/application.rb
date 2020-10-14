@@ -18,6 +18,12 @@ module Outpost
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
 
+
+    # don't wrap error fields in a div, to avoid breaking radios and checkboxes
+    config.action_view.field_error_proc = Proc.new { |html_tag, instance| 
+      "#{html_tag}".html_safe
+    }
+
     config.middleware.insert_before 0, Rack::Cors do
       allow do
         origins '*'
