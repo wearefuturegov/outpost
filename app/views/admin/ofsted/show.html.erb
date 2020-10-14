@@ -87,10 +87,7 @@
           <%= render "admin/ofsted/field", label: "Email", value: @item.prov_email %>
         </div>
         <div class="field-group field-group--two-cols">
-          <div class="checkbox">
-            <%= check_box_tag "consent_witheld", "", @item.prov_consent_withheld, class: "checkbox__input", disabled: true %>
-            <%= label_tag "consent_witheld", "Consent withheld?", class: "checkbox__label" %>
-          </div>
+          <%= render "admin/ofsted/field", label: "Consent withheld?", value: @item.prov_consent_withheld %>
         </div>
       <% end %>
 
