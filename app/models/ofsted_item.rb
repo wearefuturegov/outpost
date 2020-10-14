@@ -22,6 +22,7 @@ class OfstedItem < ApplicationRecord
     available_filters: [
       :sorted_by,
       :with_status,
+      :with_provision,
       :search
     ],
   )
@@ -43,6 +44,19 @@ class OfstedItem < ApplicationRecord
   scope :with_status, -> (registration_status) {
     where('lower(registration_status) = ?', registration_status.downcase)
   }
+
+  scope :with_provision, -> (provision_type) {
+    where('lower(provision_type) = ?', provision_type.downcase)
+  }
+
+  def self.options_for_with_provision
+    [
+      ["All provision types", ""],
+      ["Home Childcarer"],
+      ["Childcare on Non Domestic Premises"],
+      ["Childminder"]
+    ]
+  end
 
   def self.options_for_sorted_by
     [

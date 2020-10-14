@@ -8,13 +8,15 @@ class Admin::OfstedController < Admin::BaseController
         params[:filterrific],
         select_options: {
           sorted_by: OfstedItem.options_for_sorted_by,
-          with_status: OfstedItem.options_for_with_status
+          with_status: OfstedItem.options_for_with_status,
+          with_provision: OfstedItem.options_for_with_provision
         },
         persistence_id: false,
         default_filter_params: {},
         available_filters: [
           :sorted_by, 
           :with_status,
+          :with_provision,
           :search
         ],
         sanitize_params: true,
