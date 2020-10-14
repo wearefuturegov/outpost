@@ -59,10 +59,6 @@
       <%= render "shared/collapsible", name: "Ages", id: "visibility-editor" do %>
         <%= render "admin/services/editors/ages", s: s %>
       <% end %>
-      
-      <%= render "shared/collapsible", name: "Childcare", id: "childcare-editor", help_text: "Extra information about childcare only. Ignore these fields for non-childcare services." do %>
-        <%= render "admin/services/editors/childcare", s: s %>
-      <% end %>
 
       <%= render "shared/collapsible", name: "Visibility", id: "visibility-editor", help_text: "Control if and when the service is listed in public search results." do %>
         <%= render "admin/services/editors/dates", s: s %>
