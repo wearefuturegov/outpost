@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_13_185138) do
+ActiveRecord::Schema.define(version: 2020_10_14_094218) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -287,10 +287,7 @@ ActiveRecord::Schema.define(version: 2020_10_13_185138) do
     t.string "old_ofsted_external_id"
     t.boolean "visible", default: true
     t.boolean "needs_referral"
-    t.boolean "current_vacancies"
-    t.boolean "pick_up_drop_off_service"
     t.datetime "marked_for_deletion"
-    t.boolean "bccn_member", default: false
     t.bigint "ofsted_item_id"
     t.boolean "free"
     t.integer "min_age"
