@@ -280,12 +280,21 @@ class Service < ApplicationRecord
   end
 
   def unapproved_changes?(attribute)
-    if self.approved? || last_approved_snapshot.nil?
-      false
-    else
-      !self.as_json[attribute].eql?(last_approved_snapshot.object[attribute])
+    unless self.approved?
+      if last_approved_snapshot.present?
+        !self.as_json[attribute].eql?(last_approved_snapshot.object[attribute])
+      end
     end
   end
+
+  # def unapproved_changes?(attribute)
+  #   if self.approved? || last_approved_snapshot.nil?
+  #     false
+  #   else
+  #     !self.as_json[attribute].eql?(last_approved_snapshot.object[attribute])
+  #   end
+  # end
+
 
   def publicly_visible?
     visible && discarded_at.nil?

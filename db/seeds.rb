@@ -86,7 +86,7 @@ bucks_csv.each.with_index do |row, line|
 
   service.organisation = organisation
 
-  service.snapshot_action = "import"
+  service.paper_trail_event = "import"
 
 
   location = Location.new
