@@ -28,7 +28,7 @@ module ApplicationHelper
         when "archive"
             "Archived"
         when "unarchive"
-            "Removed from archive"
+            "Restored"
         when "import"
             "Imported"
         when "approve"

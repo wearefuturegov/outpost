@@ -9,28 +9,28 @@
 
 <div class="snapshots">
     <aside class="snapshots__sidebar">
-        <% if @snapshots.any? %>
+        <% if @versions.any? %>
             <ul class="snapshots-tree">
-                <% @snapshots.each do |s| %>
-                    <li class="snapshots-tree__snapshot" <%= "aria-selected" if s === @snapshots.first %>>
+                <% @versions.each do |v| %>
+                    <li class="snapshots-tree__snapshot" <%= "aria-selected" if v === @versions.first %>>
 
                         <h3 class="snapshots-tree__snapshot-title">
-                            <%= link_to s.created_at.strftime('%-d %B %Y, %H:%M'), "##{s.id}", class: "snapshots-tree__snapshot-link", data: { no_turbolink: true } %>
+                            <%= link_to v.created_at.strftime('%-d %B %Y, %H:%M'), "##{v.id}", class: "snapshots-tree__snapshot-link", data: { no_turbolink: true } %>
                         </h3>
 
-                        <% if s === @snapshots.first %>
-                            <p><em>Current version</em><p>
-                        <% elsif s === @snapshots.last %>
-                            <p><em>Earliest version</em><p>
+                        <% if v === @versions.first %>
+                            <p class="snapshots-tree__snapshot-user"><em>Current version</em><p>
+                        <% elsif v === @versions.last %>
+                            <p class="snapshots-tree__snapshot-user"><em>Earliest version</em><p>
                         <% end %>
 
-                        <% if s.whodunnit %>
-                            <p class="snapshots-tree__snapshot-user"><%= User.find(s.whodunnit).display_name %></p>
+                        <% if v.whodunnit %>
+                            <p class="snapshots-tree__snapshot-user"><%= User.find(v.whodunnit).display_name %></p>
                         <% end %>
 
-                        <% unless s.event === "update"%>
+                        <% unless v.event === "update"%>
                             <p class="snapshots-tree__snapshot-action">
-                                <%= s.event.humanize %>
+                                <%= pretty_event(v.event) %>
                             </p>
                         <% end %>
 
@@ -41,10 +41,11 @@
     </aside>
 
     <div class="snapshots__previews">
-        <% if @snapshots.any? %>
-            <% @snapshots.each do |s| %>
-                <article class="snapshot-preview" id="<%= s.id %>" <%= "hidden" unless s === @snapshots.first %> >
-                    <% unless s === @snapshots.first %>
+        <% if @versions.any? %>
+            <% @versions.each do |v| %>
+                <article class="snapshot-preview" id="<%= v.id %>" <%= "hidden" unless v === @versions.first %> >
+                    
+                    <% unless v === @versions.first %>
                         <div class="snapshot-preview__actions">
                             <div>
                                 <h3>Changes since this version</h3>
@@ -62,7 +63,9 @@
                             </div>
                         <% end %>
                     <% end %>
-                    <%= render "preview-canvas", current: s.object, live: @snapshots.first.object %>
+
+                    <%= render "preview-canvas", version: v.object || {}, live: @service.as_json %>
+                    
                 </article>
             <% end %>
         <% end %>

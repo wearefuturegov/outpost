@@ -164,16 +164,18 @@
   </div>
   <aside class="with-sidebar__sidebar">
 
-      <% if @item.service %>
-        <div class="dark-panel">
-          <p>
-            This Ofsted feed item is linked to <strong><%= link_to "a service", admin_service_path(@item.service) %></strong>
-          </p>
-        </div>
-      <% end %>
+    <% if @item.service %>
+      <div class="dark-panel">
+        <p>
+          This Ofsted feed item is linked to <strong><%= link_to "a service", admin_service_path(@item.service) %></strong>
+        </p>
+      </div>
+    <% end %>
 
-    <%= render "admin/ofsted/history" %>
-
+    <%= render "shared/collapsible", name: "History", id: "service-history" do %>
+      <%= link_to "Compare versions", admin_ofsted_versions_path(@item), class: "collapsible__action" %>
+      <%= render "shared/version-tree" %>
+    <% end %>
 
     <%= render "shared/collapsible", name: "Other settings by this provider", id: "ofsted-other-settings" do %> 
         <% if @related_items.present? %>

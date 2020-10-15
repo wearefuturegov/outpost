@@ -7,7 +7,7 @@
     <table class="table">
       <thead>
         <tr>
-          <th>Service</th>
+          <th>Object</th>
           <th>Action</th>
           <th>User</th>
           <th>When</th>
@@ -21,7 +21,7 @@
               <% if a.item_type === "Service" %>
                 <%= render "shared/poppables/service", s: Service.find(a.item_id) %> 
               <% else %>
-                <%= a.item_id %>
+                <%= a.item_type %> <%= a.item_id %>
               <% end %>
             </td>
             <td>

@@ -207,11 +207,6 @@ class Service < ApplicationRecord
     self.discard
   end
 
-  def restore
-    self.paper_trail_event = "unarchive"
-    self.undiscard
-  end
-
   def approve
     self.paper_trail_event = "approve"
     self.approved = true
@@ -238,7 +233,10 @@ class Service < ApplicationRecord
   def as_json(options={})
     options[:include] = {
       :organisation => {},
-      :locations => { methods: :geometry },
+      :locations => { 
+        methods: :geometry,
+        include: :accessibilities
+       },
       :taxonomies => { methods: :slug },
       :meta => {},
       :contacts => {},
@@ -251,7 +249,7 @@ class Service < ApplicationRecord
 
   # fields that we don't care about for versioning purposes
   def ignorable_fields
-    ["created_at", "updated_at", "approved", "discarded_at", "organisation"]
+    ["created_at", "updated_at", "approved", "discarded_at", "organisation", "notes_count"]
   end
 
   # return the most recent approved snapshot, if it exists

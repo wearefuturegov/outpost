@@ -1,18 +1,15 @@
 <div class="snapshot-preview__canvas">
+    <% combined_keys = live.merge(version).except!(*@service.ignorable_fields).keys %>
 
-    <% live.except!(*@service.ignorable_fields).each do |key, value |%>
-        <% if value.present? || current[key].present? %>
-            <h4 class="snapshot-preview__label"><%= key.humanize %></h4>
-            <div class="snapshot-preview__diff">
-                <% if live[key].is_a?(Array) %>
-                    <%= diff(ordered(current[key]), ordered(live[key])) %>
-                <% elsif live[key].is_a?(Hash) %>
-                    <%= diff(ordered_hash(current[key]), ordered_hash(live[key])) %>
-                <% else %>
-                    <%= diff(current[key].to_s, live[key].to_s) %>
-                <% end %>
-            </div>
+    <% combined_keys.each do |key| %>
+        <h4 class="snapshot-preview__label"><%= key.humanize %></h4>
+    
+        <% if version.has_key?(key) && live.has_key?(key) %>
+            <%= diff(version[key], live[key]) %>
+        <% elsif live.has_key?(key) %>
+            <%= diff("", live[key]) %>
+        <% elsif version.has_key?(key) %>
+            <%= diff(version[key], "") %>
         <% end %>
     <% end %>
-
 </div>

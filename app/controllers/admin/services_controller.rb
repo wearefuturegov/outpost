@@ -35,10 +35,11 @@ class Admin::ServicesController < Admin::BaseController
 
   def show
     @watched = current_user.watches.where(service_id: @service.id).exists?
-    @versions = @service.versions.reverse
     if @service.versions.length > 4
-      @versions = @versions.first(3)
-      @versions.push(@service.versions.first)
+      @versions = @service.versions.reverse.first(3)
+      @versions.push(@service.versions.reverse.last)
+    else
+      @versions = @service.versions.reverse
     end
   end
 
