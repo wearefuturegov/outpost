@@ -3,7 +3,7 @@
         <h1 class="page-header__title two-thirds">List a new service</h1>
     <% else %>
         <% unless @service.approved %>
-            <div class="notice">These changes are awaiting approval. Feel free to make more edits in the meantime.</div>
+            <div class="notice">These changes are awaiting approval. You can still make edits in the meantime.</div>
         <% end %>
         
         <%= link_to "Back to dashboard", organisations_path, class: "go-back" %>
