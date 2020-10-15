@@ -11,7 +11,7 @@
           <h2><%= link_to s.display_name.truncate(25), admin_service_path(s) %></h2>
           <p>
             <%= time_ago_in_words(s.updated_at).humanize %> ago
-            <% if s.versions.last.whodunnit %>
+            <% if s.versions.last && s.versions.last.whodunnit %>
               by <%= render "shared/poppables/user", u: User.find(s.versions.last.whodunnit) %>
             <% else %>
               by system

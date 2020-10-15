@@ -39,6 +39,8 @@ class ServicesController < ApplicationController
         end
         if params[:service]
             @service.approved = false
+            # force paper trail version to be saved
+            @service.updated_at = Time.now
             if @service.update(service_params)
                 redirect_to service_path(@service)
             else
