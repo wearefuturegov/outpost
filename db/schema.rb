@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_14_094218) do
+ActiveRecord::Schema.define(version: 2020_10_15_153808) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -297,18 +297,6 @@ ActiveRecord::Schema.define(version: 2020_10_14_094218) do
     t.index ["organisation_id"], name: "index_services_on_organisation_id"
   end
 
-  create_table "snapshots", force: :cascade do |t|
-    t.json "object"
-    t.string "action"
-    t.integer "user_id"
-    t.bigint "service_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.json "object_changes"
-    t.index ["service_id"], name: "index_snapshots_on_service_id"
-    t.index ["user_id"], name: "index_snapshots_on_user_id"
-  end
-
   create_table "taggings", id: :serial, force: :cascade do |t|
     t.integer "tag_id"
     t.string "taggable_type"
@@ -412,7 +400,5 @@ ActiveRecord::Schema.define(version: 2020_10_14_094218) do
   add_foreign_key "regular_schedules", "services"
   add_foreign_key "service_meta", "services"
   add_foreign_key "services", "ofsted_items"
-  add_foreign_key "snapshots", "services"
-  add_foreign_key "snapshots", "users"
   add_foreign_key "taggings", "tags"
 end
