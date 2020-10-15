@@ -44,14 +44,14 @@ module VersionsHelper
             .sort_by{|key, value| key}
             .to_h
             .map do |key, value|
-            # handle special case of second-order nesting of accessibilities
-            if key === "accessibilities"
-                "Accessibilities: #{value.map{|value| value["name"]}.join(", ")}"
-            # handle everything else
-            else
-                "#{key.humanize}: #{value}"
-            end
-        end.join("\n")
+                # handle special case of second-order nesting of accessibilities
+                if key === "accessibilities"
+                    "Accessibilities: #{value.map{|value| value["name"]}.join(", ")}"
+                # handle everything else
+                else
+                    "#{key.humanize}: #{value}"
+                end
+            end.join("\n")
     end
 
 end

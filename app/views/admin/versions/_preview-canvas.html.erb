@@ -5,11 +5,18 @@
         <h4 class="snapshot-preview__label"><%= key.humanize %></h4>
     
         <% if version.has_key?(key) && live.has_key?(key) %>
+
             <%= diff(version[key], live[key]) %>
+
         <% elsif live.has_key?(key) %>
+
             <%= diff("", live[key]) %>
+
         <% elsif version.has_key?(key) %>
+
             <%= diff(version[key], "") %>
+            
         <% end %>
+
     <% end %>
 </div>
