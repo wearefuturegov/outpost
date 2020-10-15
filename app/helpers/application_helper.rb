@@ -27,7 +27,7 @@ module ApplicationHelper
             "Deleted"        
         when "archive"
             "Archived"
-        when "unarchive"
+        when "restore"
             "Restored"
         when "import"
             "Imported"
