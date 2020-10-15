@@ -60,7 +60,9 @@
 
 
 <% unless @currently_creating %>
-    <div class="form-actions">
+    <div class="form-actions danger-zone two-thirds">
+        <h2>Delete this service</h2>
+        <p>If this service is no longer needed, you can delete it.</p>  
         <%= link_to "Request deletion", service_path(@service), method: :delete, class: "button button--danger", data: { confirm: "Are you sure? This can't be undone." } %>
     </div>
 <% end %>
