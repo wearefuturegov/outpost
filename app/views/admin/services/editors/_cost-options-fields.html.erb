@@ -7,7 +7,7 @@
     <div class="field field--required">
         <%= c.label :amount, class: "field__label" %>
         <span class="field__prefix">£</span>
-        <%= c.number_field :amount, class: "field__input field__input--with-prefix", step: "0.01", min: "0", required: true %>
+        <%= c.text_field :amount, class: "field__input field__input--with-prefix", step: "0.01", min: "0.00", required: true %>
     </div>
 </div>
 <%= c.hidden_field :_destroy,  data: {destroy_field: true} %>

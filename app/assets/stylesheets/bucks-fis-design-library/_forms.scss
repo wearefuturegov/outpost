@@ -26,15 +26,18 @@
     &__prefix{
         position: absolute;
         top: 33px;
-        padding: 12px;
+        padding: 10px 11px;
         left: 0px;
         pointer-events: none;
+        @media screen and (min-width: $breakpoint-m){
+            padding: 12px;
+        }
     }
 
     &__input{
 
         &--with-prefix{
-            padding-left: 23px;
+            padding-left: 25px;
         }
     }
 
