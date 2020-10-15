@@ -33,6 +33,8 @@ module ApplicationHelper
             "Imported"
         when "approve"
             "Approved"
+        else
+            event.capitalize
         end
     end
 
