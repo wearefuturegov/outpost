@@ -207,6 +207,11 @@ class Service < ApplicationRecord
     self.discard
   end
 
+  def restore
+    self.paper_trail_event = "restore"
+    self.undiscard
+  end
+
   def approve
     self.paper_trail_event = "approve"
     self.approved = true

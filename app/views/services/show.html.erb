@@ -57,3 +57,10 @@
     </li>
 
 </ol>
+
+
+<% unless @currently_creating %>
+    <div class="form-actions">
+        <%= link_to "Request deletion", service_path(@service), method: :delete, class: "button button--danger", data: { confirm: "Are you sure? This can't be undone." } %>
+    </div>
+<% end %>

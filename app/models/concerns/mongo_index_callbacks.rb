@@ -19,7 +19,7 @@ module MongoIndexCallbacks
             collection.find_one_and_update({id: self.id}, IndexedServicesSerializer.new(self).as_json, {upsert: true})
         
         # if not, is the last approved snapshot publicly visible?
-        elsif !self.approved? && self.last_approved_snapshot&.object['visible'] && self.last_approved_snapshot&.object['discarded_at'].nil?
+        elsif !self.approved? && self.last_approved_snapshot && self.last_approved_snapshot&.object['visible'] && self.last_approved_snapshot&.object['discarded_at'].nil?
             collection.find_one_and_update({id: self.id}, IndexedServicesSerializer.new(Service.from_hash(self.last_approved_snapshot.object)).as_json, {upsert: true})
         
         # if not, delete it from the index
