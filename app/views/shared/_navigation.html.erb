@@ -25,11 +25,15 @@
                                 <span class="site-nav__submenu-current">Locations</span>
                             <% end %>
                         </li>
-                        <li class="site-nav__submenu-item">
-                            <%= link_to_unless_current "Taxonomies", admin_taxonomies_path, class: "site-nav__submenu-link" do %>
-                                <span class="site-nav__submenu-current">Taxonomies</span>
-                            <% end %>
-                        </li>
+                        
+                        <% if current_user.admin_users? %>
+                            <li class="site-nav__submenu-item">
+                                <%= link_to_unless_current "Taxonomies", admin_taxonomies_path, class: "site-nav__submenu-link" do %>
+                                    <span class="site-nav__submenu-current">Taxonomies</span>
+                                <% end %>
+                            </li>
+                        <% end %>
+
                         <li class="site-nav__submenu-item">
                             <%= link_to_unless_current "Feedback", admin_feedbacks_path, class: "site-nav__submenu-link" do %>
                                 <span class="site-nav__submenu-current">Feedback</span>
