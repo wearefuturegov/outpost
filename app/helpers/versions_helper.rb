@@ -8,13 +8,14 @@ module VersionsHelper
         # handle arrays
         if raw_data.is_a?(Array)
 
-            if raw_data.first.class == String
-                raw_data.sort.join("\n\n")
-            else
-                # HOW DO WE SORT THIS CONSISTENTLY
-                raw_data.map do |el|
+            # handle arrays of hashes
+            if raw_data.first.class == Hash
+                raw_data.sort_by{|el| el.to_s}.map do |el|
                     prettify_hash(el)
                 end.join("\n\n")
+            # handle arrays of anything else
+            else
+                raw_data.sort.join("\n\n")
             end
 
         # handle hashes
