@@ -3,12 +3,12 @@
 <% content_for :header do %>
     <%= link_to "Go back", service_path(@service), class: "go-back" %>
     <h1 class="page-header__title two-thirds">Visibility</h1>
-    <p class="page-header__lede">Do you want this service or activity to be visible to the public?</p>
+    <p class="page-header__lede">Do you want this service to be visible to the public?</p>
 <% end %>
 
 <%= form_with model: @service, url: service_path(@service, :section => params[:section]), html: {class: "two-thirds"} do |s| %>
 
-    <%= render "admin/services/editors/visibility", s: s %>
+    <%= render "admin/services/editors/dates", s: s %>
 
     <div class="form-actions">
         <button class="button">Continue</button>

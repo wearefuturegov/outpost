@@ -10,7 +10,7 @@
     <%= render "shared/errors", model: @service %>
 
     <div class="field">
-        <%= s.label :name, "What is your service called?", class: "field__label field__label--bold" %>
+        <%= s.label :name, "What is your service or activity called?", class: "field__label field__label--bold" %>
         <p class="field__hint">We’ll use this name to list it on the public service directory. The best names are short but specific.</p>
         <%= s.text_field :name, class: "field__input one-half", required: true %>
     </div>
