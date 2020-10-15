@@ -78,15 +78,6 @@ module ApplicationHelper
         link_to name, '#', class: "button button--secondary button--add", data: {id: id, fields: fields.gsub("\n", ""), add: true}
     end
 
-    def link_to_add_contact_fields(name, f, association, view)
-        new_object = f.object.send(association).klass.new
-        id = new_object.object_id
-        fields = f.fields_for(association, new_object, child_index: id) do |builder|
-            render(view, l: builder, c: builder)
-        end
-        link_to name, '#', class: "button button--secondary button--add", data: {id: id, fields: fields.gsub("\n", ""), add: true}
-    end  
-
     def local_offer_checkbox(f, view)
         new_object = LocalOffer.new
         id = new_object.object_id
