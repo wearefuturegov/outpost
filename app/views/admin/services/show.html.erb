@@ -93,7 +93,7 @@
 
       <%= render "shared/collapsible", name: "History", id: "service-history" do %>
         <%= link_to "Compare versions", admin_service_versions_path(@service), class: "collapsible__action" %>
-        <%= render "shared/version-tree" %>
+        <%= render "shared/version-tree", object: @service %>
       <% end %>
 
       <%= render "admin/services/notes" %>

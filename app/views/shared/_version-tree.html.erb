@@ -1,5 +1,5 @@
 <% if @versions.present? %>
-    <ul class="stepper <%= "stepper--summarised" if @service.versions.length > 4 %>">
+    <ul class="stepper <%= "stepper--summarised" if object.versions.length > 4 %>">
         <% @versions.each do |v| %>
             <li class="stepper__step <%= stepper_class(v.event) %>">
                 <div>

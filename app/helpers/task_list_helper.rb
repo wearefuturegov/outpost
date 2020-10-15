@@ -4,7 +4,8 @@ module TaskListHelper
         [
             [
                 "Name and description", 
-                "Website and social media"
+                "Website and social media",
+                "Visibility",
             ],
             [
                 "Categories", 

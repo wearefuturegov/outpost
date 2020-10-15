@@ -174,7 +174,7 @@
 
     <%= render "shared/collapsible", name: "History", id: "service-history" do %>
       <%= link_to "Compare versions", admin_ofsted_versions_path(@item), class: "collapsible__action" %>
-      <%= render "shared/version-tree" %>
+      <%= render "shared/version-tree", object: @item %>
     <% end %>
 
     <%= render "shared/collapsible", name: "Other settings by this provider", id: "ofsted-other-settings" do %> 
