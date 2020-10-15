@@ -1,9 +1,15 @@
 class Service < ApplicationRecord
 
-  include HasSnapshots
   include MongoIndexCallbacks
   include Discard::Model
   include NormalizeBlankValues
+
+  has_paper_trail(
+    meta: {
+      object: proc { |s| s.as_json },
+      object_changes: proc { |s| s.saved_changes.as_json }
+    }
+  )
 
   # associations
   belongs_to :organisation, counter_cache: true
@@ -162,12 +168,12 @@ class Service < ApplicationRecord
   end
 
   def status
-    if marked_for_deletion?
+    if !approved
+      "pending"
+    elsif marked_for_deletion?
       "marked for deletion"
     elsif discarded?
       "archived"
-    elsif !approved
-      "pending"
     elsif !visible
       "invisible"
     elsif (visible_from.present? && (visible_from > Date.today))
@@ -197,17 +203,18 @@ class Service < ApplicationRecord
 
   # custom actions with paper trail events
   def archive
-    self.snapshot_action = "archive"
+    self.paper_trail_event = "archive"
     self.discard
   end
 
   def restore
-    self.snapshot_action = "unarchive"
+    self.paper_trail_event = "restore"
+    self.marked_for_deletion = nil
     self.undiscard
   end
 
   def approve
-    self.snapshot_action = "approve"
+    self.paper_trail_event = "approve"
     self.approved = true
     self.save
   end
@@ -232,7 +239,10 @@ class Service < ApplicationRecord
   def as_json(options={})
     options[:include] = {
       :organisation => {},
-      :locations => { methods: :geometry },
+      :locations => { 
+        methods: :geometry,
+        include: :accessibilities
+       },
       :taxonomies => { methods: :slug },
       :meta => {},
       :contacts => {},
@@ -245,13 +255,12 @@ class Service < ApplicationRecord
 
   # fields that we don't care about for versioning purposes
   def ignorable_fields
-    ["created_at", "updated_at", "approved", "discarded_at", "organisation"]
+    ["created_at", "updated_at", "approved", "discarded_at", "organisation", "notes_count"]
   end
 
   # return the most recent approved snapshot, if it exists
   def last_approved_snapshot
-    Snapshot
-      .where(service: self.id)
+    self.versions
       .where("object->>'approved' = 'true'")
       .order(created_at: :desc)
       .first
@@ -261,7 +270,7 @@ class Service < ApplicationRecord
     changed_fields = []
     self.as_json.each do |key, value|
       # eql? lets us do a slightly more intelligent comparison than simple "===" equality
-      unless(value.eql?(last_approved_snapshot.object[key]))
+      unless value.eql?(last_approved_snapshot.object[key])
         # we don't care about these fields
         unless ignorable_fields.include?(key)
           changed_fields << key
@@ -272,12 +281,21 @@ class Service < ApplicationRecord
   end
 
   def unapproved_changes?(attribute)
-    if self.approved? || last_approved_snapshot.nil?
-      false
-    else
-      !self.as_json[attribute].eql?(last_approved_snapshot.object[attribute])
+    unless self.approved?
+      if last_approved_snapshot.present?
+        !self.as_json[attribute].eql?(last_approved_snapshot.object[attribute])
+      end
     end
   end
+
+  # def unapproved_changes?(attribute)
+  #   if self.approved? || last_approved_snapshot.nil?
+  #     false
+  #   else
+  #     !self.as_json[attribute].eql?(last_approved_snapshot.object[attribute])
+  #   end
+  # end
+
 
   def publicly_visible?
     visible && discarded_at.nil?

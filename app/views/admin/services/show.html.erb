@@ -3,27 +3,7 @@
 <% end %>
 
 <% content_for :header do %>
-
-    <% if @service.discarded? %>
-      <div class="notice notice--cross">
-        <div class="notice__body">
-          <p>This service is archived and isn't visible</p>
-          <%= link_to "Restore", admin_archive_path(@service), method: "patch", class: "notice__action", data: {confirm: "Are you sure? The service will be visible to users again."} %>
-        </div>
-      </div>
-    <% else %>
-      <% unless @service.approved? %>
-        <div class="notice notice--pending">
-          <div class="notice__body">
-            <p>These changes are awaiting approval</p>
-            <%= link_to "Approve", admin_request_path(@service), method: "patch", class: "notice__action", data: {confirm: "Are you sure? Approving these changes makes them publicly visible."} %>
-            <span class="notice__divider">|</span>
-            <%= link_to "Compare versions", admin_service_snapshots_path(@service), class: "notice__action" %>
-          </div>      
-        </div>
-      <% end %>
-    <% end %>
-    
+    <%= render "notices" %>
     <%= link_to "Back to services", admin_services_path, class: "go-back" %>
     <div class="page-header__actions">
       <h1 class="page-header__title two-thirds"><%= @service.display_name %></h1>
@@ -107,13 +87,15 @@
   
       <% if @service.ofsted_item %>
         <div class="dark-panel">
-          <p>
-            This service is linked to <strong><%= link_to "an Ofsted feed item", admin_ofsted_path(@service.ofsted_item) %></strong>
-          </p>
+          <p>This service is linked to <strong><%= link_to "an Ofsted feed item", admin_ofsted_path(@service.ofsted_item) %></strong></p>
         </div>
       <% end %>
 
-      <%= render "admin/services/snapshot-history" %>
+      <%= render "shared/collapsible", name: "History", id: "service-history" do %>
+        <%= link_to "Compare versions", admin_service_versions_path(@service), class: "collapsible__action" %>
+        <%= render "shared/version-tree" %>
+      <% end %>
+
       <%= render "admin/services/notes" %>
       <%= render "admin/services/feedback" %>
   </aside>

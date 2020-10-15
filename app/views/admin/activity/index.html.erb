@@ -1,9 +1,5 @@
 <% content_for :header do %>
-  <% if params[:id] %>
-    <h1 class="page-header__title">Activity log for <%= User.find(params[:id]).display_name %></h1>
-  <% else %>
-    <h1 class="page-header__title">Activity log</h1>
-  <% end %>
+  <h1 class="page-header__title">Activity</h1>
 <% end %>
 
 <% if @activities.present? %>
@@ -11,7 +7,7 @@
     <table class="table">
       <thead>
         <tr>
-          <th>Service</th>
+          <th>Object</th>
           <th>Action</th>
           <th>User</th>
           <th>When</th>
@@ -22,16 +18,20 @@
         <% @activities.each do |a| %>
           <tr>
             <td>
-              <%= render "shared/poppables/service", s: a.service %>
-            </td>
-            <td>
-              <%= pretty_event(a.action).humanize %>
-            </td>
-            <td>
-              <% if a.user %>
-                <%= render "shared/poppables/user", u: a.user %>
+              <% if a.item_type === "Service" %>
+                <%= render "shared/poppables/service", s: Service.find(a.item_id) %> 
               <% else %>
-                —
+                <%= a.item_type %> <%= a.item_id %>
+              <% end %>
+            </td>
+            <td>
+              <%= pretty_event(a.event).humanize %>
+            </td>
+            <td>
+              <% if a.whodunnit %>
+                <%= render "shared/poppables/user", u: User.find(a.whodunnit) %>
+              <% else %>
+                system
               <% end %>
             </td>
             <td><%= short_time_ago_in_words(a.created_at).humanize %> ago</td>

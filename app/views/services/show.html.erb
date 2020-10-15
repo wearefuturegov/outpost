@@ -3,7 +3,7 @@
         <h1 class="page-header__title two-thirds">List a new service</h1>
     <% else %>
         <% unless @service.approved %>
-            <div class="notice">These changes are awaiting approval. Feel free to make more edits in the meantime.</div>
+            <div class="notice">These changes are awaiting approval. You can still make edits in the meantime.</div>
         <% end %>
         
         <%= link_to "Back to dashboard", organisations_path, class: "go-back" %>
@@ -57,3 +57,12 @@
     </li>
 
 </ol>
+
+
+<% unless @currently_creating %>
+    <div class="form-actions danger-zone two-thirds">
+        <h2>Delete this service</h2>
+        <p>If this service is no longer needed, you can delete it.</p>  
+        <%= link_to "Request deletion", service_path(@service), method: :delete, class: "button button--danger", data: { confirm: "Are you sure? This can't be undone." } %>
+    </div>
+<% end %>

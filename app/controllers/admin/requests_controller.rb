@@ -1,6 +1,5 @@
 class Admin::RequestsController < Admin::BaseController
     def index
-        # byebug
         @requests = Service
             .where(approved: nil)
             .includes(:organisation, :service_taxonomies, :taxonomies)

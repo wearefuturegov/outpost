@@ -1,12 +1,12 @@
 <p>Use these fields to show the age range this service can accomodate. Leave them blank for a service that is suitable for all ages</p>
 
 <div class="field-group field-group--two-cols">
-    <div class="field">
+    <div class="field <%= mark_unapproved_field("min_age") %>">
         <%= s.label :min_age, "Minimum", class: "field__label" %>
         <%= s.number_field :min_age, class: "field__input", min: 0, max: 120 %>
     </div>
 
-    <div class="field">
+    <div class="field <%= mark_unapproved_field("max_age") %>">
         <%= s.label :max_age, "Maximum", class: "field__label" %>
         <%= s.number_field :max_age, class: "field__input", min: 0, max: 120 %>
     </div>

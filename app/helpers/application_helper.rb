@@ -8,31 +8,24 @@ module ApplicationHelper
         image_tag "https://maps.googleapis.com/maps/api/staticmap?key=#{ENV['GOOGLE_CLIENT_KEY']}&size=550x350&markers=#{lat},#{long}", alt: ""
     end
 
-    def short_url(url)
-        url
-          .delete_prefix("https://")
-          .delete_prefix("http://")
-          .delete_prefix("www.")
-          .delete_suffix("/")
-          .truncate(25)
-    end
-
     def pretty_event(event)
         case event
         when "create"
-            "Record created"
+            "Created"
         when "update"
             "Updated"
         when "destroy"
             "Deleted"        
         when "archive"
             "Archived"
-        when "unarchive"
-            "Removed from archive"
+        when "restore"
+            "Restored"
         when "import"
-            "Record imported"
+            "Imported"
         when "approve"
             "Approved"
+        else
+            event.capitalize
         end
     end
 
@@ -58,10 +51,10 @@ module ApplicationHelper
     def status_tag(status)
         if status.downcase === "active"
             "<span class='tag'>Active</span".html_safe
-        elsif status === "marked for deletion"
-            "<span class='tag tag--red'>Marked for deletion</span".html_safe
         elsif status === "pending" || status === "proposed"
             "<span class='tag tag--yellow'>Pending</span".html_safe
+        elsif status === "marked for deletion"
+            "<span class='tag tag--red'>Marked for deletion</span".html_safe
         else
             "<span class='tag tag--grey'>#{status.capitalize}</span".html_safe
         end
@@ -75,15 +68,6 @@ module ApplicationHelper
         end
         link_to name, '#', class: "button button--secondary button--add", data: {id: id, fields: fields.gsub("\n", ""), add: true}
     end
-
-    def link_to_add_contact_fields(name, f, association, view)
-        new_object = f.object.send(association).klass.new
-        id = new_object.object_id
-        fields = f.fields_for(association, new_object, child_index: id) do |builder|
-            render(view, l: builder, c: builder)
-        end
-        link_to name, '#', class: "button button--secondary button--add", data: {id: id, fields: fields.gsub("\n", ""), add: true}
-    end  
 
     def local_offer_checkbox(f, view)
         new_object = LocalOffer.new
