@@ -1,5 +1,5 @@
 <div class="snapshot-preview__canvas">
-    <% combined_keys = live.merge(version).except!(*@service.ignorable_fields).keys %>
+    <% combined_keys = live.merge(version).except!(*ignorable_fields).keys %>
 
     <% combined_keys.each do |key| %>
         <h4 class="snapshot-preview__label"><%= key.humanize %></h4>

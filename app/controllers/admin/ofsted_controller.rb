@@ -45,7 +45,7 @@ class Admin::OfstedController < Admin::BaseController
 
     def versions
       @item = OfstedItem.find(params[:ofsted_id])
-      @snapshots = @item.versions.reverse
+      @versions = @item.versions.reverse
       render :layout => "full-width"
     end
 
