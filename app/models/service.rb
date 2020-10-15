@@ -209,6 +209,7 @@ class Service < ApplicationRecord
 
   def restore
     self.paper_trail_event = "restore"
+    self.marked_for_deletion = nil
     self.undiscard
   end
 
