@@ -8,13 +8,12 @@
         font-size: 1.1rem;
     }
 
-    p{
-        margin: 0;
+    *:first-child{
+        margin-top: 0px;
     }
 
     &__action{
         display: inline-block;
-        margin-top: 10px;
         font-weight: bold;
     }
 

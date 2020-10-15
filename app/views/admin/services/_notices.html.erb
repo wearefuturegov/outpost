@@ -1,0 +1,42 @@
+<% unless @service.approved? %>
+    <div class="notice notice--pending">
+        <div class="notice__body">
+
+            <% if @service.discarded?  %>
+
+                <p>Someone has requested that this service be archived. Do you want to approve it?</p>
+                
+                <%= link_to "Yes, approve", admin_request_path(@service), method: "patch", class: "notice__action", data: {confirm: "Are you sure? The service will be removed from all listings."} %>
+                <span class="notice__divider">|</span>
+                <%= link_to "No, restore", admin_archive_path(@service), method: "patch", class: "notice__action", data: {confirm: "Are you sure? The service will be visible to users again."} %>
+
+            <% elsif @service.last_approved_snapshot %>
+
+                <p>Someone has made changes to <strong><%= @service.unapproved_fields.map{|el| el.humanize}.join(", ") %></strong>. Do you want to approve them?</p>
+                
+                <%= link_to "Approve", admin_request_path(@service), method: "patch", class: "notice__action", data: {confirm: "Are you sure? Approving these changes makes them publicly visible."} %>
+                <span class="notice__divider">|</span>
+                <%= link_to "Compare versions", admin_service_versions_path(@service), class: "notice__action" %>
+
+            <% else %>
+
+                <p>This is a new service. Do you want to approve it?</p>
+                <%= link_to "Approve", admin_request_path(@service), method: "patch", class: "notice__action", data: {confirm: "Are you sure? Approving these changes makes them publicly visible."} %>
+
+            <% end %>
+
+        </div>      
+    </div>
+
+<% else %>
+
+    <% if @service.discarded? %>
+        <div class="notice notice--cross">
+            <div class="notice__body">
+                <p>This service is archived and isn't visible</p>
+                <%= link_to "Restore", admin_archive_path(@service), method: "patch", class: "notice__action", data: {confirm: "Are you sure? The service will be visible to users again."} %>
+            </div>
+        </div>
+    <% end %>
+
+<% end %>
