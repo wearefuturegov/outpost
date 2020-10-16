@@ -54,7 +54,9 @@ class OfstedItem < ApplicationRecord
       ["All provision types", ""],
       ["Home Childcarer"],
       ["Childcare on Non Domestic Premises"],
-      ["Childminder"]
+      ["Childminder"],
+      ["Childcare on Domestic Premises"],
+      ["Registered Person Provision"]
     ]
   end
 
@@ -75,7 +77,9 @@ class OfstedItem < ApplicationRecord
       ["Cancelled", "cancelled"],
       ["Proposed", "proposed"],
       ["Inactive", "inactive"],
-      ["Resigned", "resigned"]
+      ["Resigned", "resigned"],
+      ["Refused", "refused"],
+      ["Suspended", "suspended"]
     ]
   end
 
