@@ -18,7 +18,7 @@ class OfstedItem < ApplicationRecord
 
 
   filterrific(
-    default_filter_params: { sorted_by: "recent"},
+    default_filter_params: { sorted_by: "name_asc"},
     available_filters: [
       :sorted_by,
       :with_status,
