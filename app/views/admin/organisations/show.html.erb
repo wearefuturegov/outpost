@@ -2,6 +2,7 @@
     <% unless @organisation.users.any? %>
       <div class="notice notice--exclamation">
         <p>This organisation has no users, so no one but council staff can edit its services.</p>
+        <%= link_to "Add a user", new_admin_user_path(organisation_id: @organisation), class: "notice__action" %>
       </div>
     <% end %>
 
@@ -41,7 +42,8 @@
               <p><em>Showing first 30 services</em></p>
             <% end %>
           <% else %>
-            <p class="no-results">This organisation has no services yet</p>
+            
+            <p class="no-results">This organisation has no services yet. <%= link_to "Add one?", new_admin_service_path(organisation_id: @organisation) %></p>
           <% end %>
         <% end %>
 
@@ -55,7 +57,7 @@
               <% end %>
             </ul>
           <% else %>
-            <p class="no-results">This organisation has no users</p>
+            <p class="no-results">This organisation has no users. <%= link_to "Add one?", new_admin_user_path(organisation_id: @organisation) %></p>
           <% end %>
         <% end %>
 

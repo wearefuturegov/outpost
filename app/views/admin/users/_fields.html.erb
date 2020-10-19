@@ -18,7 +18,7 @@
 
   <div class="field">
     <%= f.label :organisation_id, "Parent organisation", class: "field__label" %>
-    <%= f.collection_select( :organisation_id, Organisation.all, :id, :display_name, {include_blank: "None"}, class: "field__input", data: {choices: true}, disabled: !current_user.admin_users?)%>
+    <%= f.collection_select( :organisation_id, Organisation.all, :id, :display_name, {include_blank: "None", selected: params[:organisation_id]}, class: "field__input", data: {choices: true}, disabled: !current_user.admin_users?)%>
   </div>
 
   <%= render "admin/users/labels", s: f %>
