@@ -12,6 +12,10 @@
         margin-top: 0px;
     }
 
+    *:last-child{
+        margin-bottom: 0px;
+    }
+
     &__action{
         display: inline-block;
         font-weight: bold;
