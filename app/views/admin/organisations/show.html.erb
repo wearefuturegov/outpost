@@ -2,7 +2,7 @@
     <% unless @organisation.users.any? %>
       <div class="notice notice--exclamation">
         <p>This organisation has no users, so no one but council staff can edit its services.</p>
-        <%= link_to "Add a user", new_admin_user_path(organisation_id: @organisation), class: "notice__action" %>
+        <%= link_to "Invite a user", new_admin_user_path(organisation_id: @organisation), class: "notice__action" %>
       </div>
     <% end %>
 
@@ -57,7 +57,7 @@
               <% end %>
             </ul>
           <% else %>
-            <p class="no-results">This organisation has no users. <%= link_to "Add one?", new_admin_user_path(organisation_id: @organisation) %></p>
+            <p class="no-results">This organisation has no users. <%= link_to "Invite one?", new_admin_user_path(organisation_id: @organisation) %></p>
           <% end %>
         <% end %>
 
