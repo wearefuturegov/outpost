@@ -29,6 +29,7 @@ class IndexedServicesSerializer < ActiveModel::Serializer
   has_many :cost_options
   # has_many :meta
   has_many :links
+  has_many :send_needs
 
   has_one :local_offer, unless: -> { object.local_offer&.marked_for_destruction? }
 
