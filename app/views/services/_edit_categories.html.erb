@@ -7,7 +7,7 @@
 <% end %>
 
 <%= form_with model: @service, url: service_path(@service, :section => params[:section]), html: {class: "two-thirds"} do |s| %>
-
+    <%= render "shared/errors", model: @service %>
     <fieldset class="checkbox-group">
         <legend class="visually-hidden">Categories</legend>
         <% tree = Taxonomy.hash_tree %>

@@ -33,14 +33,16 @@ editors.forEach(editor => {
         // activate options business
         let type = newResult.querySelector("[data-type]")
         let options = newResult.querySelector("[data-options]")
-        options.setAttribute("hidden", "true")
-        type.addEventListener("change", e => {
-            if(type.value === "select"){
-                options.removeAttribute("hidden")
-            } else {
-                options.setAttribute("hidden", "true")
-            }
-        })
+        if(type && options){
+            options.setAttribute("hidden", "true")
+            type.addEventListener("change", e => {
+                if(type.value === "select"){
+                    options.removeAttribute("hidden")
+                } else {
+                    options.setAttribute("hidden", "true")
+                }
+            })
+        }
     })
 
     // Remove item

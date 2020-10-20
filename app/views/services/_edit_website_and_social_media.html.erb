@@ -6,6 +6,8 @@
 <% end %>
 
 <%= form_with model: @service, url: service_path(@service, :section => params[:section]), html: {class: "two-thirds"} do |s| %>
+    
+    <%= render "shared/errors", model: @service %>
 
     <div class="field">
         <%= s.label :url, "Website", class: "field__label field__label--bold" %>

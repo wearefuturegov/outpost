@@ -9,13 +9,13 @@
     
     <%= render "shared/errors", model: @service %>
 
-    <div class="field">
+    <div class="field field--required">
         <%= s.label :name, "What is your service or activity called?", class: "field__label field__label--bold" %>
         <p class="field__hint">We’ll use this name to list it on the public service directory. The best names are short but specific.</p>
         <%= s.text_field :name, class: "field__input one-half", required: true %>
     </div>
 
-    <div class="field field--span-two-cols">
+    <div class="field field--required field--span-two-cols">
         <%= s.label :description, "Describe your service", class: "field__label field__label--bold" %>
         <p class="field__hint">In a few sentences, explain what your service does and who it helps.</p>
         <%= s.text_area :description, class: "field__input", rows: 5, required: true %>

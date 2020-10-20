@@ -35,7 +35,7 @@ class ServicesController < ApplicationController
 
     def update
         if params[:section] && session[:completed_sections]
-            session[:completed_sections].push(params[:section])
+            session[:completed_sections] |= [params[:section]]
         end
         if params[:service]
             @service.approved = false
@@ -44,7 +44,7 @@ class ServicesController < ApplicationController
             if @service.update(service_params)
                 redirect_to service_path(@service)
             else
-                render :edit
+                render "_edit_#{params[:section]}"
             end
         else
             redirect_to service_path(@service)

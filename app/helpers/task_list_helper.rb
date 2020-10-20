@@ -12,7 +12,8 @@ module TaskListHelper
                 "Scheduling", 
                 "Fees", 
                 "Locations", 
-                "Contacts"
+                "Contacts",
+                "Ages"
             ],
             [
                 "Special educational needs and disabilities", 

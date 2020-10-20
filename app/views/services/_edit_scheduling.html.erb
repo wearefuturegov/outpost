@@ -7,7 +7,7 @@
 <% end %>
 
 <%= form_with model: @service, url: service_path(@service, :section => params[:section]), html: {class: "two-thirds"} do |s| %>
-
+    <%= render "shared/errors", model: @service %>
     <%= render "admin/services/editors/regular-schedule", s: s %>
 
     <div class="form-actions">
