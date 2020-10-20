@@ -112,6 +112,7 @@ class Service < ApplicationRecord
   validates :name, length: { minimum: 2 }
   validates :name, length: { maximum: 100 }
   validate :validate_ages
+  validate :validate_freeness
 
   def self.options_for_status
     [
@@ -142,9 +143,9 @@ class Service < ApplicationRecord
     end
   end
 
-  def validate_description_unless_admin
-    unless description.present? || current_user.admin?
-      errors.add(:description, "can't be blank")
+  def validate_freeness
+    if cost_options.any? && free
+      errors.add(:base, "Free services can't have any fees")
     end
   end
 
