@@ -23,7 +23,7 @@
             <% @items.each do |i| %>
                 <tr>
                     <td><span class="table__small"><%= i.reference_number %></span></td>
-                    <td><strong><%= link_to i.setting_name, admin_ofsted_path(i) %></strong></td>
+                    <td><strong><%= link_to i.display_name, admin_ofsted_path(i) %></strong></td>
                     <td><%= i.provider_name %></td>
                     <td><%= i.provision_type %></td>
                     <td><%= status_tag(i.registration_status) %></td>

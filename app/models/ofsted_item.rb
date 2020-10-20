@@ -84,7 +84,11 @@ class OfstedItem < ApplicationRecord
   end
 
   def display_name
-    setting_name || provider_name
+    if setting_name.present?
+      setting_name
+    else
+      "Unnamed setting"
+    end
   end
 
   # fields we don't care about for version history purposes

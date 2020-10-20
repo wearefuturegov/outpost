@@ -14,14 +14,13 @@
         </tr>
       </thead>
       <tbody>
-
         <% @activities.each do |a| %>
           <tr>
             <td>
               <% if a.item_type === "Service" %>
-                <%= render "shared/poppables/service", s: Service.find(a.item_id) %> 
-              <% else %>
-                <%= a.item_type %> <%= a.item_id %>
+                <%= render "shared/poppables/service", s: Service.find_by(id: a.item_id) %> 
+              <% elsif a.item_type === "OfstedItem" %>
+                <%= ofsted_item_link(a.item_id) %>
               <% end %>
             </td>
             <td>
@@ -31,7 +30,7 @@
               <% if a.whodunnit %>
                 <%= render "shared/poppables/user", u: User.find(a.whodunnit) %>
               <% else %>
-                system
+                System
               <% end %>
             </td>
             <td><%= short_time_ago_in_words(a.created_at).humanize %> ago</td>

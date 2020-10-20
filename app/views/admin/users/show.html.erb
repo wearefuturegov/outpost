@@ -51,7 +51,7 @@
                     <tr>
                       <td>
                         <%= pretty_event(a.event).humanize %>
-                        <%= link_to Service.find(a.item_id).name, admin_service_url(a.item_id) %>
+                        <%= link_to Service.find_by(a.item_id).name, admin_service_url(a.item_id) %>
                       </td>
                       <td><%= short_time_ago_in_words(a.created_at).humanize %> ago</td>
                     </tr>
