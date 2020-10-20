@@ -61,6 +61,13 @@
             float: left;
         }
     }
+
+    &--required{
+        label:after{
+            content: "*";
+            color: $error;
+        }
+    }
 }
 
 .field-group{
