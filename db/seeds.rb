@@ -135,14 +135,14 @@ bucks_csv.each.with_index do |row, line|
     end
   end
 
-  unless row['coronavirus_status'] == nil
-    coronavirus_statuses = row['coronavirus_status'].split("\n")
-    coronavirus_statuses.each do |coronavirus_status|
-      coronavirus_status_path = ["Coronavirus status", coronavirus_status]
-      taxonomy = Taxonomy.create_with(skip_mongo_callbacks: true).find_or_create_by_path(coronavirus_status_path)
-      service.taxonomies |= [taxonomy]
-    end
-  end
+  # unless row['coronavirus_status'] == nil
+  #   coronavirus_statuses = row['coronavirus_status'].split("\n")
+  #   coronavirus_statuses.each do |coronavirus_status|
+  #     coronavirus_status_path = ["Coronavirus status", coronavirus_status]
+  #     taxonomy = Taxonomy.create_with(skip_mongo_callbacks: true).find_or_create_by_path(coronavirus_status_path)
+  #     service.taxonomies |= [taxonomy]
+  #   end
+  # end
 
   unless row['lo_age_bands'] == nil
     age_groups = row['lo_age_bands'].split("\n")
