@@ -16,6 +16,8 @@ class Service < ApplicationRecord
 
   belongs_to :ofsted_item, required: false
 
+  has_and_belongs_to_many :send_needs
+
   has_many :snapshots
 
   has_many :links
@@ -247,6 +249,7 @@ class Service < ApplicationRecord
       :meta => {},
       :contacts => {},
       :local_offer => {},
+      :send_needs => {},
       :cost_options => {},
       :regular_schedules => {}
     }
