@@ -2,10 +2,11 @@
     @media screen and (min-width: $breakpoint-m){
         display: grid;
         grid-template-columns: 1fr 1fr;
-        column-gap: 25px;
+        column-gap: 45px;
     }    
     @media screen and (min-width: $breakpoint-l){
         grid-template-columns: 1fr 1fr 1fr 1fr;
+        column-gap: 85px;
     }
 }
 
@@ -23,5 +24,6 @@
     }
     &__caption{
         font-size: 1.1rem;
+        line-height: 1.5;
     }
 }
