@@ -13,3 +13,19 @@ Feature: Add a new service
         When I add a new service
         Then I can fill in fields for name and description
         Then I should reach the task list
+
+        Given I can fill in website and social media fields
+        Given I can fill in visibility dates
+
+        Given I can choose categories
+        Given I can create schedules
+        Given I can create fees
+        Given I can create locations
+        Given I can create contacts
+        Given I can set ages
+
+        Given I can answer local offer questions
+        Given I can answer extra questions
+
+        Then I can submit my service
+        And I see it pending on the dashboard
