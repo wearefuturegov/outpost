@@ -273,9 +273,9 @@ all_needs_met_taxonomy.destroy!
 
 puts "Took #{(end_time - start_time)/60} minutes"
 
-# lock top-level taxa
-Taxonomy.roots.each do |t|
-  t.locked = true
-  t.skip_mongo_callbacks = true
-  t.save
-end
+# # lock top-level taxa
+# Taxonomy.roots.each do |t|
+#   t.locked = true
+#   t.skip_mongo_callbacks = true
+#   t.save
+# end
