@@ -1,4 +1,4 @@
-name: Ruby Cucumber Tests
+name: End-to-end cucumber tests
 # As opposed to the ci env used before on the Ruby action
 
 on: [push]

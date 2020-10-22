@@ -1,7 +1,7 @@
 # This code from https://dev.to/vvo/a-rails-and-postgresql-setup-for-github-actions-ci-nc8
 # and https://dev.to/jennapederson/github-actions-in-action-2c5
 
-name: Run tests
+name: Unit tests
 
 on: [push]
 
