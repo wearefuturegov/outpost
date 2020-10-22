@@ -135,14 +135,14 @@ bucks_csv.each.with_index do |row, line|
     end
   end
 
-  unless row['coronavirus_status'] == nil
-    coronavirus_statuses = row['coronavirus_status'].split("\n")
-    coronavirus_statuses.each do |coronavirus_status|
-      coronavirus_status_path = ["Coronavirus status", coronavirus_status]
-      taxonomy = Taxonomy.create_with(skip_mongo_callbacks: true).find_or_create_by_path(coronavirus_status_path)
-      service.taxonomies |= [taxonomy]
-    end
-  end
+  # unless row['coronavirus_status'] == nil
+  #   coronavirus_statuses = row['coronavirus_status'].split("\n")
+  #   coronavirus_statuses.each do |coronavirus_status|
+  #     coronavirus_status_path = ["Coronavirus status", coronavirus_status]
+  #     taxonomy = Taxonomy.create_with(skip_mongo_callbacks: true).find_or_create_by_path(coronavirus_status_path)
+  #     service.taxonomies |= [taxonomy]
+  #   end
+  # end
 
   unless row['lo_age_bands'] == nil
     age_groups = row['lo_age_bands'].split("\n")
@@ -163,14 +163,15 @@ bucks_csv.each.with_index do |row, line|
 
   unless row['lo_needs_level'] == nil
     send_needs = row['lo_needs_level'].split("\n")
+
     send_needs.each do |send_need|
-      send_need_taxonomy_path = ["SEND needs", send_need]
-      taxonomy = Taxonomy.create_with(skip_mongo_callbacks: true).find_or_create_by_path(send_need_taxonomy_path)
-      service.taxonomies |= [taxonomy]
+      service.send_needs << SendNeed.find_or_initialize_by({name: send_need.downcase.capitalize})
     end
+
     if send_needs.include? "All Needs Met"
-      service.taxonomies |= Taxonomy.find_by_path("SEND needs").children
+      service.send_needs << SendNeed.all
     end
+
   end
 
   unless row['familychannel'] == nil
