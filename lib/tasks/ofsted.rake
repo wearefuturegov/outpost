@@ -1,7 +1,7 @@
 namespace :ofsted do
 
   task :create_initial_items => :environment do
-    response = HTTParty.get("https://bucks-ofsted-feed.herokuapp.com?api_key=#{ENV["OFSTED_API_KEY"]}")
+    response = HTTParty.get("#{ENV["OFSTED_FEED_API_ENDPOINT"]}?api_key=#{ENV["OFSTED_API_KEY"]}")
     items = JSON.parse(response.body)
 
     items.each do |item|
@@ -34,7 +34,7 @@ namespace :ofsted do
 
   # To be scheduled
   task :update_items => :environment do
-    response = HTTParty.get("https://bucks-ofsted-feed.herokuapp.com?api_key=#{ENV["OFSTED_API_KEY"]}")
+    response = HTTParty.get("#{ENV["OFSTED_FEED_API_ENDPOINT"]}?api_key=#{ENV["OFSTED_API_KEY"]}")
     items = JSON.parse(response.body)
 
     items.each do |item| # Iterate through iterms returend from Ofsted feed API
