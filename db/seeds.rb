@@ -25,7 +25,7 @@ bucks_csv.each do |row| # CREATE ORGS BASED ON TYPE
 end
 
 Rake::Task['taxonomy:create_categories_from_old_db'].invoke
-Rake::Task['ofsted:create_initial_items'].invoke
+#Rake::Task['ofsted:create_initial_items'].invoke
 Rake::Task['ofsted:set_open_objects_external_ids'].invoke
 
 bucks_csv.each.with_index do |row, line|
@@ -252,13 +252,7 @@ bucks_csv.each.with_index do |row, line|
 end
 
 #Create bucks and fg users
-user_logins_yaml = Rails.root.join('lib', 'seeds', 'user_logins.yml')
-user_logins = YAML::load_file(user_logins_yaml)
-user_logins.each do |user_login|
-  user_login["admin_users"] = true
-  user_login["admin_ofsted"] = true
-  User.create!(user_login) unless (User.where(email: user_login["email"]).size > 0)
-end
+#Rake::Task['users:create_users_from_file'].invoke
 
 end_time = Time.now
 
