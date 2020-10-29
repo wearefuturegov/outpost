@@ -19,7 +19,7 @@ bucks_csv.each do |row| # CREATE ORGS BASED ON TYPE
     organisation.old_external_id = row['externalid']
     organisation.skip_mongo_callbacks=true
     unless organisation.save
-      puts "Organisation #{organisation.name} failed to save"
+      puts "Organisation #{organisation.name} failed to save: #{organisation.errors}"
     end
   end
 end
@@ -45,7 +45,7 @@ bucks_csv.each.with_index do |row, line|
     organisation = Organisation.new
     organisation.skip_mongo_callbacks=true
     unless organisation.save
-      puts "Organisation #{organisation.name} failed to save"
+      puts "Organisation #{organisation.name} failed to save: #{organisation.errors.messages}"
     end
   end
 
@@ -61,7 +61,7 @@ bucks_csv.each.with_index do |row, line|
     user.organisation_id = organisation.id
     user.password = password
     unless user.save
-      puts "User #{user.email} failed to save"
+      puts "User #{user.email} failed to save: #{user.errors.messages}"
     end
   end
 
@@ -117,7 +117,7 @@ bucks_csv.each.with_index do |row, line|
   location.skip_postcode_validation = true
   location.skip_mongo_callbacks = true
   unless location.save
-    puts "Location #{location.name} failed to save"
+    puts "Location #{location.name} failed to save: #{location.errors.messages}"
   end
   service.locations << location
 
@@ -216,7 +216,7 @@ bucks_csv.each.with_index do |row, line|
 
   service.locations.each {|l| l.skip_postcode_validation = true }
   unless service.save
-    puts "Service #{service.name} failed to save"
+    puts "Service #{service.name} failed to save: #{service.errors.messages}"
   end
 
   if (row['contact_name'].present? || row['contact_telephone'].present? || row['contact_email'].present?) # contact just needs one of these ethings to save
@@ -233,8 +233,7 @@ bucks_csv.each.with_index do |row, line|
         contact.phone = numbers.first
 
         unless contact.save
-          puts "Contact #{contact.name} failed to save"
-          byebug
+          puts "Contact #{contact.name} failed to save: #{contact.errors.messages}"
         end
 
         numbers = numbers.drop(1) # now create contacts for remaining numbers
@@ -243,8 +242,7 @@ bucks_csv.each.with_index do |row, line|
           contact.phone = number
           contact.service_id = service.id
           unless contact.save
-            puts "Phone #{number} failed to save"
-            byebug
+            puts "Phone #{number} failed to save: #{contact.errors.messages}"
           end
         end
       end
@@ -277,5 +275,7 @@ puts "Took #{(end_time - start_time)/60} minutes"
 Taxonomy.roots.each do |t|
   t.locked = true
   t.skip_mongo_callbacks = true
-  t.save
+  unless t.save
+    puts "Taxonomy #{t} failed to save: #{t.errors.messages}"
+  end
 end
