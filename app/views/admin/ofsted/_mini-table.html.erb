@@ -1,3 +1,4 @@
+
 <% if t.present? %>
     <table class="table">
         <thead>
@@ -9,7 +10,10 @@
             <% t.each do |r| %>
             <tr>
                 <% r.map do |key, value| %>
-                <td><%= string_as_formatted_date_if_date(value) %></td>
+                <td>
+                  <%#= string_as_formatted_date_if_date(value) %>
+                  <%= value %>
+                </td>
                 <% end %>
             </tr>
             <% end %>
