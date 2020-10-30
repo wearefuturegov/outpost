@@ -214,6 +214,42 @@ bucks_csv.each.with_index do |row, line|
     end
   end
 
+  # CUSTOM FIELDS
+  if row["dfes_urn"].present?
+    service_meta = service.meta.new(key: "Funding URN", value: row["dfes_urn"])
+    unless service_meta.save
+      puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
+    end
+  end
+
+  if row["ecd_funded_places_2yo"].present?
+    service_meta = service.meta.new(key: "Funding 2 year olds", value: row["ecd_funded_places_2yo"])
+    unless service_meta.save
+      puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
+    end
+  end
+
+  if row["owner"].present?
+    service_meta = service.meta.new(key: "Type of ownership", value: row["owner"])
+    unless service_meta.save
+      puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
+    end
+  end
+
+  if row["ecd_pickup"].present?
+    service_meta = service.meta.new(key: "Childcare pickups", value: row["ecd_pickup"])
+    unless service_meta.save
+      puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
+    end
+  end
+
+  if row["ecd_vacancies_immediate"].present?
+    service_meta = service.meta.new(key: "Childcare vacancies currently", value: row["ecd_vacancies_immediate"])
+    unless service_meta.save
+      puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
+    end
+  end
+
   service.skip_mongo_callbacks = true
 
   service.locations.each {|l| l.skip_postcode_validation = true }
