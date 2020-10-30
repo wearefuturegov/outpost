@@ -15,7 +15,7 @@ namespace :organisations do
         organisation.email = row['contact_email']
         organisation.url = row['website']
         organisation.old_external_id = row['externalid']
-        organisation.skip_mongo_callbacks=true
+        organisation.skip_mongo_callbacks = true
         unless organisation.save
           puts "Organisation #{organisation.name} failed to save: #{organisation.errors.messages}"
         end

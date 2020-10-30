@@ -3,8 +3,8 @@ require 'csv'
 start_time = Time.now
 
 # These two would be run when Ofsted Feed is switched
-#Rake::Task['ofsted:create_initial_items'].invoke
-#Rake::Task['users:create_users_from_file'].invoke
+Rake::Task['ofsted:create_initial_items'].invoke
+Rake::Task['users:create_users_from_file'].invoke
 
 Rake::Task['organisations:create_from_csv'].invoke
 

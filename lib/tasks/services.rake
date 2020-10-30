@@ -24,7 +24,7 @@ namespace :services do
 
       if organisation.blank?
         organisation = Organisation.new
-        organisation.skip_mongo_callbacks=true
+        organisation.skip_mongo_callbacks = true
         unless organisation.save
           puts "Organisation #{organisation.name} failed to save: #{organisation.errors.messages}"
         end
