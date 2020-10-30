@@ -10,7 +10,7 @@ namespace :ofsted do
       if ofsted_item.save
         puts "Created ofsted item #{ofsted_item.provider_name}"
       else
-        puts "Failed to create ofsted item #{ofsted_item.provider_name}"
+        puts "Failed to create ofsted item #{ofsted_item.provider_name}: #{ofsted_item.errors.messages}"
       end
     end
   end

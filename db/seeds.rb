@@ -24,6 +24,8 @@ bucks_csv.each do |row| # CREATE ORGS BASED ON TYPE
   end
 end
 
+Rake::Task['custom_fields:create'].invoke
+
 Rake::Task['taxonomy:create_categories_from_old_db'].invoke
 #Rake::Task['ofsted:create_initial_items'].invoke
 Rake::Task['ofsted:set_open_objects_external_ids'].invoke
