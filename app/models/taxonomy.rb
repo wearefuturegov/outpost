@@ -8,7 +8,7 @@ class Taxonomy < ApplicationRecord
     has_many :services, through: :service_taxonomies
 
     attr_accessor :skip_mongo_callbacks
-    after_save :update_index, unless: :skip_mongo_callbacks
+    after_save :update_index, if: -> { skip_mongo_callbacks == !true }
     
     validates_presence_of :name, uniqueness: true
     validates :name, length: { minimum: 2 }

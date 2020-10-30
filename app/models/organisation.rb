@@ -3,7 +3,7 @@ class Organisation < ApplicationRecord
   has_many :users
 
   attr_accessor :skip_mongo_callbacks
-  after_save :update_index, unless: :skip_mongo_callbacks
+  after_save :update_index, if: -> { skip_mongo_callbacks != true }
 
   paginates_per 20
 

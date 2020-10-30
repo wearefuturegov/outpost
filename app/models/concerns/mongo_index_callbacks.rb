@@ -5,7 +5,7 @@ module MongoIndexCallbacks
     attr_accessor :skip_mongo_callbacks
 
     included do
-        after_save :update_index, unless: :skip_mongo_callbacks
+        after_save :update_index, if: -> { skip_mongo_callbacks != true }
     end
 
     def update_index
