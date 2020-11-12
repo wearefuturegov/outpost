@@ -29,8 +29,7 @@
                     <td><%= status_tag(i.registration_status) %></td>
                     <td><%= short_time_ago_in_words(i.last_change_date).humanize + " ago"  if i.last_change_date %></td>
                     <td>
-                      <%#= string_as_formatted_date_if_date(i.registration_date) %>
-                      <%= i.registration_date %>
+                      <%= format_if_date(i.registration_date) %>
                     </td>
                 </tr>
             <% end %>

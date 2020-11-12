@@ -11,8 +11,7 @@
             <tr>
                 <% r.map do |key, value| %>
                 <td>
-                  <%#= string_as_formatted_date_if_date(value) %>
-                  <%= value %>
+                  <%= format_if_date(value) %>
                 </td>
                 <% end %>
             </tr>

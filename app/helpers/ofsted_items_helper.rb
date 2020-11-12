@@ -1,11 +1,11 @@
 module OfstedItemsHelper
 
-  def string_as_formatted_date_if_date possible_date_string
+  def format_if_date date_string
     begin
-      date = possible_date_string.to_date
-      return date.strftime('%d/%m/%Y')
+      date = date_string&.to_date
+      return date&.strftime('%d/%m/%Y')
     rescue ArgumentError
-      return possible_date_string
+      return date_string
     end
   end
 

@@ -34,7 +34,7 @@
           <%= render "admin/ofsted/field", label: "Provider name", value: @item.provider_name %>
           <%= render "admin/ofsted/field", label: "Reference number", value: @item.reference_number %>
           <%= render "admin/ofsted/field", label: "Status", value: @item.registration_status %>
-          <%= render "admin/ofsted/field", label: "Registration date", value: string_as_formatted_date_if_date(@item.registration_date) %>
+          <%= render "admin/ofsted/field", label: "Registration date", value: format_if_date(@item.registration_date) %>
         </div>
 
         <div class="field-group field-group--two-cols">
