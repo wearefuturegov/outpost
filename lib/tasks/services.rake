@@ -2,6 +2,15 @@ require 'csv'
 
 namespace :services do
 
+  # Undoes evertything in create_from_csv taks so that it can be run again without running entire seed
+  task :clear_with_related_data => [ :environment ] do
+    ServiceMeta.destroy_all
+    Service.destroy_all
+    Location.destroy_all
+    Contact.destroy_all
+    SendNeed.destroy_all
+  end
+
   task :create_from_csv => [ :environment ] do
     users_file = File.open('lib/seeds/users.csv', "r:utf-8")
     open_objects_users_csv = CSV.parse(users_file, headers: true)
@@ -193,46 +202,46 @@ namespace :services do
         end
       end
 
-      # CUSTOM FIELDS
-      if row["dfes_urn"].present?
-        service_meta = service.meta.new(key: "Funding URN", value: row["dfes_urn"])
-        unless service_meta.save
-          puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
-        end
-      end
-
-      if row["ecd_funded_places_2yo"].present?
-        service_meta = service.meta.new(key: "Funding 2 year olds", value: row["ecd_funded_places_2yo"])
-        unless service_meta.save
-          puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
-        end
-      end
-
-      if row["owner"].present?
-        service_meta = service.meta.new(key: "Type of ownership", value: row["owner"])
-        unless service_meta.save
-          puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
-        end
-      end
-
-      if row["ecd_pickup"].present?
-        service_meta = service.meta.new(key: "Childcare pickups", value: row["ecd_pickup"])
-        unless service_meta.save
-          puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
-        end
-      end
-
-      if row["ecd_vacancies_immediate"].present?
-        service_meta = service.meta.new(key: "Childcare vacancies currently", value: row["ecd_vacancies_immediate"])
-        unless service_meta.save
-          puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
-        end
-      end
-
       service.skip_mongo_callbacks = true
 
       service.locations.each {|l| l.skip_postcode_validation = true }
-      unless service.save
+      if service.save
+        # CUSTOM FIELDS
+        if row["dfes_urn"].present?
+          service_meta = service.meta.new(key: "Funding URN", value: row["dfes_urn"])
+          unless service_meta.save
+            puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
+          end
+        end
+
+        if row["ecd_funded_places_2yo"].present?
+          service_meta = service.meta.new(key: "Funding 2 year olds", value: row["ecd_funded_places_2yo"])
+          unless service_meta.save
+            puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
+          end
+        end
+
+        if row["owner"].present?
+          service_meta = service.meta.new(key: "Type of ownership", value: row["owner"])
+          unless service_meta.save
+            puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
+          end
+        end
+
+        if row["ecd_pickup"].present?
+          service_meta = service.meta.new(key: "Childcare pickups", value: row["ecd_pickup"])
+          unless service_meta.save
+            puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
+          end
+        end
+
+        if row["ecd_vacancies_immediate"].present?
+          service_meta = service.meta.new(key: "Childcare vacancies currently", value: row["ecd_vacancies_immediate"])
+          unless service_meta.save
+            puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
+          end
+        end
+      else
         puts "Service #{service.name} failed to save: #{service.errors.messages}"
       end
 
