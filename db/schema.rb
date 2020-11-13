@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_29_134156) do
+ActiveRecord::Schema.define(version: 2020_11_13_131026) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -163,7 +163,7 @@ ActiveRecord::Schema.define(version: 2020_10_29_134156) do
   create_table "ofsted_items", force: :cascade do |t|
     t.string "provider_name"
     t.string "setting_name"
-    t.integer "reference_number"
+    t.string "reference_number"
     t.string "provision_type"
     t.string "secondary_provision_type"
     t.string "registration_status"
