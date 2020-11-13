@@ -66,14 +66,14 @@ namespace :taxonomy do
       puts "Additional new taxa: #{additional_new_taxonomy.name}" if additional_new_taxonomy.present?
 
       if (new_taxonomy.present? && old_taxonomy.present?)
-        new_taxonomy.services = old_taxonomy.services
+        new_taxonomy.services |= old_taxonomy.services
         new_taxonomy.skip_mongo_callbacks = true
         new_taxonomy.save
         puts "New taxa service count: #{new_taxonomy.services.count}"
       end
 
       if (additional_new_taxonomy.present? && old_taxonomy.present?)
-        additional_new_taxonomy.services = old_taxonomy.services
+        additional_new_taxonomy.services |= old_taxonomy.services
         additional_new_taxonomy.skip_mongo_callbacks = true
         additional_new_taxonomy.save
         puts "Additional new taxa service count: #{additional_new_taxonomy.services.count}"
