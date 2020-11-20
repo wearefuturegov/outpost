@@ -10,7 +10,8 @@ class OfstedItem < ApplicationRecord
       against: [
           :provider_name,
           :setting_name,
-          :reference_number
+          :reference_number,
+          :rp_reference_number
       ], 
       using: {
           tsearch: { prefix: true }
