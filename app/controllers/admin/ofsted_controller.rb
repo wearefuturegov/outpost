@@ -34,7 +34,16 @@ class Admin::OfstedController < Admin::BaseController
 
     def show
         @item = OfstedItem.find(params[:id])
-        @related_items = OfstedItem.where(rp_reference_number: @item.rp_reference_number).where.not(id: params[:id]) if @item.rp_reference_number.present?
+
+        @related_items_one_way = OfstedItem.where(reference_number: @item.rp_reference_number).where.not(id: params[:id]) if @item.rp_reference_number.present?
+        @related_items_other_way = OfstedItem.where(rp_reference_number: @item.reference_number)# if @item.reference_number.present?
+
+        if @related_items_one_way.present?
+          @related_items = @related_items_one_way.merge(@related_items_one_way)
+        else
+          @related_items = @related_items_other_way
+        end
+
         if @item.versions.length > 4
           @versions = @item.versions.reverse.first(3)
           @versions.push(@item.versions.reverse.last)
