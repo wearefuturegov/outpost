@@ -35,14 +35,11 @@ class Admin::OfstedController < Admin::BaseController
     def show
         @item = OfstedItem.find(params[:id])
 
-        @related_items_one_way = OfstedItem.where(reference_number: @item.rp_reference_number).where.not(id: params[:id]) if @item.rp_reference_number.present?
-        @related_items_other_way = OfstedItem.where(rp_reference_number: @item.reference_number)# if @item.reference_number.present?
+        @related_items = OfstedItem.where(rp_reference_number: @item.rp_reference_number).where.not(id: params[:id]) if @item.rp_reference_number.present?
 
-        if @related_items_one_way.present?
-          @related_items = @related_items_one_way.merge(@related_items_one_way)
-        else
-          @related_items = @related_items_other_way
-        end
+        # If on a registered person provider item
+        @registered_person_provider = OfstedItem.where(reference_number: @item.rp_reference_number).first
+        @related_items ||= OfstedItem.where(rp_reference_number: @item.reference_number)
 
         if @item.versions.length > 4
           @versions = @item.versions.reverse.first(3)
