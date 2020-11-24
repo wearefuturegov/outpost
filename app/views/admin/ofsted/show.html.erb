@@ -43,7 +43,18 @@
 
         <div class="field-group field-group--two-cols">
           <%= render "admin/ofsted/field", label: "Special consideration", value: @item.special_consideration %>
-          <%= render "admin/ofsted/field", label: "Ofsted report", value: @item.link_to_ofsted_report %>
+
+          <div class="read-only-field">
+              <p class="read-only-field__label">Ofsted report</p>
+              <p class="read-only-field__value">
+                  <% if @item.link_to_ofsted_report.present? %>
+                      <%= link_to "See latest report", @item.link_to_ofsted_report %>
+                  <% else %>
+                      —
+                  <% end %>
+              </p>
+          </div>
+
           <%= render "admin/ofsted/field", label: "Registered person reference", value: @item.rp_reference_number %>
           <%= render "admin/ofsted/field", label: "Related RPPs", value: @item.related_rpps %>
         </div>
