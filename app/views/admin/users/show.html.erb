@@ -13,7 +13,7 @@
       </div>
     <% end %>
 
-    <%= link_to "Back to users", admin_users_path, class: "go-back" %>
+    <%= render "shared/dynamic-back-link", text: "Back to users", path: admin_users_path %>
     <div class="page-header__actions">
       <h1 class="page-header__title two-thirds"><%= @user.display_name %></h1>
     </div>

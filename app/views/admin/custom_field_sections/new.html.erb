@@ -1,5 +1,5 @@
 <% content_for :header do %>
-    <%= link_to "Back to custom fields", admin_custom_field_sections_path, class: "go-back" %>
+    <%= render "shared/dynamic-back-link", text: "Back to custom fields", path: admin_custom_field_sections_path %>
     <h1 class="page-header__title">Add a new section</h1>
 <% end %>
 

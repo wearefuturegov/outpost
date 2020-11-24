@@ -8,8 +8,7 @@
       </div>
     <% end %>
 
-
-    <%= link_to "Back to feed", admin_ofsted_index_path, class: "go-back" %>
+    <%= render "shared/dynamic-back-link", text: "Back to feed", path: admin_ofsted_index_path %>
     <div class="page-header__actions">
       <h1 class="page-header__title two-thirds"><%= @item.setting_name %></h1>
     </div>

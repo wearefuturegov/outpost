@@ -6,7 +6,7 @@
       </div>
     <% end %>
 
-    <%= link_to "Back to organisations", admin_organisations_path, class: "go-back" %>
+    <%= render "shared/dynamic-back-link", text: "Back to organisations", path: admin_organisations_path %>
     <div class="page-header__actions">
       <h1 class="page-header__title two-thirds">
         <%= @organisation.display_name %>

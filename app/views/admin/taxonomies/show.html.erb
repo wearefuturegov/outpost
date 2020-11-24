@@ -1,5 +1,5 @@
 <% content_for :header do %>
-    <%= link_to "Back to taxonomies", admin_taxonomies_path, class: "go-back" %>
+    <%= render "shared/dynamic-back-link", text: "Back to taxonomies", path: admin_taxonomies_path %>
     <div class="page-header__actions">
       <h1 class="page-header__title two-thirds"><%= @taxonomy.name %></h1>
     </div>

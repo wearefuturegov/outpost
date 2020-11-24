@@ -1,0 +1,5 @@
+<% if request.referer && URI(request.referer).host === request.host  %>
+    <%= link_to text, request.referer, class: "go-back" %>
+<% else %>
+    <%= link_to text, path, class: "go-back" %>
+<% end %>

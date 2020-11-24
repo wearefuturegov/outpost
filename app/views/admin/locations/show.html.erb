@@ -1,5 +1,5 @@
 <% content_for :header do %>
-    <%= link_to "Back to locations", admin_locations_path, class: "go-back" %>
+    <%= render "shared/dynamic-back-link", text: "Back to locations", path: admin_locations_path %>
     <h1 class="page-header__title two-thirds"><%= @location.display_name %></h1>
 <% end %>
 

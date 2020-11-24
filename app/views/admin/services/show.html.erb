@@ -4,7 +4,7 @@
 
 <% content_for :header do %>
     <%= render "notices" %>
-    <%= link_to "Back to services", admin_services_path, class: "go-back" %>
+    <%= render "shared/dynamic-back-link", text: "Back to services", path: admin_services_path %>
     <div class="page-header__actions">
       <h1 class="page-header__title two-thirds"><%= @service.display_name %></h1>
     </div>

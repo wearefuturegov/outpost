@@ -11,7 +11,7 @@
       </div>
     <% end %>
 
-    <%= link_to "Back to services", admin_services_path, class: "go-back" %>
+    <%= render "shared/dynamic-back-link", text: "Back to services", path: admin_services_path %>
     <h1 class="page-header__title two-thirds">Add a new service</h1>
 <% end %>
 
