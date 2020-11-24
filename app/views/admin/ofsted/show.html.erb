@@ -55,7 +55,17 @@
               </p>
           </div>
 
-          <%= render "admin/ofsted/field", label: "Registered person reference", value: @item.rp_reference_number %>
+          <div class="read-only-field">
+              <p class="read-only-field__label">Registered person reference</p>
+              <p class="read-only-field__value">
+                  <% if @item.rp_reference_number.present? %>
+                      <%= link_to @item.rp_reference_number, admin_ofsted_path(@registered_person_provider) %>
+                  <% else %>
+                      —
+                  <% end %>
+              </p>
+          </div>
+
           <%= render "admin/ofsted/field", label: "Related RPPs", value: @item.related_rpps %>
         </div>
       <% end %>

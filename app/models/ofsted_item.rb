@@ -87,6 +87,8 @@ class OfstedItem < ApplicationRecord
   def display_name
     if setting_name.present?
       setting_name
+    elsif provider_name.present?
+      provider_name
     else
       "Unnamed setting"
     end
