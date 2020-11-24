@@ -101,6 +101,7 @@ class Admin::ServicesController < Admin::BaseController
       :free,
       :ofsted_item_id,
       taxonomy_ids: [],
+      send_need_ids: [],
       local_offer_attributes: [
         :id,
         :description,

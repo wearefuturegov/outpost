@@ -1,26 +1,16 @@
 <%= mark_unapproved_local_offer do %>
-<div class="local-offer-editor" aria-live="polite">
+    <div class="local-offer-editor" aria-live="polite">
 
-    <div class="field">
-        <div class="checkbox">
+        <div class="field">
+            <div class="checkbox">
             <%= local_offer_checkbox(s, "admin/services/editors/local-offer-fields") %>
-            <%= label_tag "local_offer", "This service is part of the local offer", class: "checkbox__label" %>
-        </div>
-    </div>
-
-    <%= s.fields_for :local_offer do |l| %>
-        <%= render "admin/services/editors/local-offer-fields", l: l %>
-    <% end %>
-
-    <fieldset class="field-group field-group--two-cols field-group--no-top-margin margin-bottom">
-        <legend class="field-group__legend">Which SEND needs can you support?</legend>
-        <%= s.collection_check_boxes( :send_need_ids, SendNeed.all, :id, :display_name) do |c| %>
-            <div class="field checkbox checkbox--small">
-                <%= c.check_box class: "checkbox__input" %>
-                <%= c.label class: "checkbox__label" %>
+                <%= label_tag "local_offer", "This service is part of the local offer", class: "checkbox__label" %>
             </div>
-        <% end %>
-    </fieldset>
+        </div>
 
-</div>
+        <%= s.fields_for :local_offer do |l| %>
+                <%= render "admin/services/editors/local-offer-fields", s: s, l: l %>
+        <% end %>
+
+    </div>
 <% end %>

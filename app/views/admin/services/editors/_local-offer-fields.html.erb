@@ -1,32 +1,44 @@
 <div data-local-offer-fields>
-  <div class="field-section">
-    <div class="field field--required">
-      <%= l.label :description, "Description of support provided", class: "field__label" %>
-      <%= l.text_area :description, class: "field__input", rows: 5, required: true %>
+
+    <fieldset class="field-group field-group--two-cols field-group--no-top-margin margin-bottom">
+        <legend class="field-group__legend">Which SEND needs can you support?</legend>
+        <%= s.collection_check_boxes( :send_need_ids, SendNeed.all, :id, :display_name) do |c| %>
+            <div class="field checkbox checkbox--small">
+                <%= c.check_box class: "checkbox__input" %>
+                <%= c.label class: "checkbox__label" %>
+            </div>
+        <% end %>
+    </fieldset>
+
+    <div class="field-section">
+      <div class="field field--required">
+        <%= l.label :description, "Description of support provided", class: "field__label" %>
+        <%= l.text_area :description, class: "field__input", rows: 5, required: true %>
+      </div>
+
+      <div class="field">
+        <%= l.label :link, "Link to most recent SEND report", class: "field__label" %>
+        <p class="field__hint">Must start with http:// or https://</p>
+        <%= l.url_field :link, class: "field__input" %>
+      </div>
     </div>
 
-    <div class="field">
-      <%= l.label :link, "Link to most recent SEND report", class: "field__label" %>
-      <p class="field__hint">Must start with http:// or https://</p>
-      <%= l.url_field :link, class: "field__input" %>
-    </div>
-  </div>
-
-  <fieldset class="field-group">
-    <legend class="field-group__legend">
-      <h2>Details about your support</h2>
-    </legend>
-    <% survey_answers = @service.local_offer&.survey_answers || [] %>
-    <% l.object.questions.each do |q| %>
-      <% current_answer = survey_answers.detect { |h| h['id'] == q[:id] } || { id: q[:id] } %>
-      <%= l.fields_for 'survey_answers[]', OpenStruct.new(current_answer) do |m| %>
-        <div class="field">
-          <%= m.label :answer, q[:text], class: "field__label" %>
-          <%= m.text_area :answer, rows: 3, class: "field__input" %>
-        </div>
+    <fieldset class="field-group">
+      <legend class="field-group__legend">
+        <h2>Details about your support</h2>
+      </legend>
+      <% survey_answers = @service.local_offer&.survey_answers || [] %>
+      <% l.object.questions.each do |q| %>
+        <% current_answer = survey_answers.detect { |h| h['id'] == q[:id] } || { id: q[:id] } %>
+        <%= l.fields_for 'survey_answers[]', OpenStruct.new(current_answer) do |m| %>
+          <div class="field">
+            <%= m.label :answer, q[:text], class: "field__label" %>
+            <%= m.text_area :answer, rows: 3, class: "field__input" %>
+          </div>
+        <% end %>
       <% end %>
-    <% end %>
-  </fieldset>
+    </fieldset>
+
 </div>
 
 <%= l.hidden_field :_destroy, data: {destroy_field: true} %>
