@@ -30,7 +30,7 @@
           <tr>
             <td><%= link_to s.name, service_path(s) %></td>
             <td>              
-              <%= s.taxonomies.categories.map {|c| c.name }.join(", ") %>
+              <%= s.taxonomies.roots.map {|c| c.name }.join(", ") %>
             </td>
             <td><%= time_ago_in_words(s.updated_at).humanize %> ago</td>
             <td>  

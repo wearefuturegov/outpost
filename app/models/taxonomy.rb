@@ -18,8 +18,6 @@ class Taxonomy < ApplicationRecord
         name.parameterize
     end
 
-    scope :categories, -> { where(parent_id: 1) }
-
     def update_index
         UpdateIndexTaxonomiesJob.perform_later(self)
     end

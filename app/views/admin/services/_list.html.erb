@@ -20,7 +20,7 @@
         <td>
           <%= render "shared/poppables/organisation", o: s.organisation if s.organisation %>
         <td>
-          <% s.taxonomies.categories.each do |t| %>
+          <% s.taxonomies.roots.each do |t| %>
             <%= link_to t.name, admin_taxonomy_path(t), class: "taxonomy" %>
           <% end %>
         </td>
