@@ -4,9 +4,9 @@
 
             <% if @service.discarded?  %>
 
-                <p>Someone has requested that this service be archived. Do you want to approve it?</p>
+                <p>Someone has requested that this service be archived. Do you want to archive it?</p>
                 
-                <%= link_to "Yes, approve", admin_request_path(@service), method: "patch", class: "notice__action", data: {confirm: "Are you sure? The service will be removed from all listings."} %>
+                <%= link_to "Yes, archive", admin_request_path(@service), method: "patch", class: "notice__action", data: {confirm: "Are you sure? The service will be removed from all listings."} %>
                 <span class="notice__divider">|</span>
                 <%= link_to "No, restore", admin_archive_path(@service), method: "patch", class: "notice__action", data: {confirm: "Are you sure? The service will be visible to users again."} %>
 
