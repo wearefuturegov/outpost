@@ -59,7 +59,11 @@
               <p class="read-only-field__label">Registered person reference</p>
               <p class="read-only-field__value">
                   <% if @item.rp_reference_number.present? %>
+                    <% if @registered_person_provider.present? %>
                       <%= link_to @item.rp_reference_number, admin_ofsted_path(@registered_person_provider) %>
+                    <% else %>
+                      <%= @item.rp_reference_number %>
+                    <% end %>
                   <% else %>
                       —
                   <% end %>
