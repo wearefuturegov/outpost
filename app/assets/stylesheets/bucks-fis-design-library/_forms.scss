@@ -227,3 +227,19 @@
         margin-top: 55px;
     }
 }
+
+
+.changed{
+    position: relative;
+    border-left: 5px solid $focus;
+    padding-left: 15px;
+    padding-top: 30px;
+    &:before{
+        content: "Changed";
+        font-weight: bold;
+        color: darken($focus, 10);
+        position: absolute;
+        top: 0px;
+        float: left;
+    }
+}
