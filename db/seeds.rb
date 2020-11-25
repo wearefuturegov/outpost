@@ -22,7 +22,7 @@ Rake::Task['taxonomy:map_to_new_taxonomy'].invoke
 Rake::Task['taxonomy:delete_old_taxonomies'].invoke
 Rake::Task['taxonomy:populate_parents'].invoke
 
-all_needs_met_taxonomy = Taxonomy.where(name: "All Needs Met").first
+all_needs_met_taxonomy = Taxonomy.where(name: "All needs met").first
 all_needs_met_taxonomy.destroy! if all_needs_met_taxonomy.present?
 
 puts "Took #{(end_time - start_time)/60} minutes"
