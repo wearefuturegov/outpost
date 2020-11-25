@@ -2,7 +2,7 @@
 
     <div class="field">
         <%= s.label :label_list, "Choose or add labels to this user", class: "field__label" %>
-        <%= s.text_field :label_list, class: "field__input", data: {labels: true}, value: @user.label_list.to_s %>
+        <%= s.text_field :label_list, class: "field__input", data: {labels: current_user.admin_users?}, value: @user.label_list.to_s, disabled: !current_user.admin_users? %>
     </div>
 
     <script>

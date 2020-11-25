@@ -31,8 +31,11 @@
             background: $grey1;
         }
 
-        &[disabled] + label:before{
-            background: transparentize($grey1, 0.9);
+        &[disabled] + label{
+            cursor: not-allowed;
+            &:before{
+                background: transparentize($grey1, 0.9);
+            }
         }
     }
 

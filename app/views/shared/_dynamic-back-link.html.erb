@@ -1,5 +1,5 @@
-<% if request.referer && URI(request.referer).host === request.host  %>
-    <%= link_to text, request.referer, class: "go-back" %>
+<% if session[:go_back_to].present?  %>
+    <%= link_to "Go back", session[:go_back_to], class: "go-back" %>
 <% else %>
     <%= link_to text, path, class: "go-back" %>
 <% end %>

@@ -114,7 +114,9 @@
     @media screen and (min-width: $breakpoint-m) {
         font-size: 1.1rem;
     }
-    &[type=text]:disabled{
+    &[type=text]:disabled,
+    &[type=email]:disabled{
+        cursor: not-allowed;
         color: $grey1;
         background: transparentize($grey2, 0.9);
     }

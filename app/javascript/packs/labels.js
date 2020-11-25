@@ -1,7 +1,7 @@
 import "@yaireo/tagify/dist/tagify.polyfills.min.js"
 import Tagify from "@yaireo/tagify"
 
-let inputs = document.querySelectorAll("[data-labels]")
+let inputs = document.querySelectorAll("[data-labels=true]")
 
 if(inputs){
     inputs.forEach(input => {
