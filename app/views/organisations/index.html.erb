@@ -68,7 +68,7 @@
         <tbody>
           <% @users.each do |u| %>
             <tr>
-              <td><strong><%= u.display_name %></strong></td>
+              <td><strong><%= u.display_name %></strong> <%= "(you)" if current_user === u %></td>
               <td><%= u.email %></td>
               <td><%= short_time_ago_in_words(u.created_at).humanize %> ago</td>
               <td>
@@ -79,7 +79,7 @@
                 <% end %>
               </td>
               <td>
-                <%= link_to "Remove", member_path(u), method: "delete", §: {confirm: "Are you sure you want to remove this user? They won't be able to log in any more"} unless current_user === u %>
+                <%= link_to "Remove", member_path(u), method: "delete", data: {confirm: "Are you sure you want to remove this user? They won't be able to log in any more"} unless current_user === u %>
               </td>
             </tr>
           <% end %>
