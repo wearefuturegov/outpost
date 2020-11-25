@@ -12,16 +12,4 @@ class RegularSchedule < ApplicationRecord
     end
   end
 
-  def opens_at
-    if self[:opens_at].present?
-      "#{self[:opens_at].hour}:#{self[:opens_at].min}0"
-    end
-  end
-
-  def closes_at
-    if self[:closes_at].present?
-      "#{self[:closes_at].hour}:#{self[:closes_at].min}0"
-    end
-  end
-
 end

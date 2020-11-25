@@ -4,12 +4,14 @@
         <%= sched.select :weekday, weekdays.collect {|d| [ d[:label], d[:value] ] }, {}, class: "field__input"  %>
     </div>
     <div class="field field--required">
+        <% open_val = sched.object.opens_at.strftime("%H:%M") if sched.object.opens_at.present? %>
         <%= sched.label :opens_at, class: "field__label" %>
-        <%= sched.time_field :opens_at, value: sched.object.opens_at, class: "field__input", step: 60, required: true %>
+        <%= sched.time_field :opens_at, value: open_val, class: "field__input", step: 60, required: true %>
     </div>
     <div class="field field--required">
+        <% close_val = sched.object.closes_at.strftime("%H:%M") if sched.object.closes_at.present? %>
         <%= sched.label :closes_at, class: "field__label" %>
-        <%= sched.time_field :closes_at, value: sched.object.closes_at, class: "field__input", step: 60, required: true %>
+        <%= sched.time_field :closes_at, value: close_val, class: "field__input", step: 60, required: true %>
     </div>
 </div>
 
