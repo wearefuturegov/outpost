@@ -32,12 +32,13 @@
 en:
   activerecord:
     errors:
-    
-      messages:
-        taken: "has already been taken. Try <a href='/login'>signing in instead</a>."
+      models:  
 
-      models:            
-
+        user:
+          attributes:
+            email:
+              taken: "has already been taken. Try <a href='/login'>signing in instead</a>."
+      
         service/contacts:
           format: '%{message}'
         contact:

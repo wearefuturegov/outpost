@@ -27,13 +27,10 @@
         <%= f.email_field :email, class: "field__input" %>
     </div>
 
-
     <div class="field">
       <%= f.label :password, class: "field__label" %>
-      <% if @minimum_password_length %>
-        <p class="field__hint"><%= @minimum_password_length %> characters minimum</p>
-      <% end %>
-      <%= f.password_field :password, autocomplete: "new-password", class: "field__input" %>
+      <p class="field__hint" id="password-hint">Needs at least 8 characters, one number and one uppercase letter</p>
+      <%= f.password_field :password, autocomplete: "new-password", class: "field__input", aria: { describedby: "password-hint" } %>
     </div>
 
     <div class="field">
