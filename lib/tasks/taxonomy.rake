@@ -1,7 +1,6 @@
 namespace :taxonomy do
 
   task :create_categories_from_old_db => [ :environment ] do
-    top_level_taxonomy = Taxonomy.create_with(skip_mongo_callbacks: true).find_or_create_by(name: 'Categories')
     csv_file = File.open('lib/seeds/bucksfis geo.csv', "r:ISO-8859-1")
     bucks_csv = CSV.parse(csv_file, headers: true)
     tree = {}
@@ -16,12 +15,12 @@ namespace :taxonomy do
 
       if lines.present?
         lines.each do |line|
-          parent = top_level_taxonomy
+          parent = nil
 
           categories = line.split(' > ')
           categories.delete("Family Information")
           categories.each do |category|
-            taxonomy = Taxonomy.create_with(skip_mongo_callbacks: true).find_or_create_by(name: category, parent_id: parent.id)
+            taxonomy = Taxonomy.create_with(skip_mongo_callbacks: true).find_or_create_by(name: category, parent_id: parent&.id)
             parent = taxonomy
           end
         end
@@ -46,13 +45,13 @@ namespace :taxonomy do
       next unless row["Old taxonomy"].present?
 
       # paths
-      old_path = row["Old taxonomy"].split(" > ").unshift("Categories").map(&:strip)
+      old_path = row["Old taxonomy"].split(" > ").map(&:strip)
       puts "Old path: #{old_path}"
 
-      new_path = row["New taxonomy"].split(" > ").unshift("Categories").map(&:strip) if row["New taxonomy"].present?
+      new_path = row["New taxonomy"].split(" > ").map(&:strip) if row["New taxonomy"].present?
       puts "New path: #{new_path}" if row["New taxonomy"].present?
 
-      additional_new_path = row["Additional new taxonomy"].split(" > ").unshift("Categories").map(&:strip) if row["Additional new taxonomy"].present?
+      additional_new_path = row["Additional new taxonomy"].split(" > ").map(&:strip) if row["Additional new taxonomy"].present?
       puts "Additional new path: #{additional_new_path}" if row["Additional new taxonomy"].present?
 
       # taxonomies
@@ -99,7 +98,7 @@ namespace :taxonomy do
             categories = line.split(' > ')
             categories.delete("Family Information")
 
-            taxonomy = Taxonomy.create_with(skip_mongo_callbacks: true).find_or_create_by_path(categories.unshift("Categories"))
+            taxonomy = Taxonomy.create_with(skip_mongo_callbacks: true).find_or_create_by_path(categories)
             service.taxonomies |= [taxonomy]
           end
         end
@@ -108,7 +107,7 @@ namespace :taxonomy do
           lines = row['parentchannel'].split("\n")
           lines.each do |line|
             categories = line.split(' > ')
-            taxonomy = Taxonomy.create_with(skip_mongo_callbacks: true).find_or_create_by_path(categories.unshift("Categories"))
+            taxonomy = Taxonomy.create_with(skip_mongo_callbacks: true).find_or_create_by_path(categories)
             service.taxonomies |= [taxonomy]
           end
         end
@@ -117,7 +116,7 @@ namespace :taxonomy do
           lines = row['youthchannel'].split("\n")
           lines.each do |line|
             categories = line.split(' > ')
-            taxonomy = Taxonomy.create_with(skip_mongo_callbacks: true).find_or_create_by_path(categories.unshift("Categories"))
+            taxonomy = Taxonomy.create_with(skip_mongo_callbacks: true).find_or_create_by_path(categories)
             service.taxonomies |= [taxonomy]
           end
         end
@@ -126,7 +125,7 @@ namespace :taxonomy do
           lines = row['childrenscentrechannel'].split("\n")
           lines.each do |line|
             categories = line.split(' > ')
-            taxonomy = Taxonomy.create_with(skip_mongo_callbacks: true).find_or_create_by_path(categories.unshift("Categories"))
+            taxonomy = Taxonomy.create_with(skip_mongo_callbacks: true).find_or_create_by_path(categories)
             service.taxonomies |= [taxonomy]
           end
         end
@@ -159,7 +158,7 @@ namespace :taxonomy do
       next unless row["Old taxonomy"].present?
       next if  row["Old taxonomy"] == row["New taxonomy"]
 
-      old_path = row["Old taxonomy"].split(" > ").unshift("Categories").map(&:strip)
+      old_path = row["Old taxonomy"].split(" > ").map(&:strip)
       old_taxonomy = Taxonomy.find_by_path(old_path)
       if old_taxonomy.present?
         old_taxonomy.service_taxonomies.destroy_all

@@ -167,7 +167,7 @@
                   <%= render "admin/ofsted/mini-table", t: @item.certificate_condition %>
                 </div>
                 <div class="tabs__panel" id="childcare-ages">
-                  <%= render "admin/ofsted/mini-table", t: @item.childcare_age %>
+                  <%= render "admin/ofsted/mini-table-childcare-age", t: @item.childcare_age %>
                 </div>
                 <div class="tabs__panel" id="inspections">
                   <%= render "admin/ofsted/mini-table", t: @item.inspection %>
@@ -176,7 +176,7 @@
                   <%= render "admin/ofsted/mini-table", t: @item.notice_history %>
                 </div>
                 <div class="tabs__panel" id="welfare-notice-history">
-                  <%= render "admin/ofsted/mini-table", t: @item.welfare_notice_history %>
+                  <%= render "admin/ofsted/mini-table-welfare-notice-history", t: @item.welfare_notice_history %>
                 </div>
                 <div class="tabs__panel" id="links-registrations">
                   <%= render "admin/ofsted/mini-table", t: @item.linked_registration %>
