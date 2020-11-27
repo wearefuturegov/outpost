@@ -4,4 +4,8 @@ class SendNeed < ApplicationRecord
     def display_name
         name.humanize
     end
+
+    def slug
+        name.parameterize
+    end
 end

@@ -1,3 +1,9 @@
 class SendNeedSerializer < ActiveModel::Serializer
-    attribute :name
+    attributes :id
+    attributes :name
+    attributes :slug
+
+    def slug
+        object.name.parameterize
+    end
 end
