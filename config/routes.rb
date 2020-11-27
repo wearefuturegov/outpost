@@ -55,6 +55,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :taxonomies, only: [:index]
+      resources :send_needs, only: [:index]
       get "me", to: "me#show"
     end
   end
