@@ -32,6 +32,14 @@ namespace :ofsted do
     end
   end
 
+  task :set_status_and_discarded_at_nil => :environment do
+    OfstedItem.all.each do |ofsted_item|
+      ofsted_item.status = nil
+      ofsted_item.discarded_at = nil
+      ofsted_item.save
+    end
+  end
+
   # To be scheduled
   task :update_items => :environment do
     response = HTTParty.get("#{ENV["OFSTED_FEED_API_ENDPOINT"]}?api_key=#{ENV["OFSTED_API_KEY"]}")
@@ -68,7 +76,7 @@ namespace :ofsted do
     end
 
     OfstedItem.all.each do |ofsted_item| # check for deleted
-      unless items.select { |item| item["reference_number"].to_i == ofsted_item.reference_number }.present?
+      unless items.select { |item| item["reference_number"] == ofsted_item.reference_number }.present?
         ofsted_item.status = "deleted"
         ofsted_item.discarded_at = Time.now
         if ofsted_item.save
