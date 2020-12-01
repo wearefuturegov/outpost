@@ -1,0 +1,26 @@
+<% unless @item.status %>
+    <div class="notice notice--pending">
+        <div class="notice__body">
+
+            <% if @item.status === "new" %>
+
+            <% elsif @item.status === "deleted"%>
+
+            <% else %>
+
+            <% end %>
+
+        </div>      
+    </div>
+
+<% else %>
+
+    <% if @item.discarded? %>
+        <div class="notice notice--cross">
+            <div class="notice__body">
+                <p>This item is no longer present in the Ofsted feed.</p>
+            </div>
+        </div>
+    <% end %>
+
+<% end %>
