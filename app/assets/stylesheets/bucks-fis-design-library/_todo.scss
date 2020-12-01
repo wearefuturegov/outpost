@@ -3,6 +3,12 @@
     margin: 0;
     padding: 0;
 
+    &__divider{
+        color: $grey3;
+        opacity: 0.5;
+        margin: 0px 7px;
+    }
+
     &__item{
         background: $pale;
         padding: 25px;

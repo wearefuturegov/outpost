@@ -11,6 +11,8 @@
           <h2><%= link_to s.setting_name.truncate(25), admin_ofsted_path(s) %></h2>
           <p>
             <%= time_ago_in_words(s.updated_at).humanize %> ago
+            <span class="todo-list__divider">|</span>
+            <%= link_to "Compare versions", admin_ofsted_versions_path(s) %>
           </p>
         </div>
         <% if s.status === "new" %>
