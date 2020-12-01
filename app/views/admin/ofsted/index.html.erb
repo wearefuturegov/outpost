@@ -27,7 +27,7 @@
                     <td><%= i.provider_name %></td>
                     <td><%= i.provision_type %></td>
                     <td><%= status_tag(i.registration_status) %></td>
-                    <td><%= short_time_ago_in_words(i.last_change_date).humanize + " ago"  if i.last_change_date %></td>
+                    <td><%= short_time_ago_in_words(i.updated_at).humanize %> ago</td>
                     <td>
                       <%= format_if_date(i.registration_date) %>
                     </td>

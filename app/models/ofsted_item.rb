@@ -36,7 +36,7 @@ class OfstedItem < ApplicationRecord
     when /^name_/
       order("LOWER(ofsted_items.setting_name) #{direction} NULLS LAST")
     when /^created_at_/
-      order("registration_date #{direction}")
+      order("created_at #{direction}")
     else
       raise(ArgumentError, "Invalid sort option: #{sort_option.inspect}")
     end

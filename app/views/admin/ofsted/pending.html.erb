@@ -16,7 +16,11 @@
         </div>
         <% if s.status === "new" %>
             <div class="todo-status todo-status--new">
-                <strong>New provider</strong>
+                <% if s.registration_status === "Proposed" %>
+                  <strong>New proposed provider</strong>
+                <% else %>
+                  <strong>New provider</strong>
+                <% end %>
             </div>
         <% elsif s.status === "deleted"%>
             <div class="todo-status todo-status--deleted">
@@ -28,7 +32,7 @@
             <p><%= s.versions.last.changeset.map{ |key, value| key.humanize }.join(", ") %></p>
             </div>
         <% end %>
-        <%= link_to "Dismiss", admin_ofsted_dismiss_path(s), method: "put", class: "button" %>
+        <%= link_to "Acknowledge", admin_ofsted_dismiss_path(s), method: "put", class: "button" %>
       </li>
     <% end %>
   </ul>
