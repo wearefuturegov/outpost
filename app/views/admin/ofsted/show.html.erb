@@ -203,7 +203,7 @@
       <%= render "shared/version-tree", object: @item %>
     <% end %>
 
-    <%= render "shared/collapsible", name: "Other settings by this provider", id: "ofsted-other-settings" do %> 
+    <%= render "shared/collapsible", name: "Related settings", id: "ofsted-other-settings" do %> 
         <% if @related_items.present? %>
           <ul class="big-list">
             <% @related_items.each do |i| %>
