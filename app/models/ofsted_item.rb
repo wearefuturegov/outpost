@@ -94,6 +94,16 @@ class OfstedItem < ApplicationRecord
     end
   end
 
+  def unapproved_fields
+    changed_fields = []
+    versions.last.changeset.map do |key, value|
+      unless ignorable_fields.include?(key)
+        changed_fields << key.humanize
+      end
+    end
+    changed_fields
+  end
+
   # fields we don't care about for version history purposes
   def ignorable_fields
     ["status", "updated_at", "created_at", "discarded_at"]

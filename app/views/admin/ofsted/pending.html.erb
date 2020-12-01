@@ -3,7 +3,6 @@
     <%= render "shortcut-nav" %>
 <% end %>
 
-
 <% if @requests.present? %>
   <ul class="todo-list">
     <% @requests.each do |s| %>
@@ -29,7 +28,7 @@
         <% else %>
             <div class="todo-status">
             <strong>Changed</strong>
-            <p><%= s.versions.last.changeset.map{ |key, value| key.humanize }.join(", ") %></p>
+            <p><%= s.unapproved_fields.join(", ") %></p>
             </div>
         <% end %>
         <%= link_to "Acknowledge", admin_ofsted_dismiss_path(s), method: "put", class: "button" %>
