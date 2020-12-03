@@ -137,7 +137,7 @@ namespace :services do
       # handle local offer
       if row['lo_boolean'] == "Yes"
         local_offer = LocalOffer.new
-        local_offer.description = ActionView::Base.full_sanitizer.sanitize(row['lo_details']
+        local_offer.description = ActionView::Base.full_sanitizer.sanitize(row['lo_details'])
         service.local_offer = local_offer
       end
 
