@@ -3,20 +3,25 @@
     <%= render "shortcut-nav" %>
 <% end %>
 
-
 <% if @requests.present? %>
   <ul class="todo-list">
     <% @requests.each do |s| %>
       <li class="todo-list__item">
         <div>
-          <h2><%= link_to s.setting_name.truncate(25), admin_ofsted_path(s) %></h2>
+          <h2><%= link_to s.display_name.truncate(25), admin_ofsted_path(s) %></h2>
           <p>
             <%= time_ago_in_words(s.updated_at).humanize %> ago
+            <span class="todo-list__divider">|</span>
+            <%= link_to "Compare versions", admin_ofsted_versions_path(s) %>
           </p>
         </div>
         <% if s.status === "new" %>
             <div class="todo-status todo-status--new">
-                <strong>New provider</strong>
+                <% if s.registration_status === "Proposed" %>
+                  <strong>New proposed provider</strong>
+                <% else %>
+                  <strong>New provider</strong>
+                <% end %>
             </div>
         <% elsif s.status === "deleted"%>
             <div class="todo-status todo-status--deleted">
@@ -25,10 +30,10 @@
         <% else %>
             <div class="todo-status">
             <strong>Changed</strong>
-            <p><%= s.versions.last.changeset.map{ |key, value| key.humanize }.join(", ") %></p>
+            <p><%= s.unapproved_fields.join(", ") %></p>
             </div>
         <% end %>
-        <%= link_to "Dismiss", admin_ofsted_dismiss_path(s), method: "put", class: "button" %>
+        <%= link_to "Acknowledge", admin_ofsted_dismiss_path(s), method: "put", class: "button" %>
       </li>
     <% end %>
   </ul>

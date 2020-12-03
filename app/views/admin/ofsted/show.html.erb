@@ -1,13 +1,5 @@
 <% content_for :header do %> 
-
-    <% if @item.discarded? %>
-      <div class="notice notice--cross">
-        <div class="notice__body">
-          <p>This item is no longer present in the Ofsted feed.</p>
-        </div>
-      </div>
-    <% end %>
-
+    <%= render "notices" %>
     <%= render "shared/dynamic-back-link", text: "Go back", path: admin_ofsted_index_path %>
     <div class="page-header__actions">
       <h1 class="page-header__title two-thirds"><%= @item.display_name %></h1>
@@ -34,6 +26,7 @@
           <%= render "admin/ofsted/field", label: "Reference number", value: @item.reference_number %>
           <%= render "admin/ofsted/field", label: "Status", value: @item.registration_status %>
           <%= render "admin/ofsted/field", label: "Registration date", value: format_if_date(@item.registration_date) %>
+          <%= render "admin/ofsted/field", label: "Last changed by Ofsted", value: format_if_date(@item.lastupdated) %>
         </div>
 
         <div class="field-group field-group--two-cols">
@@ -48,7 +41,7 @@
               <p class="read-only-field__label">Ofsted report</p>
               <p class="read-only-field__value">
                   <% if @item.link_to_ofsted_report.present? %>
-                      <%= link_to "See latest report", @item.link_to_ofsted_report %>
+                      <%= link_to "See latest report", @item.link_to_ofsted_report, target: "blank" %>
                   <% else %>
                       —
                   <% end %>
@@ -70,7 +63,7 @@
               </p>
           </div>
 
-          <%= render "admin/ofsted/field", label: "Related RPPs", value: @item.related_rpps %>
+          <%# render "admin/ofsted/field", label: "Related RPPs", value: @item.related_rpps %>
         </div>
       <% end %>
 
@@ -115,75 +108,84 @@
         </div>
       <% end %>
 
-        <%= render "shared/collapsible", name: "Everything else", id: "ofsted-everything-else" do %>
-            <div class="tabs">
-                <ul class="tabs__nav">
-                  <li class="tabs__nav-item">
-                    <a href="#childcare-period" class="tabs__nav-link">Childcare period</a>
-                  </li>
-                  <li class="tabs__nav-item">
-                    <a href="#registration-history" class="tabs__nav-link">Registration history</a>
-                  </li>
-                  <li class="tabs__nav-item">
-                    <a href="#childcare-services-register" class="tabs__nav-link">Childcare services register</a>
-                  </li>
-                  <li class="tabs__nav-item">
-                    <a href="#certificate-conditions" class="tabs__nav-link">Certificate conditions</a>
-                  </li>
-                  <li class="tabs__nav-item">
-                    <a href="#childcare-ages" class="tabs__nav-link">Childcare ages</a>
-                  </li>
-                  <li class="tabs__nav-item">
-                    <a href="#inspections" class="tabs__nav-link">Inspections</a>
-                  </li>
-                  <li class="tabs__nav-item">
-                    <a href="#notice-history" class="tabs__nav-link">Notice history</a>
-                  </li>
-                  <li class="tabs__nav-item">
-                    <a href="#welfare-notice-history" class="tabs__nav-link">Welfare notice history</a>
-                  </li>
-                  <li class="tabs__nav-item">
-                    <a href="#links-registrations" class="tabs__nav-link">Linked registrations</a>
-                  </li>
-                </ul>
-                <div class="tabs__panel" id="childcare-period">
-                  <% if @item.childcare_period.any? %>
-                    <ul class="big-list">
-                      <% @item.childcare_period.each do |r| %>
-                        <li class="big-list__item"><%= r %></li>
-                      <% end %>
-                    </ul>
-                  <% else %>
-                    <p class="no-results">Nothing to show</p>
-                  <% end %>
-                </div>
-                <div class="tabs__panel" id="registration-history">
-                  <%= render "admin/ofsted/mini-table", t: @item.registration_status_history %>
-                </div>
-                <div class="tabs__panel" id="childcare-services-register">
-                  <%= render "admin/ofsted/mini-table", t: @item.child_services_register %>
-                </div>
-                <div class="tabs__panel" id="certificate-conditions">
-                  <%= render "admin/ofsted/mini-table", t: @item.certificate_condition %>
-                </div>
-                <div class="tabs__panel" id="childcare-ages">
-                  <%= render "admin/ofsted/mini-table-childcare-age", t: @item.childcare_age %>
-                </div>
-                <div class="tabs__panel" id="inspections">
-                  <%= render "admin/ofsted/mini-table", t: @item.inspection %>
-                </div>
-                <div class="tabs__panel" id="notice-history">
-                  <%= render "admin/ofsted/mini-table", t: @item.notice_history %>
-                </div>
-                <div class="tabs__panel" id="welfare-notice-history">
-                  <%= render "admin/ofsted/mini-table-welfare-notice-history", t: @item.welfare_notice_history %>
-                </div>
-                <div class="tabs__panel" id="links-registrations">
-                  <%= render "admin/ofsted/mini-table", t: @item.linked_registration %>
-                </div>
-            </div>
+      <%= render "shared/collapsible", name: "Registration history", id: "ofsted-registration-history" do %>
+          <div class="tabs">
+              <ul class="tabs__nav">
+                <li class="tabs__nav-item">
+                  <a href="#childcare-period" class="tabs__nav-link">Childcare period</a>
+                </li>
+                <li class="tabs__nav-item">
+                  <a href="#registration-history" class="tabs__nav-link">Registration history</a>
+                </li>
+                <li class="tabs__nav-item">
+                  <a href="#childcare-services-register" class="tabs__nav-link">Childcare services register</a>
+                </li>
+                <li class="tabs__nav-item">
+                  <a href="#certificate-conditions" class="tabs__nav-link">Certificate conditions</a>
+                </li>
+                <li class="tabs__nav-item">
+                  <a href="#childcare-ages" class="tabs__nav-link">Childcare ages</a>
+                </li>
+                <li class="tabs__nav-item">
+                  <a href="#inspections" class="tabs__nav-link">Inspections</a>
+                </li>
+              </ul>
+              <div class="tabs__panel" id="childcare-period">
+                <% if @item.childcare_period.any? %>
+                  <ul class="big-list">
+                    <% @item.childcare_period.each do |r| %>
+                      <li class="big-list__item"><%= r %></li>
+                    <% end %>
+                  </ul>
+                <% else %>
+                  <p class="no-results">Nothing to show</p>
+                <% end %>
+              </div>
+              <div class="tabs__panel" id="registration-history">
+                <%= render "admin/ofsted/mini-table", t: @item.registration_status_history %>
+              </div>
+              <div class="tabs__panel" id="childcare-services-register">
+                <%= render "admin/ofsted/mini-table", t: @item.child_services_register %>
+              </div>
+              <div class="tabs__panel" id="certificate-conditions">
+                <%= render "admin/ofsted/mini-table", t: @item.certificate_condition %>
+              </div>
+              <div class="tabs__panel" id="childcare-ages">
+                <%= render "admin/ofsted/mini-table-childcare-age", t: @item.childcare_age %>
+              </div>
+              <div class="tabs__panel" id="inspections">
+                <%= render "admin/ofsted/mini-table", t: @item.inspection %>
+              </div>
+          </div>
 
-        <% end %>
+      <% end %>
+
+      <%= render "shared/collapsible", name: "Notice history", id: "ofsted-notice-history" do %>
+          <div class="tabs">
+              <ul class="tabs__nav">
+                <li class="tabs__nav-item">
+                  <a href="#notice-history" class="tabs__nav-link">Notice history</a>
+                </li>
+                <li class="tabs__nav-item">
+                  <a href="#welfare-notice-history" class="tabs__nav-link">Welfare notice history</a>
+                </li>
+                <li class="tabs__nav-item">
+                  <a href="#links-registrations" class="tabs__nav-link">Linked registrations</a>
+                </li>
+              </ul>
+              <div class="tabs__panel" id="notice-history">
+                <%= render "admin/ofsted/mini-table", t: @item.notice_history %>
+              </div>
+              <div class="tabs__panel" id="welfare-notice-history">
+                <%= render "admin/ofsted/mini-table-welfare-notice-history", t: @item.welfare_notice_history %>
+              </div>
+              <div class="tabs__panel" id="links-registrations">
+                <%= render "admin/ofsted/mini-table", t: @item.linked_registration %>
+              </div>
+          </div>
+
+      <% end %>
+
 
   </div>
   <aside class="with-sidebar__sidebar">
@@ -201,7 +203,7 @@
       <%= render "shared/version-tree", object: @item %>
     <% end %>
 
-    <%= render "shared/collapsible", name: "Other settings by this provider", id: "ofsted-other-settings" do %> 
+    <%= render "shared/collapsible", name: "Related settings", id: "ofsted-other-settings" do %> 
         <% if @related_items.present? %>
           <ul class="big-list">
             <% @related_items.each do |i| %>

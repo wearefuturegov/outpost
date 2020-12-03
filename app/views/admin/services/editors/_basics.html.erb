@@ -6,7 +6,7 @@
 
     <div class="field field--required <%= mark_unapproved_field("organisation_id") %>">
         <%= s.label :organisation_id, "Parent organisation", class: "field__label" %>
-        <%= s.collection_select( :organisation_id, Organisation.all, :id, :display_name, {selected: @service.organisation }, class: "field__input", data: {choices: true})%>
+        <%= s.collection_select( :organisation_id, Organisation.all, :id, :display_name, {selected: @service.organisation, include_blank: "" }, class: "field__input" )%>
     </div>
 
     <div class="field field--span-two-cols <%= mark_unapproved_field("description") %>" data-word-count="true">

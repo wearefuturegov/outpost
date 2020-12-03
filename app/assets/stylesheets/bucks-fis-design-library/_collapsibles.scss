@@ -30,13 +30,13 @@
             background-size: contain;
             background-position: center;
             background-repeat: no-repeat;
-            background-image: url(asset_path("up-arrow.svg"));
+            background-image: url(asset_path("down-arrow.svg"));
         }
 
         &[aria-expanded=false]{
             margin-bottom: 0px;
             &:after{
-                background-image: url(asset_path("down-arrow.svg"));
+                background-image: url(asset_path("up-arrow.svg"));
     
             }
         }

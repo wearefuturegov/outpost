@@ -1,0 +1,45 @@
+<% if @item.status %>
+    <div class="notice notice--pending">
+        <div class="notice__body">
+
+            <% if @item.status === "new" %>
+
+                <% if @item.registration_status === "Proposed" %>
+                  <p>This is a new proposed provider.</p>
+                <% else %>
+                  <p>This is a new provider.</p>
+                <% end %>
+
+                <%= link_to "Acknowledge", admin_ofsted_dismiss_path(@item), method: "put", class: "notice__action" %>
+
+            <% elsif @item.status === "deleted"%>
+                <p>This item is no longer present in the Ofsted feed.</p>
+
+                <%= link_to "Acknowledge", admin_ofsted_dismiss_path(@item), method: "put", class: "notice__action" %>
+                <span class="notice__divider">|</span>
+                <%= link_to "Compare versions", admin_ofsted_versions_path(@item), class: "notice__action" %>
+
+            <% else %>
+
+                <p>Ofsted has made changes to <strong><%= @item.unapproved_fields.join(", ") %></strong>.</p>
+
+                <%= link_to "Acknowledge", admin_ofsted_dismiss_path(@item), method: "put", class: "notice__action" %>
+                <span class="notice__divider">|</span>
+                <%= link_to "Compare versions", admin_ofsted_versions_path(@item), class: "notice__action" %>
+
+            <% end %>
+
+        </div>      
+    </div>
+
+<% else %>
+
+    <% if @item.discarded? %>
+        <div class="notice notice--cross">
+            <div class="notice__body">
+                <p>This item is no longer present in the Ofsted feed.</p>
+            </div>
+        </div>
+    <% end %>
+
+<% end %>

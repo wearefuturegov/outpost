@@ -36,7 +36,7 @@ class OfstedItem < ApplicationRecord
     when /^name_/
       order("LOWER(ofsted_items.setting_name) #{direction} NULLS LAST")
     when /^created_at_/
-      order("registration_date #{direction}")
+      order("created_at #{direction}")
     else
       raise(ArgumentError, "Invalid sort option: #{sort_option.inspect}")
     end
@@ -92,6 +92,16 @@ class OfstedItem < ApplicationRecord
     else
       "Unnamed setting"
     end
+  end
+
+  def unapproved_fields
+    changed_fields = []
+    versions.last.changeset.map do |key, value|
+      unless ignorable_fields.include?(key)
+        changed_fields << key.humanize
+      end
+    end
+    changed_fields
   end
 
   # fields we don't care about for version history purposes
