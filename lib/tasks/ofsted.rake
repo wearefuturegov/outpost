@@ -49,7 +49,6 @@ namespace :ofsted do
       ofsted_item = OfstedItem.where(reference_number: item["reference_number"]).first # Check if ofsted item already exists
 
       if ofsted_item
-
         ofsted_item.assign_attributes(ofsted_item_params(item)) # Prepare for update
 
         if ofsted_item.changed?
@@ -76,14 +75,14 @@ namespace :ofsted do
     end
 
     OfstedItem.all.each do |ofsted_item| # check for deleted
-      unless items.select { |item| item["reference_number"] == ofsted_item.reference_number }.present?
-        ofsted_item.status = "deleted"
-        ofsted_item.discarded_at = Time.now
-        if ofsted_item.save
-          puts "Set ofsted item status to deleted"
-        else
-          puts "Failed to update ofsted item"
-        end
+      next if items.select { |item| item["reference_number"] == ofsted_item.reference_number }.present? # Dont archive if still in feed
+      next if (ofsted_item.discarded_at != nil) && (ofsted_item.status == 'deleted') # Don't archive if already archived.
+      ofsted_item.status = "deleted"
+      ofsted_item.discarded_at = Time.now
+      if ofsted_item.save
+        puts "Set ofsted item status to deleted"
+      else
+        puts "Failed to update ofsted item"
       end
     end
 
