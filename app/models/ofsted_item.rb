@@ -34,7 +34,7 @@ class OfstedItem < ApplicationRecord
     when /^recent/
       order("last_change_date desc")
     when /^name_/
-      order("LOWER(ofsted_items.setting_name) #{direction} NULLS LAST")
+      order("LOWER(ofsted_items.setting_name) #{direction}, LOWER(ofsted_items.provider_name) #{direction}")
     when /^created_at_/
       order("created_at #{direction}")
     else
