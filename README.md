@@ -79,10 +79,10 @@ Some of these can be run manually, and some are best scheduled using [Heroku Sch
 
 | Task                              | Description                                                                        | Suggested schedule |
 |-----------------------------------|------------------------------------------------------------------------------------|--------------------|
-| \`build\_public\_index`           | Build the initial public index for the API service to use\.                        | One\-off           |
-| \`process\_permanent\_deletions`  | Permanently delete any services that have been "discarded" for more than 30 days\. | Weekly             |
-| \`ofsted\_create\_initial\_items` | Build the initial Ofsted items table                                               | One\-off           |
-| \`ofsted\_update\_items`          | Check for any changes to Ofsted items against the Ofsted API                       | Daily, overnight   |
+| `build_public_index`           | Build the initial public index for the API service to use\.                        | One\-off           |
+| `process_permanent_deletions`  | Permanently delete any services that have been "discarded" for more than 30 days\. | Weekly             |
+| `ofsted_create_initial_items` | Build the initial Ofsted items table                                               | One\-off           |
+| `ofsted_update_items`          | Check for any changes to Ofsted items against the Ofsted API                       | Daily, overnight   |
 
 
 ## 🌎 Running it on the web
