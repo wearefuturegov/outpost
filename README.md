@@ -32,12 +32,15 @@ We're also building an [example front-end](https://github.com/wearefuturegov/sco
 
 ## 🧱 How it's built
 
-It's a Rails app backed by a postgres database. It can also act as an OAuth provider via [Doorkeeper](https://github.com/doorkeeper-gem/doorkeeper).
+It's a Rails app backed by a PostgreSQL database.
 
+It can also act as an OAuth provider via [Doorkeeper](https://github.com/doorkeeper-gem/doorkeeper).
+
+It uses Google APIs for geocoding and map features, and Sendgrid to send emails.
 
 ## 💻 Running it locally
 
-You need ruby and node.js installed, plus PostgreSQL server running.
+You need ruby and node.js installed, plus a PostgreSQL server running.
 
 If you want to build a public index for the API, you'll also need a local MongoDB server.
 
@@ -69,8 +72,6 @@ Outpost's API component relies on a public index stored on MongoDB.
 
 You can run `rails build_public_index` to build the public index for the first time. Active record callbacks keep it up to date as services are changed.
 
-In production, it's a good idea to occasionally refresh the index by running that rake task on a schedule.
-
 ## 🗓 Administrative tasks
 
 Outpost depends on on several important [`rake`](https://guides.rubyonrails.org/v3.2/command_line.html) tasks.
@@ -96,18 +97,22 @@ It has a `Procfile` that will [automatically run](https://devcenter.heroku.com/a
 
 ## 🧬 Configuration
 
+You can provide config with a `.env` file. Run `cp .env.example .env` to create a fresh one.
+
 It needs the following extra environment variables to be set:
 
-- `GOOGLE_API_KEY` with the geocoding API enabled, to geocode postcodes
-- `GOOGLE_CLIENT_KEY` with the javascript and static maps APIs enabled, to add map views to admin screens
-- `OFSTED_API_KEY` to access the feed of Ofsted items
+| Variable                                         | Description                                                                         | Example                                             | Required?                                         |
+|--------------------------------------------------|-------------------------------------------------------------------------------------|-----------------------------------------------------|---------------------------------------------------|
+| `GOOGLE_API_KEY`                                 | with the geocoding API enabled, to geocode postcodes                                |                                                     | Yes, for geocoding features                       |
+| `GOOGLE_CLIENT_KEY`                              | with the javascript and static maps APIs enabled, to add map views to admin screens |                                                     | Yes, for map features                             |
+| `OFSTED_API_KEY` and `OFSTED_FEED_API_ENDPOINT`  | to access the feed of Ofsted items                                                  |                                                     | Only if running Ofsted rake tasks                 |
+| `SENDGRID_API_KEY`                               | to send emails                                                                      |                                                     | In production only                                |
+| `MAILER_HOST`                                    | where the app lives on the web, to correctly form urls in emails                    | https://example\.com                                | In production only                                |
+| `MAILER_FROM`                                    | the email address emails will be delivered from                                     | example@email\.com                                  | In production only                                |
+| `FEEDBACK_FORM_URL`                              | a form where users can submit feedback about the website                            | https://example\.com                                | In production only                                |
+| `DATABASE_URL`                                   | the main PostgreSQL database                                                        | postgres://user:password@example\.com:5432/database | Yes, if different from default, and in production |
+| `DB_URI`                                         | the MongoDB database for the public index                                           | mongodb://user:password@example\.com/database       | Yes, if using the API service                     |
 
-In production only:
-
-- `SENDGRID_API_KEY` to send emails
-- `MAILER_HOST` where the app lives on the web, to correctly form urls in emails
-- `MAILER_FROM` the email address emails will be delivered from
-- `FEEDBACK_FORM_URL` a form where users can submit feedback about the website
 
 ## 🔐 OAuth provider
 
