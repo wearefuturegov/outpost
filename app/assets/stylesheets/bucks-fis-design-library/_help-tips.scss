@@ -35,11 +35,12 @@
         }
 
         &--small{
-            margin-left: 5px;
+            margin-left: 10px;
             height: 20px;
             width: 20px;
             position: inherit;
             border-width: 2.5px;
+            right: inherit;
             &:after{
                 font-size: 0.8rem;
             }
