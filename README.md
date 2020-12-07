@@ -72,6 +72,16 @@ Outpost's API component relies on a public index stored on MongoDB.
 
 You can run `rails build_public_index` to build the public index for the first time. Active record callbacks keep it up to date as services are changed.
 
+## 🌎 Running it on the web
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](
+https://heroku.com/deploy)
+
+It's suitable for 12-factor app hosting like [Heroku](http://heroku.com).
+
+It has a `Procfile` that will [automatically run](https://devcenter.heroku.com/articles/release-phase) pending rails migrations on every deploy, to reduce downtime.
+
+
 ## 🗓 Administrative tasks
 
 Outpost depends on on several important [`rake`](https://guides.rubyonrails.org/v3.2/command_line.html) tasks.
@@ -85,15 +95,6 @@ Some of these can be run manually, and some are best scheduled using [Heroku Sch
 | `ofsted_create_initial_items` | Build the initial Ofsted items table                                               | One\-off           |
 | `ofsted_update_items`          | Check for any changes to Ofsted items against the Ofsted API                       | Daily, overnight   |
 
-
-## 🌎 Running it on the web
-
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](
-https://heroku.com/deploy)
-
-It's suitable for 12-factor app hosting like [Heroku](http://heroku.com).
-
-It has a `Procfile` that will [automatically run](https://devcenter.heroku.com/articles/release-phase) pending rails migrations on every deploy, to reduce downtime.
 
 ## 🧬 Configuration
 
