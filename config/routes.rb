@@ -15,7 +15,9 @@ Rails.application.routes.draw do
     post "confirmation", to: "services#confirmation"
     resources :feedback, only: [:index, :create]
   end
-  resources :members, only: [:new, :create, :destroy]
+  
+  # https://trello.com/c/aFtIf3QZ/242-prevent-community-users-from-managing-users-in-their-organisation
+  # resources :members, only: [:new, :create, :destroy]
 
   # admin users
   namespace :admin do
