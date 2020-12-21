@@ -42,6 +42,7 @@ group :development, :test do
   gem 'simplecov'
   gem 'rack-mini-profiler'
   gem 'bullet'
+  gem 'faker'
 end
 
 group :development do
@@ -58,7 +59,6 @@ group :test do
   gem 'webdrivers'
   gem 'database_cleaner'
   gem 'shoulda-matchers'
-  gem 'faker'
   gem 'factory_bot_rails'
   gem 'webmock'
 end
