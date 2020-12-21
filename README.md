@@ -56,7 +56,9 @@ rails s
 rake
 ```
 
-The database will be seeded with random data.
+The database will be seeded with realistic fake data.
+
+It will be on `localhost:3000`. You can log in with `example@example.com` and the initial password you set [in the configuration](#configuration).
 
 ### With Docker
 
@@ -103,17 +105,18 @@ You can provide config with a `.env` file. Run `cp .env.example .env` to create 
 
 It needs the following extra environment variables to be set:
 
-| Variable                                         | Description                                                                         | Example                                            | Required?                                         |
-|--------------------------------------------------|-------------------------------------------------------------------------------------|----------------------------------------------------|---------------------------------------------------|
-| `GOOGLE_API_KEY`                                 | with the geocoding API enabled, to geocode postcodes                                |                                                    | Yes, for geocoding features                       |
-| `GOOGLE_CLIENT_KEY`                              | with the javascript and static maps APIs enabled, to add map views to admin screens |                                                    | Yes, for map features                             |
-| `OFSTED_API_KEY` and `OFSTED_FEED_API_ENDPOINT`  | to access the feed of Ofsted items                                                  |                                                    | Only if running Ofsted rake tasks                 |
-| `SENDGRID_API_KEY`                               | to send emails                                                                      |                                                    | In production only                                |
-| `MAILER_HOST`                                    | where the app lives on the web, to correctly form urls in emails                    | https://example.com                                | In production only                                |
-| `MAILER_FROM`                                    | the email address emails will be delivered from                                     | example@email.com                                  | In production only                                |
-| `FEEDBACK_FORM_URL`                              | a form where users can submit feedback about the website                            | https://example.com                                | In production only                                |
+| Variable                                         | Description                                                                         | Example                                                 | Required?                                         |
+|--------------------------------------------------|-------------------------------------------------------------------------------------|---------------------------------------------------------|---------------------------------------------------|
+| `GOOGLE_API_KEY`                                 | with the geocoding API enabled, to geocode postcodes                                |                                                         | Yes, for geocoding features                       |
+| `GOOGLE_CLIENT_KEY`                              | with the javascript and static maps APIs enabled, to add map views to admin screens |                                                         | Yes, for map features                             |
+| `OFSTED_API_KEY` and `OFSTED_FEED_API_ENDPOINT`  | to access the feed of Ofsted items                                                  |                                                         | Only if running Ofsted rake tasks                 |
+| `SENDGRID_API_KEY`                               | to send emails                                                                      |                                                         | In production only                                |
+| `MAILER_HOST`                                    | where the app lives on the web, to correctly form urls in emails                    | https://example.com                                     | In production only                                |
+| `MAILER_FROM`                                    | the email address emails will be delivered from                                     | example@email.com                                       | In production only                                |
+| `FEEDBACK_FORM_URL`                              | a form where users can submit feedback about the website                            | https://example.com                                     | In production only                                |
 | `DATABASE_URL`                                   | the main PostgreSQL database                                                        | postgres://user:password<br/>@example.com:5432/database | Yes, if different from default, and in production |
 | `DB_URI`                                         | the MongoDB database for the public index                                           | mongodb://user:password<br/>@example.com/database       | Yes, if using the API service                     |
+| `INITIAL_ADMIN_PASSWORD`                         | an initial admin password to log in with for local development                      |                                                         | Locally only                                      |
 
 
 ## 🔐 OAuth provider
