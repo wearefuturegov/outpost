@@ -56,7 +56,7 @@ rails s
 rake
 ```
 
-For the database seed to succeed, you need several source CSV data files in the `/lib/seeds` folder.
+The database will be seeded with random data.
 
 ### With Docker
 
@@ -88,12 +88,13 @@ Outpost depends on on several important [`rake`](https://guides.rubyonrails.org/
 
 Some of these can be run manually, and some are best scheduled using [Heroku Scheduler](https://devcenter.heroku.com/articles/scheduler) or similar.
 
-| Task                              | Description                                                                        | Suggested schedule |
-|-----------------------------------|------------------------------------------------------------------------------------|--------------------|
-| `build_public_index`           | Build the initial public index for the API service to use\.                        | One\-off           |
-| `process_permanent_deletions`  | Permanently delete any services that have been "discarded" for more than 30 days\. | Weekly             |
-| `ofsted_create_initial_items` | Build the initial Ofsted items table                                               | One\-off           |
-| `ofsted_update_items`          | Check for any changes to Ofsted items against the Ofsted API                       | Daily, overnight   |
+| Task                              | Description                                                                                                                                                        | Suggested schedule |
+|-----------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------|
+| `open_objects_import`             | Run the bespoke import job from Open Objects. For this to succeed, you need several source CSV data files in the `/lib/seeds` folder. Will take a long time.       | One\-off           |
+| `build_public_index`              | Build the initial public index for the API service to use\.                                                                                                        | One\-off           |
+| `process_permanent_deletions`     | Permanently delete any services that have been "discarded" for more than 30 days\.                                                                                 | Weekly             |
+| `ofsted_create_initial_items`     | Build the initial Ofsted items table                                                                                                                               | One\-off           |
+| `ofsted_update_items`             | Check for any changes to Ofsted items against the Ofsted API                                                                                                       | Daily, overnight   |
 
 
 ## 🧬 Configuration
