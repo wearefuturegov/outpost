@@ -58,7 +58,7 @@ rake
 
 The database will be seeded with realistic fake data.
 
-It will be on `localhost:3000`. You can log in with `example@example.com` and the initial password you set [in the configuration](#configuration).
+It will be on `localhost:3000`. You can log in with `example@example.com` and the initial password you set [in the configuration](#-configuration).
 
 ### With Docker
 
