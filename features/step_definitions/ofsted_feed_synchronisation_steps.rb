@@ -51,6 +51,6 @@ Then('the Ofsted item should be removed') do
 end
 
 def mock_ofsted_response(hash)
-  WebMock.stub_request(:get, /bucks-ofsted-feed.herokuapp.com\/.*/)
+  WebMock.stub_request(:get, /#{OFSTED_FEED_API_ENDPOINT}\/.*/)
       .to_return(body: hash.to_json, headers: { 'Content-Type': 'application/json' })
 end
