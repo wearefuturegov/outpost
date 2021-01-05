@@ -1,6 +1,6 @@
 require 'csv'
-
-task :import => :environment do
+namespace :open_objects do
+  task :import => :environment do
 
     start_time = Time.now
 
@@ -31,11 +31,11 @@ task :import => :environment do
 
     # lock top-level taxa
     Taxonomy.roots.each do |t|
-        t.locked = true
-        t.skip_mongo_callbacks = true
-        unless t.save
-            puts "Taxonomy #{t} failed to save: #{t.errors.messages}"
-        end
+      t.locked = true
+      t.skip_mongo_callbacks = true
+      unless t.save
+          puts "Taxonomy #{t} failed to save: #{t.errors.messages}"
+      end
     end
-
+  end
 end
