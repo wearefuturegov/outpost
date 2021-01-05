@@ -1,37 +1,69 @@
-require 'csv'
+yaml = Rails.root.join('db', '_seed.yml')
+data = YAML::load_file(yaml)
 
-start_time = Time.now
-
-# These two would be run when Ofsted Feed is switched
-Rake::Task['ofsted:create_initial_items'].invoke
-Rake::Task['users:create_users_from_file'].invoke
-
-Rake::Task['organisations:create_from_csv'].invoke
-
-Rake::Task['custom_fields:build_initial'].invoke
-
-Rake::Task['taxonomy:create_categories_from_old_db'].invoke
-
-Rake::Task['ofsted:set_open_objects_external_ids'].invoke
-
-Rake::Task['services:create_from_csv'].invoke
-
-end_time = Time.now
-
-Rake::Task['taxonomy:map_to_new_taxonomy'].invoke
-Rake::Task['taxonomy:delete_old_taxonomies'].invoke
-Rake::Task['taxonomy:populate_parents'].invoke
-
-all_needs_met_taxonomy = SendNeed.where(name: "All needs met").first
-all_needs_met_taxonomy.destroy! if all_needs_met_taxonomy.present?
-
-puts "Took #{(end_time - start_time)/60} minutes"
-
-# lock top-level taxa
-Taxonomy.roots.each do |t|
-  t.locked = true
-  t.skip_mongo_callbacks = true
-  unless t.save
-    puts "Taxonomy #{t} failed to save: #{t.errors.messages}"
-  end
+# use our realistic sample UK data - fake data won't correctly geocode
+data["locations"].each do |l|
+    Location.create!({
+        address_1: l["address_1"],
+        city: l["city"],
+        postal_code: l["postal_code"],
+        latitude: l["latitude"],
+        longitude: l["longitude"],
+        skip_mongo_callbacks: true
+    })
 end
+
+data["accessibilities"].each do |n|
+    Accessibility.create!({name: n})
+end
+
+data["send_needs"].each do |n|
+    SendNeed.create!({name: n})
+end
+
+10.times do 
+    taxon = Taxonomy.create!({
+        name: Faker::Lorem.word.capitalize
+    })
+end
+
+10.times do
+    org = Organisation.create!({
+        name: Faker::Company.name,
+        skip_mongo_callbacks: true
+    })
+
+    rand(0...2).times do 
+        user = User.create!({
+            first_name: Faker::Name.first_name,
+            last_name: Faker::Name.last_name,
+            email: Faker::Internet.email(domain: "example.com"),
+            organisation: org,
+            password: "FakePassword1!"
+        })
+    end
+
+    rand(0...5).times do 
+        service = Service.create!({
+            name: Faker::Company.name,
+            organisation: org,
+            description: Faker::Lorem.paragraphs(number: 1),
+            skip_mongo_callbacks: true
+        })
+        # byebug
+        service.locations << Location.take
+        service.taxonomies << Taxonomy.take
+        service.save!
+    end
+end
+
+# make a single admin user
+User.create!({
+    first_name: "Example",
+    last_name: "Admin",
+    admin: true,
+    admin_users: true,
+    admin_ofsted: true,
+    email: "example@example.com",
+    password: ENV["INITIAL_ADMIN_PASSWORD"] || "FakePassword1!"
+})
