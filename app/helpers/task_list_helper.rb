@@ -9,7 +9,7 @@ module TaskListHelper
             ],
             [
                 "Categories", 
-                "Scheduling", 
+                "Opening times", 
                 "Fees", 
                 "Locations", 
                 "Contacts",

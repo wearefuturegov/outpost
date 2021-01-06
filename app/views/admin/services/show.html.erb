@@ -43,7 +43,7 @@
         <%= render "admin/services/editors/cost-options", s: s %>
       <% end %>
 
-      <%= render "shared/collapsible", name: "Scheduling", count: @service.regular_schedules.length, id: "schedule-editor", help_text: "Build a set of regular opening times for the service." do %>
+      <%= render "shared/collapsible", name: "Opening times", count: @service.regular_schedules.length, id: "schedule-editor", help_text: "Build a set of regular opening times for the service." do %>
         <%= render "admin/services/editors/regular-schedule", s: s %>
       <% end %>
 

@@ -2,8 +2,8 @@
 
 <% content_for :header do %>
     <%= link_to "Go back", service_path(@service), class: "go-back" %>
-    <h1 class="page-header__title two-thirds">Scheduling</h1>
-    <p class="page-header__lede">Adding schedule information helps people understand when your service runs.</p>
+    <h1 class="page-header__title two-thirds">Opening times</h1>
+    <p class="page-header__lede">Adding opening times helps people understand when your service runs.</p>
 <% end %>
 
 <%= form_with model: @service, url: service_path(@service, :section => params[:section]), html: {class: "two-thirds"} do |s| %>

@@ -18,7 +18,7 @@ Feature: Add a new service
         Given I can fill in visibility dates
 
         Given I can choose categories
-        Given I can create schedules
+        Given I can create opening times
         Given I can create fees
         Given I can create locations
         Given I can create contacts

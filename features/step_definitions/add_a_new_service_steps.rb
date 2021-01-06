@@ -62,8 +62,8 @@ Given("I can choose categories") do
     click_link_or_button('Continue')
 end
 
-Given("I can create schedules") do
-    click_link_or_button('Scheduling')
+Given("I can create opening times") do
+    click_link_or_button('Opening times')
     # .....
     click_link_or_button('Continue')
 end
