@@ -187,12 +187,22 @@
   </div>
   <aside class="with-sidebar__sidebar">
 
-    <% if @item.service %>
+    <% if @item.services.present? %>
       <div class="dark-panel">
         <p>
-          This Ofsted feed item is linked to <strong><%= link_to "a service", admin_service_path(@item.service) %></strong>
+          This Ofsted feed item is linked to one or more services</strong>
         </p>
       </div>
+
+      <%= render "shared/collapsible", name: "Linked services", id: "service-history", count: @item.services.count do %>
+        <ul class="big-list">
+          <% @item.services.each do |s| %>
+            <li class="big-list__item">
+              <%= render "shared/poppables/service", s: s %>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
     <% end %>
 
     <%= render "shared/collapsible", name: "History", id: "service-history" do %>
