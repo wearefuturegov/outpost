@@ -7,10 +7,7 @@
 <% end %>
 
 <header class="actions">
-  <%= link_to "Create linked service", new_admin_service_path(ofsted_item_id: @item.id, setting_name: @item.setting_name), class: "button button--small button--add", disabled: @item.service.present? %>
-  <% if @item.service.present? %>
-    <button class="help-button help-button--small" type="button" data-tippy-content="This feed item is already linked to a service. You can only link one at a time.">What does this mean?</button>
-  <% end %>
+  <%= link_to "Create linked service", new_admin_service_path(ofsted_item_id: @item.id, setting_name: @item.setting_name), class: "button button--small button--add" %>
   <button class="inline-button actions__pull-right" data-open-all>Open all</button>
   <button class="inline-button" data-close-all>Close all</button>
 </header>
@@ -190,12 +187,22 @@
   </div>
   <aside class="with-sidebar__sidebar">
 
-    <% if @item.service %>
+    <% if @item.services.present? %>
       <div class="dark-panel">
         <p>
-          This Ofsted feed item is linked to <strong><%= link_to "a service", admin_service_path(@item.service) %></strong>
+          This Ofsted feed item is linked to one or more services</strong>
         </p>
       </div>
+
+      <%= render "shared/collapsible", name: "Linked services", id: "service-history", count: @item.services.count do %>
+        <ul class="big-list">
+          <% @item.services.each do |s| %>
+            <li class="big-list__item">
+              <%= render "shared/poppables/service", s: s %>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
     <% end %>
 
     <%= render "shared/collapsible", name: "History", id: "service-history" do %>

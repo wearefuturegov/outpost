@@ -1,7 +1,7 @@
 class OfstedItem < ApplicationRecord
   has_paper_trail
 
-  has_one :service
+  has_many :services
 
   include Discard::Model
   
