@@ -7,10 +7,7 @@
 <% end %>
 
 <header class="actions">
-  <%= link_to "Create linked service", new_admin_service_path(ofsted_item_id: @item.id, setting_name: @item.setting_name), class: "button button--small button--add", disabled: @item.service.present? %>
-  <% if @item.service.present? %>
-    <button class="help-button help-button--small" type="button" data-tippy-content="This feed item is already linked to a service. You can only link one at a time.">What does this mean?</button>
-  <% end %>
+  <%= link_to "Create linked service", new_admin_service_path(ofsted_item_id: @item.id, setting_name: @item.setting_name), class: "button button--small button--add" %>
   <button class="inline-button actions__pull-right" data-open-all>Open all</button>
   <button class="inline-button" data-close-all>Close all</button>
 </header>
