@@ -10,23 +10,33 @@
     <%= render "shared/errors", model: @service %>
     <fieldset class="checkbox-group">
         <legend class="visually-hidden">Categories</legend>
+
+
         <% tree = Taxonomy.hash_tree %>
         <%= s.collection_check_boxes( :taxonomy_ids, tree.keys, :id, :name) do |c| %>
+
+            <div class="field checkbox checkbox--small">
+                <%= c.check_box class: "checkbox__input" %>
+                <%= c.label class: "checkbox__label" %>
+            </div>
+
             <% branch = tree[c.object] %>
             <%= s.collection_check_boxes( :taxonomy_ids, sorted_by_selected(branch.keys, @service), :id, :name) do |d| %>
-                <div class="field checkbox checkbox--small">
+                <div class="field checkbox checkbox--small checkbox--level-1">
                     <%= d.check_box class: "checkbox__input" %>
                     <%= d.label class: "checkbox__label" %>
                 </div>
+
                 <% leaf = branch[d.object] %>
                 <%= s.collection_check_boxes( :taxonomy_ids, sorted_by_selected(leaf.keys, @service), :id, :name) do |e| %>
-                    <div class="field checkbox checkbox--small checkbox--level-1">
+                    <div class="field checkbox checkbox--small checkbox--level-2">
                         <%= e.check_box class: "checkbox__input" %>
                         <%= e.label class: "checkbox__label" %>
                     </div>
                 <% end %>
             <% end %>
         <% end %>
+
     </fieldset>
 
     <button class="button">Continue</button>
