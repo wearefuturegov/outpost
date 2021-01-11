@@ -116,7 +116,7 @@ class Admin::ServicesController < Admin::BaseController
         :id,
         :option,
         :amount,
-        :type,
+        :cost_type,
         :_destroy,
       ],
       regular_schedules_attributes: [

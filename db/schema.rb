@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_11_111941) do
+ActiveRecord::Schema.define(version: 2021_01_11_161933) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,7 +42,7 @@ ActiveRecord::Schema.define(version: 2021_01_11_111941) do
     t.float "amount"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "type"
+    t.string "cost_type"
     t.index ["service_id"], name: "index_cost_options_on_service_id"
   end
 
@@ -53,6 +53,7 @@ ActiveRecord::Schema.define(version: 2021_01_11_111941) do
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "public"
     t.integer "sort_order"
+    t.boolean "api_public"
   end
 
   create_table "custom_fields", force: :cascade do |t|
