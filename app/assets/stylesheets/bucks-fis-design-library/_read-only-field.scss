@@ -13,6 +13,7 @@
     &__value{
         margin: 0px;
         font-size: 1.3rem;
+        word-wrap: anywhere;
         @media screen and (min-width: $breakpoint-m){
             font-size: 1.5rem;
         }
