@@ -96,6 +96,7 @@ class ServicesController < ApplicationController
                 :id,
                 :option,
                 :amount,
+                :type,
                 :_destroy,
             ],
             regular_schedules_attributes: [

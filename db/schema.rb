@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_13_131026) do
+ActiveRecord::Schema.define(version: 2021_01_11_111941) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(version: 2020_11_13_131026) do
     t.float "amount"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "type"
     t.index ["service_id"], name: "index_cost_options_on_service_id"
   end
 
@@ -72,6 +73,12 @@ ActiveRecord::Schema.define(version: 2020_11_13_131026) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "topic"
     t.index ["service_id"], name: "index_feedbacks_on_service_id"
+  end
+
+  create_table "inspection", id: false, force: :cascade do |t|
+    t.bigint "id"
+    t.string "provider_name"
+    t.json "json_array_elements"
   end
 
   create_table "links", force: :cascade do |t|
@@ -356,8 +363,8 @@ ActiveRecord::Schema.define(version: 2020_11_13_131026) do
     t.datetime "remember_created_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.boolean "admin"
     t.bigint "organisation_id"
+    t.boolean "admin"
     t.string "first_name"
     t.string "last_name"
     t.datetime "last_seen"
