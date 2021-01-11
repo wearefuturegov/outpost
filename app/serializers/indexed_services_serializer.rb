@@ -22,12 +22,21 @@ class IndexedServicesSerializer < ActiveModel::Serializer
     object.contacts.where(visible: true)
   end
 
+  has_many :meta do
+
+    object.meta.each do |m|
+      should_serialise = CustomField.find_by(key: object.meta.key)
+        .custom_field_section
+        .api_visible
+      m if should_serialise?
+    end
+  end
+
   belongs_to :organisation
 
   has_many :taxonomies
   has_many :regular_schedules
   has_many :cost_options
-  # has_many :meta
   has_many :links
   has_many :send_needs
 
