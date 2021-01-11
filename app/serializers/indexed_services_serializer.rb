@@ -24,10 +24,10 @@ class IndexedServicesSerializer < ActiveModel::Serializer
 
   has_many :meta do
     object.meta.each do |m|
-      should_serialise = CustomField.find_by(key: object.meta.key)
+      should_serialise = CustomField.find_by(key: m.key)
         .custom_field_section
-        .api_visible
-      m if should_serialise?
+        .api_public
+      m if should_serialise
     end
   end
 
