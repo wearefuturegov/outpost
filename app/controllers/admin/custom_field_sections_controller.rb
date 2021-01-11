@@ -46,6 +46,7 @@ class Admin::CustomFieldSectionsController < Admin::BaseController
         :name,
         :hint,
         :public,
+        :api_public,
         :sort_order,
         custom_fields_attributes: [
           :id,

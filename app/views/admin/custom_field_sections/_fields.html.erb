@@ -24,6 +24,14 @@
     <% end %>
 </div>
 
+<div class="field checkbox">
+    <%= f.check_box :api_public, class: "checkbox__input"%>
+    <%= f.label :api_public, class: "checkbox__label" do %>
+        Expose in public API?
+        <button class="help-button help-button--small" type="button" data-tippy-content="If checked, all fields in this section may be made visible in API clients.">What does this mean?</button>
+    <% end %>
+</div>
+
 <h2 class="page-subheading">Fields</h2>
 <section class="repeater">
     <ul class="repeater__panels" aria-live="polite">
