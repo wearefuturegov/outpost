@@ -55,6 +55,9 @@
                                 </p>
                             </div>
                         </div>
+                        
+                        <%= render "shared/preview-canvas", version: v.object || {}, live: @service.as_json, ignorable_fields: @service.ignorable_fields %>
+                    
                     <% else %>
                         <% unless @service.approved %>
                             <div class="snapshot-preview__actions">
@@ -62,10 +65,12 @@
                                 <%= link_to "Approve this version", admin_request_path(@service), method: "patch", data: {confirm: "Are you sure? Approving these changes makes them publicly visible."}, class: "button button--small" %>
                             </div>
                         <% end %>
+
+                        <%= render "shared/preview-canvas", version: @service.as_json, live: @service.as_json, ignorable_fields: @service.ignorable_fields %>
+                    
                     <% end %>
 
-                    <%= render "shared/preview-canvas", version: v.object || {}, live: @service.as_json, ignorable_fields: @service.ignorable_fields %>
-                    
+
                 </article>
             <% end %>
         <% end %>
