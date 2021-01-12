@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_11_161933) do
+ActiveRecord::Schema.define(version: 2021_01_12_135324) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -305,6 +305,12 @@ ActiveRecord::Schema.define(version: 2021_01_11_161933) do
     t.boolean "free"
     t.integer "min_age"
     t.integer "max_age"
+    t.boolean "age_band_under_2"
+    t.boolean "age_band_2"
+    t.boolean "age_band_3_4"
+    t.boolean "age_band_5_7"
+    t.boolean "age_band_8_plus"
+    t.boolean "age_band_all"
     t.index ["discarded_at"], name: "index_services_on_discarded_at"
     t.index ["ofsted_item_id"], name: "index_services_on_ofsted_item_id"
     t.index ["organisation_id"], name: "index_services_on_organisation_id"
