@@ -11,3 +11,53 @@
         <%= s.number_field :max_age, class: "field__input", min: 0, max: 120 %>
     </div>
 </div>
+
+
+
+<fieldset class="field-group field-group--two-cols field-group--no-margins">
+
+    <legend class="field-group__legend field-group__legend"><h3>Which age ranges does your service accept?</h3></legend>
+
+    <div class="field <%= mark_unapproved_field("age_band_under_2") %>">
+        <div class="checkbox">
+            <%= s.check_box :age_band_under_2, class: "checkbox__input"%>
+            <%= s.label :age_band_under_2, "Under 2s", class: "checkbox__label" %>
+        </div>
+    </div>
+
+    <div class="field <%= mark_unapproved_field("age_band_2") %>">
+        <div class="checkbox">
+            <%= s.check_box :age_band_2, class: "checkbox__input"%>
+            <%= s.label :age_band_2, "2 year olds", class: "checkbox__label" %>
+        </div>
+    </div>
+
+    <div class="field <%= mark_unapproved_field("age_band_3_4") %>">
+        <div class="checkbox">
+            <%= s.check_box :age_band_3_4, class: "checkbox__input"%>
+            <%= s.label :age_band_3_4, "3 to 4 year olds", class: "checkbox__label" %>
+        </div>
+    </div>
+
+    <div class="field <%= mark_unapproved_field("age_band_5_7") %>">
+        <div class="checkbox">
+            <%= s.check_box :age_band_5_7, class: "checkbox__input"%>
+            <%= s.label :age_band_5_7, "5 to 7 year olds", class: "checkbox__label" %>
+        </div>
+    </div>
+
+    <div class="field <%= mark_unapproved_field("age_band_8_plus") %>">
+        <div class="checkbox">
+            <%= s.check_box :age_band_8_plus, class: "checkbox__input"%>
+            <%= s.label :age_band_8_plus, "8 year olds and older", class: "checkbox__label" %>
+        </div>
+    </div>
+
+    <div class="field <%= mark_unapproved_field("age_band_all") %>">
+        <div class="checkbox">
+            <%= s.check_box :age_band_all, class: "checkbox__input"%>
+            <%= s.label :age_band_all, "All ages", class: "checkbox__label" %>
+        </div>
+    </div>
+
+</fieldset>
