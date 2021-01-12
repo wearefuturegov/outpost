@@ -80,6 +80,14 @@ class ServicesController < ApplicationController
             :referral_url,
             :min_age,
             :max_age,
+
+            :age_band_under_2,
+            :age_band_2,
+            :age_band_3_4,
+            :age_band_5_7,
+            :age_band_8_plus,
+            :age_band_all,
+
             taxonomy_ids: [],
             send_need_ids: [],
             local_offer_attributes: [
