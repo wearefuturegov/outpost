@@ -7,6 +7,6 @@ class LocalOfferSerializer < ActiveModel::Serializer
         object.survey_answers.map { |a| {
             question: object.questions.find{ |q| q[:id] === a["id"] }[:text],
             answer: a["answer"]
-        }}
+        }} if object.survey_answers
     end
 end

@@ -19,8 +19,16 @@
 <div class="field checkbox">
     <%= f.check_box :public, class: "checkbox__input"%>
     <%= f.label :public, class: "checkbox__label" do %>
-        Make visible to community users?
+        Visible to community users?
         <button class="help-button help-button--small" type="button" data-tippy-content="If checked, all fields in this section can be seen and edited by residents.">What does this mean?</button>
+    <% end %>
+</div>
+
+<div class="field checkbox">
+    <%= f.check_box :api_public, class: "checkbox__input"%>
+    <%= f.label :api_public, class: "checkbox__label" do %>
+        Expose in public API?
+        <button class="help-button help-button--small" type="button" data-tippy-content="If checked, all fields in this section may be made visible in API clients.">What does this mean?</button>
     <% end %>
 </div>
 

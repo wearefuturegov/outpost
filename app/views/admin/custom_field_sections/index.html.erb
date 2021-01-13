@@ -12,7 +12,8 @@
     <thead>
       <th>Name</th>
       <th>Fields</th>
-      <th>Visibility</th>
+      <th>Visible to community users</th>
+      <th>Exposed in API</th>
       <th>Sort order</th>
     </thead>
     <tbody>
@@ -22,9 +23,16 @@
           <td><%= s.custom_fields.map{ |f| f.key }.join(", ") %></td>
           <td>
             <% if s.public %>
-              <span class="tag">Public</span>
+              <%= image_tag "tick-blue.svg", alt: "Yes" %>
             <% else %>
-              <span class="tag tag--grey">Admin only</span>
+              —
+            <% end %>
+          </td>
+          <td>
+            <% if s.api_public %>
+              <%= image_tag "tick-blue.svg", alt: "Yes" %>
+            <% else %>
+              —
             <% end %>
           </td>
           <td><%= s.sort_order %></td>
