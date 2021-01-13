@@ -60,5 +60,6 @@ jobs:
         env:
           RAILS_ENV: test
           DB_URI: mongodb://root:password@localhost:27017/outpost_development?authSource=admin
+          OFSTED_FEED_API_ENDPOINT: https://test-ofsted-feed.stub # this is not a real url, we just need an env variable set for the stub to work in tests
         run: |
           bundle exec cucumber --fail-fast
