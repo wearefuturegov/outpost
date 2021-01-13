@@ -25,7 +25,7 @@ class IndexedServicesSerializer < ActiveModel::Serializer
   has_many :meta do
     meta_to_serialise = []
     object.meta.each do |m|
-      should_serialise = CustomField.find_by(key: m.key).custom_field_section.api_public
+      should_serialise = CustomField.find_by(key: m.key)&.custom_field_section&.api_public
       meta_to_serialise << m if should_serialise
     end
     meta_to_serialise
