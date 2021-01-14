@@ -73,6 +73,7 @@ namespace :services do
       service.name = row['title']
       service.description = ActionView::Base.full_sanitizer.sanitize(row['description'])
       service.url = row['website']
+      service.needs_referral = true if row['referral_required'] == 'Yes'
 
       service.organisation = organisation
 
