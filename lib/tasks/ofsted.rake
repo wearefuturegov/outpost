@@ -142,7 +142,6 @@ def ofsted_item_params item
     inspection: item["inspection"],
     notice_history: item["notice_history"],
     welfare_notice_history: item["welfare_notice_history"],
-    linked_registration: item["linked_registration"],
     lastupdated: item["lastupdated"] #datetime
   }
 end

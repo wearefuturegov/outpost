@@ -1,0 +1,20 @@
+<% if t.present? %>
+    <table class="table">
+        <thead>
+          <th>Date</th>
+          <th>Type</th>
+          <th>Judgement</th>
+        </thead>
+        <tbody>
+            <% t.each do |r| %>
+            <tr>
+              <td><%= format_if_date(r['date']) %></td>
+              <td><%= r['type'] %></td>
+              <td><%= r['judgement'] %></td>
+            </tr>
+            <% end %>
+        </tbody>
+    </table>
+<% else %>
+    <p class="no-results">Nothing to show</p>
+<% end %>
