@@ -75,14 +75,14 @@ namespace :services do
       service.url = row['website']
       service.needs_referral = true if row['referral_required'] == 'Yes'
 
-      service.links.create(label: 'Facebook', url: row['facebook']) if row['facebook'].present?
-      service.links.create(label: 'Twitter', url: row['twitter']) if row['twitter'].present?
-      service.links.create(label: 'Soundcloud', url: row['soundcloud']) if row['soundcloud'].present?
-      service.links.create(label: 'LinkedIn', url: row['linkedin']) if row['linkedin'].present?
-      service.links.create(label: 'Instagram', url: row['instagram']) if row['instagram'].present?
-      service.links.create(label: 'Pinterest', url: row['pinterest']) if row['pinterest'].present?
-      service.links.create(label: 'YouTube', url: row['youtubechannel']) if row['youtubechannel'].present?
-      service.links.create(label: 'Vimeo', url: row['vimeochannel']) if row['vimeochannel'].present?
+      service.links.build(label: 'Facebook', url: row['facebook']) if row['facebook'].present?
+      service.links.build(label: 'Twitter', url: row['twitter']) if row['twitter'].present?
+      service.links.build(label: 'Soundcloud', url: row['soundcloud']) if row['soundcloud'].present?
+      service.links.build(label: 'LinkedIn', url: row['linkedin']) if row['linkedin'].present?
+      service.links.build(label: 'Instagram', url: row['instagram']) if row['instagram'].present?
+      service.links.build(label: 'Pinterest', url: row['pinterest']) if row['pinterest'].present?
+      service.links.build(label: 'YouTube', url: row['youtubechannel']) if row['youtubechannel'].present?
+      service.links.build(label: 'Vimeo', url: row['vimeochannel']) if row['vimeochannel'].present?
 
       service.organisation = organisation
 
