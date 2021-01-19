@@ -166,18 +166,12 @@
                 <li class="tabs__nav-item">
                   <a href="#welfare-notice-history" class="tabs__nav-link">Welfare notice history</a>
                 </li>
-                <li class="tabs__nav-item">
-                  <a href="#links-registrations" class="tabs__nav-link">Linked registrations</a>
-                </li>
               </ul>
               <div class="tabs__panel" id="notice-history">
                 <%= render "admin/ofsted/mini-table", t: @item.notice_history %>
               </div>
               <div class="tabs__panel" id="welfare-notice-history">
                 <%= render "admin/ofsted/mini-table-welfare-notice-history", t: @item.welfare_notice_history %>
-              </div>
-              <div class="tabs__panel" id="links-registrations">
-                <%= render "admin/ofsted/mini-table", t: @item.linked_registration %>
               </div>
           </div>
 
