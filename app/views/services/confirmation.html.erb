@@ -1,10 +1,10 @@
 <% content_for :title do %>Confirmation | <% end %>
 
 <% content_for :header do %>
-    <div class="confirmation-panel two-thirds">
-        <h1 class="confirmation-panel__heading">Your service has been successfully submitted</h1>
-        <p class="confirmation-panel__caption"><%= @service.name %></p>
-    </div>
+<div class="confirmation-panel two-thirds">
+    <h1 class="confirmation-panel__heading">Your service has been successfully submitted</h1>
+    <p class="confirmation-panel__caption"><%= @service.name %></p>
+</div>
 <% end %>
 
 <div class="two-thirds confirmation-body">
@@ -20,10 +20,10 @@
 
     <h2>If you have questions</h2>
 
-    <p>You can <a href="#">contact us</a> to ask about the process.</p>
+    <p>You can <%= link_to "contact us", "mailto:#{ENV["mailer_from"]}" % to ask about the process.</p>
 
     <div class="form-actions">
         <%= link_to "Return to dashboard", organisations_path, class: "button button--secondary"%>
-    </div>
+</div>
 
 </div>
