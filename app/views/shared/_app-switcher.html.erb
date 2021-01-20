@@ -1,0 +1,22 @@
+<% if user_signed_in? && current_user.admin? %>
+<nav class="app-switcher">
+
+    <button class="app-switcher__current" tabindex="0">Apps</button>
+
+    <ul class="app-switcher__submenu">
+        <li class="app-switcher__submenu-item">
+            <%= link_to "Public website", "#", class: "app-switcher__submenu-link" %>
+        </li>
+        <li class="app-switcher__submenu-item">
+            <%= link_to "Directory", "#", class: "app-switcher__submenu-link" %>
+        </li>
+        <li class="app-switcher__submenu-item">
+            <%= link_to "Employment", "#", class: "app-switcher__submenu-link" %>
+        </li>
+        <li class="app-switcher__submenu-item">
+            <%= link_to "Manage data", "#", class: "app-switcher__submenu-link" %>
+        </li>
+    </ul>
+
+</nav>
+<% end %>
