@@ -4,6 +4,7 @@
           <th>From</th>
           <th>To</th>
           <th>Max</th>
+          <th>Register</th>
         </thead>
         <tbody>
             <% t.each do |r| %>
@@ -11,6 +12,7 @@
               <td><%= r["from"] %></td>
               <td><%= r["to"] %></td>
               <td><%= r["max"] %></td>
+              <td><%= r["register"] %></td>
             </tr>
             <% end %>
         </tbody>
