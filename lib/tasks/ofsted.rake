@@ -136,7 +136,6 @@ def ofsted_item_params item
     related_rpps: item["related_rpps"],
     registration_status_history: item["registration_status_history"],
     child_services_register: item["child_services_register"],
-    certificate_condition: item["certificate_condition"],
     childcare_period: item["childcare_period"], #to_a?
     childcare_age: item["childcare_age"],
     inspection: item["inspection"],

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_19_101711) do
+ActiveRecord::Schema.define(version: 2021_01_20_142355) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -74,12 +74,6 @@ ActiveRecord::Schema.define(version: 2021_01_19_101711) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "topic"
     t.index ["service_id"], name: "index_feedbacks_on_service_id"
-  end
-
-  create_table "inspection", id: false, force: :cascade do |t|
-    t.bigint "id"
-    t.string "provider_name"
-    t.json "json_array_elements"
   end
 
   create_table "links", force: :cascade do |t|
@@ -206,7 +200,6 @@ ActiveRecord::Schema.define(version: 2021_01_19_101711) do
     t.string "related_rpps"
     t.jsonb "registration_status_history"
     t.jsonb "child_services_register"
-    t.string "certificate_condition"
     t.text "childcare_period", array: true
     t.jsonb "childcare_age"
     t.jsonb "inspection"
@@ -295,8 +288,6 @@ ActiveRecord::Schema.define(version: 2021_01_19_101711) do
     t.date "visible_from"
     t.date "visible_to"
     t.integer "notes_count", default: 0, null: false
-    t.integer "ofsted_reference_number"
-    t.string "old_ofsted_external_id"
     t.boolean "visible", default: true
     t.boolean "needs_referral"
     t.datetime "marked_for_deletion"
@@ -310,6 +301,7 @@ ActiveRecord::Schema.define(version: 2021_01_19_101711) do
     t.boolean "age_band_5_7"
     t.boolean "age_band_8_plus"
     t.boolean "age_band_all"
+    t.string "old_open_objects_external_id"
     t.index ["discarded_at"], name: "index_services_on_discarded_at"
     t.index ["ofsted_item_id"], name: "index_services_on_ofsted_item_id"
     t.index ["organisation_id"], name: "index_services_on_organisation_id"
@@ -369,8 +361,8 @@ ActiveRecord::Schema.define(version: 2021_01_19_101711) do
     t.datetime "remember_created_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "organisation_id"
     t.boolean "admin"
+    t.bigint "organisation_id"
     t.string "first_name"
     t.string "last_name"
     t.datetime "last_seen"

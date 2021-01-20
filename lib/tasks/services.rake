@@ -74,6 +74,7 @@ namespace :services do
       service.description = ActionView::Base.full_sanitizer.sanitize(row['description'])
       service.url = row['website']
       service.needs_referral = true if row['referral_required'] == 'Yes'
+      service.old_open_objects_external_id = row['externalid']
 
       service.links.build(label: 'Facebook', url: row['facebook']) if row['facebook'].present?
       service.links.build(label: 'Twitter', url: row['twitter']) if row['twitter'].present?
