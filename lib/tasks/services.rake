@@ -152,6 +152,15 @@ namespace :services do
         local_offer = LocalOffer.new
         local_offer.description = ActionView::Base.full_sanitizer.sanitize(row['lo_details'])
         local_offer.skip_description_validation = true
+
+        local_offer.survey_answers[0]["answer"] = row['general_01']
+        local_offer.survey_answers[1]["answer"] = row['general_06'] + "\r\n\r\n" + row['early_years_1']
+        local_offer.survey_answers[2]["answer"] = row['early_years_2']
+        local_offer.survey_answers[3]["answer"] = row['early_years_3']
+        local_offer.survey_answers[4]["answer"] = row['early_years_5']
+        #local_offer.survey_answers[5]["answer"]
+        local_offer.survey_answers[6]["answer"] = row['early_years_7']
+
         service.local_offer = local_offer
       end
 
