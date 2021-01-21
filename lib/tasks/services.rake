@@ -149,6 +149,7 @@ namespace :services do
       if row['lo_boolean'] == "Yes"
         local_offer = LocalOffer.new
         local_offer.description = ActionView::Base.full_sanitizer.sanitize(row['lo_details'])
+        local_offer.skip_description_validation = true
         service.local_offer = local_offer
       end
 

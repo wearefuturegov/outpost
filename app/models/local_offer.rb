@@ -1,7 +1,8 @@
 class LocalOffer < ApplicationRecord
   belongs_to :service
 
-  validates :description, presence: true
+  attr_accessor :skip_description_validation
+  validates :description, presence: true, unless: :skip_description_validation
 
   def questions
     [
