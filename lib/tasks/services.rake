@@ -153,14 +153,23 @@ namespace :services do
         local_offer.description = ActionView::Base.full_sanitizer.sanitize(row['lo_details'])
         local_offer.skip_description_validation = true
 
-        local_offer.survey_answers[0]["answer"] = row['general_01']
-        local_offer.survey_answers[1]["answer"] = row['general_06'] + "\r\n\r\n" + row['early_years_1']
-        local_offer.survey_answers[2]["answer"] = row['early_years_2']
-        local_offer.survey_answers[3]["answer"] = row['early_years_3']
-        local_offer.survey_answers[4]["answer"] = row['early_years_5']
-        #local_offer.survey_answers[5]["answer"]
-        local_offer.survey_answers[6]["answer"] = row['early_years_7']
+        survey_answers = []
 
+        mapping = [
+          {id: 1, answer: row['general_01']},
+          {id: 2, answer: (row['general_06'] || "") + "\r\n\r\n" + (row['early_years_1'] || "")},
+          {id: 3, answer: row['early_years_2']},
+          {id: 4, answer: row['early_years_3']},
+          {id: 5, answer: row['early_years_5']},
+          {id: 6, answer: nil},
+          {id: 7, answer: row['early_years_7']}
+        ]
+
+        mapping.each do |m|
+          survey_answers[m[:id] -1] = {id: m[:id], answer: ActionView::Base.full_sanitizer.sanitize(m[:answer])&.strip}
+        end
+
+        local_offer.survey_answers = survey_answers
         service.local_offer = local_offer
       end
 
