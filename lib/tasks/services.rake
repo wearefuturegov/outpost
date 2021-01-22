@@ -156,13 +156,13 @@ namespace :services do
         survey_answers = []
 
         mapping = [
-          {id: 1, answer: row['general_01']},
+          {id: 1, answer: (row['general_01'] || "") + "\r\n\r\n" + (row['general_02'] || "") + "\r\n\r\n" + (row['early_years_4'] || "") + "\r\n\r\n" + (row['lo_details'] || "")},
           {id: 2, answer: (row['general_06'] || "") + "\r\n\r\n" + (row['early_years_1'] || "")},
           {id: 3, answer: row['early_years_2']},
-          {id: 4, answer: row['early_years_3']},
-          {id: 5, answer: row['early_years_5']},
-          {id: 6, answer: nil},
-          {id: 7, answer: row['early_years_7']}
+          {id: 4, answer: (row['general_05'] || "") + "\r\n\r\n" + (row['early_years_3'] || "")},
+          {id: 5, answer: (row['general_04'] || "") + "\r\n\r\n" + (row['early_years_5'] || "")},
+          {id: 6, answer: (row['general_03'] || "") + "\r\n\r\n" + (row['early_years_6'] || "") + "\r\n\r\n" + (row['lo_school_04'] || "")},
+          {id: 7, answer: (row['general_07'] || "") + "\r\n\r\n" + (row['early_years_7'] || "") + "\r\n\r\n" + (row['lo_school_05'] || "")}
         ]
 
         mapping.each do |m|
