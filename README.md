@@ -76,13 +76,11 @@ You can run `rails build_public_index` to build the public index for the first t
 
 ## 🌎 Running it on the web
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](
-https://heroku.com/deploy)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 It's suitable for 12-factor app hosting like [Heroku](http://heroku.com).
 
 It has a `Procfile` that will [automatically run](https://devcenter.heroku.com/articles/release-phase) pending rails migrations on every deploy, to reduce downtime.
-
 
 ## 🗓 Administrative tasks
 
@@ -90,14 +88,13 @@ Outpost depends on on several important [`rake`](https://guides.rubyonrails.org/
 
 Some of these can be run manually, and some are best scheduled using [Heroku Scheduler](https://devcenter.heroku.com/articles/scheduler) or similar.
 
-| Task                              | Description                                                                                                                                                        | Suggested schedule |
-|-----------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------|
-| `open_objects:import`             | Run the bespoke import job from Open Objects. For this to succeed, you need several source CSV data files in the `/lib/seeds` folder. Will take a long time.       | One\-off           |
-| `build_public_index`              | Build the initial public index for the API service to use\.                                                                                                        | One\-off           |
-| `process_permanent_deletions`     | Permanently delete any services that have been "discarded" for more than 30 days\.                                                                                 | Weekly             |
-| `ofsted:create_initial_items`     | Build the initial Ofsted items table                                                                                                                               | One\-off           |
-| `ofsted:update_items`             | Check for any changes to Ofsted items against the Ofsted API                                                                                                       | Daily, overnight   |
-
+| Task                          | Description                                                                                                                                                  | Suggested schedule |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------ |
+| `open_objects:import`         | Run the bespoke import job from Open Objects. For this to succeed, you need several source CSV data files in the `/lib/seeds` folder. Will take a long time. | One\-off           |
+| `build_public_index`          | Build the initial public index for the API service to use\.                                                                                                  | One\-off           |
+| `process_permanent_deletions` | Permanently delete any services that have been "discarded" for more than 30 days\.                                                                           | Weekly             |
+| `ofsted:create_initial_items` | Build the initial Ofsted items table                                                                                                                         | One\-off           |
+| `ofsted:update_items`         | Check for any changes to Ofsted items against the Ofsted API                                                                                                 | Daily, overnight   |
 
 ## 🧬 Configuration
 
@@ -105,19 +102,19 @@ You can provide config with a `.env` file. Run `cp .env.example .env` to create 
 
 It needs the following extra environment variables to be set:
 
-| Variable                                         | Description                                                                         | Example                                                 | Required?                                         |
-|--------------------------------------------------|-------------------------------------------------------------------------------------|---------------------------------------------------------|---------------------------------------------------|
-| `GOOGLE_API_KEY`                                 | with the geocoding API enabled, to geocode postcodes                                |                                                         | Yes, for geocoding features                       |
-| `GOOGLE_CLIENT_KEY`                              | with the javascript and static maps APIs enabled, to add map views to admin screens |                                                         | Yes, for map features                             |
-| `OFSTED_API_KEY` and `OFSTED_FEED_API_ENDPOINT`  | to access the feed of Ofsted items                                                  |                                                         | Only if running Ofsted rake tasks                 |
-| `SENDGRID_API_KEY`                               | to send emails                                                                      |                                                         | In production only                                |
-| `MAILER_HOST`                                    | where the app lives on the web, to correctly form urls in emails                    | https://example.com                                     | In production only                                |
-| `MAILER_FROM`                                    | the email address emails will be delivered from                                     | example@email.com                                       | In production only                                |
-| `FEEDBACK_FORM_URL`                              | a form where users can submit feedback about the website                            | https://example.com                                     | In production only                                |
-| `DATABASE_URL`                                   | the main PostgreSQL database                                                        | postgres://user:password<br/>@example.com:5432/database | Yes, if different from default, and in production |
-| `DB_URI`                                         | the MongoDB database for the public index                                           | mongodb://user:password<br/>@example.com/database       | Yes, if using the API service                     |
-| `INITIAL_ADMIN_PASSWORD`                         | an initial admin password to log in with for local development                      |                                                         | Locally only                                      |
-
+| Variable                                        | Description                                                                         | Example                                                 | Required?                                         |
+| ----------------------------------------------- | ----------------------------------------------------------------------------------- | ------------------------------------------------------- | ------------------------------------------------- |
+| `GOOGLE_API_KEY`                                | with the geocoding API enabled, to geocode postcodes                                |                                                         | Yes, for geocoding features                       |
+| `GOOGLE_CLIENT_KEY`                             | with the javascript and static maps APIs enabled, to add map views to admin screens |                                                         | Yes, for map features                             |
+| `OFSTED_API_KEY` and `OFSTED_FEED_API_ENDPOINT` | to access the feed of Ofsted items                                                  |                                                         | Only if running Ofsted rake tasks                 |
+| `SENDGRID_API_KEY`                              | to send emails                                                                      |                                                         | In production only                                |
+| `MAILER_HOST`                                   | where the app lives on the web, to correctly form urls in emails                    | https://example.com                                     | In production only                                |
+| `MAILER_FROM`                                   | the email address emails will be delivered from                                     | example@email.com                                       | In production only                                |
+| `FEEDBACK_FORM_URL`                             | a form where users can submit feedback about the website                            | https://example.com                                     | In production only                                |
+| `DATABASE_URL`                                  | the main PostgreSQL database                                                        | postgres://user:password<br/>@example.com:5432/database | Yes, if different from default, and in production |
+| `DB_URI`                                        | the MongoDB database for the public index                                           | mongodb://user:password<br/>@example.com/database       | Yes, if using the API service                     |
+| `INITIAL_ADMIN_PASSWORD`                        | an initial admin password to log in with for local development                      |                                                         | Locally only                                      |
+| `SHOW_ENV_BANNER`                               | show a bright warning banner on non-production environments                         | staging                                                 | Only to warn about non-production environments    |
 
 ## 🔐 OAuth provider
 
@@ -127,7 +124,7 @@ Once authenticated, consumer apps can fetch information about the currently logg
 
 ## 🧪 Tests
 
-It has some rspec and cucumber tests on key functionality. Run them with: 
+It has some rspec and cucumber tests on key functionality. Run them with:
 
 ```
 rake
