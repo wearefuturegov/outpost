@@ -280,6 +280,42 @@ namespace :services do
             puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
           end
         end
+        if row["ecd_places_max"].present?
+          service_meta = service.meta.new(key: "Maximum number of places", value: row["ecd_places_max"])
+          unless service_meta.save
+            puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
+          end
+        end
+        if row["ecd_funded_places_total"].present?
+          service_meta = service.meta.new(key: "Funding Totals", value: row["ecd_funded_places_total"])
+          unless service_meta.save
+            puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
+          end
+        end
+        if row["ecd_daycaretype_list"].present?
+          service_meta = service.meta.new(key: "Daycare type", value: row["ecd_daycaretype_list"])
+          unless service_meta.save
+            puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
+          end
+        end
+        if row["ecd_type_list"].present?
+          service_meta = service.meta.new(key: "Provider type", value: row["ecd_type_list"])
+          unless service_meta.save
+            puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
+          end
+        end
+        if row["sector"].present?
+          service_meta = service.meta.new(key: "Sector", value: row["sector"])
+          unless service_meta.save
+            puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
+          end
+        end
+        if row["ecd_timetable_weeksopen"].present?
+          service_meta = service.meta.new(key: "How Many weeks in a calendar year are you open?", value: row["ecd_timetable_weeksopen"])
+          unless service_meta.save
+            puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
+          end
+        end
       else
         puts "Service #{service.name} failed to save: #{service.errors.messages}"
       end
