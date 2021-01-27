@@ -261,7 +261,7 @@ namespace :services do
         end
 
         if row["owner"].present?
-          service_meta = service.meta.new(key: "Type of ownership", value: row["owner"])
+          service_meta = service.meta.new(key: "Type of ownership", value: row["owner"].capitalize.sub("Nhs", "NHS"))
           unless service_meta.save
             puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
           end
@@ -287,31 +287,31 @@ namespace :services do
           end
         end
         if row["ecd_funded_places_total"].present?
-          service_meta = service.meta.new(key: "Funding Totals", value: row["ecd_funded_places_total"])
+          service_meta = service.meta.new(key: "Funding totals", value: row["ecd_funded_places_total"])
           unless service_meta.save
             puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
           end
         end
         if row["ecd_daycaretype_list"].present?
-          service_meta = service.meta.new(key: "Daycare type", value: row["ecd_daycaretype_list"])
+          service_meta = service.meta.new(key: "Daycare type", value: row["ecd_daycaretype_list"].capitalize.sub("Sen", "SEN"))
           unless service_meta.save
             puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
           end
         end
         if row["ecd_type_list"].present?
-          service_meta = service.meta.new(key: "Provider type", value: row["ecd_type_list"])
+          service_meta = service.meta.new(key: "Provider type", value: row["ecd_type_list"].capitalize)
           unless service_meta.save
             puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
           end
         end
         if row["sector"].present?
-          service_meta = service.meta.new(key: "Sector", value: row["sector"])
+          service_meta = service.meta.new(key: "Sector", value: row["sector"].capitalize)
           unless service_meta.save
             puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
           end
         end
         if row["ecd_timetable_weeksopen"].present?
-          service_meta = service.meta.new(key: "How Many weeks in a calendar year are you open?", value: row["ecd_timetable_weeksopen"])
+          service_meta = service.meta.new(key: "How many weeks in a calendar year are you open?", value: row["ecd_timetable_weeksopen"])
           unless service_meta.save
             puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
           end
