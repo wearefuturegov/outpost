@@ -260,6 +260,13 @@ namespace :services do
           end
         end
 
+        if (row["ecd_funded_places_3yo"].present? || row["ecd_funded_places_4yo"]).present?
+          service_meta = service.meta.new(key: "Funding 3/4 year olds", value: (row["ecd_funded_places_3yo"].to_i + row["ecd_funded_places_4yo"].to_i))
+          unless service_meta.save
+            puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
+          end
+        end
+
         if row["owner"].present?
           service_meta = service.meta.new(key: "Type of ownership", value: row["owner"].capitalize.sub("Nhs", "NHS"))
           unless service_meta.save
@@ -312,6 +319,12 @@ namespace :services do
         end
         if row["ecd_timetable_weeksopen"].present?
           service_meta = service.meta.new(key: "How many weeks in a calendar year are you open?", value: row["ecd_timetable_weeksopen"])
+          unless service_meta.save
+            puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
+          end
+        end
+        if row["ecd_sp_childcare_orgs"].present?
+          service_meta = service.meta.new(key: "BCCN", value: row["ecd_sp_childcare_orgs"])
           unless service_meta.save
             puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
           end
