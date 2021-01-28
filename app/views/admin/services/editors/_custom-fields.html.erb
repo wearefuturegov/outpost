@@ -12,7 +12,7 @@
                 <% if field.field_type === "checkbox" %>
                     <div class="field">
                         <div class="checkbox">
-                            <%= c.check_box :value, class: "checkbox__input"%>
+                            <%= c.check_box :value, {class: "checkbox__input"}, "Yes", "No" %>
                             <%= c.label :value, field.key, class: "checkbox__label" %>
                         </div>
                     </div>
