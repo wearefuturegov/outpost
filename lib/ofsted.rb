@@ -13,33 +13,33 @@ output = items.slice(0, 1).map do |i|
         secondary_provision_type: i["SecondaryProvisionType"],
         registration_status: i["RegistrationStatus"],
         special_consideration: i["SpecialConsiderations"],
-        registration_date: i["RegistrationDate"]
-        # last_change_date:
+        registration_date: i["RegistrationDate"],
+        last_change_date:i["LastChangeDate"],
         # link_to_ofsted_report:
-        # setting_address_1:
-        # setting_address_2:
+        setting_address_1: i["Setting"]["SettingAddress"]["AddressLine1"],
+        setting_address_2: i["Setting"]["SettingAddress"]["AddressLine2"],
         # setting_villagetown:
-        # setting_town:
-        # setting_county:
-        # setting_postcode:
-        # setting_telephone:
+        setting_town: i["Setting"]["SettingAddress"]["Town"],
+        setting_county: i["Setting"]["SettingAddress"]["County"],
+        setting_postcode: i["Setting"]["SettingAddress"]["Postcode"],
+        setting_telephone: i["Setting"]["SettingContact"]["TelephoneNumber"],
         # setting_fax:
-        # setting_email:
+        setting_email: i["Setting"]["SettingContact"]["EmailAddress"],
         # location_ward:
         # location_planning:
-        # prov_address_1:
-        # prov_address_2:
+        prov_address_1: i["Provider"]["ProviderAddress"]["AddressLine1"],
+        prov_address_2: i["Provider"]["ProviderAddress"]["AddressLine2"],
         # prov_villagetown:
-        # prov_town:
-        # prov_county:
-        # prov_postcode:
-        # prov_telephone:
-        # prov_mobile:
-        # prov_work_telephone:
+        prov_town: i["Provider"]["ProviderAddress"]["Town"],
+        prov_county: i["Provider"]["ProviderAddress"]["County"],
+        prov_postcode: i["Provider"]["ProviderAddress"]["Postcode"],
+        prov_telephone: i["Provider"]["ProviderAddress"]["TelephoneNumber"],
+        prov_mobile: i["Provider"]["ProviderAddress"]["MobileNumber"],
+        prov_work_telephone: i["Provider"]["ProviderAddress"]["WorkTelephoneNumber"],
         # prov_fax:
-        # prov_email:
+        prov_email: i["Provider"]["ProviderAddress"]["EmailAddress"],
         # prov_consent_withheld:
-        # rp_reference_number:
+        rp_reference_number: i["RPReferenceNumber"],
         # related_rpps:
         # registration_status_history:
         # child_services_register:
@@ -48,7 +48,7 @@ output = items.slice(0, 1).map do |i|
         # inspection:
         # notice_history:
         # welfare_notice_history:
-        # lastupdated:
+        lastupdated: i["LastChangeDate"]
       }
 end
 
