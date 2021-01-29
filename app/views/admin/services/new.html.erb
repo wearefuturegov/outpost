@@ -1,77 +1,81 @@
 <% content_for :header do %>
 
-    <% if @ofsted_item.present? %>
-      <div class="notice">
-        <div class="notice__body">
-          <p>
+<% if @ofsted_item.present? %>
+<div class="notice">
+    <div class="notice__body">
+        <p>
             You're creating a service linked to an Ofsted feed item:
             <%= link_to @ofsted_item.display_name, admin_ofsted_path(@ofsted_item) %>
-          </p>
-        </div>
-      </div>
-    <% end %>
+        </p>
+    </div>
+</div>
+<% end %>
 
-    <%= render "shared/dynamic-back-link", text: "Back to services", path: admin_services_path %>
-    <h1 class="page-header__title two-thirds">Add a new service</h1>
+<%= render "shared/dynamic-back-link", text: "Back to services", path: admin_services_path %>
+<h1 class="page-header__title two-thirds">Add a new service</h1>
 <% end %>
 
 
 <div class="with-sidebar">
 
-  <div>
-    <%= form_for [:admin, @service], data: {warn_unsaved_changes: true} do |s| %>
+    <div>
+        <%= form_for [:admin, @service], data: {warn_unsaved_changes: true} do |s| %>
 
-      <%= s.hidden_field :ofsted_item_id, value: params[:ofsted_item_id] %>
+        <%= s.hidden_field :ofsted_item_id, value: params[:ofsted_item_id] %>
 
-      <%= render "shared/errors", model: @service %>
+        <%= render "shared/errors", model: @service %>
 
-      <%= render "admin/services/editors/basics", s: s %>
+        <%= render "admin/services/editors/basics", s: s %>
 
-      <%= render "shared/collapsible", name: "Contacts", count: @service.contacts.length, id: "contacts-editor", help_text: "Provide individual points of contact for users." do %>
+        <%= render "shared/collapsible", name: "Contacts", count: @service.contacts.length, id: "contacts-editor", help_text: "Provide individual points of contact for users." do %>
         <%= render "admin/services/editors/contacts", s: s %>
-      <% end %>
+        <% end %>
 
-      <%= render "shared/collapsible", name: "Taxonomies", count: @service.taxonomies.length, id: "taxonomy-editor", help_text: "Help users understand what kind of service this is." do %>
+        <%= render "shared/collapsible", name: "Taxonomies", count: @service.taxonomies.length, id: "taxonomy-editor", help_text: "Help users understand what kind of service this is." do %>
         <%= render "admin/services/editors/taxonomies", s: s %>
-      <% end %>
+        <% end %>
 
-      <%= render "shared/collapsible", name: "Locations", count: @service.locations.length, id: "locations-editor", help_text: "Provide locations where this service can be used. For a fully remote or virtual service, leave this blank." do %>
+        <%= render "shared/collapsible", name: "Locations", count: @service.locations.length, id: "locations-editor", help_text: "Provide locations where this service can be used. For a fully remote or virtual service, leave this blank." do %>
         <%= render "admin/services/editors/locations", s: s %>
-      <% end %>
+        <% end %>
 
-      <%= render "shared/collapsible", name: "Fees", count: @service.cost_options.length, id: "fees-editor" do %>
+        <%= render "shared/collapsible", name: "Fees", count: @service.cost_options.length, id: "fees-editor" do %>
         <%= render "admin/services/editors/cost-options", s: s %>
-      <% end %>
+        <% end %>
 
-      <%= render "shared/collapsible", name: "Local offer and SEND", id: "local-offer-editor" do %>
+        <%= render "shared/collapsible", name: "Local offer and SEND", id: "local-offer-editor" do %>
         <%= render "admin/services/editors/local-offer", s: s %>
-      <% end %>
+        <% end %>
 
-      <%= render "shared/collapsible", name: "Scheduling", count: @service.regular_schedules.length, id: "schedule-editor", help_text: "Build a set of regular opening times for the service." do %>
+        <%= render "shared/collapsible", name: "Scheduling", count: @service.regular_schedules.length, id: "schedule-editor", help_text: "Build a set of regular opening times for the service." do %>
         <%= render "admin/services/editors/regular-schedule", s: s %>
-      <% end %>
+        <% end %>
 
-      <%= render "shared/collapsible", name: "Links", id: "social-media-editor" do %>
+        <%= render "shared/collapsible", name: "Links", id: "social-media-editor" do %>
         <%= render "admin/services/editors/links", s: s %>
-      <% end %>
+        <% end %>
 
-      <%= render "shared/collapsible", name: "Ages", id: "visibility-editor" do %>
+        <%= render "shared/collapsible", name: "Ages", id: "visibility-editor" do %>
         <%= render "admin/services/editors/ages", s: s %>
-      <% end %>
+        <% end %>
 
-      <%= render "shared/collapsible", name: "Visibility", id: "visibility-editor", help_text: "Control if and when the service is listed in public search results." do %>
+        <%= render "shared/collapsible", name: "Visibility", id: "visibility-editor", help_text: "Control if and when the service is listed in public search results." do %>
         <%= render "admin/services/editors/dates", s: s %>
-      <% end %>
+        <% end %>
 
-      <%= render "shared/collapsible", name: "Labels", count: @service.label_list.length, id: "labels-editor", help_text: "Use labels to group services together in whatever way you need." do %>
+        <%= render "shared/collapsible", name: "Labels", count: @service.label_list.length, id: "labels-editor", help_text: "Use labels to group services together in whatever way you need." do %>
         <%= render "admin/services/editors/labels", s: s %>
-      <% end %>
+        <% end %>
 
-      <div class="form-actions">
-        <%= s.submit "Create", class: "button" %>
-      </div>
+        <%= render "shared/collapsible", name: "Custom fields", id: "custom-fields-editor" do %>
+        <%= render "admin/services/editors/custom-fields", s: s %>
+        <% end %>
 
-    <% end %>
-  </div>
+        <div class="form-actions">
+            <%= s.submit "Create", class: "button" %>
+        </div>
+
+        <% end %>
+    </div>
 
 </div>
