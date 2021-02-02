@@ -1,8 +1,7 @@
 class IndexedServicesSerializer < ActiveModel::Serializer
   
   def attributes(*args)
-
-    attributes = object.attributes.symbolize_keys.except(
+    object.attributes.symbolize_keys.except(
       :visible, 
       :notes_count, 
       :ofsted_reference_number,                              
