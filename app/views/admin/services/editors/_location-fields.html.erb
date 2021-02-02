@@ -40,6 +40,10 @@
             <button class="help-button help-button--small" type="button" data-tippy-content="If checked, only the first part of the postcode will be publicly visible, and the map pin will be less precise.">What does this mean?</button>
         <% end %>
     </div>
+    <div class="field checkbox checkbox--small">
+        <%= l.check_box :preferred_for_post, class: "checkbox__input"%>
+        <%= l.label :preferred_for_post, "Use this address for post", class: "checkbox__label" %>
+    </div>
 </div>
 
 <button type="button" class="repeater__closer" data-close="true" title="Remove this location">Remove this location</button>

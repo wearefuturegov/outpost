@@ -55,6 +55,7 @@ class Admin::LocationsController < Admin::BaseController
             :country,
             :visible,
             :mask_exact_address,
+            :preferred_for_post,
             accessibility_ids: []
         )
     end
