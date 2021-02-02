@@ -1,12 +1,21 @@
+<%= IndexedServicesSerializer.new(s.object).as_json %>
+
+<div class="field <%= mark_unapproved_field("temporarily_closed") %>">
+    <div class="checkbox">
+        <%= s.check_box :temporarily_closed, {class: "checkbox__input"} %>
+        <%= s.label :temporarily_closed, "This service is temporarily closed", class: "checkbox__label" %>
+    </div>
+</div>
+
 <%= mark_unapproved_array("regular_schedules") do %>
-    <section class="repeater">
-        <ul class="repeater__panels" aria-live="polite">
-            <%= s.fields_for :regular_schedules do |sched| %>
-                <li class="repeater__panel">
-                    <%= render "admin/services/editors/regular-schedule-fields", sched: sched %>
-                </li>
-            <% end %>
-        </ul>
-        <%= link_to_add_fields "Add a schedule", s, :regular_schedules, "admin/services/editors/regular-schedule-fields" %>
-    </section>
+<section class="repeater">
+    <ul class="repeater__panels" aria-live="polite">
+        <%= s.fields_for :regular_schedules do |sched| %>
+        <li class="repeater__panel">
+            <%= render "admin/services/editors/regular-schedule-fields", sched: sched %>
+        </li>
+        <% end %>
+    </ul>
+    <%= link_to_add_fields "Add a schedule", s, :regular_schedules, "admin/services/editors/regular-schedule-fields" %>
+</section>
 <% end %>

@@ -1,6 +1,8 @@
 class IndexedServicesSerializer < ActiveModel::Serializer
+  
   def attributes(*args)
-    object.attributes.symbolize_keys.except(
+
+    attributes = object.attributes.symbolize_keys.except(
       :visible, 
       :notes_count, 
       :ofsted_reference_number,                              
@@ -10,9 +12,12 @@ class IndexedServicesSerializer < ActiveModel::Serializer
       :approved,                              
       :label_list, 
       :discarded_at, 
+      :temporarily_closed,
       :marked_for_deletion
     )
   end
+
+
 
   has_many :locations do
     object.locations.where(visible: true)
@@ -48,4 +53,5 @@ class IndexedServicesSerializer < ActiveModel::Serializer
   def visible_to
     DateTime.strptime(object.visible_to, '%Y-%m-%d').to_time.utc if object.visible_to
   end
+
 end

@@ -80,6 +80,7 @@ class ServicesController < ApplicationController
             :referral_url,
             :min_age,
             :max_age,
+            :temporarily_closed,
 
             :age_band_under_2,
             :age_band_2,
