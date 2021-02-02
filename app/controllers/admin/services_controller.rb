@@ -157,6 +157,7 @@ class Admin::ServicesController < Admin::BaseController
         :postal_code,        
         :visible,
         :mask_exact_address,
+        :preferred_for_post,
         :_destroy,
         accessibility_ids: []
       ],
