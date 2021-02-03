@@ -1,22 +1,6 @@
 class IndexedServicesSerializer < ActiveModel::Serializer
   
-  def attributes(*args)
-    object.attributes.symbolize_keys.except(
-      :visible, 
-      :notes_count, 
-      :ofsted_reference_number,                              
-      :old_ofsted_external_id, 
-      :ofsted_item_id, 
-      :organisation_id, 
-      :approved,                              
-      :label_list, 
-      :discarded_at, 
-      :temporarily_closed,
-      :marked_for_deletion
-    )
-  end
-
-
+  attributes :id, :updated_at, :name, :description, :url, :visible_from, :visible_to, :min_age, :max_age, :age_band_under_2, :age_band_2, :age_band_3_4,:age_band_5_7,:age_band_8_plus,:age_band_all,:needs_referral,:free,:created_at,:status
 
   has_many :locations do
     object.locations.where(visible: true)
