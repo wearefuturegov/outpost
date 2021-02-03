@@ -30,11 +30,11 @@ class IndexedServicesSerializer < ActiveModel::Serializer
   has_one :local_offer, unless: -> { object.local_offer&.marked_for_destruction? }
 
   def visible_from
-    DateTime.strptime(object.visible_from, '%Y-%m-%d').to_time.utc if object.visible_from
+    object.visible_from.strftime('%Y-%m-%d').to_time.utc if object.visible_from
   end
 
   def visible_to
-    DateTime.strptime(object.visible_to, '%Y-%m-%d').to_time.utc if object.visible_to
+    object.visible_to.strftime('%Y-%m-%d').to_time.utc if object.visible_to
   end
 
 end
