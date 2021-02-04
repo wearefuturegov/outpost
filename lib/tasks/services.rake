@@ -275,26 +275,20 @@ namespace :services do
         end
 
         if row["ecd_pickup"].present?
-          service_meta = service.meta.new(key: "Childcare pickups", value: row["ecd_pickup"])
+          service_meta = service.meta.new(key: "Do you provide a pick-up/drop-off service?", value: row["ecd_pickup"])
           unless service_meta.save
             puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
           end
         end
 
-        if row["ecd_vacancies_immediate"].present?
-          service_meta = service.meta.new(key: "Childcare vacancies currently", value: row["ecd_vacancies_immediate"])
-          unless service_meta.save
-            puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
-          end
-        end
         if row["ecd_places_max"].present?
-          service_meta = service.meta.new(key: "Maximum number of places", value: row["ecd_places_max"])
+          service_meta = service.meta.new(key: "Maximum number of children", value: row["ecd_places_max"])
           unless service_meta.save
             puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
           end
         end
         if row["ecd_funded_places_total"].present?
-          service_meta = service.meta.new(key: "Funding totals", value: row["ecd_funded_places_total"])
+          service_meta = service.meta.new(key: "Total funded places", value: row["ecd_funded_places_total"])
           unless service_meta.save
             puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
           end
