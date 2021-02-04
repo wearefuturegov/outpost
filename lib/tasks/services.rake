@@ -209,8 +209,8 @@ namespace :services do
           categories = line.split(' > ')
           categories.delete("Family Information")
 
-          taxonomy = Taxonomy.create_with(skip_mongo_callbacks: true).find_or_create_by_path(categories)
-          service.taxonomies |= [taxonomy]
+          taxonomy = Taxonomy.create_with(skip_mongo_callbacks: true).find_or_create_by_path(categories) if categories.present?
+          service.taxonomies |= [taxonomy] if taxonomy.present?
         end
       end
 
@@ -218,8 +218,8 @@ namespace :services do
         lines = row['parentchannel'].split("\n")
         lines.each do |line|
           categories = line.split(' > ')
-          taxonomy = Taxonomy.create_with(skip_mongo_callbacks: true).find_or_create_by_path(categories)
-          service.taxonomies |= [taxonomy]
+          taxonomy = Taxonomy.create_with(skip_mongo_callbacks: true).find_or_create_by_path(categories) if categories.present?
+          service.taxonomies |= [taxonomy] if taxonomy.present?
         end
       end
 
@@ -227,8 +227,8 @@ namespace :services do
         lines = row['youthchannel'].split("\n")
         lines.each do |line|
           categories = line.split(' > ')
-          taxonomy = Taxonomy.create_with(skip_mongo_callbacks: true).find_or_create_by_path(categories)
-          service.taxonomies |= [taxonomy]
+          taxonomy = Taxonomy.create_with(skip_mongo_callbacks: true).find_or_create_by_path(categories) if categories.present?
+          service.taxonomies |= [taxonomy] if taxonomy.present?
         end
       end
 
@@ -236,8 +236,8 @@ namespace :services do
         lines = row['childrenscentrechannel'].split("\n")
         lines.each do |line|
           categories = line.split(' > ')
-          taxonomy = Taxonomy.create_with(skip_mongo_callbacks: true).find_or_create_by_path(categories)
-          service.taxonomies |= [taxonomy]
+          taxonomy = Taxonomy.create_with(skip_mongo_callbacks: true).find_or_create_by_path(categories) if categories.present?
+          service.taxonomies |= [taxonomy] if taxonomy.present?
         end
       end
 
