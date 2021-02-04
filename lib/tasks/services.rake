@@ -359,4 +359,15 @@ namespace :services do
 
     end
   end
+
+  task :set_send_report_links => [ :environment ] do
+    csv_file = File.open('lib/seeds/sen_report_links.csv', "r:utf-8")
+    sen_report_links_csv = CSV.parse(csv_file, headers: true)
+
+    sen_report_links_csv.each.with_index do |row, line|
+      service = Service.where(old_open_objects_external_id: row["externalid"]).first
+      service.local_offer.link = row["Link to SEN report for import"] if row["Link to SEN report for import"].include?("http")
+      puts service.local_offer
+    end
+  end
 end
