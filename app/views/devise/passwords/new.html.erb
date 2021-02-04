@@ -1,7 +1,7 @@
 <% content_for :header do %>
 <%= link_to "Go back", root_path, class: "go-back" %>
 <h1 class="page-header__title">Reset password</h1>
-<p class="page-header__lede one-half">To reset your password, we need to send you an email. If you have other problems logging in, <%= link_to "contact us", "mailto:#{ENV["mailer_from"]}" %>.</p>
+<p class="page-header__lede one-half">To reset your password, we need to send you an email. If you have other problems logging in, <%= link_to "contact us", "mailto:#{ENV["MAILER_FROM"]}" %>.</p>
 <% end %>
 
 <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
