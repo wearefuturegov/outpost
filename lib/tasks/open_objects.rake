@@ -17,8 +17,9 @@ namespace :open_objects do
     Rake::Task['ofsted:set_open_objects_external_ids'].invoke
 
     Rake::Task['services:create_from_csv'].invoke
-
-    end_time = Time.now
+    Rake::Task['services:set_send_report_links'].invoke
+    
+    Rake::Task['report_postcodes:import'].invoke
 
     Rake::Task['taxonomy:map_to_new_taxonomy'].invoke
     Rake::Task['taxonomy:delete_old_taxonomies'].invoke
@@ -26,6 +27,8 @@ namespace :open_objects do
 
     all_needs_met_taxonomy = SendNeed.where(name: "All needs met").first
     all_needs_met_taxonomy.destroy! if all_needs_met_taxonomy.present?
+
+    end_time = Time.now
 
     puts "Took #{(end_time - start_time)/60} minutes"
 
