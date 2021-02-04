@@ -44,7 +44,7 @@ class Admin::UsersController < Admin::BaseController
       @user.password = SecureRandom.urlsafe_base64
       if @user.save
         UserMailer.with(user: @user).invite_from_admin_email.deliver_later
-        redirect_to admin_users_path
+        redirect_to admin_users_path, notice: "User has been invited."
       else
         render "new"
       end
