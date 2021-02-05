@@ -75,6 +75,7 @@ namespace :services do
       service.url = row['website']
       service.needs_referral = true if row['referral_required'] == 'Yes'
       service.old_open_objects_external_id = row['externalid']
+      service.temporarily_closed = true if row['coronavirus_status'] = "Closed"
 
       service.links.build(label: 'Facebook', url: row['facebook']) if row['facebook'].present?
       service.links.build(label: 'Twitter', url: row['twitter']) if row['twitter'].present?
