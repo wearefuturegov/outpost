@@ -113,7 +113,7 @@ namespace :services do
           # remove unwanted values
           options = options - ["Accessible Website", "Cooking"]
           options.each do |option|
-            location.accessibilities << Accessibility.find_or_initialize_by({name: option.downcase.capitalize})
+            location.accessibilities |= Accessibility.find_or_initialize_by({name: option.downcase.capitalize})
           end
         end
 
@@ -195,11 +195,11 @@ namespace :services do
         send_needs = row['lo_needs_level'].split("\n")
 
         send_needs.each do |send_need|
-          service.send_needs << SendNeed.find_or_initialize_by({name: send_need.downcase.capitalize})
+          service.send_needs |= SendNeed.find_or_initialize_by({name: send_need.downcase.capitalize})
         end
 
         if send_needs.include? "All Needs Met"
-          service.send_needs << SendNeed.all
+          service.send_needs |= SendNeed.all
         end
 
       end
@@ -328,6 +328,7 @@ namespace :services do
         puts "Service #{service.name} failed to save: #{service.errors.messages}"
       end
 
+      # CONTACTS
       if (row['contact_name'].present? || row['contact_telephone'].present? || row['contact_email'].present?) # contact just needs one of these ethings to save
         contact = Contact.new
         contact.service_id = service.id
@@ -357,6 +358,8 @@ namespace :services do
           end
         end
       end
+
+      
 
     end
   end
