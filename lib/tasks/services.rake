@@ -113,7 +113,7 @@ namespace :services do
           # remove unwanted values
           options = options - ["Accessible Website", "Cooking"]
           options.each do |option|
-            location.accessibilities |= Accessibility.find_or_initialize_by({name: option.downcase.capitalize})
+            location.accessibilities << Accessibility.find_or_initialize_by({name: option.downcase.capitalize})
           end
         end
 
@@ -195,7 +195,7 @@ namespace :services do
         send_needs = row['lo_needs_level'].split("\n")
 
         send_needs.each do |send_need|
-          service.send_needs |= SendNeed.find_or_initialize_by({name: send_need.downcase.capitalize})
+          service.send_needs << SendNeed.find_or_initialize_by({name: send_need.downcase.capitalize})
         end
 
         if send_needs.include? "All Needs Met"
@@ -370,8 +370,10 @@ namespace :services do
 
     sen_report_links_csv.each.with_index do |row, line|
       service = Service.where(old_open_objects_external_id: row["externalid"]).first
-      service.local_offer.link = row["Link to SEN report for import"] if row["Link to SEN report for import"].include?("http")
-      puts service.local_offer
+      if service && row["Link to SEN report for import"].include?("http")
+        service.local_offer.link = row["Link to SEN report for import"] if row["Link to SEN report for import"].include?("http")
+        service.save
+      end
     end
   end
 end
