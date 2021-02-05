@@ -1,4 +1,6 @@
 class ServiceMailer < ApplicationMailer
+    add_template_helper(FeedbacksHelper)
+
     def notify_watchers_email
         @service = params[:service]
         @service.watches.each do |w|
@@ -21,6 +23,7 @@ class ServiceMailer < ApplicationMailer
 
     def notify_owner_of_feedback_email
         @service = params[:service]
+        @feedback = params[:feedback]
         @service.organisation.users.each do |u|
             mail(
                 to: u.email, 
