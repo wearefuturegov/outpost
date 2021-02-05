@@ -2,6 +2,14 @@ A member of the public has submitted new feedback for your service: <%= @service
 
 Feedback is visible only to you and council administrators.
 
-Review the feedback:
+-----
+
+<%= pretty_topic(@feedback.topic) %>:
+
+"<%= @feedback.body %>"
+
+-----
+
+To make edits to your service:
 
 <%= service_url(@service) %>

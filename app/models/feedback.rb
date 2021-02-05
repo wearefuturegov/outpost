@@ -9,6 +9,6 @@ class Feedback < ApplicationRecord
   paginates_per 20
 
   def notify_owners
-    ServiceMailer.with(service: self.service).notify_owner_of_feedback_email.deliver_later
+    ServiceMailer.with(feedback: self, service: self.service).notify_owner_of_feedback_email.deliver_later
   end
 end
