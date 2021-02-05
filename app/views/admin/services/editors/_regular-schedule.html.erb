@@ -1,5 +1,3 @@
-<%= IndexedServicesSerializer.new(s.object).as_json %>
-
 <div class="field <%= mark_unapproved_field("temporarily_closed") %>">
     <div class="checkbox">
         <%= s.check_box :temporarily_closed, {class: "checkbox__input"} %>
