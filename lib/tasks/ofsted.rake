@@ -15,7 +15,7 @@ namespace :ofsted do
     end
   end
 
-  task :set_open_objects_external_ids do
+  task :set_open_objects_external_ids => :environment do
     ofsted_file = File.open('lib/seeds/ofsted.csv', "r:ISO-8859-1")
     open_objects_ofsted_csv = CSV.parse(ofsted_file, headers: true)
 

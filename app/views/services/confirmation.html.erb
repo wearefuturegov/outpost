@@ -20,7 +20,7 @@
 
     <h2>If you have questions</h2>
 
-    <p>You can <%= link_to "contact us", "mailto:#{ENV["mailer_from"]}" %> to ask about the process.</p>
+    <p>You can <%= link_to "contact us", "mailto:#{ENV["MAILER_FROM"]}" %> to ask about the process.</p>
 
     <div class="form-actions">
         <%= link_to "Return to dashboard", organisations_path, class: "button button--secondary"%>

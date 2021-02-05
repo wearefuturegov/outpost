@@ -8,6 +8,7 @@ namespace :custom_fields do
         name: custom_field_section_yaml["name"],
         hint: custom_field_section_yaml["hint"],
         public: custom_field_section_yaml["public"],
+        api_public: custom_field_section_yaml["api_public"],
         sort_order: custom_field_section_yaml["sort_order"]
       )
       unless custom_field_section.save

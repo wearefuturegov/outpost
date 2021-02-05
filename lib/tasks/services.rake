@@ -209,8 +209,8 @@ namespace :services do
           categories = line.split(' > ')
           categories.delete("Family Information")
 
-          taxonomy = Taxonomy.create_with(skip_mongo_callbacks: true).find_or_create_by_path(categories)
-          service.taxonomies |= [taxonomy]
+          taxonomy = Taxonomy.create_with(skip_mongo_callbacks: true).find_or_create_by_path(categories) if categories.present?
+          service.taxonomies |= [taxonomy] if taxonomy.present?
         end
       end
 
@@ -218,8 +218,8 @@ namespace :services do
         lines = row['parentchannel'].split("\n")
         lines.each do |line|
           categories = line.split(' > ')
-          taxonomy = Taxonomy.create_with(skip_mongo_callbacks: true).find_or_create_by_path(categories)
-          service.taxonomies |= [taxonomy]
+          taxonomy = Taxonomy.create_with(skip_mongo_callbacks: true).find_or_create_by_path(categories) if categories.present?
+          service.taxonomies |= [taxonomy] if taxonomy.present?
         end
       end
 
@@ -227,8 +227,8 @@ namespace :services do
         lines = row['youthchannel'].split("\n")
         lines.each do |line|
           categories = line.split(' > ')
-          taxonomy = Taxonomy.create_with(skip_mongo_callbacks: true).find_or_create_by_path(categories)
-          service.taxonomies |= [taxonomy]
+          taxonomy = Taxonomy.create_with(skip_mongo_callbacks: true).find_or_create_by_path(categories) if categories.present?
+          service.taxonomies |= [taxonomy] if taxonomy.present?
         end
       end
 
@@ -236,8 +236,8 @@ namespace :services do
         lines = row['childrenscentrechannel'].split("\n")
         lines.each do |line|
           categories = line.split(' > ')
-          taxonomy = Taxonomy.create_with(skip_mongo_callbacks: true).find_or_create_by_path(categories)
-          service.taxonomies |= [taxonomy]
+          taxonomy = Taxonomy.create_with(skip_mongo_callbacks: true).find_or_create_by_path(categories) if categories.present?
+          service.taxonomies |= [taxonomy] if taxonomy.present?
         end
       end
 
@@ -275,26 +275,20 @@ namespace :services do
         end
 
         if row["ecd_pickup"].present?
-          service_meta = service.meta.new(key: "Childcare pickups", value: row["ecd_pickup"])
+          service_meta = service.meta.new(key: "Do you provide a pick-up/drop-off service?", value: row["ecd_pickup"])
           unless service_meta.save
             puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
           end
         end
 
-        if row["ecd_vacancies_immediate"].present?
-          service_meta = service.meta.new(key: "Childcare vacancies currently", value: row["ecd_vacancies_immediate"])
-          unless service_meta.save
-            puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
-          end
-        end
         if row["ecd_places_max"].present?
-          service_meta = service.meta.new(key: "Maximum number of places", value: row["ecd_places_max"])
+          service_meta = service.meta.new(key: "Maximum number of children", value: row["ecd_places_max"])
           unless service_meta.save
             puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
           end
         end
         if row["ecd_funded_places_total"].present?
-          service_meta = service.meta.new(key: "Funding totals", value: row["ecd_funded_places_total"])
+          service_meta = service.meta.new(key: "Total funded places", value: row["ecd_funded_places_total"])
           unless service_meta.save
             puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
           end
@@ -363,6 +357,17 @@ namespace :services do
         end
       end
 
+    end
+  end
+
+  task :set_send_report_links => [ :environment ] do
+    csv_file = File.open('lib/seeds/sen_report_links.csv', "r:utf-8")
+    sen_report_links_csv = CSV.parse(csv_file, headers: true)
+
+    sen_report_links_csv.each.with_index do |row, line|
+      service = Service.where(old_open_objects_external_id: row["externalid"]).first
+      service.local_offer.link = row["Link to SEN report for import"] if row["Link to SEN report for import"].include?("http")
+      puts service.local_offer
     end
   end
 end
