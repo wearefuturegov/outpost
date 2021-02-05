@@ -12,7 +12,7 @@ A member of the public has submitted new feedback for your service
 
 <p>Feedback is visible only to you and council administrators.</p>
 
-<p><strong><%= @feedback.topic %></strong></p>
+<p><strong><%= pretty_topic(@feedback.topic) %></strong></p>
 
 <p><em>"<%= @feedback.body %>"</em></p>
 
