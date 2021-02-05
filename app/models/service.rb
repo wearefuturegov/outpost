@@ -183,6 +183,8 @@ class Service < ApplicationRecord
       "scheduled"      
     elsif (visible_to.present? && (visible_to < Date.today))
       "expired"
+    elsif temporarily_closed
+      "temporarily closed"
     else
       "active"
     end
