@@ -28,6 +28,8 @@ namespace :open_objects do
     all_needs_met_taxonomy = SendNeed.where(name: "All needs met").first
     all_needs_met_taxonomy.destroy! if all_needs_met_taxonomy.present?
 
+    Rake::Task['taxonomy:reset_counters'].invoke
+
     end_time = Time.now
 
     puts "Took #{(end_time - start_time)/60} minutes"

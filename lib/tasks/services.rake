@@ -370,9 +370,17 @@ namespace :services do
 
     sen_report_links_csv.each.with_index do |row, line|
       service = Service.where(old_open_objects_external_id: row["externalid"]).first
-      if service && row["Link to SEN report for import"].include?("http")
-        service.local_offer.link = row["Link to SEN report for import"] if row["Link to SEN report for import"].include?("http")
-        service.save
+      local_offer = service&.local_offer
+      if local_offer.present? && row["Link to SEN report for import"].include?("http")
+        local_offer.skip_description_validation = true
+        local_offer.link = row["Link to SEN report for import"]
+        if local_offer.save
+          puts "Updated local_offer #{local_offer.id} with link #{row["Link to SEN report for import"]}"
+        else
+          puts "Didn't update local_offer #{local_offer.id}"
+        end
+      else
+        puts "No local offer present for service #{service&.id}"
       end
     end
   end
