@@ -418,10 +418,30 @@ namespace :services do
         if rs.save
           puts "Reg schedule created for service #{service.id}"
         else
-          # puts "Reg schedule failed for service #{service.id}. 
-          # Day: #{row["Opening Times List_Day_Displayed Value"]}. 
-          # Open time: #{row["Opening Times List_Start Time"]}
-          # Close time: #{row["Opening Times List_End Time"]}"
+          puts "Reg schedule failed #{rs.inspect} for service #{service.id}"
+        end
+      end
+    end
+  end
+
+  task :import_costs => [ :environment ] do
+
+    csv_file = File.open('lib/seeds/costs.csv', "r:utf-8")
+    costs_csv = CSV.parse(csv_file, headers: true)
+
+    costs_csv.each.with_index do |row, line|
+      if row["Table of Costs_Cost"].present? && row["Table of Costs_Cost Type_Displayed Value"].present?
+
+        service = Service.where(old_open_objects_external_id: row["External ID"]).first
+        cost_option = service.cost_options.new(
+          option: row["Table of Costs_Age_Displayed Value"]&.downcase,
+          amount: row["Table of Costs_Cost"].tr("£", ""),
+          cost_type: row["Table of Costs_Cost Type_Displayed Value"].downcase.sub("before/after school", "before or after school").sub("reduced rate", "lower rate").sub("weekend hourly rate", "per hour - weekend")
+        )
+        if cost_option.save
+          puts "Created cost option #{cost_option.inspect} for service #{service.id}"
+        else
+          puts "Failed to create cost option #{cost_option.inspect} for service #{service.id}"
         end
       end
     end
