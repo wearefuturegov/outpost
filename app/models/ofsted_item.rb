@@ -19,7 +19,7 @@ class OfstedItem < ApplicationRecord
 
 
   filterrific(
-    default_filter_params: { sorted_by: "name_asc"},
+    default_filter_params: { sorted_by: "name_asc", with_status: "active"},
     available_filters: [
       :sorted_by,
       :with_status,
