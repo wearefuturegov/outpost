@@ -384,4 +384,46 @@ namespace :services do
       end
     end
   end
+
+  task :import_opening_hours => [ :environment ] do
+    include RegularScheduleHelper
+
+    csv_file = File.open('lib/seeds/opening_hours.csv', "r:utf-8")
+    opening_hours_csv = CSV.parse(csv_file, headers: true)
+
+    opening_hours_csv.each.with_index do |row, line|
+      next if row["Opening Times List_Start Time"] == "CLOSED"
+      if row["Opening Times List_Day_Displayed Value"].present? && row["Opening Times List_Start Time"].present? && row["Opening Times List_End Time"].present?
+        service = Service.where(old_open_objects_external_id: row["External ID"]).first
+
+        puts "Reg schedule failed for service #{service.id}. 
+          Day: #{row["Opening Times List_Day_Displayed Value"]}. 
+          Open time: #{row["Opening Times List_Start Time"]}
+          Close time: #{row["Opening Times List_End Time"]}"
+
+        opening_time = row["Opening Times List_Start Time"]
+        closing_time = row["Opening Times List_End Time"]
+
+        opening_time = opening_time.insert(2, ':') unless opening_time.include?(":")
+        closing_time = closing_time.insert(2, ':') unless closing_time.include?(":")
+
+        opening_time = opening_time.to_time.strftime("%H:%M")
+        closing_time = closing_time.to_time.strftime("%H:%M")
+
+        rs = service.regular_schedules.new(
+          opens_at: opening_time, 
+          closes_at: closing_time, 
+          weekday: weekdays.select{ |w| w[:label] === row["Opening Times List_Day_Displayed Value"].split(" ")[0]}.first[:value]
+        )
+        if rs.save
+          puts "Reg schedule created for service #{service.id}"
+        else
+          # puts "Reg schedule failed for service #{service.id}. 
+          # Day: #{row["Opening Times List_Day_Displayed Value"]}. 
+          # Open time: #{row["Opening Times List_Start Time"]}
+          # Close time: #{row["Opening Times List_End Time"]}"
+        end
+      end
+    end
+  end
 end

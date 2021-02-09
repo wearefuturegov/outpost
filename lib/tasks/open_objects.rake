@@ -18,6 +18,7 @@ namespace :open_objects do
 
     Rake::Task['services:create_from_csv'].invoke
     Rake::Task['services:set_send_report_links'].invoke
+    Rake::Task['servicesimport_opening_hours'].invoke
     
     Rake::Task['report_postcodes:import'].invoke
 
