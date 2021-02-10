@@ -100,6 +100,8 @@ class Service < ApplicationRecord
       where("visible_to < (?)", Date.today)
     when "invisible"
       where("visible != true")
+    when "closed"
+      where("temporarily_closed = true")
     else
       raise(ArgumentError, "Invalid status: #{status}")
     end
@@ -121,7 +123,8 @@ class Service < ApplicationRecord
       ["All statuses", ""],
       ["Only scheduled", "scheduled"],
       ["Only expired", "expired"],
-      ["Only invisible", "invisible"]
+      ["Only invisible", "invisible"],
+      ["Only temporarily closed", "closed"]
     ]
   end
 
