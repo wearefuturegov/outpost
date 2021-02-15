@@ -1,39 +1,38 @@
-
 <%= form_for_filterrific @filterrific do |f| %>
 
-  <details class="filters" <%= "open" if params[:filterrific] %>>
+<details class="filters" <%= "open" if params[:filterrific] %>>
     <summary class="filters__control" aria-expanded="false">Filters</summary>
     <div class="filters__body">
-  
-      <%= f.label :sorted_by, "Sort", class: "visually-hidden" %>
-      <%= f.select :sorted_by, @filterrific.select_options[:sorted_by], {}, { class: "filters__select", data: { autosubmit: true } } %>
-      
-      <%= f.label :services, "Filter services", class: "visually-hidden" %>
-      <%= f.select :services, @filterrific.select_options[:services], {}, { class: "filters__select", data: { autosubmit: true } } %>
+
+        <%= f.label :sorted_by, "Sort", class: "visually-hidden" %>
+        <%= f.select :sorted_by, @filterrific.select_options[:sorted_by], {}, { class: "filters__select", data: { autosubmit: true }, disabled: params.dig(:filterrific, :search).present? } %>
+
+        <%= f.label :services, "Filter services", class: "visually-hidden" %>
+        <%= f.select :services, @filterrific.select_options[:services], {}, { class: "filters__select", data: { autosubmit: true } } %>
 
     </div>
-  </details>
+</details>
 
-  <header class="actions">
+<header class="actions">
 
     <div class="mini-search">
         <div class="mini-search__form">
             <%= f.label :search, "Search query", class: "visually-hidden" %>
             <%= f.text_field :search, class: "mini-search__input" %>
             <% if params[:filterrific].present? %>
-                <%= link_to image_tag("clear.svg", alt: "Clear search"), reset_filterrific_url, class: "mini-search__submit" %>
+            <%= link_to image_tag("clear.svg", alt: "Clear search"), reset_filterrific_url, class: "mini-search__submit" %>
             <% else %>
-                <button class="mini-search__submit">
-                    <%= image_tag "search.svg", alt: "Submit search" %>
-                </button>
+            <button class="mini-search__submit">
+                <%= image_tag "search.svg", alt: "Submit search" %>
+            </button>
             <% end %>
         </div>
 
         <% if params[:filterrific].present? %>
-          <p class="mini-search__count"><%= @locations.total_count %> matches</p>
+        <p class="mini-search__count"><%= @locations.total_count %> matches</p>
         <% end %>
     </div>
-    
-  </header>
+
+</header>
 
 <% end %>
