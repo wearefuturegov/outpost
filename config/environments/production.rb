@@ -3,10 +3,9 @@ Rails.application.configure do
 
   config.action_mailer.default_url_options = { host: ENV["MAILER_HOST"] }
 
-  config.action_mailer.delivery_method = :sendgrid_actionmailer
-  config.action_mailer.sendgrid_actionmailer_settings = {
-    api_key: ENV['SENDGRID_API_KEY'],
-    raise_delivery_errors: true
+  config.action_mailer.delivery_method = :notify
+  config.action_mailer.notify_settings = {
+    api_key: ENV["NOTIFY_API_KEY"]
   }
 
   # require https in prod
