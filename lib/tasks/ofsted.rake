@@ -108,39 +108,32 @@ def ofsted_item_params item
     special_consideration: item.dig("SpecialConsiderations"),
     registration_date: item.dig("RegistrationDate"),
     last_change_date:item.dig("LastChangeDate"),
-    # link_to_ofsted_report:
     setting_address_1: item.dig("Setting", "SettingAddress", "AddressLine1"),
     setting_address_2: item.dig("Setting", "SettingAddress", "AddressLine2"),
-    # setting_villagetown:
     setting_town: item.dig("Setting", "SettingAddress", "Town"),
     setting_county: item.dig("Setting", "SettingAddress", "County"),
     setting_postcode: item.dig("Setting", "SettingAddress", "Postcode"),
     setting_telephone: item.dig("Setting", "SettingContact", "TelephoneNumber"),
-    # setting_fax:
+    setting_fax: item.dig("Setting", "SettingContact", "FaxNumber"),
     setting_email: item.dig("Setting", "SettingContact", "EmailAddress"),
-    # location_ward:
-    # location_planning:
     prov_address_1: item.dig("Provider", "ProviderAddress", "AddressLine1"),
     prov_address_2: item.dig("Provider", "ProviderAddress", "AddressLine2"),
-    # prov_villagetown:
     prov_town: item.dig("Provider", "ProviderAddress", "Town"),
     prov_county: item.dig("Provider", "ProviderAddress", "County"),
     prov_postcode: item.dig("Provider", "ProviderAddress", "Postcode"),
     prov_telephone: item.dig("Provider", "ProviderContact", "TelephoneNumber"),
     prov_mobile: item.dig("Provider", "ProviderContact", "MobileNumber"),
     prov_work_telephone: item.dig("Provider", "ProviderContact", "WorkTelephoneNumber"),
-    # prov_fax:
+    prov_fax: item.dig("Provider", "ProviderContact", "FaxNumber"),
     prov_email: item.dig("Provider", "ProviderContact", "EmailAddress"),
-    # prov_consent_withheld:
     rp_reference_number: item.dig("RPReferenceNumber"),
-    # related_rpps:
     registration_status_history:  Array.wrap(item.dig("RegistrationStatusHistoryList", "RegistrationStatusHistory")),
     child_services_register: Array.wrap(item.dig("ChildServicesRegisterList", "ChildServicesRegister")),
     childcare_period: Array.wrap(item.dig("ChildcarePeriodList", "ChildcarePeriod")),
     childcare_age: Array.wrap(item.dig("ChildcareAgeList", "ChildcareAge")),
     inspection: Array.wrap(item.dig("InspectionList", "Inspection")),
-    # notice_history:
-    # welfare_notice_history:
+    notice_history: Array.wrap(item.dig("NoticeHistoryList", "NoticeHistory")),
+    welfare_notice_history: Array.wrap(item.dig("WelfareNoticeHistoryList", "WelfareNoticeHistory")),
     lastupdated: item.dig("LastChangeDate")
   }
 end
