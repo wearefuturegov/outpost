@@ -134,11 +134,11 @@ def ofsted_item_params item
     # prov_consent_withheld:
     rp_reference_number: item.dig("RPReferenceNumber"),
     # related_rpps:
-    # registration_status_history:
-    # child_services_register:
-    # childcare_period:
-    # childcare_age:
-    # inspection:
+    registration_status_history:  Array.wrap(item.dig("RegistrationStatusHistoryList", "RegistrationStatusHistory")),
+    child_services_register: Array.wrap(item.dig("ChildServicesRegisterList", "ChildServicesRegister")),
+    childcare_period: Array.wrap(item.dig("ChildcarePeriodList", "ChildcarePeriod")),
+    childcare_age: Array.wrap(item.dig("ChildcareAgeList", "ChildcareAge")),
+    inspection: Array.wrap(item.dig("InspectionList", "Inspection")),
     # notice_history:
     # welfare_notice_history:
     lastupdated: item.dig("LastChangeDate")
