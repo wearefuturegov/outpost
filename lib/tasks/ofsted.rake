@@ -99,40 +99,40 @@ end
 
 def ofsted_item_params item
   {
-    provider_name: item["Provider"]["ProviderName"],
-    setting_name: item["Setting"]["SettingName"],
-    reference_number: item["ReferenceNumber"],
-    provision_type: item["ProvisionType"],
-    secondary_provision_type: item["SecondaryProvisionType"],
-    registration_status: item["RegistrationStatus"],
-    special_consideration: item["SpecialConsiderations"],
-    registration_date: item["RegistrationDate"],
-    last_change_date:item["LastChangeDate"],
+    provider_name: item.dig("Provider", "ProviderName"),
+    setting_name: item.dig("Setting", "SettingName"),
+    reference_number: item.dig("ReferenceNumber"),
+    provision_type: item.dig("ProvisionType"),
+    secondary_provision_type: item.dig("SecondaryProvisionType"),
+    registration_status: item.dig("RegistrationStatus"),
+    special_consideration: item.dig("SpecialConsiderations"),
+    registration_date: item.dig("RegistrationDate"),
+    last_change_date:item.dig("LastChangeDate"),
     # link_to_ofsted_report:
-    setting_address_1: item["Setting"]["SettingAddress"]["AddressLine1"],
-    setting_address_2: item["Setting"]["SettingAddress"]["AddressLine2"],
+    setting_address_1: item.dig("Setting", "SettingAddress", "AddressLine1"),
+    setting_address_2: item.dig("Setting", "SettingAddress", "AddressLine2"),
     # setting_villagetown:
-    setting_town: item["Setting"]["SettingAddress"]["Town"],
-    setting_county: item["Setting"]["SettingAddress"]["County"],
-    setting_postcode: item["Setting"]["SettingAddress"]["Postcode"],
-    setting_telephone: item["Setting"]["SettingContact"]["TelephoneNumber"],
+    setting_town: item.dig("Setting", "SettingAddress", "Town"),
+    setting_county: item.dig("Setting", "SettingAddress", "County"),
+    setting_postcode: item.dig("Setting", "SettingAddress", "Postcode"),
+    setting_telephone: item.dig("Setting", "SettingContact", "TelephoneNumber"),
     # setting_fax:
-    setting_email: item["Setting"]["SettingContact"]["EmailAddress"],
+    setting_email: item.dig("Setting", "SettingContact", "EmailAddress"),
     # location_ward:
     # location_planning:
-    prov_address_1: item["Provider"]["ProviderAddress"]["AddressLine1"],
-    prov_address_2: item["Provider"]["ProviderAddress"]["AddressLine2"],
+    prov_address_1: item.dig("Provider", "ProviderAddress", "AddressLine1"),
+    prov_address_2: item.dig("Provider", "ProviderAddress", "AddressLine2"),
     # prov_villagetown:
-    prov_town: item["Provider"]["ProviderAddress"]["Town"],
-    prov_county: item["Provider"]["ProviderAddress"]["County"],
-    prov_postcode: item["Provider"]["ProviderAddress"]["Postcode"],
-    prov_telephone: item["Provider"]["ProviderAddress"]["TelephoneNumber"],
-    prov_mobile: item["Provider"]["ProviderAddress"]["MobileNumber"],
-    prov_work_telephone: item["Provider"]["ProviderAddress"]["WorkTelephoneNumber"],
+    prov_town: item.dig("Provider", "ProviderAddress", "Town"),
+    prov_county: item.dig("Provider", "ProviderAddress", "County"),
+    prov_postcode: item.dig("Provider", "ProviderAddress", "Postcode"),
+    prov_telephone: item.dig("Provider", "ProviderAddress", "TelephoneNumber"),
+    prov_mobile: item.dig("Provider", "ProviderAddress", "MobileNumber"),
+    prov_work_telephone: item.dig("Provider", "ProviderAddress", "WorkTelephoneNumber"),
     # prov_fax:
-    prov_email: item["Provider"]["ProviderAddress"]["EmailAddress"],
+    prov_email: item.dig("Provider", "ProviderAddress", "EmailAddress"),
     # prov_consent_withheld:
-    rp_reference_number: item["RPReferenceNumber"],
+    rp_reference_number: item.dig("RPReferenceNumber"),
     # related_rpps:
     # registration_status_history:
     # child_services_register:
@@ -141,6 +141,6 @@ def ofsted_item_params item
     # inspection:
     # notice_history:
     # welfare_notice_history:
-    lastupdated: item["LastChangeDate"]
+    lastupdated: item.dig("LastChangeDate")
   }
 end
