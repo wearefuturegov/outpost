@@ -126,11 +126,11 @@ def ofsted_item_params item
     prov_town: item.dig("Provider", "ProviderAddress", "Town"),
     prov_county: item.dig("Provider", "ProviderAddress", "County"),
     prov_postcode: item.dig("Provider", "ProviderAddress", "Postcode"),
-    prov_telephone: item.dig("Provider", "ProviderAddress", "TelephoneNumber"),
-    prov_mobile: item.dig("Provider", "ProviderAddress", "MobileNumber"),
-    prov_work_telephone: item.dig("Provider", "ProviderAddress", "WorkTelephoneNumber"),
+    prov_telephone: item.dig("Provider", "ProviderContact", "TelephoneNumber"),
+    prov_mobile: item.dig("Provider", "ProviderContact", "MobileNumber"),
+    prov_work_telephone: item.dig("Provider", "ProviderContact", "WorkTelephoneNumber"),
     # prov_fax:
-    prov_email: item.dig("Provider", "ProviderAddress", "EmailAddress"),
+    prov_email: item.dig("Provider", "ProviderContact", "EmailAddress"),
     # prov_consent_withheld:
     rp_reference_number: item.dig("RPReferenceNumber"),
     # related_rpps:
