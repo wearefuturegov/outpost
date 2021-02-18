@@ -94,6 +94,25 @@ class OfstedItem < ApplicationRecord
     end
   end
 
+  def display_registration_status
+    case registration_status
+    when "ACTV"
+      "Active"
+    when "CANC"
+      "Cancelled"
+    when "PROP"
+      "Proposed"
+    when "INAC"
+      "Inactive"
+    when "RESG"
+      "Resigned"
+    when "SUSP"
+      "Suspended"
+    else
+      registration_status
+    end
+  end
+
   def unapproved_fields
     changed_fields = []
     versions.last.changeset.map do |key, value|
