@@ -53,11 +53,11 @@ class OfstedItem < ApplicationRecord
   def self.options_for_with_provision
     [
       ["All provision types", ""],
-      ["Home Childcarer"],
-      ["Childcare on Non Domestic Premises"],
-      ["Childminder"],
-      ["Childcare on Domestic Premises"],
-      ["Registered Person Provision"]
+      ["Home childcarer", "HCR"],
+      ["Childcare on non-domestic premises", "CCN"],
+      ["Childminder", "CMR"],
+      ["Childcare on domestic premises", "CCD"],
+      ["Registered Person Provision", "RPP"]
     ]
   end
 
