@@ -19,7 +19,7 @@ class OfstedItem < ApplicationRecord
 
 
   filterrific(
-    default_filter_params: { sorted_by: "name_asc", with_status: "active"},
+    default_filter_params: { sorted_by: "name_asc", with_status: "ACTV"},
     available_filters: [
       :sorted_by,
       :with_status,
@@ -74,13 +74,13 @@ class OfstedItem < ApplicationRecord
   def self.options_for_with_status
     [
       ["All statuses", ""],
-      ["Active", "active"],
-      ["Cancelled", "cancelled"],
-      ["Proposed", "proposed"],
-      ["Inactive", "inactive"],
-      ["Resigned", "resigned"],
-      ["Refused", "refused"],
-      ["Suspended", "suspended"]
+      ["Active", "ACTV"],
+      ["Cancelled", "CANC"],
+      ["Proposed", "PROP"],
+      ["Inactive", "INAC"],
+      ["Resigned", "RESG"],
+      ["Refused", "REFU"],
+      ["Suspended", "SUSP"]
     ]
   end
 

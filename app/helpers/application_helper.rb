@@ -49,7 +49,7 @@ module ApplicationHelper
     end
 
     def status_tag(status)
-        if status.downcase === "active"
+        if status.downcase === "active" || status.downcase === "actv"
             "<span class='tag'>Active</span".html_safe
         elsif status === "pending" || status === "proposed"
             "<span class='tag tag--yellow'>Pending</span".html_safe
