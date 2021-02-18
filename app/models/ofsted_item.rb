@@ -95,7 +95,11 @@ class OfstedItem < ApplicationRecord
   end
 
   def display_registration_status
-    case registration_status
+    human_readable_registration_status(registration_status)
+  end
+
+  def human_readable_registration_status(abbreviated_status)
+    case abbreviated_status
     when "ACTV"
       "Active"
     when "CANC"
@@ -109,7 +113,7 @@ class OfstedItem < ApplicationRecord
     when "SUSP"
       "Suspended"
     else
-      registration_status
+      abbreviated_status
     end
   end
 
