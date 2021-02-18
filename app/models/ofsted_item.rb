@@ -117,6 +117,19 @@ class OfstedItem < ApplicationRecord
     end
   end
 
+  def human_readable_register(abbreviated_register)
+    case abbreviated_register
+    when "EYR"
+      "Early Years Register"
+    when "CCR"
+      "Compulsory Childcare Register "
+    when "VCR"
+      "Voluntary Childcare register"
+    else
+      abbreviated_register
+    end
+  end
+
   def display_provision_type
     case provision_type
     when "CMR"
