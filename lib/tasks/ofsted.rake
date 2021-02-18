@@ -46,7 +46,7 @@ namespace :ofsted do
     items = JSON.parse(response.body)["OfstedChildcareRegisterLocalAuthorityExtract"]["Registration"]
 
     items.each do |item| # Iterate through iterms returend from Ofsted feed API
-      ofsted_item = OfstedItem.where(reference_number: item["reference_number"]).first # Check if ofsted item already exists
+      ofsted_item = OfstedItem.where(reference_number: item["ReferenceNumber"]).first # Check if ofsted item already exists
 
       if ofsted_item
         ofsted_item.assign_attributes(ofsted_item_params(item)) # Prepare for update
@@ -75,7 +75,7 @@ namespace :ofsted do
     end
 
     OfstedItem.all.each do |ofsted_item| # check for deleted
-      next if items.select { |item| item["reference_number"] == ofsted_item.reference_number }.present? # Dont archive if still in feed
+      next if items.select { |item| item["ReferenceNumber"] == ofsted_item.reference_number }.present? # Dont archive if still in feed
       next if (ofsted_item.discarded_at != nil) && (ofsted_item.status == 'deleted') # Don't archive if already archived.
       ofsted_item.status = "deleted"
       ofsted_item.discarded_at = Time.now
