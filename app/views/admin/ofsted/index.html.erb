@@ -25,7 +25,7 @@
                     <td><span class="table__small"><%= i.reference_number %></span></td>
                     <td><strong><%= link_to i.display_name, admin_ofsted_path(i) %></strong></td>
                     <td><%= i.provider_name %></td>
-                    <td><%= i.provision_type %></td>
+                    <td><%= i.display_provision_type %></td>
                     <td><%= status_tag(i.display_registration_status) %></td>
                     <td><%= short_time_ago_in_words(i.updated_at).humanize %> ago</td>
                     <td>

@@ -113,6 +113,23 @@ class OfstedItem < ApplicationRecord
     end
   end
 
+  def display_provision_type
+    case provision_type
+    when "CMR"
+      "Childminder"
+    when "CCD"
+      "Childcare on domestic premises"
+    when "CCN"
+      "Childcare on non-domestic premises"
+    when "HCR"
+      "Home childcarer"
+    when "RPP"
+      "Registered person provision"
+    else
+      provision_type
+    end
+  end
+
   def unapproved_fields
     changed_fields = []
     versions.last.changeset.map do |key, value|
