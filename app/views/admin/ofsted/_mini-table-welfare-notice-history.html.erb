@@ -8,9 +8,9 @@
         <tbody>
             <% t.each do |r| %>
             <tr>
-              <td><%= r["category"] %></td>
-              <td><%= format_if_date(r["start_date"]) %></td>
-              <td><%= format_if_date(r["end_date"]) %></td>
+              <td><%= r["WelfareCategory"] %></td>
+              <td><%= format_if_date(r["WelfareStartDate"]) %></td>
+              <td><%= format_if_date(r["WelfareEndDate"]) %></td>
             </tr>
             <% end %>
         </tbody>
