@@ -28,7 +28,7 @@
 
         <div class="field-group field-group--two-cols">
           <%= render "admin/ofsted/field", label: "Provision type", value: @item.display_provision_type %>
-          <%= render "admin/ofsted/field", label: "Secondary provision type", value: @item.secondary_provision_type %>
+          <%= render "admin/ofsted/field", label: "Secondary provision type", value: @item.human_readable_provision_type(@item.secondary_provision_type) %>
         </div>
 
         <div class="field-group field-group--two-cols">

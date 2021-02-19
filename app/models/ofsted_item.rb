@@ -131,7 +131,11 @@ class OfstedItem < ApplicationRecord
   end
 
   def display_provision_type
-    case provision_type
+    human_readable_provision_type(provision_type)
+  end
+
+  def human_readable_provision_type(abbreviated_provision)
+    case abbreviated_provision
     when "CMR"
       "Childminder"
     when "CCD"
@@ -143,7 +147,7 @@ class OfstedItem < ApplicationRecord
     when "RPP"
       "Registered person provision"
     else
-      provision_type
+      abbreviated_provision
     end
   end
 
