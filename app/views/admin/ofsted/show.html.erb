@@ -128,7 +128,7 @@
                 <% if @item.childcare_period.any? %>
                   <ul class="big-list">
                     <% @item.childcare_period.each do |r| %>
-                      <li class="big-list__item"><%= r %></li>
+                      <li class="big-list__item"><%= @item.human_readable_childcare_period(r) %></li>
                     <% end %>
                   </ul>
                 <% else %>

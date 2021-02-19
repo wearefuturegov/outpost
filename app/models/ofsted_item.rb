@@ -147,6 +147,43 @@ class OfstedItem < ApplicationRecord
     end
   end
 
+  def human_readable_childcare_period(abbreviated_period)
+    case abbreviated_period
+    when "2HPD"
+      "2 hours or more per day"
+    when "3HPD"
+      "3 hours or more per day"
+    when "4HPD"
+      "4 hours or more per day"
+    when "45WY"
+      "45 weeks or more per year"
+    when "5DWK"
+      "5 days or more per week"
+    when "ALYR"
+      "All year round"
+    when "OVNT"
+      "Overnight"
+    when "SCHO"
+      "School holiday only"
+    when "SCTO"
+      "School term only"
+    when "WDAL"
+      "Weekday all day"
+    when "WDAM"
+      "Weekday AM"
+    when "WDAS"
+      "Weekday after school"
+    when "WDBS"
+      "Weekday before school"
+    when "WDPM"
+      "Weekday PM"
+    when "WEND"
+      "Weekend"
+    else
+      abbreviated_period
+    end
+  end
+
   def unapproved_fields
     changed_fields = []
     versions.last.changeset.map do |key, value|
