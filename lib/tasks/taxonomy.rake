@@ -175,6 +175,11 @@ namespace :taxonomy do
     end
   end
 
+  task :remove_all_needs_met => [ :environment ] do
+    all_needs_met_taxonomy = SendNeed.where(name: "All needs met").first
+    all_needs_met_taxonomy.destroy! if all_needs_met_taxonomy.present?
+  end
+
   task :reset_counters => :environment  do
     Taxonomy.find_each do |taxonomy|
       Taxonomy.reset_counters(taxonomy.id, :services)
