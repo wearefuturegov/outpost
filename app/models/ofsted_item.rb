@@ -94,6 +94,19 @@ class OfstedItem < ApplicationRecord
     end
   end
 
+  def display_special_consideration
+    case special_consideration
+    when "ANON"
+      "Anonymity requested"
+    when "WREF"
+      "Womens refuge"
+    when "MOD"
+      "Ministry of Defense"
+    else
+      special_consideration
+    end
+  end
+
   def display_registration_status
     human_readable_registration_status(registration_status)
   end
