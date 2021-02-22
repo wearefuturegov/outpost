@@ -15,7 +15,7 @@ namespace :services do
     users_file = File.open('lib/seeds/users.csv', "r:utf-8")
     open_objects_users_csv = CSV.parse(users_file, headers: true)
 
-    csv_file = File.open('lib/seeds/bucksfis geo.csv', "r:utf-8")
+    csv_file = File.open('lib/seeds/bucksfis_geo.csv', "r:utf-8")
     bucks_csv = CSV.parse(csv_file, headers: true)
 
     bucks_csv.each.with_index do |row, line|

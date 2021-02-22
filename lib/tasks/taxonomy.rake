@@ -1,7 +1,7 @@
 namespace :taxonomy do
 
   task :create_categories_from_old_db => [ :environment ] do
-    csv_file = File.open('lib/seeds/bucksfis geo.csv', "r:ISO-8859-1")
+    csv_file = File.open('lib/seeds/bucksfis_geo.csv', "r:ISO-8859-1")
     bucks_csv = CSV.parse(csv_file, headers: true)
     tree = {}
 
@@ -82,7 +82,7 @@ namespace :taxonomy do
 
   # Useful if need to assign taxonomies without creating all servics again (main seed)
   task :assign_services_from_oo_csv => [ :environment ] do
-    csv_file = File.open('lib/seeds/bucksfis geo.csv', "r:utf-8")
+    csv_file = File.open('lib/seeds/bucksfis_geo.csv', "r:utf-8")
     bucks_csv = CSV.parse(csv_file, headers: true)
 
     bucks_csv.each.with_index do |row, csv_line|

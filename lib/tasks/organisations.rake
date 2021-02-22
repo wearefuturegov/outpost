@@ -4,7 +4,7 @@ namespace :organisations do
 
   task :create_from_csv => [ :environment ] do
 
-    csv_file = File.open('lib/seeds/bucksfis geo.csv', "r:utf-8")
+    csv_file = File.open('lib/seeds/bucksfis_geo.csv', "r:utf-8")
     bucks_csv = CSV.parse(csv_file, headers: true)
 
     bucks_csv.each do |row| # CREATE ORGS BASED ON TYPE
