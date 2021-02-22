@@ -180,6 +180,16 @@ namespace :taxonomy do
     all_needs_met_taxonomy.destroy! if all_needs_met_taxonomy.present?
   end
 
+  task :lock_top_level => [ :environment ] do
+    Taxonomy.roots.each do |t|
+      t.locked = true
+      t.skip_mongo_callbacks = true
+      unless t.save
+          puts "Taxonomy #{t} failed to save: #{t.errors.messages}"
+      end
+    end
+  end
+
   task :reset_counters => :environment  do
     Taxonomy.find_each do |taxonomy|
       Taxonomy.reset_counters(taxonomy.id, :services)

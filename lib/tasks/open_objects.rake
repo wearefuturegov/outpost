@@ -28,18 +28,10 @@ namespace :open_objects do
     Rake::Task['taxonomy:populate_parents'].invoke
     Rake::Task['taxonomy:remove_all_needs_met'].invoke
     Rake::Task['taxonomy:reset_counters'].invoke
+    Rake::Task['taxonomy:lock_top_level'].invoke
 
     end_time = Time.now
 
     puts "Took #{(end_time - start_time)/60} minutes"
-
-    # lock top-level taxa
-    Taxonomy.roots.each do |t|
-      t.locked = true
-      t.skip_mongo_callbacks = true
-      unless t.save
-          puts "Taxonomy #{t} failed to save: #{t.errors.messages}"
-      end
-    end
   end
 end
