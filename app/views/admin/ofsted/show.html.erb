@@ -21,18 +21,18 @@
           <%= render "admin/ofsted/field", label: "Setting name", value: @item.setting_name %>
           <%= render "admin/ofsted/field", label: "Provider name", value: @item.provider_name %>
           <%= render "admin/ofsted/field", label: "Reference number", value: @item.reference_number %>
-          <%= render "admin/ofsted/field", label: "Status", value: @item.registration_status %>
+          <%= render "admin/ofsted/field", label: "Status", value: @item.display_registration_status %>
           <%= render "admin/ofsted/field", label: "Registration date", value: format_if_date(@item.registration_date) %>
           <%= render "admin/ofsted/field", label: "Last changed by Ofsted", value: format_if_date(@item.lastupdated) %>
         </div>
 
         <div class="field-group field-group--two-cols">
-          <%= render "admin/ofsted/field", label: "Provision type", value: @item.provision_type %>
-          <%= render "admin/ofsted/field", label: "Secondary provision type", value: @item.secondary_provision_type %>
+          <%= render "admin/ofsted/field", label: "Provision type", value: @item.display_provision_type %>
+          <%= render "admin/ofsted/field", label: "Secondary provision type", value: @item.human_readable_provision_type(@item.secondary_provision_type) %>
         </div>
 
         <div class="field-group field-group--two-cols">
-          <%= render "admin/ofsted/field", label: "Special consideration", value: @item.special_consideration %>
+          <%= render "admin/ofsted/field", label: "Special consideration", value: @item.display_special_consideration %>
 
           <div class="read-only-field">
               <p class="read-only-field__label">Ofsted report</p>
@@ -128,7 +128,7 @@
                 <% if @item.childcare_period.any? %>
                   <ul class="big-list">
                     <% @item.childcare_period.each do |r| %>
-                      <li class="big-list__item"><%= r %></li>
+                      <li class="big-list__item"><%= @item.human_readable_childcare_period(r) %></li>
                     <% end %>
                   </ul>
                 <% else %>
@@ -136,10 +136,10 @@
                 <% end %>
               </div>
               <div class="tabs__panel" id="registration-history">
-                <%= render "admin/ofsted/mini-table", t: @item.registration_status_history %>
+                <%= render "admin/ofsted/mini-table-registration-status-history", t: @item.registration_status_history %>
               </div>
               <div class="tabs__panel" id="childcare-services-register">
-                <%= render "admin/ofsted/mini-table", t: @item.child_services_register %>
+                <%= render "admin/ofsted/mini-table-child-services-register", t: @item.child_services_register %>
               </div>
               <div class="tabs__panel" id="childcare-ages">
                 <%= render "admin/ofsted/mini-table-childcare-age", t: @item.childcare_age %>

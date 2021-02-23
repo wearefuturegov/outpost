@@ -1,0 +1,26 @@
+<% if t.present? %>
+    <table class="table">
+        <thead>
+            <th>Status</th>
+            <th>Register</th>
+            <th>Start date</th>
+        </thead>
+        <tbody>
+            <% t.each do |r| %>
+            <tr>
+                <td>
+                    <%= r["Status"] %>
+                </td>
+                <td>
+                    <%= @item.human_readable_register(r["Register"]) %>
+                </td>
+                <td>
+                    <%= format_if_date(r["StartDate"]) %>
+                </td>
+            </tr>
+            <% end %>
+        </tbody>
+    </table>
+<% else %>
+    <p class="no-results">Nothing to show</p>
+<% end %>
