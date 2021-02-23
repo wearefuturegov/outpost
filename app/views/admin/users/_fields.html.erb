@@ -14,6 +14,11 @@
 </div>
 
 <div class="field">
+    <%= f.label :phone, class: "field__label" %>
+    <%= f.text_field :phone, class: "field__input", disabled: !current_user.admin_users? %>
+</div>
+
+<div class="field">
     <%= f.label :organisation_id, "Parent organisation", class: "field__label" %>
 
     <% if @user.organisation.present? %>

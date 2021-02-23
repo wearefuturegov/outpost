@@ -94,6 +94,7 @@ class Admin::UsersController < Admin::BaseController
         :email,
         :first_name,
         :last_name,
+        :phone,
         :admin,
         :admin_ofsted,
         :admin_users,
