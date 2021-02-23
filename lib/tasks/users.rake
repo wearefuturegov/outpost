@@ -8,7 +8,13 @@ namespace :users do
     user_logins.each do |user_login|
       user_login["admin_users"] = true
       user_login["admin_ofsted"] = true
-      User.create!(user_login) unless (User.where(email: user_login["email"]).size > 0)
+      unless (User.where(email: user_login["email"]).size > 0)
+        user = User.new(user_login)
+        user.password = "A9b#{SecureRandom.hex(8)}1yZ"
+        unless user.save
+          puts "User #{user_login["email"]} failed to save: #{user.errors.messages}"
+        end
+      end
     end
   end
 end
