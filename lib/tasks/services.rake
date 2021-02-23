@@ -48,6 +48,7 @@ namespace :services do
         user.old_external_id = open_objects_user['externalId']
         user.first_name = open_objects_user['firstName']
         user.last_name = open_objects_user['lastName']
+        user.phone = open_objects_user['telephone']
         user.organisation_id = organisation.id
         user.password = password
         unless user.save
