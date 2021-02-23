@@ -51,6 +51,8 @@ namespace :services do
         user.phone = open_objects_user['telephone']
         user.organisation_id = organisation.id
         user.password = password
+        labels = open_objects_user['tags']&.split(";")
+        user.label_list.add(labels)
         unless user.save
           puts "User #{user.email} failed to save: #{user.errors.messages}"
         end
