@@ -32,5 +32,12 @@ module Outpost
         resource '*', headers: :any, methods: [:get]
       end
     end
+
+    config.action_mailer.default_url_options = { host: ENV["MAILER_HOST"] }
+
+    config.action_mailer.delivery_method = :notify
+    config.action_mailer.notify_settings = {
+      api_key: ENV["NOTIFY_API_KEY"]
+    }
   end
 end
