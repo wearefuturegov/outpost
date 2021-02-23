@@ -1,1 +1,16 @@
-[]
+{
+    "OfstedChildcareRegisterLocalAuthorityExtract": {
+      "@xmlns:xs": "http://www.w3.org/2001/XMLSchema-instance",
+      "@xmlns": "http://www.ofsted.gov.uk/Childcare/Registration/LocalAuthority",
+      "Extract": {
+        "ExtractDateTime": "2021-02-22T14:22:32",
+        "LocalAuthority": {
+          "LocalAuthorityCode": "825",
+          "LocalAuthorityName": "Buckinghamshire"
+        }
+      },
+      "Registration": [
+
+      ]
+    }
+}
