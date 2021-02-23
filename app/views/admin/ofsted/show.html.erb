@@ -35,17 +35,6 @@
           <%= render "admin/ofsted/field", label: "Special consideration", value: @item.display_special_consideration %>
 
           <div class="read-only-field">
-              <p class="read-only-field__label">Ofsted report</p>
-              <p class="read-only-field__value">
-                  <% if @item.link_to_ofsted_report.present? %>
-                      <%= link_to "See latest report", @item.link_to_ofsted_report, target: "blank" %>
-                  <% else %>
-                      —
-                  <% end %>
-              </p>
-          </div>
-
-          <div class="read-only-field">
               <p class="read-only-field__label">Registered person reference</p>
               <p class="read-only-field__value">
                   <% if @item.rp_reference_number.present? %>
@@ -59,8 +48,6 @@
                   <% end %>
               </p>
           </div>
-
-          <%# render "admin/ofsted/field", label: "Related RPPs", value: @item.related_rpps %>
         </div>
       <% end %>
 
@@ -68,7 +55,6 @@
         <div class="field-group field-group--two-cols">
           <%= render "admin/ofsted/field", label: "Street address 1", value: @item.setting_address_1 %>
           <%= render "admin/ofsted/field", label: "Street address 2", value: @item.setting_address_2 %>
-          <%= render "admin/ofsted/field", label: "Village/town", value: @item.setting_villagetown %>
           <%= render "admin/ofsted/field", label: "Town", value: @item.setting_town %>
           <%= render "admin/ofsted/field", label: "County", value: @item.setting_county %>
           <%= render "admin/ofsted/field", label: "Postcode", value: @item.setting_postcode %>
@@ -78,17 +64,12 @@
           <%= render "admin/ofsted/field", label: "Fax", value: @item.setting_fax %>
           <%= render "admin/ofsted/field", label: "Email", value: @item.setting_email %>
         </div>
-        <div class="field-group field-group--two-cols">
-          <%= render "admin/ofsted/field", label: "Ward", value: @item.location_ward %>
-          <%= render "admin/ofsted/field", label: "Primary planning area", value: @item.location_planning %>
-        </div>
       <% end %>
 
       <%= render "shared/collapsible", name: "Provider", id: "ofsted-provider" do %>
         <div class="field-group field-group--two-cols">
           <%= render "admin/ofsted/field", label: "Street address 1", value: @item.prov_address_1 %>
           <%= render "admin/ofsted/field", label: "Street address 2", value: @item.prov_address_2 %>
-          <%= render "admin/ofsted/field", label: "Village/town", value: @item.prov_villagetown %>
           <%= render "admin/ofsted/field", label: "Town", value: @item.prov_town %>
           <%= render "admin/ofsted/field", label: "County", value: @item.prov_county %>
           <%= render "admin/ofsted/field", label: "Postcode", value: @item.prov_postcode %>
@@ -99,9 +80,6 @@
           <%= render "admin/ofsted/field", label: "Mobile", value: @item.prov_mobile %>
           <%= render "admin/ofsted/field", label: "Fax", value: @item.prov_fax %>
           <%= render "admin/ofsted/field", label: "Email", value: @item.prov_email %>
-        </div>
-        <div class="field-group field-group--two-cols">
-          <%= render "admin/ofsted/field", label: "Consent withheld?", value: @item.prov_consent_withheld %>
         </div>
       <% end %>
 
