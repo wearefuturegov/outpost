@@ -76,7 +76,7 @@ namespace :ofsted do
 
     OfstedItem.all.each do |ofsted_item| # check for deleted
       next if items.select { |item| item["ReferenceNumber"] == ofsted_item.reference_number }.present? # Dont archive if still in feed
-      next if (ofsted_item.discarded_at != nil) && (ofsted_item.status == 'deleted') # Don't archive if already archived.
+      next if (ofsted_item.discarded_at != nil) # Don't archive if already archived.
       ofsted_item.status = "deleted"
       ofsted_item.discarded_at = Time.now
       if ofsted_item.save
