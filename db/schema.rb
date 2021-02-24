@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_23_164623) do
+ActiveRecord::Schema.define(version: 2021_02_24_105438) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -199,7 +199,6 @@ ActiveRecord::Schema.define(version: 2021_02_23_164623) do
     t.jsonb "inspection"
     t.jsonb "notice_history"
     t.jsonb "welfare_notice_history"
-    t.datetime "lastupdated"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "status"

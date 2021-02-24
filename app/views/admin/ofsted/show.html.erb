@@ -23,7 +23,7 @@
           <%= render "admin/ofsted/field", label: "Reference number", value: @item.reference_number %>
           <%= render "admin/ofsted/field", label: "Status", value: @item.display_registration_status %>
           <%= render "admin/ofsted/field", label: "Registration date", value: format_if_date(@item.registration_date) %>
-          <%= render "admin/ofsted/field", label: "Last changed by Ofsted", value: format_if_date(@item.lastupdated) %>
+          <%= render "admin/ofsted/field", label: "Last changed by Ofsted", value: format_if_date(@item.last_change_date) %>
         </div>
 
         <div class="field-group field-group--two-cols">
