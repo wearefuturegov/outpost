@@ -35,6 +35,13 @@
           <%= render "admin/ofsted/field", label: "Special consideration", value: @item.display_special_consideration %>
 
           <div class="read-only-field">
+            <p class="read-only-field__label">Ofsted report</p>
+            <p class="read-only-field__value">
+                <%= link_to "See latest report", "http://www.ofsted.gov.uk/inspection-reports/find-inspection-report/provider/CARE/#{@item.reference_number}", target: "blank" %>
+            </p>
+          </div>
+
+          <div class="read-only-field">
               <p class="read-only-field__label">Registered person reference</p>
               <p class="read-only-field__value">
                   <% if @item.rp_reference_number.present? %>
