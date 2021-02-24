@@ -133,7 +133,6 @@ def ofsted_item_params item
     childcare_age: Array.wrap(item.dig("ChildcareAgeList", "ChildcareAge")),
     inspection: Array.wrap(item.dig("InspectionList", "Inspection")),
     notice_history: Array.wrap(item.dig("NoticeHistoryList", "NoticeHistory")),
-    welfare_notice_history: Array.wrap(item.dig("WelfareNoticeHistoryList", "WelfareNoticeHistory")),
-    lastupdated: item.dig("LastChangeDate")
+    welfare_notice_history: Array.wrap(item.dig("WelfareNoticeHistoryList", "WelfareNoticeHistory"))
   }
 end
