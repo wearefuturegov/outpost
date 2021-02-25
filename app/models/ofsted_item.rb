@@ -213,7 +213,7 @@ class OfstedItem < ApplicationRecord
 
   # fields we don't care about for version history purposes
   def ignorable_fields
-    ["status", "updated_at", "created_at", "discarded_at"]
+    ["status", "updated_at", "created_at", "discarded_at", "last_change_date"]
   end
   
 end
