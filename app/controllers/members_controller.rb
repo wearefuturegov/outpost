@@ -20,7 +20,7 @@ class MembersController < ApplicationController
     def destroy
         @user = User.find(params[:id])
         @user.discard
-        redirect_to organisations_path, notice: "That user has been removed and won't be able to log in any more."
+        redirect_to organisations_path, notice: "That user has been removed and won't be able to sign in any more."
     end
 
     private

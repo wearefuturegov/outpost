@@ -18,7 +18,7 @@ def login
   password_input = find('#user_password')
   password_input.click
   password_input.send_keys('Password1')
-  click_button('Log in')
+  click_button('Sign in')
 
   if page.has_css?('.introjs-button.introjs-skipbutton', wait: 1)
     tutorial_popup = find('.introjs-button.introjs-skipbutton')

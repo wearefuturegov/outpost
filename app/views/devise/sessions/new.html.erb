@@ -1,5 +1,5 @@
 <% content_for :header do %>
-    <h1 class="page-header__title">Log in</h1>
+    <h1 class="page-header__title">Sign in</h1>
 <% end %>
 
 <%= form_for(resource, as: resource_name, url: session_path(resource_name) ) do |f| %>
@@ -20,7 +20,7 @@
     </div>
   <% end %>
   <div class="form-actions">
-    <%= f.submit "Log in", class: "button button--with-bottom-margin" %>
+    <%= f.submit "Sign in", class: "button button--with-bottom-margin" %>
   </div>
 <% end %>
 

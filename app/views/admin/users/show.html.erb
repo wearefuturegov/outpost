@@ -3,8 +3,8 @@
     <% if @user.discarded? %>
       <div class="notice notice--cross">
         <div class="notice__body">
-          <p>This user is deactivated and can't log in</p>
-          <%= link_to "Reactivate", admin_user_reactivate_path(@user), method: "post", class: "notice__action", data: {confirm: "Are you sure? This user will be able to log in again."} %>
+          <p>This user is deactivated and can't sign in</p>
+          <%= link_to "Reactivate", admin_user_reactivate_path(@user), method: "post", class: "notice__action", data: {confirm: "Are you sure? This user will be able to sign in again."} %>
         </div>
       </div>
     <% elsif @user.admin? %>
@@ -30,7 +30,7 @@
               <div class="form-actions">
                 <%= f.submit "Update", class: "button", data: {confirm: "Only edit other users if you're sure you know what you're doing. Do you want to continue?"} %>
                 <% unless @user.discarded? %>
-                  <%= link_to "Deactivate", admin_user_path(@user), method: "delete", class: "button button--danger", data: {confirm: "Are you sure you want to deactivate this user? They will no longer be able to log in." } %>
+                  <%= link_to "Deactivate", admin_user_path(@user), method: "delete", class: "button button--danger", data: {confirm: "Are you sure you want to deactivate this user? They will no longer be able to sign in." } %>
                 <% end %>
               </div>
             <% end %>

@@ -16,7 +16,7 @@ end
 Then("I should be able to sign in") do
     fill_in('Email', with: 'test@email.com')
     fill_in('Password', with: 'Password1')
-    click_link_or_button('Log in')
+    click_link_or_button('Sign in')
 end
 
 Then("I should see the dashboard") do
