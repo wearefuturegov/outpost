@@ -9,7 +9,7 @@
         <div class="site-header__actions">
             <%= render "shared/app-switcher" %>
             <%= link_to current_user.display_name, edit_user_registration_path, class: "site-header__username"%>
-            <%= link_to "Log out", destroy_user_session_path, method: :delete, class: "site-header__link" %>
+            <%= link_to "Sign out", destroy_user_session_path, method: :delete, class: "site-header__link" %>
         </div>
         <% end %>
         <nav class="site-header__service-name-holder">
