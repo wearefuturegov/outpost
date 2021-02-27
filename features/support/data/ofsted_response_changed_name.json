@@ -1,89 +1,59 @@
-[{
-  "provider_name": "Changed name",
-  "setting_name": "Dummy Provider Setting Name",
-  "reference_number": "123456",
-  "provision_type": "Legend",
-  "secondary_provision_type": "",
-  "registration_status": "Active",
-  "special_consideration": "",
-  "registration_date": "01/01/2000",
-  "last_change_date": "01/01/2020",
-  "setting_address_1": "1 Not A Real Road",
-  "setting_address_2": "",
-  "setting_villagetown": "",
-  "setting_town": "A Fake Town",
-  "setting_county": "Buckinghamshire",
-  "setting_postcode": "HP1 1AA",
-  "setting_telephone": "01494 000000",
-  "prov_address_1": "1 Not A Real Road",
-  "prov_address_2": "",
-  "prov_villagetown": "",
-  "prov_town": "A Fake Town",
-  "prov_county": "Buckinghamshire",
-  "prov_postcode": "HP1 1AA",
-  "prov_telephone": "01494 000000",
-  "prov_mobile": "",
-  "prov_work_telephone": "",
-  "prov_email": "fakeemail@emailaddress.com",
-  "rp_reference_number": "",
-  "related_rpps": "",
-  "childcare_period": [
-    "4 Hours or More Per Day",
-    "45 Weeks or More Per Year",
-    "All Year Round",
-    "5 Days or More Per Week"
-  ],
-  "childcare_age": [
-    {
-      "from": "0",
-      "to": "5",
-      "max": "60"
+{
+  "OfstedChildcareRegisterLocalAuthorityExtract": {
+    "@xmlns:xs": "http://www.w3.org/2001/XMLSchema-instance",
+    "@xmlns": "http://www.ofsted.gov.uk/Childcare/Registration/LocalAuthority",
+    "Extract": {
+      "ExtractDateTime": "2021-02-22T14:22:32",
+      "LocalAuthority": {
+        "LocalAuthorityCode": "825",
+        "LocalAuthorityName": "Buckinghamshire"
+      }
     },
-    {
-      "from": "5",
-      "to": "8",
-      "max": "60"
-    }
-  ],
-  "inspection": [
-    {
-      "type": "Integrated",
-      "date": "2006-06-19",
-      "judgement": "Satisfactory"
-    },
-    {
-      "type": "Inspection (Early Years Register)",
-      "date": "2009-01-22",
-      "judgement": "Satisfactory"
-    },
-    {
-      "type": "Inspection (Early Years Register)",
-      "date": "2018-02-19",
-      "judgement": "Outstanding"
-    }
-  ],
-  "notice_history": [
-    {
-      "type": "Cancel",
-      "sub_type": "Cancel - Non Payment",
-      "status": "Past",
-      "noi_date": "2016-12-20",
-      "nod_date": "2018-01-08"
-    },
-    {
-      "type": "Cancel",
-      "sub_type": "Cancel - Non Payment",
-      "status": "Past",
-      "noi_date": "2017-12-20",
-      "nod_date": "2018-01-08"
-    }
-  ],
-  "welfare_notice_history": [
-    {
-      "category": "Welfare Requirements Notice",
-      "start_date": "2017-12-13",
-      "end_date": "2017-12-29"
-    }
-  ],
-  "lastupdated": "19/08/2019 15:15:04"
-}]
+    "Registration": [
+      {
+        "ReferenceNumber": "123456",
+        "ProvisionType": "Legend",
+        "Provider": {
+          "ProviderName": "Changed name",
+          "ProviderAddress": {
+            "AddressLine1": "1 Not A Real Road",
+            "Town": "A Fake Town",
+            "Postcode": "HP1 1AA",
+            "County": "Buckinghamshire"
+          },
+          "ProviderContact": {
+            "TelephoneNumber": "01494 000000",
+            "MobileNumber": ""
+          }
+        },
+        "RegistrationStatus": "ACTV",
+        "RegistrationStatusHistoryList": {
+          "RegistrationStatusHistory": {
+            "RegistrationStatus": "ACTV",
+            "ChangeDate": "2017-08-01"
+          }
+        },
+        "Setting": {
+          "SettingName": "Dummy Provider Setting Name",
+          "SettingAddress": {
+            "AddressLine1": "1 Not A Real Road",
+            "Town": "A Fake Town",
+            "County": "Buckinghamshire",
+            "Postcode": "HP1 1AA"
+          },
+          "SettingContact": {
+            "TelephoneNumber": "01494 000000"
+          }
+        },
+        "RegistrationDate": "2017-08-01",
+        "ChildServicesRegisterList": {
+          "ChildServicesRegister": {
+            "Register": "EYR",
+            "Status": "REGD",
+            "StartDate": "2017-08-01"
+          }
+        }
+      }
+    ]
+  }
+}

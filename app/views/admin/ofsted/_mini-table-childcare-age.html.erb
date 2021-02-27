@@ -9,10 +9,10 @@
         <tbody>
             <% t.each do |r| %>
             <tr>
-              <td><%= r["from"] %></td>
-              <td><%= r["to"] %></td>
-              <td><%= r["max"] %></td>
-              <td><%= r["register"] %></td>
+              <td><%= r["AgeFrom"] %></td>
+              <td><%= r["AgeTo"] %></td>
+              <td><%= r["MaximumNumber"] %></td>
+              <td><%= @item.human_readable_register(r["Register"]) %></td>
             </tr>
             <% end %>
         </tbody>

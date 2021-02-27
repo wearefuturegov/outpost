@@ -21,28 +21,24 @@
           <%= render "admin/ofsted/field", label: "Setting name", value: @item.setting_name %>
           <%= render "admin/ofsted/field", label: "Provider name", value: @item.provider_name %>
           <%= render "admin/ofsted/field", label: "Reference number", value: @item.reference_number %>
-          <%= render "admin/ofsted/field", label: "Status", value: @item.registration_status %>
+          <%= render "admin/ofsted/field", label: "Status", value: @item.display_registration_status %>
           <%= render "admin/ofsted/field", label: "Registration date", value: format_if_date(@item.registration_date) %>
-          <%= render "admin/ofsted/field", label: "Last changed by Ofsted", value: format_if_date(@item.lastupdated) %>
+          <%= render "admin/ofsted/field", label: "Last changed by Ofsted", value: format_if_date(@item.last_change_date) %>
         </div>
 
         <div class="field-group field-group--two-cols">
-          <%= render "admin/ofsted/field", label: "Provision type", value: @item.provision_type %>
-          <%= render "admin/ofsted/field", label: "Secondary provision type", value: @item.secondary_provision_type %>
+          <%= render "admin/ofsted/field", label: "Provision type", value: @item.display_provision_type %>
+          <%= render "admin/ofsted/field", label: "Secondary provision type", value: @item.human_readable_provision_type(@item.secondary_provision_type) %>
         </div>
 
         <div class="field-group field-group--two-cols">
-          <%= render "admin/ofsted/field", label: "Special consideration", value: @item.special_consideration %>
+          <%= render "admin/ofsted/field", label: "Special consideration", value: @item.display_special_consideration %>
 
           <div class="read-only-field">
-              <p class="read-only-field__label">Ofsted report</p>
-              <p class="read-only-field__value">
-                  <% if @item.link_to_ofsted_report.present? %>
-                      <%= link_to "See latest report", @item.link_to_ofsted_report, target: "blank" %>
-                  <% else %>
-                      —
-                  <% end %>
-              </p>
+            <p class="read-only-field__label">Ofsted report</p>
+            <p class="read-only-field__value">
+                <%= link_to "See latest report", "http://www.ofsted.gov.uk/inspection-reports/find-inspection-report/provider/CARE/#{@item.reference_number}", target: "blank" %>
+            </p>
           </div>
 
           <div class="read-only-field">
@@ -59,8 +55,6 @@
                   <% end %>
               </p>
           </div>
-
-          <%# render "admin/ofsted/field", label: "Related RPPs", value: @item.related_rpps %>
         </div>
       <% end %>
 
@@ -68,7 +62,6 @@
         <div class="field-group field-group--two-cols">
           <%= render "admin/ofsted/field", label: "Street address 1", value: @item.setting_address_1 %>
           <%= render "admin/ofsted/field", label: "Street address 2", value: @item.setting_address_2 %>
-          <%= render "admin/ofsted/field", label: "Village/town", value: @item.setting_villagetown %>
           <%= render "admin/ofsted/field", label: "Town", value: @item.setting_town %>
           <%= render "admin/ofsted/field", label: "County", value: @item.setting_county %>
           <%= render "admin/ofsted/field", label: "Postcode", value: @item.setting_postcode %>
@@ -78,17 +71,12 @@
           <%= render "admin/ofsted/field", label: "Fax", value: @item.setting_fax %>
           <%= render "admin/ofsted/field", label: "Email", value: @item.setting_email %>
         </div>
-        <div class="field-group field-group--two-cols">
-          <%= render "admin/ofsted/field", label: "Ward", value: @item.location_ward %>
-          <%= render "admin/ofsted/field", label: "Primary planning area", value: @item.location_planning %>
-        </div>
       <% end %>
 
       <%= render "shared/collapsible", name: "Provider", id: "ofsted-provider" do %>
         <div class="field-group field-group--two-cols">
           <%= render "admin/ofsted/field", label: "Street address 1", value: @item.prov_address_1 %>
           <%= render "admin/ofsted/field", label: "Street address 2", value: @item.prov_address_2 %>
-          <%= render "admin/ofsted/field", label: "Village/town", value: @item.prov_villagetown %>
           <%= render "admin/ofsted/field", label: "Town", value: @item.prov_town %>
           <%= render "admin/ofsted/field", label: "County", value: @item.prov_county %>
           <%= render "admin/ofsted/field", label: "Postcode", value: @item.prov_postcode %>
@@ -99,9 +87,6 @@
           <%= render "admin/ofsted/field", label: "Mobile", value: @item.prov_mobile %>
           <%= render "admin/ofsted/field", label: "Fax", value: @item.prov_fax %>
           <%= render "admin/ofsted/field", label: "Email", value: @item.prov_email %>
-        </div>
-        <div class="field-group field-group--two-cols">
-          <%= render "admin/ofsted/field", label: "Consent withheld?", value: @item.prov_consent_withheld %>
         </div>
       <% end %>
 
@@ -128,7 +113,7 @@
                 <% if @item.childcare_period.any? %>
                   <ul class="big-list">
                     <% @item.childcare_period.each do |r| %>
-                      <li class="big-list__item"><%= r %></li>
+                      <li class="big-list__item"><%= @item.human_readable_childcare_period(r) %></li>
                     <% end %>
                   </ul>
                 <% else %>
@@ -136,10 +121,10 @@
                 <% end %>
               </div>
               <div class="tabs__panel" id="registration-history">
-                <%= render "admin/ofsted/mini-table", t: @item.registration_status_history %>
+                <%= render "admin/ofsted/mini-table-registration-status-history", t: @item.registration_status_history %>
               </div>
               <div class="tabs__panel" id="childcare-services-register">
-                <%= render "admin/ofsted/mini-table", t: @item.child_services_register %>
+                <%= render "admin/ofsted/mini-table-child-services-register", t: @item.child_services_register %>
               </div>
               <div class="tabs__panel" id="childcare-ages">
                 <%= render "admin/ofsted/mini-table-childcare-age", t: @item.childcare_age %>

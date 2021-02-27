@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_02_153610) do
+ActiveRecord::Schema.define(version: 2021_02_24_105438) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -74,12 +74,6 @@ ActiveRecord::Schema.define(version: 2021_02_02_153610) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "topic"
     t.index ["service_id"], name: "index_feedbacks_on_service_id"
-  end
-
-  create_table "inspection", id: false, force: :cascade do |t|
-    t.bigint "id"
-    t.string "provider_name"
-    t.json "json_array_elements"
   end
 
   create_table "links", force: :cascade do |t|
@@ -179,21 +173,16 @@ ActiveRecord::Schema.define(version: 2021_02_02_153610) do
     t.string "special_consideration"
     t.date "registration_date"
     t.date "last_change_date"
-    t.string "link_to_ofsted_report"
     t.string "setting_address_1"
     t.string "setting_address_2"
-    t.string "setting_villagetown"
     t.string "setting_town"
     t.string "setting_county"
     t.string "setting_postcode"
     t.string "setting_telephone"
     t.string "setting_fax"
     t.string "setting_email"
-    t.string "location_ward"
-    t.string "location_planning"
     t.string "prov_address_1"
     t.string "prov_address_2"
-    t.string "prov_villagetown"
     t.string "prov_town"
     t.string "prov_county"
     t.string "prov_postcode"
@@ -202,9 +191,7 @@ ActiveRecord::Schema.define(version: 2021_02_02_153610) do
     t.string "prov_work_telephone"
     t.string "prov_fax"
     t.string "prov_email"
-    t.string "prov_consent_withheld"
     t.string "rp_reference_number"
-    t.string "related_rpps"
     t.jsonb "registration_status_history"
     t.jsonb "child_services_register"
     t.text "childcare_period", array: true
@@ -212,7 +199,6 @@ ActiveRecord::Schema.define(version: 2021_02_02_153610) do
     t.jsonb "inspection"
     t.jsonb "notice_history"
     t.jsonb "welfare_notice_history"
-    t.datetime "lastupdated"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "status"
@@ -369,8 +355,8 @@ ActiveRecord::Schema.define(version: 2021_02_02_153610) do
     t.datetime "remember_created_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "organisation_id"
     t.boolean "admin"
+    t.bigint "organisation_id"
     t.string "first_name"
     t.string "last_name"
     t.datetime "last_seen"
@@ -378,6 +364,7 @@ ActiveRecord::Schema.define(version: 2021_02_02_153610) do
     t.string "old_external_id"
     t.boolean "admin_users"
     t.boolean "admin_ofsted"
+    t.string "phone"
     t.index ["discarded_at"], name: "index_users_on_discarded_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["organisation_id"], name: "index_users_on_organisation_id"

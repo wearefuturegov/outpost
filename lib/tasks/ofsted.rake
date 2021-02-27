@@ -1,8 +1,8 @@
 namespace :ofsted do
 
   task :create_initial_items => :environment do
-    response = HTTParty.get("#{ENV["OFSTED_FEED_API_ENDPOINT"]}?api_key=#{ENV["OFSTED_API_KEY"]}")
-    items = JSON.parse(response.body)
+    response = HTTParty.get("#{ENV["OFSTED_FEED_API_ENDPOINT"]}?token=#{ENV["OFSTED_API_KEY"]}")
+    items = JSON.parse(response.body)["OfstedChildcareRegisterLocalAuthorityExtract"]["Registration"]
 
     items.each do |item|
       ofsted_item = OfstedItem.new(ofsted_item_params(item))
@@ -42,11 +42,11 @@ namespace :ofsted do
 
   # To be scheduled
   task :update_items => :environment do
-    response = HTTParty.get("#{ENV["OFSTED_FEED_API_ENDPOINT"]}?api_key=#{ENV["OFSTED_API_KEY"]}")
-    items = JSON.parse(response.body)
+    response = HTTParty.get("#{ENV["OFSTED_FEED_API_ENDPOINT"]}?token=#{ENV["OFSTED_API_KEY"]}")
+    items = JSON.parse(response.body)["OfstedChildcareRegisterLocalAuthorityExtract"]["Registration"]
 
     items.each do |item| # Iterate through iterms returend from Ofsted feed API
-      ofsted_item = OfstedItem.where(reference_number: item["reference_number"]).first # Check if ofsted item already exists
+      ofsted_item = OfstedItem.where(reference_number: item["ReferenceNumber"]).first # Check if ofsted item already exists
 
       if ofsted_item
         ofsted_item.assign_attributes(ofsted_item_params(item)) # Prepare for update
@@ -75,8 +75,8 @@ namespace :ofsted do
     end
 
     OfstedItem.all.each do |ofsted_item| # check for deleted
-      next if items.select { |item| item["reference_number"] == ofsted_item.reference_number }.present? # Dont archive if still in feed
-      next if (ofsted_item.discarded_at != nil) && (ofsted_item.status == 'deleted') # Don't archive if already archived.
+      next if items.select { |item| item["ReferenceNumber"] == ofsted_item.reference_number }.present? # Dont archive if still in feed
+      next if (ofsted_item.discarded_at != nil) # Don't archive if already archived.
       ofsted_item.status = "deleted"
       ofsted_item.discarded_at = Time.now
       if ofsted_item.save
@@ -99,48 +99,40 @@ end
 
 def ofsted_item_params item
   {
-    provider_name: item["provider_name"],
-    setting_name: item["setting_name"],
-    reference_number: item["reference_number"],# to_i?
-    provision_type: item["provision_type"],
-    secondary_provision_type: item["secondary_provision_type"],
-    registration_status: item["registration_status"],
-    special_consideration: item["special_consideration"],
-    registration_date: item["registration_date"],# date
-    last_change_date: item["last_change_date"],# date
-    link_to_ofsted_report: item["link_to_ofsted_report"],
-    setting_address_1: item["setting_address_1"],
-    setting_address_2: item["setting_address_2"],
-    setting_villagetown: item["setting_villagetown"],
-    setting_town: item["setting_town"],
-    setting_county: item["setting_county"],
-    setting_postcode: item["setting_postcode"],
-    setting_telephone: item["setting_telephone"],
-    setting_fax: item["setting_fax"],
-    setting_email: item["setting_email"],
-    location_ward: item["location_ward"],
-    location_planning: item["location_planning"],
-    prov_address_1: item["prov_address_1"],
-    prov_address_2: item["prov_address_2"],
-    prov_villagetown: item["prov_villagetown"],
-    prov_town: item["prov_town"],
-    prov_county: item["prov_county"],
-    prov_postcode: item["prov_postcode"],
-    prov_telephone: item["prov_telephone"],
-    prov_mobile: item["prov_mobile"],
-    prov_work_telephone: item["prov_work_telephone"],
-    prov_fax: item["prov_fax"],
-    prov_email: item["prov_email"],
-    prov_consent_withheld: item["prov_consent_withheld"],
-    rp_reference_number: item["rp_reference_number"],
-    related_rpps: item["related_rpps"],
-    registration_status_history: item["registration_status_history"],
-    child_services_register: item["child_services_register"],
-    childcare_period: item["childcare_period"], #to_a?
-    childcare_age: item["childcare_age"],
-    inspection: item["inspection"],
-    notice_history: item["notice_history"],
-    welfare_notice_history: item["welfare_notice_history"],
-    lastupdated: item["lastupdated"] #datetime
+    provider_name: item.dig("Provider", "ProviderName"),
+    setting_name: item.dig("Setting", "SettingName"),
+    reference_number: item.dig("ReferenceNumber"),
+    provision_type: item.dig("ProvisionType"),
+    secondary_provision_type: item.dig("SecondaryProvisionType"),
+    registration_status: item.dig("RegistrationStatus"),
+    special_consideration: item.dig("SpecialConsiderations"),
+    registration_date: item.dig("RegistrationDate"),
+    last_change_date:item.dig("LastChangeDate"),
+    setting_address_1: item.dig("Setting", "SettingAddress", "AddressLine1"),
+    setting_address_2: item.dig("Setting", "SettingAddress", "AddressLine2"),
+    setting_town: item.dig("Setting", "SettingAddress", "Town"),
+    setting_county: item.dig("Setting", "SettingAddress", "County"),
+    setting_postcode: item.dig("Setting", "SettingAddress", "Postcode"),
+    setting_telephone: item.dig("Setting", "SettingContact", "TelephoneNumber"),
+    setting_fax: item.dig("Setting", "SettingContact", "FaxNumber"),
+    setting_email: item.dig("Setting", "SettingContact", "EmailAddress"),
+    prov_address_1: item.dig("Provider", "ProviderAddress", "AddressLine1"),
+    prov_address_2: item.dig("Provider", "ProviderAddress", "AddressLine2"),
+    prov_town: item.dig("Provider", "ProviderAddress", "Town"),
+    prov_county: item.dig("Provider", "ProviderAddress", "County"),
+    prov_postcode: item.dig("Provider", "ProviderAddress", "Postcode"),
+    prov_telephone: item.dig("Provider", "ProviderContact", "TelephoneNumber"),
+    prov_mobile: item.dig("Provider", "ProviderContact", "MobileNumber"),
+    prov_work_telephone: item.dig("Provider", "ProviderContact", "WorkTelephoneNumber"),
+    prov_fax: item.dig("Provider", "ProviderContact", "FaxNumber"),
+    prov_email: item.dig("Provider", "ProviderContact", "EmailAddress"),
+    rp_reference_number: item.dig("RPReferenceNumber"),
+    registration_status_history:  Array.wrap(item.dig("RegistrationStatusHistoryList", "RegistrationStatusHistory")),
+    child_services_register: Array.wrap(item.dig("ChildServicesRegisterList", "ChildServicesRegister")),
+    childcare_period: Array.wrap(item.dig("ChildcarePeriodList", "ChildcarePeriod")),
+    childcare_age: Array.wrap(item.dig("ChildcareAgeList", "ChildcareAge")),
+    inspection: Array.wrap(item.dig("InspectionList", "Inspection")),
+    notice_history: Array.wrap(item.dig("NoticeHistoryList", "NoticeHistory")),
+    welfare_notice_history: Array.wrap(item.dig("WelfareNoticeHistoryList", "WelfareNoticeHistory"))
   }
 end

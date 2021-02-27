@@ -1,7 +1,7 @@
 namespace :taxonomy do
 
   task :create_categories_from_old_db => [ :environment ] do
-    csv_file = File.open('lib/seeds/bucksfis geo.csv', "r:ISO-8859-1")
+    csv_file = File.open('lib/seeds/bucksfis_geo.csv', "r:ISO-8859-1")
     bucks_csv = CSV.parse(csv_file, headers: true)
     tree = {}
 
@@ -82,7 +82,7 @@ namespace :taxonomy do
 
   # Useful if need to assign taxonomies without creating all servics again (main seed)
   task :assign_services_from_oo_csv => [ :environment ] do
-    csv_file = File.open('lib/seeds/bucksfis geo.csv', "r:utf-8")
+    csv_file = File.open('lib/seeds/bucksfis_geo.csv', "r:utf-8")
     bucks_csv = CSV.parse(csv_file, headers: true)
 
     bucks_csv.each.with_index do |row, csv_line|
@@ -172,6 +172,21 @@ namespace :taxonomy do
     Service.includes(:taxonomies).each do |s|
       s.skip_mongo_callbacks = true
       s.save
+    end
+  end
+
+  task :remove_all_needs_met => [ :environment ] do
+    all_needs_met_taxonomy = SendNeed.where(name: "All needs met").first
+    all_needs_met_taxonomy.destroy! if all_needs_met_taxonomy.present?
+  end
+
+  task :lock_top_level => [ :environment ] do
+    Taxonomy.roots.each do |t|
+      t.locked = true
+      t.skip_mongo_callbacks = true
+      unless t.save
+          puts "Taxonomy #{t} failed to save: #{t.errors.messages}"
+      end
     end
   end
 

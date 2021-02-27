@@ -8,9 +8,9 @@
         <tbody>
             <% t.each do |r| %>
             <tr>
-              <td><%= format_if_date(r['date']) %></td>
-              <td><%= r['type'] %></td>
-              <td><%= r['judgement'] %></td>
+              <td><%= format_if_date(r['InspectionDate']) %></td>
+              <td><%= r['InspectionType'] %></td>
+              <td><%= r['InspectionOverallJudgement'] %></td>
             </tr>
             <% end %>
         </tbody>

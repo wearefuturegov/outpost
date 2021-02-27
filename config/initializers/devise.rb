@@ -21,7 +21,8 @@ Devise.setup do |config|
   config.mailer_sender = ENV["MAILER_FROM"] || 'CHANGEME@CHANGEME.com'
 
   # Configure the class responsible to send e-mails.
-  # config.mailer = 'Devise::Mailer'
+  config.mailer = 'DeviseMailer'
+
   # config.parent_mailer = 'ApplicationMailer'
 
   # Configure the parent class responsible to send e-mails.

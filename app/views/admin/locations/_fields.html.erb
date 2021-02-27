@@ -33,7 +33,7 @@
         <%= f.label :latitude, class: "field__label" %>
         <%= f.text_field :latitude, class: "field__input", disabled: true %>
     </div>
-    <div class="field">   
+    <div class="field">
         <%= f.label :longitude, class: "field__label" %>
         <%= f.text_field :longitude, class: "field__input", disabled: true %>
     </div>
@@ -45,14 +45,14 @@
         <%= f.label :visible, "Make this location publicly visible", class: "checkbox__label" %>
     </div>
     <div class="field checkbox">
-        <%= l.check_box :preferred_for_post, class: "checkbox__input"%>
-        <%= l.label :preferred_for_post, "Use this address for post", class: "checkbox__label" %>
+        <%= f.check_box :preferred_for_post, class: "checkbox__input" %>
+        <%= f.label :preferred_for_post, "Use this address for post", class: "checkbox__label" %>
     </div>
     <div class="field checkbox">
         <%= f.check_box :mask_exact_address, class: "checkbox__input"%>
         <%= f.label :mask_exact_address, "Hide the exact street address", class: "checkbox__label"  do %>
-            Hide the exact street address
-            <button class="help-button help-button--small" type="button" data-tippy-content="If checked, only the first part of the postcode will be publicly visible, and the map pin will be less precise.">What does this mean?</button>
+        Hide the exact street address
+        <button class="help-button help-button--small" type="button" data-tippy-content="If checked, only the first part of the postcode will be publicly visible, and the map pin will be less precise.">What does this mean?</button>
         <% end %>
     </div>
 </div>

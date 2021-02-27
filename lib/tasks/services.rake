@@ -15,7 +15,7 @@ namespace :services do
     users_file = File.open('lib/seeds/users.csv', "r:utf-8")
     open_objects_users_csv = CSV.parse(users_file, headers: true)
 
-    csv_file = File.open('lib/seeds/bucksfis geo.csv', "r:utf-8")
+    csv_file = File.open('lib/seeds/bucksfis_geo.csv', "r:utf-8")
     bucks_csv = CSV.parse(csv_file, headers: true)
 
     bucks_csv.each.with_index do |row, line|
@@ -48,6 +48,7 @@ namespace :services do
         user.old_external_id = open_objects_user['externalId']
         user.first_name = open_objects_user['firstName']
         user.last_name = open_objects_user['lastName']
+        user.phone = open_objects_user['telephone']
         user.organisation_id = organisation.id
         user.password = password
         unless user.save
@@ -100,12 +101,27 @@ namespace :services do
 
         location.name = row['venue_name']
         location.address_1 = [row['venue_address_1'], row['venue_address_2']].join(' ')
-        location.city = row['venue_address_4']
-        location.state_province = 'Buckinghamshire'
+        location.state_province = row['venue_address_5']
         location.postal_code = row['venue_postcode']
         location.latitude = row['latitude']
         location.longitude = row['longitude']
         location.country = 'GB'
+
+        if row['venue_address_1'].present? && row['venue_address_2'].present?
+          location.address_1 = [row['venue_address_1'], row['venue_address_2']].join(' ')
+        elsif row['venue_address_1'].present?
+          location.address_1 = row['venue_address_1']
+        elsif row['venue_address_2'].present?
+          location.address_1 = row['venue_address_2']
+        end
+
+        if row['venue_address_3'].present? && row['venue_address_4'].present?
+          location.city = [row['venue_address_3'], row['venue_address_4']].join(', ')
+        elsif row['venue_address_3'].present?
+          location.city = row['venue_address_3']
+        elsif row['venue_address_4'].present?
+          location.city = row['venue_address_4']
+        end
 
         # add accessibility info to locations
         unless row['venue_facilities'] == nil
@@ -121,6 +137,38 @@ namespace :services do
         location.skip_mongo_callbacks = true
         unless location.save
           puts "Location #{location.name} failed to save: #{location.errors.messages}"
+        end
+        service.locations << location
+      end
+
+      if row['private_address_1'].present? && row['private_postcode'].present?
+        location = Location.new(
+          name: 'Private address',
+          state_province: row['private_address_5'],
+          postal_code: row['private_postcode'],
+          country: 'GB'
+        )
+        if row['private_address_1'].present? && row['private_address_2'].present?
+          location.address_1 = [row['private_address_1'], row['private_address_2']].join(' ')
+        elsif row['private_address_1'].present?
+          location.address_1 = row['private_address_1']
+        elsif row['private_address_2'].present?
+          location.address_1 = row['private_address_2']
+        end
+
+        if row['private_address_3'].present? && row['private_address_4'].present?
+          location.city = [row['private_address_3'], row['private_address_4']].join(', ')
+        elsif row['private_address_3'].present?
+          location.city = row['private_address_3']
+        elsif row['private_address_4'].present?
+          location.city = row['private_address_4']
+        end
+        location.visible = false
+        location.skip_postcode_validation = true
+        location.skip_mongo_callbacks = true
+
+        unless location.save
+          puts "Location #{location.address_1} failed to save: #{location.errors.messages}"
         end
         service.locations << location
       end
@@ -329,37 +377,97 @@ namespace :services do
       end
 
       # CONTACTS
-      if (row['contact_name'].present? || row['contact_telephone'].present? || row['contact_email'].present?) # contact just needs one of these ethings to save
-        contact = Contact.new
-        contact.service_id = service.id
-        contact.name = row['contact_name']
-        contact.title = row['contact_position']
-        contact.email = row['contact_email']
+      if (row['contact_telephone'].present? || row['contact_email'].present?) # contact just needs one of these ethings to save
+        
+        contact = service.contacts.new(
+          name: row['contact_name'],
+          title: row['contact_position'],
+          email: row['contact_email']
+        )
 
         # If more than one number, add first to contact with name, email and position, and create blank contacts for remaining numbers
         if row['contact_telephone'].present?
           if row['contact_telephone']&.include? "\n"
             numbers = row['contact_telephone'].split("\n")
-            contact.phone = numbers.first
-
+            
+            contact.phone = numbers.first # first number to main contact
             unless contact.save
               puts "Contact #{contact.name} failed to save: #{contact.errors.messages}"
             end
 
             numbers = numbers.drop(1) # now create contacts for remaining numbers
             numbers.each do |number|
-              contact = Contact.new
-              contact.phone = number
-              contact.service_id = service.id
+              contact = service.contacts.new(phone: number)
               unless contact.save
                 puts "Phone #{number} failed to save: #{contact.errors.messages}"
               end
+            end
+          else
+            contact.phone = row['contact_telephone']
+            unless contact.save
+              puts "Contact #{contact.name} failed to save: #{contact.errors.messages}"
             end
           end
         end
       end
 
-      
+      if row["lo_contact_telephone"].present? || row["lo_contact_email"].present?
+        contact = service.contacts.new(
+          email: row["lo_contact_email"],
+          phone: row["lo_contact_telephone"],
+          name: row["lo_contact_name"]
+        )
+        if row["lo_contact_jobtitle"].present?
+          contact.title = row["lo_contact_jobtitle"] + " (Local Offer contact)"
+        else
+          contact.title = "Local Offer contact"
+        end
+
+        unless contact.save
+          puts "Contact #{contact.name} failed to save"
+        end
+      end
+
+      if row["lo_senco_email"].present?
+        contact = service.contacts.new(
+          email: row["lo_senco_email"],
+          name: row["lo_senco_name"],
+          title: "SENCO contact"
+        )
+
+        unless contact.save
+          puts "Contact #{contact.name} failed to save"
+        end
+      end
+
+      if row["private_hours_telephone"].present?
+        contact = service.contacts.new(
+          phone: row["private_hours_telephone"],
+          name: row["private_hours_name"],
+          title: "Out of hours/emergency",
+          visible: false
+        )
+        unless contact.save
+          puts "Contact #{contact.name} failed to save"
+        end
+      end
+
+      if row["private_email"].present?
+        contact = service.contacts.new(
+          email: row["private_email"],
+          name: row["private_name"],
+          phone: row["private_telephone"],
+          visible: false
+        )
+        if row["private_position"].present?
+          contact.title = row["private_position"] + " (For communication)"
+        else
+          contact.title = "For communication"
+        end
+        unless contact.save
+          puts "Contact #{contact.name} failed to save"
+        end
+      end
 
     end
   end
