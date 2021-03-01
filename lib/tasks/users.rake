@@ -10,7 +10,7 @@ namespace :users do
       user_login["admin_ofsted"] = true
       unless (User.where(email: user_login["email"]).size > 0)
         user = User.new(user_login)
-        user.password = "A9b#{SecureRandom.hex(8)}1yZ"
+        user.password = "A9b#{SecureRandom.hex(8)}1yZ" unless user.password
         unless user.save
           puts "User #{user_login["email"]} failed to save: #{user.errors.messages}"
         end

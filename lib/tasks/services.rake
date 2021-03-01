@@ -20,7 +20,7 @@ namespace :services do
 
     bucks_csv.each.with_index do |row, line|
       #next unless (line % 6 == 0)
-      puts "Processing line (service build): #{line} of #{bucks_csv.size}"
+      #puts "Processing line (service build): #{line} of #{bucks_csv.size}"
 
       open_objects_users = open_objects_users_csv.select{ |user_row| user_row['externalId'] == row['record_editor'] } # users from open objects csv
       outpost_users = User.where(old_external_id: row['record_editor']) # new database users already created by this seed
@@ -482,10 +482,8 @@ namespace :services do
       if local_offer.present? && row["Link to SEN report for import"].include?("http")
         local_offer.skip_description_validation = true
         local_offer.link = row["Link to SEN report for import"]
-        if local_offer.save
-          puts "Updated local_offer #{local_offer.id} with link #{row["Link to SEN report for import"]}"
-        else
-          puts "Didn't update local_offer #{local_offer.id}"
+        unless local_offer.save
+          puts "Didn't update local_offer #{local_offer.id}, errors: #{local_offer.errors.messages}"
         end
       else
         puts "No local offer present for service #{service&.id}"
@@ -504,11 +502,6 @@ namespace :services do
       if row["Opening Times List_Day_Displayed Value"].present? && row["Opening Times List_Start Time"].present? && row["Opening Times List_End Time"].present?
         service = Service.where(old_open_objects_external_id: row["External ID"]).first
 
-        puts "Reg schedule failed for service #{service.id}. 
-          Day: #{row["Opening Times List_Day_Displayed Value"]}. 
-          Open time: #{row["Opening Times List_Start Time"]}
-          Close time: #{row["Opening Times List_End Time"]}"
-
         opening_time = row["Opening Times List_Start Time"]
         closing_time = row["Opening Times List_End Time"]
 
@@ -523,10 +516,8 @@ namespace :services do
           closes_at: closing_time, 
           weekday: weekdays.select{ |w| w[:label] === row["Opening Times List_Day_Displayed Value"].split(" ")[0]}.first[:value]
         )
-        if rs.save
-          puts "Reg schedule created for service #{service.id}"
-        else
-          puts "Reg schedule failed #{rs.inspect} for service #{service.id}"
+        unless rs.save
+          puts "Reg schedule failed #{rs.errors.messages} for service #{service.id}"
         end
       end
     end
@@ -546,10 +537,8 @@ namespace :services do
           amount: row["Table of Costs_Cost"].tr("£", ""),
           cost_type: row["Table of Costs_Cost Type_Displayed Value"].downcase.sub("before/after school", "before or after school").sub("reduced rate", "lower rate").sub("weekend hourly rate", "per hour - weekend")
         )
-        if cost_option.save
-          puts "Created cost option #{cost_option.inspect} for service #{service.id}"
-        else
-          puts "Failed to create cost option #{cost_option.inspect} for service #{service.id}"
+        unless cost_option.save
+          puts "Failed to create cost option #{cost_option.errors.messages} for service #{service.id}"
         end
       end
     end

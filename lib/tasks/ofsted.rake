@@ -23,9 +23,7 @@ namespace :ofsted do
       ofsted_item = OfstedItem.where(reference_number: row['reference_number']).first
       if ofsted_item
         ofsted_item.open_objects_external_id = row['externalid']
-        if ofsted_item.save
-          puts "Set ofsted item OO externalID #{ofsted_item.open_objects_external_id}"
-        else
+        unless ofsted_item.save
           puts "Failed to update OO externalID #{ofsted_item.open_objects_external_id}"
         end
       end

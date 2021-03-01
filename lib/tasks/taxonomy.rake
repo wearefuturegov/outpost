@@ -6,7 +6,7 @@ namespace :taxonomy do
     tree = {}
 
     bucks_csv.each.with_index do |row, line|
-      puts "Processing line (taxonomy build): #{line} of #{bucks_csv.size}"
+      #puts "Processing line (taxonomy build): #{line} of #{bucks_csv.size}"
 
       lines = []
       lines = lines.concat(row['familychannel'].split("\n")) if row['familychannel'].present?
@@ -20,7 +20,7 @@ namespace :taxonomy do
           categories = line.split(' > ')
           categories.delete("Family Information")
           categories.each do |category|
-            taxonomy = Taxonomy.create_with(skip_mongo_callbacks: true).find_or_create_by(name: category, parent_id: parent&.id)
+            taxonomy = Taxonomy.create_with(skip_mongo_callbacks: true).find_or_create_by!(name: category, parent_id: parent&.id)
             parent = taxonomy
           end
         end
