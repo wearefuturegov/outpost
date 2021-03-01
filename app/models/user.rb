@@ -7,8 +7,9 @@ class User < ApplicationRecord
 
   belongs_to :organisation, optional: true, counter_cache: true
   
-  validates :first_name, presence: true
-  validates :last_name, presence: true
+  attr_accessor :skip_name_validation
+  validates :first_name, presence: true, unless: :skip_name_validation
+  validates :last_name, presence: true, unless: :skip_name_validation
 
   acts_as_taggable_on :labels
   
