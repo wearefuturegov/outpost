@@ -44,6 +44,7 @@ namespace :services do
         open_objects_user = open_objects_users.first
         password = "A9b#{SecureRandom.hex(8)}1yZ"
         user = User.new
+        user.skip_name_validation = true
         user.email = open_objects_user['email']
         user.old_external_id = open_objects_user['externalId']
         user.first_name = open_objects_user['firstName']
@@ -502,14 +503,18 @@ namespace :services do
       if row["Opening Times List_Day_Displayed Value"].present? && row["Opening Times List_Start Time"].present? && row["Opening Times List_End Time"].present?
         service = Service.where(old_open_objects_external_id: row["External ID"]).first
 
-        opening_time = row["Opening Times List_Start Time"]
-        closing_time = row["Opening Times List_End Time"]
+        opening_time = row["Opening Times List_Start Time"].sub(".", ":")
+        closing_time = row["Opening Times List_End Time"].sub(".", ":")
 
         opening_time = opening_time.insert(2, ':') unless opening_time.include?(":")
         closing_time = closing_time.insert(2, ':') unless closing_time.include?(":")
 
         opening_time = opening_time.to_time.strftime("%H:%M")
         closing_time = closing_time.to_time.strftime("%H:%M")
+
+        if closing_time < opening_time # probs using 12 hour clock
+          closing_time = DateTime.parse("#{closing_time}pm").strftime("%H:%M")
+        end
 
         rs = service.regular_schedules.new(
           opens_at: opening_time, 

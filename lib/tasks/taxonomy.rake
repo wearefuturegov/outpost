@@ -46,36 +46,40 @@ namespace :taxonomy do
 
       # paths
       old_path = row["Old taxonomy"].split(" > ").map(&:strip)
-      puts "Old path: #{old_path}"
+      #puts "Old path: #{old_path}"
 
       new_path = row["New taxonomy"].split(" > ").map(&:strip) if row["New taxonomy"].present?
-      puts "New path: #{new_path}" if row["New taxonomy"].present?
+      #puts "New path: #{new_path}" if row["New taxonomy"].present?
 
       additional_new_path = row["Additional new taxonomy"].split(" > ").map(&:strip) if row["Additional new taxonomy"].present?
-      puts "Additional new path: #{additional_new_path}" if row["Additional new taxonomy"].present?
+      #puts "Additional new path: #{additional_new_path}" if row["Additional new taxonomy"].present?
 
       # taxonomies
       old_taxonomy = Taxonomy.find_by_path(old_path)
-      puts "Old taxa: #{old_taxonomy.name}" if old_taxonomy.present?
+      #puts "Old taxa: #{old_taxonomy.name}" if old_taxonomy.present?
 
       new_taxonomy = Taxonomy.create_with(skip_mongo_callbacks: true).find_or_create_by_path(new_path) if new_path.present?
-      puts "New taxa: #{new_taxonomy.name}" if new_taxonomy.present?
+      #puts "New taxa: #{new_taxonomy.name}" if new_taxonomy.present?
 
       additional_new_taxonomy = Taxonomy.create_with(skip_mongo_callbacks: true).find_or_create_by_path(additional_new_path) if additional_new_path.present?
-      puts "Additional new taxa: #{additional_new_taxonomy.name}" if additional_new_taxonomy.present?
+      #puts "Additional new taxa: #{additional_new_taxonomy.name}" if additional_new_taxonomy.present?
 
       if (new_taxonomy.present? && old_taxonomy.present?)
         new_taxonomy.services |= old_taxonomy.services
         new_taxonomy.skip_mongo_callbacks = true
-        new_taxonomy.save
-        puts "New taxa service count: #{new_taxonomy.services.count}"
+        unless new_taxonomy.save
+          puts "New taxonomy failed to save #{taxonomy.errors.messages}"
+        end
+        #puts "New taxa service count: #{new_taxonomy.services.count}"
       end
 
       if (additional_new_taxonomy.present? && old_taxonomy.present?)
         additional_new_taxonomy.services |= old_taxonomy.services
         additional_new_taxonomy.skip_mongo_callbacks = true
-        additional_new_taxonomy.save
-        puts "Additional new taxa service count: #{additional_new_taxonomy.services.count}"
+        unless additional_new_taxonomy.save
+          puts "Additional new taxonomy failed to save #{taxonomy.errors.messages}"
+        end
+        #puts "Additional new taxa service count: #{additional_new_taxonomy.services.count}"
       end
     end
   end
@@ -163,7 +167,7 @@ namespace :taxonomy do
       if old_taxonomy.present?
         old_taxonomy.service_taxonomies.destroy_all
         old_taxonomy.destroy!
-        puts "deleted #{old_taxonomy.name}"
+        #puts "deleted #{old_taxonomy.name}"
       end
     end
   end
@@ -185,7 +189,7 @@ namespace :taxonomy do
       t.locked = true
       t.skip_mongo_callbacks = true
       unless t.save
-          puts "Taxonomy #{t} failed to save: #{t.errors.messages}"
+        puts "Taxonomy #{t} failed to save: #{t.errors.messages}"
       end
     end
   end
