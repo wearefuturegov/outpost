@@ -201,15 +201,38 @@ class OfstedItem < ApplicationRecord
     end
   end
 
+  # def unapproved_fields # old
+  #   changed_fields = []
+  #   byebug
+  #   versions.last.changeset.map do |key, value|
+  #     unless ignorable_fields.include?(key)
+  #       changed_fields << key.humanize
+  #     end
+  #   end
+  #   changed_fields
+  # end
+
+  def last_approved_snapshot
+    self.versions
+      .where("(object->>'status') is null")
+      .reorder(created_at: :desc)
+      .first
+  end
+
   def unapproved_fields
     changed_fields = []
-    versions.last.changeset.map do |key, value|
-      unless ignorable_fields.include?(key)
-        changed_fields << key.humanize
+    self.as_json.each do |key, value|
+      # eql? lets us do a slightly more intelligent comparison than simple "===" equality
+      unless value.eql?(last_approved_snapshot.object[key])
+        # we don't care about these fields
+        unless ignorable_fields.include?(key)
+          changed_fields << key
+        end
       end
     end
     changed_fields
   end
+
 
   # fields we don't care about for version history purposes
   def ignorable_fields
