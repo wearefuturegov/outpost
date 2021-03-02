@@ -27,6 +27,11 @@
             <div class="todo-status todo-status--deleted">
                 <strong>No longer in Ofsted feed</strong>
             </div>
+        <% elsif s.status === "restored"%>
+            <div class="todo-status">
+              <strong>Changed</strong>
+              <p><%= s.unapproved_fields.join(", ") %></p>
+            </div>
         <% else %>
             <div class="todo-status">
             <strong>Changed</strong>

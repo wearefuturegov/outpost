@@ -51,6 +51,12 @@ namespace :ofsted do
 
         if ofsted_item.changed?
           ofsted_item.status = "changed"
+
+          if ofsted_item.discarded_at.present? # Item has reappeard in feed
+            ofsted_item.discarded_at = nil
+            ofsted_item.status = "restored"
+          end
+
           if ofsted_item.save # Save
             puts "Updated ofsted item #{ofsted_item.provider_name}"
           else
