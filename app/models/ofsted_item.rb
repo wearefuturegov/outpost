@@ -201,17 +201,6 @@ class OfstedItem < ApplicationRecord
     end
   end
 
-  # def unapproved_fields # old
-  #   changed_fields = []
-  #   byebug
-  #   versions.last.changeset.map do |key, value|
-  #     unless ignorable_fields.include?(key)
-  #       changed_fields << key.humanize
-  #     end
-  #   end
-  #   changed_fields
-  # end
-
   def last_approved_snapshot
     self.versions
       .where("(object->>'status') is null")
