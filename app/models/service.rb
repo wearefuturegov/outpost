@@ -271,12 +271,13 @@ class Service < ApplicationRecord
   def last_approved_snapshot
     self.versions
       .where("object->>'approved' = 'true'")
-      .order(created_at: :desc)
+      .reorder(created_at: :desc)
       .first
   end
 
   def unapproved_fields
     changed_fields = []
+
     self.as_json.each do |key, value|
       # eql? lets us do a slightly more intelligent comparison than simple "===" equality
       unless value.eql?(last_approved_snapshot.object[key])
