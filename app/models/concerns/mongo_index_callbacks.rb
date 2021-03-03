@@ -5,7 +5,11 @@ module MongoIndexCallbacks
     attr_accessor :skip_mongo_callbacks
 
     included do
-        after_save :update_index, if: -> { skip_mongo_callbacks != true }
+        after_save :trigger_update_job, if: -> { skip_mongo_callbacks != true }
+    end
+
+    def trigger_update_job
+        UpdateIndexServicesJob.perform_later(self)
     end
 
     def update_index
