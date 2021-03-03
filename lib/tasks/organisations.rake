@@ -30,10 +30,16 @@ namespace :organisations do
     
     services.each do |service|
       new_organisation = Organisation.new()
+      new_organisation.skip_mongo_callbacks = true
+      new_organisation.save!
       service.organisation_id = new_organisation.id
       puts "Setting #{service.name} org id to be #{new_organisation.id}"
-      #service.save
+      service.skip_mongo_callbacks = true
+      service.save!
     end
+
+    organisation.skip_mongo_callbacks = true
+    organisation.destroy!
 
   end
 end
