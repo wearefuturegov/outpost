@@ -22,4 +22,18 @@ namespace :organisations do
       end
     end
   end
+
+  task :separate_services_for_organisation, [:id] => :environment do |t, args|
+
+    organisation = Organisation.find(args[:id])
+    services = organisation.services
+    
+    services.each do |service|
+      new_organisation = Organisation.new()
+      service.organisation_id = new_organisation.id
+      puts "Setting #{service.name} org id to be #{new_organisation.id}"
+      #service.save
+    end
+
+  end
 end
