@@ -16,7 +16,7 @@ module MongoIndexCallbacks
 
         if self.approved? && self.publicly_visible?
             collection.find_one_and_update({id: self.id}, IndexedServicesSerializer.new(self).as_json, {upsert: true})
-        elsif self.discarded_at.present?
+        elsif self.approved && !self.publicly_visible?
             collection.find_one_and_delete({id: self.id})
         end
 
