@@ -215,7 +215,7 @@ class OfstedItem < ApplicationRecord
       unless value.eql?(last_approved_snapshot.object[key])
         # we don't care about these fields
         unless ignorable_fields.include?(key)
-          changed_fields << key
+          changed_fields << key.humanize
         end
       end
     end
