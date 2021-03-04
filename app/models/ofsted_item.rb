@@ -210,9 +210,10 @@ class OfstedItem < ApplicationRecord
 
   def unapproved_fields
     changed_fields = []
+    last_approved_version = last_approved_snapshot
     self.as_json.each do |key, value|
       # eql? lets us do a slightly more intelligent comparison than simple "===" equality
-      unless value.eql?(last_approved_snapshot.object[key])
+      unless value.eql?(last_approved_version.object[key])
         # we don't care about these fields
         unless ignorable_fields.include?(key)
           changed_fields << key.humanize

@@ -37,6 +37,9 @@
       </li>
     <% end %>
   </ul>
+
+  <%= paginate @requests %>
+
 <% else %>
   <p class="no-results no-results--big">Nothing to do right now</p>
 <% end %>
