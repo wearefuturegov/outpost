@@ -29,7 +29,7 @@
 
   <div class="panel">
 
-        <%= render "shared/collapsible", name: "Services", count: @organisation.services.count, id: "organisation-services-list" do %>
+        <%= render "shared/collapsible", name: "Services", count: @organisation.services_count, id: "organisation-services-list" do %>
           <% if @organisation.services.present? %>  
             <ul class="big-list">
               <% @organisation.services.limit(30).each do |s| %>
@@ -38,7 +38,7 @@
                 </li>
               <% end %>
             </ul>
-            <% if @organisation.services.length > 30 %>
+            <% if @organisation.services_count > 30 %>
               <p><em>Showing first 30 services</em></p>
             <% end %>
           <% else %>
@@ -47,7 +47,7 @@
           <% end %>
         <% end %>
 
-        <%= render "shared/collapsible", name: "Users", count: @organisation.users.count, id: "organisation-users-list" do %>
+        <%= render "shared/collapsible", name: "Users", count: @organisation.users_count, id: "organisation-users-list" do %>
           <% if @organisation.users.present? %>
             <ul class="big-list">
               <% @organisation.users.each do |u| %>
