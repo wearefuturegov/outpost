@@ -13,7 +13,7 @@ class Location < ApplicationRecord
   paginates_per 20
 
   attr_accessor :skip_mongo_callbacks
-  after_save :update_index, if: -> { skip_mongo_callbacks != true }
+  after_commit :update_index, if: -> { skip_mongo_callbacks != true }
 
   def postal_code_is_valid
     parsed = UKPostcode.parse(postal_code)
