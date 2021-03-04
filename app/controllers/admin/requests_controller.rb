@@ -1,6 +1,7 @@
 class Admin::RequestsController < Admin::BaseController
     def index
         @requests = Service
+            .page(params[:page])
             .where(approved: nil)
             .includes(:organisation, :service_taxonomies, :taxonomies)
             .order(updated_at: :DESC)
