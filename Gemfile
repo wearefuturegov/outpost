@@ -27,7 +27,6 @@ gem 'httparty'
 gem 'devise-security'
 gem 'rails_email_validator'
 gem 'email_address'
-# gem 'sendgrid-actionmailer'
 gem 'mail-notify'
 gem 'acts-as-taggable-on'
 gem 'closure_tree'
@@ -35,7 +34,6 @@ gem 'uk_postcode'
 gem 'diffy'
 gem 'mongo'
 gem 'doorkeeper'
-gem 'sidekiq'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
