@@ -20,8 +20,8 @@
         <td>
           <%= render "shared/poppables/organisation", o: s.organisation if s.organisation %>
         <td>
-          <% s.taxonomies.roots.each do |t| %>
-            <%= link_to t.name, admin_taxonomy_path(t), class: "taxonomy" %>
+          <% s.taxonomies.each do |t| %>
+            <%= link_to t.name, admin_taxonomy_path(t), class: "taxonomy" if t.parent_id == nil %>
           <% end %>
         </td>
         <td><%= time_ago_in_words(s.updated_at).humanize %> ago</td>

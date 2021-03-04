@@ -21,8 +21,8 @@
         <% @organisations.each do |o| %>
           <tr>
             <td><%= link_to o.display_name, admin_organisation_path(o) %></td>
-            <td><%= o.services.length %></td>
-            <td><%= o.users.length %></td>
+            <td><%= o.services_count %></td>
+            <td><%= o.users_count %></td>
             <td><%= time_ago_in_words(o.updated_at).humanize %> ago</td>
             <td><%= time_ago_in_words(o.created_at).humanize %> ago</td>
           </tr>
