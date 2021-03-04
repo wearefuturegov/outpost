@@ -1,5 +1,5 @@
 class Admin::OrganisationsController < Admin::BaseController
-  before_action :set_organisation, only: [:show, :edit, :update]
+  before_action :set_organisation, only: [:show, :edit, :update, :destroy]
 
   def index
     @filterrific = initialize_filterrific(
@@ -53,6 +53,15 @@ class Admin::OrganisationsController < Admin::BaseController
       redirect_to admin_organisation_path(@organisation), notice: "Organisation has been created."
     else
       render "new"
+    end
+  end
+
+  def destroy
+    if @organisation.services.any? || @organisation.users.any?
+      redirect_to admin_organisation_path(@organisation), notice: "Organisations can only be removed when they have no services or users."
+    else
+      @organisation.destroy
+      redirect_to admin_organisations_path, notice: "Organisation has been deleted."
     end
   end
 
