@@ -1,47 +1,48 @@
 <% content_for :header do %>
-    <h1 class="page-header__title">Ofsted feed</h1>
-    <%= render "shortcut-nav" %>
+<h1 class="page-header__title">Ofsted feed</h1>
+<%= render "shortcut-nav" %>
 <% end %>
 
 <% if @requests.present? %>
-  <ul class="todo-list">
+<ul class="todo-list">
     <% @requests.each do |s| %>
-      <li class="todo-list__item">
+    <li class="todo-list__item">
         <div>
-          <h2><%= link_to s.display_name.truncate(25), admin_ofsted_path(s) %></h2>
-          <p>
-            <%= time_ago_in_words(s.updated_at).humanize %> ago
-            <span class="todo-list__divider">|</span>
-            <%= link_to "Compare versions", admin_ofsted_versions_path(s) %>
-          </p>
+            <h2><%= link_to s.display_name.truncate(25), admin_ofsted_path(s) %></h2>
+            <p>
+                <%= time_ago_in_words(s.updated_at).humanize %> ago
+                <span class="todo-list__divider">|</span>
+                <%= link_to "Compare versions", admin_ofsted_versions_path(s) %>
+            </p>
         </div>
         <% if s.status === "new" %>
-            <div class="todo-status todo-status--new">
-                <% if s.registration_status === "PROP" %>
-                  <strong>New proposed provider</strong>
-                <% else %>
-                  <strong>New provider</strong>
-                <% end %>
-            </div>
+        <div class="todo-status todo-status--new">
+            <% if s.registration_status === "PROP" %>
+            <strong>New proposed provider</strong>
+            <% else %>
+            <strong>New provider</strong>
+            <% end %>
+        </div>
         <% elsif s.status === "deleted"%>
-            <div class="todo-status todo-status--deleted">
-                <strong>No longer in Ofsted feed</strong>
-            </div>
+        <div class="todo-status todo-status--deleted">
+            <strong>No longer in Ofsted feed</strong>
+        </div>
         <% elsif s.status === "restored"%>
-            <div class="todo-status">
-              <strong>Reappeared in feed</strong>
-              <p><%= s.unapproved_fields.join(", ") %></p>
-            </div>
+        <div class="todo-status">
+            <strong>Reappeared in feed</strong>
+            <p><%= s.unapproved_fields.join(", ") %></p>
+        </div>
         <% else %>
-            <div class="todo-status">
+        <div class="todo-status">
             <strong>Changed</strong>
             <p><%= s.unapproved_fields.join(", ") %></p>
-            </div>
+        </div>
         <% end %>
         <%= link_to "Acknowledge", admin_ofsted_dismiss_path(s), method: "put", class: "button" %>
-      </li>
+    </li>
     <% end %>
-  </ul>
+</ul>
+<%= paginate @requests %>
 <% else %>
-  <p class="no-results  no-results--big">Nothing to do right now</p>
+<p class="no-results  no-results--big">Nothing to do right now</p>
 <% end %>

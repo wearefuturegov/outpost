@@ -60,6 +60,7 @@ class Admin::OfstedController < Admin::BaseController
         .not(status: nil)
         .order(status: :ASC)
         .order(updated_at: :ASC)
+        .page(params[:page])
     end
 
     def dismiss
