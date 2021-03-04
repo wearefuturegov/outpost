@@ -22,7 +22,7 @@ class Admin::ServicesController < Admin::BaseController
       ],
     ) or return
 
-    @services = @filterrific.find.page(params[:page])
+    @services = @filterrific.find.page(params[:page]).includes(:organisation, :service_taxonomies, :taxonomies)
     
     # shortcut nav
     @services = @services.ofsted_registered if params[:ofsted] === "true"
