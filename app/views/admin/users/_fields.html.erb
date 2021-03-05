@@ -22,9 +22,10 @@
     <%= f.label :organisation_id, "Parent organisation", class: "field__label" %>
 
     <% if @user.organisation.present? %>
-    <%= f.collection_select( :organisation_id, Organisation.all, :id, :display_name, {selected: @user.organisation.id, include_blank: "" }, class: "field__input", data: { choices: true }, disabled: !current_user.admin_users? )%>
+        <%= link_to "Go to organisation", admin_organisation_path(@user.organisation), class: "field__secondary-link" %>
+        <%= f.collection_select( :organisation_id, Organisation.all, :id, :display_name, {selected: @user.organisation.id, include_blank: "" }, class: "field__input", data: { choices: true }, disabled: !current_user.admin_users? )%>
     <% else %>
-    <%= f.collection_select( :organisation_id, Organisation.all, :id, :display_name, {include_blank: "" }, class: "field__input", data: { choices: true }, disabled: !current_user.admin_users? )%>
+        <%= f.collection_select( :organisation_id, Organisation.all, :id, :display_name, {include_blank: "" }, class: "field__input", data: { choices: true }, disabled: !current_user.admin_users? )%>
     <% end %>
 </div>
 
