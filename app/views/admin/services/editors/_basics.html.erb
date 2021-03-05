@@ -6,7 +6,9 @@
 
     <div class="field field--required <%= mark_unapproved_field("organisation_id") %>">
         <%= s.label :organisation_id, "Parent organisation", class: "field__label" %>
+        
         <% if @service.organisation.present? %>
+            <%= link_to "Go to organisation", admin_organisation_path(@service.organisation), class: "field__secondary-link" %>
             <%= s.collection_select( :organisation_id, Organisation.all, :id, :display_name, {selected: @service.organisation.id, include_blank: "" }, class: "field__input", data: { choices: true } )%>
         <% else %>
             <%= s.collection_select( :organisation_id, Organisation.all, :id, :display_name, {include_blank: "" }, class: "field__input", data: { choices: true } )%>
