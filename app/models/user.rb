@@ -21,7 +21,9 @@ class User < ApplicationRecord
   pg_search_scope :search, 
     against: [:id, :email, :first_name, :last_name], 
     using: {
-      tsearch: { prefix: true }
+      trigram: {
+        threshold: 0.2
+      }
     }
 
   filterrific(
