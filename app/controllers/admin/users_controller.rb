@@ -100,6 +100,7 @@ class Admin::UsersController < Admin::BaseController
         :admin_users,
         :organisation_id,
         :label_list,
+        :marked_for_deletion
       )
     end
 end

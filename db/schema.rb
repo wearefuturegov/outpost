@@ -284,7 +284,6 @@ ActiveRecord::Schema.define(version: 2021_03_04_225518) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "discarded_at"
-    t.boolean "approved", default: true
     t.date "visible_from"
     t.date "visible_to"
     t.integer "notes_count", default: 0, null: false
@@ -303,6 +302,7 @@ ActiveRecord::Schema.define(version: 2021_03_04_225518) do
     t.boolean "age_band_all"
     t.string "old_open_objects_external_id"
     t.boolean "temporarily_closed"
+    t.boolean "approved"
     t.index ["discarded_at"], name: "index_services_on_discarded_at"
     t.index ["ofsted_item_id"], name: "index_services_on_ofsted_item_id"
     t.index ["organisation_id"], name: "index_services_on_organisation_id"

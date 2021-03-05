@@ -1,0 +1,12 @@
+<% if f.object.discarded? %>
+    <div class="danger-zone">
+        <h2>Danger zone</h2>
+        <p>Permanently deleted users will be removed after 30 days. They can't be recovered by anyone.</p>
+        <div class="field">
+            <div class="checkbox">
+                <%= f.check_box :marked_for_deletion, {class: "checkbox__input", checked: @user.marked_for_deletion?}, Time.now %>
+                <%= f.label :marked_for_deletion, "Mark this user for permanent deletion?", class: "checkbox__label" %>
+            </div>
+        </div>
+    </div>
+<% end %>
