@@ -78,7 +78,7 @@ class Service < ApplicationRecord
     direction = /desc$/.match?(sort_option) ? "desc" : "asc"
     case sort_option.to_s
     when /^recent/
-      order("updated_at desc")
+      order("services.updated_at desc")
     when /^name_/
       order("LOWER(services.name) #{direction}")
     when /^created_at_/
