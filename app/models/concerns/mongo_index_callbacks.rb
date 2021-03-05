@@ -5,10 +5,14 @@ module MongoIndexCallbacks
     attr_accessor :skip_mongo_callbacks
 
     included do
-        after_save :update_index, if: -> { skip_mongo_callbacks != true }
+        after_commit :update_index, if: -> { skip_mongo_callbacks != true }
     end
 
     def update_index
+        UpdateIndexServicesJob.perform_later(self)
+    end
+
+    def update_this_service_in_index
         if self.approved? && self.publicly_visible?
             collection = get_mongo_collection
             collection.find_one_and_update({id: self.id}, IndexedServicesSerializer.new(self).as_json, {upsert: true})
@@ -16,20 +20,6 @@ module MongoIndexCallbacks
             collection = get_mongo_collection
             collection.find_one_and_delete({id: self.id})
         end
-
-        # is the most recent approved version publicly visible?
-        # if self.approved? && self.publicly_visible?
-        #     collection.find_one_and_update({id: self.id}, IndexedServicesSerializer.new(self).as_json, {upsert: true})
-        
-        # # if not, is the last approved snapshot publicly visible?
-        # elsif !self.approved? && self.last_approved_snapshot && self.last_approved_snapshot&.object['visible'] && self.last_approved_snapshot&.object['discarded_at'].nil?
-        #     collection.find_one_and_update({id: self.id}, IndexedServicesSerializer.new(Service.from_hash(self.last_approved_snapshot.object)).as_json, {upsert: true})
-         
-        # # if not, delete it from the index
-        # else
-        #     collection.find_one_and_delete({id: self.id})
-        # end
-
     end
 
     def get_mongo_collection

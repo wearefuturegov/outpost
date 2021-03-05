@@ -8,7 +8,7 @@ class UpdateIndexOrganisationsJob < ApplicationJob
       collection = client.database[:indexed_services]
       query = collection.find({ "organisation.id": { "$eq": organisation.id } }, { id: 1 })
       services = Service.find(query.map { |d| d['id'] })
-      services.each {|s| s.update_index }
+      services.each {|s| s.update_this_service_in_index }
     end
   end
   
