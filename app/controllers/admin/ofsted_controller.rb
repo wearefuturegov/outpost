@@ -58,8 +58,7 @@ class Admin::OfstedController < Admin::BaseController
     def pending
       @requests = OfstedItem.where
         .not(status: nil)
-        .order(status: :ASC)
-        .order(updated_at: :ASC)
+        .order(updated_at: :desc)
         .page(params[:page])
     end
 
