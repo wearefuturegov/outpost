@@ -18,7 +18,7 @@ task :build_public_index => :environment  do
 
     # 3. insert latest approved snapshots of unapproved services (complicated)
     unapproved_count = 0
-    Service.where(approved: false).each do |result|
+    Service.where(approved: [false, nil]).each do |result|
         approved_alternative = result.last_approved_snapshot
         unless approved_alternative
             puts "🚨 No alternative approved snapshot of #{result.name} exists. Skipping."
