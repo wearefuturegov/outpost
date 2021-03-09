@@ -3,7 +3,6 @@ class TriggerScoutRebuildJob < ApplicationJob
   
     def perform()
         if ENV["SCOUT_BUILD_HOOK"]
-            byebug
             HTTParty.post(ENV["SCOUT_BUILD_HOOK"])
         end
     end
