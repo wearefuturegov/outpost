@@ -11,9 +11,15 @@
         <%= s.collection_check_boxes( :taxonomy_ids, tree.keys, :id, :name) do |c| %>
             <div class="tabs__panel">
               <div class="tabs__checkbox-area">
+
+                <div class="field checkbox checkbox--small">
+                    <%= c.check_box class: "checkbox__input" %>
+                    <%= c.label class: "checkbox__label" %>
+                </div>
+
                   <% branch = tree[c.object] %>
                   <%= s.collection_check_boxes( :taxonomy_ids, sorted_by_selected(branch.keys, @service), :id, :name) do |d| %>
-                      <div class="field checkbox checkbox--small">
+                      <div class="field checkbox checkbox--small checkbox--level-1">
                           <%= d.check_box class: "checkbox__input" %>
                           <%= d.label class: "checkbox__label" %>
                       </div>
