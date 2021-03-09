@@ -82,7 +82,7 @@ class Service < ApplicationRecord
     when /^name_/
       order("LOWER(services.name) #{direction}")
     when /^created_at_/
-      order("created_at #{direction}")
+      order("services.created_at #{direction}")
     else
       raise(ArgumentError, "Invalid sort option: #{sort_option.inspect}")
     end
