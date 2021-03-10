@@ -9,6 +9,7 @@ class UpdateIndexLocationsJob < ApplicationJob
       query = collection.find({ "locations.id": { "$eq": location.id } }, { id: 1 })
       services = Service.find(query.map { |d| d['id'] })
       services.each {|s| s.update_this_service_in_index }
+      client.close
     end
   end
   

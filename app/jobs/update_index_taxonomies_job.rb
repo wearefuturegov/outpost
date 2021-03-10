@@ -9,5 +9,6 @@ class UpdateIndexTaxonomiesJob < ApplicationJob
     query = collection.find({ "taxonomies.id": { "$eq": taxon.id } }, { id: 1 })
     services = Service.find(query.map { |d| d['id'] })
     services.each {|s| s.update_this_service_in_index }
+    client.close
   end
 end
