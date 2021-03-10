@@ -14,18 +14,21 @@ module MongoIndexCallbacks
 
     def update_this_service_in_index
         if self.approved? && self.publicly_visible?
-            collection = get_mongo_collection
+            client = get_mongo_client
+            collection = client.database[:indexed_services]
             collection.find_one_and_update({id: self.id}, IndexedServicesSerializer.new(self).as_json, {upsert: true})
+            client.close
         elsif self.approved && !self.publicly_visible?
-            collection = get_mongo_collection
+            client = get_mongo_client
+            collection = client.database[:indexed_services]
             collection.find_one_and_delete({id: self.id})
+            client.close
         end
     end
 
-    def get_mongo_collection
+    def get_mongo_client
         client = Mongo::Client.new(ENV["DB_URI"] || 'mongodb://localhost:27017/outpost_development?authSource=admin', {
             retry_writes: false
         })
-        collection = client.database[:indexed_services]
     end
 end

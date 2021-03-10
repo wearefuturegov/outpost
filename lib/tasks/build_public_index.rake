@@ -36,6 +36,8 @@ task :build_public_index => :environment  do
         unapproved_count = unapproved_count + 1
     end 
 
+    client.close
+
     puts "\n\n 🏁🏁 SUMMARY 🏁🏁"
     puts "👉 #{approved_results.length} approved services added to index."
     puts "👉 #{unapproved_count} alternative snapshots of unapproved services added to index."
