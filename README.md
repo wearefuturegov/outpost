@@ -95,6 +95,7 @@ Some of these can be run manually, and some are best scheduled using [Heroku Sch
 | `process_permanent_deletions` | Permanently delete any services and users that have been "discarded" for more than 30 days\.                                                                 | Weekly             |
 | `ofsted:create_initial_items` | Build the initial Ofsted items table                                                                                                                         | One\-off           |
 | `ofsted:update_items`         | Check for any changes to Ofsted items against the Ofsted API                                                                                                 | Daily, overnight   |
+| `update_counters:all`         | Update the counter caches to keep them in sync                                                                                                               | Daily, overnight   |
 
 ## 🧬 Configuration
 
