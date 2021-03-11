@@ -1,6 +1,6 @@
 class Admin::LabelsController < Admin::BaseController
     def index
-        @labels = ActsAsTaggableOn::Tag.most_used
+        @labels = ActsAsTaggableOn::Tag.most_used(100)
     end
 
     def destroy
