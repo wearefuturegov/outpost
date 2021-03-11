@@ -22,7 +22,7 @@ class User < ApplicationRecord
     against: [:id, :email, :first_name, :last_name], 
     using: {
       trigram: {
-        threshold: 0.2
+        threshold: 0.1
       }
     }
 
