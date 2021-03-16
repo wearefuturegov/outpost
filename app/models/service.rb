@@ -282,7 +282,7 @@ class Service < ApplicationRecord
   def remove_ignorable_nested_fields(key, value)
     case key
     when "taxonomies"
-      value.map{ |nested_item| nested_item.except( *ignorable_nested_taxonomy_fields )}
+      value.map{ |taxonomy| taxonomy.except( *ignorable_nested_taxonomy_fields )}
     else
       value
     end
