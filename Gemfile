@@ -44,8 +44,8 @@ group :development, :test do
   gem 'dotenv-rails'
   gem 'simplecov'
   gem 'rack-mini-profiler'
-  gem 'bullet'
   gem 'faker'
+  gem 'bullet'
 end
 
 group :development do
