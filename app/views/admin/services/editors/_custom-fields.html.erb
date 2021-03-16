@@ -7,7 +7,7 @@
             <p class="field-group__hint"><%= section.hint %></p>
         <% end %>
 
-        <% section.custom_fields.order(created_at: :asc).each do |field| %>
+        <% section.custom_fields.each do |field| %>
             <%= s.fields_for :meta, s.object.meta.find_or_initialize_by(key: field.key) do |c| %>
                 <%= c.hidden_field :key %>
 
