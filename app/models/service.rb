@@ -275,7 +275,7 @@ class Service < ApplicationRecord
   end
 
   def ignorable_nested_taxonomy_fields
-    ["services_count"]
+    ["services_count", "updated_at", "created_at"]
   end
 
   def remove_ignorable_nested_fields(key, value)
