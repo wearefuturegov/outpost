@@ -264,7 +264,8 @@ class Service < ApplicationRecord
       :local_offer => {},
       :send_needs => {},
       :cost_options => {},
-      :regular_schedules => {}
+      :regular_schedules => {},
+      :links => {}
     }
     super
   end
