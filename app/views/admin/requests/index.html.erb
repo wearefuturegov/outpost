@@ -12,7 +12,7 @@
           <p>
             <%= time_ago_in_words(s.updated_at).humanize %> ago
             <% if s.last_version && s.last_version.whodunnit %>
-              by <%= render "shared/poppables/user", u:  User.includes(:watches).where(id: s.last_version.whodunnit).first %>
+              by <%= render "shared/poppables/user", u:  s.last_version.user %>
             <% else %>
               by system
             <% end %>
