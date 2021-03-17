@@ -55,7 +55,7 @@ class Service < ApplicationRecord
   has_many :locations, through: :service_at_locations
   accepts_nested_attributes_for :locations, allow_destroy: true, reject_if: :all_blank
 
-  has_one :last_approved_snapshot, -> { where("object->>'approved' = 'true'").reorder(created_at: :desc) }, class_name: 'PaperTrail::Version', as: :item
+  has_one :last_approved_snapshot, -> { where("object->>'approved' = 'true'").reorder(created_at: :desc, id: :desc) }, class_name: 'PaperTrail::Version', as: :item
   scope :with_last_approved_version, -> { includes(:last_approved_snapshot) }
 
   has_one :last_version, -> { order(created_at: :desc) }, class_name: 'PaperTrail::Version', as: :item
