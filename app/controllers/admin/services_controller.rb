@@ -76,6 +76,7 @@ class Admin::ServicesController < Admin::BaseController
 
   def set_service
     @service = Service.includes(notes: [:user]).find(params[:id])
+    @custom_field_sections = CustomFieldSection.includes(:custom_fields).visible_to(current_user)
   end
 
   def service_params

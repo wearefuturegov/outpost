@@ -1,6 +1,6 @@
 <%= mark_unapproved_array("meta") do %>
 
-<% CustomFieldSection.visible_to(current_user).each do |section| %>
+<% @custom_field_sections.each do |section| %>
     <div class="field-group">
         <h3 class="field-group__legend"><%= section.name %></h3>
         <% if section.hint.present? %>
