@@ -29,9 +29,9 @@ class Admin::UsersController < Admin::BaseController
 
       # shortcut nav
       if params[:deactivated] === "true"
-        @users = @users.discarded
+        @users = @users.discarded.includes(:organisation)
       else
-        @users = @users.kept
+        @users = @users.kept.includes(:organisation)
       end
     end
 
