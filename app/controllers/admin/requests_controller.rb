@@ -3,7 +3,9 @@ class Admin::RequestsController < Admin::BaseController
         @requests = Service
             .page(params[:page])
             .where(approved: nil)
-            .includes(:organisation, :service_taxonomies, :taxonomies)
+            .includes(:organisation, :service_taxonomies, :taxonomies, :taggings, :meta, :contacts, :local_offer, :send_needs, :cost_options, :regular_schedules, locations: [:accessibilities])
+            .with_last_approved_version
+            .with_last_version
             .order(updated_at: :DESC)
     end
 
