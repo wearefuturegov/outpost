@@ -216,8 +216,9 @@ class OfstedItem < ApplicationRecord
       # we don't care about these fields
       unless ignorable_fields.include?(key)
 
+        last_approved_value = last_approved_version.object.present? ? last_approved_version.object[key] : nil
         # eql? lets us do a slightly more intelligent comparison than simple "===" equality
-        unless value.eql?(last_approved_version.object[key])
+        unless value.eql?(last_approved_value)
           changed_fields << key.humanize
         end
       end
