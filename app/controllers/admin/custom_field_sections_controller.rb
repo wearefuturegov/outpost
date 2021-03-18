@@ -3,7 +3,7 @@ class Admin::CustomFieldSectionsController < Admin::BaseController
   before_action :set_section, only: [:show, :update, :destroy]
 
   def index
-    @sections = CustomFieldSection.all
+    @sections = CustomFieldSection.includes(:custom_fields).all
   end
 
   def new

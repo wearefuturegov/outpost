@@ -8,7 +8,8 @@ class Service < ApplicationRecord
     meta: {
       object: proc { |s| s.as_json },
       object_changes: proc { |s| s.saved_changes.as_json }
-    }
+    },
+    class_name: 'ServiceVersion'
   )
 
   # associations
@@ -54,6 +55,12 @@ class Service < ApplicationRecord
   has_many :service_at_locations
   has_many :locations, through: :service_at_locations
   accepts_nested_attributes_for :locations, allow_destroy: true, reject_if: :all_blank
+
+  has_one :last_approved_snapshot, -> { where("object->>'approved' = 'true'").reorder(created_at: :desc, id: :desc) }, class_name: 'ServiceVersion', as: :item
+  scope :with_last_approved_version, -> { includes(:last_approved_snapshot) }
+
+  has_one :last_version, -> { order(created_at: :desc) }, class_name: 'ServiceVersion', as: :item
+  scope :with_last_version, -> { includes(last_version: [user: :watches]) }
 
   # callbacks
   after_save :notify_watchers
@@ -267,20 +274,11 @@ class Service < ApplicationRecord
     ["created_at", "updated_at", "approved", "discarded_at", "organisation", "notes_count"]
   end
 
-  # return the most recent approved snapshot, if it exists
-  def last_approved_snapshot
-    self.versions
-      .where("object->>'approved' = 'true'")
-      .reorder(created_at: :desc)
-      .first
-  end
-
   def unapproved_fields
     changed_fields = []
-    last_approved_version = last_approved_snapshot
     self.as_json.each do |key, value|
       # eql? lets us do a slightly more intelligent comparison than simple "===" equality
-      unless value.eql?(last_approved_version.object[key])
+      unless value.eql?(last_approved_snapshot.object[key])
         # we don't care about these fields
         unless ignorable_fields.include?(key)
           changed_fields << key
