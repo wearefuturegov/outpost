@@ -274,11 +274,28 @@ class Service < ApplicationRecord
     ["created_at", "updated_at", "approved", "discarded_at", "organisation", "notes_count"]
   end
 
+  def ignorable_nested_taxonomy_fields
+    ["services_count", "updated_at", "created_at"]
+  end
+
+  def remove_ignorable_nested_fields(key, value)
+    case key
+    when "taxonomies"
+      value.map{ |taxonomy| taxonomy.except( *ignorable_nested_taxonomy_fields )}
+    else
+      value
+    end
+  end
+
   def unapproved_fields
     changed_fields = []
     self.as_json.each do |key, value|
+
+      current_value = remove_ignorable_nested_fields(key, value)
+      last_approved_value = remove_ignorable_nested_fields(key, last_approved_snapshot.object[key])
+
       # eql? lets us do a slightly more intelligent comparison than simple "===" equality
-      unless value.eql?(last_approved_snapshot.object[key])
+      unless current_value.eql?(last_approved_value)
         # we don't care about these fields
         unless ignorable_fields.include?(key)
           changed_fields << key
