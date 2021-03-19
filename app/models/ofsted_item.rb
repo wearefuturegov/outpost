@@ -219,10 +219,10 @@ class OfstedItem < ApplicationRecord
       unless ignorable_fields.include?(key)
 
         # Object could be nil if the version is a create so in that case set value to nil.
-        last_approved_value = version_for_comparison.object.present? ? version_for_comparison.object[key] : nil
+        last_acknowledged_value = version_for_comparison.object.present? ? version_for_comparison.object[key] : nil
 
         # eql? lets us do a slightly more intelligent comparison than simple "===" equality
-        unless value.eql?(last_approved_value)
+        unless value.eql?(last_acknowledged_value)
           changed_fields << key.humanize
         end
       end
