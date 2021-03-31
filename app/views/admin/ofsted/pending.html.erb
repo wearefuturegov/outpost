@@ -30,12 +30,12 @@
         <% elsif s.status === "restored"%>
         <div class="todo-status">
             <strong>Reappeared in feed</strong>
-            <p><%= s.unapproved_fields.join(", ") %></p>
+            <p><%= s.unacknowledged_changes.join(", ") %></p>
         </div>
         <% else %>
         <div class="todo-status">
             <strong>Changed</strong>
-            <p><%= s.unapproved_fields.join(", ") %></p>
+            <p><%= s.unacknowledged_changes.join(", ") %></p>
         </div>
         <% end %>
         <%= link_to "Acknowledge", admin_ofsted_dismiss_path(s), method: "put", class: "button" %>

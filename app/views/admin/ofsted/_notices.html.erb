@@ -21,7 +21,7 @@
 
             <% else %>
 
-                <p>Ofsted has made changes to <strong><%= @item.unapproved_fields.join(", ") %></strong>.</p>
+                <p>Ofsted has made changes to <strong><%= @item.unacknowledged_changes.join(", ") %></strong>.</p>
 
                 <%= link_to "Acknowledge", admin_ofsted_dismiss_path(@item), method: "put", class: "notice__action" %>
                 <span class="notice__divider">|</span>

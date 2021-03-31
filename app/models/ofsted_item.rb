@@ -201,26 +201,28 @@ class OfstedItem < ApplicationRecord
     end
   end
 
-  def last_approved_snapshot
+  def last_acknowledged_version
     self.versions
       .where("(object->>'status') is null")
       .reorder(created_at: :desc)
       .first
   end
 
-  def unapproved_fields
+  def unacknowledged_changes
     changed_fields = []
-    last_approved_version = last_approved_snapshot
+
+    version_for_comparison = last_acknowledged_version
+
     self.as_json.each do |key, value|
 
       # we don't care about these fields
       unless ignorable_fields.include?(key)
 
         # Object could be nil if the version is a create so in that case set value to nil.
-        last_approved_value = last_approved_version.object.present? ? last_approved_version.object[key] : nil
+        last_acknowledged_value = version_for_comparison.object.present? ? version_for_comparison.object[key] : nil
 
         # eql? lets us do a slightly more intelligent comparison than simple "===" equality
-        unless value.eql?(last_approved_value)
+        unless value.eql?(last_acknowledged_value)
           changed_fields << key.humanize
         end
       end
