@@ -25,7 +25,7 @@
                       </div>
                       <% leaf = branch[d.object] %>
                       <%= s.collection_check_boxes( :taxonomy_ids, sorted_by_selected(leaf.keys, @service), :id, :name) do |e| %>
-                          <div class="field checkbox checkbox--small checkbox--level-1">
+                          <div class="field checkbox checkbox--small checkbox--level-2">
                               <%= e.check_box class: "checkbox__input" %>
                               <%= e.label class: "checkbox__label" %>
                           </div>
