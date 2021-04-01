@@ -292,13 +292,14 @@ class Service < ApplicationRecord
     changed_fields = []
     self.as_json.each do |key, value|
 
-      current_value = remove_ignorable_nested_fields(key, value)
-      last_approved_value = remove_ignorable_nested_fields(key, last_approved_snapshot.object[key])
+      # we don't care about these fields
+      unless ignorable_fields.include?(key)
 
-      # eql? lets us do a slightly more intelligent comparison than simple "===" equality
-      unless current_value.eql?(last_approved_value)
-        # we don't care about these fields
-        unless ignorable_fields.include?(key)
+        current_value = remove_ignorable_nested_fields(key, value)
+        last_approved_value = remove_ignorable_nested_fields(key, last_approved_snapshot.object[key])
+
+        # eql? lets us do a slightly more intelligent comparison than simple "===" equality
+        unless current_value.eql?(last_approved_value)
           changed_fields << key
         end
       end
