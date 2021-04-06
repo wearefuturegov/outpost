@@ -1,5 +1,6 @@
 class Admin::ServicesController < Admin::BaseController
   before_action :set_service, only: [:show, :update, :destroy]
+  before_action :load_custom_field_sections, only: [:show, :update, :destroy, :new]
 
   def index
     @filterrific = initialize_filterrific(
@@ -76,6 +77,9 @@ class Admin::ServicesController < Admin::BaseController
 
   def set_service
     @service = Service.includes(notes: [:user]).find(params[:id])
+  end
+
+  def load_custom_field_sections
     @custom_field_sections = CustomFieldSection.includes(:custom_fields).visible_to(current_user)
   end
 
