@@ -19,8 +19,6 @@ class Service < ApplicationRecord
 
   has_and_belongs_to_many :send_needs
 
-  has_many :snapshots
-
   has_many :links
   accepts_nested_attributes_for :links, allow_destroy: true, reject_if: :all_blank
 
