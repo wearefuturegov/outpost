@@ -1,6 +1,6 @@
 class Admin::ServicesController < Admin::BaseController
   before_action :set_service, only: [:show, :update, :destroy]
-  before_action :load_custom_field_sections, only: [:show, :update, :destroy, :new]
+  before_action :load_custom_field_sections, only: [:show, :update, :destroy, :new, :create]
 
   def index
     @filterrific = initialize_filterrific(
