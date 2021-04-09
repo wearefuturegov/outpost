@@ -6,7 +6,7 @@ task :process_permanent_deletions => :environment  do
       service_id = s.id
       next unless s.marked_for_deletion
       next unless s.marked_for_deletion <= DateTime.now.beginning_of_day - 30.days
-      s.snapshots.destroy_all
+      s.versions.destroy_all
       s.service_at_locations.destroy_all
       s.service_taxonomies.destroy_all
       s.contacts.destroy_all
