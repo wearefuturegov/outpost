@@ -1,7 +1,9 @@
-Given(/I am logged in as (.*)user/) do |type|
+Given(/I am logged in as (.*) user/) do |type|
   @organisation = Organisation.create(name: 'Test Organisation')
-  if type == 'an ofsted admin '
+  if type == 'an ofsted admin'
     @login_user = User.create(first_name: 'User', last_name: 'Test', password: 'Password1', email: 'user@emailaddress.com', organisation: @organisation, admin: true, admin_ofsted: true)
+  elsif type == 'an admin'
+    @login_user = User.create(first_name: 'User', last_name: 'Test', password: 'Password1', email: 'user@emailaddress.com', organisation: @organisation, admin: true)
   else
     @login_user = User.create(first_name: 'User', last_name: 'Test', password: 'Password1', email: 'user@emailaddress.com', organisation: @organisation)
   end
