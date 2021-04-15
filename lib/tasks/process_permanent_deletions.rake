@@ -19,7 +19,7 @@ task :process_permanent_deletions => :environment  do
       s.meta.destroy_all
       s.destroy
       puts "Destroyed service #{service_id} and dependents"
-      destroyed_count += 1
+      destroyed_services_count += 1
     end
 
     User.discarded.each do |u|
@@ -28,7 +28,7 @@ task :process_permanent_deletions => :environment  do
       next unless u.marked_for_deletion <= DateTime.now.beginning_of_day - 30.days
       u.destroy
       puts "Destroyed user #{user_id}"
-      destroyed_count += 1
+      destroyed_users_count += 1
     end
 
     puts "Destroyed #{destroyed_services_count} services and #{destroyed_users_count} users"
