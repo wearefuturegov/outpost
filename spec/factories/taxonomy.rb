@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :taxonomy do
-    name { Faker::Lorem.word }
+    name { Faker::Lorem.sentence }
   end
 end
