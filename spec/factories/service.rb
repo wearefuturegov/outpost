@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :service do
-    name { Faker::Lorem.word }
+    name { Faker::Lorem.sentence }
     description { Faker::Lorem.paragraph }
     url { Faker::Internet.url }
     after(:create) do |service|
@@ -25,7 +25,6 @@ FactoryBot.define do
       create_list(:service_taxonomy, 4, service: service)
       create_list(:watch, 2, service: service)
       create_list(:note, 4, service: service)
-      create_list(:service_at_location, 1, service: service)
       create(:local_offer, service: service)
     end
   end
