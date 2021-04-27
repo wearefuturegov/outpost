@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_05_134944) do
+ActiveRecord::Schema.define(version: 2021_04_23_163044) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -75,12 +75,6 @@ ActiveRecord::Schema.define(version: 2021_03_05_134944) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "topic"
     t.index ["service_id"], name: "index_feedbacks_on_service_id"
-  end
-
-  create_table "inspection", id: false, force: :cascade do |t|
-    t.bigint "id"
-    t.string "provider_name"
-    t.json "json_array_elements"
   end
 
   create_table "links", force: :cascade do |t|
@@ -284,6 +278,7 @@ ActiveRecord::Schema.define(version: 2021_03_05_134944) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "discarded_at"
+    t.boolean "approved", default: true
     t.date "visible_from"
     t.date "visible_to"
     t.integer "notes_count", default: 0, null: false
@@ -302,7 +297,6 @@ ActiveRecord::Schema.define(version: 2021_03_05_134944) do
     t.boolean "age_band_all"
     t.string "old_open_objects_external_id"
     t.boolean "temporarily_closed"
-    t.boolean "approved"
     t.index ["discarded_at"], name: "index_services_on_discarded_at"
     t.index ["ofsted_item_id"], name: "index_services_on_ofsted_item_id"
     t.index ["organisation_id"], name: "index_services_on_organisation_id"
@@ -362,8 +356,8 @@ ActiveRecord::Schema.define(version: 2021_03_05_134944) do
     t.datetime "remember_created_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "organisation_id"
     t.boolean "admin"
+    t.bigint "organisation_id"
     t.string "first_name"
     t.string "last_name"
     t.datetime "last_seen"
@@ -399,6 +393,7 @@ ActiveRecord::Schema.define(version: 2021_03_05_134944) do
     t.index ["user_id"], name: "index_watches_on_user_id"
   end
 
+  add_foreign_key "contacts", "services"
   add_foreign_key "cost_options", "services"
   add_foreign_key "custom_fields", "custom_field_sections"
   add_foreign_key "feedbacks", "services"

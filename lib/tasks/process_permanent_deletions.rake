@@ -17,6 +17,7 @@ task :process_permanent_deletions => :environment  do
       s.notes.destroy_all
       s.watches.destroy_all
       s.meta.destroy_all
+      s.links.destroy_all
       s.destroy
       puts "Destroyed service #{service_id} and dependents"
       destroyed_services_count += 1
