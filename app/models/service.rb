@@ -5,6 +5,7 @@ class Service < ApplicationRecord
   include NormalizeBlankValues
 
   has_paper_trail(
+    on: [:create, :update],
     meta: {
       object: proc { |s| s.as_json },
       object_changes: proc { |s| s.saved_changes.as_json }
