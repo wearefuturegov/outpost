@@ -5,11 +5,7 @@
         <% @service.notes.each do |n| %>
           <article class="notes-list__note">
             <header class="notes-list__note-header">
-              <% if n.user.present? %>
-                <strong><%= render "shared/poppables/user", u: n.user %></strong>
-              <% else %>
-                unknown user
-              <% end %>
+              <strong><%= render "shared/poppables/user", u: n.user %></strong>
               | <%= time_ago_in_words(n.created_at).humanize %> ago 
               <% if n.user === current_user %>| <%= link_to "Remove", admin_service_note_path(@service, n), method: "delete", data: {confirm: "Are you sure you want to remove this note?"} %><% end %>
             </header>
