@@ -5,6 +5,7 @@ class Service < ApplicationRecord
   include NormalizeBlankValues
 
   has_paper_trail(
+    on: [:create, :update],
     meta: {
       object: proc { |s| s.as_json },
       object_changes: proc { |s| s.saved_changes.as_json }
@@ -315,5 +316,20 @@ class Service < ApplicationRecord
 
   def publicly_visible?
     visible && discarded_at.nil?
+  end
+
+  def destroy_associated_data
+    versions.destroy_all
+    service_at_locations.destroy_all
+    service_taxonomies.destroy_all
+    contacts.destroy_all
+    local_offer&.destroy
+    regular_schedules.destroy_all
+    cost_options.destroy_all
+    feedbacks.destroy_all
+    notes.destroy_all
+    watches.destroy_all
+    meta.destroy_all
+    links.destroy_all
   end
 end
