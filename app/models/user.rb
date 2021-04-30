@@ -1,7 +1,7 @@
 class User < ApplicationRecord
 
   # watch functionality
-  has_many :watches
+  has_many :watches, dependent: :destroy
   has_many :services, through: :watches
   has_many :notes
 
