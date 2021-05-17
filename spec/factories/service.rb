@@ -6,6 +6,7 @@ FactoryBot.define do
     after(:create) do |service|
       create_list(:location, 1, services: [service])
     end
+    organisation
   end
 
   factory :service_with_all_associations, class: 'Service' do
