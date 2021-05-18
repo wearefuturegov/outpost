@@ -43,8 +43,8 @@ class Service < ApplicationRecord
 
   has_many :feedbacks
 
-  has_many :service_taxonomies
-  has_many :taxonomies, through: :service_taxonomies
+  has_many :service_taxonomies, dependent: :destroy
+  has_many :taxonomies, -> { distinct }, through: :service_taxonomies
 
   has_many :watches
   has_many :users, through: :watches
@@ -63,7 +63,7 @@ class Service < ApplicationRecord
 
   # callbacks
   after_save :notify_watchers
-  before_save :recursively_add_parents
+  before_save :add_parent_taxonomies
   before_save :skip_nested_indexes
 
   filterrific(
@@ -238,11 +238,10 @@ class Service < ApplicationRecord
     ServiceMailer.with(service: self).notify_watchers_email.deliver_later
   end
 
-  def recursively_add_parents
+  def add_parent_taxonomies
     self.taxonomies.each do |t|
       self.taxonomies << t.ancestors
     end
-    self.taxonomies = self.taxonomies.uniq
   end
 
   def skip_nested_indexes
