@@ -8,7 +8,7 @@
     <% @requests.each do |s| %>
       <li class="todo-list__item">
         <div>
-          <h2><%= link_to s.display_name.truncate(25), admin_service_path(s) %></h2>
+          <h2><%= link_to s.display_name.truncate(25), admin_service_path(s), title: s.display_name %></h2>
           <p>
             <%= time_ago_in_words(s.updated_at).humanize %> ago
             <% if s.last_version && s.last_version.whodunnit %>
