@@ -3,7 +3,7 @@ const form = document.querySelector("[data-warn-unsaved-changes]")
 if(form){
     let unsavedChanges = false
 
-    form.querySelectorAll("input, textarea").forEach(input => {
+    form.querySelectorAll("input, textarea, select").forEach(input => {
         input.addEventListener("keyup", () => unsavedChanges = true)
         input.addEventListener("change", () => unsavedChanges = true)
     })
@@ -17,7 +17,12 @@ if(form){
     form.addEventListener("submit", e => unsavedChanges = false)
 
     window.addEventListener("beforeunload", e => {
-        if(unsavedChanges && !confirm(message)) e.preventDefault()
+        if(unsavedChanges) {
+            e.preventDefault()
+            // Chrome requires returnValue to be set, otherwise it won't show a
+            // confirm dialog.
+            e.returnValue = message
+        }
     })
 
     window.addEventListener("turbolinks:before-visit", e => {
