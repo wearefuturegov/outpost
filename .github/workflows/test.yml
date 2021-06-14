@@ -94,6 +94,7 @@ jobs:
       - name: Run tests
         env:
           RAILS_ENV: test
+          OFSTED_FEED_API_ENDPOINT: https://test-ofsted-feed.stub # this is not a real url, we just need an env variable set for the stub to work in tests
         run: |
           bundle exec rake
 
