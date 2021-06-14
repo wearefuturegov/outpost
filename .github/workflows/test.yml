@@ -76,7 +76,7 @@ jobs:
       - name: Yarn install
         run: yarn --frozen-lockfile
 
-      - name: Setup database and run tests
+      - name: Setup database
         env:
           RAILS_ENV: test
           DB_URI: mongodb://root:password@localhost:27017/outpost_development?authSource=admin
@@ -84,6 +84,17 @@ jobs:
           bundle exec rails db:drop
           bundle exec rails db:create
           bundle exec rails db:migrate
+
+      - name: Compile assets
+        env:
+          RAILS_ENV: test
+        run: |
+          bundle exec rails assets:precompile
+
+      - name: Run tests
+        env:
+          RAILS_ENV: test
+        run: |
           bundle exec rake
 
       - name: Upload report to Codecov
