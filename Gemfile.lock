@@ -90,6 +90,8 @@ GEM
     closure_tree (7.1.0)
       activerecord (>= 4.2.10)
       with_advisory_lock (>= 4.0.0)
+    codecov (0.5.2)
+      simplecov (>= 0.15, < 0.22)
     concurrent-ruby (1.1.8)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
@@ -407,6 +409,7 @@ DEPENDENCIES
   byebug
   capybara (>= 2.15)
   closure_tree
+  codecov
   cucumber-rails (~> 2.0.0)
   database_cleaner
   devise

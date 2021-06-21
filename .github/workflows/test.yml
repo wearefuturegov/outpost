@@ -1,12 +1,12 @@
 # This code from https://dev.to/vvo/a-rails-and-postgresql-setup-for-github-actions-ci-nc8
 # and https://dev.to/jennapederson/github-actions-in-action-2c5
 
-name: Unit tests
+name: Run tests
 
 on: [push]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     services:
@@ -30,13 +30,16 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+
       - name: Install native postgres client
         run: |
           sudo apt-get -y install libpq-dev
+
       - name: Set up Ruby 2.6.0
         uses: actions/setup-ruby@v1
         with:
           ruby-version: 2.6
+
       - name: Setup cache key and directory for gems cache
         uses: actions/cache@v1
         with:
@@ -44,11 +47,13 @@ jobs:
           key: ${{ runner.os }}-gems1-${{ hashFiles('**/Gemfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-gems1-
+
       - name: Install gems
         run: |
           bundle config path vendor/bundle
           bundle config --local build.sassc --disable-march-tune-native
           bundle install --jobs 4 --retry 3
+
       - name: Read Node.js version to install from `.nvmrc`
         run: echo "##[set-output name=NVMRC;]$(cat .nvmrc)"
         id: nvm
@@ -71,7 +76,7 @@ jobs:
       - name: Yarn install
         run: yarn --frozen-lockfile
 
-      - name: Setup database and run tests
+      - name: Setup database
         env:
           RAILS_ENV: test
           DB_URI: mongodb://root:password@localhost:27017/outpost_development?authSource=admin
@@ -79,4 +84,19 @@ jobs:
           bundle exec rails db:drop
           bundle exec rails db:create
           bundle exec rails db:migrate
-          bundle exec rspec
+
+      - name: Compile assets
+        env:
+          RAILS_ENV: test
+        run: |
+          bundle exec rails assets:precompile
+
+      - name: Run tests
+        env:
+          RAILS_ENV: test
+          OFSTED_FEED_API_ENDPOINT: https://test-ofsted-feed.stub # this is not a real url, we just need an env variable set for the stub to work in tests
+        run: |
+          bundle exec rake
+
+      - name: Upload report to Codecov
+        uses: codecov/codecov-action@v1
