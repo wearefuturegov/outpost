@@ -240,7 +240,9 @@ class Service < ApplicationRecord
 
   def add_parent_taxonomies
     self.taxonomies.each do |t|
-      self.taxonomies << t.ancestors
+      t.ancestors.each do |a|
+        self.taxonomies << a unless self.taxonomies.exists?(a.id)
+      end
     end
   end
 
