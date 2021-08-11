@@ -12,11 +12,13 @@ namespace :forest_admin do
     "young adults" => 25,
     "older adults" => nil
   }
+  
+  task :label_bfis_records => :environment do
+    set_existing_services_as_bfis
+  end
 
   task :import => :environment do
     start_time = Time.now
-
-    set_existing_services_as_bfis
 
     services_file = File.open('lib/seeds/bod/services.csv', "r:utf-8")
     services_csv = CSV.parse(services_file, headers: true)
