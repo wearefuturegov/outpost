@@ -4,8 +4,8 @@ class Taxonomy < ApplicationRecord
         dependent: :destroy, 
         numeric_order: true
 
-    has_many :service_taxonomies
-    has_many :services, through: :service_taxonomies
+    has_many :service_taxonomies, dependent: :destroy
+    has_many :services, -> { distinct }, through: :service_taxonomies
 
     attr_accessor :skip_mongo_callbacks
     after_commit :update_index, if: -> { skip_mongo_callbacks == !true }

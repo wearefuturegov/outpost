@@ -63,7 +63,7 @@ class Service < ApplicationRecord
 
   # callbacks
   after_save :notify_watchers
-  before_save :add_parent_taxonomies
+  after_save :add_parent_taxonomies
   before_save :skip_nested_indexes
 
   filterrific(
@@ -240,7 +240,9 @@ class Service < ApplicationRecord
 
   def add_parent_taxonomies
     self.taxonomies.each do |t|
-      self.taxonomies << t.ancestors
+      t.ancestors.each do |a|
+        self.taxonomies << a unless self.taxonomies.exists?(a.id)
+      end
     end
   end
 
