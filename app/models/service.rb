@@ -63,7 +63,7 @@ class Service < ApplicationRecord
 
   # callbacks
   after_save :notify_watchers
-  before_save :add_parent_taxonomies
+  after_save :add_parent_taxonomies
   before_save :skip_nested_indexes
 
   filterrific(
