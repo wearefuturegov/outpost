@@ -42,7 +42,8 @@ namespace :forest_admin do
         url: row["URL"],
         visible: set_visibility(row["Review status"]),
         min_age: set_min_age(row["Age groups"]),
-        max_age: set_max_age(row["Age groups"])
+        max_age: set_max_age(row["Age groups"]),
+        old_open_objects_external_id: row["Asset ID"]
       )
       service.skip_mongo_callbacks = true
       service.label_list.add("Buckinghamshire Online Directory")
