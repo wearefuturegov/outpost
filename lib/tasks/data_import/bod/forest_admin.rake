@@ -19,6 +19,8 @@ namespace :forest_admin do
 
   task :import => :environment do
     start_time = Time.now
+    
+    Rake::Task['users:create_users_from_file'].invoke
 
     services_file = File.open('lib/seeds/bod/services.csv', "r:utf-8")
     services_csv = CSV.parse(services_file, headers: true)
@@ -88,6 +90,8 @@ end
 def set_visibility(review_status)
   if review_status == 'Unpublish'
     return false
+  else
+    return true
   end
 end
 
