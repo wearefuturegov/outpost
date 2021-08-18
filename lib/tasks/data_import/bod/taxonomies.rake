@@ -4,7 +4,7 @@ namespace :bod do
 
       TAXONOMY_MAPPING = {
         "active" => ["Things to do", "Staying active"],
-        "social" => ["Things to do", "Socialising"],
+        "social" => ["Things to do"],
         "learning" => ["Education and learning"],
         "transport" => ["Advice and support", "Transport"],
         "support" => ["Advice and support"],
