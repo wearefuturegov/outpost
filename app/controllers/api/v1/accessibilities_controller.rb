@@ -1,4 +1,4 @@
-class API::V1::AccessibilityController < ApplicationController
+class API::V1::AccessibilitiesController < ApplicationController
     skip_before_action :authenticate_user!
   
     def index
