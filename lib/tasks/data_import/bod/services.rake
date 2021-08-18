@@ -39,7 +39,7 @@ namespace :bod do
           old_open_objects_external_id: row["Asset ID"]
         )
         service.skip_mongo_callbacks = true
-        service.label_list.add("Buckinghamshire Online Directory")
+        service.label_list.add("Bucks Online Directory")
         puts "Service #{service.name} failed to save, error message: #{service.errors.messages}" unless service.save
 
         contact = Contact.new(
