@@ -5,4 +5,8 @@ class Accessibility < ApplicationRecord
         name.humanize
     end
 
+    def slug
+        name.parameterize
+    end
+
 end
