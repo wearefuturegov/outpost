@@ -51,11 +51,20 @@ locations:
     longitude: 1.466765
 
 accessibilities: 
-  - Wheelchair-accessible bathroom
+  - Accessible toilet facilities
   - Hearing loop
-  - Nearby bus stop
-  - Nearby parking
-  - Lift available
+  - Car parking
+  - Changing facilities
+  - British sign language (bsl)
+  - Disabled car parking space
+  - Hoist
+  - Baby changing facilities
+  - Parking nearby
+  - Bus stop nearby
+  - Building has lift
+  - Wheelchair accessible entrance
+  - Partial wheelchair access
+
 
 send_needs: 
   - Autism
