@@ -7,12 +7,12 @@ class API::V1::SendNeedsController < ApplicationController
 
     private
 
-    def json_tree(needs)
-        needs.map do |t|
+    def json_tree(send_needs)
+        send_needs.map do |sn|
             {
-                id: t.id,
-                label: t.name,
-                slug: t.slug
+                id: sn.id,
+                label: sn.name,
+                slug: sn.slug
             }
         end
     end
