@@ -7,12 +7,12 @@ class API::V1::AccessibilityController < ApplicationController
 
     private
 
-    def json_tree(accessibility)
-        accessibility.map do |t|
+    def json_tree(accessibilities)
+        accessibilities.map do |a|
             {
-                id: t.id,
-                label: t.name,
-                slug: t.slug
+                id: a.id,
+                label: a.name,
+                slug: a.slug
             }
         end
     end
