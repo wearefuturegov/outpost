@@ -1,20 +1,5 @@
 namespace :ofsted do
 
-  task :create_initial_items => :environment do
-    response = HTTParty.get("#{ENV["OFSTED_FEED_API_ENDPOINT"]}?token=#{ENV["OFSTED_API_KEY"]}")
-    items = JSON.parse(response.body)["OfstedChildcareRegisterLocalAuthorityExtract"]["Registration"]
-
-    items.each do |item|
-      ofsted_item = OfstedItem.new(ofsted_item_params(item))
-
-      if ofsted_item.save
-        puts "Created ofsted item #{ofsted_item.provider_name}"
-      else
-        puts "Failed to create ofsted item #{ofsted_item.provider_name}: #{ofsted_item.errors.messages}"
-      end
-    end
-  end
-
   task :set_open_objects_external_ids => :environment do
     ofsted_file = File.open('lib/seeds/ofsted.csv', "r:ISO-8859-1")
     open_objects_ofsted_csv = CSV.parse(ofsted_file, headers: true)
