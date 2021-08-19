@@ -17,7 +17,7 @@ Feature: Add a new service
         Given I can fill in website and social media fields
         Given I can fill in visibility dates
 
-        Given I can choose categories
+        #Given I can choose categories
         Given I can create opening times
         Given I can create fees
         Given I can create locations
