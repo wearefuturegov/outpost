@@ -8,7 +8,7 @@ module TaskListHelper
                 "Visibility",
             ],
             [
-                "Categories", 
+                # "Categories", 
                 "Opening times", 
                 "Fees", 
                 "Locations", 
