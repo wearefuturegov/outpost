@@ -2,7 +2,13 @@ class API::V1::TaxonomiesController < ApplicationController
     skip_before_action :authenticate_user!
   
     def index
-        render json: json_tree(Taxonomy.hash_tree)
+        if params["directory"] === 'bod'
+            render json: json_tree(Taxonomy.with_bod_services.hash_tree)
+        elsif params["directory"] === 'bfis'
+            render json: json_tree(Taxonomy.with_family_info_services.hash_tree)
+        else
+            render json: json_tree(Taxonomy.hash_tree)
+        end
     end
 
     private
