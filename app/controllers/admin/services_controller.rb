@@ -25,6 +25,8 @@ class Admin::ServicesController < Admin::BaseController
 
     @services = @filterrific.find.page(params[:page]).includes(:organisation, :service_taxonomies, :taxonomies)
     
+    @services = @services.tagged_with(params[:label]) if params[:label].present?
+
     # shortcut nav
     @services = @services.ofsted_registered if params[:ofsted] === "true"
     if params[:archived] === "true"
