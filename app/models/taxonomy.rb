@@ -14,6 +14,9 @@ class Taxonomy < ApplicationRecord
     validates_presence_of :name, uniqueness: true
     validates :name, length: { minimum: 2 }
     validates :name, length: { maximum: 100 }
+
+    scope :with_family_info_services, -> { distinct.joins(:services).merge(Service.with_family_info_label) }
+    scope :with_bod_services, -> { distinct.joins(:services).merge(Service.with_bod_label) }
     
     def slug
         name.parameterize
