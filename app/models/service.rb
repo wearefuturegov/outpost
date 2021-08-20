@@ -61,6 +61,9 @@ class Service < ApplicationRecord
   has_one :last_version, -> { order(created_at: :desc) }, class_name: 'ServiceVersion', as: :item
   scope :with_last_version, -> { includes(last_version: [user: :watches]) }
 
+  scope :with_family_info_label, -> { tagged_with('Family Information Service') }
+  scope :with_bod_label, -> { tagged_with('Buckinghamshire Online Directory') }
+
   # callbacks
   after_save :notify_watchers
   after_save :add_parent_taxonomies
