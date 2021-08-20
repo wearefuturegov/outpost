@@ -1,0 +1,9 @@
+default:
+  title: Outpost
+buckinghamshire:
+  title: Manage service listing
+  label_quick_links:
+    - name: FIS
+      value: Family Information Service
+    - name: BOD
+      value: Buckinghamshire Online Directory
