@@ -20,6 +20,10 @@ class IndexedServicesSerializer < ActiveModel::Serializer
     :created_at,
     :status
 
+  has_many :target_directories do 
+    object.labels.where(["name = ? or name = ?", "Family Information Service", "Buckinghamshire Online Directory"])
+  end
+  
   has_many :locations do
     object.locations.where(visible: true)
   end
