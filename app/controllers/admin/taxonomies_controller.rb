@@ -36,7 +36,13 @@ class Admin::TaxonomiesController < Admin::BaseController
   private
 
   def set_taxonomies
-    @taxonomies = Taxonomy.hash_tree
+    if params["directory"] === 'bod'
+      @taxonomies = Taxonomy.with_bod_services.hash_tree
+    elsif params["directory"] === 'bfis'
+      @taxonomies = Taxonomy.with_bfis_services.hash_tree
+    else
+      @taxonomies = Taxonomy.hash_tree
+    end
   end
 
   def set_taxonomy
