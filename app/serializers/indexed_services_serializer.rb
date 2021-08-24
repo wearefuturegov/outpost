@@ -1,5 +1,10 @@
 class IndexedServicesSerializer < ActiveModel::Serializer
   
+  TARGET_DIRECTORY_MAP = {
+      'bod': 'Buckinghamshire Online Directory',
+      'bfis': 'Family Information Service',
+  }
+
   attributes :id, 
     :updated_at, 
     :name, 
@@ -21,7 +26,9 @@ class IndexedServicesSerializer < ActiveModel::Serializer
     :status
 
   has_many :target_directories do 
-    object.labels.where(["name = ? or name = ?", "Family Information Service", "Buckinghamshire Online Directory"])
+    object.labels.where(["name = ? or name = ?", *TARGET_DIRECTORY_MAP.values]).map do |directory| 
+      { id: directory.id, name: directory.name, label: TARGET_DIRECTORY_MAP.key(directory.name) }
+    end
   end
   
   has_many :locations do
