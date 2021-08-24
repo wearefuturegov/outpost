@@ -25,5 +25,11 @@ class Admin::BaseController < ApplicationController
         @ofsted_count = Service.kept.ofsted_registered.count
         @pending_count = Service.kept.where(approved: nil).count
         @archived_count = Service.discarded.count
+        if APP_CONFIG["label_quick_links"].present?
+            @label_quick_link_counts = {}
+            APP_CONFIG["label_quick_links"].each do |label_quick_link|
+                @label_quick_link_counts[label_quick_link["name"]] =  Service.tagged_with(label_quick_link["value"]).count
+            end
+        end
     end
 end
