@@ -1,10 +1,29 @@
 
 .shortcuts{
     margin-top: 40px;
-    line-height: 1.5;
+    line-height: 2;
     padding-bottom: 25px;
     @media screen and (min-width: $breakpoint-m){
         padding-bottom: 35px;
+    }
+
+    &__item {
+        font-weight: bold;
+        padding: 10px 10px;
+        background-color: $white;
+
+        &:focus, a:focus {
+            background-color: $focus;
+            text-decoration: none;
+        }
+        &:hover, a:hover {
+            background-color: $grey6;
+            text-decoration: none;
+        }
+
+        &.current{
+            background-color: $grey6;
+        }
     }
 
     &__link,
@@ -14,8 +33,11 @@
             font-size: 1.3rem;
         }
     }
+
+
     
     &__count{
+        font-weight: normal;
         margin-left: 5px;
         color: $grey3;
         font-size: 1.1rem;
