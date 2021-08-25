@@ -39,7 +39,7 @@ namespace :bod do
           old_open_objects_external_id: row["Asset ID"]
         )
         service.skip_mongo_callbacks = true
-        service.label_list.add("Bucks Online Directory")
+        service.directory_list.add("Buckinghamshire Online Directory")
         puts "Service #{service.name} failed to save, error message: #{service.errors.messages}" unless service.save
 
         contact = Contact.new(
@@ -68,16 +68,16 @@ namespace :bod do
       end
     end
   
-    task :apply_bfis_label_to_current => :environment do
+    task :apply_bfis_directory_to_current => :environment do
       set_existing_services_as_bfis
     end
   end
 end
 
 def set_existing_services_as_bfis
-  puts "Applying BFIS label to existing services"
+  puts "Applying BFIS directory tag to existing services"
   Service.all.each do |service|
-    service.label_list.add("Family Information Service")
+    service.directory_list.add("Family Information Service")
     service.skip_mongo_callbacks = true
     service.save
   end

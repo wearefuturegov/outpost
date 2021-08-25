@@ -37,9 +37,9 @@ class Admin::TaxonomiesController < Admin::BaseController
 
   def set_taxonomies
     if params["directory"] === 'bod'
-      @taxonomies = Taxonomy.with_bod_services.hash_tree
+      @taxonomies = Taxonomy.filter_by_directory('Buckinghamshire Online Directory').hash_tree
     elsif params["directory"] === 'bfis'
-      @taxonomies = Taxonomy.with_bfis_services.hash_tree
+      @taxonomies = Taxonomy.filter_by_directory('Family Information Service').hash_tree
     else
       @taxonomies = Taxonomy.hash_tree
     end

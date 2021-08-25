@@ -25,7 +25,7 @@ class Admin::ServicesController < Admin::BaseController
 
     @services = @filterrific.find.page(params[:page]).includes(:organisation, :service_taxonomies, :taxonomies)
     
-    @services = @services.tagged_with(params[:label]) if params[:label].present?
+    @services = @services.tagged_with(params[:directory], on: :directories) if params[:directory].present?
 
     # shortcut nav
     @services = @services.ofsted_registered if params[:ofsted] === "true"
@@ -112,6 +112,7 @@ class Admin::ServicesController < Admin::BaseController
       :age_band_all,
       
       :label_list,
+      :directory_list,
       :needs_referral,
       :marked_for_deletion,
       :free,
