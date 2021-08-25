@@ -4,7 +4,7 @@ module TaxonomiesHelper
         content_tag(:ul, class: "taxonomy-tree") do
             taxonomies.map do |t, children|
                 if params["directory"] === 'bod'
-                    "<li class='taxonomy-tree__item'>#{link_to(t.name, admin_taxonomy_path(t))} <span class='taxonomy-tree__count'>(#{t.services.in_directory('Buckinhamshire Online Directory').size})</span></li>" + tree_view(children)
+                    "<li class='taxonomy-tree__item'>#{link_to(t.name, admin_taxonomy_path(t))} <span class='taxonomy-tree__count'>(#{t.services.in_directory('Buckinghamshire Online Directory').size})</span></li>" + tree_view(children)
                 elsif params["directory"] === 'bfis'
                     "<li class='taxonomy-tree__item'>#{link_to(t.name, admin_taxonomy_path(t))} <span class='taxonomy-tree__count'>(#{t.services.in_directory('Family Information Service').size})</span></li>" + tree_view(children)
                 else
