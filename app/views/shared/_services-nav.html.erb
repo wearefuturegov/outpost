@@ -13,9 +13,9 @@
     <% if APP_CONFIG["label_quick_links"].present? %>
         <% APP_CONFIG["label_quick_links"].each do |label_quick_link| %>
             <% if (params[:label] === label_quick_link["value"]) %>
-                <span class="shortcuts__current"><%= label_quick_link["name"] %></span>
+                <span class="shortcuts__current"><%= label_quick_link["value"] %></span>
             <% else %>
-                <span class="shortcuts__link"><%= link_to label_quick_link["name"], admin_services_path(label: label_quick_link["value"])%></span>
+                <span class="shortcuts__link"><%= link_to label_quick_link["value"], admin_services_path(label: label_quick_link["value"])%></span>
             <% end %>
             <span class="shortcuts__count">(<%= @label_quick_link_counts[label_quick_link["name"]] %>)</span>
             <span class="shortcuts__divider">|</span>
