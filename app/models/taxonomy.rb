@@ -15,8 +15,7 @@ class Taxonomy < ApplicationRecord
     validates :name, length: { minimum: 2 }
     validates :name, length: { maximum: 100 }
 
-    scope :with_bfis_services, -> { where(id: joins(:services).merge(Service.with_bfis_label).distinct) }
-    scope :with_bod_services, -> { where(id: joins(:services).merge(Service.with_bod_label).distinct) }
+    scope :filter_by_directory, -> (directory) { where(id: joins(:services).merge(Service.in_directory(directory)).distinct) }
     
     def slug
         name.parameterize
