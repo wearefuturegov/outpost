@@ -92,8 +92,8 @@ namespace :bod do
               puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
             end
           end
-          if row["GDPR Permission"].present?
-            service_meta = service.meta.new(key: "GDPR Permission", value: row["GDPR Permission"])
+          if row["GDPR Permission "].present?
+            service_meta = service.meta.new(key: "GDPR Permission", value: row["GDPR Permission "])
             unless service_meta.save
               puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
             end
