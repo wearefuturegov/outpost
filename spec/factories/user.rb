@@ -8,5 +8,9 @@ FactoryBot.define do
     trait :admin do
       admin { true }
     end
+
+    trait :deactivated do
+      discarded_at { Time.now }
+    end
   end
 end
