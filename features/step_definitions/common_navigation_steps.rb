@@ -10,3 +10,7 @@ end
 Given('I am on the admin services page') do
   visit('/admin/services')
 end
+
+Given('I am on the admin users page') do
+  visit('/admin/users')
+end
