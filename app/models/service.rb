@@ -116,7 +116,7 @@ class Service < ApplicationRecord
     end
   }
 
-  acts_as_taggable_on :labels
+  acts_as_taggable_on :labels, :directories
   paginates_per 20
 
   # validations

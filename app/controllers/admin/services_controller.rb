@@ -112,6 +112,7 @@ class Admin::ServicesController < Admin::BaseController
       :age_band_all,
       
       :label_list,
+      :directory_list,
       :needs_referral,
       :marked_for_deletion,
       :free,
