@@ -2,7 +2,7 @@ default:
   title: Outpost
 buckinghamshire:
   title: Manage service listing
-  label_quick_links:
+  directories:
     - name: FIS
       value: Family Information Service
     - name: BOD
