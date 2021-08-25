@@ -50,4 +50,16 @@ RSpec.describe Service, type: :model do
       expect(ServiceVersion.where(item_id: service.id, event: 'destroy').size).to eq(0)
     end
   end
+
+  describe '#in_directory' do
+    it 'should return services that are in specified directory' do
+      @services_directory_a = FactoryBot.create_list(:service, 3, organisation: @organisation, directory_list: 'Directory A')
+      @services_directory_b = FactoryBot.create_list(:service, 4, organisation: @organisation, directory_list: 'Directory B')
+      @services_directory_c = FactoryBot.create_list(:service, 2, organisation: @organisation, directory_list: ['Directory B', 'Directory A'])
+      
+      expect(Service.in_directory('Directory A').count).to eq(5)
+      expect(Service.in_directory('Directory B').count).to eq(6)
+      expect(Service.all.count).to eq(9)
+    end
+  end
 end
