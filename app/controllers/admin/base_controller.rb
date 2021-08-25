@@ -25,10 +25,10 @@ class Admin::BaseController < ApplicationController
         @ofsted_count = Service.kept.ofsted_registered.count
         @pending_count = Service.kept.where(approved: nil).count
         @archived_count = Service.discarded.count
-        if APP_CONFIG["label_quick_links"].present?
-            @label_quick_link_counts = {}
-            APP_CONFIG["label_quick_links"].each do |label_quick_link|
-                @label_quick_link_counts[label_quick_link["name"]] =  Service.tagged_with(label_quick_link["value"]).count
+        if APP_CONFIG["directories"].present?
+            @directories_counts = {}
+            APP_CONFIG["directories"].each do |directory|
+                @directories_counts[directory["name"]] =  Service.in_directory(directory["value"]).count
             end
         end
     end
