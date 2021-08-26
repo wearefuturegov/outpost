@@ -3,7 +3,7 @@ default:
 buckinghamshire:
   title: Manage service listing
   directories:
-    - name: FIS
-      value: Family Information Service
-    - name: BOD
-      value: Buckinghamshire Online Directory
+    - value: Family Information Service
+      label: bfis
+    - value: Buckinghamshire Online Directory
+      label: bod
