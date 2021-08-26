@@ -1,20 +1,94 @@
 <nav class="shortcuts">
 
-    <% if params[:deactivated] === "true" %>
-        <%= link_to "Active", admin_users_path, class: "shortcuts__link" %>
-    <% else %>
-        <span class="shortcuts__current">Active</span>
-    <% end %>
 
-    <span class="shortcuts__count">(<%= @active_count %>)</span>
+    <% @all_state = params[:deactivated].present? || params[:directory].present? %>
+    <span class="shortcuts__item <%= @all_state ? '' : 'current' %>">
+        <% if @all_state %>
+            <%= link_to "All", admin_users_path, class: "shortcuts__link" %>
+        <% else %>
+            <span class="shortcuts__current">All</span>
+        <% end %>
+
+        <span class="shortcuts__count">(<%= @all_count %>)</span>
+    </span>
 
     <span class="shortcuts__divider">|</span>
+
+
+
+    <% @all_active_state = params[:deactivated] === "false" && !params[:directory].present? %>
+    <span class="shortcuts__item <%= @all_active_state ? 'current' : '' %>">
+        <% if @all_active_state %>
+            <span class="shortcuts__current">Active</span>
+        <% else %>
+            <%= link_to "Active", admin_users_path(deactivated: false), class: "shortcuts__link" %>
+        <% end %>
+
+        <span class="shortcuts__count">(<%= @active_count %>)</span>
+    </span>
+
+    <span class="shortcuts__divider">|</span>
+
     
-    <% if params[:deactivated] === "true" %>
-        <span class="shortcuts__current">Deactivated</span>
-    <% else %>
-        <%= link_to_unless_current "Deactivated", admin_users_path(deactivated: true), class: "shortcuts__link" %>
+    <% @all_deactivated_state = params[:deactivated] === "true" && !params[:directory].present? %>
+    <span class="shortcuts__item <%= @all_deactivated_state ? 'current' : '' %>">
+        <% if @all_deactivated_state %>
+            <span class="shortcuts__current">Deactivated</span>
+        <% else %>
+            <%= link_to_unless_current "Deactivated", admin_users_path(deactivated: true), class: "shortcuts__link" %>
+        <% end %>
+
+        <span class="shortcuts__count">(<%= @deactivated_count %>)</span>
+    </span>
+
+
+
+    <% if APP_CONFIG["directories"].present? %>
+        <% APP_CONFIG["directories"].each do |directory| %>
+            <br>
+
+            <% @directory_all_state = params[:directory] === directory["value"] && !params[:deactivated].present? %>
+            <span class="shortcuts__item <%= @directory_all_state ? 'current' : '' %>">
+                <% if @directory_all_state %>
+                    <span class="shortcuts__current"><%= directory["value"] %></span>
+                <% else %>
+                    <span class="shortcuts__link"><%= link_to directory["value"], admin_users_path(directory: directory["value"])%></span>
+                <% end %>
+                <span class="shortcuts__count">(<%= @directory_user_counts[directory["name"]] %>)</span>
+            </span>
+
+
+
+            <span class="shortcuts__divider">|</span>
+
+
+            <% @directory_active_state = params[:deactivated] === "false" && params[:directory] === directory['value'] %>
+            <span class="shortcuts__item <%= @directory_active_state ? 'current' : '' %>">
+                <% if params[:deactivated] === "false" && params[:directory] === directory['value'] %>
+                    <span class="shortcuts__current">Active</span>
+                <% else %>
+                    <%= link_to "Active", admin_users_path(directory: directory['value'], deactivated: false), class: "shortcuts__link" %>
+                <% end %>
+
+                <span class="shortcuts__count">(<%= @active_directory_user_counts[directory['name']] %>)</span>
+            </span>
+
+            <span class="shortcuts__divider">|</span>
+
+
+            <% @directory_deactivated_state = params[:deactivated] === "true" && params[:directory] === directory['value'] %>
+            <span class="shortcuts__item <%= @directory_deactivated_state ? 'current' : '' %>">
+                <% if @directory_deactivated_state %>
+                    <span class="shortcuts__current">Deactivated</span>
+                <% else %>
+                    <%= link_to_unless_current "Deactivated", admin_users_path(deactivated: true, directory: directory['value']), class: "shortcuts__link" %>
+                <% end %>
+
+                <span class="shortcuts__count">(<%= @deactivated_directory_user_counts[directory['name']] %>)</span>
+            </span>
+
+        <% end %>
     <% end %>
-    
-    <span class="shortcuts__count">(<%= @deactivated_count %>)</span>
+
+
 </nav>

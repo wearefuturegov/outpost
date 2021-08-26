@@ -1,46 +1,46 @@
 <%= form_for_filterrific @filterrific do |f| %>
 
-<%= hidden_field_tag :deactivated, params[:deactivated] %>
+    <%= hidden_field_tag :deactivated, params[:deactivated] %>
 
-<details class="filters" <%= "open" if params[:filterrific] %>>
-    <summary class="filters__control" aria-expanded="false">Filters</summary>
-    <div class="filters__body">
+    <details class="filters" <%= "open" if params[:filterrific] %>>
+        <summary class="filters__control" aria-expanded="false">Filters</summary>
+        <div class="filters__body">
 
-        <%= f.label :sorted_by, "Sort", class: "visually-hidden" %>
-        <%= f.select :sorted_by, @filterrific.select_options[:sorted_by], {}, { class: "filters__select", data: { autosubmit: true }, disabled: params.dig(:filterrific, :search).present? } %>
+            <%= f.label :sorted_by, "Sort", class: "visually-hidden" %>
+            <%= f.select :sorted_by, @filterrific.select_options[:sorted_by], {}, { class: "filters__select", data: { autosubmit: true }, disabled: params.dig(:filterrific, :search).present? } %>
 
-        <%= f.label :roles, "Filter roles", class: "visually-hidden" %>
-        <%= f.select :roles, @filterrific.select_options[:roles], {}, { class: "filters__select", data: { autosubmit: true } }  %>
+            <%= f.label :roles, "Filter roles", class: "visually-hidden" %>
+            <%= f.select :roles, @filterrific.select_options[:roles], {}, { class: "filters__select", data: { autosubmit: true } }  %>
 
-        <%= f.label :in_taxonomy, "Labels", class: "visually-hidden" %>
-        <%= f.select :tagged_with, @filterrific.select_options[:tagged_with], {}, { class: "filters__select", data: { autosubmit: true } }  %>
+            <%= f.label :in_taxonomy, "Labels", class: "visually-hidden" %>
+            <%= f.select :tagged_with, @filterrific.select_options[:tagged_with], {}, { class: "filters__select", data: { autosubmit: true } }  %>
 
-    </div>
-</details>
+        </div>
+    </details>
 
-<header class="actions">
+    <header class="actions">
 
-    <div class="mini-search">
-        <div class="mini-search__form">
-            <%= f.label :search, "Search query", class: "visually-hidden" %>
-            <%= f.text_field :search, class: "mini-search__input" %>
+        <div class="mini-search">
+            <div class="mini-search__form">
+                <%= f.label :search, "Search query", class: "visually-hidden" %>
+                <%= f.text_field :search, class: "mini-search__input" %>
+                <% if params[:filterrific].present? %>
+                <%= link_to image_tag("clear.svg", alt: "Clear search"), reset_filterrific_url, class: "mini-search__submit" %>
+                <% else %>
+                <button class="mini-search__submit">
+                    <%= image_tag "search.svg", alt: "Submit search" %>
+                </button>
+                <% end %>
+            </div>
+
             <% if params[:filterrific].present? %>
-            <%= link_to image_tag("clear.svg", alt: "Clear search"), reset_filterrific_url, class: "mini-search__submit" %>
-            <% else %>
-            <button class="mini-search__submit">
-                <%= image_tag "search.svg", alt: "Submit search" %>
-            </button>
+            <p class="mini-search__count"><%= @users.total_count %> matches</p>
             <% end %>
         </div>
 
-        <% if params[:filterrific].present? %>
-        <p class="mini-search__count"><%= @users.total_count %> matches</p>
+        <% if current_user.admin_users? %>
+        <%= link_to "Invite user", new_admin_user_path, class: "button button--small button--add actions__pull-right" %>
         <% end %>
-    </div>
-
-    <% if current_user.admin_users? %>
-    <%= link_to "Invite user", new_admin_user_path, class: "button button--small button--add actions__pull-right" %>
-    <% end %>
-</header>
+    </header>
 
 <% end %>

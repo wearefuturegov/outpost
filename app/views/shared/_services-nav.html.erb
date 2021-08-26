@@ -13,9 +13,9 @@
     <% if APP_CONFIG["directories"].present? %>
         <% APP_CONFIG["directories"].each do |directory| %>
             <% if (params[:directory] === directory["value"]) %>
-                <span class="shortcuts__current"><%= directory["name"] %></span>
+                <span class="shortcuts__current"><%= directory["value"] %></span>
             <% else %>
-                <span class="shortcuts__link"><%= link_to directory["name"], admin_services_path(directory: directory["value"])%></span>
+                <span class="shortcuts__link"><%= link_to directory["value"], admin_services_path(directory: directory["value"])%></span>
             <% end %>
             <span class="shortcuts__count">(<%= @directories_counts[directory["name"]] %>)</span>
             <span class="shortcuts__divider">|</span>
