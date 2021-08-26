@@ -28,15 +28,15 @@ class Admin::UsersController < Admin::BaseController
     @active_count = User.kept.count
     @deactivated_count = User.discarded.count
 
-    if APP_CONFIG["label_quick_links"].present?
+    if APP_CONFIG["directories"].present?
       @directory_user_counts = {}
       @active_directory_user_counts = {}
       @deactivated_directory_user_counts = {}
-      APP_CONFIG["label_quick_links"].each do |label_quick_link|
-        users = User.joins(organisation: :services).merge(Service.tagged_with(label_quick_link["value"]))
-        @directory_user_counts[label_quick_link["name"]] = users.count
-        @active_directory_user_counts[label_quick_link["name"]] = users.kept.count
-        @deactivated_directory_user_counts[label_quick_link["name"]] = users.discarded.count
+      APP_CONFIG["directories"].each do |directory|
+        users = User.joins(organisation: :services).merge(Service.tagged_with(directory["value"]))
+        @directory_user_counts[directory["name"]] = users.count
+        @active_directory_user_counts[directory["name"]] = users.kept.count
+        @deactivated_directory_user_counts[directory["name"]] = users.discarded.count
       end
     end
 
