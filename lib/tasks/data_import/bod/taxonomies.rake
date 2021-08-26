@@ -3,15 +3,15 @@ namespace :bod do
     task :import => :environment do
 
       TAXONOMY_MAPPING = {
-        "active" => ["Things to do", "Staying active"],
+        "active" => ["Staying active"],
         "social" => ["Things to do"],
         "learning" => ["Education and learning"],
         "transport" => ["Advice and support", "Transport"],
         "support" => ["Advice and support"],
-        "elderly-services" => ["Advice and support", "For older people"],
+        "elderly-services" => ["Advice and support", "Support for older people"],
         "health-wellbeing-disability-support" => ["Advice and support", "Health and wellbeing"],
         "faith-groups" => ["Advice and support", "Faith groups"],
-        "cultural" => ["Things to do", "Culture and visiting new places"],
+        "cultural" => ["Things to do"],
         "befriending" => ["Advice and support", "Befriending"],
         "older people" => ["Advice and support", "For older people"],
         "faith groups" => ["Advice and support", "Faith groups"],
@@ -26,7 +26,7 @@ namespace :bod do
         #"pastoral and spiritual" => ,
         "health-health-wellbeing-disability-support-disability-support" => ["Advice and support", "Health and wellbeing"],
         "ccorona-food-collection-delivery" => ["Advice and support", "Staying at home due to coronavirus"],
-        "environment" => ["Things to do", "Environment"]
+        "environment" => ["Environment"]
       }
 
       services_file = File.open('lib/seeds/bod/services.csv', "r:utf-8")
