@@ -4,6 +4,7 @@ FactoryBot.define do
     first_name {Faker::Name.first_name }
     last_name {Faker::Name.last_name }
     password { "password123A" }
+    organisation
 
     trait :deactivated do
       discarded_at { Time.now }
