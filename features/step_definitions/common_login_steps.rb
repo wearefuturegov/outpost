@@ -14,11 +14,6 @@ Given(/I am logged in as (.*) user/) do |type|
   login
 end
 
-Given 'there is a community user called {string}' do |name|
-  names = name.split
-  FactoryBot.create(:user, first_name: names.first, last_name: names.last)
-end
-
 def login
   visit('/')
   email_input = find('#user_email')

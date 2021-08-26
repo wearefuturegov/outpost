@@ -31,6 +31,5 @@ FactoryBot.define do
       admin_ofsted { true }
       admin_manage_ofsted_access { true }
     end
-
   end
 end
