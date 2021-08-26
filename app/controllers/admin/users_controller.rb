@@ -33,7 +33,7 @@ class Admin::UsersController < Admin::BaseController
       @active_directory_user_counts = {}
       @deactivated_directory_user_counts = {}
       APP_CONFIG["directories"].each do |directory|
-        users = User.joins(organisation: :services).merge(Service.tagged_with(directory["value"]))
+        users = User.joins(organisation: :services).merge(Service.tagged_with(directory["value"])).distinct
         @directory_user_counts[directory["name"]] = users.count
         @active_directory_user_counts[directory["name"]] = users.kept.count
         @deactivated_directory_user_counts[directory["name"]] = users.discarded.count
