@@ -1,26 +1,19 @@
 @javascript
-Feature: Admin manage users
-    As an admin user
-    I want to be able to manage users
-    So that I can control who has access to make changes in the directory
+Feature: Managing users
 
     Background:
-        Given I am logged in as an admin user 
-        And there is a deactivated user
-        And there is an active user
+        Given there is a community user called 'Mr User'
 
-    Scenario: Viewing users 
-        Given I am on the admin users page
-        Then I should see all the users
+    Scenario: Superadmin manage community users
+        Given I am logged in as a superadmin user
+        When I visit the user page for Mr User
+        * I should see an unchecked field for 'User can manage services'
+        * I should see an unchecked field for 'User can see Ofsted feed'
+        * I should see an unchecked field for 'User can manage other users, taxonomies and custom fields'
 
-    Scenario: Viewing active users
-        Given I am on the admin users page
-        And I visit the active users link
-        Then I should see only the active users
-        And the active users link should be disabled
-
-    Scenario: Viewing deactivated users
-        Given I am on the admin users page
-        And I visit the deactivated users link
-        Then I should see only the deactivated user
-        And the deactivated users link should be disabled
+    Scenario: User manager admin cannot edit Ofsted access
+        Given I am logged in as a user manager admin user
+        When I visit the user page for Mr User
+        * I should not see 'User can see Ofsted feed'
+        * I should see an unchecked field for 'User can manage services'
+        * I should see an unchecked field for 'User can manage other users, taxonomies and custom fields'

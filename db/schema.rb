@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_23_163044) do
+ActiveRecord::Schema.define(version: 2021_08_26_091632) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -367,6 +367,7 @@ ActiveRecord::Schema.define(version: 2021_04_23_163044) do
     t.boolean "admin_ofsted"
     t.string "phone"
     t.datetime "marked_for_deletion"
+    t.boolean "admin_manage_ofsted_access", default: false, null: false
     t.index ["discarded_at"], name: "index_users_on_discarded_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["organisation_id"], name: "index_users_on_organisation_id"

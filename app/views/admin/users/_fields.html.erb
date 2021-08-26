@@ -35,22 +35,24 @@
     <div class="field checkbox">
         <%= f.check_box :admin, class: "checkbox__input", disabled: !current_user.admin_users? %>
         <%= f.label :admin, class: "checkbox__label" do %>
-        User can manage services
-        <button class="help-button help-button--small" type="button" data-tippy-content="If checked, the user will be able to see and administer services, as well as see the users who maintain them.">What does this mean?</button>
+            User can manage services
+            <button class="help-button help-button--small" type="button" data-tippy-content="If checked, the user will be able to see and administer services, as well as see the users who maintain them.">What does this mean?</button>
         <% end %>
     </div>
-    <div class="field checkbox">
-        <%= f.check_box :admin_ofsted, class: "checkbox__input", disabled: !current_user.admin_users? %>
-        <%= f.label :admin_ofsted, class: "checkbox__label" do %>
-        User can see Ofsted feed
-        <button class="help-button help-button--small" type="button" data-tippy-content="If checked, the user will be see and search the raw Ofsted feed.">What does this mean?</button>
-        <% end %>
-    </div>
+    <% if current_user.admin_manage_ofsted_access? %>
+        <div class="field checkbox">
+            <%= f.check_box :admin_ofsted, class: "checkbox__input", disabled: !current_user.admin_users? %>
+            <%= f.label :admin_ofsted, class: "checkbox__label" do %>
+                User can see Ofsted feed
+                <button class="help-button help-button--small" type="button" data-tippy-content="If checked, the user will be see and search the raw Ofsted feed.">What does this mean?</button>
+            <% end %>
+        </div>
+    <% end %>
     <div class="field checkbox">
         <%= f.check_box :admin_users, class: "checkbox__input", disabled: !current_user.admin_users? %>
         <%= f.label :admin_users, class: "checkbox__label" do %>
-        User can manage other users, taxonomies and custom fields
-        <button class="help-button help-button--small" type="button" data-tippy-content="If checked, the user will be able to edit other users, including changing their permissions and personal details.">What does this mean?</button>
+            User can manage other users, taxonomies and custom fields
+            <button class="help-button help-button--small" type="button" data-tippy-content="If checked, the user will be able to edit other users, including changing their permissions and personal details.">What does this mean?</button>
         <% end %>
     </div>
 </div>
