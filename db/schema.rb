@@ -369,6 +369,7 @@ ActiveRecord::Schema.define(version: 2021_09_03_151205) do
     t.boolean "admin_ofsted"
     t.string "phone"
     t.datetime "marked_for_deletion"
+    t.boolean "admin_manage_ofsted_access", default: false, null: false
     t.index ["discarded_at"], name: "index_users_on_discarded_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["organisation_id"], name: "index_users_on_organisation_id"
