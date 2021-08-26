@@ -40,8 +40,8 @@ class Admin::UsersController < Admin::BaseController
       end
     end
 
-    if params[:label].present?
-      @users = @users.joins(organisation: :services).merge(Service.tagged_with(params[:label]))
+    if params[:directory].present?
+      @users = @users.joins(organisation: :services).merge(Service.tagged_with(params[:directory]))
     end
 
     # shortcut nav
