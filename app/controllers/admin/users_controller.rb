@@ -24,9 +24,9 @@ class Admin::UsersController < Admin::BaseController
 
     @users = @filterrific.find.page(params[:page])
 
-    @all_count = User.all.count
-    @active_count = User.kept.count
-    @deactivated_count = User.discarded.count
+    @all_users_count = User.all.count
+    @active_users_count = User.kept.count
+    @deactivated_users_count = User.discarded.count
 
     if APP_CONFIG["directories"].present?
       @directory_user_counts = {}
@@ -40,8 +40,8 @@ class Admin::UsersController < Admin::BaseController
       end
     end
 
-    if params[:label].present?
-      @users = @users.joins(organisation: :services).merge(Service.tagged_with(params[:label]))
+    if params[:directory].present?
+      @users = @users.joins(organisation: :services).merge(Service.tagged_with(params[:directory]))
     end
 
     # shortcut nav
