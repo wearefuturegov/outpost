@@ -2,10 +2,13 @@ class API::V1::TaxonomiesController < ApplicationController
     skip_before_action :authenticate_user!
   
     def index
-        if params["directory"] === 'bod'
-            render json: json_tree(Taxonomy.filter_by_directory('Buckinghamshire Online Directory').hash_tree)
-        elsif params["directory"] === 'bfis'
-            render json: json_tree(Taxonomy.filter_by_directory('Family Information Service').hash_tree)
+        # scout sends through lowercase label 'bfis', 'bod' etc - look up the name in app config to send to the application
+        @get_value_from_label = APP_CONFIG['directories'].find{|directory| directory["label"] === params[:directory]}["value"];
+        
+        if params[:directory].present? && APP_CONFIG['directories'].map{|d| d['label']}.include?(params[:directory])
+            render json: json_tree(Taxonomy.filter_by_directory(@get_value_from_label).hash_tree)
+        elsif params[:directory].present? 
+            render json: {'yo': 'ho'}
         else
             render json: json_tree(Taxonomy.hash_tree)
         end
