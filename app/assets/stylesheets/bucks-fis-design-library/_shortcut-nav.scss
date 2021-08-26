@@ -1,16 +1,54 @@
 
 .shortcuts{
     margin-top: 40px;
-    line-height: 2;
+    // line-height: 2;
     padding-bottom: 25px;
+    font-size: 1.1rem;
+
+    font-weight: bold;
     @media screen and (min-width: $breakpoint-m){
         padding-bottom: 35px;
+        font-size: 1.3rem;
+    }
+
+    // reduce the spacing if including multiple inline - but otherwise leave padding in
+    &--no-top-spacing {
+        margin-top: 0;
+    }
+    &--no-bottom-spacing {
+        padding-bottom: 0;
+    }
+
+    // If we're using this as a child nav related to the all/fis/bod filters then make it look different
+    &--sublevel {
+        font-size: .9rem;
+        font-weight: normal;
+        margin-top: 10px;
+
+        @media screen and (min-width: $breakpoint-m){
+            font-size: 1.1rem;
+        }
+
+        margin-left: 10px;
+
+        &:before{
+            content: "";
+            display: inline-block;
+            width: 13px;
+            height: 13px;
+            background: url(asset_path("level-up-alt-solid.svg"));
+            transform: rotate(90deg);
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            margin-right: 13px;
+        }
     }
 
     &__item {
-        font-weight: bold;
         padding: 10px 10px;
         background-color: $white;
+        display: inline-block;
 
         &:focus, a:focus {
             background-color: $focus;
@@ -24,26 +62,21 @@
         &.current{
             background-color: $grey6;
         }
-    }
 
-    &__link,
-    &__current{
-        font-size: 1.1rem;
-        @media screen and (min-width: $breakpoint-m){
-            font-size: 1.3rem;
+        .shortcuts--sublevel & {
+            // background: transparent;
         }
     }
-
 
     
     &__count{
         font-weight: normal;
         margin-left: 5px;
         color: $grey3;
-        font-size: 1.1rem;
-        @media screen and (min-width: $breakpoint-m){
-            font-size: 1.3rem;
-        }
+        // font-size: 1.1rem;
+        // @media screen and (min-width: $breakpoint-m){
+        //     font-size: 1.3rem;
+        // }
     }
     
     &__divider{

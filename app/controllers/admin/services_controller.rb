@@ -34,6 +34,7 @@ class Admin::ServicesController < Admin::BaseController
     else
       @services = @services.kept
     end
+
   end
 
   def show
