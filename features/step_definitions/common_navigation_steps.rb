@@ -14,3 +14,8 @@ end
 Given('I am on the admin users page') do
   visit('/admin/users')
 end
+
+Given(/I visit the user page for (.*)/) do |name_or_email|
+  visit admin_users_path
+  click_link name_or_email
+end
