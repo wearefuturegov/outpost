@@ -1,6 +1,7 @@
 class Admin::UsersController < Admin::BaseController
   before_action :user_admins_only, only: [:new, :create, :update, :destroy, :reactivate]
   before_action :set_user, only: [:show, :update, :destroy]
+  before_action :count_users, only: [:index]
   
   def index
     @filterrific = initialize_filterrific(
@@ -23,25 +24,9 @@ class Admin::UsersController < Admin::BaseController
     ) || return
 
     @users = @filterrific.find.page(params[:page])
-
-    @all_users_count = User.all.count
-    @active_users_count = User.kept.count
-    @deactivated_users_count = User.discarded.count
-
-    if APP_CONFIG["directories"].present?
-      @directory_user_counts = {}
-      @active_directory_user_counts = {}
-      @deactivated_directory_user_counts = {}
-      APP_CONFIG["directories"].each do |directory|
-        users = User.joins(organisation: :services).merge(Service.tagged_with(directory["value"]))
-        @directory_user_counts[directory["name"]] = users.count
-        @active_directory_user_counts[directory["name"]] = users.kept.count
-        @deactivated_directory_user_counts[directory["name"]] = users.discarded.count
-      end
-    end
-
+    
     if params[:directory].present?
-      @users = @users.joins(organisation: :services).merge(Service.tagged_with(params[:directory]))
+      @users = @users.joins(organisation: :services).merge(Service.in_directory(params[:directory]))
     end
 
     # shortcut nav
@@ -122,4 +107,27 @@ class Admin::UsersController < Admin::BaseController
       :marked_for_deletion
     )
   end
+
+  def count_users
+    @user_counts_all = {
+        all: User.all.count,
+        active: User.kept.count,
+        deactivated: User.discarded.count
+    }
+    @user_counts = {}
+    @user_counts[:all] = @user_counts_all
+
+    if APP_CONFIG["directories"].present?
+      APP_CONFIG["directories"].each do |directory|
+        users = User.joins(organisation: :services).merge(Service.in_directory(directory["value"]))
+        @user_dir_counts = {
+          all: users.count,
+          active: users.kept.count,
+          deactivated: users.discarded.count
+        }
+        @user_counts[directory["value"]] = @user_dir_counts
+      end
+    end
+  end
+
 end

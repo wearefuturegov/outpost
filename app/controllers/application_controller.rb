@@ -12,7 +12,17 @@ class ApplicationController < ActionController::Base
     end
 
     def set_pending_counts
-      @ofsted_pending_count = OfstedItem.where.not(status: nil).count
-      @pending_count = Service.kept.where(approved: nil).count
+      # Since we don't want to count everything unnecessarily we do these two earlier
+      # these two relate to badges on the ui  - see _navigation.html.erb
+      @ofsted_counts = {
+        all: {
+          pending: OfstedItem.where.not(status: nil).count
+        }
+      };
+      @service_counts = {
+        all: {
+          pending: Service.kept.where(approved: nil).count
+        }
+      };
     end
 end
