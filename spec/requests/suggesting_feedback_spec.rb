@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe 'Suggesting feedback', type: :request do
   let(:service) { FactoryBot.create :service }
-  let(:admin) { FactoryBot.create :user, :admin }
+  let(:admin) { FactoryBot.create :user, :services_admin }
 
   context 'logged out' do
     it 'renders the feedback form' do
