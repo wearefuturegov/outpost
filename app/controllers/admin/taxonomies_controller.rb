@@ -1,5 +1,6 @@
 class Admin::TaxonomiesController < Admin::BaseController
   before_action :user_admins_only  
+  before_action :count_taxonomies, only: [:index]
   before_action :set_taxonomies, only: [:index, :create]
   before_action :set_taxonomy, only: [:show, :update, :destroy]
   before_action :set_possible_parents, only: [:show, :update, :index, :create]
@@ -36,10 +37,10 @@ class Admin::TaxonomiesController < Admin::BaseController
   private
 
   def set_taxonomies
-    if params["directory"] === 'bod'
-      @taxonomies = Taxonomy.filter_by_directory('Buckinghamshire Online Directory').hash_tree
-    elsif params["directory"] === 'bfis'
-      @taxonomies = Taxonomy.filter_by_directory('Family Information Service').hash_tree
+    if params[:directory].present?  && APP_CONFIG['directories'].map{|d| d['value']}.include?(params[:directory])
+      @taxonomies = Taxonomy.filter_by_directory(params[:directory]).hash_tree
+    elsif params[:directory].present? 
+      redirect_to admin_taxonomies_path, notice: "Directory doesn't exist."
     else
       @taxonomies = Taxonomy.hash_tree
     end
@@ -60,6 +61,24 @@ class Admin::TaxonomiesController < Admin::BaseController
       :parent_id,
       :sort_order
     )
+  end
+
+  def count_taxonomies
+    @taxonomy_counts_all = {
+      all: Taxonomy.all.count
+    }
+    @taxonomy_counts = {}
+    @taxonomy_counts[:all] = @taxonomy_counts_all
+
+    if APP_CONFIG["directories"].present?
+      APP_CONFIG["directories"].each do |directory|
+        tax = Taxonomy.filter_by_directory(directory["value"])
+        @taxonomy_dir_counts = {
+          all: tax.count
+        }
+        @taxonomy_counts[directory["value"]] = @taxonomy_dir_counts
+      end
+    end
   end
 
 end
