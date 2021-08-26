@@ -61,8 +61,7 @@ class Service < ApplicationRecord
   has_one :last_version, -> { order(created_at: :desc) }, class_name: 'ServiceVersion', as: :item
   scope :with_last_version, -> { includes(last_version: [user: :watches]) }
 
-  scope :with_bfis_label, -> { tagged_with('Family Information Service') }
-  scope :with_bod_label, -> { tagged_with('Buckinghamshire Online Directory') }
+  scope :in_directory, -> (directory) { tagged_with(directory, on: :directories) }
 
   # callbacks
   after_save :notify_watchers
@@ -116,7 +115,7 @@ class Service < ApplicationRecord
     end
   }
 
-  acts_as_taggable_on :labels
+  acts_as_taggable_on :labels, :directories
   paginates_per 20
 
   # validations

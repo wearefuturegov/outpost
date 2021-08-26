@@ -1,0 +1,12 @@
+<section class="directories">
+
+    <div class="field">
+        <%= s.label :directory_list, "Choose which directories this service should appear in", class: "field__label" %>
+        <%= s.text_field :directory_list, class: "field__input", data: {labels: true}, value: @service.directory_list.to_s %>
+    </div>
+
+    <script>
+        __LABELS__=<%= raw ActsAsTaggableOn::Tag.most_used.to_json %>
+    </script>
+
+</section>

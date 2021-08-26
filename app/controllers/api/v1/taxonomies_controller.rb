@@ -3,9 +3,9 @@ class API::V1::TaxonomiesController < ApplicationController
   
     def index
         if params["directory"] === 'bod'
-            render json: json_tree(Taxonomy.with_bod_services.hash_tree)
+            render json: json_tree(Taxonomy.filter_by_directory('Buckinghamshire Online Directory').hash_tree)
         elsif params["directory"] === 'bfis'
-            render json: json_tree(Taxonomy.with_bfis_services.hash_tree)
+            render json: json_tree(Taxonomy.filter_by_directory('Family Information Service').hash_tree)
         else
             render json: json_tree(Taxonomy.hash_tree)
         end
