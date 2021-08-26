@@ -39,8 +39,74 @@ namespace :bod do
           old_open_objects_external_id: row["Asset ID"]
         )
         service.skip_mongo_callbacks = true
+
         service.directory_list.add("Buckinghamshire Online Directory")
-        puts "Service #{service.name} failed to save, error message: #{service.errors.messages}" unless service.save
+
+        if service.save
+          # CUSTOM FIELDS
+          if row["Volunteer DBS check"].present?
+            service_meta = service.meta.new(key: "Volunteer DBS check", value: row["Volunteer DBS check"])
+            unless service_meta.save
+              puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
+            end
+          end
+          if row["Safeguarding"].present?
+            service_meta = service.meta.new(key: "Safeguarding", value: row["Safeguarding"])
+            unless service_meta.save
+              puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
+            end
+          end
+          if row["Health and safety?"].present?
+            service_meta = service.meta.new(key: "Health and safety?", value: row["Health and safety?"])
+            unless service_meta.save
+              puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
+            end
+          end
+          if row["Insurance?"].present?
+            service_meta = service.meta.new(key: "Insurance?", value: row["Insurance?"])
+            unless service_meta.save
+              puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
+            end
+          end
+          if row["confid data protect"].present?
+            service_meta = service.meta.new(key: "Confid data protect", value: row["confid data protect"])
+            unless service_meta.save
+              puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
+            end
+          end
+          if row["equality diversity"].present?
+            service_meta = service.meta.new(key: "Equality diversity", value: row["equality diversity"])
+            unless service_meta.save
+              puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
+            end
+          end
+          if row["PCN"].present?
+            service_meta = service.meta.new(key: "Primary Care Network", value: row["PCN"])
+            unless service_meta.save
+              puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
+            end
+          end
+          if row["Community Board"].present?
+            service_meta = service.meta.new(key: "Community board for Buckinghamshire Council", value: row["Community Board"])
+            unless service_meta.save
+              puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
+            end
+          end
+          if row["GDPR Permission "].present?
+            service_meta = service.meta.new(key: "GDPR Permission", value: row["GDPR Permission "])
+            unless service_meta.save
+              puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
+            end
+          end
+          if row["GDPR Authorised By"].present?
+            service_meta = service.meta.new(key: "GDPR Authorised By", value: row["GDPR Authorised By"])
+            unless service_meta.save
+              puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
+            end
+          end
+        else
+          puts "Service #{service.name} failed to save, error message: #{service.errors.messages}"
+        end
 
         contact = Contact.new(
           name: row["Contact name"],
