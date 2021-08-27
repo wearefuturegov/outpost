@@ -137,6 +137,43 @@ namespace :bod do
     task :apply_bfis_directory_to_current => :environment do
       set_existing_services_as_bfis
     end
+
+    task :import_opening_hours => [ :environment ] do
+      include RegularScheduleHelper
+
+      csv_file = File.open('lib/seeds/bod/opening_hours.csv', "r:utf-8")
+      opening_hours_csv = CSV.parse(csv_file, headers: true)
+
+      opening_hours_csv.each.with_index do |row, line|
+        #next if row["Opening Times List_Start Time"] == "CLOSED"
+        if row["day"].present? && row["opens at"].present? && row["closes at"].present?
+          service = Service.where(old_open_objects_external_id: row["asset ID"]).first
+          if service
+            opening_time = row["opens at"].sub(".", ":")
+            closing_time = row["closes at"].sub(".", ":")
+
+            opening_time = opening_time.insert(2, ':') unless opening_time.include?(":")
+            closing_time = closing_time.insert(2, ':') unless closing_time.include?(":")
+
+            opening_time = opening_time.to_time.strftime("%H:%M")
+            closing_time = closing_time.to_time.strftime("%H:%M")
+
+            if closing_time < opening_time # probs using 12 hour clock
+              closing_time = DateTime.parse("#{closing_time}pm").strftime("%H:%M")
+            end
+
+            rs = service.regular_schedules.new(
+              opens_at: opening_time,
+              closes_at: closing_time,
+              weekday: weekdays.select{ |w| w[:label] === row["day"].split(" ")[0]}.first[:value]
+            )
+            unless rs.save
+              puts "Reg schedule failed #{rs.errors.messages} for service #{service.id}"
+            end
+          end
+        end
+      end
+    end
   end
 end
 
