@@ -10,8 +10,8 @@
                     <%= link_to_unless_current "Services", admin_services_path, class: "site-nav__link" do %>
                         <span class="site-nav__current" tabindex="0">Services</span>
                     <% end %>
-                    <% if @service_counts[:all][:pending] > 0 %>
-                        <div class="badge"><%= @service_counts[:all][:pending] %></div>
+                    <% if @service_counts.dig(:all, :pending) > 0 %>
+                        <div class="badge"><%= @service_counts.dig(:all, :pending) %></div>
                     <% end %>
                 
                     <ul class="site-nav__submenu">
@@ -69,8 +69,8 @@
                         <%= link_to_unless_current "Ofsted feed", admin_ofsted_index_path, class: "site-nav__link" do %>
                             <span class="site-nav__current site-nav--pull-right">Ofsted feed </span>
                         <% end %>
-                        <% if @ofsted_counts[:all][:pending] > 0 %>
-                            <div class="badge"><%= @ofsted_counts[:all][:pending] %></div>
+                        <% if @ofsted_counts.dig(:all, :pending) > 0 %>
+                            <div class="badge"><%= @ofsted_counts.dig(:all, :pending) %></div>
                         <% end %>
                     </div>
                 <% end %>

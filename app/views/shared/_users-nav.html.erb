@@ -14,7 +14,7 @@
     render partial: "shared/directory-shortcuts",  locals: { 
         all_state: !params[:directory].present?,
         all_link: admin_users_path,
-        all_count: @user_counts[:all][:all],
+        all_count: @user_counts.dig(:all, :all),
         all_label: "All",
         directory_links: @directory_links,
         directory_counts: @user_counts
@@ -41,11 +41,11 @@
 
     # decide what the counts will be for the active/deactivated links
     if !params[:directory].present? 
-        @sublevel_active_count = @user_counts[:all][:active];
-        @sublevel_deactivated_count  = @user_counts[:all][:deactivated];
+        @sublevel_active_count = @user_counts.dig(:all, :active);
+        @sublevel_deactivated_count  = @user_counts.dig(:all, :deactivated);
     elsif
-        @sublevel_active_count = @user_counts[params[:directory]][:active];
-        @sublevel_deactivated_count  = @user_counts[params[:directory]][:deactivated];
+        @sublevel_active_count = @user_counts.dig(params[:directory], :active);
+        @sublevel_deactivated_count  = @user_counts.dig(params[:directory], :deactivated);
     end
 
     %>   
