@@ -130,6 +130,24 @@ namespace :bod do
         location.skip_mongo_callbacks = true
         location.skip_postcode_validation = true
         service.locations << location
+
+        # add accessibility info to locations
+        accessibility = eval(row['Accessibility'])
+        if accessibility.present?
+          accessibility_mapping = {
+            "building wheelchair access" => "Wheelchair accessible entrance",
+            "on-site parking" => "Car parking",
+            "nearby bus stop" => "Bus stop nearby", # new
+            "hearing induction loop" => "Hearing loop",
+            "wc wheelchair access" => "Accessible toilet facilities",
+            "building lift" => "Building has lift" # new
+          }
+          options = accessibility
+          options.each do |option|
+            location.accessibilities << Accessibility.find_or_initialize_by({name: accessibility_mapping[option].downcase.capitalize})
+          end
+        end
+
         puts "Location #{location.name} failed to save, error message: #{location.errors.messages}" unless location.save
       end
     end
