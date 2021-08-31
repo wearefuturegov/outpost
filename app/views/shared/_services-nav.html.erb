@@ -20,7 +20,6 @@
         directory_counts: @service_counts
   }
 
-  #directory_link: admin_services_path(directory: directory["value"])
 %>
 
 
@@ -29,78 +28,31 @@
 
 <% 
 
-
-    @sublevel_ofsted_state = false;
-    @sublevel_pending_state = false;
-    @sublevel_archived_state = false;
-
-    # toggle the active state for the ofsted filter
-    if params[:ofsted].present? && params[:ofsted] === "true" 
-        @sublevel_ofsted_state = true;
-    else    
-        @sublevel_ofsted_state = false;
-    end
-
-    # toggle the active state for the pending filter
-    if current_page?(controller: 'admin/requests', action: 'index') 
-        @sublevel_pending_state = true;
-    else    
-        @sublevel_pending_state = false;
-    end
-
-    # toggle the active state for the archived filter
-    if params[:archived].present? && params[:archived] === "true" 
-        @sublevel_archived_state = true;
-    else    
-        @sublevel_archived_state = false;
-    end
-    
-
-    # decide what the urls will be like for the active/deactivated links
-    @sublevel_ofsted_inactive_link = admin_services_path(directory: params[:directory], ofsted: true);
-    @sublevel_pending_inactive_link = admin_requests_path(directory: params[:directory]);
-    @sublevel_archived_inactive_link = admin_services_path(directory: params[:directory], archived: true);
-
-
-    # decide what the counts will be for the active/deactivated links
-    if !params[:directory].present? 
-        @sublevel_ofsted_count = @service_counts[:all][:ofsted];
-        @sublevel_pending_count  = @service_counts[:all][:pending];
-        @sublevel_archived_count  = @service_counts[:all][:archived];
-    elsif
-        @sublevel_ofsted_count = @service_counts[params[:directory]][:ofsted];
-        @sublevel_pending_count  = @service_counts[params[:directory]][:pending];
-        @sublevel_archived_count  = @service_counts[params[:directory]][:archived];
-    end
-
-    
-
-
     
     %>   
 
      <%= render partial: "shared/shortcuts_item", 
      locals: {
-        state: @sublevel_ofsted_state, 
-        link: @sublevel_ofsted_inactive_link, 
-        count: @sublevel_ofsted_count,
+        state: params[:ofsted].present? && params[:ofsted] === "true" ? true : false, 
+        link: admin_services_path(directory: params[:directory], ofsted: true), 
+        count: !params[:directory].present? ? @service_counts[:all][:ofsted] : @service_counts[params[:directory]][:ofsted],
         label: "Ofsted registered"
       } %>
 
          <%= render partial: "shared/shortcuts_item", 
      locals: {
-        state: @sublevel_pending_state, 
-        link: @sublevel_pending_inactive_link, 
-        count: @sublevel_pending_count,
+        state: current_page?(controller: 'admin/requests', action: 'index') ? true : false, 
+        link: admin_requests_path(directory: params[:directory]), 
+        count: !params[:directory].present? ? @service_counts[:all][:pending] : @service_counts[params[:directory]][:pending],
         label: "Pending"
       } %>
      
 
          <%= render partial: "shared/shortcuts_item", 
      locals: {
-        state: @sublevel_archived_state, 
-        link: @sublevel_archived_inactive_link, 
-        count: @sublevel_archived_count,
+        state: params[:archived].present? && params[:archived] === "true" ? true : false, 
+        link: admin_services_path(directory: params[:directory], archived: true), 
+        count: !params[:directory].present? ? @service_counts[:all][:archived] :  @service_counts[params[:directory]][:archived],
         label: "Archived"
       } %>
 
