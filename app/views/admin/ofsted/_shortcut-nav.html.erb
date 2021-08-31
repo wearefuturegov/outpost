@@ -4,7 +4,7 @@
     locals: {
         state: current_page?(controller: 'admin/ofsted', action: 'index') && !params[:archived].present?, 
         link: admin_ofsted_index_path,
-        count: @ofsted_counts[:all][:feed],
+        count: @ofsted_counts.dig(:all, :feed),
         label: "All"
     } %>
 <span class="shortcuts__divider">|</span>
@@ -13,7 +13,7 @@
     locals: {
         state: current_page?(controller: 'admin/ofsted', action: 'pending') , 
         link: pending_admin_ofsted_index_path,
-        count: @ofsted_counts[:all][:pending],
+        count: @ofsted_counts.dig(:all, :pending),
         label: "Pending"
     } %>
 
@@ -22,7 +22,7 @@
     locals: {
         state: params[:archived] === "true", 
         link: admin_ofsted_index_path(:archived => true),
-        count: @ofsted_counts[:all][:archived],
+        count: @ofsted_counts.dig(:all, :archived),
         label: "Archived"
     } %>
 
