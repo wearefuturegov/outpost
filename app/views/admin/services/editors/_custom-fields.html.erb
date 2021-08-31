@@ -8,7 +8,8 @@
         <% end %>
 
         <% section.custom_fields.each do |field| %>
-            <%= s.fields_for :meta, s.object.meta.find_or_initialize_by(key: field.key) do |c| %>
+            <% meta = s.object.meta.find_or_initialize_by(key: field.key) %>
+            <%= s.fields_for :meta, meta do |c| %>
                 <%= c.hidden_field :key %>
 
                 <% if field.field_type === "checkbox" %>
@@ -28,12 +29,13 @@
                             <%= c.number_field :value, class: "field__input" %>
                         <% elsif field.field_type === "select"%>
                             <%= c.select :value, field.options.split(","), { include_blank: true }, class: "field__select" %>
+                        <% elsif field.field_type === "date" %>
+                            <%= c.date_field :value, value: meta.value, class: "field__input" %>
                         <% else %>
                             <%= c.text_field :value, class: "field__input" %>
                         <% end %>
                     </div>
                 <% end %>
-
 
             <% end %>
         <% end %>
