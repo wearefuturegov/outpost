@@ -21,14 +21,14 @@ class Admin::BaseController < ApplicationController
     end
 
     def set_counts        
-          @service_counts_all = {
-            all: Service.kept.count,
-            ofsted: Service.kept.ofsted_registered.count,
-            pending: Service.kept.where(approved: nil).count,
-            archived: Service.discarded.count
+          @service_counts = {
+            all: {
+              all: Service.kept.count,
+              ofsted: Service.kept.ofsted_registered.count,
+              pending: Service.kept.where(approved: nil).count,
+              archived: Service.discarded.count
+            }
           }
-          @service_counts = {}
-          @service_counts[:all] = @service_counts_all
       
           if APP_CONFIG["directories"].present?
             APP_CONFIG["directories"].each do |directory|
