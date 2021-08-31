@@ -12,15 +12,21 @@ Feature: Admin view users
     Scenario: Viewing users 
         Given I am on the admin users page
         Then I should see all the users
+        And the all link should be highlighted
+        And the sub navigation links should not be highlighted
 
     Scenario: Viewing active users
         Given I am on the admin users page
         And I visit the active users link
         Then I should see only the active users
-        And the active users link should be disabled
+        And the all link should be highlighted
+        And the sub navigation active link should be highlighted
+        
 
     Scenario: Viewing deactivated users
         Given I am on the admin users page
         And I visit the deactivated users link
         Then I should see only the deactivated user
-        And the deactivated users link should be disabled
+        And the all link should be highlighted
+        And the sub navigation deactivated link should be highlighted
+

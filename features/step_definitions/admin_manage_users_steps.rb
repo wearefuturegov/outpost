@@ -33,14 +33,22 @@ And 'I should see only the active users' do
   expect(page).to_not have_content @deactivated_user.display_name
 end
 
-And 'the active users link should be disabled' do
-  expect(page).to have_link 'All'
-  expect(page).to_not have_link 'Active'
-  expect(page).to have_link 'Deactivated'
+And 'the all link should be highlighted' do
+    expect(page.find_link('All').find(:xpath, '..')[:class]).to include('current');  
 end
 
-And 'the deactivated users link should be disabled' do
-  expect(page).to have_link 'All'
-  expect(page).to have_link 'Active'
-  expect(page).to_not have_link 'Deactivated'
+And 'the sub navigation links should not be highlighted' do
+  expect(page.find_link('Active').find(:xpath, '..')[:class]).to_not include('current');
+  expect(page.find_link('Deactivated').find(:xpath, '..')[:class]).to_not include('current');
 end
+
+And 'the sub navigation active link should be highlighted' do
+    expect(page.find_link('Active').find(:xpath, '..')[:class]).to include('current');
+    expect(page.find_link('Deactivated').find(:xpath, '..')[:class]).to_not include('current');
+end
+
+And 'the sub navigation deactivated link should be highlighted' do
+  expect(page.find_link('Active').find(:xpath, '..')[:class]).to_not include('current');
+  expect(page.find_link('Deactivated').find(:xpath, '..')[:class]).to include('current');
+end
+
