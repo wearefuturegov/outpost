@@ -55,6 +55,8 @@ class User < ApplicationRecord
     end
   }
 
+  scope :in_directory, -> (directory) { joins(organisation: :services).merge(Service.in_directory(directory)).distinct if directory.present? }
+
   def self.options_for_sorted_by
     [
       ["Joined recently", "created_at_desc"],
