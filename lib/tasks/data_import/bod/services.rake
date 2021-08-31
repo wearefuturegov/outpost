@@ -20,12 +20,27 @@ namespace :bod do
 
       services_csv.each.with_index do |row, line|
         organisation = Organisation.where(name: row["BFIS Parent"]).first
-        if organisation.present?
-          puts "Organissation already exists: #{organisation.name}, was created at #{organisation.created_at}"
+        if organisation.present? && !organisation.created_at.today?
+          puts "Organissation already exists from BFIS: #{organisation.name}, was created at #{organisation.created_at}"
         else
           organisation = Organisation.new(name: row["BFIS Parent"])
           organisation.skip_mongo_callbacks = true
           puts "Organisation #{organisation.id} failed to save, error message: #{organisation.errors.messages}" unless organisation.save
+        end
+
+        if row["UPDATE EMAIL"].present?
+          existing_user = User.where(email: row["UPDATE EMAIL"]).first
+
+          if existing_user.present?
+            puts "Existing user #{existing_user.email} in different org #{existing_user.organisation.id} (new org: #{organisation.id})" if existing_user.organisation != organisation
+          else
+            new_user = User.new(email: row["UPDATE EMAIL"], organisation: organisation)
+            new_user.skip_name_validation = true
+            new_user.password = "A9b#{SecureRandom.hex(8)}1yZ"
+            unless new_user.save
+              puts "User #{new_user.email} failed to save: #{new_user.errors.messages}"
+            end
+          end
         end
 
         service = Service.new(
