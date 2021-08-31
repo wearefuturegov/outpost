@@ -60,7 +60,8 @@
     margin-bottom: 0px;
   }
 
-  &__submenu-link {
+  &__submenu-link,
+  &__submenu-heading {
     display: block;
     padding: 15px 20px;
     font-size: 0.9rem;
@@ -76,5 +77,11 @@
     @media screen and (min-width: $breakpoint-m) {
       font-size: 1rem;
     }
+  }
+
+  &__submenu-heading {
+    font-weight: bold;
+    cursor: inherit;
+    background: $pale;
   }
 }
