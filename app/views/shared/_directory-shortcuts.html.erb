@@ -20,7 +20,7 @@
                     locals: {
                         state: params[:directory] === directory["value"], 
                         link: directory_links[directory["value"]],
-                        count: directory_counts[directory["value"]][:all],
+                        count: directory_counts.dig(directory["value"], :all),
                         label: directory["value"]
                     } %>
           

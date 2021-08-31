@@ -14,7 +14,7 @@
   render partial: "shared/directory-shortcuts",  locals: { 
         all_state: !params[:directory].present?,
         all_link: admin_services_path,
-        all_count: @service_counts[:all][:all],
+        all_count: @service_counts.dig(:all, :all),
         all_label: "All",
         directory_links: @directory_links,
         directory_counts: @service_counts
@@ -35,7 +35,7 @@
      locals: {
         state: params[:ofsted].present? && params[:ofsted] === "true" ? true : false, 
         link: admin_services_path(directory: params[:directory], ofsted: true), 
-        count: !params[:directory].present? ? @service_counts[:all][:ofsted] : @service_counts[params[:directory]][:ofsted],
+        count: !params[:directory].present? ? @service_counts.dig(:all, :ofsted) : @service_counts[params[:directory]][:ofsted],
         label: "Ofsted registered"
       } %>
 
@@ -43,7 +43,7 @@
      locals: {
         state: current_page?(controller: 'admin/requests', action: 'index') ? true : false, 
         link: admin_requests_path(directory: params[:directory]), 
-        count: !params[:directory].present? ? @service_counts[:all][:pending] : @service_counts[params[:directory]][:pending],
+        count: !params[:directory].present? ? @service_counts.dig(:all, :pending) : @service_counts[params[:directory]][:pending],
         label: "Pending"
       } %>
      
@@ -52,7 +52,7 @@
      locals: {
         state: params[:archived].present? && params[:archived] === "true" ? true : false, 
         link: admin_services_path(directory: params[:directory], archived: true), 
-        count: !params[:directory].present? ? @service_counts[:all][:archived] :  @service_counts[params[:directory]][:archived],
+        count: !params[:directory].present? ? @service_counts.dig(:all, :archived) :  @service_counts[params[:directory]][:archived],
         label: "Archived"
       } %>
      
