@@ -7,6 +7,7 @@ Feature: Add a new service
     Scenario: Register and sign into the dashboard
         Given I'm registered
         And I'm at the root
+        And There are options for suitability
         Then I should be able to sign in
         Then I should see the dashboard
 
@@ -25,6 +26,7 @@ Feature: Add a new service
         Given I can set ages
 
         Given I can answer local offer questions
+        Given I can answer suitability questions
         Given I can answer extra questions
 
         Then I can submit my service
