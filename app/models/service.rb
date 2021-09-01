@@ -10,7 +10,9 @@ class Service < ApplicationRecord
       object: proc { |s| s.as_json },
       object_changes: proc { |s| s.saved_changes.as_json }
     },
-    class_name: 'ServiceVersion'
+    versions: {
+      class_name: 'ServiceVersion'
+    }
   )
 
   # associations
