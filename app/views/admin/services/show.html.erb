@@ -59,6 +59,10 @@
         <%= render "admin/services/editors/local-offer", s: s %>
       <% end %>
 
+      <%= render "shared/collapsible", name: "Suitable for", id: "suitability-editor" do %>
+        <%= render "admin/services/editors/suitabilities", s: s %>
+      <% end %>
+
       <%= render "shared/collapsible", name: "Ages", id: "ages-editor" do %>
         <%= render "admin/services/editors/ages", s: s %>
       <% end %>

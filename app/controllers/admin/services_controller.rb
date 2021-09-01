@@ -120,6 +120,7 @@ class Admin::ServicesController < Admin::BaseController
       :ofsted_item_id,
       taxonomy_ids: [],
       send_need_ids: [],
+      suitability_ids: [],
       local_offer_attributes: [
         :id,
         :description,
