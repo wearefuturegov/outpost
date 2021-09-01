@@ -9,6 +9,11 @@ Given("I'm registered") do
     )
 end
 
+Given("There are options for suitability") do
+    Suitability.create(name: 'Autism')
+    Suitability.create(name: 'Learning difficulties')
+end
+
 And("I'm at the root") do
     visit root_path
 end
@@ -98,6 +103,12 @@ Given("I can answer local offer questions") do
     check("This service is part of the local offer")
     uncheck("This service is part of the local offer")
     # ...
+    click_link_or_button('Continue')
+end
+
+Given("I can answer suitability questions") do
+    click_link_or_button('Suitable for')
+    check("Autism")
     click_link_or_button('Continue')
 end
 
