@@ -13,6 +13,7 @@
 ActiveRecord::Schema.define(version: 2021_09_03_151205) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
 
@@ -234,6 +235,7 @@ ActiveRecord::Schema.define(version: 2021_09_03_151205) do
     t.string "postcode"
     t.string "ward"
     t.string "family_centre"
+    t.string "area"
   end
 
   create_table "send_needs", force: :cascade do |t|
@@ -302,6 +304,17 @@ ActiveRecord::Schema.define(version: 2021_09_03_151205) do
     t.index ["discarded_at"], name: "index_services_on_discarded_at"
     t.index ["ofsted_item_id"], name: "index_services_on_ofsted_item_id"
     t.index ["organisation_id"], name: "index_services_on_organisation_id"
+  end
+
+  create_table "services_suitabilities", id: false, force: :cascade do |t|
+    t.bigint "service_id", null: false
+    t.bigint "suitability_id", null: false
+  end
+
+  create_table "suitabilities", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "taggings", id: :serial, force: :cascade do |t|
