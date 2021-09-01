@@ -1,4 +1,3 @@
-
 Feature: Add a new service
     As a community user
     I want to add a new service to the directory
