@@ -21,6 +21,7 @@ class Service < ApplicationRecord
   belongs_to :ofsted_item, required: false
 
   has_and_belongs_to_many :send_needs
+  has_and_belongs_to_many :suitabilities
 
   has_many :links
   accepts_nested_attributes_for :links, allow_destroy: true, reject_if: :all_blank
@@ -272,6 +273,7 @@ class Service < ApplicationRecord
       :contacts => {},
       :local_offer => {},
       :send_needs => {},
+      :suitabilities => {},
       :cost_options => {},
       :regular_schedules => {},
       :links => {}
