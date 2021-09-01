@@ -15,6 +15,10 @@ Then("I should not see {string}") do |string|
   expect(page).to_not have_content(string)
 end
 
+Then("I should see {string}") do |string|
+  expect(page).to have_content(string)
+end
+
 Then 'I can see a {string} type field called {string}' do |type, label|
   expect(page).to have_field(label, type: type)
 end
@@ -42,4 +46,8 @@ end
 Given("Some options for suitability exist") do
   FactoryBot.create(:suitability, name: 'Autism')
   FactoryBot.create(:suitability, name: 'Learning difficulties')
+end
+
+Given("{int} services exist in directory {string}") do |number_of_services, directory_name|
+  FactoryBot.create_list(:service, number_of_services, directory_list: directory_name)
 end
