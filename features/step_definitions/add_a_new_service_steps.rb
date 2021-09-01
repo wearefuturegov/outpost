@@ -9,11 +9,6 @@ Given("I'm registered") do
     )
 end
 
-Given("There are options for suitability") do
-    Suitability.create(name: 'Autism')
-    Suitability.create(name: 'Learning difficulties')
-end
-
 And("I'm at the root") do
     visit root_path
 end
