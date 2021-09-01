@@ -14,15 +14,13 @@ When("I fill in the name") do
     fill_in('Name', with: 'Test service')
 end
 
-When("I select the organisation") do
-    find('#service_organisation_id', visible: :all).find(:xpath, "../../div[contains(@id, 'choices--service_organisation_id-item-choice-1')]").select_option
-    #find('#service_organisation_id', visible: :all).find(:option, 'Test org').select_option
-    #select('Test org', :from => '.choices__list')
+When("I select the organisation {string}") do |org_name|
+    find('.choices').click
+    find('.choices__item', text: org_name).click
 end
 
 When("I fill in the suitability field") do
-    click_link_or_button("Suitable for")
-    check("Autism")
+    find('.checkbox__label', text: 'Autism', visible: false).click
 end
 
 When("I submit the service") do
@@ -30,5 +28,5 @@ When("I submit the service") do
 end
 
 Then("The service should be created") do
-    expect(page).to have_content("Service created")
+    expect(page).to have_content("Service has been created")
 end

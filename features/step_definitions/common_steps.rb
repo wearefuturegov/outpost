@@ -27,7 +27,7 @@ Then("I can fill in the {string} field with {string}") do |label, value|
   fill_in label, with: value
 end
 
-Given("An oranisation exists") do
+Given("An organisation exists") do
   @organisation = FactoryBot.create(:organisation, name: "Test org")
 end
 
