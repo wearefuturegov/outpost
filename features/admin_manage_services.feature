@@ -29,3 +29,11 @@ Feature: Admin manage services
         And I update the service
         Then The service should be updated
         And The service 'Test service' should have two suitabilities
+
+    Scenario: Browse services by directory
+        Given 4 services exist in directory 'Family Information Service'
+        And 2 services exist in directory 'Buckinghamshire Online Directory'
+        When I am on the admin services page
+        And I should see 'All (6)'
+        Then I should see 'Family Information Service (4)'
+        And I should see 'Buckinghamshire Online Directory (2)'
