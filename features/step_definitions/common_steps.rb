@@ -31,6 +31,14 @@ Given("An organisation exists") do
   @organisation = FactoryBot.create(:organisation, name: "Test org")
 end
 
+Given("A service exists") do
+  @organisation = FactoryBot.create(:service, name: "Test service", suitabilities: [Suitability.where(name: 'Autism').first])
+end
+
+Given("I am on the admin service page for {string}") do |service_name|
+  visit admin_service_path(Service.where(name: service_name).first)
+end
+
 Given("Some options for suitability exist") do
   FactoryBot.create(:suitability, name: 'Autism')
   FactoryBot.create(:suitability, name: 'Learning difficulties')
