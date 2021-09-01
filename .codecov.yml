@@ -1,2 +1,4 @@
 github_checks:
   annotations: false
+ignore:
+  - lib/tasks/data_import
