@@ -7,7 +7,7 @@ Feature: Add a new service
     Scenario: Register and sign into the dashboard
         Given I'm registered
         And I'm at the root
-        And There are options for suitability
+        And Some options for suitability exist
         Then I should be able to sign in
         Then I should see the dashboard
 
