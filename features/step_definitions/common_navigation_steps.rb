@@ -19,3 +19,8 @@ Given(/I visit the user page for (.*)/) do |name_or_email|
   visit admin_users_path
   click_link name_or_email
 end
+
+Given('I visit the edit service page for {string}') do |service_name|
+  click_link 'Services'
+  click_link service_name
+end
