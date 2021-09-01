@@ -101,6 +101,12 @@ Given("I can answer local offer questions") do
     click_link_or_button('Continue')
 end
 
+Given("I can answer suitability questions") do
+    click_link_or_button('Suitable for')
+    check("Autism")
+    click_link_or_button('Continue')
+end
+
 Given("I can answer extra questions") do
     click_link_or_button('Extra questions')
     # ...

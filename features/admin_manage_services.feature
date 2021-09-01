@@ -6,8 +6,26 @@ Feature: Admin manage services
 
     Background:
         * I am logged in as an admin user
+        * An organisation exists
+        * Some options for suitability exist
 
-    Scenario: Create a new service
+    Scenario: Navigate to new service page
         Given I am on the admin services page
         When I click the add service button
         Then I should see the new service form
+
+    Scenario: Create new service
+        Given I am on the add new service page
+        When I fill in the name with 'Test service'
+        And I select the organisation 'Test org'
+        And I fill in the suitability field with 'Autism'
+        And I submit the service
+        Then The service should be created
+
+    Scenario: Edit an existing service
+        Given A service exists
+        And I am on the admin service page for 'Test service'
+        When I fill in the suitability field with 'Learning difficulties'
+        And I update the service
+        Then The service should be updated
+        And The service 'Test service' should have two suitabilities
