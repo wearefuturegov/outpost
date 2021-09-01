@@ -23,7 +23,6 @@ task :build_public_index => :environment  do
         unless approved_alternative
             puts "🚨 No alternative approved snapshot of #{result.name} exists. Skipping."
             next
-            next
         end
 
         unless approved_alternative.object['visible'] == true && approved_alternative.object['discarded_at'].blank?

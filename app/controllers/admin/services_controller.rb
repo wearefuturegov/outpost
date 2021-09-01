@@ -1,5 +1,5 @@
 class Admin::ServicesController < Admin::BaseController
-  before_action :set_service, only: [:show, :update, :destroy]
+  before_action :set_service, only: [:update, :destroy]
   before_action :load_custom_field_sections, only: [:show, :update, :destroy, :new, :create]
 
   def index
@@ -37,6 +37,7 @@ class Admin::ServicesController < Admin::BaseController
   end
 
   def show
+    @service = Service.includes(notes: [:user]).find(params[:id])
     @watched = current_user.watches.where(service_id: @service.id).exists?
     if @service.versions.length > 4
       @versions = @service.versions.reverse.first(3)
@@ -78,7 +79,7 @@ class Admin::ServicesController < Admin::BaseController
   private
 
   def set_service
-    @service = Service.includes(notes: [:user]).find(params[:id])
+    @service = Service.find(params[:id])
   end
 
   def load_custom_field_sections

@@ -1,3 +1,4 @@
+# You must enable Javascript in your feature in order to be able to use this step.
 Given(/I am logged in as (.*) user/) do |type|
   if type == 'a superadmin'
     @login_user = FactoryBot.create(:user, :superadmin)
