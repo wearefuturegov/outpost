@@ -6,7 +6,7 @@ Feature: Admin manage services
 
     Background:
         * I am logged in as an admin user
-        * An oranisation exists
+        * An organisation exists
         * Some options for suitability exist
 
     Scenario: Navigate to new service page
@@ -17,7 +17,7 @@ Feature: Admin manage services
     Scenario: Create new service
         Given I am on the add new service page
         When I fill in the name
-        #And I select the organisation
+        And I select the organisation 'Test org'
         And I fill in the suitability field
         And I submit the service
         Then The service should be created
