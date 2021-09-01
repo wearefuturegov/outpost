@@ -16,8 +16,16 @@ Feature: Admin manage services
 
     Scenario: Create new service
         Given I am on the add new service page
-        When I fill in the name
+        When I fill in the name with 'Test service'
         And I select the organisation 'Test org'
-        And I fill in the suitability field
+        And I fill in the suitability field with 'Autism'
         And I submit the service
         Then The service should be created
+
+    Scenario: Edit an existing service
+        Given A service exists
+        And I am on the admin service page for 'Test service'
+        When I fill in the suitability field with 'Learning difficulties'
+        And I update the service
+        Then The service should be updated
+        And The service 'Test service' should have two suitabilities
