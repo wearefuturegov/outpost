@@ -91,6 +91,7 @@ class ServicesController < ApplicationController
             :age_band_all,
             #taxonomy_ids: []
             send_need_ids: [],
+            suitability_ids: [],
             local_offer_attributes: [
                 :id,
                 :description,
