@@ -47,6 +47,10 @@
         <%= render "admin/services/editors/local-offer", s: s %>
         <% end %>
 
+        <%= render "shared/collapsible", name: "Suitable for", id: "suitabilities-editor" do %>
+        <%= render "admin/services/editors/suitabilities", s: s %>
+        <% end %>
+
         <%= render "shared/collapsible", name: "Scheduling", count: @service.regular_schedules.length, id: "schedule-editor", help_text: "Build a set of regular opening times for the service." do %>
         <%= render "admin/services/editors/regular-schedule", s: s %>
         <% end %>
