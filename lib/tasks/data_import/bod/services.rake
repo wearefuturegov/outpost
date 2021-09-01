@@ -163,6 +163,22 @@ namespace :bod do
           end
         end
 
+        suitabilities = eval(row['Suitable for people with...'])
+        suitabilities_mapping = {
+          "older people" => "Older people",
+          "mental health/acquired brain injury" => "Mental health/acquired brain injury",
+          "physical difficulty" => "Physical Disabilities",
+          "visual and/or hearing impediment" => "Visual and/or hearing impediment",
+          "learning disability" => "Learning difficulties",
+          "autism" => "Autism",
+          "dementia" => "Dementia"
+        }
+        if suitabilities.present?
+          suitabilities.each do |suitability|
+            service.suitabilities << Suitability.find_or_initialize_by({name: suitabilities_mapping[suitability].downcase.capitalize})
+          end
+        end
+
         puts "Location #{location.name} failed to save, error message: #{location.errors.messages}" unless location.save
       end
     end
