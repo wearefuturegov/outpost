@@ -20,16 +20,28 @@ class Admin::BaseController < ApplicationController
         controller_name === "services" || "requests"
     end
 
-    def set_counts
-        @all_count = Service.kept.count
-        @ofsted_count = Service.kept.ofsted_registered.count
-        @pending_count = Service.kept.where(approved: nil).count
-        @archived_count = Service.discarded.count
-        if APP_CONFIG["directories"].present?
-            @directories_counts = {}
+    def set_counts        
+          @service_counts = {
+            all: {
+              all: Service.kept.count,
+              ofsted: Service.kept.ofsted_registered.count,
+              pending: Service.kept.where(approved: nil).count,
+              archived: Service.discarded.count
+            }
+          }
+      
+          if APP_CONFIG["directories"].present?
             APP_CONFIG["directories"].each do |directory|
-                @directories_counts[directory["name"]] =  Service.in_directory(directory["value"]).count
+              service = Service.tagged_with(directory["value"], on: :directories)
+              @service_dir_counts = {
+                all: service.kept.count,
+                ofsted: service.kept.ofsted_registered.count,
+                pending: service.kept.where(approved: nil).count,
+                archived: service.discarded.count
+              }
+              @service_counts[directory["value"]] = @service_dir_counts
             end
-        end
+          end
+
     end
 end

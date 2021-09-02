@@ -7,6 +7,28 @@ class Admin::RequestsController < Admin::BaseController
             .with_last_approved_version
             .with_last_version
             .order(updated_at: :DESC)
+
+            @counts_all = {
+                all: @requests.all.count,
+                ofsted: @requests.ofsted_registered.count,
+                pending: @requests.kept.count,
+                archived: @requests.discarded.count
+              }
+              @counts = {}
+              @counts[:all] = @counts_all
+          
+              if APP_CONFIG["directories"].present?
+                APP_CONFIG["directories"].each do |directory|
+                  service = @requests.tagged_with(directory, on: :directories)
+                  @dir_counts = {
+                    all: service.count,
+                    ofsted: service.ofsted_registered.count,
+                    pending: service.kept.count,
+                    archived: service.discarded.count
+                  }
+                  @counts[directory["value"]] = @dir_counts
+                end
+              end
     end
 
     def update

@@ -1,50 +1,60 @@
-<nav class="shortcuts">
+  <% 
+    @directory_links = {}
 
-    <% if (params[:ofsted] === "true") || (params[:archived] === "true") || (params[:controller]=== "admin/requests") || (params[:directory].present?) %>
-        <%= link_to "All", admin_services_path, class: "shortcuts__link" %>
-    <% else %>
-        <span class="shortcuts__current">All</span>
-    <% end %>
+    if APP_CONFIG["directories"].present?
+      APP_CONFIG["directories"].each do |directory|
+        @directory_links[directory["value"]] = admin_services_path(directory: directory["value"]);
+      end
+    end
 
-    <span class="shortcuts__count">(<%= @all_count %>)</span>
+%>
+  
+  <%= 
+  # display the bfis/bod headings
+  render partial: "shared/directory-shortcuts",  locals: { 
+        all_state: !params[:directory].present?,
+        all_link: admin_services_path,
+        all_count: @service_counts.dig(:all, :all),
+        all_label: "All",
+        directory_links: @directory_links,
+        directory_counts: @service_counts
+  }
 
-    <span class="shortcuts__divider">|</span>
+%>
 
-    <% if APP_CONFIG["directories"].present? %>
-        <% APP_CONFIG["directories"].each do |directory| %>
-            <% if (params[:directory] === directory["value"]) %>
-                <span class="shortcuts__current"><%= directory["value"] %></span>
-            <% else %>
-                <span class="shortcuts__link"><%= link_to directory["value"], admin_services_path(directory: directory["value"])%></span>
-            <% end %>
-            <span class="shortcuts__count">(<%= @directories_counts[directory["name"]] %>)</span>
-            <span class="shortcuts__divider">|</span>
-        <% end %>
-    <% end %>
 
-    <% if (params[:ofsted] === "true") %>
-        <span class="shortcuts__current">Ofsted registered</span>
-    <% else %>
-        <%= link_to "Ofsted registered", admin_services_path(ofsted: true), class: "shortcuts__link" %>
-    <% end %>
 
-    <span class="shortcuts__count">(<%= @ofsted_count %>)</span>
+<nav class="shortcuts shortcuts--no-top-spacing  shortcuts--sublevel">
 
-    <span class="shortcuts__divider">|</span>
+<% 
 
-    <%= link_to_unless_current "Pending", admin_requests_path, class: "shortcuts__link" do %>
-        <span class="shortcuts__current">Pending</span>
-    <% end %>
-    <span class="shortcuts__count">(<%= @pending_count %>)</span>
+    
+    %>   
 
-    <span class="shortcuts__divider">|</span>
+     <%= render partial: "shared/shortcuts_item", 
+     locals: {
+        state: params[:ofsted] === "true", 
+        link: admin_services_path(directory: params[:directory], ofsted: true), 
+        count: !params[:directory].present? ? @service_counts.dig(:all, :ofsted) : @service_counts[params[:directory]][:ofsted],
+        label: "Ofsted registered"
+      } %>
 
-    <% if (params[:archived] === "true") %>
-        <span class="shortcuts__current">Archived</span>
-    <% else %>
-        <%= link_to "Archived", admin_services_path(archived: true), class: "shortcuts__link" %>
-    <% end %>
+         <%= render partial: "shared/shortcuts_item", 
+     locals: {
+        state: current_page?(controller: 'admin/requests', action: 'index'), 
+        link: admin_requests_path(directory: params[:directory]), 
+        count: !params[:directory].present? ? @service_counts.dig(:all, :pending) : @service_counts[params[:directory]][:pending],
+        label: "Pending"
+      } %>
+     
 
-    <span class="shortcuts__count">(<%= @archived_count %>)</span>
+         <%= render partial: "shared/shortcuts_item", 
+     locals: {
+        state: params[:archived] === "true", 
+        link: admin_services_path(directory: params[:directory], archived: true), 
+        count: !params[:directory].present? ? @service_counts.dig(:all, :archived) :  @service_counts[params[:directory]][:archived],
+        label: "Archived"
+      } %>
+     
 
 </nav>

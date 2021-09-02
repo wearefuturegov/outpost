@@ -1,0 +1,22 @@
+<% 
+    @directory_links = {}
+
+    if APP_CONFIG["directories"].present?
+      APP_CONFIG["directories"].each do |directory|
+        @directory_links[directory["value"]] = admin_taxonomies_path(directory: directory["value"]);
+      end
+    end
+%>
+    
+<%= 
+  # display the bfis/bod headings
+  render partial: "shared/directory-shortcuts",  locals: { 
+        all_state: !params[:directory].present?,
+        all_link: admin_taxonomies_path,
+        all_count: @taxonomy_counts.dig(:all, :all),
+        all_label: "All",
+        directory_links: @directory_links,
+        directory_counts: @taxonomy_counts
+  }
+%>
+
