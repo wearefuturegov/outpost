@@ -1,9 +1,5 @@
 class IndexedServicesSerializer < ActiveModel::Serializer
   
-  TARGET_DIRECTORY_MAP = {
-      'bod': 'Buckinghamshire Online Directory',
-      'bfis': 'Family Information Service',
-  }
 
   attributes :id, 
     :updated_at, 
@@ -26,9 +22,11 @@ class IndexedServicesSerializer < ActiveModel::Serializer
     :status
 
   has_many :target_directories do 
-    object.labels.where(["name = ? or name = ?", *TARGET_DIRECTORY_MAP.values]).map do |directory| 
-      { id: directory.id, name: directory.name, label: TARGET_DIRECTORY_MAP.key(directory.name) }
-    end
+    if APP_CONFIG["directories"].present?
+      object.directories.map do |directory| 
+        { id: directory.id, name: directory.name, label: APP_CONFIG["directories"].find{|d| d["value"] === directory.name}['label'] }
+      end
+    end  
   end
   
   has_many :locations do
