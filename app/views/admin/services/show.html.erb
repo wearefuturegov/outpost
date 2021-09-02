@@ -27,7 +27,7 @@
         <%= render "admin/services/editors/basics", s: s %>
       <% end %>
 
-      <%= render "shared/collapsible", name: "Directories", count: @service.directory_list.length, id: "directories-editor", help_text: "Select which directories you want the service to appear in" do %>
+      <%= render "shared/collapsible", name: "Directories", count: @service.directories&.length, id: "directories-editor", help_text: "Select which directories you want the service to appear in" do %>
         <%= render "admin/services/editors/directories", s: s %>
       <% end %>
 

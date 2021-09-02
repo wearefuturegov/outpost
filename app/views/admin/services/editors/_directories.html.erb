@@ -2,7 +2,7 @@
 <section class="directories">
     <fieldset class="field-group field-group--two-cols field-group--no-top-margin margin-bottom">
         <legend class="field-group__legend">Choose which directories this service should appear in</legend>
-        <%= s.collection_check_boxes( :directory_list, valid_directory_list, :first, :first, {}, {}) do |c| %>
+        <%= s.collection_check_boxes( :directories, valid_directory_list, :first, :first, {}, {}) do |c| %>
             <div class="field checkbox checkbox--small ">
                 <%= c.check_box class: "checkbox__input" %>
                 <%= c.label class: "checkbox__label" %>
