@@ -22,10 +22,12 @@ namespace :bod do
         organisation = Organisation.where(name: row["BFIS Parent"]).first
         if organisation.present? && !organisation.created_at.today?
           puts "Organissation already exists from BFIS: #{organisation.name}, was created at #{organisation.created_at}"
+        elsif organisation.present? && organisation.created_at.today?
+          puts "Organisation already created on this import: #{organisation.name}, was created at #{organisation.created_at}"
         else
           organisation = Organisation.new(name: row["BFIS Parent"])
           organisation.skip_mongo_callbacks = true
-          puts "Organisation #{organisation.id} failed to save, error message: #{organisation.errors.messages}" unless organisation.save
+          puts "Organisation #{organisation.name} failed to save, error message: #{organisation.errors.messages}" unless organisation.save
         end
 
         if row["UPDATE EMAIL"].present?
@@ -159,7 +161,7 @@ namespace :bod do
           }
           options = accessibility
           options.each do |option|
-            location.accessibilities << Accessibility.find_or_initialize_by({name: accessibility_mapping[option].downcase.capitalize})
+            location.accessibilities << Accessibility.find_or_initialize_by({name: accessibility_mapping[option].downcase.capitalize}) if accessibility_mapping[option].present?
           end
         end
 
@@ -175,7 +177,7 @@ namespace :bod do
         }
         if suitabilities.present?
           suitabilities.each do |suitability|
-            service.suitabilities << Suitability.find_or_initialize_by({name: suitabilities_mapping[suitability].downcase.capitalize})
+            service.suitabilities << Suitability.find_or_initialize_by({name: suitabilities_mapping[suitability].downcase.capitalize}) if suitabilities_mapping[suitability].present?
           end
         end
 
