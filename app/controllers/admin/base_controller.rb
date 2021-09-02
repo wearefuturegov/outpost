@@ -32,7 +32,7 @@ class Admin::BaseController < ApplicationController
       
           if APP_CONFIG["directories"].present?
             APP_CONFIG["directories"].each do |directory|
-              service = Service.tagged_with(directory["value"], on: :directories)
+              service = Service.in_directory(directory["value"])
               @service_dir_counts = {
                 all: service.kept.count,
                 ofsted: service.kept.ofsted_registered.count,
