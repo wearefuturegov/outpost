@@ -8,7 +8,7 @@ class API::V1::SuitabilitiesController < ApplicationController
   private
 
   def json_tree(suitabilities)
-    suitabilities.map do |sn|
+    suitabilities.map do |s|
       {
         id: s.id,
         label: s.name,
