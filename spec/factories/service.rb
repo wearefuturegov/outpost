@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :service do
-    name { Faker::Company.name }
+    sequence(:name) { |n| "#{Faker::Company.name} #{n}" }
+
     description { Faker::Lorem.paragraph }
     url { Faker::Internet.url }
     after(:create) do |service|
