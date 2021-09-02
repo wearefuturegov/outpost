@@ -8,6 +8,8 @@ class Admin::RequestsController < Admin::BaseController
             .with_last_version
             .order(updated_at: :DESC)
 
+          @requests = @requests.tagged_with(params[:directory], on: :directories) if params[:directory].present?
+
             @counts_all = {
                 all: @requests.all.count,
                 ofsted: @requests.ofsted_registered.count,
