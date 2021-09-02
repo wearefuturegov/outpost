@@ -121,6 +121,18 @@ namespace :bod do
               puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
             end
           end
+          if row["GDPR Permission Date"].present?
+            service_meta = service.meta.new(key: "GDPR Permission Date", value: row["GDPR Permission Date"])
+            unless service_meta.save
+              puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
+            end
+          end
+          if row["Review date"].present?
+            service_meta = service.meta.new(key: "Review date", value: row["Review date"])
+            unless service_meta.save
+              puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
+            end
+          end
         else
           puts "Service #{service.name} failed to save, error message: #{service.errors.messages}"
         end
