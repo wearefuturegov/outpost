@@ -18,5 +18,12 @@ namespace :bod do
         end
       end
     end
+    task :set_ofsted_admins => :environment do
+      ofsted_admins_yaml = Rails.root.join('lib', 'seeds', 'bod', 'ofsted_admins.yml')
+      ofsted_admins = YAML::load_file(ofsted_admins_yaml)
+      ofsted_admins.each do |ofsted_admin|
+        User.where(email: ofsted_admin["email"]).first.update(admin_manage_ofsted_access: true)
+      end
+    end
   end
 end
