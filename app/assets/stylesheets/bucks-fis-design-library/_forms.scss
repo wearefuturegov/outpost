@@ -123,12 +123,15 @@
     }
   }
 
+  legend.field-group__legend {
+    float: left; //removes the legend from the borders
+  }
+
   &__legend {
     margin-top: 0px;
     margin-bottom: 25px;
     padding-left: 0;
     grid-column: 1 / 3;
-    float: left; //removes the legend from the borders
 
     * {
       margin-bottom: 0px;
