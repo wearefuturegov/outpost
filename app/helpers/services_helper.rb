@@ -30,4 +30,11 @@ module ServicesHelper
     end
   end
 
+  def valid_directory_list
+    if APP_CONFIG['directories'].present?
+      APP_CONFIG['directories'].map{ |m| [ m["value"] ] } 
+    else 
+      []
+    end
+  end
 end

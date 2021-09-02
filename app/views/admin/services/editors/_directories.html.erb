@@ -1,12 +1,14 @@
+<% if APP_CONFIG["directories"].present? %>
 <section class="directories">
-
-    <div class="field">
-        <%= s.label :directory_list, "Choose which directories this service should appear in", class: "field__label" %>
-        <%= s.text_field :directory_list, class: "field__input", data: {labels: true}, value: @service.directory_list.to_s %>
-    </div>
-
-    <script>
-        __LABELS__=<%= raw ActsAsTaggableOn::Tag.most_used.to_json %>
-    </script>
-
+    <fieldset class="field-group field-group--two-cols field-group--no-top-margin margin-bottom">
+        <legend class="field-group__legend">Choose which directories this service should appear in</legend>
+        <%= s.collection_check_boxes( :directory_list, valid_directory_list, :first, :first, {}, {}) do |c| %>
+            <div class="field checkbox checkbox--small ">
+                <%= c.check_box class: "checkbox__input" %>
+                <%= c.label class: "checkbox__label" %>
+            </div>
+        <% end %>
+    </fieldset>
 </section>
+<% end %>
+
