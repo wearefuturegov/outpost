@@ -64,7 +64,8 @@ class Service < ApplicationRecord
   has_one :last_version, -> { order(created_at: :desc) }, class_name: 'ServiceVersion', as: :item
   scope :with_last_version, -> { includes(last_version: [user: :watches]) }
 
-  scope :in_directory, -> (directory) { tagged_with(directory, on: :directories) }
+  scope :in_directory, -> (directory) { where("directories &&  ?", "{#{directory}}" ) }
+
 
   # callbacks
   after_save :notify_watchers
@@ -119,7 +120,7 @@ class Service < ApplicationRecord
     end
   }
 
-  acts_as_taggable_on :labels, :directories
+  acts_as_taggable_on :labels
   paginates_per 20
 
   # validations
