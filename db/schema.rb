@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_02_162335) do
+ActiveRecord::Schema.define(version: 2021_09_03_151205) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -298,6 +298,7 @@ ActiveRecord::Schema.define(version: 2021_09_02_162335) do
     t.string "old_open_objects_external_id"
     t.boolean "temporarily_closed"
     t.text "directories", default: [], array: true
+    t.text "directories_as_text"
     t.index ["discarded_at"], name: "index_services_on_discarded_at"
     t.index ["ofsted_item_id"], name: "index_services_on_ofsted_item_id"
     t.index ["organisation_id"], name: "index_services_on_organisation_id"
