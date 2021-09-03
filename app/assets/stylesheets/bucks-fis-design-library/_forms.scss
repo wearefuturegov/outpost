@@ -125,6 +125,10 @@
 
   legend.field-group__legend {
     float: left; //removes the legend from the borders
+
+    .field__hint {
+      padding-top: 10px;
+    }
   }
 
   &__legend {
