@@ -4,6 +4,7 @@
     <%= link_to "Go back", service_path(@service), class: "go-back" %>
     <h1 class="page-header__title two-thirds">Special educational needs and disabilities</h1>
     <p class="page-header__lede two-thirds">Explain how you can support people with special educational needs and disabilities. Also known as the "local offer".</p>
+    <p class="field__hint two-thirds">Select if your service, group or activity supports children and young people aged 0-25 with SEND</p>
 <% end %>
 
 <%= form_for @service, url: service_path(@service, :section => params[:section]), html: {class: "two-thirds"} do |s| %>
