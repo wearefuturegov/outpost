@@ -58,7 +58,7 @@ namespace :bod do
         )
         service.skip_mongo_callbacks = true
 
-        service.update(directories: service.directories << "bod")
+        service.update(directories: service.directories << "Buckinghamshire Online Directory")
 
         if service.save
           # CUSTOM FIELDS
@@ -244,7 +244,7 @@ def set_existing_services_as_bfis
   puts "Applying BFIS directory tag to existing services"
   Service.all.each do |service|
     service.skip_mongo_callbacks = true
-    service.update(directories: service.directories << "fis")
+    service.update(directories: service.directories << "Family Information Service")
   end
 end
 
