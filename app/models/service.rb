@@ -71,6 +71,7 @@ class Service < ApplicationRecord
   after_save :notify_watchers
   after_save :add_parent_taxonomies
   before_save :skip_nested_indexes
+  before_save :update_directories_text_field
 
   filterrific(
     default_filter_params: { sorted_by: "recent" },
@@ -254,6 +255,10 @@ class Service < ApplicationRecord
 
   def skip_nested_indexes
     (self.taxonomies + self.locations + [self.organisation]).each {|t| t.skip_mongo_callbacks = true }
+  end
+
+  def update_directories_text_field
+    self.directories_as_text = self.directories.to_s
   end
 
   # include nested taxonomies in json representation by default
