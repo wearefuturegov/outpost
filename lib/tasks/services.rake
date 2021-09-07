@@ -528,9 +528,10 @@ namespace :services do
     end
   end
 
-  task :save_all => [ :environment ] do
+  task :update_directories_as_text_field => [ :environment ] do
     Service.all.each do |s|
       s.skip_mongo_callbacks = true
+      s.directories_as_text = self.directories&.sort&.join(", ") # make sure directories always in same order
       s.save
     end
   end
