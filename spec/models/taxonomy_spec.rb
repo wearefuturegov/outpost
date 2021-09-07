@@ -13,8 +13,8 @@ RSpec.describe Taxonomy, type: :model do
       @taxonomy_b = FactoryBot.create(:taxonomy)
       @taxonomy_c = FactoryBot.create(:taxonomy)
 
-      @services = FactoryBot.create_list(:service, 3, organisation: @organisation, taxonomies: [@taxonomy_a, @taxonomy_b], directory_list: 'Directory A')
-      @services = FactoryBot.create_list(:service, 5, organisation: @organisation, taxonomies: [@taxonomy_c], directory_list: 'Directory B')
+      @services = FactoryBot.create_list(:service, 3, organisation: @organisation, taxonomies: [@taxonomy_a, @taxonomy_b], directories: ['Directory A'])
+      @services = FactoryBot.create_list(:service, 5, organisation: @organisation, taxonomies: [@taxonomy_c], directories: ['Directory B'])
 
       expect(Taxonomy.filter_by_directory('Directory A').count).to eq(2)
       expect(Taxonomy.filter_by_directory('Directory A')).to include(@taxonomy_a, @taxonomy_b)
