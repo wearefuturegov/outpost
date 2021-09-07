@@ -252,7 +252,10 @@ class Service < ApplicationRecord
   end
 
   def update_directories_text_field
-    self.directories_as_text = self.directories.sort.join(", ")
+    if self.directories_changed?
+      self.directories&.reject!(&:blank?) # this makes sure there's no empty string added to directories array
+      self.directories_as_text = self.directories&.sort&.join(", ") # make sure directories always in same order
+    end
   end
 
   # include nested taxonomies in json representation by default
