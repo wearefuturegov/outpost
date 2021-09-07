@@ -252,7 +252,7 @@ class Service < ApplicationRecord
   end
 
   def update_directories_text_field
-    self.directories_as_text = self.directories.to_s
+    self.directories_as_text = self.directories.sort.join(", ")
   end
 
   # include nested taxonomies in json representation by default
