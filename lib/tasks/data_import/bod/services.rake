@@ -237,6 +237,13 @@ namespace :bod do
         end
       end
     end
+
+    task :save_all => [ :environment ] do
+      Service.all.each do |s|
+        s.skip_mongo_callbacks = true
+        s.save
+      end
+    end
   end
 end
 
