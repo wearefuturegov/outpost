@@ -7,7 +7,7 @@ class API::V1::TaxonomiesController < ApplicationController
 
             # scout sends through lowercase label 'bfis', 'bod' etc - look up the name in app config to send to the application
             get_value_from_label = APP_CONFIG['directories'].find{|directory| directory["label"] === params[:directory]};
-            value = get_value_from_label.nil? ? nil : get_value_from_label["value"]
+            value = APP_CONFIG['directories'].find{|directory| directory["label"] === params[:directory]}&.fetch('value');
             results = Taxonomy.filter_by_directory(value);
 
             if results.count > 0
