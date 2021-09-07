@@ -49,5 +49,5 @@ Given("Some options for suitability exist") do
 end
 
 Given("{int} services exist in directory {string}") do |number_of_services, directory_name|
-  FactoryBot.create_list(:service, number_of_services, directory_list: directory_name)
+  FactoryBot.create_list(:service, number_of_services, directories: [directory_name])
 end
