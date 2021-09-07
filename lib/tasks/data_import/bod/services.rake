@@ -19,19 +19,20 @@ namespace :bod do
       services_csv = CSV.parse(services_file, headers: true)
 
       services_csv.each.with_index do |row, line|
-        organisation = Organisation.where(name: row["BFIS Parent"]).first
+        organisation = Organisation.where('lower(name) = ?', row["BFIS Parent"]&.strip&.downcase).first
+
         if organisation.present? && !organisation.created_at.today?
           puts "Organissation already exists from BFIS: #{organisation.name}, was created at #{organisation.created_at}"
         elsif organisation.present? && organisation.created_at.today?
           puts "Organisation already created on this import: #{organisation.name}, was created at #{organisation.created_at}"
         else
-          organisation = Organisation.new(name: row["BFIS Parent"])
+          organisation = Organisation.new(name: row["BFIS Parent"]&.strip)
           organisation.skip_mongo_callbacks = true
           puts "Organisation #{organisation.name} failed to save, error message: #{organisation.errors.messages}" unless organisation.save
         end
 
         if row["UPDATE EMAIL"].present?
-          existing_user = User.where(email: row["UPDATE EMAIL"]).first
+          existing_user = User.where(email: row["UPDATE EMAIL"]&.strip).first
 
           if existing_user.present?
             puts "Existing user #{existing_user.email} in different org #{existing_user.organisation.id} (new org: #{organisation.id})" if existing_user.organisation != organisation
@@ -57,7 +58,7 @@ namespace :bod do
         )
         service.skip_mongo_callbacks = true
 
-        service.directory_list.add("Buckinghamshire Online Directory")
+        service.update(directories: service.directories << "Buckinghamshire Online Directory")
 
         if service.save
           # CUSTOM FIELDS
@@ -192,7 +193,6 @@ namespace :bod do
             service.suitabilities << Suitability.find_or_initialize_by({name: suitabilities_mapping[suitability].downcase.capitalize}) if suitabilities_mapping[suitability].present?
           end
         end
-
         puts "Location #{location.name} failed to save, error message: #{location.errors.messages}" unless location.save
       end
     end
@@ -237,15 +237,21 @@ namespace :bod do
         end
       end
     end
+
+    task :save_all => [ :environment ] do
+      Service.all.each do |s|
+        s.skip_mongo_callbacks = true
+        s.save
+      end
+    end
   end
 end
 
 def set_existing_services_as_bfis
   puts "Applying BFIS directory tag to existing services"
   Service.all.each do |service|
-    service.directory_list.add("Family Information Service")
     service.skip_mongo_callbacks = true
-    service.save
+    service.update(directories: service.directories << "Family Information Service")
   end
 end
 

@@ -64,7 +64,8 @@ class Service < ApplicationRecord
   has_one :last_version, -> { order(created_at: :desc) }, class_name: 'ServiceVersion', as: :item
   scope :with_last_version, -> { includes(last_version: [user: :watches]) }
 
-  scope :in_directory, -> (directory) { tagged_with(directory, on: :directories) }
+  scope :in_directory, -> (directory) { where("directories &&  ?", "{#{directory}}" ) }
+
 
   # callbacks
   after_save :notify_watchers
@@ -119,7 +120,7 @@ class Service < ApplicationRecord
     end
   }
 
-  acts_as_taggable_on :labels, :directories
+  acts_as_taggable_on :labels
   paginates_per 20
 
   # validations
@@ -257,7 +258,10 @@ class Service < ApplicationRecord
   end
 
   def update_directories_text_field
-    self.directories_as_text = self.directories.sort.join(", ")
+    if self.directories_changed?
+      self.directories&.reject!(&:blank?) # this makes sure there's no empty string added to directories array
+      self.directories_as_text = self.directories&.sort&.join(", ") # make sure directories always in same order
+    end
   end
 
   # include nested taxonomies in json representation by default
