@@ -528,13 +528,6 @@ namespace :services do
     end
   end
 
-  task :save_all => [ :environment ] do
-    Service.all.each do |s|
-      s.skip_mongo_callbacks = true
-      s.save
-    end
-  end
-
   task :import_costs => [ :environment ] do
 
     csv_file = File.open('lib/seeds/costs.csv', "r:utf-8")
