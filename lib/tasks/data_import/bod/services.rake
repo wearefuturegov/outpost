@@ -14,36 +14,52 @@ namespace :bod do
       "older adults" => nil
     }
 
+    def create_user(email, org)
+      if email.present? && org.present?
+        new_user = User.new(email: email, organisation: org)
+        new_user.skip_name_validation = true
+        new_user.password = "A9b#{SecureRandom.hex(8)}1yZ"
+        unless new_user.save
+          puts "User #{new_user.email} failed to save: #{new_user.errors.messages}"
+        end
+      end
+    end
+
     task :import => :environment do
-      services_file = File.open('lib/seeds/bod/services.csv', "r:utf-8")
+      #services_file = File.open('lib/seeds/bod/services.csv', "r:utf-8")
+      services_file = File.open('lib/seeds/bod/services.csv', "r:ISO-8859-1")
       services_csv = CSV.parse(services_file, headers: true)
 
       services_csv.each.with_index do |row, line|
-        organisation = Organisation.where('lower(name) = ?', row["BFIS Parent"]&.strip&.downcase).first
+        existing_organisation = Organisation.where('lower(name) = ?', row["BFIS Parent"]&.strip&.downcase).first
+        existing_user = User.where(email: row["UPDATE EMAIL"]&.strip).first
 
-        if organisation.present? && !organisation.created_at.today?
-          puts "Organissation already exists from BFIS: #{organisation.name}, was created at #{organisation.created_at}"
-        elsif organisation.present? && organisation.created_at.today?
-          puts "Organisation already created on this import: #{organisation.name}, was created at #{organisation.created_at}"
-        else
-          organisation = Organisation.new(name: row["BFIS Parent"]&.strip)
-          organisation.skip_mongo_callbacks = true
-          puts "Organisation #{organisation.name} failed to save, error message: #{organisation.errors.messages}" unless organisation.save
-        end
-
-        if row["UPDATE EMAIL"].present?
-          existing_user = User.where(email: row["UPDATE EMAIL"]&.strip).first
-
-          if existing_user.present?
-            puts "Existing user #{existing_user.email} in different org #{existing_user.organisation.id} (new org: #{organisation.id})" if existing_user.organisation != organisation
+        # if existing_user.present? && existing_organisation.present? && (existing_user.organisation_id != existing_organisation.id)
+        #   puts "existing_user #{existing_user.email} already exists in existing org #{existing_organisation.id}"
+        # end
+        skip_service = nil
+        if existing_organisation.present?
+          if existing_user.present? && (existing_user.organisation_id == existing_organisation.id)
+            # All good
+          elsif existing_user.present? && (existing_user.organisation_id != existing_organisation.id)
+            puts "Existing user #{existing_user} already exists in anouther Organisation: #{existing_user.organisation.id}, cannot add to org: #{existing_organisation.id}"
+            skip_service = true
           else
-            new_user = User.new(email: row["UPDATE EMAIL"], organisation: organisation)
-            new_user.skip_name_validation = true
-            new_user.password = "A9b#{SecureRandom.hex(8)}1yZ"
-            unless new_user.save
-              puts "User #{new_user.email} failed to save: #{new_user.errors.messages}"
-            end
+            create_user(row["UPDATE EMAIL"], existing_organisation)
           end
+          organisation = existing_organisation
+        elsif existing_user.present?
+          # existing_users_organisation = existing_user.organisation
+          # organisation = existing_users_organisation
+        else
+          new_organisation = Organisation.new(name: row["BFIS Parent"]&.strip)
+          new_organisation.skip_mongo_callbacks = true
+          
+          puts "Organisation #{new_organisation.name} failed to save, error message: #{new_organisation.errors.messages}" unless new_organisation.save
+          
+          create_user(row["UPDATE EMAIL"], new_organisation)
+
+          organisation = new_organisation
         end
 
         service = Service.new(
