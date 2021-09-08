@@ -4,7 +4,6 @@ namespace :forest_admin do
   task :import => :environment do
     start_time = Time.now
     
-    Rake::Task['bod:services:apply_bfis_directory_to_current'].invoke
     Rake::Task['bod:users:create_users_from_file'].invoke
     Rake::Task['bod:custom_fields:build_initial'].invoke
     Rake::Task['bod:services:import'].invoke
