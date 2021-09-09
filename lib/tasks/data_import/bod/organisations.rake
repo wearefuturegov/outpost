@@ -5,7 +5,7 @@ namespace :bod do
         org.skip_mongo_callbacks = true
         org.name.strip!
         unless org.save
-          puts "Org #{org.id} failed to save: #{org.errors.messages}"
+          puts "Org #{org.name} failed to save: #{org.errors.messages}"
         end
       end
     end
