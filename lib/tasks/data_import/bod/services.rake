@@ -31,43 +31,53 @@ namespace :bod do
       services_csv = CSV.parse(services_file, headers: true)
 
       services_csv.each.with_index do |row, line|
+        exisiting_service = Service.where('lower(name) = ?', row["Name"]&.strip.downcase).first
+
+        if exisiting_service.present?
+          puts "Service already exists with this name: #{exisiting_service.name}, not importing anything"
+          next
+        end
         existing_organisation = Organisation.where('lower(name) = ?', row["BFIS Parent"]&.strip&.downcase).first
         existing_user = User.where(email: row["UPDATE EMAIL"]&.strip).first
 
-        # if existing_user.present? && existing_organisation.present? && (existing_user.organisation_id != existing_organisation.id)
-        #   puts "existing_user #{existing_user.email} already exists in existing org #{existing_organisation.id}"
-        # end
-        skip_service = nil
+        #skip_service = nil
         if existing_organisation.present?
           if existing_user.present? && (existing_user.organisation_id == existing_organisation.id)
-            # All good
+            # All good - user and org already exist
           elsif existing_user.present? && (existing_user.organisation_id != existing_organisation.id)
-            puts "Existing user #{existing_user} already exists in anouther Organisation: #{existing_user.organisation.id}, cannot add to org: #{existing_organisation.id}"
-            skip_service = true
+            puts "Existing user #{existing_user.email} already exists in anouther Organisation: #{existing_user.organisation.id}, cannot add to org: #{existing_organisation.id}"
+            #skip_service = true
           else
-            create_user(row["UPDATE EMAIL"], existing_organisation)
+            create_user(row["UPDATE EMAIL"]&.strip, existing_organisation) if row["UPDATE EMAIL"].present?
           end
           organisation = existing_organisation
-        elsif existing_user.present?
-          # existing_users_organisation = existing_user.organisation
-          # organisation = existing_users_organisation
         else
           new_organisation = Organisation.new(name: row["BFIS Parent"]&.strip)
           new_organisation.skip_mongo_callbacks = true
           
-          puts "Organisation #{new_organisation.name} failed to save, error message: #{new_organisation.errors.messages}" unless new_organisation.save
+          unless new_organisation.save
+            puts "Organisation #{new_organisation.name} failed to save, error message: #{new_organisation.errors.messages}"
+          end
           
-          create_user(row["UPDATE EMAIL"], new_organisation)
+          if existing_user.present? && existing_user.organisation.present?
+            puts "User #{existing_user.email} already exists in organisation #{existing_user.organisation.id} so cannot add it to new org: #{new_organisation.id}"
+          elsif existing_user.present? && !existing_user.organisation.present?
+            puts "Adding user to new organisation"
+            existing_user.organisation = new_organisation
+            existing_user.save
+          else
+            create_user(row["UPDATE EMAIL"]&.strip, new_organisation) if row["UPDATE EMAIL"].present?
+          end
 
           organisation = new_organisation
         end
 
         service = Service.new(
           organisation_id: organisation.id,
-          name: row["Name"],
-          description: row["Description"],
-          url: row["URL"],
-          visible: set_visibility(row["Review status"]),
+          name: row["Name"]&.strip,
+          description: row["Description"]&.strip,
+          url: row["URL"]&.strip,
+          visible: set_visibility(row["Review status"]&.strip),
           min_age: set_min_age(row["Age groups"]),
           max_age: set_max_age(row["Age groups"]),
           old_open_objects_external_id: row["Asset ID"]
@@ -79,73 +89,73 @@ namespace :bod do
         if service.save
           # CUSTOM FIELDS
           if row["Volunteer DBS check"].present?
-            service_meta = service.meta.new(key: "Volunteer DBS check", value: row["Volunteer DBS check"])
+            service_meta = service.meta.new(key: "Volunteer DBS check", value: row["Volunteer DBS check"]&.strip)
             unless service_meta.save
               puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
             end
           end
           if row["Safeguarding"].present?
-            service_meta = service.meta.new(key: "Safeguarding", value: row["Safeguarding"])
+            service_meta = service.meta.new(key: "Safeguarding", value: row["Safeguarding"]&.strip)
             unless service_meta.save
               puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
             end
           end
           if row["Health and safety?"].present?
-            service_meta = service.meta.new(key: "Health and safety?", value: row["Health and safety?"])
+            service_meta = service.meta.new(key: "Health and safety?", value: row["Health and safety?"]&.strip)
             unless service_meta.save
               puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
             end
           end
           if row["Insurance?"].present?
-            service_meta = service.meta.new(key: "Insurance?", value: row["Insurance?"])
+            service_meta = service.meta.new(key: "Insurance?", value: row["Insurance?"]&.strip)
             unless service_meta.save
               puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
             end
           end
           if row["confid data protect"].present?
-            service_meta = service.meta.new(key: "Confid data protect", value: row["confid data protect"])
+            service_meta = service.meta.new(key: "Confid data protect", value: row["confid data protect"]&.strip)
             unless service_meta.save
               puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
             end
           end
           if row["equality diversity"].present?
-            service_meta = service.meta.new(key: "Equality diversity", value: row["equality diversity"])
+            service_meta = service.meta.new(key: "Equality diversity", value: row["equality diversity"]&.strip)
             unless service_meta.save
               puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
             end
           end
           if row["PCN"].present?
-            service_meta = service.meta.new(key: "Primary Care Network", value: row["PCN"])
+            service_meta = service.meta.new(key: "Primary Care Network", value: row["PCN"]&.strip)
             unless service_meta.save
               puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
             end
           end
           if row["Community Board"].present?
-            service_meta = service.meta.new(key: "Community board for Buckinghamshire Council", value: row["Community Board"])
+            service_meta = service.meta.new(key: "Community board for Buckinghamshire Council", value: row["Community Board"]&.strip)
             unless service_meta.save
               puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
             end
           end
           if row["GDPR Permission "].present?
-            service_meta = service.meta.new(key: "GDPR Permission", value: row["GDPR Permission "])
+            service_meta = service.meta.new(key: "GDPR Permission", value: row["GDPR Permission "]&.strip)
             unless service_meta.save
               puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
             end
           end
           if row["GDPR Authorised By"].present?
-            service_meta = service.meta.new(key: "GDPR Authorised By", value: row["GDPR Authorised By"])
+            service_meta = service.meta.new(key: "GDPR Authorised By", value: row["GDPR Authorised By"]&.strip)
             unless service_meta.save
               puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
             end
           end
           if row["GDPR Permission Date"].present?
-            service_meta = service.meta.new(key: "GDPR Permission Date", value: row["GDPR Permission Date"])
+            service_meta = service.meta.new(key: "GDPR Permission Date", value: row["GDPR Permission Date"]&.strip.to_date)
             unless service_meta.save
               puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
             end
           end
           if row["Review date"].present?
-            service_meta = service.meta.new(key: "Review date", value: row["Review date"])
+            service_meta = service.meta.new(key: "Review date", value: row["Review date"]&.strip.to_date)
             unless service_meta.save
               puts "Service meta #{service_meta.key} failed to save: #{service_meta.errors.messages}"
             end
@@ -154,22 +164,26 @@ namespace :bod do
           puts "Service #{service.name} failed to save, error message: #{service.errors.messages}"
         end
 
-        contact = Contact.new(
-          name: row["Contact name"],
-          email: row["Email"],
-          phone: row["Phone"]
-        )
-        service.contacts << contact
-        puts "Contact #{contact.name} failed to save, error message: #{contact.errors.messages}" unless contact.save
+        if (row["Contact name"]&.strip.present? || row["Email"]&.strip.present? || row["Phone"]&.strip.present?)
+          contact = Contact.new(
+            name: row["Contact name"]&.strip,
+            email: row["Email"]&.strip,
+            phone: row["Phone"]&.strip
+          )
+          service.contacts << contact
+          unless contact.save
+            puts "Contact #{contact.name} failed to save for service #{service.name}, error message: #{contact.errors.messages}"
+          end
+        end
 
         long_lat = row["Long-Lat"]&.split(",")
         location = Location.new(
           #name: row["genericField5"],
-          postal_code: row["Postcode"],
-          city: row["Area"],
+          postal_code: row["Postcode"]&.strip,
+          city: row["Area"]&.strip,
           latitude: long_lat.kind_of?(Array) ? long_lat[1] : nil,
           longitude: long_lat.kind_of?(Array) ? long_lat[0] : nil,
-          address_1: row["Venue"],
+          address_1: row["Venue"]&.strip,
           state_province: "Buckinghamshire",
           country: 'GB'
         )
