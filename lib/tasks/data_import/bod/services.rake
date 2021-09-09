@@ -34,7 +34,8 @@ namespace :bod do
         exisiting_service = Service.where('lower(name) = ?', row["Name"]&.strip.downcase).first
 
         if exisiting_service.present?
-          puts "Service already exists with this name: #{exisiting_service.name}, not importing anything"
+          puts "Service already exists with this name: #{exisiting_service.name}, applying BOD directory"
+          exisiting_service.update(directories: exisiting_service.directories << "Buckinghamshire Online Directory")
           next
         end
         existing_organisation = Organisation.where('lower(name) = ?', row["BFIS Parent"]&.strip&.downcase).first
@@ -45,7 +46,7 @@ namespace :bod do
           if existing_user.present? && (existing_user.organisation_id == existing_organisation.id)
             # All good - user and org already exist
           elsif existing_user.present? && (existing_user.organisation_id != existing_organisation.id)
-            puts "Existing user #{existing_user.email} already exists in anouther Organisation: #{existing_user.organisation.id}, cannot add to org: #{existing_organisation.id}"
+            puts "Whilst adding service #{row["Name"]}, an existing user #{existing_user.email} already exists in another Organisation: #{existing_user.organisation.id}, therefore cannot add to org: #{existing_organisation.id}"
             #skip_service = true
           else
             create_user(row["UPDATE EMAIL"]&.strip, existing_organisation) if row["UPDATE EMAIL"].present?
@@ -60,7 +61,7 @@ namespace :bod do
           end
           
           if existing_user.present? && existing_user.organisation.present?
-            puts "User #{existing_user.email} already exists in organisation #{existing_user.organisation.id} so cannot add it to new org: #{new_organisation.id}"
+            puts "Whilst adding service #{row["Name"]}, foud that User #{existing_user.email} already exists in organisation #{existing_user.organisation.id} so cannot add it to new org: #{new_organisation.id}"
           elsif existing_user.present? && !existing_user.organisation.present?
             puts "Adding user to new organisation"
             existing_user.organisation = new_organisation

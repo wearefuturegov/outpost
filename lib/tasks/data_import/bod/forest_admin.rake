@@ -6,6 +6,7 @@ namespace :forest_admin do
     
     Rake::Task['bod:users:create_users_from_file'].invoke
     Rake::Task['bod:custom_fields:build_initial'].invoke
+    Rake::Task['bod:organisations:trim'].invoke
     Rake::Task['bod:services:import'].invoke
     Rake::Task['bod:taxonomy:import'].invoke
     Rake::Task['bod:services:import_opening_hours'].invoke
