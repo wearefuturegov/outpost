@@ -251,6 +251,22 @@ namespace :bod do
       set_existing_services_as_bfis
     end
 
+    task :mark_duplicates_as_bod => :environment do
+      csv_file = File.open('lib/seeds/bod/duplicates.csv', "r:utf-8")
+      duplicates_csv = CSV.parse(csv_file, headers: true)
+
+      duplicates_csv.each.with_index do |row, line|
+        if row["Dir"] == "BOD"
+          service = Service.find(row["BFIS ID"])
+          service.skip_mongo_callbacks = true
+          service.update(directories: service.directories << "Buckinghamshire Online Directory")
+          unless service.save
+            puts "Service #{service.id} failed to save whilst applying BOD directory"
+          end
+        end
+      end
+    end
+
     task :import_opening_hours => [ :environment ] do
       include RegularScheduleHelper
 
