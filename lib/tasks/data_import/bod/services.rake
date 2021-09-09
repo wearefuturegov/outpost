@@ -35,9 +35,11 @@ namespace :bod do
 
         if exisiting_service.present?
           puts "Service already exists with this name: #{exisiting_service.name}, applying BOD directory"
+          exisiting_service.skip_mongo_callbacks = true
           exisiting_service.update(directories: exisiting_service.directories << "Buckinghamshire Online Directory")
           next
         end
+
         existing_organisation = Organisation.where('lower(name) = ?', row["BFIS Parent"]&.strip&.downcase).first
         existing_user = User.where(email: row["UPDATE EMAIL"]&.strip).first
 
