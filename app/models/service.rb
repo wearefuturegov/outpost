@@ -71,7 +71,7 @@ class Service < ApplicationRecord
   after_save :notify_watchers
   after_save :add_parent_taxonomies
   before_save :skip_nested_indexes
-  before_save :update_directories_text_field
+  before_save :update_directories
 
   filterrific(
     default_filter_params: { sorted_by: "recent" },
@@ -257,9 +257,10 @@ class Service < ApplicationRecord
     (self.taxonomies + self.locations + [self.organisation]).each {|t| t.skip_mongo_callbacks = true }
   end
 
-  def update_directories_text_field
+  def update_directories
     if self.directories_changed?
       self.directories&.reject!(&:blank?) # this makes sure there's no empty string added to directories array
+      self.directories = self.directories.uniq
       self.directories_as_text = self.directories&.sort&.join(", ") # make sure directories always in same order
     end
   end
