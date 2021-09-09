@@ -8,7 +8,7 @@ namespace :bod do
         "learning" => ["Education and learning"],
         "transport" => ["Advice and support", "Transport"],
         "support" => ["Advice and support"],
-        "elderly-services" => ["Advice and support", "Support for older people"],
+        "elderly-services" => ["Advice and support", "For older people"],
         "health-wellbeing-disability-support" => ["Advice and support", "Health and wellbeing"],
         "faith-groups" => ["Advice and support", "Faith groups"],
         "cultural" => ["Things to do"],
@@ -29,7 +29,8 @@ namespace :bod do
         "environment" => ["Environment"]
       }
 
-      services_file = File.open('lib/seeds/bod/services.csv', "r:utf-8")
+      #services_file = File.open('lib/seeds/bod/services.csv', "r:utf-8")
+      services_file = File.open('lib/seeds/bod/services.csv', "r:ISO-8859-1")
       services_csv = CSV.parse(services_file, headers: true)
       uniq_taxonomies = []
       services_csv.each.with_index do |row, line|
