@@ -6,9 +6,8 @@ class API::V1::TaxonomiesController < ApplicationController
         if params[:directory].present? && APP_CONFIG['directories'].present?
 
             # scout sends through lowercase label 'bfis', 'bod' etc - look up the name in app config to send to the application
-            get_value_from_label = APP_CONFIG['directories'].find{|directory| directory["label"] === params[:directory]};
-            value = APP_CONFIG['directories'].find{|directory| directory["label"] === params[:directory]}&.fetch('value');
-            results = Taxonomy.filter_by_directory(value);
+            value = APP_CONFIG['directories'].find{|directory| directory["label"] === params[:directory]}&.fetch('value')
+            results = Taxonomy.filter_by_directory(value)
 
             if results.count > 0
                 render json: json_tree(results.hash_tree)
