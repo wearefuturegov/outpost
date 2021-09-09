@@ -11,7 +11,7 @@ namespace :forest_admin do
     Rake::Task['bod:taxonomy:import'].invoke
     Rake::Task['bod:services:import_opening_hours'].invoke
     Rake::Task['bod:users:set_ofsted_admins'].invoke
-    Rake::Task['bod:organisations:mark_duplicates_as_bod'].invoke
+    Rake::Task['bod:services:mark_duplicates_as_bod'].invoke
 
     end_time = Time.now
     puts "Took #{(end_time - start_time)/60} minutes"
