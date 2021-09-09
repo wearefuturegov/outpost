@@ -227,6 +227,25 @@ namespace :bod do
       end
     end
   
+    task :import_costs => [ :environment ] do
+
+      csv_file = File.open('lib/seeds/bod/costs.csv', "r:utf-8")
+      costs_csv = CSV.parse(csv_file, headers: true)
+
+      costs_csv.each.with_index do |row, line|
+        service = Service.where(old_open_objects_external_id: row["asset ID"]).first
+        if service.present?
+          if row["Free?"] == "Yes"
+            service.skip_mongo_callbacks = true
+            service.free = true
+            unless service.save
+              puts "Service #{service.id} failed to save as free"
+            end
+          end
+        end
+      end
+    end
+
     task :apply_bfis_directory_to_current => :environment do
       set_existing_services_as_bfis
     end
