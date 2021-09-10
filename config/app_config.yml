@@ -2,8 +2,8 @@ default:
   title: Outpost
 buckinghamshire:
   title: Manage directory listing
-  directories:
-    - value: Family Information Service
-      label: bfis
-    - value: Buckinghamshire Online Directory
-      label: bod
+  # directories:
+  #   - value: Family Information Service
+  #     label: bfis
+  #   - value: Buckinghamshire Online Directory
+  #     label: bod
