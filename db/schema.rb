@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_10_133315) do
+ActiveRecord::Schema.define(version: 2021_09_10_164039) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -78,6 +78,11 @@ ActiveRecord::Schema.define(version: 2021_09_10_133315) do
 
   create_table "directories_services", id: false, force: :cascade do |t|
     t.bigint "service_id", null: false
+    t.bigint "directory_id", null: false
+  end
+
+  create_table "directories_taxonomies", id: false, force: :cascade do |t|
+    t.bigint "taxonomy_id", null: false
     t.bigint "directory_id", null: false
   end
 
