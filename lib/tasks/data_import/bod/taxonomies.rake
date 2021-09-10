@@ -35,7 +35,7 @@ namespace :bod do
       uniq_taxonomies = []
       services_csv.each.with_index do |row, line|
         service = Service.where(old_open_objects_external_id: row["Asset ID"]).first
-        service ||= Service.where('lower(name) = ?', row["Name"]&.strip.downcase).first
+        service ||= Service.where('lower(name) = ?', row["Name"]&.strip.downcase).first # apply bod taxonomy to duplicates
 
         if service.present?
           apply_taxonomies(service, row)
