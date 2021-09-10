@@ -73,7 +73,7 @@ class Service < ApplicationRecord
   after_save :notify_watchers
   after_save :add_parent_taxonomies
   before_save :skip_nested_indexes
-  #before_save :update_directories
+  before_save :update_directories
 
   filterrific(
     default_filter_params: { sorted_by: "recent" },
@@ -260,11 +260,7 @@ class Service < ApplicationRecord
   end
 
   def update_directories
-    if self.directories_changed?
-      self.directories&.reject!(&:blank?) # this makes sure there's no empty string added to directories array
-      self.directories = self.directories&.uniq
-      self.directories_as_text = self.directories&.sort&.join(", ") # make sure directories always in same order
-    end
+    self.directories_as_text = self.directories&.map{ |dir| dir.name }&.sort&.join(", ")
   end
 
   # include nested taxonomies in json representation by default
