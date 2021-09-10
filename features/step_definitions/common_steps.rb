@@ -36,7 +36,7 @@ Given("An organisation exists") do
 end
 
 Given("A service exists") do
-  @organisation = FactoryBot.create(:service, name: "Test service", suitabilities: [Suitability.where(name: 'Autism').first])
+  @service = FactoryBot.create(:service, name: "Test service", suitabilities: [Suitability.where(name: 'Autism').first])
 end
 
 Given("I am on the admin service page for {string}") do |service_name|
@@ -48,6 +48,11 @@ Given("Some options for suitability exist") do
   FactoryBot.create(:suitability, name: 'Learning difficulties')
 end
 
+Given("directories exist") do
+  FactoryBot.create(:directory, name: "Family Information Service", label: "bfis")
+  FactoryBot.create(:directory, name: "Buckinghamshire Online Directory", label: "bod")
+end
+
 Given("{int} services exist in directory {string}") do |number_of_services, directory_name|
-  FactoryBot.create_list(:service, number_of_services, directories: [directory_name])
+  FactoryBot.create_list(:service, number_of_services, directories: [Directory.where(name: directory_name).first])
 end

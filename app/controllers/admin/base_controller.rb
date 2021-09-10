@@ -39,7 +39,7 @@ class Admin::BaseController < ApplicationController
                 pending: service.kept.where(approved: nil).count,
                 archived: service.discarded.count
               }
-              @service_counts[directory["value"]] = @service_dir_counts
+              @service_counts[directory.name] = @service_dir_counts
             end
           end
 

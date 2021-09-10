@@ -49,10 +49,6 @@ class Admin::ServicesController < Admin::BaseController
   end
 
   def update
-    # validation
-    #directory_list_valid = params[:service][:directory_list].any? { |s| APP_CONFIG['directories'].any? { |d| d["value"] === s} }
-    #directory_list_valid = !(params[:service][:directory_list] & APP_CONFIG['directories'].map{|d| d['value']}).empty?
-
     # force paper trail version to be saved
     @service.updated_at = Time.now
     if @service.update(service_params)

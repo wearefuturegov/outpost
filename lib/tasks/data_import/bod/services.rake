@@ -36,7 +36,7 @@ namespace :bod do
         if exisiting_service.present?
           puts "Service already exists with this name: #{exisiting_service.name}, applying BOD directory"
           exisiting_service.skip_mongo_callbacks = true
-          exisiting_service.update(directories: exisiting_service.directories << "Buckinghamshire Online Directory")
+          exisiting_service.directories << Directory.where(name: "Buckinghamshire Online Directory").first
           next
         end
 
@@ -87,7 +87,7 @@ namespace :bod do
         )
         service.skip_mongo_callbacks = true
 
-        service.update(directories: service.directories << "Buckinghamshire Online Directory")
+        service.directories << Directory.where(name: "Buckinghamshire Online Directory").first
 
         if service.save
           # CUSTOM FIELDS
@@ -261,7 +261,7 @@ namespace :bod do
         if row["Dir"] == "BOD"
           service = Service.find(row["BFIS ID"])
           service.skip_mongo_callbacks = true
-          service.update(directories: service.directories << "Buckinghamshire Online Directory")
+          service.directories << Directory.where(name: "Buckinghamshire Online Directory").first
           unless service.save
             puts "Service #{service.id} failed to save whilst applying BOD directory"
           end
@@ -317,10 +317,10 @@ namespace :bod do
 end
 
 def set_existing_services_as_bfis
-  puts "Applying BFIS directory tag to existing services"
+  puts "Applying BFIS directory existing services"
   Service.all.each do |service|
     service.skip_mongo_callbacks = true
-    service.update(directories: service.directories << "Family Information Service")
+    service.directories << Directory.where(name: "Family Information Service").first
   end
 end
 

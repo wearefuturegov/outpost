@@ -11,21 +11,21 @@
 
     
 
-    <% if APP_CONFIG["directories"].present? %>
+    <% if Directory.any? %>
     <span class="shortcuts__divider">|</span>
 
-            <% APP_CONFIG["directories"].each_with_index do |directory, index| %>
+            <% Directory.all.each_with_index do |directory, index| %>
 
                  <%= render partial: "shared/shortcuts_item", 
                     locals: {
-                        state: params[:directory] === directory["value"], 
-                        link: directory_links[directory["value"]],
-                        count: directory_counts.dig(directory["value"], :all),
-                        label: directory["value"]
+                        state: params[:directory] === directory.name, 
+                        link: directory_links[directory.name],
+                        count: directory_counts.dig(directory.name, :all),
+                        label: directory.name
                     } %>
           
 
-                <% if index != APP_CONFIG["directories"].size-1 %>
+                <% if index != Directory.all.size-1 %>
                     <span class="shortcuts__divider">|</span>
                 <% end %>
             <% end %>

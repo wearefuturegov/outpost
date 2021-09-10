@@ -117,15 +117,15 @@ class Admin::UsersController < Admin::BaseController
     @user_counts = {}
     @user_counts[:all] = @user_counts_all
 
-    if APP_CONFIG["directories"].present?
-      APP_CONFIG["directories"].each do |directory|
-        users = User.in_directory(directory["value"]);
+    if Directory.any?
+      Directory.all.each do |directory|
+        users = User.in_directory(directory.name);
         @user_dir_counts = {
           all: users.count,
           active: users.kept.count,
           deactivated: users.discarded.count
         }
-        @user_counts[directory["value"]] = @user_dir_counts
+        @user_counts[directory.name] = @user_dir_counts
       end
     end
   end

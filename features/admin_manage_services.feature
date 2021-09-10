@@ -31,7 +31,8 @@ Feature: Admin manage services
         And The service 'Test service' should have two suitabilities
 
     Scenario: Browse services by directory
-        Given 4 services exist in directory 'Family Information Service'
+        Given directories exist
+        And 4 services exist in directory 'Family Information Service'
         And 2 services exist in directory 'Buckinghamshire Online Directory'
         When I am on the admin services page
         And I should see 'All (6)'

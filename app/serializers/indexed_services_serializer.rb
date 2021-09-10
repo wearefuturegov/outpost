@@ -22,9 +22,9 @@ class IndexedServicesSerializer < ActiveModel::Serializer
     :status
 
   has_many :target_directories do 
-    if APP_CONFIG["directories"].present?
+    if Directory.any?
       object.directories.map do |directory|
-        { name: directory, label: APP_CONFIG["directories"].find{|d| d["value"] === directory}['label'] }
+        { name: directory, label: directory.label }
       end
     end  
   end

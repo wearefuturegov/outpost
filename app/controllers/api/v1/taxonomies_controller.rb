@@ -3,10 +3,10 @@ class API::V1::TaxonomiesController < ApplicationController
   
     def index
 
-        if params[:directory].present? && APP_CONFIG['directories'].present?
+        if params[:directory].present? && Directory.any?
 
             # scout sends through lowercase label 'bfis', 'bod' etc - look up the name in app config to send to the application
-            value = APP_CONFIG['directories'].find{|directory| directory["label"] === params[:directory]}&.fetch('value')
+            value = Directory.where(label: params[:directory]).first.name
             results = Taxonomy.filter_by_directory(value)
 
             if results.count > 0
