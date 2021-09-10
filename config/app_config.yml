@@ -1,7 +1,7 @@
 default:
   title: Outpost
 buckinghamshire:
-  title: Manage service listing
+  title: Manage directory listing
   directories:
     - value: Family Information Service
       label: bfis
