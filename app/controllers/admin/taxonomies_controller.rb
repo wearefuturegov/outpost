@@ -59,7 +59,8 @@ class Admin::TaxonomiesController < Admin::BaseController
     params.require(:taxonomy).permit(
       :name,
       :parent_id,
-      :sort_order
+      :sort_order,
+      directory_ids: []
     )
   end
 

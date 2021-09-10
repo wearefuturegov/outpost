@@ -22,6 +22,7 @@ class Service < ApplicationRecord
 
   has_and_belongs_to_many :send_needs
   has_and_belongs_to_many :suitabilities
+  has_and_belongs_to_many :directories
 
   has_many :links
   accepts_nested_attributes_for :links, allow_destroy: true, reject_if: :all_blank
@@ -48,8 +49,6 @@ class Service < ApplicationRecord
 
   has_many :service_taxonomies, dependent: :destroy
   has_many :taxonomies, -> { distinct }, through: :service_taxonomies
-
-  has_and_belongs_to_many :directories
 
   has_many :watches
   has_many :users, through: :watches
