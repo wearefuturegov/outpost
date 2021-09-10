@@ -30,9 +30,9 @@ class Admin::BaseController < ApplicationController
             }
           }
       
-          if APP_CONFIG["directories"].present?
-            APP_CONFIG["directories"].each do |directory|
-              service = Service.in_directory(directory["value"])
+          if Directory.all.any?
+            Directory.all.each do |directory|
+              service = directory.services
               @service_dir_counts = {
                 all: service.kept.count,
                 ofsted: service.kept.ofsted_registered.count,

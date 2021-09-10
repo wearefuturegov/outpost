@@ -49,7 +49,6 @@ class Admin::ServicesController < Admin::BaseController
   end
 
   def update
-    
     # validation
     #directory_list_valid = params[:service][:directory_list].any? { |s| APP_CONFIG['directories'].any? { |d| d["value"] === s} }
     #directory_list_valid = !(params[:service][:directory_list] & APP_CONFIG['directories'].map{|d| d['value']}).empty?
@@ -123,7 +122,7 @@ class Admin::ServicesController < Admin::BaseController
       :marked_for_deletion,
       :free,
       :ofsted_item_id,
-      directories: [],
+      directory_ids: [],
       taxonomy_ids: [],
       send_need_ids: [],
       suitability_ids: [],
