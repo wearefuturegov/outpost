@@ -61,6 +61,18 @@ namespace :bod do
       end
     end
 
+    task :apply_bfis_directory_to_current => :environment do
+      set_existing_taxonomies_as_bfis
+    end
+
+    def set_existing_taxonomies_as_bfis
+      puts "Applying BFIS directory to existing taxonomies"
+      Taxonomy.all.each do |taxonomy|
+        taxonomy.skip_mongo_callbacks = true
+        taxonomy.directories << Directory.where(name: "Family Information Service").first
+      end
+    end
+
     def apply_taxonomies(service, row)
       service.skip_mongo_callbacks = true
       row["Tags"].present? ? taxonomies_to_apply = eval(row["Tags"]) : taxonomies_to_apply = []
@@ -69,6 +81,7 @@ namespace :bod do
 
       taxonomies_to_apply.each do |taxonomy_to_apply|
         taxonomy = Taxonomy.create_with(skip_mongo_callbacks: true).find_or_create_by_path(TAXONOMY_MAPPING[taxonomy_to_apply]) if TAXONOMY_MAPPING[taxonomy_to_apply].present?
+        taxonomy.directories << Directory.where(name: "Buckinghamshire Online Directory").first unless taxonomy.directories.include?(Directory.where(name: "Buckinghamshire Online Directory").first)
         service.taxonomies |= [taxonomy] if taxonomy.present?
       end
 
