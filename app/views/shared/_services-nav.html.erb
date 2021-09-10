@@ -1,9 +1,9 @@
 <% 
     @directory_links = {}
 
-    if APP_CONFIG["directories"].present?
-      APP_CONFIG["directories"].each do |directory|
-        @directory_links[directory["value"]] = admin_services_path(directory: directory["value"]);
+    if Directory.any?
+      Directory.all.each do |directory|
+        @directory_links[directory.name] = admin_services_path(directory: directory.name);
       end
     end
 

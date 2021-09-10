@@ -37,7 +37,7 @@ class Admin::TaxonomiesController < Admin::BaseController
   private
 
   def set_taxonomies
-    if params[:directory].present?  && APP_CONFIG['directories'].map{|d| d['value']}.include?(params[:directory])
+    if params[:directory].present? && Directory.where(name: params[:directory]).any?
       @taxonomies = Taxonomy.filter_by_directory(params[:directory]).hash_tree
     elsif params[:directory].present? 
       redirect_to admin_taxonomies_path, notice: "Directory doesn't exist."
@@ -70,13 +70,13 @@ class Admin::TaxonomiesController < Admin::BaseController
     @taxonomy_counts = {}
     @taxonomy_counts[:all] = @taxonomy_counts_all
 
-    if APP_CONFIG["directories"].present?
-      APP_CONFIG["directories"].each do |directory|
-        tax = Taxonomy.filter_by_directory(directory["value"])
+    if Directory.any?
+      Directory.all.each do |directory|
+        tax = Taxonomy.filter_by_directory(directory.name)
         @taxonomy_dir_counts = {
           all: tax.count
         }
-        @taxonomy_counts[directory["value"]] = @taxonomy_dir_counts
+        @taxonomy_counts[directory.name] = @taxonomy_dir_counts
       end
     end
   end

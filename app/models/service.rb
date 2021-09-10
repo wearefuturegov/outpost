@@ -66,7 +66,7 @@ class Service < ApplicationRecord
   has_one :last_version, -> { order(created_at: :desc) }, class_name: 'ServiceVersion', as: :item
   scope :with_last_version, -> { includes(last_version: [user: :watches]) }
 
-  scope :in_directory, -> (directory) { Directory.where(name: directory).first.services }
+  scope :in_directory, -> (directory) { joins(:directories).where(directories: { name: directory }) }
 
 
   # callbacks
