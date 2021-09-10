@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_03_151205) do
+ActiveRecord::Schema.define(version: 2021_09_10_133315) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -67,6 +67,18 @@ ActiveRecord::Schema.define(version: 2021_09_03_151205) do
     t.bigint "custom_field_section_id", null: false
     t.string "options"
     t.index ["custom_field_section_id"], name: "index_custom_fields_on_custom_field_section_id"
+  end
+
+  create_table "directories", force: :cascade do |t|
+    t.string "name"
+    t.string "label"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "directories_services", id: false, force: :cascade do |t|
+    t.bigint "service_id", null: false
+    t.bigint "directory_id", null: false
   end
 
   create_table "feedbacks", force: :cascade do |t|
@@ -299,7 +311,6 @@ ActiveRecord::Schema.define(version: 2021_09_03_151205) do
     t.boolean "age_band_all"
     t.string "old_open_objects_external_id"
     t.boolean "temporarily_closed"
-    t.text "directories", default: [], array: true
     t.text "directories_as_text"
     t.index ["discarded_at"], name: "index_services_on_discarded_at"
     t.index ["ofsted_item_id"], name: "index_services_on_ofsted_item_id"

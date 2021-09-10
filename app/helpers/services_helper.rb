@@ -31,10 +31,11 @@ module ServicesHelper
   end
 
   def valid_directory_list
-    if APP_CONFIG['directories'].present?
-      APP_CONFIG['directories'].map{ |m| [ m["value"] ] } 
-    else 
-      []
-    end
+    Directory.all.map{|dir| [dir.name, dir.id]}
+    # if APP_CONFIG['directories'].present?
+    #   APP_CONFIG['directories'].map{ |m| [ m["value"] ] } 
+    # else 
+    #   []
+    # end
   end
 end

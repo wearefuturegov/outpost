@@ -49,6 +49,8 @@ class Service < ApplicationRecord
   has_many :service_taxonomies, dependent: :destroy
   has_many :taxonomies, -> { distinct }, through: :service_taxonomies
 
+  has_and_belongs_to_many :directories
+
   has_many :watches
   has_many :users, through: :watches
 
@@ -64,14 +66,14 @@ class Service < ApplicationRecord
   has_one :last_version, -> { order(created_at: :desc) }, class_name: 'ServiceVersion', as: :item
   scope :with_last_version, -> { includes(last_version: [user: :watches]) }
 
-  scope :in_directory, -> (directory) { where("directories &&  ?", "{#{directory}}" ) }
+  scope :in_directory, -> (directory) { Directory.where(name: directory).first.services }
 
 
   # callbacks
   after_save :notify_watchers
   after_save :add_parent_taxonomies
   before_save :skip_nested_indexes
-  before_save :update_directories
+  #before_save :update_directories
 
   filterrific(
     default_filter_params: { sorted_by: "recent" },
