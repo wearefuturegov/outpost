@@ -23,12 +23,12 @@ Feature: Admin manage services
         Then The service should be created
 
     Scenario: Edit an existing service
-        Given A service exists
-        And I am on the admin service page for 'Test service'
+        Given A service exists called 'Reading group' that has one suitability
+        And I am on the admin service page for 'Reading group'
         When I fill in the suitability field with 'Learning difficulties'
         And I update the service
         Then The service should be updated
-        And The service 'Test service' should have two suitabilities
+        And The service 'Reading group' should have two suitabilities
 
     Scenario: Browse services by directory
         Given directories exist

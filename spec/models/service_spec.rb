@@ -12,21 +12,21 @@ RSpec.describe Service, type: :model do
     it 'should populate service taxonomy roots on save' do
       root_taxonomy = Taxonomy.create({ name: 'Root' })
       child1_taxonomy = Taxonomy.create({ name: 'Child 1', parent: root_taxonomy })
-      @service = Service.create!({ organisation: @organisation, name: 'Test Service', description: "Test service description", taxonomies: [child1_taxonomy] })
+      @service = Service.create!({ organisation: @organisation, name: 'Test Service 001', description: "Test service description", taxonomies: [child1_taxonomy] })
       expect(@service.reload.taxonomies).to match_array([root_taxonomy, child1_taxonomy])
     end
 
     it 'should not remove taxonomy roots if they were passed as params' do
       root_taxonomy = Taxonomy.create({ name: 'Root' })
       child1_taxonomy = Taxonomy.create({ name: 'Child 1', parent: root_taxonomy })
-      @service = Service.create!({ organisation: @organisation, name: 'Test Service', description: "Test service description", taxonomies: [root_taxonomy, child1_taxonomy] })
+      @service = Service.create!({ organisation: @organisation, name: 'Test Service 002', description: "Test service description", taxonomies: [root_taxonomy, child1_taxonomy] })
       expect(@service.reload.taxonomies).to match_array([root_taxonomy, child1_taxonomy])
     end
 
     it 'should not create additional root service taxonomy relations on subsequent saves' do
       root_taxonomy = Taxonomy.create({ name: 'Root' })
       child1_taxonomy = Taxonomy.create({ name: 'Child 1', parent: root_taxonomy })
-      @service = Service.create!({ organisation: @organisation, name: 'Test Service', description: "Test service description", taxonomies: [root_taxonomy, child1_taxonomy] })
+      @service = Service.create!({ organisation: @organisation, name: 'Test Service 003', description: "Test service description", taxonomies: [root_taxonomy, child1_taxonomy] })
       expect(ServiceTaxonomy.where(service_id: @service.id).count).to eq(2)
       @service.save
       expect(ServiceTaxonomy.where(service_id: @service.id).count).to eq(2)
