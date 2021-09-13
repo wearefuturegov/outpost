@@ -22,11 +22,9 @@ class IndexedServicesSerializer < ActiveModel::Serializer
     :status
 
   has_many :target_directories do 
-    if Directory.any?
-      object.directories.map do |directory|
-        { name: directory, label: directory.label }
-      end
-    end  
+    object.directories.map do |directory|
+      { name: directory.name, label: directory.label }
+    end
   end
   
   has_many :locations do
