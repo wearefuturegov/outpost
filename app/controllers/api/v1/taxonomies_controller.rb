@@ -3,7 +3,7 @@ class API::V1::TaxonomiesController < ApplicationController
   
     def index
 
-        if params[:directory].present? && Directory.any?
+        if params[:directory].present? && Directory.where(label: params[:directory]).any?
 
             # scout sends through lowercase label 'bfis', 'bod' etc - look up the name in app config to send to the application
             value = Directory.where(label: params[:directory]).first.name
