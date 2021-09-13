@@ -53,9 +53,12 @@ RSpec.describe Service, type: :model do
 
   describe '#in_directory' do
     it 'should return services that are in specified directory' do
-      @services_directory_a = FactoryBot.create_list(:service, 3, organisation: @organisation, directories: ['Directory A'])
-      @services_directory_b = FactoryBot.create_list(:service, 4, organisation: @organisation, directories: ['Directory B'])
-      @services_directory_c = FactoryBot.create_list(:service, 2, organisation: @organisation, directories: ['Directory B', 'Directory A'])
+      @directory_a = FactoryBot.create(:directory, name: "Directory A", label: "a")
+      @directory_b = FactoryBot.create(:directory, name: "Directory B", label: "b")
+
+      @services_directory_a = FactoryBot.create_list(:service, 3, organisation: @organisation, directories: [@directory_a])
+      @services_directory_b = FactoryBot.create_list(:service, 4, organisation: @organisation, directories: [@directory_b])
+      @services_directory_c = FactoryBot.create_list(:service, 2, organisation: @organisation, directories: [@directory_a, @directory_b])
 
       expect(Service.in_directory('Directory A').count).to eq(5)
       expect(Service.in_directory('Directory B').count).to eq(6)
