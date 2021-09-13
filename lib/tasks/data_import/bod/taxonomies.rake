@@ -81,10 +81,13 @@ namespace :bod do
 
       taxonomies_to_apply.each do |taxonomy_to_apply|
         taxonomy = Taxonomy.create_with(skip_mongo_callbacks: true).find_or_create_by_path(TAXONOMY_MAPPING[taxonomy_to_apply]) if TAXONOMY_MAPPING[taxonomy_to_apply].present?
-        taxonomy.directories << Directory.where(name: "Buckinghamshire Online Directory").first unless taxonomy.directories.include?(Directory.where(name: "Buckinghamshire Online Directory").first)
-        service.taxonomies |= [taxonomy] if taxonomy.present?
+        if taxonomy.present?
+          taxonomy.directories << Directory.where(name: "Buckinghamshire Online Directory").first unless taxonomy.directories.include?(Directory.where(name: "Buckinghamshire Online Directory").first)
+          service.taxonomies |= [taxonomy] if taxonomy.present?
+        else
+          puts "Taxonomy not found in mapping: #{taxonomy_to_apply}"
+        end
       end
-
       puts "applied taxonomies #{service.taxonomies.inspect} to service #{service.name}"
       puts "failed to save service #{service.name}" unless service.save
     end
