@@ -30,17 +30,15 @@ class Admin::BaseController < ApplicationController
             }
           }
       
-          if Directory.all.any?
-            Directory.all.each do |directory|
-              service = directory.services
-              @service_dir_counts = {
-                all: service.kept.count,
-                ofsted: service.kept.ofsted_registered.count,
-                pending: service.kept.where(approved: nil).count,
-                archived: service.discarded.count
-              }
-              @service_counts[directory.name] = @service_dir_counts
-            end
+          Directory.all.each do |directory|
+            service = directory.services
+            @service_dir_counts = {
+              all: service.kept.count,
+              ofsted: service.kept.ofsted_registered.count,
+              pending: service.kept.where(approved: nil).count,
+              archived: service.discarded.count
+            }
+            @service_counts[directory.name] = @service_dir_counts
           end
 
     end
