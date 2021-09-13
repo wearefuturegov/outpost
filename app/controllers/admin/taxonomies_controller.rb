@@ -71,14 +71,12 @@ class Admin::TaxonomiesController < Admin::BaseController
     @taxonomy_counts = {}
     @taxonomy_counts[:all] = @taxonomy_counts_all
 
-    if Directory.any?
-      Directory.all.each do |directory|
-        tax = Taxonomy.filter_by_directory(directory.name)
-        @taxonomy_dir_counts = {
-          all: tax.count
-        }
-        @taxonomy_counts[directory.name] = @taxonomy_dir_counts
-      end
+    Directory.all.each do |directory|
+      tax = Taxonomy.filter_by_directory(directory.name)
+      @taxonomy_dir_counts = {
+        all: tax.count
+      }
+      @taxonomy_counts[directory.name] = @taxonomy_dir_counts
     end
   end
 
