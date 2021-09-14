@@ -74,6 +74,7 @@ ActiveRecord::Schema.define(version: 2021_09_14_144638) do
     t.string "label"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "scout_build_hook"
   end
 
   create_table "directories_services", id: false, force: :cascade do |t|
