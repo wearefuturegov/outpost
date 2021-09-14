@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :organisation do
-    name { Faker::Lorem.word }
+    name { Faker::Company.name }
     description { Faker::Lorem.paragraph }
     url { Faker::Internet.url }
 
