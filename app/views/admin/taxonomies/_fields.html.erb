@@ -16,11 +16,14 @@
 
 <div class="field">
     <%= s.label :directories, class: "field__label" %>
-    <legend class="field-group__legend">Choose which directories this taxonomy should appear in on Scout:</legend>
+    <legend class="field-group__legend">
+    <p class="field__hint">Choose which directories this taxonomy should appear in on Scout:</p>
+    <br />
     <%= s.collection_check_boxes( :directory_ids, Directory.all, :id, :name) do |c| %>
         <div class="field checkbox checkbox--small ">
             <%= c.check_box class: "checkbox__input" %>
             <%= c.label class: "checkbox__label" %>
         </div>
     <% end %>
+    </legend>
 </div>
