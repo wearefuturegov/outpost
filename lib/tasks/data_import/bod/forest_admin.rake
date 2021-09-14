@@ -15,6 +15,7 @@ namespace :forest_admin do
     Rake::Task['bod:users:set_ofsted_admins'].invoke
     Rake::Task['bod:services:mark_duplicates_as_bod'].invoke
     Rake::Task['bod:taxonomy:apply_to_duplicates'].invoke
+    Rake::Task['taxonomy:lock_top_level'].invoke
 
     end_time = Time.now
     puts "Took #{(end_time - start_time)/60} minutes"
