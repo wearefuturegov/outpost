@@ -21,6 +21,10 @@ data["send_needs"].each do |n|
     SendNeed.create!({name: n})
 end
 
+data["suitabilities"].each do |n|
+    Suitability.create!({name: n})
+end
+
 10.times do 
     taxon = Taxonomy.create!({
         name: Faker::Lorem.word.capitalize

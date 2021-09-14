@@ -1,0 +1,37 @@
+<nav class="shortcuts shortcuts--no-bottom-spacing">
+
+  <%= render partial: "shared/shortcuts_item", 
+     locals: {
+        state: all_state, 
+        link: all_link,
+        count: all_count,
+        label: all_label,
+      } %>
+
+
+    
+
+    <% if Directory.any? %>
+        <span class="shortcuts__divider">|</span>
+
+                <% Directory.all.each_with_index do |directory, index| %>
+
+                    <%= render partial: "shared/shortcuts_item",
+                        locals: {
+                            state: params[:directory] === directory.name,
+                            link: directory_links[directory.name],
+                            count: directory_counts.dig(directory.name, :all),
+                            label: directory.name
+                        } %>
+
+
+                    <% if index != Directory.all.size-1 %>
+                        <span class="shortcuts__divider">|</span>
+                    <% end %>
+                <% end %>
+            <br />
+        <% end %>
+
+
+
+</nav>

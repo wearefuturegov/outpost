@@ -1,0 +1,14 @@
+<% if Directory.any? %>
+    <section class="directories">
+        <fieldset class="field-group field-group--two-cols field-group--no-top-margin margin-bottom">
+            <legend class="field-group__legend">Choose which directories this service should appear in</legend>
+            <%= s.collection_check_boxes( :directory_ids, Directory.all, :id, :name) do |c| %>
+                <div class="field checkbox checkbox--small ">
+                    <%= c.check_box class: "checkbox__input" %>
+                    <%= c.label class: "checkbox__label" %>
+                </div>
+            <% end %>
+        </fieldset>
+    </section>
+<% end %>
+

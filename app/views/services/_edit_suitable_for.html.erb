@@ -1,0 +1,18 @@
+<% content_for :title do %>Suitable for | <% end %>
+
+<% content_for :header do %>
+    <%= link_to "Go back", service_path(@service), class: "go-back" %>
+    <h1 class="page-header__title two-thirds">Suitable for</h1>
+    <p class="page-header__lede two-thirds">Who is this service suitable for? What needs does it meet?</p>
+    <p class="field__hint two-thirds">Select if your service, group or activity supports adults aged over 18 with additional needs. </p>
+<% end %>
+
+<%= form_for @service, url: service_path(@service, :section => params[:section]), html: {class: "two-thirds"} do |s| %>
+    <%= render "shared/errors", model: @service %>
+
+    <%= render "admin/services/editors/suitabilities", s: s %>
+
+    <div class="form-actions">
+        <button class="button">Continue</button>
+    </div>
+<% end %>

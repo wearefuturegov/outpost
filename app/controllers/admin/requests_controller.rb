@@ -7,6 +7,9 @@ class Admin::RequestsController < Admin::BaseController
             .with_last_approved_version
             .with_last_version
             .order(updated_at: :DESC)
+
+          @requests = @requests.in_directory(params[:directory]) if params[:directory].present?
+
     end
 
     def update

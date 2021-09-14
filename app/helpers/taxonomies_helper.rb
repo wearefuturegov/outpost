@@ -3,7 +3,12 @@ module TaxonomiesHelper
     def tree_view(taxonomies)
         content_tag(:ul, class: "taxonomy-tree") do
             taxonomies.map do |t, children|
-                "<li class='taxonomy-tree__item'>#{link_to(t.name, admin_taxonomy_path(t))} <span class='taxonomy-tree__count'>(#{t.services.size})</span></li>" + tree_view(children)
+
+                if params[:directory].present?
+                    "<li class='taxonomy-tree__item'>#{link_to(t.name, admin_taxonomy_path(t))} <span class='taxonomy-tree__count'>(#{t.services.in_directory(params[:directory]).size})</span></li>" + tree_view(children)
+                else 
+                    "<li class='taxonomy-tree__item'>#{link_to(t.name, admin_taxonomy_path(t))} <span class='taxonomy-tree__count'>(#{t.services.size})</span></li>" + tree_view(children)
+                end 
             end.join.html_safe
         end
     end

@@ -2,7 +2,24 @@ class API::V1::TaxonomiesController < ApplicationController
     skip_before_action :authenticate_user!
   
     def index
-        render json: json_tree(Taxonomy.hash_tree)
+
+        if params[:directory].present? && Directory.where(label: params[:directory]).any?
+
+            # scout sends through lowercase label 'bfis', 'bod' etc - look up the name in app config to send to the application
+            value = Directory.where(label: params[:directory]).first.name
+            results = Taxonomy.filter_by_directory(value)
+
+            if results.count > 0
+                render json: json_tree(results.hash_tree)
+            else 
+                render json: {}
+            end
+
+        else 
+            render json: json_tree(Taxonomy.hash_tree)
+        end
+        
+       
     end
 
     private

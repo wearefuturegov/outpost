@@ -72,8 +72,13 @@ class Admin::OfstedController < Admin::BaseController
     private
 
     def set_counts
-        @feed_count = OfstedItem.count
-        @archived_count = OfstedItem.discarded.count
+        @ofsted_counts = {}
+        @ofsted_counts_all = {
+          feed: OfstedItem.count,
+          archived: OfstedItem.discarded.count,
+          pending: OfstedItem.where.not(status: nil).count  
+        }
+        @ofsted_counts[:all] = @ofsted_counts_all
     end
 
     def ofsted_admins_only

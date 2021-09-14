@@ -13,3 +13,14 @@
     <p class="field__hint">Override the default sort order. Higher is later.</p>
     <%= s.number_field :sort_order, class: "field__input one-half" %>
 </div>
+
+<div class="field">
+    <%= s.label :directories, class: "field__label" %>
+    <legend class="field-group__legend">Choose which directories this taxonomy should appear in on Scout:</legend>
+    <%= s.collection_check_boxes( :directory_ids, Directory.all, :id, :name) do |c| %>
+        <div class="field checkbox checkbox--small ">
+            <%= c.check_box class: "checkbox__input" %>
+            <%= c.label class: "checkbox__label" %>
+        </div>
+    <% end %>
+</div>

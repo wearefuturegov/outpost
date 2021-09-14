@@ -1,11 +1,15 @@
+# You must enable Javascript in your feature in order to be able to use this step.
 Given(/I am logged in as (.*) user/) do |type|
-  @organisation = Organisation.create(name: 'Test Organisation')
-  if type == 'an ofsted admin'
-    @login_user = User.create(first_name: 'User', last_name: 'Test', password: 'Password1', email: 'user@emailaddress.com', organisation: @organisation, admin: true, admin_ofsted: true)
+  if type == 'a superadmin'
+    @login_user = FactoryBot.create(:user, :superadmin)
+  elsif type == 'an ofsted admin'
+    @login_user = FactoryBot.create(:user, :ofsted_viewer)
   elsif type == 'an admin'
-    @login_user = User.create(first_name: 'User', last_name: 'Test', password: 'Password1', email: 'user@emailaddress.com', organisation: @organisation, admin: true)
+    @login_user = FactoryBot.create(:user, :services_admin)
+  elsif type == 'a user manager admin'
+    @login_user = FactoryBot.create(:user, :user_manager)
   else
-    @login_user = User.create(first_name: 'User', last_name: 'Test', password: 'Password1', email: 'user@emailaddress.com', organisation: @organisation)
+    @login_user = FactoryBot.create(:user)
   end
   @login_user.save!
   login
@@ -15,11 +19,11 @@ def login
   visit('/')
   email_input = find('#user_email')
   email_input.click
-  email_input.send_keys('user@emailaddress.com')
+  email_input.send_keys(@login_user.email)
 
   password_input = find('#user_password')
   password_input.click
-  password_input.send_keys('Password1')
+  password_input.send_keys(@login_user.password)
   click_button('Sign in')
 
   if page.has_css?('.introjs-button.introjs-skipbutton', wait: 1)

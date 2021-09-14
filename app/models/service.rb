@@ -10,7 +10,9 @@ class Service < ApplicationRecord
       object: proc { |s| s.as_json },
       object_changes: proc { |s| s.saved_changes.as_json }
     },
-    class_name: 'ServiceVersion'
+    versions: {
+      class_name: 'ServiceVersion'
+    }
   )
 
   # associations
@@ -19,6 +21,8 @@ class Service < ApplicationRecord
   belongs_to :ofsted_item, required: false
 
   has_and_belongs_to_many :send_needs
+  has_and_belongs_to_many :suitabilities
+  has_and_belongs_to_many :directories
 
   has_many :links
   accepts_nested_attributes_for :links, allow_destroy: true, reject_if: :all_blank
@@ -61,11 +65,14 @@ class Service < ApplicationRecord
   has_one :last_version, -> { order(created_at: :desc) }, class_name: 'ServiceVersion', as: :item
   scope :with_last_version, -> { includes(last_version: [user: :watches]) }
 
+  scope :in_directory, -> (directory) { joins(:directories).where(directories: { name: directory }) }
+
+
   # callbacks
   after_save :notify_watchers
   after_save :add_parent_taxonomies
   before_save :skip_nested_indexes
-  before_save :update_directories_text_field
+  before_save :update_directories
 
   filterrific(
     default_filter_params: { sorted_by: "recent" },
@@ -251,11 +258,8 @@ class Service < ApplicationRecord
     (self.taxonomies + self.locations + [self.organisation]).each {|t| t.skip_mongo_callbacks = true }
   end
 
-  def update_directories_text_field
-    if self.directories_changed?
-      self.directories&.reject!(&:blank?) # this makes sure there's no empty string added to directories array
-      self.directories_as_text = self.directories&.sort&.join(", ") # make sure directories always in same order
-    end
+  def update_directories
+    self.directories_as_text = self.directories&.map{ |dir| dir.name }&.sort&.join(", ")
   end
 
   # include nested taxonomies in json representation by default
@@ -271,6 +275,7 @@ class Service < ApplicationRecord
       :contacts => {},
       :local_offer => {},
       :send_needs => {},
+      :suitabilities => {},
       :cost_options => {},
       :regular_schedules => {},
       :links => {}

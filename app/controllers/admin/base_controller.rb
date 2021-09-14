@@ -20,10 +20,26 @@ class Admin::BaseController < ApplicationController
         controller_name === "services" || "requests"
     end
 
-    def set_counts
-        @all_count = Service.kept.count
-        @ofsted_count = Service.kept.ofsted_registered.count
-        @pending_count = Service.kept.where(approved: nil).count
-        @archived_count = Service.discarded.count
+    def set_counts        
+          @service_counts = {
+            all: {
+              all: Service.kept.count,
+              ofsted: Service.kept.ofsted_registered.count,
+              pending: Service.kept.where(approved: nil).count,
+              archived: Service.discarded.count
+            }
+          }
+      
+          Directory.all.each do |directory|
+            service = directory.services
+            @service_dir_counts = {
+              all: service.kept.count,
+              ofsted: service.kept.ofsted_registered.count,
+              pending: service.kept.where(approved: nil).count,
+              archived: service.discarded.count
+            }
+            @service_counts[directory.name] = @service_dir_counts
+          end
+
     end
 end

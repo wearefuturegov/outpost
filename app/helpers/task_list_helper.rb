@@ -8,7 +8,7 @@ module TaskListHelper
                 "Visibility",
             ],
             [
-                "Categories", 
+                # "Categories", 
                 "Opening times", 
                 "Fees", 
                 "Locations", 
@@ -17,6 +17,7 @@ module TaskListHelper
             ],
             [
                 "Special educational needs and disabilities", 
+                "Suitable for",
                 "Extra questions"
             ]
         ]

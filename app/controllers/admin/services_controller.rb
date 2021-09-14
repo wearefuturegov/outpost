@@ -1,5 +1,5 @@
 class Admin::ServicesController < Admin::BaseController
-  before_action :set_service, only: [:show, :update, :destroy]
+  before_action :set_service, only: [:update, :destroy]
   before_action :load_custom_field_sections, only: [:show, :update, :destroy, :new, :create]
 
   def index
@@ -25,6 +25,8 @@ class Admin::ServicesController < Admin::BaseController
 
     @services = @filterrific.find.page(params[:page]).includes(:organisation, :service_taxonomies, :taxonomies)
     
+    @services = @services.in_directory(params[:directory]) if params[:directory].present?
+
     # shortcut nav
     @services = @services.ofsted_registered if params[:ofsted] === "true"
     if params[:archived] === "true"
@@ -32,9 +34,11 @@ class Admin::ServicesController < Admin::BaseController
     else
       @services = @services.kept
     end
+
   end
 
   def show
+    @service = Service.includes(notes: [:user]).find(params[:id])
     @watched = current_user.watches.where(service_id: @service.id).exists?
     if @service.versions.length > 4
       @versions = @service.versions.reverse.first(3)
@@ -76,7 +80,7 @@ class Admin::ServicesController < Admin::BaseController
   private
 
   def set_service
-    @service = Service.includes(notes: [:user]).find(params[:id])
+    @service = Service.find(params[:id])
   end
 
   def load_custom_field_sections
@@ -114,8 +118,10 @@ class Admin::ServicesController < Admin::BaseController
       :marked_for_deletion,
       :free,
       :ofsted_item_id,
+      directory_ids: [],
       taxonomy_ids: [],
       send_need_ids: [],
+      suitability_ids: [],
       local_offer_attributes: [
         :id,
         :description,

@@ -1,20 +1,69 @@
-<nav class="shortcuts">
+<% 
+    @directory_links = {}
 
-    <% if params[:deactivated] === "true" %>
-        <%= link_to "Active", admin_users_path, class: "shortcuts__link" %>
-    <% else %>
-        <span class="shortcuts__current">Active</span>
-    <% end %>
+    Directory.all.each do |directory|
+      @directory_links[directory.name] = admin_users_path(directory: directory.name);
+    end
 
-    <span class="shortcuts__count">(<%= @active_count %>)</span>
+%>
 
-    <span class="shortcuts__divider">|</span>
-    
-    <% if params[:deactivated] === "true" %>
-        <span class="shortcuts__current">Deactivated</span>
-    <% else %>
-        <%= link_to_unless_current "Deactivated", admin_users_path(deactivated: true), class: "shortcuts__link" %>
-    <% end %>
-    
-    <span class="shortcuts__count">(<%= @deactivated_count %>)</span>
+<%= 
+    # display the bfis/bod headings
+    render partial: "shared/directory-shortcuts",  locals: { 
+        all_state: !params[:directory].present?,
+        all_link: admin_users_path,
+        all_count: @user_counts.dig(:all, :all),
+        all_label: "All",
+        directory_links: @directory_links,
+        directory_counts: @user_counts
+  }
+%>
+     
+<nav class="shortcuts shortcuts--no-top-spacing  shortcuts--sublevel">
+
+    <% 
+
+    # toggle the active state for the active/deactivated filters
+    if params[:deactivated].present? && params[:deactivated] === "true" 
+        @sublevel_active_state = false;
+        @sublevel_deactivated_state = true;
+    elsif params[:deactivated].present? && params[:deactivated] === "false"
+        @sublevel_active_state = true;
+        @sublevel_deactivated_state = false;
+    end
+
+    # decide what the urls will be like for the active/deactivated links
+    @sublevel_active_inactive_link = admin_users_path(directory: params[:directory], deactivated: false);
+    @sublevel_deactivated_inactive_link = admin_users_path(directory: params[:directory], deactivated: true);
+
+
+    # decide what the counts will be for the active/deactivated links
+    if !params[:directory].present? 
+        @sublevel_active_count = @user_counts.dig(:all, :active);
+        @sublevel_deactivated_count  = @user_counts.dig(:all, :deactivated);
+    elsif
+        @sublevel_active_count = @user_counts.dig(params[:directory], :active);
+        @sublevel_deactivated_count  = @user_counts.dig(params[:directory], :deactivated);
+    end
+
+    %>   
+
+     <%= render partial: "shared/shortcuts_item", 
+     locals: {
+        state: @sublevel_active_state, 
+        link: @sublevel_active_inactive_link, 
+        count: @sublevel_active_count,
+        label: "Active"
+      } %>
+     
+     <%= render partial: "shared/shortcuts_item", 
+     locals: {
+        state: @sublevel_deactivated_state, 
+        link: @sublevel_deactivated_inactive_link, 
+        count: @sublevel_deactivated_count,
+        label: "Deactivated"
+      } %>
+     
+
+
 </nav>

@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_03_151205) do
+ActiveRecord::Schema.define(version: 2021_09_10_164039) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
 
@@ -66,6 +67,23 @@ ActiveRecord::Schema.define(version: 2021_09_03_151205) do
     t.bigint "custom_field_section_id", null: false
     t.string "options"
     t.index ["custom_field_section_id"], name: "index_custom_fields_on_custom_field_section_id"
+  end
+
+  create_table "directories", force: :cascade do |t|
+    t.string "name"
+    t.string "label"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "directories_services", id: false, force: :cascade do |t|
+    t.bigint "service_id", null: false
+    t.bigint "directory_id", null: false
+  end
+
+  create_table "directories_taxonomies", id: false, force: :cascade do |t|
+    t.bigint "taxonomy_id", null: false
+    t.bigint "directory_id", null: false
   end
 
   create_table "feedbacks", force: :cascade do |t|
@@ -234,6 +252,7 @@ ActiveRecord::Schema.define(version: 2021_09_03_151205) do
     t.string "postcode"
     t.string "ward"
     t.string "family_centre"
+    t.string "area"
   end
 
   create_table "send_needs", force: :cascade do |t|
@@ -297,11 +316,21 @@ ActiveRecord::Schema.define(version: 2021_09_03_151205) do
     t.boolean "age_band_all"
     t.string "old_open_objects_external_id"
     t.boolean "temporarily_closed"
-    t.text "directories", default: [], array: true
     t.text "directories_as_text"
     t.index ["discarded_at"], name: "index_services_on_discarded_at"
     t.index ["ofsted_item_id"], name: "index_services_on_ofsted_item_id"
     t.index ["organisation_id"], name: "index_services_on_organisation_id"
+  end
+
+  create_table "services_suitabilities", id: false, force: :cascade do |t|
+    t.bigint "service_id", null: false
+    t.bigint "suitability_id", null: false
+  end
+
+  create_table "suitabilities", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "taggings", id: :serial, force: :cascade do |t|
@@ -369,6 +398,7 @@ ActiveRecord::Schema.define(version: 2021_09_03_151205) do
     t.boolean "admin_ofsted"
     t.string "phone"
     t.datetime "marked_for_deletion"
+    t.boolean "admin_manage_ofsted_access", default: false, null: false
     t.index ["discarded_at"], name: "index_users_on_discarded_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["organisation_id"], name: "index_users_on_organisation_id"

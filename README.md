@@ -60,6 +60,19 @@ The database will be seeded with realistic fake data.
 
 It will be on `localhost:3000`. You can log in with `example@example.com` and the initial password you set [in the configuration](#-configuration).
 
+### With multiple directories
+
+To see multiple directories in Outpost, run the app with:
+
+```
+INSTANCE=buckinghamshire rails s
+```
+
+This will start the app with the directories listed in `config/app_config.yaml`.
+
+To add more directories, or set up another instance with separate directories,
+edit `config/app_config.yaml`.
+
 ### With Docker
 
 With [docker-compose](https://docs.docker.com/compose/) and [docker](https://www.docker.com/), after cloning the project:

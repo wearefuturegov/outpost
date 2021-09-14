@@ -5,6 +5,7 @@
 # files.
 
 require 'cucumber/rails'
+require 'simplecov'
 
 # frozen_string_literal: true
 

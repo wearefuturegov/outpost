@@ -1,5 +1,6 @@
 class IndexedServicesSerializer < ActiveModel::Serializer
   
+
   attributes :id, 
     :updated_at, 
     :name, 
@@ -20,6 +21,12 @@ class IndexedServicesSerializer < ActiveModel::Serializer
     :created_at,
     :status
 
+  has_many :target_directories do 
+    object.directories.map do |directory|
+      { name: directory.name, label: directory.label }
+    end
+  end
+  
   has_many :locations do
     object.locations.where(visible: true)
   end
@@ -44,6 +51,7 @@ class IndexedServicesSerializer < ActiveModel::Serializer
   has_many :cost_options
   has_many :links
   has_many :send_needs
+  has_many :suitabilities
 
   has_one :local_offer, unless: -> { object.local_offer&.marked_for_destruction? }
 

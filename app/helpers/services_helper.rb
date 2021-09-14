@@ -30,4 +30,7 @@ module ServicesHelper
     end
   end
 
+  def valid_directory_list
+    Directory.all.map{|dir| [dir.name, dir.id]}
+  end
 end
