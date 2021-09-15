@@ -259,7 +259,7 @@ class Service < ApplicationRecord
   end
 
   def update_directories
-    self.directories_as_text = self.directories&.map{ |dir| dir.name }&.sort&.join(", ")
+    self.directories_as_text = self.directories&.map{ |dir| dir.name }&.uniq&.sort&.join(", ")
   end
 
   # include nested taxonomies in json representation by default
