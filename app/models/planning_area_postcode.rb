@@ -1,2 +1,0 @@
-class PlanningAreaPostcode < ApplicationRecord
-end

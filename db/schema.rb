@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_10_164039) do
+ActiveRecord::Schema.define(version: 2021_09_14_144638) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -236,6 +236,11 @@ ActiveRecord::Schema.define(version: 2021_09_10_164039) do
     t.string "old_external_id"
     t.integer "users_count", default: 0, null: false
     t.integer "services_count", default: 0, null: false
+  end
+
+  create_table "planning_areas", force: :cascade do |t|
+    t.string "postcode"
+    t.string "primary_planning_area"
   end
 
   create_table "regular_schedules", force: :cascade do |t|

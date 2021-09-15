@@ -4,7 +4,7 @@ namespace :planning_area_postcodes do
     planning_area_postcodes_csv = CSV.parse(csv_file, headers: true)
 
     planning_area_postcodes_csv.each.with_index do |row, line|
-      PlanningAreaPostcode.create(postcode: row["Postcode"], primary_planning_area: row["Planning_Area"])
+      PlanningArea.create(postcode:  UKPostcode.parse(row["PCNoBlanks"]).to_s, primary_planning_area: row["Planning_Area"])
     end
   end
 end
