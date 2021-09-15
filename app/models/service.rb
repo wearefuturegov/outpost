@@ -22,7 +22,7 @@ class Service < ApplicationRecord
 
   has_and_belongs_to_many :send_needs
   has_and_belongs_to_many :suitabilities
-  has_and_belongs_to_many :directories, -> { distinct }
+  has_and_belongs_to_many :directories#, -> { distinct }
 
   has_many :links
   accepts_nested_attributes_for :links, allow_destroy: true, reject_if: :all_blank
