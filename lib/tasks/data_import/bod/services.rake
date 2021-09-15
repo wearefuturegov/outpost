@@ -314,9 +314,10 @@ namespace :bod do
       end
     end
 
-    task :save_all => [ :environment ] do
+    task :save_all_and_clear_duplicate_directories => [ :environment ] do
       Service.all.each_with_index do |s, index|
         puts "Saving service #{s.name} (#{index})"
+        s.directories = s.directories.uniq
         s.save
       end
     end

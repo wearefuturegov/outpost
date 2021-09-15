@@ -7,7 +7,7 @@ class Taxonomy < ApplicationRecord
     has_many :service_taxonomies, dependent: :destroy
     has_many :services, -> { distinct }, through: :service_taxonomies
 
-    has_and_belongs_to_many :directories
+    has_and_belongs_to_many :directories, -> { distinct }
 
     attr_accessor :skip_mongo_callbacks
     after_commit :update_index, if: -> { skip_mongo_callbacks == !true }
