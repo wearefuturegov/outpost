@@ -309,7 +309,13 @@ namespace :bod do
     task :update_directories_as_text_field => [ :environment ] do
       Service.all.each do |s|
         s.skip_mongo_callbacks = true
-        s.directories_as_text = s.directories&.sort&.join(", ") # make sure directories always in same order
+        s.directories_as_text = s.directories&.map{ |dir| dir.name }&.uniq&.sort&.join(", ") # make sure directories always in same order and no duplicates in there
+        s.save
+      end
+    end
+
+    task :save_all => [ :environment ] do
+      Service.each do |s|
         s.save
       end
     end
