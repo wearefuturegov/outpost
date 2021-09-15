@@ -315,7 +315,8 @@ namespace :bod do
     end
 
     task :save_all => [ :environment ] do
-      Service.each do |s|
+      Service.each_with_index do |s, index|
+        puts "Saving service #{s.name} (#{index})"
         s.save
       end
     end
