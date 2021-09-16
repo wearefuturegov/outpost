@@ -62,6 +62,12 @@ It will be on `localhost:3000`. You can log in with `example@example.com` and th
 
 ### With multiple directories
 
+You can have multiple directories configured within a single instance of Outpost. This allows for separate Scout instances to be powered by each directory.
+
+Services can be associated with directories, and then Scout will pull through the relevant services.
+
+Taxonomies can also be associated with directories, which will affect what categories are shown on the respective Scout instance.
+
 To see multiple directories in Outpost, you'll need to create some directoires in the database. You can run `rake bod:directories:create` or create some manually like so:
 ```
 Directory.create(name: 'Family Information Service', label: 'bfis', scout_build_hook: 'http://build_hook_url')
@@ -73,10 +79,7 @@ You can also make per instance configurations in config/app_config.yml and then 
 INSTANCE=buckinghamshire rails s
 ```
 
-This will start the app with the directories listed in `config/app_config.yaml`.
-
-To add more directories, or set up another instance with separate directories,
-edit `config/app_config.yaml`.
+This will start the app with the configuration in `config/app_config.yaml`.
 
 ### With Docker
 
