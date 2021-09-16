@@ -64,7 +64,7 @@ It will be on `localhost:3000`. You can log in with `example@example.com` and th
 
 To see multiple directories in Outpost, you'll need to create some directoires in the database. You can run `rake bod:directories:create` or create some manually like so:
 ```
-Directory.create(name: "Family Information Service', label: 'bfis')
+Directory.create(name: "Family Information Service', label: 'bfis', scout_build_hook: 'http://buidl_hook_url')
 ```
 
 You can also make per instance configurations in config/app_config.yml and then set the `INSTANCE` .env variable or run the app with:
@@ -134,7 +134,6 @@ It needs the following extra environment variables to be set:
 | `DB_URI`                                        | the MongoDB database for the public index                                                                                 | mongodb://user:password<br/>@example.com/database       | Yes, if using the API service                     |
 | `INITIAL_ADMIN_PASSWORD`                        | an initial admin password to log in with for local development                                                            |                                                         | Locally only                                      |
 | `SHOW_ENV_BANNER`                               | show a bright warning banner on non-production environments                                                               | staging                                                 | Only to warn about non-production environments    |
-| `SCOUT_BUILD_HOOK`                              | Outpost will make a POST request to this webhook URL whenever taxonomies are changed. Intended to trigger Scout rebuilds. |                                                         | No                                                |
 
 ## 🔐 OAuth provider
 
