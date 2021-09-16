@@ -64,7 +64,7 @@ It will be on `localhost:3000`. You can log in with `example@example.com` and th
 
 To see multiple directories in Outpost, you'll need to create some directoires in the database. You can run `rake bod:directories:create` or create some manually like so:
 ```
-Directory.create(name: "Family Information Service', label: 'bfis', scout_build_hook: 'http://buidl_hook_url')
+Directory.create(name: 'Family Information Service', label: 'bfis', scout_build_hook: 'http://buidl_hook_url')
 ```
 
 You can also make per instance configurations in config/app_config.yml and then set the `INSTANCE` .env variable or run the app with:
