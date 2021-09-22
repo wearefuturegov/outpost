@@ -257,7 +257,6 @@ ActiveRecord::Schema.define(version: 2021_09_14_144638) do
     t.string "postcode"
     t.string "ward"
     t.string "family_centre"
-    t.string "area"
   end
 
   create_table "send_needs", force: :cascade do |t|
