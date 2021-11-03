@@ -3,6 +3,9 @@
 <% end %>
 
 <%= form_for(resource, as: resource_name, url: session_path(resource_name) ) do |f| %>
+
+  <p>Use <strong>example@example.com</strong> as the username and <strong>example</strong> as the password.</p>
+
   <div class="field one-half">
     <%= f.label :email, class: "field__label" %>
     <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "field__input" %>

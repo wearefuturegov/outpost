@@ -64,10 +64,10 @@ end
 # make a single admin user
 User.create!({
     first_name: "Example",
-    last_name: "Admin",
+    last_name: "User",
     admin: true,
-    admin_users: true,
-    admin_ofsted: true,
+    admin_users: false,
+    admin_ofsted: false,
     email: "example@example.com",
-    password: ENV["INITIAL_ADMIN_PASSWORD"] || "FakePassword1!"
+    password: ENV["INITIAL_ADMIN_PASSWORD"] || "example"
 })
