@@ -79,5 +79,5 @@ User.create!({
     admin_users: false,
     admin_ofsted: false,
     email: "example@example.com",
-    password: ENV["INITIAL_ADMIN_PASSWORD"] || "example"
+    password: ENV["INITIAL_ADMIN_PASSWORD"] || "Example1"
 })
