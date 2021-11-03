@@ -6,13 +6,13 @@ default: &default
 development:
   <<: *default
   url: postgresql://localhost/outpost_development
-  username: outpost
-  password: password
+  # username: outpost
+  # password: password
 test:
   <<: *default
   url: postgresql://localhost/outpost_test
-  username: outpost
-  password: password
+  # username: outpost
+  # password: password
 production:
   <<: *default
   database: outpost_production

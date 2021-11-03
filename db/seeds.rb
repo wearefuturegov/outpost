@@ -1,6 +1,16 @@
 yaml = Rails.root.join('db', '_seed.yml')
 data = YAML::load_file(yaml)
 
+# first, wipe everything
+Location.delete_all
+Accessibility.delete_all
+SendNeed.delete_all
+Suitability.delete_all
+Taxonomy.delete_all
+Organisation.delete_all
+User.delete_all
+Service.delete_all
+
 # use our realistic sample UK data - fake data won't correctly geocode
 data["locations"].each do |l|
     Location.create!({
