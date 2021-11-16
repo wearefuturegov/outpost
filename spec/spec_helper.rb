@@ -106,4 +106,15 @@ RSpec.configure do |config|
     @mongo_client_class = class_double(Mongo::Client).as_stubbed_const
     allow(@mongo_client_class).to receive(:new).and_return(@mongo_client_instance)
   end
+
+  config.before(:suite) do
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
+  config.around(:each) do |example|
+    DatabaseCleaner.cleaning do
+      example.run
+    end
+  end
 end
