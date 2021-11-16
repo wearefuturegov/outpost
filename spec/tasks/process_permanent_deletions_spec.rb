@@ -41,11 +41,12 @@ describe "process permanent deletions" do
     expect { service_feedback.reload }.to raise_error ActiveRecord::RecordNotFound
     expect { service_taxonomy.reload }.to raise_error ActiveRecord::RecordNotFound
     expect { service_watch.reload }.to raise_error ActiveRecord::RecordNotFound
+    expect { service_note.reload }.to raise_error ActiveRecord::RecordNotFound
     expect { service_local_offer.reload }.to raise_error ActiveRecord::RecordNotFound
 
     expect(Service.all.count).to eq(2)
 
     expect(send_need_1.services.count).to eq(send_need_1_service_count - 1)
-    expect(send_need_2.services.count).to eq(send_need_1_service_count - 1)
+    expect(send_need_2.services.count).to eq(send_need_2_service_count - 1)
   end
 end
