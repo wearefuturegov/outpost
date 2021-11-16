@@ -1,4 +1,9 @@
 task :build_public_index => :environment  do
+    # Turn off logging for this rake task, otherwise it just fills up our logs
+    dev_null = Logger.new('/dev/null')
+    Rails.logger = dev_null
+    ActiveRecord::Base.logger = dev_null
+
     Mongo::Logger.logger.level = Logger::FATAL
 
     puts "⏰ Connecting to mongo database..."
