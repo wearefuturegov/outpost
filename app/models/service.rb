@@ -170,7 +170,11 @@ class Service < ApplicationRecord
 
   include PgSearch::Model
   pg_search_scope :search, 
-    against: [:id, :name, :description], 
+    against: {
+      name: 'A',
+      description: 'B',
+      id: 'C'
+    },
     using: {
       tsearch: { prefix: true }
     }, 

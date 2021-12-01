@@ -34,7 +34,7 @@
             <% if params[:filterrific].present? %>
             <%= link_to image_tag("clear.svg", alt: "Clear search"), reset_filterrific_url, class: "mini-search__submit" %>
             <% else %>
-            <button class="mini-search__submit">
+            <button id='test-search' class="mini-search__submit">
                 <%= image_tag "search.svg", alt: "Submit search" %>
             </button>
             <% end %>
