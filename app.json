@@ -1,4 +1,5 @@
 {
   "name": "Outpost",
-  "description": "Local government service directories done right, in an API-standards driven way."
+  "description": "Local government service directories done right, in an API-standards driven way.",
+  "stack": "heroku-18"
 }

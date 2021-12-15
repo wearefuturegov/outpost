@@ -22,7 +22,7 @@
 
 [![Run tests](https://github.com/wearefuturegov/outpost/workflows/Run%20tests/badge.svg)](https://github.com/wearefuturegov/outpost/actions)
 
-**[Staging site here](https://outpost-staging.herokuapp.com/)**
+**[More information here](https://outpost-platform.wearefuturegov.com/)** **[Demo site here](https://outpost.wearefuturegov.com/)**
 
 A [standards-driven](https://opencommunity.org.uk/) API and comprehensive set of admin tools for managing records about local community services, groups and activities.
 
