@@ -5,7 +5,9 @@
   Directory.all.each do |directory|
     @directory_links[directory.name] = admin_services_path(directory: directory.name);
   end
+%>
 
+<%=
   render partial: "shared/directory-shortcuts",  locals: { 
     all_state: !params[:directory].present?,
     all_link: admin_services_path,
