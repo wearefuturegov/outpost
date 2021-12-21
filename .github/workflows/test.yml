@@ -37,20 +37,8 @@ jobs:
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
-
-      - name: Setup cache key and directory for gems cache
-        uses: actions/cache@v1
         with:
-          path: vendor/bundle
-          key: ${{ runner.os }}-gems1-${{ hashFiles('**/Gemfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-gems1-
-
-      - name: Install gems
-        run: |
-          bundle config path vendor/bundle
-          bundle config --local build.sassc --disable-march-tune-native
-          bundle install --jobs 4 --retry 3
+          bundler-cache: true
 
       - name: Install required Node.js version
         uses: actions/setup-node@v2
@@ -88,6 +76,7 @@ jobs:
       - name: Run tests
         env:
           RAILS_ENV: test
+          GOOGLE_API_KEY: test
           OFSTED_FEED_API_ENDPOINT: https://test-ofsted-feed.stub # this is not a real url, we just need an env variable set for the stub to work in tests
         run: |
           bundle exec rake
