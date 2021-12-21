@@ -60,4 +60,24 @@ feature 'Filtering services' do
       expect(service_b.name).to appear_before(service_a.name)
     end
   end
+
+  scenario 'sorting by created_at works', js: true do
+    search_term_a = 'A service'
+    search_term_b = 'B service'
+    service_a = FactoryBot.create :service, name: search_term_a, created_at: Date.today - 7.days
+    service_b = FactoryBot.create :service, name: search_term_b, created_at: Date.today
+
+    find('.filters__control').click
+    select 'Oldest added', from: 'filterrific_sorted_by'
+
+    within('.test-services') do
+      expect(service_a.name).to appear_before(service_b.name)
+    end
+
+    select 'Newest added', from: 'filterrific_sorted_by'
+
+    within('.test-services') do
+      expect(service_b.name).to appear_before(service_a.name)
+    end
+  end
 end
