@@ -1,15 +1,17 @@
 require 'rails_helper'
 
 feature 'Filtering services' do
+  before do
+    admin_user = FactoryBot.create :user, :services_admin
+    login_as admin_user
+    visit admin_services_path
+  end
+
   scenario 'filtering works' do
     search_term = 'Aurora borealis'
     service_a = FactoryBot.create :service, name: search_term
     service_b = FactoryBot.create :service
 
-    admin_user = FactoryBot.create :user, :services_admin
-    login_as admin_user
-
-    visit admin_services_path
     fill_in 'filterrific_search', with: search_term
     find('#test-search').click
 
@@ -23,10 +25,6 @@ feature 'Filtering services' do
     service_a = FactoryBot.create :service, name: search_term_a, description: search_term_b
     service_b = FactoryBot.create :service, name: search_term_b, description: search_term_a
 
-    admin_user = FactoryBot.create :user, :services_admin
-    login_as admin_user
-    visit admin_services_path
-
     fill_in 'filterrific_search', with: search_term_a
     find('#test-search').click
 
@@ -37,6 +35,26 @@ feature 'Filtering services' do
     click_link 'Clear search'
     fill_in 'filterrific_search', with: search_term_b
     find('#test-search').click
+
+    within('.test-services') do
+      expect(service_b.name).to appear_before(service_a.name)
+    end
+  end
+
+  scenario 'sorting by name works', js: true do
+    search_term_a = 'A service'
+    search_term_b = 'B service'
+    service_a = FactoryBot.create :service, name: search_term_a
+    service_b = FactoryBot.create :service, name: search_term_b
+
+    find('.filters__control').click
+    select 'A-Z', from: 'filterrific_sorted_by'
+
+    within('.test-services') do
+      expect(service_a.name).to appear_before(service_b.name)
+    end
+
+    select 'Z-A', from: 'filterrific_sorted_by'
 
     within('.test-services') do
       expect(service_b.name).to appear_before(service_a.name)
