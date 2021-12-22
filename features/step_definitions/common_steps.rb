@@ -30,8 +30,3 @@ end
 Then("I can fill in the {string} field with {string}") do |label, value|
   fill_in label, with: value
 end
-
-Given("Some options for suitability exist") do
-  FactoryBot.create(:suitability, name: 'Autism')
-  FactoryBot.create(:suitability, name: 'Learning difficulties')
-end
