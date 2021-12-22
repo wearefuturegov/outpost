@@ -42,7 +42,6 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'rspec-rails'
   gem 'dotenv-rails'
-  gem 'simplecov'
   gem 'rack-mini-profiler'
   gem 'faker'
   gem 'bullet'
@@ -65,5 +64,6 @@ group :test do
   gem 'database_cleaner'
   gem 'shoulda-matchers'
   gem 'factory_bot_rails'
-  gem 'webmock'
+  gem 'simplecov'
+  gem 'simplecov-cobertura'
 end

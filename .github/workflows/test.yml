@@ -82,4 +82,4 @@ jobs:
           bundle exec rake
 
       - name: Upload report to Codecov
-        uses: codecov/codecov-action@v1
+        uses: codecov/codecov-action@v2
