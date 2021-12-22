@@ -56,7 +56,6 @@ group :development do
 end
 
 group :test do
-  gem 'cucumber-rails', '~> 2.0.0', require: false
   gem 'capybara', '>= 2.15'
   gem 'codecov', require: false
   gem 'selenium-webdriver'
