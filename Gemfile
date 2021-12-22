@@ -46,6 +46,7 @@ group :development, :test do
   gem 'rack-mini-profiler'
   gem 'faker'
   gem 'bullet'
+  gem 'launchy'
 end
 
 group :development do
