@@ -3,20 +3,19 @@ module TaskListHelper
     def task_list_sections
         [
             [
-                "Name and description", 
+                "Name and description",
                 "Website and social media",
                 "Visibility",
             ],
             [
-                # "Categories", 
-                "Opening times", 
-                "Fees", 
-                "Locations", 
+                "Opening times",
+                "Fees",
+                "Locations",
                 "Contacts",
                 "Ages"
             ],
             [
-                "Special educational needs and disabilities", 
+                "Special educational needs and disabilities",
                 "Suitable for",
                 "Extra questions"
             ]
