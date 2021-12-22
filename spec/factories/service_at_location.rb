@@ -1,5 +1,6 @@
 FactoryBot.define do
   factory :service_at_location do
-    location factory: :location
+    association :location
+    association :service
   end
 end

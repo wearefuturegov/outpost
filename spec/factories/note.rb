@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :note do
-    user factory: :user
+    association :user
+    association :service
     body { Faker::Lorem.sentence }
   end
 end
