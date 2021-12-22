@@ -11,7 +11,7 @@ FactoryBot.define do
   end
 
   factory :service_with_all_associations, class: 'Service' do
-    name { Faker::Lorem.word }
+    name { Faker::Lorem.sentence }
     description { Faker::Lorem.paragraph }
     url { Faker::Internet.url }
 
