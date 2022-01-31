@@ -38,7 +38,7 @@ class Admin::ServicesController < Admin::BaseController
   end
 
   def show
-    @service = Service.includes(notes: [:user]).find(params[:id])
+    @service = Service.includes(notes: [user: :watches], versions: [user: :watches]).find(params[:id])
     @watched = current_user.watches.where(service_id: @service.id).exists?
     if @service.versions.length > 4
       @versions = @service.versions.reverse.first(3)

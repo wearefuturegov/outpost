@@ -4,6 +4,7 @@ class User < ApplicationRecord
   has_many :watches, dependent: :destroy
   has_many :services, through: :watches
   has_many :notes
+  has_many :service_versions, foreign_key: :whodunnit
 
   belongs_to :organisation, optional: true, counter_cache: true
   

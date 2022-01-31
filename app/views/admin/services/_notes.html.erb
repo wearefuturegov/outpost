@@ -1,26 +1,31 @@
 <%= render "shared/collapsible", name: "Notes", count: @service.notes.length, id: "service-notes", help_text: "Use notes to log phone calls and other information not captured automatically" do %>
 
-    <div class="notes-list">
-      <% if @service.notes.present? %>
-        <% @service.notes.each do |n| %>
-          <article class="notes-list__note">
-            <header class="notes-list__note-header">
+  <div class="notes-list">
+    <% if @service.notes.present? %>
+      <% @service.notes.each do |n| %>
+        <article class="notes-list__note">
+          <header class="notes-list__note-header">
+            <% if n.user.present? %>
               <strong><%= render "shared/poppables/user", u: n.user %></strong>
-              | <%= time_ago_in_words(n.created_at).humanize %> ago 
-              <% if n.user === current_user %>| <%= link_to "Remove", admin_service_note_path(@service, n), method: "delete", data: {confirm: "Are you sure you want to remove this note?"} %><% end %>
-            </header>
-            <p><%= n.body %></p>
-          </article>
-        <% end %>
-      <% end %>
-    </div>
+            <% elsif n.deleted_user_name %>
+              <strong><%= render "shared/poppables/deleted_user", u: n.deleted_user_name %></strong>
+            <% end %>
 
-    <%= form_for [:admin, @service, @service.notes.new], url: admin_service_notes_path(@service) do |f| %>
-        <div class="field">
-            <%= f.label :body, class: "visually-hidden" %>
-            <%= f.text_area :body , class: "field__input", placeholder: "Type a note...", maxlength: 200, required: true %>
-        </div>
-        <%= f.button "Add note", class: "button button--small button--add"%>
+            | <%= time_ago_in_words(n.created_at).humanize %> ago 
+            <% if n.user === current_user %>| <%= link_to "Remove", admin_service_note_path(@service, n), method: "delete", data: {confirm: "Are you sure you want to remove this note?"} %><% end %>
+          </header>
+          <p><%= n.body %></p>
+        </article>
+      <% end %>
     <% end %>
+  </div>
+
+  <%= form_for [:admin, @service, @service.notes.new], url: admin_service_notes_path(@service) do |f| %>
+    <div class="field">
+      <%= f.label :body, class: "visually-hidden" %>
+      <%= f.text_area :body , class: "field__input", placeholder: "Type a note...", maxlength: 200, required: true %>
+    </div>
+    <%= f.button "Add note", class: "button button--small button--add"%>
+  <% end %>
 
 <% end %>

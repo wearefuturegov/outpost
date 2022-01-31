@@ -3,7 +3,7 @@ require 'rake'
 Rails.application.load_tasks
 
 feature 'Viewing deleted user notes' do
-  let(:admin_to_be_deleted) { FactoryBot.create :user, :services_admin, marked_for_deletion: DateTime.now - 40.days }
+  let(:admin_to_be_deleted) { FactoryBot.create :user, :services_admin, discarded_at: DateTime.now - 40.days, marked_for_deletion: DateTime.now - 40.days }
   let!(:service) { FactoryBot.create :service }
   let!(:note) { FactoryBot.create :note, user: admin_to_be_deleted, service: service }
   let!(:version) { FactoryBot.create :service_version, item_type: 'Service', item_id: service.id, whodunnit: admin_to_be_deleted.id.to_s, event: 'update' }
