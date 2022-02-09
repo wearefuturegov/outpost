@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'rake'
 Rails.application.load_tasks
 
-feature 'Viewing deleted user notes' do
+feature 'Viewing deleted user notes and versions' do
   let(:admin_to_be_deleted) { FactoryBot.create :user, :services_admin, discarded_at: DateTime.now - 40.days, marked_for_deletion: DateTime.now - 40.days }
   let!(:service) { FactoryBot.create :service }
   let!(:note) { FactoryBot.create :note, user: admin_to_be_deleted, service: service }
@@ -12,33 +12,48 @@ feature 'Viewing deleted user notes' do
     admin = FactoryBot.create :user, :services_admin
 
     login_as admin 
-    visit admin_service_path service
   end
 
-  it 'shows the deleted user name' do
-    within '#service-history' do
-      expect(page).to have_link(admin_to_be_deleted.display_name)
+  context 'on the service show page' do
+    before do
+      visit admin_service_path service
     end
 
-    within '#service-notes' do
-      expect(page).to have_link(admin_to_be_deleted.display_name)
-      expect(page).to have_content(note.body)
-    end
+    it 'shows the deleted user name with the notes and versions' do
+      within '#service-history' do
+        expect(page).to have_link(admin_to_be_deleted.display_name)
+      end
 
-    Rake.application.invoke_task 'process_permanent_deletions'
+      within '#service-notes' do
+        expect(page).to have_link(admin_to_be_deleted.display_name)
+        expect(page).to have_content(note.body)
+      end
 
-    page.refresh
+      Rake.application.invoke_task 'process_permanent_deletions'
 
-    within '#service-history' do
-      expect(page).to_not have_link(admin_to_be_deleted.display_name)
-      expect(page).to have_content(admin_to_be_deleted.display_name)
-    end
+      page.refresh
 
-    within '#service-notes' do
-      expect(page).to_not have_link(admin_to_be_deleted.display_name)
-      expect(page).to have_content(admin_to_be_deleted.display_name)
-      expect(page).to have_content(note.body)
+      within '#service-history' do
+        expect(page).to_not have_link(admin_to_be_deleted.display_name)
+        expect(page).to have_content(admin_to_be_deleted.display_name)
+      end
+
+      within '#service-notes' do
+        expect(page).to_not have_link(admin_to_be_deleted.display_name)
+        expect(page).to have_content(admin_to_be_deleted.display_name)
+        expect(page).to have_content(note.body)
+      end
     end
   end
 
+  context 'on the version history page' do
+    before do
+      visit admin_service_path service
+      click_link 'Compare versions'
+    end
+
+    it 'shows the deleted user name' do
+      expect(page).to have_content(admin_to_be_deleted.display_name)
+    end
+  end
 end
