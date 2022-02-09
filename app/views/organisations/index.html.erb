@@ -44,6 +44,13 @@
         <% end %>
       </tbody>
   </table>
+
+  <% if @services.count > 0 %>
+    <div class="actions">
+      <%= link_to "Add Service, Event or Activity", new_service_path, class: "button button--add"%>
+      <%= link_to "Edit organisation name", edit_organisation_path(@organisation), class: "button button--secondary" %>
+    </div>
+  <% end %>
 <% else %>
   <p class="no-results">You don't have any services listed yet. Start by <strong><%= link_to "adding one", new_service_path %></strong>.</p>
 <% end %>
