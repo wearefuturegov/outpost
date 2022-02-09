@@ -40,7 +40,7 @@ RSpec.describe Service, type: :model do
       expect(create_version.event).to eq('create')
 
       service.update(name: 'updated name')
-      update_version = service.versions.last
+      update_version = service.versions.first
       expect(update_version.event).to eq('update')
 
       service.destroy_associated_data
