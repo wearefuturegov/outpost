@@ -16,7 +16,7 @@ feature 'Community user managing services', type: :feature do
   end
 
   scenario 'I can add a service to the directory' do
-    click_link_or_button('Add service')
+    click_link_or_button('Add Service, Event or Activity')
 
     fill_in('What is your service or activity called?', with: 'Example service')
     fill_in('Describe your service', with: 'Example description here')
