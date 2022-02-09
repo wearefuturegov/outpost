@@ -10,8 +10,11 @@ feature 'Viewing deleted user notes and versions' do
 
   before do
     admin = FactoryBot.create :user, :services_admin
-
     login_as admin 
+  end
+
+  after(:each) do
+    Rake::Task['process_permanent_deletions'].reenable
   end
 
   context 'on the service show page' do
@@ -30,7 +33,6 @@ feature 'Viewing deleted user notes and versions' do
       end
 
       Rake.application.invoke_task 'process_permanent_deletions'
-
       page.refresh
 
       within '#service-history' do
@@ -53,6 +55,11 @@ feature 'Viewing deleted user notes and versions' do
     end
 
     it 'shows the deleted user name' do
+      expect(page).to have_content(admin_to_be_deleted.display_name)
+
+      Rake.application.invoke_task 'process_permanent_deletions'
+      page.refresh
+
       expect(page).to have_content(admin_to_be_deleted.display_name)
     end
   end
