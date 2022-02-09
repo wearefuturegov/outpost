@@ -20,8 +20,10 @@
 
               <%= pretty_event(a.event).downcase %> by 
               
-              <% if a.whodunnit %>
-                <%= render "shared/poppables/user", u: User.find(a.whodunnit) %>
+              <% if a.user.present? %>
+                <%= render "shared/poppables/user", u: a.user %>
+              <% elsif a.whodunnit %>
+                <%= render "shared/poppables/deleted_user", u: a.whodunnit %>
               <% else %>
                 system
               <% end %>

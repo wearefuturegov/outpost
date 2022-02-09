@@ -27,8 +27,10 @@
               <%= pretty_event(a.event).humanize %>
             </td>
             <td>
-              <% if a.whodunnit %>
-                <%= render "shared/poppables/user", u: User.find(a.whodunnit) %>
+            <% if a.user.present? %>
+                <%= render "shared/poppables/user", u: a.user %>
+            <% elsif a.whodunnit %>
+                <%= render "shared/poppables/deleted_user", u: a.whodunnit %>
               <% else %>
                 System
               <% end %>

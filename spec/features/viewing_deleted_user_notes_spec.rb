@@ -63,4 +63,34 @@ feature 'Viewing deleted user notes and versions' do
       expect(page).to have_content(admin_to_be_deleted.display_name)
     end
   end
+
+  context 'on the activity page' do
+    before do
+      visit admin_activity_index_path
+    end
+
+    it 'shows the deleted user name' do
+      expect(page).to have_content(admin_to_be_deleted.display_name)
+
+      Rake.application.invoke_task 'process_permanent_deletions'
+      page.refresh
+
+      expect(page).to have_content(admin_to_be_deleted.display_name)
+    end
+  end
+
+  context 'on the dashboard' do
+    before do
+      visit root_path
+    end
+
+    it 'shows the deleted user name' do
+      expect(page).to have_content(admin_to_be_deleted.display_name)
+
+      Rake.application.invoke_task 'process_permanent_deletions'
+      page.refresh
+
+      expect(page).to have_content(admin_to_be_deleted.display_name)
+    end
+  end
 end
