@@ -1,78 +1,80 @@
 <% content_for :title do %>
-    Compare versions | <%= @service.name %> |
+  Compare versions | <%= @service.name %> |
 <% end %>
 
 <% content_for :header do %>
-    <%= link_to "Back to service", admin_service_path(params[:service_id]), class: "go-back" %>
-    <h1 class="page-header__title">Compare versions</h1>
+  <%= link_to "Back to service", admin_service_path(params[:service_id]), class: "go-back" %>
+  <h1 class="page-header__title">Compare versions</h1>
 <% end %>
 
 <div class="snapshots">
-    <aside class="snapshots__sidebar">
-        <% if @versions.any? %>
-            <ul class="snapshots-tree">
-                <% @versions.each do |v| %>
-                    <li class="snapshots-tree__snapshot" <%= "aria-selected" if v === @versions.first %>>
+  <aside class="snapshots__sidebar">
+    <% if @versions.any? %>
+      <ul class="snapshots-tree">
+        <% @versions.each do |v| %>
+          <li class="snapshots-tree__snapshot" <%= "aria-selected" if v === @versions.first %>>
 
-                        <h3 class="snapshots-tree__snapshot-title">
-                            <%= link_to v.created_at.strftime('%-d %B %Y, %H:%M'), "##{v.id}", class: "snapshots-tree__snapshot-link", data: { no_turbolink: true } %>
-                        </h3>
+            <h3 class="snapshots-tree__snapshot-title">
+              <%= link_to v.created_at.strftime('%-d %B %Y, %H:%M'), "##{v.id}", class: "snapshots-tree__snapshot-link", data: { no_turbolink: true } %>
+            </h3>
 
-                        <% if v === @versions.first %>
-                            <p class="snapshots-tree__snapshot-user"><em>Current version</em><p>
-                        <% elsif v === @versions.last %>
-                            <p class="snapshots-tree__snapshot-user"><em>Earliest version</em><p>
-                        <% end %>
-
-                        <% if v.whodunnit %>
-                            <p class="snapshots-tree__snapshot-user"><%= User.find(v.whodunnit).display_name %></p>
-                        <% end %>
-
-                        <% unless v.event === "update"%>
-                            <p class="snapshots-tree__snapshot-action">
-                                <%= pretty_event(v.event) %>
-                            </p>
-                        <% end %>
-
-                    </li>
-                <% end %>
-            </ul>
-        <% end %>
-    </aside>
-
-    <div class="snapshots__previews">
-        <% if @versions.any? %>
-            <% @versions.each do |v| %>
-                <article class="snapshot-preview" id="<%= v.id %>" <%= "hidden" unless v === @versions.first %> >
-                    
-                    <% unless v === @versions.first %>
-                        <div class="snapshot-preview__actions">
-                            <div>
-                                <h3>Changes since this version</h3>
-                                <p class="snapshot-preview__key diff">
-                                    <span class="del">This version</span>
-                                    <span class="ins">Latest version</span>
-                                </p>
-                            </div>
-                        </div>
-                        
-                        <%= render "shared/preview-canvas", version: v.object || {}, live: @service.as_json, ignorable_fields: @service.ignorable_fields %>
-                    
-                    <% else %>
-                        <% unless @service.approved %>
-                            <div class="snapshot-preview__actions">
-                                <div></div>
-                                <%= link_to "Approve this version", admin_request_path(@service), method: "patch", data: {confirm: "Are you sure? Approving these changes makes them publicly visible."}, class: "button button--small" %>
-                            </div>
-                        <% end %>
-
-                        <%= render "shared/preview-canvas", version: @service.as_json, live: @service.as_json, ignorable_fields: @service.ignorable_fields %>
-                    
-                    <% end %>
-
-
-                </article>
+            <% if v === @versions.first %>
+              <p class="snapshots-tree__snapshot-user"><em>Current version</em><p>
+            <% elsif v === @versions.last %>
+              <p class="snapshots-tree__snapshot-user"><em>Earliest version</em><p>
             <% end %>
+
+            <% if v.user.present? %>
+              <p class="snapshots-tree__snapshot-user"><%= v.user.display_name %></p>
+            <% else %>
+              <p class="snapshots-tree__snapshot-user"><%= v.whodunnit %></p>
+            <% end %>
+
+            <% unless v.event === "update"%>
+              <p class="snapshots-tree__snapshot-action">
+              <%= pretty_event(v.event) %>
+              </p>
+            <% end %>
+
+          </li>
         <% end %>
-    </div>
+      </ul>
+    <% end %>
+  </aside>
+
+  <div class="snapshots__previews">
+    <% if @versions.any? %>
+      <% @versions.each do |v| %>
+        <article class="snapshot-preview" id="<%= v.id %>" <%= "hidden" unless v === @versions.first %> >
+
+          <% unless v === @versions.first %>
+            <div class="snapshot-preview__actions">
+              <div>
+                <h3>Changes since this version</h3>
+                <p class="snapshot-preview__key diff">
+                <span class="del">This version</span>
+                <span class="ins">Latest version</span>
+                </p>
+              </div>
+            </div>
+
+            <%= render "shared/preview-canvas", version: v.object || {}, live: @service.as_json, ignorable_fields: @service.ignorable_fields %>
+
+          <% else %>
+            <% unless @service.approved %>
+              <div class="snapshot-preview__actions">
+                <div></div>
+                <%= link_to "Approve this version", admin_request_path(@service), method: "patch", data: {confirm: "Are you sure? Approving these changes makes them publicly visible."}, class: "button button--small" %>
+              </div>
+            <% end %>
+
+            <%= render "shared/preview-canvas", version: @service.as_json, live: @service.as_json, ignorable_fields: @service.ignorable_fields %>
+
+          <% end %>
+
+
+        </article>
+      <% end %>
+    <% end %>
+  </div>
 </div>
