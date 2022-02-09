@@ -13,7 +13,7 @@
             <td>
             
               <% if a.item_type === "Service" %>
-                <%= render "shared/poppables/service", s: Service.find_by(id: a.item_id) %> 
+                <%= render "shared/poppables/service", s: a.item %>
               <% elsif a.item_type === "OfstedItem" %>
                 <%= ofsted_item_link(a.item_id) %>
               <% end %>
