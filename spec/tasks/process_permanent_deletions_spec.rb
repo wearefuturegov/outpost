@@ -55,19 +55,27 @@ describe "process permanent deletions" do
   end
 
   describe 'deleting users that have created notes' do
-    let(:users_for_deletion) { FactoryBot.create_list(:user, 5, discarded_at: Time.now - 40.days, marked_for_deletion: Time.now - 31.days) }
+    let(:users_for_deletion) { FactoryBot.create_list(:user, 3, discarded_at: Time.now - 40.days, marked_for_deletion: Time.now - 31.days) }
     let(:user_with_note) { users_for_deletion.first }
+    let!(:version) { FactoryBot.create :service_version, item_type: 'Service', item_id: Service.first.id, whodunnit: user_with_note.id.to_s, event: 'update' }
 
     before do
       user_with_note.notes.create!(service: services.first, body: 'This is a note')
     end
 
-    it 'deletes the users and does not error' do
+    it 'deletes all the users and updates associated notes and versions' do
       users_count = User.all.count
+      note = user_with_note.notes.first
+
+      expect(note.deleted_user_name).to eq(nil)
+      expect(version.reload.whodunnit).to eq(user_with_note.id.to_s)
+
       Rake::Task["process_permanent_deletions"].invoke
-      # Only 4 should be deleted until we decide what to do with deleted users
-      # with notes
-      expect(User.all.count).to eq(users_count - 4)
+
+      expect(User.all.count).to eq(users_count - 3)
+      expect(note.reload.user).to eq(nil)
+      expect(note.reload.deleted_user_name).to eq(user_with_note.display_name)
+      expect(version.reload.whodunnit).to eq(user_with_note.display_name)
     end
   end
 end

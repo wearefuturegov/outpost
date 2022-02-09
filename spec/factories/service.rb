@@ -26,7 +26,7 @@ FactoryBot.define do
       create_list(:feedback, 10, service: service)
       create_list(:service_taxonomy, 4, service: service)
       create_list(:watch, 2, service: service)
-      create_list(:note, 4, service: service)
+      create_list(:note, 1, service: service)
       create(:local_offer, service: service)
     end
   end
