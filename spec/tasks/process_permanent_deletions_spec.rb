@@ -3,7 +3,7 @@ Rails.application.load_tasks
 
 describe "process permanent deletions" do
   let(:organisation) { FactoryBot.create(:organisation) }
-  let(:services) { FactoryBot.create_list(:service_with_all_associations, 3, organisation: organisation) }
+  let(:services) { FactoryBot.create_list(:service_with_all_associations, 2, organisation: organisation) }
   let(:service_for_deletion) { services.last }
 
   before do
@@ -48,26 +48,34 @@ describe "process permanent deletions" do
     expect { service_note.reload }.to raise_error ActiveRecord::RecordNotFound
     expect { service_local_offer.reload }.to raise_error ActiveRecord::RecordNotFound
 
-    expect(Service.all.count).to eq(2)
+    expect(Service.all.count).to eq(1)
 
     expect(send_need_1.services.count).to eq(send_need_1_service_count - 1)
     expect(send_need_2.services.count).to eq(send_need_2_service_count - 1)
   end
 
   describe 'deleting users that have created notes' do
-    let(:users_for_deletion) { FactoryBot.create_list(:user, 5, discarded_at: Time.now - 40.days, marked_for_deletion: Time.now - 31.days) }
+    let(:users_for_deletion) { FactoryBot.create_list(:user, 2, discarded_at: Time.now - 40.days, marked_for_deletion: Time.now - 31.days) }
     let(:user_with_note) { users_for_deletion.first }
+    let!(:version) { FactoryBot.create :service_version, item_type: 'Service', item_id: Service.first.id, whodunnit: user_with_note.id.to_s, event: 'update' }
 
     before do
       user_with_note.notes.create!(service: services.first, body: 'This is a note')
     end
 
-    it 'deletes the users and does not error' do
+    it 'deletes all the users and updates associated notes and versions' do
       users_count = User.all.count
+      note = user_with_note.notes.first
+
+      expect(note.deleted_user_name).to eq(nil)
+      expect(version.reload.whodunnit).to eq(user_with_note.id.to_s)
+
       Rake::Task["process_permanent_deletions"].invoke
-      # Only 4 should be deleted until we decide what to do with deleted users
-      # with notes
-      expect(User.all.count).to eq(users_count - 4)
+
+      expect(User.all.count).to eq(users_count - 2)
+      expect(note.reload.user).to eq(nil)
+      expect(note.reload.deleted_user_name).to eq(user_with_note.display_name)
+      expect(version.reload.whodunnit).to eq(user_with_note.display_name)
     end
   end
 end

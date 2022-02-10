@@ -1,6 +1,7 @@
 class Admin::ServicesController < Admin::BaseController
   before_action :set_service, only: [:update, :destroy]
   before_action :load_custom_field_sections, only: [:show, :update, :destroy, :new, :create]
+  skip_before_action :set_counts, only: :show
 
   def index
     @filterrific = initialize_filterrific(
@@ -38,13 +39,17 @@ class Admin::ServicesController < Admin::BaseController
   end
 
   def show
-    @service = Service.includes(notes: [:user]).find(params[:id])
+    @service = Service.includes(:contacts, :cost_options, :feedbacks, :links,
+                                :local_offer, :locations, :regular_schedules,
+                                notes: [user: :watches], versions: [user: :watches]).find(params[:id])
+
     @watched = current_user.watches.where(service_id: @service.id).exists?
+
     if @service.versions.length > 4
-      @versions = @service.versions.reverse.first(3)
-      @versions.push(@service.versions.reverse.last)
+      @versions = @service.versions.first(3)
+      @versions.push(@service.versions.last)
     else
-      @versions = @service.versions.reverse
+      @versions = @service.versions
     end
   end
 

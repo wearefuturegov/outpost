@@ -11,7 +11,8 @@ class Service < ApplicationRecord
       object_changes: proc { |s| s.saved_changes.as_json }
     },
     versions: {
-      class_name: 'ServiceVersion'
+      class_name: 'ServiceVersion',
+      scope: -> { order(created_at: :desc) }
     }
   )
 

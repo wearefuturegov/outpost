@@ -17,11 +17,16 @@ task :process_permanent_deletions => :environment  do
     user_id = u.id
     next unless u.marked_for_deletion
     next unless u.marked_for_deletion <= DateTime.now.beginning_of_day - 30.days
-    if u.notes.any?
-      puts "Unable to delete user #{user_id} because of associated notes, skipping"
-      next
+
+    # Update the notes & versions
+    u.notes.find_each do |note|
+      note.update!(user_id: nil, deleted_user_name: u.display_name)
     end
-    u.destroy
+    u.service_versions.find_each do |version|
+      version.update(whodunnit: u.display_name)
+    end
+
+    u.destroy!
     puts "Destroyed user #{user_id}"
     destroyed_users_count += 1
   end
