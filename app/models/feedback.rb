@@ -9,7 +9,7 @@ class Feedback < ApplicationRecord
   paginates_per 20
 
   def notify_owners
-    self.service.organisation.users.each do |user|
+    self.service.organisation.users.kept.each do |user|
       ServiceMailer.with(feedback: self, service: self.service, user: user).notify_owner_of_feedback_email.deliver_later
     end
   end

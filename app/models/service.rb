@@ -248,7 +248,7 @@ class Service < ApplicationRecord
 
   # callbacks
   def notify_watchers
-    self.users.each do |user|
+    self.users.kept.each do |user|
       ServiceMailer.with(service: self, user: user).notify_watcher_email.deliver_later
     end
   end

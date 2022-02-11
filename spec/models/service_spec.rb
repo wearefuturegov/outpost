@@ -72,5 +72,18 @@ RSpec.describe Service, type: :model do
           .to have_enqueued_mail(ServiceMailer, :notify_watcher_email).twice
       end
     end
+
+    context 'with a deactivated watcher' do
+      let!(:watch) { FactoryBot.create :watch, service: subject }
+
+      before do
+        watch.user.update(discarded_at: 1.day.ago)
+      end
+
+      it 'does not send an email' do
+        expect { subject.reload.notify_watchers }
+          .to_not have_enqueued_mail(ServiceMailer, :notify_watcher_email)
+      end
+    end
   end
 end

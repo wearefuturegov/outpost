@@ -29,4 +29,15 @@ feature 'Managing pending service update requests' do
       .to have_enqueued_mail(ServiceMailer, :notify_owner_email).twice
   end
 
+  context 'with a deactivated service owner' do
+    before do
+      service_owners.first.update(discarded_at: 1.day.ago)
+    end
+
+    it 'approving a request notifies only the active owner' do
+      click_link 'Pending'
+      expect { click_link 'Approve' }
+        .to have_enqueued_mail(ServiceMailer, :notify_owner_email).once
+    end
+  end
 end
