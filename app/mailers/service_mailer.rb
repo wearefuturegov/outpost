@@ -13,16 +13,14 @@ class ServiceMailer < ApplicationMailer
         )
     end
 
-    def notify_owners_email
+    def notify_owner_email
         @service = params[:service]
-        @service.organisation.users.each do |u|
-            view_mail(
-                ENV["NOTIFY_TEMPLATE_ID"],
-                to: u.email, 
-                subject: "Your changes have been approved"
-            )
-
-        end
+        user = params[:user]
+        view_mail(
+            ENV["NOTIFY_TEMPLATE_ID"],
+            to: user.email,
+            subject: "Your changes have been approved"
+        )
     end
 
     def notify_owner_of_feedback_email

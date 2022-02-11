@@ -26,7 +26,7 @@ feature 'Managing pending service update requests' do
   it 'approving a request notifies the owners' do
     click_link 'Pending'
     expect { click_link 'Approve' }
-      .to have_enqueued_mail(ServiceMailer, :notify_owners_email).twice
+      .to have_enqueued_mail(ServiceMailer, :notify_owner_email).twice
   end
 
 end

@@ -16,7 +16,9 @@ class Admin::RequestsController < Admin::BaseController
         @request = Service.find(params[:id])
         if @request.approve
             redirect_to request.referer, notice: "Changes have been approved."
-            ServiceMailer.with(service: @request).notify_owners_email.deliver_later
+            @request.organisation.users.each do |user|
+                ServiceMailer.with(service: @request, user: user).notify_owner_email.deliver_later
+            end
         end
     end
 end
