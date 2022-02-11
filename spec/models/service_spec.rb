@@ -68,7 +68,7 @@ RSpec.describe Service, type: :model do
       let!(:watches) { FactoryBot.create_list :watch, 2, service: subject }
 
       it 'sends an email all watchers' do
-        expect { subject.notify_watchers }
+        expect { subject.reload.notify_watchers }
           .to change(ActiveJob::Base.queue_adapter.enqueued_jobs, :size).by 2
       end
     end

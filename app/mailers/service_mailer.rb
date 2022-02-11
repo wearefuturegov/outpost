@@ -1,15 +1,16 @@
 class ServiceMailer < ApplicationMailer
     add_template_helper(FeedbacksHelper)
 
-    def notify_watchers_email
+    def notify_watcher_email
         @service = params[:service]
-        @service.watches.each do |w|
-            view_mail(
-                ENV["NOTIFY_TEMPLATE_ID"],
-                to: w.user.email,
+        user = params[:user]
+        view_mail(
+            ENV["NOTIFY_TEMPLATE_ID"],
+            {
+                to: user.email,
                 subject: "A service you're watching has been updated"
-            )
-        end
+            }
+        )
     end
 
     def notify_owners_email

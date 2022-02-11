@@ -1,6 +1,6 @@
 class ServiceMailerPreview < ActionMailer::Preview
-  def notify_watchers_email
-    ServiceMailer.with(service: Watch.first.service).notify_watchers_email
+  def notify_watcher_email
+    ServiceMailer.with(service: Watch.first.service, user: Watch.first.user).notify_watcher_email
   end
 
   def notify_owners_email
