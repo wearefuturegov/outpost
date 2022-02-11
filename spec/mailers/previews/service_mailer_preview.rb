@@ -8,7 +8,7 @@ class ServiceMailerPreview < ActionMailer::Preview
   end
 
   def notify_owner_of_feedback_email
-    ServiceMailer.with(service: Feedback.first.service, feedback: Feedback.first).notify_owner_of_feedback_email
+    ServiceMailer.with(service: Feedback.first.service, feedback: Feedback.first, user: User.first).notify_owner_of_feedback_email
   end
 end
 

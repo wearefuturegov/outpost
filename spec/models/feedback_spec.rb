@@ -5,15 +5,15 @@ RSpec.describe Feedback, type: :model do
   let!(:owner) { FactoryBot.create :user, organisation: subject.service.organisation }
 
   it 'sends an email to the service owner' do
-    expect { subject.notify_owners }
-      .to change(ActiveJob::Base.queue_adapter.enqueued_jobs, :size).by 1
+    expect { subject.reload.notify_owners }
+      .to have_enqueued_mail(ServiceMailer, :notify_owner_of_feedback_email).once
   end
 
   context 'with more than one service owner' do
     let!(:owner_2) { FactoryBot.create :user, organisation: subject.service.organisation }
 
     it 'sends an email all service owners' do
-      expect { subject.notify_owners }
+      expect { subject.reload.notify_owners }
         .to have_enqueued_mail(ServiceMailer, :notify_owner_of_feedback_email).twice
     end
   end
