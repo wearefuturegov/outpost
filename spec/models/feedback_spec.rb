@@ -14,7 +14,7 @@ RSpec.describe Feedback, type: :model do
 
     it 'sends an email all service owners' do
       expect { subject.notify_owners }
-        .to change(ActiveJob::Base.queue_adapter.enqueued_jobs, :size).by 2
+        .to have_enqueued_mail(ServiceMailer, :notify_owner_of_feedback_email).twice
     end
   end
 end

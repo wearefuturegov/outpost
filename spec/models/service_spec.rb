@@ -69,7 +69,7 @@ RSpec.describe Service, type: :model do
 
       it 'sends an email all watchers' do
         expect { subject.reload.notify_watchers }
-          .to change(ActiveJob::Base.queue_adapter.enqueued_jobs, :size).by 2
+          .to have_enqueued_mail(ServiceMailer, :notify_watcher_email).twice
       end
     end
   end
