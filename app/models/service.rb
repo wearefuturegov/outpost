@@ -248,7 +248,9 @@ class Service < ApplicationRecord
 
   # callbacks
   def notify_watchers
-    ServiceMailer.with(service: self).notify_watchers_email.deliver_later
+    self.users.kept.each do |user|
+      ServiceMailer.with(service: self, user: user).notify_watcher_email.deliver_later
+    end
   end
 
   def add_parent_taxonomies
