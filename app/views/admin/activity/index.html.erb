@@ -18,7 +18,7 @@
           <tr>
             <td>
               <% if a.item_type === "Service" %>
-                <%= render "shared/poppables/service", s: Service.find_by(id: a.item_id) %> 
+                <%= render "shared/poppables/service", s: a.item %>
               <% elsif a.item_type === "OfstedItem" %>
                 <%= ofsted_item_link(a.item_id) %>
               <% end %>
@@ -27,8 +27,10 @@
               <%= pretty_event(a.event).humanize %>
             </td>
             <td>
-              <% if a.whodunnit %>
-                <%= render "shared/poppables/user", u: User.find(a.whodunnit) %>
+            <% if a.user.present? %>
+                <%= render "shared/poppables/user", u: a.user %>
+            <% elsif a.whodunnit %>
+                <%= render "shared/poppables/deleted_user", u: a.whodunnit %>
               <% else %>
                 System
               <% end %>

@@ -11,7 +11,8 @@ class Service < ApplicationRecord
       object_changes: proc { |s| s.saved_changes.as_json }
     },
     versions: {
-      class_name: 'ServiceVersion'
+      class_name: 'ServiceVersion',
+      scope: -> { order(created_at: :desc) }
     }
   )
 
@@ -247,7 +248,9 @@ class Service < ApplicationRecord
 
   # callbacks
   def notify_watchers
-    ServiceMailer.with(service: self).notify_watchers_email.deliver_later
+    self.users.kept.each do |user|
+      ServiceMailer.with(service: self, user: user).notify_watcher_email.deliver_later
+    end
   end
 
   def add_parent_taxonomies

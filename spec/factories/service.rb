@@ -5,7 +5,7 @@ FactoryBot.define do
     description { Faker::Lorem.paragraph }
     url { Faker::Internet.url }
     after(:create) do |service|
-      create_list(:location, 1, services: [service])
+      create(:location, services: [service])
     end
     organisation
   end

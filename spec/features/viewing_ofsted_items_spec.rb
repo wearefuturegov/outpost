@@ -40,5 +40,29 @@ feature 'Viewing Ofsted feed items', type: :feature do
       click_link removed_ofsted_item.setting_name.truncate(25)
       expect(page).to have_content 'This item is no longer present in the Ofsted feed'
     end
+
+    context 'viewing a single Ofsted item' do
+      let(:ofsted_item) { FactoryBot.create :ofsted_item }
+      let!(:recent_version) { FactoryBot.create :service_version, item_type: 'OfstedItem', item_id: ofsted_item.id, event: 'update', created_at: 1.day.ago }
+      let!(:old_version) { FactoryBot.create :service_version, item_type: 'OfstedItem', item_id: ofsted_item.id, event: 'update', created_at: 4.days.ago }
+
+      before do
+        ofsted_item.versions.where(event: 'create').update(created_at: 1.week.ago)
+      end
+
+      it 'shows versions in reverse chronological order' do
+        visit admin_ofsted_path(ofsted_item)
+
+        within '#service-history' do
+          expect('Updated').to appear_before('Created')
+          expect('1 day ago').to appear_before('4 days ago')
+        end
+
+        click_link 'Compare versions'
+
+        expect(recent_version.created_at.strftime('%-d %B %Y, %H:%M')).to appear_before('Created')
+        expect(recent_version.created_at.strftime('%-d %B %Y, %H:%M')).to appear_before(old_version.created_at.strftime('%-d %B %Y, %H:%M'))
+      end
+    end
   end
 end

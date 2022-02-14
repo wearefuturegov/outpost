@@ -42,16 +42,16 @@ class Admin::OfstedController < Admin::BaseController
         @related_items ||= OfstedItem.where(rp_reference_number: @item.reference_number)
 
         if @item.versions.length > 4
-          @versions = @item.versions.reverse.first(3)
-          @versions.push(@item.versions.reverse.last)
+          @versions = @item.versions.first(3)
+          @versions.push(@item.versions.last)
         else
-          @versions = @item.versions.reverse
+          @versions = @item.versions
         end
     end
 
     def versions
       @item = OfstedItem.find(params[:ofsted_id])
-      @versions = @item.versions.reverse
+      @versions = @item.versions
       render :layout => "full-width"
     end
 

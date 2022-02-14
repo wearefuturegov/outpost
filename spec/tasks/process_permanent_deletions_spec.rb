@@ -2,7 +2,6 @@ require "rails_helper"
 Rails.application.load_tasks
 
 describe "process permanent deletions" do
-
   after(:each) do
     Rake::Task["process_permanent_deletions"].reenable
   end
@@ -47,21 +46,38 @@ describe "process permanent deletions" do
     end
   end
 
-  describe 'deleting users that have created notes' do
-    let!(:users_for_deletion) { FactoryBot.create_list(:user, 3, discarded_at: Time.now - 40.days, marked_for_deletion: Time.now - 31.days) }
-    let(:note) { FactoryBot.create :note }
-    let(:user_with_note) { note.user }
+  describe 'deleting users' do
+    let!(:user_for_deletion) { FactoryBot.create(:user, discarded_at: Time.now - 40.days, marked_for_deletion: Time.now - 31.days) }
 
-    before do
-      user_with_note.update(discarded_at: Time.now - 40.days, marked_for_deletion: Time.now - 31.days)
+
+    it 'works' do
+      expect(User.all.count).to eq(1)
+      Rake::Task["process_permanent_deletions"].invoke
+      expect(User.all.count).to eq(0)
     end
 
-    it 'deletes the users and does not error' do
-      users_count = User.all.count
-      Rake::Task["process_permanent_deletions"].invoke
-      # Only 3 should be deleted until we decide what to do with deleted users
-      # with notes
-      expect(User.all.count).to eq(users_count - 3)
+    context 'with a user that has created notes' do
+      let!(:note) { FactoryBot.create :note }
+      let(:user_with_note) { note.user }
+      let!(:version) { FactoryBot.create :service_version, item_type: 'Service', item_id: Service.first.id, whodunnit: user_with_note.id.to_s, event: 'update' }
+
+
+      before do
+        user_with_note.update(discarded_at: Time.now - 40.days, marked_for_deletion: Time.now - 31.days)
+      end
+
+      it 'deletes all the users and updates associated notes and versions' do
+        expect(User.all.count).to eq(2)
+
+        expect(note.deleted_user_name).to eq(nil)
+        expect(version.reload.whodunnit).to eq(user_with_note.id.to_s)
+
+        Rake::Task["process_permanent_deletions"].invoke
+        expect(User.all.count).to eq(0)
+        expect(note.reload.user).to eq(nil)
+        expect(note.reload.deleted_user_name).to eq(user_with_note.display_name)
+        expect(version.reload.whodunnit).to eq(user_with_note.display_name)
+      end
     end
   end
 end
