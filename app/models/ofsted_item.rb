@@ -1,5 +1,10 @@
 class OfstedItem < ApplicationRecord
-  has_paper_trail
+  has_paper_trail(
+    versions: {
+      class_name: 'Version',
+      scope: -> { order(created_at: :desc) }
+    }
+  )
 
   has_many :services
 
