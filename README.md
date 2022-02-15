@@ -139,13 +139,11 @@ Once authenticated, consumer apps can fetch information about the currently logg
 
 ## 🧪 Tests
 
-It has some rspec and cucumber tests on key functionality. Run them with:
+It has some rspec tests on key functionality. Run them with:
 
 ```
-rake
+bundle exec rspec
 ```
-
-See the [full docs](https://github.com/wearefuturegov/outpost/tree/master/features).
 
 ## Code coverage
 

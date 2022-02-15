@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :watch do
-    user factory: :user
+    association :user
   end
 end

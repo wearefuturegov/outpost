@@ -79,7 +79,7 @@ jobs:
           GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
           OFSTED_FEED_API_ENDPOINT: https://test-ofsted-feed.stub # this is not a real url, we just need an env variable set for the stub to work in tests
         run: |
-          bundle exec rake
+          bundle exec rspec
 
       - name: Upload report to Codecov
-        uses: codecov/codecov-action@v1
+        uses: codecov/codecov-action@v2
