@@ -1,14 +1,12 @@
 class Rack::Attack
   class Request < ::Rack::Request
+    # Use req.remote_ip instead of req.ip so that we can use Cloudflare or
+    # another proxy if we want to while still blocking the client IP, not the IP
+    # of the proxy.
     def remote_ip
       @remote_ip ||= (env['HTTP_CF_CONNECTING_IP'] ||
                       env['action_dispatch.remote_ip'] ||
                       ip).to_s
-    end
-
-    def allowed_ip?
-      allowed_ips = ["127.0.0.1", "::1"]
-      allowed_ips.include?(remote_ip)
     end
   end
 
