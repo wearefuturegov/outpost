@@ -48,7 +48,7 @@ First, clone the repo. Then:
 
 ```
 bundle install
-npm install
+yarn
 rails db:setup
 rails s
 
