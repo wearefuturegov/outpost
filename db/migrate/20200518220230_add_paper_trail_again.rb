@@ -10,7 +10,7 @@ class AddPaperTrailAgain < ActiveRecord::Migration[6.0]
 
   def change
     create_table :versions do |t|
-      t.string   :item_type, {:null=>false}
+      t.string   :item_type, null: false
       t.integer  :item_id,   null: false, limit: 8
       t.string   :event,     null: false
       t.string   :whodunnit
