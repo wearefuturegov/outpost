@@ -215,6 +215,8 @@ GEM
       nio4r (~> 2.0)
     racc (1.6.0)
     rack (2.2.3)
+    rack-attack (6.6.0)
+      rack (>= 1.0, < 3)
     rack-cors (1.1.1)
       rack (>= 2.0.0)
     rack-mini-profiler (2.0.1)
@@ -409,6 +411,7 @@ DEPENDENCIES
   pg (>= 0.18, < 2.0)
   pg_search
   puma (~> 4.3)
+  rack-attack
   rack-cors
   rack-mini-profiler
   rails (~> 6.0.3, >= 6.0.3.6)
