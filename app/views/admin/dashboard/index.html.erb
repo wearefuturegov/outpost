@@ -3,19 +3,19 @@
     <dl class="big-numbers">
       <div class="big-number">
         <dd class="big-number__number"><%= @service_count %></dd>
-        <dt class="big-number__caption">Services</dd>
+        <dt class="big-number__caption"><%= 'Service'.pluralize(@service_count) %></dd>
       </div>
       <div class="big-number">
         <dd class="big-number__number"><%= @user_count %></dd>
-        <dt class="big-number__caption">Registered users</dt>
+        <dt class="big-number__caption"><%= 'Registered user'.pluralize(@user_count) %></dt>
       </div>
       <div class="big-number">
         <dd class="big-number__number"><%= @org_count %></dd>
-        <dt class="big-number__caption">Organisations</dt>
+        <dt class="big-number__caption"><%= 'Organisation'.pluralize(@org_count) %></dt>
       </div>
       <div class="big-number">
         <dd class="big-number__number"><%= @taxa_count %></dd>
-        <dt class="big-number__caption">Taxonomies</dt>
+        <dt class="big-number__caption"><%= 'Taxonomy'.pluralize(@taxa_count) %></dt>
       </div>
     </dl>
 <% end %>
