@@ -4,7 +4,7 @@ class UserMailer < ApplicationMailer
         view_mail(
             ENV["NOTIFY_TEMPLATE_ID"], 
             to: @user.email, 
-            subject: "You've been invited to the Buckinghamshire Family Information Service"
+            subject: "You've been invited to Outpost"
         )
     end
 
@@ -14,7 +14,7 @@ class UserMailer < ApplicationMailer
         view_mail(
             ENV["NOTIFY_TEMPLATE_ID"], 
             to: @user.email, 
-            subject: "You've been invited to the Buckinghamshire Family Information Service"
+            subject: "You've been invited to Outpost"
         )
     end
 

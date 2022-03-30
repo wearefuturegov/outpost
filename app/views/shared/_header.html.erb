@@ -3,7 +3,14 @@
 <header class="site-header">
     <div class="<%= "container" unless full_width %> site-header__inner">
         <div class="site-header__masthead">
-            <%= link_to image_tag("logo.svg", alt: "Buckinghamshire Council", class: "site-header__logo"), "https://buckinghamshire.gov.uk", class: "site-header__logo-link" %>
+
+        <%= link_to '#', class: "site-header__logo-link" do %>
+            <% if ActionController::Base.helpers.resolve_asset_path("logo.svg").present? %>
+                <%= image_tag('logo.svg', alt: "Royal Borough of Greenwich", class: "site-header__logo") %>
+            <% else %>
+                <span class="site-header__logo">Royal Borough of Greenwich</span>
+            <% end %>
+        <% end %>
         </div>
         <% if user_signed_in? %>
         <div class="site-header__actions">
