@@ -38,7 +38,14 @@
         <% end %>
 
         <%= render "shared/collapsible", name: "Taxonomies", count: @service.taxonomies.length, id: "taxonomy-editor", help_text: "Help users understand what kind of service this is." do %>
-        <%= render "admin/services/editors/taxonomies", s: s %>
+          <% if Taxonomy.any? %>
+            <%= render "admin/services/editors/taxonomies", s: s %>
+          <% else %>
+            <p>
+              No taxonomies set up yet.
+              <%= link_to 'Create some taxonomies', admin_taxonomies_path %>
+            </p>
+          <% end %>
         <% end %>
 
         <%= render "shared/collapsible", name: "Locations", count: @service.locations.length, id: "locations-editor", help_text: "Provide locations where this service can be used. For a fully remote or virtual service, leave this blank." do %>
@@ -78,7 +85,14 @@
         <% end %>
 
         <%= render "shared/collapsible", name: "Custom fields", id: "custom-fields-editor" do %>
-        <%= render "admin/services/editors/custom-fields", s: s %>
+          <% if CustomField.any? %>
+            <%= render "admin/services/editors/custom-fields", s: s %>
+          <% else %>
+            <p>
+              No custom fields set up yet.
+              <%= link_to 'Create some custom fields', admin_custom_field_sections_path %>
+            </p>
+          <% end %>
         <% end %>
 
         <div class="form-actions">
