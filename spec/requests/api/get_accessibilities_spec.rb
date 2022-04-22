@@ -2,26 +2,30 @@ require 'rails_helper'
 
 describe 'Accessibilities endpoint', type: :request do
 
-  before do
-    # @organisation = FactoryBot.create(:organisation)
-    @accessibilities = FactoryBot.create_list(:accessibility, 10)
+  let(:api_endpoint) { '/api/v1/accessibilities' }
 
-    # root_taxonomy = Taxonomy.create(name: 'Categories')
-    # taxonomy_a = Taxonomy.create(name: 'A', parent_id: root_taxonomy.id)
-    # taxonomy_b = Taxonomy.create(name: 'B', parent_id: root_taxonomy.id)
+  context 'with accessibilities in the DB' do
+    let!(:accessibility) { FactoryBot.create(:accessibility) }
 
-    # @services[0].taxonomies << taxonomy_a
-    # @services[1].taxonomies << taxonomy_b
+    it 'returns accessibilities' do
+      get api_endpoint
+      response_body = JSON.parse(response.body)
 
-    # @services[2].taxonomies << taxonomy_a
-    # @services[2].taxonomies << taxonomy_b
+      accessibilities_response = [{
+        'id' => accessibility.id,
+        'label' => accessibility.name,
+        'slug' => accessibility.slug
+      }]
+
+      expect(response_body).to match_array(accessibilities_response)
+    end
   end
-  it 'returns accessibilities' do
-    get "/api/v1/accessibilities"
-    response_body = JSON.parse(response.body)
-    accessibility_ids = response_body.map{|accessibility| accessibility["id"]}
-    expect(accessibility_ids).to match_array(@accessibilities.map {|accessibility| accessibility.id})
-    accessibility_names = response_body.map{|accessibility| accessibility["label"]}
-    expect(accessibility_names).to match_array(@accessibilities.map {|accessibility| accessibility.name})
+
+  context 'with no accessibilities in the DB' do
+    it 'returns an empty array' do
+      get api_endpoint
+      response_body = JSON.parse(response.body)
+      expect(response_body).to match_array([])
+    end
   end
 end
