@@ -32,7 +32,14 @@
       <% end %>
 
       <%= render "shared/collapsible", name: "Taxonomies", count: @service.taxonomies.length, id: "taxonomy-editor", help_text: "Help users understand what kind of service this is." do %>
-        <%= render "admin/services/editors/taxonomies", s: s %>
+        <% if Taxonomy.any? %>
+          <%= render "admin/services/editors/taxonomies", s: s %>
+        <% else %>
+          <p>
+            No taxonomies set up yet.
+            <%= link_to 'Create some taxonomies', admin_taxonomies_path %>
+          </p>
+        <% end %>
       <% end %>
 
       <%= render "shared/collapsible", name: "Contacts", count: @service.contacts.length, id: "contacts-editor", help_text: "Provide individual points of contact for users." do %>
@@ -76,7 +83,14 @@
       <% end %>
 
       <%= render "shared/collapsible", name: "Custom fields", id: "custom-fields-editor" do %>
-        <%= render "admin/services/editors/custom-fields", s: s %>
+        <% if CustomField.any? %>
+          <%= render "admin/services/editors/custom-fields", s: s %>
+        <% else %>
+          <p>
+            No custom fields set up yet.
+            <%= link_to 'Create some custom fields', admin_custom_field_sections_path %>
+          </p>
+        <% end %>
       <% end %>
 
       <%= render "admin/services/permenant-deletion", s: s %>
