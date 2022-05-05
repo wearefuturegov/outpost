@@ -117,4 +117,12 @@ class User < ApplicationRecord
       email[0,1].upcase
     end
   end
+
+  def can_edit_taxonomies
+    admin_users?
+  end
+
+  def can_edit_custom_fields
+    admin_users?
+  end
 end

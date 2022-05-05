@@ -37,7 +37,9 @@
         <% else %>
           <p>
             No taxonomies set up yet.
-            <%= link_to 'Create some taxonomies', admin_taxonomies_path %>
+            <% if current_user.can_edit_taxonomies %>
+              <%= link_to 'Create some taxonomies', admin_taxonomies_path %>
+            <% end %>
           </p>
         <% end %>
       <% end %>
@@ -88,7 +90,9 @@
         <% else %>
           <p>
             No custom fields set up yet.
-            <%= link_to 'Create some custom fields', admin_custom_field_sections_path %>
+            <% if current_user.can_edit_custom_fields %>
+              <%= link_to 'Create some custom fields', admin_custom_field_sections_path %>
+            <% end %>
           </p>
         <% end %>
       <% end %>
