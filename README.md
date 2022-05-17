@@ -133,6 +133,10 @@ It needs the following extra environment variables to be set:
 | `SCOUT_URL`                                     | the URL where Scout lives. This is so that we can send service providers a link to their live service in emails.          | https://scout.com (NOTE: do not include trailing slash) | No                                                |
 | `OUTPOST_INSTANCE_NAME`                         | the name of the Outpost instance. This will appear in invite emails to new users, to let them know who the email is from. | the Outpost Family Information Service                  | No. Defaults to 'Outpost'                         |
 
+## 💿 Data import
+
+See documentation on [data import](lib/tasks/data_import/README.md).
+
 ## 🔐 OAuth provider
 
 Outpost can work as an identity provider for other apps. Users with the highest permissions can access the `/oauth/applications` route to create credentials.
