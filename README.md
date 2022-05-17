@@ -131,6 +131,10 @@ It needs the following extra environment variables to be set:
 | `SHOW_ENV_BANNER`                               | show a bright warning banner on non-production environments                                                               | staging                                                 | Only to warn about non-production environments    |
 | `SCOUT_BUILD_HOOK`                              | Outpost will make a POST request to this webhook URL whenever taxonomies are changed. Intended to trigger Scout rebuilds. |                                                         | No                                                |
 
+## 💿 Data import
+
+See documentation on [data import](lib/tasks/data_import/README.md).
+
 ## 🔐 OAuth provider
 
 Outpost can work as an identity provider for other apps. Users with the highest permissions can access the `/oauth/applications` route to create credentials.
