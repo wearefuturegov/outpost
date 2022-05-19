@@ -142,6 +142,6 @@ This formula will take all data from the 2nd row to infinity and create a unique
 
 
 ```
-=ArrayFormula(transpose(trim(split(TEXTJOIN(",",true,'Service Data'!O2:O),","))))
+=ArrayFormula(unique(transpose(trim(split(TEXTJOIN(",",true,'Service Data'!O2:O),",")))))
 ```
 
