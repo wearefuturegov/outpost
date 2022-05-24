@@ -1,4 +1,5 @@
 namespace :update_counters do
+  desc 'Reset all the counters'
   task :all => :environment  do
 
     # Turn off logging for this rake task, otherwise it just fills up our logs
