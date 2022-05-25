@@ -17,7 +17,7 @@ class Admin::BaseController < ApplicationController
     end
 
     def should_count?
-        controller_name === "services" || "requests"
+        controller_name === "services" || controller_name === "requests"
     end
 
     def set_counts        
