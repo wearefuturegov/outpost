@@ -1,11 +1,11 @@
 # Your changes to <%= @service.name %> have been approved.
 
 
-<% if @service.publicly_visible? %>
+<% if @service.publicly_visible? && ENV['SCOUT_URL'] %>
 
-They're now publicly visible in the Family Information Service directory:
+They're now publicly visible in the directory:
 
-https://directory.familyinfo.buckinghamshire.gov.uk/service/<%= @service.id %>
+<%= ENV['SCOUT_URL'] %>/service/<%= @service.id %>
 
 Or, review the changes:
 
