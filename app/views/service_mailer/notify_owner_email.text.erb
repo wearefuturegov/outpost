@@ -3,7 +3,7 @@
 
 <% if @service.publicly_visible? && ENV['SCOUT_URL'] %>
 
-They're now publicly visible in the directory:
+They are now publicly visible in the directory:
 
 <%= ENV['SCOUT_URL'] %>/service/<%= @service.id %>
 
