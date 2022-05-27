@@ -76,7 +76,7 @@ class User < ApplicationRecord
   end
 
   def self.options_for_labels
-    ActsAsTaggableOn::Tag.most_used.map { |t| [t.name, t.name] }.unshift(["All labels", ""])
+    ActsAsTaggableOn::Tag.distinct.sort_by {|tags| -tags.name}.map { |t| [t.name, t.name] }.unshift(["All labels", ""])
   end
 
   # Include default devise modules. Others available are:
