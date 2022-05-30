@@ -26,7 +26,7 @@
                             <% end %>
                         </li>
                         
-                        <% if current_user.admin_users? %>
+                        <% if current_user.can_edit_taxonomies %>
                             <li class="site-nav__submenu-item">
                                 <%= link_to_unless_current "Taxonomies", admin_taxonomies_path, class: "site-nav__submenu-link" do %>
                                     <span class="site-nav__submenu-current">Taxonomies</span>
@@ -45,7 +45,7 @@
                             <% end %>
                         </li>
 
-                        <% if current_user.admin_users? %>
+                        <% if current_user.can_edit_custom_fields %>
                             <li class="site-nav__submenu-item">
                                 <%= link_to_unless_current "Custom fields", admin_custom_field_sections_path, class: "site-nav__submenu-link" do %>
                                     <span class="site-nav__submenu-current">Custom fields</span>

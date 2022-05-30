@@ -38,6 +38,7 @@
 
     &__logo{
         height: 40px;
+        color: $white;
         @media screen and (min-width: $breakpoint-m){
             height: 45px
         }

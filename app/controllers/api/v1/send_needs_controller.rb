@@ -2,7 +2,7 @@ class API::V1::SendNeedsController < ApplicationController
     skip_before_action :authenticate_user!
   
     def index
-        render json: json_tree(SendNeed.all)
+        render json: json_tree(SendNeed.all).to_json
     end
 
     private
