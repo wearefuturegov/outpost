@@ -6,10 +6,10 @@ namespace :custom_fields do
     file = File.open(file_path, "r:ISO-8859-1")
     csv_parser = CSV.parse(file, headers: true)
     csv_parser.each.with_index do |row, index|
-      if row['custom_field_section_id'] == nil then
+      if row['import_id_referece'] == nil then
         custom_field_section = CustomFieldSection.new(
           name: row["name"],
-          hint: row["hint"],
+          hint: row["description"],
           public: row["public"],
           api_public: row["api_public"],
           sort_order: row["sort_order"]
@@ -20,7 +20,7 @@ namespace :custom_fields do
         end
       end
 
-      custom_field_array = csv_parser.select{|item| item['custom_field_section_id'] == row['id']} #searching by reference id and gets bunch of items based on condition
+      custom_field_array = csv_parser.select{|item| item['import_id_referece'] == row['import_id']} #searching by reference id and gets bunch of items based on condition
 
       if (!custom_field_array.empty?) then #if array is not empty
         custom_field_array.each { |row|
@@ -28,12 +28,12 @@ namespace :custom_fields do
             key: row["key"],
             field_type: row["field_type"],
             options: row["options"],
-            hint: row["hint"],
+            hint: row["description"],
             custom_field_section_id: custom_field_section.id
           )
-
+          
           unless custom_field.save
-            puts "CustomField #{custom_field.name} failed to save: #{custom_field.errors.messages}"
+            puts "CustomField #{custom_field.id} failed to save: #{custom_field.errors.messages}"
           end
         }
 
