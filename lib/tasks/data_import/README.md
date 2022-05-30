@@ -44,7 +44,7 @@ In order to add multiple locations to a service you would create one entry for y
 | min_age                                                                                                                         | Int  |  Can be left blank. Minimum age this service is suitable for. |  |  
 | max_age                                                                                                                         | Int  |  Can be left blank. Maximum age this service is suitable for. |  |  
 | notes                                                                                                                           | Text  |  Any internal notes about this service |  |  
-| service_taxonomies                                                                                                              |  Comma delimited list | A list of values you wish to use as taxonomies, hierarchy is not applied here.  |  |  
+| service_taxonomies                                                                                                              |  semi colon (;) delimited list | A list of values you wish to use as taxonomies, hierarchy is not applied here.  |  |  
 | contact_name                                                                                                                    | String  | Name of the contact for this service | TRUE |  
 | contact_title                                                                                                                   |  String | The role of the contact you are creating  | TRUE |  
 | contact_visible                                                                                                                 |  Boolean | Is this contact visible through the API  | TRUE |  
@@ -59,7 +59,7 @@ In order to add multiple locations to a service you would create one entry for y
 | location_visible                                                                                                                | Boolean  | Is this location sent through to the api  | TRUE  |  
 | mask_exact_address                                                                                                              | Boolean  | If this is someones home address or a sensitive location mask the address so only the general area is found  | TRUE |  
 | preferred_for_post                                                                                                              | Boolean  |  Use this address as the preferred postal location for this service | TRUE |  
-| location_accessibilities                                                                                                        | Comma delimited list  | Accessibilities provided by this location  | TRUE |  
+| location_accessibilities                                                                                                        | semi colon (;) delimited list  | Accessibilities provided by this location  | TRUE |  
 | free                                                                                                                            | Boolean  | Is this service free to use  |  |  
 | cost_option                                                                                                                     | String  | Who or what this price is for | TRUE |  
 | cost_amount                                                                                                                     |  Number 1.0 = £1.0 | TRUE  |  |  
@@ -70,10 +70,10 @@ In order to add multiple locations to a service you would create one entry for y
 | scheduled_weekday                                                                                                               | predefined string  | `monday`, `tuesday`, `wednesday`, `thursday`, `friday`, `saturday`, `sunday`  | TRUE |  
 | links_label                                                                                                                     | String  |  Title for the link you are adding | TRUE |  
 | links_url                                                                                                                       | String (url)  |   | TRUE |  
-| labels                                                                                                                          | Comma delimited list  | List of labels, you can create new ones or use existing ones in your installation  |  |  
-| suitabilities                                                                                                                   | Comma delimited list   |  List of suitabilities for this location |  |  
+| labels                                                                                                                          | semi colon (;) delimited list  | List of labels, you can create new ones or use existing ones in your installation  |  |  
+| suitabilities                                                                                                                   | semi colon (;) delimited list   |  List of suitabilities for this location |  |  
 | is_local_offer                                                                                                                  | Boolean  | Is this service part of the local offer   |  |  
-| send_needs_support                                                                                               | Comma delimited list  | Which SEND needs can you support?  |  |  
+| send_needs_support                                                                                               | semi colon (;) delimited list  | Which SEND needs can you support?  |  |  
 | support_description                                                                                                 |  Text | Description of support provided  |  |  
 | recent_send_report                                                                                                 | Text (url)  | Link to most recent SEND report  |  |  
 | outcomes |  Text | What outcomes does your setting, service or activity aim to achieve for children and young people with SEND and their families?  |  |  
@@ -87,7 +87,7 @@ In order to add multiple locations to a service you would create one entry for y
 
 ## Sample taxonomies
 
-In the list above we have described comma delimited list as an input type. Here are some examples to get you started with some of those data points.
+In the list above we have described semi colon (;) delimited list as an input type. Here are some examples to get you started with some of those data points.
 
 
 ### Suitabilities
@@ -138,10 +138,10 @@ If you are using google sheets you can dynamically create lists to track data yo
 
 This is useful for Organisations, Taxonomies, Suitabilities, Accessibilities, Labels and SEND needs. 
 
-This formula will take all data from the 2nd row to infinity and create a unique list based off all the comma delimited lists you have entered.
+This formula will take all data from the 2nd row to infinity and create a unique list based off all the semi colon (;) delimited lists you have entered.
 
 
 ```
-=ArrayFormula(unique(transpose(trim(split(TEXTJOIN(",",true,'Service Data'!O2:O),",")))))
+=ArrayFormula(unique(transpose(trim(split(TEXTJOIN(";",true,'Service Data'!O2:O),";")))))
 ```
 
