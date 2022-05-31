@@ -5,6 +5,9 @@ namespace :custom_fields do
     
     file = File.open(file_path, "r:ISO-8859-1")
     csv_parser = CSV.parse(file, headers: true)
+
+    validate_data(csv_parser.select{|item| item['import_id_referece'] != nil})
+
     csv_parser.each.with_index do |row, index|
       if row['import_id_referece'] == nil then
         custom_field_section = CustomFieldSection.new(
@@ -39,5 +42,13 @@ namespace :custom_fields do
 
       end
     end
+  end
+
+  def validate_data(csv_parser_array)
+    csv_parser_array.each{ |row|
+      if (row["key"] == nil || row["field_type"] == nil)
+        raise StandardError.new "import has been stopped there is invalid data ('key' and 'field_type' can't be blank) -> import_id: #{row['import_id']}"
+      end
+    }
   end
 end
