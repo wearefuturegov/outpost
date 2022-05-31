@@ -46,8 +46,8 @@ namespace :custom_fields do
 
   def validate_data(csv_parser_array)
     csv_parser_array.each{ |row|
-      if (row["key"] == nil || row["field_type"] == nil)
-        raise StandardError.new "import has been stopped there is invalid data ('key' and 'field_type' can't be blank) -> import_id: #{row['import_id']}"
+      if (row["field_type"] == nil)
+        raise StandardError.new "import has been stopped there is invalid data ('field_type' can't be blank) -> import_id: #{row['import_id']}"
       end
     }
   end
