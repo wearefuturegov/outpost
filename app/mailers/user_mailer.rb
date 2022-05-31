@@ -2,9 +2,9 @@ class UserMailer < ApplicationMailer
     def invite_from_admin_email
         @user = params[:user]
         view_mail(
-            ENV["NOTIFY_TEMPLATE_ID"], 
-            to: @user.email, 
-            subject: "You've been invited to the Buckinghamshire Family Information Service"
+            ENV["NOTIFY_TEMPLATE_ID"],
+            to: @user.email,
+            subject: "You've been invited to #{ENV['OUTPOST_INSTANCE_NAME'].presence || 'Outpost'}"
         )
     end
 
@@ -12,9 +12,9 @@ class UserMailer < ApplicationMailer
         @user = params[:user]
         @org = @user.organisation
         view_mail(
-            ENV["NOTIFY_TEMPLATE_ID"], 
-            to: @user.email, 
-            subject: "You've been invited to the Buckinghamshire Family Information Service"
+            ENV["NOTIFY_TEMPLATE_ID"],
+            to: @user.email,
+            subject: "You've been invited to #{ENV['OUTPOST_INSTANCE_NAME'].presence || 'Outpost'}"
         )
     end
 
@@ -22,8 +22,8 @@ class UserMailer < ApplicationMailer
         @user = params[:user]
         @token = params[:token]
         view_mail(
-            ENV["NOTIFY_TEMPLATE_ID"], 
-            to: @user.email, 
+            ENV["NOTIFY_TEMPLATE_ID"],
+            to: @user.email,
             subject: "Reset your password"
         )
     end

@@ -1,3 +1,8 @@
+# This controller allowed community users to manage their organisation's members.
+# They could invite new members and remove members from the organisation.
+#
+# This functionality was removed in Dec 2020 (commit 6bc2ea7a) but the code
+# has been left in, presumably in case we want to add it back in.
 class MembersController < ApplicationController
     before_action :no_admins
     skip_before_action :no_admins, only: [:destroy]
