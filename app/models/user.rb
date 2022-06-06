@@ -76,7 +76,7 @@ class User < ApplicationRecord
   end
 
   def self.options_for_labels
-    ActsAsTaggableOn::Tag.distinct.order(:name).map { |t| [t.name, t.name] }.unshift(["All labels", ""])
+    ActsAsTaggableOn::Tag.order(:name).map { |t| [t.name, t.name] }.unshift(["All labels", ""])
   end
 
   # Include default devise modules. Others available are:
