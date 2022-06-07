@@ -130,6 +130,8 @@ It needs the following extra environment variables to be set:
 | `INITIAL_ADMIN_PASSWORD`                        | an initial admin password to log in with for local development                                                            |                                                         | Locally only                                      |
 | `SHOW_ENV_BANNER`                               | show a bright warning banner on non-production environments                                                               | staging                                                 | Only to warn about non-production environments    |
 | `SCOUT_BUILD_HOOK`                              | Outpost will make a POST request to this webhook URL whenever taxonomies are changed. Intended to trigger Scout rebuilds. |                                                         | No                                                |
+| `SCOUT_URL`                                     | the URL where Scout lives. This is so that we can send service providers a link to their live service in emails.          | https://scout.com (NOTE: do not include trailing slash) | No                                                |
+| `OUTPOST_INSTANCE_NAME`                         | the name of the Outpost instance. This will appear in invite emails to new users, to let them know who the email is from. | the Outpost Family Information Service                  | No. Defaults to 'Outpost'                         |
 
 ## 🔐 OAuth provider
 
