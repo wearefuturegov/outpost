@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_31_165720) do
+ActiveRecord::Schema.define(version: 2022_06_07_115208) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -73,6 +73,8 @@ ActiveRecord::Schema.define(version: 2022_01_31_165720) do
     t.string "label"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "scout_build_hook"
+    t.string "scout_url"
   end
 
   create_table "directories_services", id: false, force: :cascade do |t|
