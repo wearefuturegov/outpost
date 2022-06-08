@@ -1,6 +1,6 @@
 class Admin::LabelsController < Admin::BaseController
     def index
-        @labels = ActsAsTaggableOn::Tag.distinct.order(:name)
+        @labels = ActsAsTaggableOn::Tag.order(:name)
     end
 
     def destroy
