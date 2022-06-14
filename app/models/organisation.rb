@@ -82,9 +82,9 @@ class Organisation < ApplicationRecord
       tsearch: { prefix: true }
     }
 
-  validates_uniqueness_of :name, if: -> { name.present? }
+  #validates_uniqueness_of :name, if: -> { name.present? }
   validates :name, length: { minimum: 2 }, if: -> { name.present? }
-  validates :name, length: { maximum: 100 }
+  validates :name, length: { maximum: 200 }
 
   def display_name
     if self.name.present?
