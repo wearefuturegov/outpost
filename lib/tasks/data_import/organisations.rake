@@ -1,5 +1,5 @@
 namespace :organisations do
-    desc 'import tvp services from csv file to database'
+    desc 'import tvp organisations from csv file to database'
     task :import, [:csv_parser] => [:environment] do |task, args|
        
         csv_parser = args[:csv_parser]        
@@ -26,15 +26,18 @@ namespace :organisations do
     end
 
     def Organisation(row)
-        organisation = Organisation.new
-        if row['organisation'].nil?
-            organisation.name = 'Unnamed organisation'
-        else
-            organisation.name = row['organisation']
+        if row['service_type'] == 'Organisation'
+            organisation = Organisation.new
+            if row['organisation'].nil?
+                organisation.name = 'Unnamed organisation'
+            else
+                organisation.name = row['organisation']
+            end
+            organisation.description = row['description']
+            organisation.email = row['contact_email']
+            organisation.url = row['url']
+            organisation.old_external_id = row['import_id']
+            organisation.save!
         end
-        organisation.description = row['description']
-        organisation.email = row['contact_email']
-        organisation.url = row['url']
-        organisation.save!
     end
 end
