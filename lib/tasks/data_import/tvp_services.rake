@@ -24,14 +24,14 @@ namespace :tvp_services do
 
         ActiveRecord::Base.transaction do 
             csv_parser.each.with_index do |row, index|
-                organisation_id = Organisations(row)
-                service_id = Services(row, organisation_id)
-                Service_Contact(row, service_id)
-                Service_Cost(row, service_id)
-                Taxonomy(row, service_id)
-                Suitability(row)
-                ReportPostcode(row)
-                OfstedItems(row)
+                # organisation_id = Organisations(row)
+                # service_id = Services(row, organisation_id)
+                # Service_Contact(row, service_id)
+                # Service_Cost(row, service_id)
+                # Taxonomy(row, service_id)
+                # Suitability(row)
+                # ReportPostcode(row)
+                Accessibilities(row)
             end
 
             end_time = Time.now
@@ -145,7 +145,29 @@ namespace :tvp_services do
         reportPostCode.save!
     end
 
-    def OfstedItems(row)
+    def Accessibilities(row)
+        if !row['location_accessibilities'].nil?
+            byebug
+            accessibilities_array = row['location_accessibilities'].split(';')
+            accessibilities_array.each { |accessibilities_name|
+                accessibility = Accessibility.new
+                accessibility.name = accessibilities_name
 
+                location = Location.new
+                location.name = row['location_name']
+                location.latitude = row['location_latitude']
+                location.longitude = row['location_longitude']
+                location.address_1 = row['location_address_1']
+                location.city = row['location_city']
+                location.postal_code = row['location_postcode']
+                location.visible = row['location_visible']
+                location.mask_exact_address = row['mask_exact_address']
+                location.preferred_for_post = row['preferred_for_post']
+
+                accessibility.locations << location
+               
+                accessibility.save!
+            }
+        end
     end
 end
