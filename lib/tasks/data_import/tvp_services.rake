@@ -34,12 +34,6 @@ namespace :tvp_services do
             puts "Took #{(end_time - start_time)/60} minutes"
         end
 
-        # 
-        # Rake::Task['organisations:import'].invoke(csv_parser)
-
-        # puts 'Services data importing'
-        # Rake::Task['services:import'].invoke(csv_parser)
-        
         rescue StandardError => e 
             puts "Import aborted => : #{e.message}" 
     end
@@ -75,6 +69,15 @@ namespace :tvp_services do
                 service.taxonomies << Taxonomy(taxonomy_name)
             }
         end
+
+        unless row['schedules_opens_at'].blank? && row['schedules_closes_at'].blank? && row['scheduled_weekday'].blank?
+            service.regular_schedules << RegularSchedule(row)
+        end
+
+        unless row['location_postcode'].blank?
+            service.locations << Location(row)
+        end
+
         service.save!
     end
 
@@ -91,6 +94,18 @@ namespace :tvp_services do
         organisation.old_external_id = row['import_id']
 
         organisation
+    end
+
+    def RegularSchedule(row)
+
+        days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
+
+        scheduled = RegularSchedule.new
+        scheduled.opens_at = row['schedules_opens_at']
+        scheduled.closes_at = row['schedules_closes_at']
+        scheduled.weekday = days.find_index(row['scheduled_weekday'].downcase)
+
+        scheduled
     end
 
     def Service_Contact(row)
@@ -145,21 +160,25 @@ namespace :tvp_services do
                 accessibility = Accessibility.new
                 accessibility.name = accessibilities_name
 
-                location = Location.new
-                location.name = row['location_name']
-                location.latitude = row['location_latitude']
-                location.longitude = row['location_longitude']
-                location.address_1 = row['location_address_1']
-                location.city = row['location_city']
-                location.postal_code = row['location_postcode']
-                location.visible = row['location_visible']
-                location.mask_exact_address = row['mask_exact_address']
-                location.preferred_for_post = row['preferred_for_post']
-
-                accessibility.locations << location
+                accessibility.locations << Location(row)
                
                 accessibility.save!
             }
         end
+    end
+
+    def Location(row)
+        location = Location.new
+        location.name = row['location_name']
+        location.latitude = row['location_latitude']
+        location.longitude = row['location_longitude']
+        location.address_1 = row['location_address_1']
+        location.city = row['location_city']
+        location.postal_code = row['location_postcode']
+        location.visible = row['location_visible']
+        location.mask_exact_address = row['mask_exact_address']
+        location.preferred_for_post = row['preferred_for_post']
+
+        location
     end
 end
