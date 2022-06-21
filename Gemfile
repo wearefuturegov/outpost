@@ -67,3 +67,5 @@ group :test do
   gem 'simplecov'
   gem 'simplecov-cobertura'
 end
+
+gem "rails-settings-cached", "~> 2.8"
