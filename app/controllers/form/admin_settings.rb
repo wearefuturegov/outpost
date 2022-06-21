@@ -35,6 +35,8 @@ class Form::AdminSettings
         value = instance_variable_get("@#{key}")
   
         if UPLOAD_KEYS.include?(key) && !value.nil?
+          # link things together here somewhere!
+          Setting.outpost_logo.attach(key)
         #   upload = SiteUpload.where(var: key).first_or_initialize(var: key)
         #   upload.update(file: value)
         else
