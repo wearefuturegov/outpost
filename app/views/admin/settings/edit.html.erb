@@ -35,7 +35,7 @@
           <div class="field">
             <%= f.label :outpost_logo, class: "field__label" %>
             <p class="field__hint">The logo used for outpost</p>
-            <%= f.text_field :outpost_logo, value: Setting.outpost_logo, class: "field__input" %>
+            <%= f.file_field :outpost_logo, value: Setting.outpost_logo, class: "field__input" %>
           </div>
         </div>
         <div class="form-actions">

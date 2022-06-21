@@ -6,6 +6,26 @@ local:
   service: Disk
   root: <%= Rails.root.join("storage") %>
 
+public_google:
+  service: GCS
+  project: <%= Rails.env.GCP_PROJECT %>
+  # credentials: <%= Rails.root.join("path/to/gcs.keyfile") %>
+  credentials:
+    type: "service_account"
+    project_id: ""
+    private_key_id: <%= Rails.application.credentials.dig(:gcs, :private_key_id) %>
+    private_key: <%= Rails.application.credentials.dig(:gcs, :private_key).dump %>
+    client_email: ""
+    client_id: ""
+    auth_uri: "https://accounts.google.com/o/oauth2/auth"
+    token_uri: "https://accounts.google.com/o/oauth2/token"
+    auth_provider_x509_cert_url: "https://www.googleapis.com/oauth2/v1/certs"
+    client_x509_cert_url: ""
+
+  bucket: <%= Rails.env.GCP_BUCKET %>
+  cache_control: "public, max-age=3600"
+  public: true
+
 # Use rails credentials:edit to set the AWS secrets (as aws:access_key_id|secret_access_key)
 # amazon:
 #   service: S3

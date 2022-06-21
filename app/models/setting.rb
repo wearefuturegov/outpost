@@ -1,5 +1,6 @@
 # RailsSettings Model
 class Setting < RailsSettings::Base
+  has_one_attached :outpost_logo
   # cache_prefix { "v1" }
 
   scope :application do 
