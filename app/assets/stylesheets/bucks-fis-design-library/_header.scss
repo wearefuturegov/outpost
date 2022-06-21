@@ -8,6 +8,7 @@
         flex-direction: row;
         align-items: flex-start;
         flex-wrap: wrap;
+        justify-content: space-between;
         @media screen and (min-width: $breakpoint-m){
             align-items: center;
         }
@@ -16,11 +17,14 @@
     &__masthead{
         margin-bottom: 10px;
         display: inline-block;
-        max-width: 50%;
+        min-width: 50%;
+        width: auto;
+        padding-right: 10px;
         @media screen and (min-width: $breakpoint-m){
-            width: 33%;
+            // width: 33%;
             display: inline-block;
             margin-bottom: 0px;
+            min-width: auto;
         }
     }
 
@@ -51,6 +55,7 @@
         flex-direction: row;
         align-items: center;
         margin-bottom: 10px;
+        justify-content: center;
         @media screen and (min-width: $breakpoint-m){
             margin-bottom: 0px;
             width: inherit;
@@ -75,7 +80,8 @@
     }
 
     &__actions{
-        margin-left: auto;
+        // margin-left: auto;
+        margin-bottom: 10px;
         @media screen and (min-width: $breakpoint-m) {
             font-size: 1.1rem;
             order: 2;
@@ -106,5 +112,16 @@
             margin-right: 10px;
             color: $white;
         }
+    }
+
+    &--logged-out {
+        .site-header__inner {
+            justify-content: start;
+        }
+
+        .site-header__masthead {
+            padding-right: 40px;
+        }
+
     }
 }

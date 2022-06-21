@@ -245,6 +245,8 @@ GEM
       nokogiri (>= 1.6)
     rails-html-sanitizer (1.4.2)
       loofah (~> 2.3)
+    rails-settings-cached (2.8.2)
+      rails (>= 5.0.0)
     rails_email_validator (0.1.4)
       activemodel (>= 3.0.0)
     railties (6.0.3.6)
@@ -415,6 +417,7 @@ DEPENDENCIES
   rack-cors
   rack-mini-profiler
   rails (~> 6.0.3, >= 6.0.3.6)
+  rails-settings-cached (~> 2.8)
   rails_email_validator
   rspec-rails
   sass-rails (>= 6)

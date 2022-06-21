@@ -1,10 +1,12 @@
 <%= render "shared/env-banner" %>
 
-<header class="site-header">
+<header class="site-header <%= "site-header--logged-out" unless user_signed_in? %>">
     <div class="<%= "container" unless full_width %> site-header__inner">
         <div class="site-header__masthead">
             <%= link_to image_tag("logo.svg", alt: "Buckinghamshire Council", class: "site-header__logo"), "https://buckinghamshire.gov.uk", class: "site-header__logo-link" %>
         </div>
+
+        
         <% if user_signed_in? %>
         <div class="site-header__actions">
             <%= render "shared/app-switcher" %>
@@ -12,8 +14,10 @@
             <%= link_to "Sign out", destroy_user_session_path, method: :delete, class: "site-header__link" %>
         </div>
         <% end %>
+
+
         <nav class="site-header__service-name-holder">
-            <%= link_to APP_CONFIG["title"], root_path, class: "site-header__service-name"%>
+            <%= link_to Setting.outpost_title, root_path, class: "site-header__service-name"%>
             <% if current_user && current_user.admin? %>
             <strong class="site-header__phase-tag">Beta</strong>
             <% end %>
