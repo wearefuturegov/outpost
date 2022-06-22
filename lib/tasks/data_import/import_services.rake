@@ -1,26 +1,18 @@
 require 'csv'
-namespace :tvp_services do
-    task :import => :environment do
+namespace :import_services do
+    task :initial => :environment do
         start_time = Time.now
 
+        #Data migration - from existing databases to CSV then into outpost open referral format - rename 
         #file_path = Rails.root.join('lib', 'tasks', 'data_import', 'data-import--with-sample-data.csv')
         #file_path = Rails.root.join('lib', 'seeds', 'TVP services for import - Service Data.csv')
         file_path = Rails.root.join('lib', 'seeds', 'data-for-import.csv')
         file = File.open(file_path, "r:ISO-8859-1")
         csv_parser = CSV.parse(file, headers: true)
 
-        puts 'Checkig for duplicate names'
-        #remove nil from array
-        name_array = csv_parser['name']
+        Checks_for_duplications(csv_parser, 'import_id')
 
-        compact_name_array = name_array.compact
-
-        #find duplicated value in column Name
-        duplicated_array = name_array.compact.group_by{ |e| e }.select { |k, v| v.size > 1 }.map(&:first)
-
-        if (duplicated_array.length > 0)
-            raise "There is duplicate names in csv file: #{duplicated_array}"
-        end
+        Checks_for_duplications(csv_parser, 'name')
 
         ActiveRecord::Base.transaction do 
             csv_parser.each.with_index do |row, index|
@@ -36,6 +28,18 @@ namespace :tvp_services do
 
         rescue StandardError => e 
             puts "Import aborted => : #{e.message}" 
+    end
+
+    def Checks_for_duplications(csv_parser, column_name)
+        puts "Checkig for duplicate #{column_name}"
+
+        column_data_array = csv_parser[column_name]
+
+        duplicated_column_data_array = column_data_array.compact.group_by{ |e| e }.select { |k, v| v.size > 1 }.map(&:first)
+        
+        if (duplicated_column_data_array.length > 0)
+            raise "There is duplicate #{column_name} in csv file: #{duplicated_column_data_array}"
+        end
     end
 
     def Service(row)
@@ -79,6 +83,9 @@ namespace :tvp_services do
         end
 
         service.save!
+
+        rescue StandardError => e 
+            raise "An error occurred while importing Service in row #{row['import_id']} failed to save: #{service.errors.messages}"
     end
 
     def Organisation(row)
@@ -139,9 +146,13 @@ namespace :tvp_services do
         if !row['suitabilities'].nil?
             suitabilities_array = row['suitabilities'].split(';')
             suitabilities_array.each { |suitability_name|
-                suitability = Suitability.new
-                suitability.name = suitability_name
-                suitability.save!
+                begin
+                    suitability = Suitability.new
+                    suitability.name = suitability_name
+                    suitability.save! 
+                rescue StandardError => e 
+                    raise "An error occurred while importing Suitability in row #{row['import_id']} failed to save: #{suitability.errors.messages}"
+                end
             }
         end
     end
@@ -150,6 +161,9 @@ namespace :tvp_services do
         reportPostCode = ReportPostcode.new
         reportPostCode.postcode = row['location_postcode']
         reportPostCode.save!
+
+        rescue StandardError => e 
+            raise "An error occurred while importing ReportPostcode in row #{row['import_id']} failed to save: #{reportPostCode.errors.messages}"
     end
 
     def Accessibilities(row)
@@ -157,12 +171,16 @@ namespace :tvp_services do
             byebug
             accessibilities_array = row['location_accessibilities'].split(';')
             accessibilities_array.each { |accessibilities_name|
-                accessibility = Accessibility.new
-                accessibility.name = accessibilities_name
-
-                accessibility.locations << Location(row)
-               
-                accessibility.save!
+                begin
+                    accessibility = Accessibility.new
+                    accessibility.name = accessibilities_name
+    
+                    accessibility.locations << Location(row)
+                   
+                    accessibility.save!
+                rescue StandardError => e 
+                    raise "An error occurred while importing Accessibility in row #{row['import_id']} failed to save: #{accessibility.errors.messages}"
+                end
             }
         end
     end
