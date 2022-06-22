@@ -3,7 +3,6 @@ namespace :import_services do
     task :initial => :environment do
         start_time = Time.now
 
-        #Data migration - from existing databases to CSV then into outpost open referral format - rename 
         #file_path = Rails.root.join('lib', 'tasks', 'data_import', 'data-import--with-sample-data.csv')
         #file_path = Rails.root.join('lib', 'seeds', 'TVP services for import - Service Data.csv')
         file_path = Rails.root.join('lib', 'seeds', 'data-for-import.csv')
@@ -14,17 +13,19 @@ namespace :import_services do
 
         Checks_for_duplications(csv_parser, 'name')
 
-        ActiveRecord::Base.transaction do 
-            csv_parser.each.with_index do |row, index|
-                Service(row)
-                Suitability(row)
-                ReportPostcode(row)
-                Accessibilities(row)
+        csv_parser.each.with_index do |row, index|
+            begin
+                ActiveRecord::Base.transaction do
+                    Service(row)
+                    Suitability(row)
+                    ReportPostcode(row)
+                    Accessibilities(row)
+                end
             end
-
-            end_time = Time.now
-            puts "Took #{(end_time - start_time)/60} minutes"
         end
+
+        end_time = Time.now
+        puts "Import completed, time for execution #{(end_time - start_time)/60} minutes"
 
         rescue StandardError => e 
             puts "Import aborted => : #{e.message}" 
@@ -61,6 +62,7 @@ namespace :import_services do
         service.max_age = row['max_age']
         service.free = row['free']
         service.organisation = Organisation(row)
+
         unless row['contact_name'].blank? && row['contact_email'].blank? && row['contact_phone'].blank?
             service.contacts << Service_Contact(row)
         end
@@ -89,18 +91,26 @@ namespace :import_services do
     end
 
     def Organisation(row)
-        organisation = Organisation.new
-        if row['organisation'].nil?
-            organisation.name = 'Unnamed organisation'
-        else
-            organisation.name = row['organisation']
-        end
-        organisation.description = row['description']
-        organisation.email = row['contact_email']
-        organisation.url = row['url']
-        organisation.old_external_id = row['import_id']
+        if row['import_id_reference'].blank?
 
-        organisation
+            organisation = Organisation.new
+            if row['organisation'].nil?
+                organisation.name = 'Unnamed organisation'
+            else
+                organisation.name = row['organisation']
+            end
+            organisation.description = row['description']
+            organisation.email = row['contact_email']
+            organisation.url = row['url']
+            organisation.old_external_id = row['import_id']
+    
+            organisation
+        else
+            organisation = Organisation.find_by(old_external_id: row['import_id_reference'])
+
+            organisation
+        end
+        
     end
 
     def RegularSchedule(row)
@@ -168,7 +178,6 @@ namespace :import_services do
 
     def Accessibilities(row)
         if !row['location_accessibilities'].nil?
-            byebug
             accessibilities_array = row['location_accessibilities'].split(';')
             accessibilities_array.each { |accessibilities_name|
                 begin
