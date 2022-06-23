@@ -1,7 +1,7 @@
 .notice{
-    background: transparentize($link, 0.9);
+    background: transparentize($outpostBlue, 0.9);
     padding: 25px;
-    border-left: 5px solid $link;
+    border-left: 5px solid $outpostBlue;
     margin-bottom: 40px;
 
     @media screen and (min-width: $breakpoint-m) {
@@ -30,7 +30,7 @@
 
 
 .dark-panel{
-    background: $link;
+    background: $outpostBlue;
     padding: 35px;
     margin-bottom: 45px;
     @media screen and (min-width: $breakpoint-m) {

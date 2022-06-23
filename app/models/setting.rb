@@ -1,12 +1,11 @@
 # RailsSettings Model
 class Setting < RailsSettings::Base
-  has_one_attached :outpost_logo
-  # cache_prefix { "v1" }
+  cache_prefix { "v1" }
 
   scope :application do 
-    field :outpost_title, default: "Outpost", validates: { presence: true }
-    field :outpost_sub_title, default: "Manage your services", validates: { presence: true }
-    field :outpost_instance_name, default: "our directory service", validates: { presence: true }
+    field :outpost_title, type: :string, default: "Outpost", validates: { presence: true }
+    field :outpost_sub_title, type: :string, default: "Manage your services", validates: { presence: true }
+    field :outpost_instance_name, type: :string, default: "our directory service", validates: { presence: true }
   end
 
   scope :outpost_theme do

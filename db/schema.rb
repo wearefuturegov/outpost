@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_21_162403) do
+ActiveRecord::Schema.define(version: 2022_06_23_112854) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -113,6 +113,12 @@ ActiveRecord::Schema.define(version: 2022_06_21_162403) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "topic"
     t.index ["service_id"], name: "index_feedbacks_on_service_id"
+  end
+
+  create_table "file_uploads", force: :cascade do |t|
+    t.string "var", default: "", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "links", force: :cascade do |t|

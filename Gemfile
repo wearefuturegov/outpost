@@ -69,3 +69,4 @@ group :test do
 end
 
 gem "rails-settings-cached", "~> 2.8"
+gem "google-cloud-storage", "~> 1.36"

@@ -77,4 +77,18 @@ module ApplicationHelper
         end
         check_box_tag "local_offer", "1", builder.object.local_offer, class: "checkbox__input", data: {id: id, fields: fields.gsub("\n", ""), local_offer: true}
     end
+
+    def is_text_dark(bgColor)
+        color = bgColor[0] === '#' ? bgColor[1...7] : bgColor
+        r = Integer(color[0..1], 16) #hexToR
+        g = Integer(color[2..3], 16) #hexToG
+        b = Integer(color[4..5], 16) #hexToB
+        uicolors = [r / 255, g / 255, b / 255];
+    
+        c = uicolors.map{ |col| col <= 0.03928 ? col / 12.92 : (col + 0.055) / 1.055**2.4 }
+    
+        l = (0.2126 * c[0]) + (0.7152 * c[1]) + (0.0722 * c[2]);
+    
+        (l > 0.179) ? true : false
+      end
 end

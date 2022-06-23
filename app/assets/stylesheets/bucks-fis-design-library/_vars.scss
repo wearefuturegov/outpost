@@ -1,4 +1,6 @@
 // colors
+$outpostBlue: #2c2d84 !default;
+$outpostBlack: #121212 !default;
 $grey1: #212121 !default;
 $grey2: #343434 !default;
 $grey3: #999999 !default;
@@ -8,13 +10,17 @@ $grey6: #F5F5F5 !default;
 
 $pale: #f7f6f2 !default;
 $white: #FFFFFF !default;
+$black: $outpostBlack !default;
 
-$link: #2c2d84 !default;
+$primary: #2c2d84 !default;
+$primary-text-color: $white !default;
 $focus: #FFB81C !default;
 $error: #a80707 !default;
 
 $green: #9fc63b !default;
 $green-dark: #80a02e !default;
+
+$success: #2e8540 !default;
 
 // widths
 $max-width: 1100px !default;
@@ -23,3 +29,4 @@ $outer-spacing: 20px !default;
 // breakpoints
 $breakpoint-m: 750px !default;
 $breakpoint-l: 1100px !default;
+
