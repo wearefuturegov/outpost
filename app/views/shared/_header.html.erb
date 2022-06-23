@@ -3,7 +3,9 @@
 <header class="site-header <%= "site-header--logged-out" unless user_signed_in? %>">
     <div class="<%= "container" unless full_width %> site-header__inner">
         <div class="site-header__masthead">
-            <%= link_to image_tag("logo.svg", alt: "Buckinghamshire Council", class: "site-header__logo"), "https://buckinghamshire.gov.uk", class: "site-header__logo-link" %>
+            <div class="site-header__logo-link">
+            <%= image_tag(url_for(FileUpload.find_by(var: 'outpost_logo').file), alt: "Buckinghamshire Council", class: "site-header__logo") %>
+            </div>
         </div>
 
         
