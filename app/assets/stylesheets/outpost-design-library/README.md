@@ -1,8 +1,6 @@
-# bucks-fis-design-library
+# outpost-design-library
 
-A basic sass library for Buckinghamshire Council.
-
-Made for [Outpost](github.com/wearefuturegov/outpost).
+A basic sass library made for [Outpost](github.com/wearefuturegov/outpost).
 
 ## Using it
 
