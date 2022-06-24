@@ -28,7 +28,7 @@
           </div>
           <div class="field">
             <%= f.label :primary_color, class: "field__label" %>
-            <p class="field__hint">The primary colour used in this outpost install. Mostly used in the header.</p>
+            <p class="field__hint">The primary colour used in this outpost install. Mostly used in the header. The default is <em>#2c2d84</em></p>
             <div class="field__color">
             <%= f.color_field :primary_color, value: Setting.primary_color, class: "field__color-input" %>
             </div>
@@ -39,9 +39,11 @@
             <p class="field__hint">The logo used for outpost</p>
             <%= f.file_field :outpost_logo, value: Setting.outpost_logo, class: "field__input" %>
           </div>
-          <p>
-            <%= image_tag(url_for(FileUpload.find_by(var: 'outpost_logo').file))%>
-          </p>
+          <% if FileUpload.find_by(var: 'outpost_logo') %>
+            <p class="settings-logo-preview" style="background-color: <%= Setting.primary_color %>">
+                <%= image_tag(url_for(FileUpload.find_by(var: 'outpost_logo').file))%>
+            </p>
+          <% end %>
         </div>
         <div class="form-actions">
           <%= f.submit "Save", class: "button" %>

@@ -3,7 +3,11 @@
     <div class="<%= "container" unless full_width %> site-header__inner">
         <div class="site-header__masthead">
             <div class="site-header__logo-link">
-            <%= image_tag(url_for(FileUpload.find_by(var: 'outpost_logo').file), alt: "Buckinghamshire Council", class: "site-header__logo") %>
+            <% if FileUpload.find_by(var: 'outpost_logo') %>
+            <%= image_tag(url_for(FileUpload.find_by(var: 'outpost_logo').file), alt: Setting.outpost_title, class: "site-header__logo") %>
+            <% else %>
+            <%= image_tag("logo-outpost.svg", alt: "Outpost", class: "site-header__logo") %>
+            <% end %>
             </div>
         </div>
 
