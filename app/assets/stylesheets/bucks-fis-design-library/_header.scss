@@ -3,6 +3,7 @@
     color: $white;
     padding: 10px $outer-spacing;
 
+
     &__inner{
         display: flex;
         flex-direction: row;
@@ -124,4 +125,30 @@
         }
 
     }
+
+
+        
+    &.light {
+        color: $outpostBlack;
+
+        .site-header__logo{
+            color: $outpostBlack;
+        }
+
+        .site-header__link{
+            color: $outpostBlack;
+        }
+
+        .site-header__service-name{
+            color: $outpostBlack;
+        }
+
+        .site-header__username {
+            @media screen and (min-width: $breakpoint-l) {
+                color: $outpostBlack;
+            }
+        }
+    
+    }
+
 }

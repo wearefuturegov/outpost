@@ -84,4 +84,13 @@
     cursor: inherit;
     background: $pale;
   }
+
+  .light & {
+  .app-switcher__current {
+    color: $outpostBlack;
+    &:after {
+      background-image: url(asset_path("down-arrow-black.svg"));
+    }
+  }
+  }
 }

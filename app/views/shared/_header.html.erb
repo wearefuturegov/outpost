@@ -1,6 +1,5 @@
 <%= render "shared/env-banner" %>
-
-<header class="site-header <%= "site-header--logged-out" unless user_signed_in? %>">
+<header class="site-header <%= "site-header--logged-out" unless user_signed_in? %> <%= 'light' if is_text_dark(Setting.primary_color)  %>">
     <div class="<%= "container" unless full_width %> site-header__inner">
         <div class="site-header__masthead">
             <div class="site-header__logo-link">
