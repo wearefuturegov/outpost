@@ -108,7 +108,7 @@ GEM
       devise
       rails (>= 3.0.4)
     diff-lcs (1.4.4)
-    diffy (3.3.0)
+    diffy (3.4.1)
     discard (1.2.0)
       activerecord (>= 4.2, < 7)
     docile (1.4.0)
