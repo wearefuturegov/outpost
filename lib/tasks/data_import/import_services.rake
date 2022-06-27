@@ -25,9 +25,9 @@ namespace :import_services do
             begin
                 ActiveRecord::Base.transaction do
                     Service(csv_parser, row)
-                    # Suitability(row)
+                    Suitability(row)
                     # ReportPostcode(row)
-                    # Accessibilities(row)
+                    Accessibilities(row)
                 end
             end
         end
@@ -139,13 +139,6 @@ namespace :import_services do
 
         end
 
-        if !row['service_taxonomies'].nil?
-            service_taxonomies_array = row['service_taxonomies'].split(';')
-            service_taxonomies_array.each { |taxonomy_name|
-                service.taxonomies << Taxonomy(taxonomy_name)
-            }
-        end
-
         unless row['schedules_opens_at'].blank? && row['schedules_closes_at'].blank? && row['scheduled_weekday'].blank?
             
             if row['import_id_reference'].blank?
@@ -196,6 +189,19 @@ namespace :import_services do
                     raise "An error occurred while importing Service in row #{row['import_id']} failed to save: #{imported_service.errors.messages}"
                 end
             end
+        end
+
+        if !row['service_taxonomies'].nil?
+            service_taxonomies_array = row['service_taxonomies'].split(';')
+            service_taxonomies_array.each { |taxonomy_name|
+
+                existing_taxonomy = Taxonomy.find_by(name: taxonomy_name.strip)
+                if existing_taxonomy.nil?
+                    service.taxonomies << Taxonomy(taxonomy_name.strip)
+                else
+                    service.taxonomies << existing_taxonomy
+                end
+            }
         end
 
         service.save!
@@ -295,12 +301,17 @@ namespace :import_services do
             accessibilities_array = row['location_accessibilities'].split(';')
             accessibilities_array.each { |accessibilities_name|
                 begin
-                    accessibility = Accessibility.new
-                    accessibility.name = accessibilities_name
-    
-                    accessibility.locations << Location(row)
-                   
-                    accessibility.save!
+                    existing_accessibility = Accessibility.find_by(name: accessibilities_name.strip)
+
+                    if existing_accessibility.nil?
+                        accessibility = Accessibility.new
+                        accessibility.name = accessibilities_name.strip
+        
+                        accessibility.locations << Location(row)
+                    
+                        accessibility.save!
+                    end
+                    
                 rescue StandardError => e 
                     raise "An error occurred while importing Accessibility in row #{row['import_id']} failed to save: #{accessibility.errors.messages}"
                 end
