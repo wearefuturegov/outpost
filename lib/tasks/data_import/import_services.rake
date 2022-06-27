@@ -3,23 +3,31 @@ namespace :import_services do
     task :initial => :environment do
         start_time = Time.now
 
-        #file_path = Rails.root.join('lib', 'tasks', 'data_import', 'data-import--with-sample-data.csv')
-        #file_path = Rails.root.join('lib', 'seeds', 'TVP services for import - Service Data.csv')
         file_path = Rails.root.join('lib', 'seeds', 'data-for-import.csv')
         file = File.open(file_path, "r:ISO-8859-1")
         csv_parser = CSV.parse(file, headers: true)
 
-        Checks_for_duplications(csv_parser, 'import_id')
+        Check_for_missing_data(csv_parser, 'import_id')
 
-        Checks_for_duplications(csv_parser, 'name')
+        #Check_for_missing_keys(csv_parser, ['import_id'])
+        
+        Check_for_non_numeric(csv_parser, 'import_id')
+
+        Check_for_duplications(csv_parser, 'import_id')
+
+        Check_for_missing_data(csv_parser, 'name', 'import_id_reference')
+
+        Check_for_duplications(csv_parser, 'name')
+
+        Check_for_duplications(csv_parser, 'organisation')
 
         csv_parser.each.with_index do |row, index|
             begin
                 ActiveRecord::Base.transaction do
-                    Service(row)
-                    Suitability(row)
-                    ReportPostcode(row)
-                    Accessibilities(row)
+                    Service(csv_parser, row)
+                    # Suitability(row)
+                    # ReportPostcode(row)
+                    # Accessibilities(row)
                 end
             end
         end
@@ -31,7 +39,27 @@ namespace :import_services do
             puts "Import aborted => : #{e.message}" 
     end
 
-    def Checks_for_duplications(csv_parser, column_name)
+    def Check_for_missing_data(csv_parser, *args)
+        puts "Checkig for missing #{args[0]} %s" %("and #{args[1]}" if args.length > 1)  
+
+        column_data_array = csv_parser
+        
+        if (column_data_array.any?{ |item| (args.length > 1) ? item[args[0]].nil? && item[args[1]].nil? : item[args[0]].nil?})
+                raise "There is missing #{args[0]} %s" %("and #{args[1]}" if args.length > 1) 
+        end
+    end
+
+    # def Check_for_missing_keys(csv_parser, column_name)
+    #     puts "Checkig for missing #{column_name[0]}"
+
+    #     column_data_array = csv_parser[column_name[0]]
+
+    #     if (column_data_array.any?{ |item| item.nil?})
+    #         raise "There is missing #{column_name[0]} in csv file"
+    #     end
+    # end 
+
+    def Check_for_duplications(csv_parser, column_name)
         puts "Checkig for duplicate #{column_name}"
 
         column_data_array = csv_parser[column_name]
@@ -43,7 +71,17 @@ namespace :import_services do
         end
     end
 
-    def Service(row)
+    def Check_for_non_numeric(csv_parser, column_name)
+        puts "Checkig #{column_name} for numeric"
+
+        column_data_array = csv_parser[column_name]
+
+        if column_data_array.any?{ |item| !CSV::Converters[:integer].call(item).is_a?(Numeric)}
+            raise "CSV file contains non numeric #{column_name} keys"
+        end
+    end
+
+    def Service(csv_parser, row)
         service = Service.new
         service.name = row['name']
         service.description = row['description']
@@ -61,14 +99,46 @@ namespace :import_services do
         service.min_age = row['min_age']
         service.max_age = row['max_age']
         service.free = row['free']
+        service.old_open_objects_external_id = row['import_id']
         service.organisation = Organisation(row)
 
         unless row['contact_name'].blank? && row['contact_email'].blank? && row['contact_phone'].blank?
-            service.contacts << Service_Contact(row)
+            if row['import_id_reference'].blank?
+                service.contacts << Service_Contact(row)
+            else
+                begin
+
+                    parent_row = csv_parser.find {|item| item['import_id'] == row['import_id_reference']}
+                    imported_service = Service.find_by(name: parent_row['name'])
+                    imported_service.contacts << Service_Contact(row)
+                    imported_service.save!
+
+                rescue StandardError => e 
+                    raise "An error occurred while importing Service in row #{row['import_id']} failed to save: #{imported_service.errors.messages}"
+                end
+            end
+            
         end
+        
         unless row['cost_amount'].blank?
-            service.cost_options << Service_Cost(row)
+
+            if row['import_id_reference'].blank?
+                service.cost_options << Service_Cost(row)
+            else
+                begin
+
+                    parent_row = csv_parser.find {|item| item['import_id'] == row['import_id_reference']}
+                    imported_service = Service.find_by(name: parent_row['name'])
+                    imported_service.cost_options << Service_Cost(row)
+                    imported_service.save!
+
+                rescue StandardError => e 
+                    raise "An error occurred while importing Service in row #{row['import_id']} failed to save: #{imported_service.errors.messages}"
+                end
+            end
+
         end
+
         if !row['service_taxonomies'].nil?
             service_taxonomies_array = row['service_taxonomies'].split(';')
             service_taxonomies_array.each { |taxonomy_name|
@@ -77,11 +147,55 @@ namespace :import_services do
         end
 
         unless row['schedules_opens_at'].blank? && row['schedules_closes_at'].blank? && row['scheduled_weekday'].blank?
-            service.regular_schedules << RegularSchedule(row)
+            
+            if row['import_id_reference'].blank?
+                service.regular_schedules << RegularSchedule(row)
+            else
+                begin
+
+                    parent_row = csv_parser.find {|item| item['import_id'] == row['import_id_reference']}
+                    imported_service = Service.find_by(name: parent_row['name'])
+                    imported_service.regular_schedules << RegularSchedule(row)
+                    imported_service.save!
+
+                rescue StandardError => e 
+                    raise "An error occurred while importing Service in row #{row['import_id']} failed to save: #{imported_service.errors.messages}"
+                end
+            end
         end
 
         unless row['location_postcode'].blank?
-            service.locations << Location(row)
+            if row['import_id_reference'].blank?
+                service.locations << Location(row)
+            else
+                begin
+
+                    parent_row = csv_parser.find {|item| item['import_id'] == row['import_id_reference']}
+                    imported_service = Service.find_by(name: parent_row['name'])
+                    imported_service.locations << Location(row)
+                    imported_service.save!
+
+                rescue StandardError => e 
+                    raise "An error occurred while importing Service in row #{row['import_id']} failed to save: #{imported_service.errors.messages}"
+                end
+            end
+        end
+
+        unless row['links_label'].blank? && row['links_url'].blank?
+            if row['import_id_reference'].blank?
+                service.links << Link(row)
+            else
+                begin
+
+                    parent_row = csv_parser.find {|item| item['import_id'] == row['import_id_reference']}
+                    imported_service = Service.find_by(name: parent_row['name'])
+                    imported_service.links << Link(row)
+                    imported_service.save!
+
+                rescue StandardError => e 
+                    raise "An error occurred while importing Service in row #{row['import_id']} failed to save: #{imported_service.errors.messages}"
+                end
+            end
         end
 
         service.save!
@@ -207,5 +321,13 @@ namespace :import_services do
         location.preferred_for_post = row['preferred_for_post']
 
         location
+    end
+
+    def Link(row)
+        link = Link.new
+        link.label = row['links_label']
+        link.url = row['links_url']
+
+        link
     end
 end
