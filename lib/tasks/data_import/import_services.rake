@@ -9,8 +9,6 @@ namespace :import_services do
 
         Check_for_missing_data(csv_parser, 'import_id')
 
-        #Check_for_missing_keys(csv_parser, ['import_id'])
-        
         Check_for_non_numeric(csv_parser, 'import_id')
 
         Check_for_duplications(csv_parser, 'import_id')
@@ -24,9 +22,9 @@ namespace :import_services do
         csv_parser.each.with_index do |row, index|
             begin
                 ActiveRecord::Base.transaction do
-                    Service(csv_parser, row)
-                    ReportPostcode(row)
-                    Accessibilities(row)
+                    create_service(csv_parser, row)
+                    create_report_postcode(row)
+                    create_accessibilities(row)
                 end
             end
         end
@@ -47,16 +45,6 @@ namespace :import_services do
                 raise "There is missing #{args[0]} %s" %("and #{args[1]}" if args.length > 1) 
         end
     end
-
-    # def Check_for_missing_keys(csv_parser, column_name)
-    #     puts "Checkig for missing #{column_name[0]}"
-
-    #     column_data_array = csv_parser[column_name[0]]
-
-    #     if (column_data_array.any?{ |item| item.nil?})
-    #         raise "There is missing #{column_name[0]} in csv file"
-    #     end
-    # end 
 
     def Check_for_duplications(csv_parser, column_name)
         puts "Checkig for duplicate #{column_name}"
@@ -80,7 +68,7 @@ namespace :import_services do
         end
     end
 
-    def Service(csv_parser, row)
+    def create_service(csv_parser, row)
         service = Service.new
         service.name = row['name']
         service.description = row['description']
@@ -99,17 +87,17 @@ namespace :import_services do
         service.max_age = row['max_age']
         service.free = row['free']
         service.old_open_objects_external_id = row['import_id']
-        service.organisation = Organisation(row)
+        service.organisation = create_organisation(row)
 
         unless row['contact_name'].blank? && row['contact_email'].blank? && row['contact_phone'].blank?
             if row['import_id_reference'].blank?
-                service.contacts << Service_Contact(row)
+                service.contacts << create_service_contact(row)
             else
                 begin
 
                     parent_row = csv_parser.find {|item| item['import_id'] == row['import_id_reference']}
                     imported_service = Service.find_by(name: parent_row['name'])
-                    imported_service.contacts << Service_Contact(row)
+                    imported_service.contacts << create_service_contact(row)
                     imported_service.save!
 
                 rescue StandardError => e 
@@ -122,13 +110,13 @@ namespace :import_services do
         unless row['cost_amount'].blank?
 
             if row['import_id_reference'].blank?
-                service.cost_options << Service_Cost(row)
+                service.cost_options << create_service_cost(row)
             else
                 begin
 
                     parent_row = csv_parser.find {|item| item['import_id'] == row['import_id_reference']}
                     imported_service = Service.find_by(name: parent_row['name'])
-                    imported_service.cost_options << Service_Cost(row)
+                    imported_service.cost_options << create_service_cost(row)
                     imported_service.save!
 
                 rescue StandardError => e 
@@ -141,13 +129,13 @@ namespace :import_services do
         unless row['schedules_opens_at'].blank? && row['schedules_closes_at'].blank? && row['scheduled_weekday'].blank?
             
             if row['import_id_reference'].blank?
-                service.regular_schedules << RegularSchedule(row)
+                service.regular_schedules << create_regular_schedule(row)
             else
                 begin
 
                     parent_row = csv_parser.find {|item| item['import_id'] == row['import_id_reference']}
                     imported_service = Service.find_by(name: parent_row['name'])
-                    imported_service.regular_schedules << RegularSchedule(row)
+                    imported_service.regular_schedules << create_regular_schedule(row)
                     imported_service.save!
 
                 rescue StandardError => e 
@@ -158,13 +146,13 @@ namespace :import_services do
 
         unless row['location_postcode'].blank?
             if row['import_id_reference'].blank?
-                service.locations << Location(row)
+                service.locations << create_location(row)
             else
                 begin
 
                     parent_row = csv_parser.find {|item| item['import_id'] == row['import_id_reference']}
                     imported_service = Service.find_by(name: parent_row['name'])
-                    imported_service.locations << Location(row)
+                    imported_service.locations << create_location(row)
                     imported_service.save!
 
                 rescue StandardError => e 
@@ -175,13 +163,13 @@ namespace :import_services do
 
         unless row['links_label'].blank? && row['links_url'].blank?
             if row['import_id_reference'].blank?
-                service.links << Link(row)
+                service.links << create_link(row)
             else
                 begin
 
                     parent_row = csv_parser.find {|item| item['import_id'] == row['import_id_reference']}
                     imported_service = Service.find_by(name: parent_row['name'])
-                    imported_service.links << Link(row)
+                    imported_service.links << create_link(row)
                     imported_service.save!
 
                 rescue StandardError => e 
@@ -196,7 +184,7 @@ namespace :import_services do
 
                 existing_taxonomy = Taxonomy.find_by(name: taxonomy_name.strip)
                 if existing_taxonomy.nil?
-                    service.taxonomies << Taxonomy(taxonomy_name.strip)
+                    service.taxonomies << create_taxonomy(taxonomy_name.strip)
                 else
                     service.taxonomies << existing_taxonomy
                 end
@@ -209,7 +197,7 @@ namespace :import_services do
             
                 existing_suitability = Suitability.find_by(name: suitability_name.strip)
                 if existing_suitability.nil?
-                    service.suitabilities << Suitability(suitability_name.strip)
+                    service.suitabilities << create_suitability(suitability_name.strip)
                 else
                     service.suitabilities << existing_suitability
                 end
@@ -222,7 +210,7 @@ namespace :import_services do
             
                 existing_support = SendNeed.find_by(name: support_name.strip)
                 if existing_support.nil?
-                    service.send_needs << SendNeed(support_name.strip)
+                    service.send_needs << create_send_need(support_name.strip)
                 else
                     service.send_needs << existing_support
                 end
@@ -235,7 +223,7 @@ namespace :import_services do
             raise "An error occurred while importing Service in row #{row['import_id']} failed to save: #{service.errors.messages}"
     end
 
-    def Organisation(row)
+    def create_organisation(row)
         if row['import_id_reference'].blank?
 
             organisation = Organisation.new
@@ -258,7 +246,7 @@ namespace :import_services do
         
     end
 
-    def RegularSchedule(row)
+    def create_regular_schedule(row)
 
         days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
 
@@ -270,7 +258,7 @@ namespace :import_services do
         scheduled
     end
 
-    def Service_Contact(row)
+    def create_service_contact(row)
         contact = Contact.new
         contact.name = row['contact_name']
         contact.title = row['contact_title']
@@ -281,7 +269,7 @@ namespace :import_services do
         contact
     end
 
-    def Service_Cost(row)
+    def create_service_cost(row)
         costoption = CostOption.new
         costoption.option = row['cost_option']
         costoption.amount = row['cost_amount']
@@ -290,28 +278,28 @@ namespace :import_services do
         costoption
     end
 
-    def Taxonomy(taxonomy_name)
+    def create_taxonomy(taxonomy_name)
         taxonomy = Taxonomy.new
         taxonomy.name = taxonomy_name
         
         taxonomy
     end
 
-    def Suitability(suitability_name)
+    def create_suitability(suitability_name)
         suitability = Suitability.new
         suitability.name = suitability_name
         
         suitability
     end
 
-    def SendNeed(support_name)
+    def create_send_need(support_name)
         sendNeed = SendNeed.new
         sendNeed.name = support_name
         
         sendNeed
     end
 
-    def ReportPostcode(row)
+    def create_report_postcode(row)
         reportPostCode = ReportPostcode.new
         reportPostCode.postcode = row['location_postcode']
         reportPostCode.save!
@@ -320,7 +308,7 @@ namespace :import_services do
             raise "An error occurred while importing ReportPostcode in row #{row['import_id']} failed to save: #{reportPostCode.errors.messages}"
     end
 
-    def Accessibilities(row)
+    def create_accessibilities(row)
         if !row['location_accessibilities'].nil?
             accessibilities_array = row['location_accessibilities'].split(';')
             accessibilities_array.each { |accessibilities_name|
@@ -331,7 +319,7 @@ namespace :import_services do
                         accessibility = Accessibility.new
                         accessibility.name = accessibilities_name.strip
         
-                        accessibility.locations << Location(row)
+                        accessibility.locations << create_location(row)
                     
                         accessibility.save!
                     end
@@ -343,7 +331,7 @@ namespace :import_services do
         end
     end
 
-    def Location(row)
+    def create_location(row)
         location = Location.new
         location.name = row['location_name']
         location.latitude = row['location_latitude']
@@ -358,7 +346,7 @@ namespace :import_services do
         location
     end
 
-    def Link(row)
+    def create_link(row)
         link = Link.new
         link.label = row['links_label']
         link.url = row['links_url']
