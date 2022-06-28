@@ -25,8 +25,7 @@ namespace :import_services do
             begin
                 ActiveRecord::Base.transaction do
                     Service(csv_parser, row)
-                    Suitability(row)
-                    # ReportPostcode(row)
+                    ReportPostcode(row)
                     Accessibilities(row)
                 end
             end
@@ -204,6 +203,32 @@ namespace :import_services do
             }
         end
 
+        if !row['suitabilities'].nil?
+            service_suitabilities_array = row['suitabilities'].split(';')
+            service_suitabilities_array.each { |suitability_name|
+            
+                existing_suitability = Suitability.find_by(name: suitability_name.strip)
+                if existing_suitability.nil?
+                    service.suitabilities << Suitability(suitability_name.strip)
+                else
+                    service.suitabilities << existing_suitability
+                end
+            }
+        end
+
+        if !row['send_needs_support'].nil?
+            service_needs_support_array = row['send_needs_support'].split(';')
+            service_needs_support_array.each { |support_name|
+            
+                existing_support = SendNeed.find_by(name: support_name.strip)
+                if existing_support.nil?
+                    service.send_needs << SendNeed(support_name.strip)
+                else
+                    service.send_needs << existing_support
+                end
+            }
+        end
+
         service.save!
 
         rescue StandardError => e 
@@ -272,19 +297,18 @@ namespace :import_services do
         taxonomy
     end
 
-    def Suitability(row)
-        if !row['suitabilities'].nil?
-            suitabilities_array = row['suitabilities'].split(';')
-            suitabilities_array.each { |suitability_name|
-                begin
-                    suitability = Suitability.new
-                    suitability.name = suitability_name
-                    suitability.save! 
-                rescue StandardError => e 
-                    raise "An error occurred while importing Suitability in row #{row['import_id']} failed to save: #{suitability.errors.messages}"
-                end
-            }
-        end
+    def Suitability(suitability_name)
+        suitability = Suitability.new
+        suitability.name = suitability_name
+        
+        suitability
+    end
+
+    def SendNeed(support_name)
+        sendNeed = SendNeed.new
+        sendNeed.name = support_name
+        
+        sendNeed
     end
 
     def ReportPostcode(row)
