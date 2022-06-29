@@ -8,6 +8,8 @@ class Form::AdminSettings
       outpost_instance_name
       primary_color
       outpost_logo
+      outpost_logo_height
+      outpost_logo_height_mobile
     ).freeze
   
     BOOLEAN_KEYS = %i(
