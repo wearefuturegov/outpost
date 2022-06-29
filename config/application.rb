@@ -39,5 +39,8 @@ module Outpost
     config.action_mailer.notify_settings = {
       api_key: ENV["NOTIFY_API_KEY"]
     }
+
+    # remove unused tag objects after removing tagging
+    ActsAsTaggableOn.remove_unused_tags = true
   end
 end
