@@ -11,6 +11,8 @@ class Setting < RailsSettings::Base
   scope :outpost_theme do
     field :outpost_logo, type: :hash
     field :primary_color, type: :string, default: '#2c2d84'
+    field :outpost_logo_height, type: :int, default: '45'
+    field :outpost_logo_height_mobile, type: :int, default: '40'
   end
 
 end
