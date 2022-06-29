@@ -9,7 +9,7 @@ class Admin::SettingsController < Admin::BaseController
         @admin_settings = Form::AdminSettings.new(setting_params)
 
         if @admin_settings.save
-          redirect_to edit_admin_settings_path(@admin_settings), notice: "Settings have been created."
+          redirect_to edit_admin_settings_path(@admin_settings), notice: "Settings have been saved."
         else
           render :edit
         end
