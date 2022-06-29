@@ -1,4 +1,11 @@
 # RailsSettings Model
+# This implementation is heavily influenced by mastodon's use of the rails-settings-cached gem
+# id 
+# var eg outpost_title used to refer to the setting
+# value value for the field
+# created_at
+# updated_at
+
 class Setting < RailsSettings::Base
   cache_prefix { "v1" }
 
