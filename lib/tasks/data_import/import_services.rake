@@ -3,7 +3,7 @@ namespace :import_services do
     task :initial => :environment do
         start_time = Time.now
 
-        file_path = Rails.root.join('lib', 'seeds', 'data-for-import.csv')
+        file_path = Rails.root.join('lib', 'seeds', 'TVP services for import - Service Data.csv')
         file = File.open(file_path, "r:ISO-8859-1")
         csv_parser = CSV.parse(file, headers: true)
 
@@ -16,8 +16,6 @@ namespace :import_services do
         Check_for_missing_data(csv_parser, 'name', 'import_id_reference')
 
         Check_for_duplications(csv_parser, 'name')
-
-        Check_for_duplications(csv_parser, 'organisation')
 
         csv_parser.each.with_index do |row, index|
             begin
@@ -69,124 +67,76 @@ namespace :import_services do
     end
 
     def create_service(csv_parser, row)
-        service = Service.new
-        service.name = row['name']
-        service.description = row['description']
-        service.url = row['url']
-        service.approved = row['approved']
-        service.visible_from = row['visible_from']
-        service.visible_to = row['visible_to']
 
-        if !row['visible_from'].nil? && !row['visible_to'].nil?
-            service.visible = false
-        else 
-            service.visible = row['visible']
+        isNewService = true
+        if row['name'].blank?
+            if !row['import_id_reference'].blank?
+                isNewService = false
+            end
+        end
+        service = nil if false
+        
+        if !isNewService
+            begin
+                parent_row = csv_parser.find {|item| item['import_id'] == row['import_id_reference']}
+                service = Service.find_by(name: parent_row['name'].strip)
+                service.organisation = Organisation.find_by(name: parent_row['organisation'].strip)
+            end
+        else
+            begin
+                service = Service.create
+                service.name = row['name'].strip
+                service.description = row['description']
+                service.url = row['url']
+                service.approved = row['approved']
+                service.visible_from = row['visible_from']
+                service.visible_to = row['visible_to']
+
+                if !row['visible_from'].nil? && !row['visible_to'].nil?
+                    service.visible = true
+                else 
+                    service.visible = row['visible']
+                end
+
+                service.min_age = row['min_age']
+                service.max_age = row['max_age']
+                service.free = row['free']
+                service.old_open_objects_external_id = row['import_id']
+                service.organisation = create_organisation(row)
+            end
         end
 
-        service.min_age = row['min_age']
-        service.max_age = row['max_age']
-        service.free = row['free']
-        service.old_open_objects_external_id = row['import_id']
-        service.organisation = create_organisation(row)
-
         unless row['contact_name'].blank? && row['contact_email'].blank? && row['contact_phone'].blank?
-            if row['import_id_reference'].blank?
-                service.contacts << create_service_contact(row)
-            else
-                begin
-
-                    parent_row = csv_parser.find {|item| item['import_id'] == row['import_id_reference']}
-                    imported_service = Service.find_by(name: parent_row['name'])
-                    imported_service.contacts << create_service_contact(row)
-                    imported_service.save!
-
-                rescue StandardError => e 
-                    raise "An error occurred while importing Service in row #{row['import_id']} failed to save: #{imported_service.errors.messages}"
-                end
-            end
-            
+            service.contacts << create_service_contact(row)
         end
         
         unless row['cost_amount'].blank?
-
-            if row['import_id_reference'].blank?
-                service.cost_options << create_service_cost(row)
-            else
-                begin
-
-                    parent_row = csv_parser.find {|item| item['import_id'] == row['import_id_reference']}
-                    imported_service = Service.find_by(name: parent_row['name'])
-                    imported_service.cost_options << create_service_cost(row)
-                    imported_service.save!
-
-                rescue StandardError => e 
-                    raise "An error occurred while importing Service in row #{row['import_id']} failed to save: #{imported_service.errors.messages}"
-                end
-            end
-
+            service.cost_options << create_service_cost(row)
         end
 
         unless row['schedules_opens_at'].blank? && row['schedules_closes_at'].blank? && row['scheduled_weekday'].blank?
-            
-            if row['import_id_reference'].blank?
-                service.regular_schedules << create_regular_schedule(row)
-            else
-                begin
-
-                    parent_row = csv_parser.find {|item| item['import_id'] == row['import_id_reference']}
-                    imported_service = Service.find_by(name: parent_row['name'])
-                    imported_service.regular_schedules << create_regular_schedule(row)
-                    imported_service.save!
-
-                rescue StandardError => e 
-                    raise "An error occurred while importing Service in row #{row['import_id']} failed to save: #{imported_service.errors.messages}"
-                end
-            end
+            service.regular_schedules << create_regular_schedule(row)
         end
 
         unless row['location_postcode'].blank?
-            if row['import_id_reference'].blank?
-                service.locations << create_location(row)
-            else
-                begin
-
-                    parent_row = csv_parser.find {|item| item['import_id'] == row['import_id_reference']}
-                    imported_service = Service.find_by(name: parent_row['name'])
-                    imported_service.locations << create_location(row)
-                    imported_service.save!
-
-                rescue StandardError => e 
-                    raise "An error occurred while importing Service in row #{row['import_id']} failed to save: #{imported_service.errors.messages}"
-                end
-            end
+            service.locations << create_location(row)
         end
 
-        unless row['links_label'].blank? && row['links_url'].blank?
-            if row['import_id_reference'].blank?
-                service.links << create_link(row)
-            else
-                begin
-
-                    parent_row = csv_parser.find {|item| item['import_id'] == row['import_id_reference']}
-                    imported_service = Service.find_by(name: parent_row['name'])
-                    imported_service.links << create_link(row)
-                    imported_service.save!
-
-                rescue StandardError => e 
-                    raise "An error occurred while importing Service in row #{row['import_id']} failed to save: #{imported_service.errors.messages}"
-                end
-            end
+        if !row['links_label'].blank? && !row['links_url'].blank?
+            service.links << create_link(row)
         end
 
         if !row['service_taxonomies'].nil?
             service_taxonomies_array = row['service_taxonomies'].split(';')
             service_taxonomies_array.each { |taxonomy_name|
-
-                existing_taxonomy = Taxonomy.find_by(name: taxonomy_name.strip)
-                if existing_taxonomy.nil?
-                    service.taxonomies << create_taxonomy(taxonomy_name.strip)
-                else
-                    service.taxonomies << existing_taxonomy
+                
+                if !taxonomy_name.blank?
+                    existing_taxonomy = Taxonomy.find_by(name: taxonomy_name.strip)
+                    if existing_taxonomy.nil?
+                        service.taxonomies << create_taxonomy(taxonomy_name.strip)
+                    else
+                        service.taxonomies << existing_taxonomy
+                    end
                 end
             }
         end
@@ -195,11 +145,13 @@ namespace :import_services do
             service_suitabilities_array = row['suitabilities'].split(';')
             service_suitabilities_array.each { |suitability_name|
             
-                existing_suitability = Suitability.find_by(name: suitability_name.strip)
-                if existing_suitability.nil?
-                    service.suitabilities << create_suitability(suitability_name.strip)
-                else
-                    service.suitabilities << existing_suitability
+                if !suitability_name.blank?
+                    existing_suitability = Suitability.find_by(name: suitability_name.strip)
+                    if existing_suitability.nil?
+                        service.suitabilities << create_suitability(suitability_name.strip)
+                    else
+                        service.suitabilities << existing_suitability
+                    end
                 end
             }
         end
@@ -208,42 +160,36 @@ namespace :import_services do
             service_needs_support_array = row['send_needs_support'].split(';')
             service_needs_support_array.each { |support_name|
             
-                existing_support = SendNeed.find_by(name: support_name.strip)
-                if existing_support.nil?
-                    service.send_needs << create_send_need(support_name.strip)
-                else
-                    service.send_needs << existing_support
+                if !support_name.blank?
+                    existing_support = SendNeed.find_by(name: support_name.strip)
+                    if existing_support.nil?
+                        service.send_needs << create_send_need(support_name.strip)
+                    else
+                        service.send_needs << existing_support
+                    end
                 end
             }
         end
 
-        service.save!
+        service.save
 
-        rescue StandardError => e 
+        rescue StandardError => e
             raise "An error occurred while importing Service in row #{row['import_id']} failed to save: #{service.errors.messages}"
     end
 
     def create_organisation(row)
-        if row['import_id_reference'].blank?
-
-            organisation = Organisation.new
-            if row['organisation'].nil?
-                organisation.name = 'Unnamed organisation'
-            else
-                organisation.name = row['organisation']
-            end
-            organisation.description = row['description']
-            organisation.email = row['contact_email']
-            organisation.url = row['url']
-            organisation.old_external_id = row['import_id']
-    
-            organisation
+        organisation = Organisation.new
+        if row['organisation'].nil?
+            organisation.name = "Unnamed organisation"
         else
-            organisation = Organisation.find_by(old_external_id: row['import_id_reference'])
-
-            organisation
+            organisation.name = row['organisation'].strip
         end
-        
+        organisation.description = row['description']
+        organisation.email = row['contact_email']
+        organisation.url = row['url']
+        organisation.old_external_id = row['import_id']
+
+        organisation
     end
 
     def create_regular_schedule(row)
@@ -254,7 +200,6 @@ namespace :import_services do
         scheduled.opens_at = row['schedules_opens_at']
         scheduled.closes_at = row['schedules_closes_at']
         scheduled.weekday = days.find_index(row['scheduled_weekday'].downcase)
-
         scheduled
     end
 
@@ -300,12 +245,16 @@ namespace :import_services do
     end
 
     def create_report_postcode(row)
-        reportPostCode = ReportPostcode.new
-        reportPostCode.postcode = row['location_postcode']
-        reportPostCode.save!
-
-        rescue StandardError => e 
-            raise "An error occurred while importing ReportPostcode in row #{row['import_id']} failed to save: #{reportPostCode.errors.messages}"
+       if row['import_id_reference'].blank?
+        begin
+            reportPostCode = ReportPostcode.new
+            reportPostCode.postcode = row['location_postcode']
+            reportPostCode.save!
+    
+            rescue StandardError => e 
+                raise "An error occurred while importing ReportPostcode in row #{row['import_id']} failed to save: #{reportPostCode.errors.messages}"
+        end
+       end
     end
 
     def create_accessibilities(row)
