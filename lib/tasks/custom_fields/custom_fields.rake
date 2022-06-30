@@ -7,7 +7,7 @@ namespace :custom_fields do
     csv_parser = CSV.parse(file, headers: true)
 
     # doing these before we do anything since they're the most likely things to have to fix
-    initial_validation_has_errors = (validate_import_ids(csv_parser) || validate_field_types(csv_parser))
+    initial_validation_has_errors = (validate_custom_field_import_ids(csv_parser) || validate_field_types(csv_parser))
 
     if initial_validation_has_errors 
       puts "😭 Import will fail, data is not valid, see errors above."
@@ -88,28 +88,22 @@ namespace :custom_fields do
   end
 
   # General id related validation
-  def validate_import_ids(csv_data)
+  def validate_custom_field_import_ids(csv_data)
     errors = false
 
-    # no row should have empty import_id and import_id_reference
-    data = csv_data.select{|item| item['import_id'].nil? && item['import_id_reference'].nil? }
+    # all rows should have import_id set
+    data = csv_data.select{|item| item['import_id'].nil? }
     if data.length > 0 
-      puts "🔴 Some rows contain empty import_id and import_id reference"
-      errors = true
-    end
-
-    # no row should have both import_id and import_id_reference set
-    data = csv_data.select{|item| !item['import_id'].nil? && !item['import_id_reference'].nil? }
-    if data.length > 0 
-      puts "🔴 Some rows have both import_id and import_id reference set"
+      puts "🔴 Some rows contain empty import_id"
       errors = true
     end
 
     # no duplicated id's in import_id
     data = csv_data.select{|item| !item['import_id'].nil? }
     ids = data.map{|i| i['import_id']}
+    duplicates = ids.filter{ |e| ids.count(e) > 1 }.sort.uniq
     if ids.uniq.length != ids.length
-      puts "🔴 Duplicate import_id's"
+      puts "🔴 Duplicate import_id's #{duplicates.join(',')}"
       errors = true
     end
 
