@@ -41,15 +41,15 @@
   @include button;
 
   background: none;
-  border: 2px solid $link;
-  color: $link;
+  border: 2px solid $outpostBlack;
+  color: $outpostBlack;
   box-shadow: none;
 
   &:hover {
     background: none;
     box-shadow: none;
-    border-color: darken($link, 10);
-    color: darken($link, 10);
+    border-color: darken($outpostBlack, 10);
+    color: darken($outpostBlack, 10);
   }
   &:active {
     background: none;

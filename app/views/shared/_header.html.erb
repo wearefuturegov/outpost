@@ -1,10 +1,17 @@
 <%= render "shared/env-banner" %>
-
-<header class="site-header">
+<header class="site-header <%= "site-header--logged-out" unless user_signed_in? %> <%= 'light' if is_text_dark(Setting.primary_color)  %>">
     <div class="<%= "container" unless full_width %> site-header__inner">
         <div class="site-header__masthead">
-            <%= link_to image_tag("logo.svg", alt: "Buckinghamshire Council", class: "site-header__logo"), "https://buckinghamshire.gov.uk", class: "site-header__logo-link" %>
+            <div class="site-header__logo-link">
+            <% if FileUpload.find_by(var: 'outpost_logo') %>
+            <%= image_tag(url_for(FileUpload.find_by(var: 'outpost_logo').file), alt: Setting.outpost_title, class: "site-header__logo") %>
+            <% else %>
+            <%= image_tag("logo-outpost.svg", alt: "Outpost", class: "site-header__logo") %>
+            <% end %>
+            </div>
         </div>
+
+        
         <% if user_signed_in? %>
         <div class="site-header__actions">
             <%= render "shared/app-switcher" %>
@@ -12,8 +19,10 @@
             <%= link_to "Sign out", destroy_user_session_path, method: :delete, class: "site-header__link" %>
         </div>
         <% end %>
+
+
         <nav class="site-header__service-name-holder">
-            <%= link_to APP_CONFIG["title"], root_path, class: "site-header__service-name"%>
+            <%= link_to Setting.outpost_title, root_path, class: "site-header__service-name"%>
             <% if current_user && current_user.admin? %>
             <strong class="site-header__phase-tag">Beta</strong>
             <% end %>
