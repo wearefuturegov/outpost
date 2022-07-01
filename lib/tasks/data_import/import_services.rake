@@ -2,6 +2,8 @@ require 'csv'
 namespace :import_services do
     task :initial => :environment do
         start_time = Time.now
+        
+        system ("cls")
 
         file_path = Rails.root.join('lib', 'seeds', 'TVP services for import - Service Data.csv')
         file = File.open(file_path, "r:ISO-8859-1")
@@ -16,6 +18,12 @@ namespace :import_services do
         Check_for_missing_data(csv_parser, 'name', 'import_id_reference')
 
         Check_for_duplications(csv_parser, 'name')
+
+        puts "All checks has finished successfully"
+        
+        puts "Import starts"
+
+        @imported_service_id = Array.new
 
         csv_parser.each.with_index do |row, index|
             begin
@@ -68,19 +76,25 @@ namespace :import_services do
 
     def create_service(csv_parser, row)
 
-        isNewService = true
+        new_service = true
+
+        has_reference = false
+
+        service = nil if false
+
         if row['name'].blank?
             if !row['import_id_reference'].blank?
-                isNewService = false
+                has_reference = true
             end
+        else
+            new_service = Service.find_by(name: row['name'].strip).nil?
         end
-        service = nil if false
-        
-        if !isNewService
+
+        if has_reference
             begin
                 parent_row = csv_parser.find {|item| item['import_id'] == row['import_id_reference']}
                 service = Service.find_by(name: parent_row['name'].strip)
-                service.organisation = Organisation.find_by(name: parent_row['organisation'].strip)
+                service.organisation = create_organisation(parent_row) 
             end
         else
             begin
@@ -178,16 +192,27 @@ namespace :import_services do
     end
 
     def create_organisation(row)
-        organisation = Organisation.new
-        if row['organisation'].nil?
-            organisation.name = "Unnamed organisation"
-        else
-            organisation.name = row['organisation'].strip
+
+        organisation = nil if false
+
+        organisation_name = row['organisation']
+
+        if organisation_name.blank?
+            organisation_name = "Unnamed organisation"
         end
-        organisation.description = row['description']
-        organisation.email = row['contact_email']
-        organisation.url = row['url']
-        organisation.old_external_id = row['import_id']
+
+        organisation = Organisation.find_by(name: organisation_name.strip)
+
+
+
+        if organisation.nil?
+            organisation = Organisation.new
+            organisation.name = organisation_name.strip
+            organisation.description = row['description']
+            organisation.email = row['contact_email']
+            organisation.url = row['url']
+            organisation.old_external_id = row['import_id']
+        end
 
         organisation
     end
@@ -196,7 +221,7 @@ namespace :import_services do
 
         days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
 
-        scheduled = RegularSchedule.new
+        scheduled = RegularSchedule.create
         scheduled.opens_at = row['schedules_opens_at']
         scheduled.closes_at = row['schedules_closes_at']
         scheduled.weekday = days.find_index(row['scheduled_weekday'].downcase)
@@ -204,7 +229,7 @@ namespace :import_services do
     end
 
     def create_service_contact(row)
-        contact = Contact.new
+        contact = Contact.create
         contact.name = row['contact_name']
         contact.title = row['contact_title']
         contact.visible = row['contact_visible']
@@ -215,7 +240,7 @@ namespace :import_services do
     end
 
     def create_service_cost(row)
-        costoption = CostOption.new
+        costoption = CostOption.create
         costoption.option = row['cost_option']
         costoption.amount = row['cost_amount']
         costoption.cost_type = row['cost_type']
@@ -224,21 +249,21 @@ namespace :import_services do
     end
 
     def create_taxonomy(taxonomy_name)
-        taxonomy = Taxonomy.new
+        taxonomy = Taxonomy.create
         taxonomy.name = taxonomy_name
         
         taxonomy
     end
 
     def create_suitability(suitability_name)
-        suitability = Suitability.new
+        suitability = Suitability.create
         suitability.name = suitability_name
         
         suitability
     end
 
     def create_send_need(support_name)
-        sendNeed = SendNeed.new
+        sendNeed = SendNeed.create
         sendNeed.name = support_name
         
         sendNeed
@@ -247,9 +272,9 @@ namespace :import_services do
     def create_report_postcode(row)
        if row['import_id_reference'].blank?
         begin
-            reportPostCode = ReportPostcode.new
+            reportPostCode = ReportPostcode.create
             reportPostCode.postcode = row['location_postcode']
-            reportPostCode.save!
+            reportPostCode.save
     
             rescue StandardError => e 
                 raise "An error occurred while importing ReportPostcode in row #{row['import_id']} failed to save: #{reportPostCode.errors.messages}"
@@ -265,12 +290,12 @@ namespace :import_services do
                     existing_accessibility = Accessibility.find_by(name: accessibilities_name.strip)
 
                     if existing_accessibility.nil?
-                        accessibility = Accessibility.new
+                        accessibility = Accessibility.create
                         accessibility.name = accessibilities_name.strip
         
                         accessibility.locations << create_location(row)
                     
-                        accessibility.save!
+                        accessibility.save
                     end
                     
                 rescue StandardError => e 
