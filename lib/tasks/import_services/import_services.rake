@@ -224,7 +224,7 @@ namespace :services do
 
         # contacts
         # TODO send only info contacts needs
-        if row["contact_name"].present? && row["contact_email"].present?
+        if row["contact_name"].present? && row["contact_email"].present? && row["contact_phone"].present?
           new_service_contact(service_id, row)
         else
           # @TODO this validation should probaly go higher up
