@@ -77,26 +77,30 @@ namespace :services do
               when "number"
                 value = CSV::Converters[:integer].call(value).is_a?(Numeric) ? CSV::Converters[:integer].call(value) : ''
               when "select"
-                value = !value.nil? ? value.split(';').join(',') : ''
+                value = !value.nil? ? value.split(';').collect(&:strip).reject(&:empty?).uniq.join(',') : ''
               when "date"
                 value = value&.strip&.to_date.present? ? value&.strip&.to_date : ''
             end
-
+          
             if value.present?
+
               state = "created"
               new_service_meta_exists = ServiceMeta.where(service_id: service_id)
               if new_service_meta_exists
                 state = "updated"
               end
-              new_service_meta = ServiceMeta.find_or_initialize_by(service_id: service_id).update(
-                key: key,
-                value: value
-              )
+
+              new_service_meta = ServiceMeta.find_or_create_by(service_id: service_id, key: key) do |new_sm|
+                new_sm.key = key
+                new_sm.value = value
+              end
+        
               if new_service_meta
-                puts "  🟢 Service meta: #{state}"
+                puts "  🟢 Service meta: #{state} (id #{new_service_meta.id})"
               else 
                 abort("  🔴 Service meta: was not created. Exiting. #{new_service_meta.errors.messages}")
               end
+
             end
           end
         end
