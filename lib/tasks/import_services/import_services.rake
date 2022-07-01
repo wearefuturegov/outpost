@@ -162,6 +162,12 @@ namespace :services do
                 if row['is_local_offer'].present? && row['support_description'].present?
                   new_service_send_needs(service, row)
                 end 
+                # send_needs_support
+                if !row['send_needs_support'].nil?
+                  send_needs_support_for_service = new_service_send_needs_suitabilities(service_id, row['send_needs_support'])
+                  Service.update(service_id, :send_need_ids => send_needs_support_for_service, :skip_mongo_callbacks => true)
+                end
+                
 
                 # custom fields
 
@@ -258,18 +264,10 @@ namespace :services do
 
     end
 
-
-
-
-
-
-
-
-
-
-
     # create send needs
+    
     def new_service_send_needs(service_id, send_needs_data)
+      
       survey_answer_mappings = [
           { id: 1, key: send_needs_data["outcomes"] },
           { id: 2, key: send_needs_data["recent_send_training"] },
@@ -300,9 +298,34 @@ namespace :services do
       if new_local_offer
         puts "  🟢 Local offer: #{state}"
       else 
-        abort("  🔴 Local offer: was not created. Exiting. #{new_local_offer.errors.messages}")
+        abort("  🔴 Local offer: was not created. Exiting.")
       end
       
+    end
+
+    # add send_needs_suitabilities into send_needs_services
+    def new_service_send_needs_suitabilities(service_id, send_needs_support)
+      send_needs_support = send_needs_support.split(';').collect(&:strip).reject(&:empty?).uniq
+      puts send_needs_support.inspect
+      sids = []
+      send_needs_support.map do | t |
+          send_need = SendNeed.where(name: t)
+          if send_need.exists?
+            puts "  🟠 The send need \"#{t}\" already exists, adding it to the service (id: #{send_need.take.id})"
+            sids << send_need.take.id
+          else
+            new_send_need = SendNeed.create(
+              name: t,
+            )
+            if new_send_need.save
+              puts "  🟢 Send need: \"#{new_send_need.name}\" created (id: #{new_send_need.id})."
+              sids << new_send_need.id
+            else 
+              abort("  🔴 Send need: \"#{new_send_need.name}\" was not created. Exiting. #{new_send_need.errors.messages}")
+            end
+          end
+      end 
+      return sids
     end
 
     # create suitabilities
