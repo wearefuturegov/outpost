@@ -489,9 +489,11 @@ namespace :services do
             skip_mongo_callbacks: true
           )
 
-          location_accessibilities = location_data['location_accessibilities'].split(';').collect(&:strip).reject(&:empty?).uniq
-          location_accessibilities.each do |option|
-            new_location.accessibilities << Accessibility.find_or_initialize_by({name: option.downcase.capitalize})
+          if location_data['location_accessibilities'].present?
+            location_accessibilities = location_data['location_accessibilities'].split(';').collect(&:strip).reject(&:empty?).uniq
+            location_accessibilities.each do |option|
+              new_location.accessibilities << Accessibility.find_or_initialize_by({name: option.downcase.capitalize})
+            end
           end
 
           if new_location.save
