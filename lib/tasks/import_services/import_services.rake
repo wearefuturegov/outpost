@@ -52,7 +52,7 @@ namespace :services do
         if service_id
             child_rows = csv_data.select{|item| item['import_id_reference'] === row['import_id']}
             # @TODO this causes duplicates in the db
-            # child_rows.length > 0 if append_data_to_all_row_types(service_id, row)
+            child_rows.length > 0 if append_data_to_all_row_types(service_id, row)
         end
       end
     end
@@ -82,19 +82,21 @@ namespace :services do
                 value = value&.strip&.to_date.present? ? value&.strip&.to_date : ''
             end
 
-            state = "created"
-            new_service_meta_exists = ServiceMeta.where(service_id: service_id)
-            if new_service_meta_exists
-              state = "updated"
-            end
-            new_service_meta = ServiceMeta.find_or_initialize_by(service_id: service_id).update(
-              key: key,
-              value: value
-            )
-            if new_service_meta
-              puts "  🟢 Service meta: #{state}"
-            else 
-              abort("  🔴 Service meta: was not created. Exiting. #{new_service_meta.errors.messages}")
+            if value.present?
+              state = "created"
+              new_service_meta_exists = ServiceMeta.where(service_id: service_id)
+              if new_service_meta_exists
+                state = "updated"
+              end
+              new_service_meta = ServiceMeta.find_or_initialize_by(service_id: service_id).update(
+                key: key,
+                value: value
+              )
+              if new_service_meta
+                puts "  🟢 Service meta: #{state}"
+              else 
+                abort("  🔴 Service meta: was not created. Exiting. #{new_service_meta.errors.messages}")
+              end
             end
           end
         end
@@ -160,7 +162,7 @@ namespace :services do
 
                 # SEND
                 if row['is_local_offer'].present? && row['support_description'].present?
-                  new_service_send_needs(service, row)
+                  new_service_send_needs(service_id, row)
                 end 
                 # send_needs_support
                 if !row['send_needs_support'].nil?
@@ -283,22 +285,25 @@ namespace :services do
         survey_answers[m[:id] -1] = {id: m[:id], answer: ActionView::Base.full_sanitizer.sanitize(m[:key])&.strip}
       end
 
+
       state = "created"
       local_offer_exists = LocalOffer.where(service_id: service_id)
-      if local_offer_exists
+      if local_offer_exists.exists?
         state = "updated"
       end
 
-      new_local_offer = LocalOffer.find_or_initialize_by(service_id: service_id).update(
-        description: send_needs_data["support_description"],
-        link: send_needs_data["recent_send_report"],
-        survey_answers: survey_answers,
-        service_id: service_id
-      )
+      new_local_offer = LocalOffer.find_or_create_by(service_id: service_id) do |new_lo|
+        new_lo.description = send_needs_data["support_description"]
+        new_lo.link = send_needs_data["recent_send_report"] if send_needs_data["recent_send_report"].present?
+        new_lo.survey_answers = survey_answers
+        new_lo.service_id = service_id
+        new_lo.skip_description_validation = true
+      end
+
       if new_local_offer
         puts "  🟢 Local offer: #{state}"
       else 
-        abort("  🔴 Local offer: was not created. Exiting.")
+        abort("  🔴 Local offer: was not created. Exiting. #{new_local_offer.errors.messages}")
       end
       
     end
@@ -418,12 +423,16 @@ namespace :services do
     # when creating a new service we add cost options
     def new_service_regular_schedules(service_id, regular_schedule_data)
         # @TODO theres nothing stopping silly opening hours being put in here
-        days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
-        if regular_schedule_data['schedules_opens_at'].to_time.present? && regular_schedule_data['schedules_closes_at'].to_time.present? && days.find_index(regular_schedule_data['scheduled_weekday'].downcase).present?
+        days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday','sunday']
+        if regular_schedule_data['scheduled_weekday'].present?
+          weekday = days.find_index(regular_schedule_data['scheduled_weekday'].downcase)
+        end
+
+        if regular_schedule_data['schedules_opens_at'].to_time.present? && regular_schedule_data['schedules_closes_at'].to_time.present? && !weekday.nil?
           new_regular_schedule = RegularSchedule.new(
             opens_at: regular_schedule_data['schedules_opens_at'].to_time,
             closes_at: regular_schedule_data['schedules_closes_at'].to_time,
-            weekday: days.find_index(regular_schedule_data['scheduled_weekday'].downcase),
+            weekday: weekday+1,
             service_id: service_id
           )
           if new_regular_schedule.save
