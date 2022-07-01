@@ -13,8 +13,8 @@ public_google:
   credentials:
     type: "service_account"
     project_id: <%= ENV['GCP_PROJECT_ID'] %>
-    private_key_id: <%= ENV['GCP_PRIVATE_KEY_ID'].nil? ? '' : ENV['GCP_PRIVATE_KEY_ID'].dump %>
-    private_key: <%= ENV['GCP_PRIVATE_KEY'].nil? ? '' : ENV['GCP_PRIVATE_KEY'].dump %>
+    private_key_id: <%= ENV['GCP_PRIVATE_KEY_ID'].nil? ? '' : ENV['GCP_PRIVATE_KEY_ID'] %>
+    private_key: <%= ENV['GCP_PRIVATE_KEY'].nil? ? '' : ENV['GCP_PRIVATE_KEY'] %>
     client_email: <%= ENV['GCP_CLIENT_EMAIL'] %>
     client_id: <%= ENV['GCP_CLIENT_ID'] %>
     auth_uri: "https://accounts.google.com/o/oauth2/auth"
