@@ -57,6 +57,50 @@ namespace :services do
       end
     end
 
+
+    # import the service meta
+    def import_service_meta(type, service_id, rows, fields, row)
+
+      if CustomField.types.map!(&:downcase).include? type
+        rows.map do |t|
+
+          custom_field = fields.filter{|f| f["field"] === t}.first
+          if custom_field.present?
+            key = custom_field['key']
+            value = row["custom_#{type}_#{t}"]
+
+            case type
+              when "text"
+                value = value.nil? ? '' : value&.strip
+              when "checkbox"
+                value = !value.nil? ? value&.strip : ''
+              when "number"
+                value = CSV::Converters[:integer].call(value).is_a?(Numeric) ? CSV::Converters[:integer].call(value) : ''
+              when "select"
+                value = !value.nil? ? value.split(';').join(',') : ''
+              when "date"
+                value = value&.strip&.to_date.present? ? value&.strip&.to_date : ''
+            end
+
+            state = "created"
+            new_service_meta_exists = ServiceMeta.where(service_id: service_id)
+            if new_service_meta_exists
+              state = "updated"
+            end
+            new_service_meta = ServiceMeta.find_or_initialize_by(service_id: service_id).update(
+              key: key,
+              value: value
+            )
+            if new_service_meta
+              puts "  🟢 Service meta: #{state}"
+            else 
+              abort("  🔴 Service meta: was not created. Exiting. #{new_service_meta.errors.messages}")
+            end
+          end
+        end
+      end
+    end
+
     def import_parent_service(row)
         valid_headers = ['import_id','import_id_reference','name','description','organisation','url','approved','visible_from','visible_to','visible','needs_referral','min_age','max_age','notes','service_taxonomies','contact_name','contact_title','contact_visible','contact_email','contact_phone','location_name','location_latitude','location_longitude','location_address_1','location_city','location_postcode','location_visible','mask_exact_address','preferred_for_post','location_accessibilities','free','cost_option','cost_amount','cost_type','temporarily_closed','schedules_opens_at','schedules_closes_at','scheduled_weekday','links_label','links_url','labels','suitabilities','is_local_offer','send_needs_support','support_description','recent_send_report','outcomes','recent_send_training','parental_involvement','information_sharing','environment_accessibility','how_to_start','future_plans'];
 
@@ -68,64 +112,6 @@ namespace :services do
               else 
                 service_id = Service.where(name: row["name"]&.strip).take.id
                 puts "🟠 Service: \"#{row["name"]}\" already exists, skipping anything to do with this service (id: #{service_id})."
-
-
-                #yuck
-                text_rows = row.headers.filter{|h|h.starts_with?('custom_text_')}.map{|e| e.slice('custom_text_'.length, e.length) }
-                text_fields = CustomField.where(field_type: 'text').map{|m| {id: m['id'], key: m['key'], field: m['key'].downcase.delete("^a-zA-Z0-9 ").gsub(' ', '_')}}
-
-                puts text_rows.inspect
-                puts text_fields.inspect
-                text_rows.map do |t|
-
-                  puts t.to_sym.inspect
-                  custom_field = text_fields.filter{|f| f[:field] === t.to_sym}
-                  puts custom_field.inspect
-
-                end
-                # for t in text_rows.length do
-              
-                  # puts t
-                  # custom_field = text_fields.filter{|s| s[:key]==t }
-
-                  # puts custom_field
-
-
-                  # if custom_field.present?
-
-                  #   puts service_id
-                  #     puts custom_field[:key]
-                  #     puts row["custom_text_#{t}"]
-
-
-                    # new_service_meta = ServiceMeta.new(
-                    #   service_id: service_id,
-                    #   key: custom_field[:key],
-                    #   value: row["custom_text_#{t}"]
-                    # )
-                    # if new_service_meta.save
-                    #   puts "  🟢 Custom field (text): created (id: #{new_service_meta.id})."
-                    # else 
-                    #   abort("  🔴 Custom field (text): was not created. Exiting. #{new_service_meta.errors.messages}")
-                    # end
-                  # end
-                # end
-
-                checkbox_rows = row.headers.filter{|h|h.starts_with?('custom_checkbox_')}.map{|e| e.slice('custom_checkbox_'.length, e.length) }
-                checkbox_fields = CustomField.where(field_type: 'checkbox').map{|m| [id: m['id'], key: m['key'].downcase.delete("^a-zA-Z0-9 ").gsub(' ', '_')]}
-                
-                number_rows = row.headers.filter{|h|h.starts_with?('custom_number_')}.map{|e| e.slice('custom_number_'.length, e.length) }
-                number_fields = CustomField.where(field_type: 'number').map{|m| [id: m['id'], key: m['key'].downcase.delete("^a-zA-Z0-9 ").gsub(' ', '_')]}
-
-                select_rows = row.headers.filter{|h|h.starts_with?('custom_select_')}.map{|e| e.slice('custom_select_'.length, e.length) }
-                select_fields = CustomField.where(field_type: 'select').map{|m| [id: m['id'], key: m['key'].downcase.delete("^a-zA-Z0-9 ").gsub(' ', '_')]}
-                
-                date_rows = row.headers.filter{|h|h.starts_with?('custom_date_')}.map{|e| e.slice('custom_date_'.length, e.length) }
-                date_fields = CustomField.where(field_type: 'date').map{|m| [id: m['id'], key: m['key'].downcase.delete("^a-zA-Z0-9 ").gsub(' ', '_')]}
-                
-                
-
-
               end
             else
 
@@ -177,20 +163,41 @@ namespace :services do
                   new_service_send_needs(service, row)
                 end 
 
+                # custom fields
+
+                #yuck
+                # @TODO loop through CustomField.types here
+                text_rows = row.headers.filter{|h|h.starts_with?('custom_text_')}.map{|e| e.slice('custom_text_'.length, e.length) }
+                text_field_info = []
+                text_field = CustomField.where(field_type: 'text').map{|m| text_field_info << {"id" => m['id'], "key" => m['key'], "field" => m['key'].downcase.delete("^a-zA-Z0-9 ").gsub(' ', '_')}}
+                import_service_meta('text', service_id, text_rows, text_field_info, row)
+ 
+                checkbox_rows = row.headers.filter{|h|h.starts_with?('custom_checkbox_')}.map{|e| e.slice('custom_checkbox_'.length, e.length) }
+                checkbox_field_info = []
+                checkbox_fields = CustomField.where(field_type: 'checkbox').map{|m| checkbox_field_info << {"id" => m['id'], "key" => m['key'], "field" => m['key'].downcase.delete("^a-zA-Z0-9 ").gsub(' ', '_')}}
+                import_service_meta('checkbox', service_id, checkbox_rows, checkbox_field_info, row)
+
+                number_rows = row.headers.filter{|h|h.starts_with?('custom_number_')}.map{|e| e.slice('custom_number_'.length, e.length) }
+                number_field_info = []
+                number_fields = CustomField.where(field_type: 'number').map{|m| number_field_info << {"id" => m['id'], "key" => m['key'], "field" => m['key'].downcase.delete("^a-zA-Z0-9 ").gsub(' ', '_')}}
+                import_service_meta('number', service_id, number_rows, number_field_info, row)
+
+                select_rows = row.headers.filter{|h|h.starts_with?('custom_select_')}.map{|e| e.slice('custom_select_'.length, e.length) }
+                select_field_info = []
+                select_fields = CustomField.where(field_type: 'select').map{|m| select_field_info << {"id" => m['id'], "key" => m['key'], "field" => m['key'].downcase.delete("^a-zA-Z0-9 ").gsub(' ', '_')}}
+                import_service_meta('select', service_id, select_rows, select_field_info, row)
+
+                date_rows = row.headers.filter{|h|h.starts_with?('custom_date_')}.map{|e| e.slice('custom_date_'.length, e.length) }
+                date_field_info = []
+                date_fields = CustomField.where(field_type: 'date').map{|m| date_field_info << {"id" => m['id'], "key" => m['key'], "field" => m['key'].downcase.delete("^a-zA-Z0-9 ").gsub(' ', '_')}}
+                import_service_meta('date', service_id, date_rows, date_field_info, row)
+
 
                 ######### 
                 # data that is valid on child and parent rows
                 append_data_to_all_row_types(service_id, row)
                 
 
-                # custom fields
-
-                puts row.headers
-                # custom_text_
-                # custom_checkbox_
-                # custom_number_
-                # custom_select_
-                # custom_date_
 
               else 
                 abort("🔴 Service: \"#{row["name"]}\" was not created. Exiting.  #{new_service.errors.messages}")
