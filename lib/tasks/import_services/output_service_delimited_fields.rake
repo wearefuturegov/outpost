@@ -47,6 +47,7 @@ namespace :services do
         field_data_tidied = field_data.map{|i| i[field_name]}.uniq.join(';').split(';').collect(&:strip).reject(&:empty?).uniq.sort
         puts "\n\n" if (i != 0 && field_data_tidied.length > 0)
         puts "# 👉🏻  The final list of #{field_name} will be: \n\n#{field_data_tidied.join("\n")}" if field_data_tidied.length > 0
+        puts "\n\nCopy to custom_fields.csv: \n#{field_data_tidied.join(",")}" if field_data_tidied.length > 0
       end
 
     end
