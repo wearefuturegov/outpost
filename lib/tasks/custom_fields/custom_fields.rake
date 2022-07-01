@@ -39,7 +39,7 @@ namespace :custom_fields do
         puts "🟠 Field: \"#{row["name"]}\" already exists, skipping."
       else
         custom_field = CustomField.new(
-          key: row["name"],
+          key: row["name"]&.strip,
           field_type: row["field_type"].downcase,
           options: row["field_options"],
           hint: row["hint"],
@@ -70,7 +70,7 @@ namespace :custom_fields do
         end
       else
         new_custom_field_section = CustomFieldSection.new(
-          name: row["name"],
+          name: row["name"]&.strip,
           hint: row["hint"],
           public: row["section_visible_to_community_users"],
           api_public: row["section_expose_in_public_api"],
@@ -92,8 +92,8 @@ namespace :custom_fields do
     errors = false
 
     # all rows should have import_id set
-    data = csv_data.select{|item| item['import_id'].nil? }
-    if data.length > 0 
+    data = csv_data.select{|item| !item['import_id'].nil? }
+    if data.length < csv_data.length
       puts "🔴 Some rows contain empty import_id"
       errors = true
     end
