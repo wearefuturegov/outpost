@@ -7,6 +7,12 @@ namespace :services do
       csv_parser = CSV.parse(file, headers: true,
       skip_blanks: true,
       skip_lines: /^(?:,\s*)+$/)
+
+      # TODO
+      # locations import twice
+      # links import twice
+      # opening times import twice
+      # opening times not all importing
   
       # doing these before we do anything since they're the most likely things to have to fix
 
