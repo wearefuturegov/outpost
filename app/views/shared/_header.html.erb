@@ -14,7 +14,9 @@
         
         <% if user_signed_in? %>
         <div class="site-header__actions">
-            <%= render "shared/app-switcher" %>
+            <% if ENV["INSTANCE"].present? && ENV["INSTANCE"] === 'buckinghamshire' %>
+                <%= render "shared/app-switcher" %>
+            <% end %>
             <%= link_to current_user.display_name, edit_user_registration_path, class: "site-header__username"%>
             <%= link_to "Sign out", destroy_user_session_path, method: :delete, class: "site-header__link" %>
         </div>
