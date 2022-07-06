@@ -148,11 +148,21 @@ namespace :import_services do
                     end
 
                     unless row['location_accessibilities'].blank?
-                        create_report_postcode(row)
+                        create_accessibilities(row)
                     end
 
                     unless row['notes'].blank?
                         service.notes << create_notes(row)
+                    end
+
+                    unless !row['import_id_reference'].blank?
+                        custom_field = CustomField.all()
+                        custom_field.each{ |item|
+                            column_name = "custom_#{item.field_type.downcase}_#{item.key.downcase}"
+                            unless row[column_name].blank?
+                                service.meta << create_custom_field(item.key, row[column_name])
+                            end
+                        }
                     end
                 end
 
@@ -323,5 +333,13 @@ namespace :import_services do
         note.user = User.where(admin: true).first
 
         note
+    end
+
+    def create_custom_field(key, value)
+        service_meta = ServiceMeta.create
+        service_meta.key = key
+        service_meta.value = value
+
+        service_meta
     end
 end
