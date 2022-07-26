@@ -62,11 +62,15 @@
                 Never logged in
               <% end %>
             </td>
-            <% if u.discarded? %>
-              <td>
+            <td>
+              <% if u.marked_for_deletion? %>
+                <%= "Marked for deletion on #{u.marked_for_deletion.strftime("%d/%m/%Y")}" %>
+                <br>
+              <% end %>
+              <% if u.discarded? %>
                 <%= link_to "Reactivate", admin_user_reactivate_path(u), method: "post", data: {confirm: "Are you sure? This user will be able to sign in again."} %>
-              </td>
-            <% end %>
+              <% end %>
+            </td>
           </tr>
         <% end %>
       </tbody>

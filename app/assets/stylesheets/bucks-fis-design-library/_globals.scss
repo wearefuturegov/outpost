@@ -100,9 +100,6 @@ table{
         &:first-of-type a{
             font-weight: bold;
         }
-        &:last-of-type a{
-            margin-left: 10px;
-        }
     }
     tbody tr:nth-of-type(odd){
         background: $pale;
