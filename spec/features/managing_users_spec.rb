@@ -93,7 +93,21 @@ feature 'Managing users', type: :feature do
       click_link 'Back to users'
       expect(page).to have_content 'Marked for deletion on'
     end
-  end
 
+    context 'with a user marked for deletion' do
+      before do
+        deactivated_user.update(marked_for_deletion: Time.now)
+        visit admin_users_path
+      end
+
+      scenario 'I can reactivate the user and they will not be marked for deletion anymore' do
+        click_link deactivated_user.display_name
+        expect(page).to have_field('user_marked_for_deletion', checked: true)
+        click_link 'Reactivate'
+        expect(page).to have_content 'That user has been reactivated'
+        expect(deactivated_user.reload.marked_for_deletion).to be nil
+      end
+    end
+  end
 
 end

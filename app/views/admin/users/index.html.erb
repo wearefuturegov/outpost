@@ -68,7 +68,7 @@
                 <br>
               <% end %>
               <% if u.discarded? %>
-                <%= link_to "Reactivate", admin_user_reactivate_path(u), method: "post", data: {confirm: "Are you sure? This user will be able to sign in again."} %>
+                <%= link_to "Reactivate", reactivate_admin_user_path(u), method: :put, data: {confirm: "Are you sure? This user will be able to sign in again."} %>
               <% end %>
             </td>
           </tr>
