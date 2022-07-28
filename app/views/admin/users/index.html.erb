@@ -63,7 +63,7 @@
             <td>
               <div class="actions actions--no-padding">
               <% if u.marked_for_deletion? %>
-                 <button class="help-button help-button--warning help-button--small inline-button" type="button" data-tippy-content="<%= "Marked for deletion on #{u.marked_for_deletion.strftime("%d/%m/%Y")}" %>">What does this mean?</button>
+                 <button class="help-button help-button--warning help-button--small inline-button" type="button" data-tippy-content="<%= "User marked for deletion on #{u.marked_for_deletion.strftime("%d/%m/%Y")}" %>"><%= "User marked for deletion on #{u.marked_for_deletion.strftime("%d/%m/%Y")}" %></button>
               <% end %>
               <% if u.discarded? %>
                 <%= link_to "Reactivate", reactivate_admin_user_path(u), method: :put, data: {confirm: "Are you sure? This user will be able to sign in again."} %>
