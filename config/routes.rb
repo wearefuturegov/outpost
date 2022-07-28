@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   # admin users
   namespace :admin do
     root "dashboard#index"
+    get '/:services/export', to: 'services#export'
     resources :services, except: :edit do
       resources :watch, only: [:create, :destroy]
       resources :notes, only: [:create, :destroy]

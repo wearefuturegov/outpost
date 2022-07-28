@@ -1,6 +1,8 @@
+require 'csv'
+
 class Admin::ServicesController < Admin::BaseController
   before_action :set_service, only: [:update, :destroy]
-  before_action :load_custom_field_sections, only: [:show, :update, :destroy, :new, :create]
+  before_action :load_custom_field_sections, only: [:show, :update, :destroy, :new, :create, :to_csv]
   skip_before_action :set_counts, only: :show
 
   def index
@@ -80,6 +82,50 @@ class Admin::ServicesController < Admin::BaseController
   def destroy
     @service.archive
     redirect_to admin_services_path, notice: "That service has been archived."
+  end
+
+  def export
+    headerRow = [
+                  # basics section
+                  "serviceId", 
+                  "name", 
+                  "description",
+                  "website",
+                  "service needs referral",
+
+                  # taxonomies
+                  "taxonomies"
+                ]
+
+    theCsv = CSV.generate(headers: true) do |csv|
+      csv << headerRow
+
+      Service.includes([:taxonomies]).find_each do |service| 
+
+      service.taxonomies.map do |t| 
+        puts t.name
+      end
+
+
+        csv <<  [
+                  # basics section
+                  service.id,
+                  service.name,
+                  service.description,
+                  service.url,
+                  service.needs_referral
+
+                  # taxonomies
+                ]
+      end 
+    end
+
+
+    # render plain: theCsv
+    # byebug
+    respond_to do |format|
+      format.csv { send_data theCsv, filename: "services-#{Date.today}.csv" }
+    end
   end
 
   private

@@ -10,6 +10,11 @@
     <%= render partial: 'list', locals: { services: @services } %>
   </div>
   <%= paginate @services %>
+
+  <div class="actions">
+    <%= link_to "Export all services", 'services/export.csv', class: "inline-button actions__pull-right" %>
+  </div>
+
 <% else %>
   <p class="no-results no-results--big">No results to show</p>
 <% end %>

@@ -353,4 +353,6 @@ class Service < ApplicationRecord
     meta.destroy_all
     links.destroy_all
   end
+
+
 end
