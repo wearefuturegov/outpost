@@ -18,9 +18,7 @@
           <th>Organisation</th>
           <th>Joined</th>
           <th>Last seen</th>
-          <% if params[:deactivated] %>
-            <th class="visually-hidden">Actions</th>
-          <% end %>
+          <th class="visually-hidden">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -63,13 +61,14 @@
               <% end %>
             </td>
             <td>
+              <div class="actions actions--no-padding">
               <% if u.marked_for_deletion? %>
-                <%= "Marked for deletion on #{u.marked_for_deletion.strftime("%d/%m/%Y")}" %>
-                <br>
+                 <button class="help-button help-button--warning help-button--small inline-button" type="button" data-tippy-content="<%= "Marked for deletion on #{u.marked_for_deletion.strftime("%d/%m/%Y")}" %>">What does this mean?</button>
               <% end %>
               <% if u.discarded? %>
                 <%= link_to "Reactivate", reactivate_admin_user_path(u), method: :put, data: {confirm: "Are you sure? This user will be able to sign in again."} %>
               <% end %>
+              </div>
             </td>
           </tr>
         <% end %>
