@@ -59,4 +59,4 @@ Date
 
 # Running the import
 
-Running `rake custom_fields:import` will import the data from the custom-fields.csv file.
+Running `rake import:custom_fields` will import the data from the custom-fields.csv file.
