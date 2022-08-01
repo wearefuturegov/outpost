@@ -1,6 +1,6 @@
-namespace :custom_fields do
+namespace :import do
   desc 'import custom field from csv file to database'
-  task :import => :environment do
+  task :custom_fields => :environment do
     file_path = Rails.root.join('lib', 'seeds', 'custom-fields.csv')
     
     file = File.open(file_path, "r:ISO-8859-1")
