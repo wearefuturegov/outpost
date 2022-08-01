@@ -48,8 +48,8 @@ Rails.application.routes.draw do
     resources :activity, only: [:index, :show]
     resources :custom_field_sections, except: [:edit]
     resources :users, except: [:edit] do
-      post "reset"
-      post "reactivate"
+      post :reset, on: :member
+      put :reactivate, on: :member
     end
   end
 
