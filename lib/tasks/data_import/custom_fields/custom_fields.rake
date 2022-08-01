@@ -20,11 +20,16 @@ namespace :import do
 
   # Do the import
   def import_sections_and_fields(csv_data)
-    csv_data.each.with_index do |row, index|
-      section_id = import_sections(row)
+    csv_data.each do |row|
+      # Skip until we get to a row containing a custom field section
+      next unless row['import_id_reference'].nil?
+
+      section_id = import_section(row)
+
+      # Once the section is saved, go to import the custom fields in that section
       if section_id
         field_rows = csv_data.select{|item| item['import_id_reference'] === row['import_id']}
-        field_rows.length > 0 if import_fields(section_id, field_rows)
+        import_fields(section_id, field_rows)
       end
     end
   end
@@ -46,7 +51,7 @@ namespace :import do
         )
         if custom_field.save
           puts "🟢 Field: \"#{row["name"]}\" created (id: #{custom_field.id})."
-        else 
+        else
           puts "🟠 Field: \"#{row["name"]}\" failed to save. Continuing with import. #{custom_field.errors.messages}"
         end 
       end
@@ -54,36 +59,36 @@ namespace :import do
   end
 
 
-  # Import sections
-  # if section exists it will continue with the fields
-  # returns id for the section
-  def import_sections(row)
-    if row['import_id_reference'] == nil
-      custom_field_section = CustomFieldSection.where(name: row["name"])
-      if custom_field_section.exists?
-        if custom_field_section.count > 1
-          abort("🔴 Section: \"#{row["name"]}\" exists multiple times, not safe to continue. Aborting.")
-        else 
-          custom_field_section_id = CustomFieldSection.where(name: row["name"]).take.id
-          puts "🟠 Section: \"#{row["name"]}\" already exists, assigning any fields to the existing section (id: #{custom_field_section_id})."
-        end
-      else
-        new_custom_field_section = CustomFieldSection.new(
-          name: row["name"]&.strip,
-          hint: row["hint"],
-          public: row["section_visible_to_community_users"],
-          api_public: row["section_expose_in_public_api"],
-          sort_order: row["section_sort_order"]
-        )
-        if new_custom_field_section.save
-          custom_field_section_id = new_custom_field_section.id
-          puts "🟢 Section: \"#{row["name"]}\" created (id: #{custom_field_section_id})."
-        else 
-          abort("🔴 Section: \"#{row["name"]}\" was not created. Aborting. #{new_custom_field_section.errors.messages}")
-        end
+  # Import custom field section
+  # Creates a new custom field section unless it already exists
+  # Returns the id for the section, or false if the row is for a field rather
+  # than a section.
+  def import_section(row)
+    # If the import_id_reference is empty, it's a section. Otherwise it's a
+    # field, so we don't import it here.
+    return false unless row['import_id_reference'].nil?
+
+    custom_field_section = CustomFieldSection.find_or_initialize_by(name: row["name"]&.strip)
+
+    if custom_field_section.persisted?
+      puts "🟠 Section: \"#{row["name"]}\" already exists, assigning any fields to the existing section (id: #{custom_field_section.id})."
+      return custom_field_section.id
     end
-    return custom_field_section_id
-  end
+
+    section_params = {
+      hint: row["hint"],
+      public: row["section_visible_to_community_users"],
+      api_public: row["section_expose_in_public_api"],
+      sort_order: row["section_sort_order"]
+    }
+
+    if custom_field_section.update(section_params)
+      puts "🟢 Section: \"#{row["name"]}\" created (id: #{custom_field_section.id})."
+    else
+      abort("🔴 Section: \"#{row["name"]}\" was not created. Aborting. #{custom_field_section.errors.messages}")
+    end
+
+    return custom_field_section.id
   end
 
   # General id related validation
