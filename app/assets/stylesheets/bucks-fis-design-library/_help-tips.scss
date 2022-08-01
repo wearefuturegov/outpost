@@ -45,6 +45,15 @@
                 font-size: 0.8rem;
             }
         }
+
+        &--warning{
+            border-color: $error;
+            color: $error;
+            opacity: 1;
+            &:after{
+                content: "!";
+            }
+        }
     }
 }
 

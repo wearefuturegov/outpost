@@ -91,7 +91,7 @@ feature 'Managing users', type: :feature do
       expect(page).to have_content 'User has been updated'
       expect(page).to have_field('user_marked_for_deletion', checked: true)
       click_link 'Back to users'
-      expect(page).to have_content 'Marked for deletion on'
+      expect(page).to have_content 'User marked for deletion on'
     end
 
     context 'with a user marked for deletion' do
