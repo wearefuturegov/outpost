@@ -1,9 +1,9 @@
 namespace :import do
-  desc 'import custom field from csv file to database'
-  task :custom_fields => :environment do
-    file_path = Rails.root.join('lib', 'seeds', 'custom-fields.csv')
+  desc 'Import custom field from csv file to database. By default, looks for a file at lib/seeds/custom-fields.csv, or you can pass in a custom file path as an argument'
+  task :custom_fields, [:file_path] => :environment do |t, args|
+    args.with_defaults(file_path: Rails.root.join('lib', 'seeds', 'custom-fields.csv'))
     
-    file = File.open(file_path, "r:ISO-8859-1")
+    file = File.open(args.file_path, "r:ISO-8859-1")
     csv_parser = CSV.parse(file, headers: true)
 
     # doing these before we do anything since they're the most likely things to have to fix
