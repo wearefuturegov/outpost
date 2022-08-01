@@ -20,6 +20,22 @@ describe 'Custom fields import' do
       expect(CustomFieldSection.all.count).to eq 1
       expect(CustomField.all.count).to eq 5
     end
+
+    context 'with the fields imported already' do
+
+      before do
+        Rake::Task["import:custom_fields"].invoke(valid_file_path)
+        Rake::Task["import:custom_fields"].reenable
+      end
+
+      it 'does not duplicate any fields' do
+        expect(CustomFieldSection.all.count).to eq 1
+        expect(CustomField.all.count).to eq 5
+        Rake::Task["import:custom_fields"].invoke(valid_file_path)
+        expect(CustomFieldSection.all.count).to eq 1
+        expect(CustomField.all.count).to eq 5
+      end
+    end
   end
 
 end
