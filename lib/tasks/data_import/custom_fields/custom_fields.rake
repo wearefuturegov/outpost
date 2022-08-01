@@ -7,15 +7,14 @@ namespace :import do
     csv_parser = CSV.parse(file, headers: true)
 
     # doing these before we do anything since they're the most likely things to have to fix
-    initial_validation_has_errors = (validate_custom_field_import_ids(csv_parser) || validate_field_types(csv_parser))
+    initial_validation_passed = validate_custom_field_import_ids(csv_parser) && validate_field_types(csv_parser)
 
-    if initial_validation_has_errors 
-      puts "😭 Import will fail, data is not valid, see errors above."
-    else 
+    if initial_validation_passed
       puts "🟢 Validation passed, continuing with import 🥁"
       import_sections_and_fields(csv_parser)
+    else
+      puts "😭 Import will fail, data is not valid, see errors above."
     end
-
   end
 
 
@@ -48,7 +47,7 @@ namespace :import do
         if custom_field.save
           puts "🟢 Field: \"#{row["name"]}\" created (id: #{custom_field.id})."
         else 
-          puts "🟠 Field: \"#{row["name"]}\" failed to save. Continuing with import.  #{custom_field.errors.messages}"
+          puts "🟠 Field: \"#{row["name"]}\" failed to save. Continuing with import. #{custom_field.errors.messages}"
         end 
       end
     end
@@ -88,40 +87,38 @@ namespace :import do
   end
 
   # General id related validation
+  # Returns true if valid, false if not
   def validate_custom_field_import_ids(csv_data)
-    errors = false
+    data = csv_data.select{|item| item['import_id'].present? }
 
     # all rows should have import_id set
-    data = csv_data.select{|item| !item['import_id'].nil? }
     if data.length < csv_data.length
       puts "🔴 Some rows contain empty import_id"
-      errors = true
+      return false
     end
 
     # no duplicated id's in import_id
-    data = csv_data.select{|item| !item['import_id'].nil? }
     ids = data.map{|i| i['import_id']}
     duplicates = ids.filter{ |e| ids.count(e) > 1 }.sort.uniq
     if ids.uniq.length != ids.length
       puts "🔴 Duplicate import_id's #{duplicates.join(',')}"
-      errors = true
+      return false
     end
 
-    return !!errors
+    return true
   end
 
   # Validate field types against custom fields model
   # Note this assumes that other checks have passed - eg import_ids etc 
+  # Returns true if there are no errors, or false if there are errors
   def validate_field_types(csv_data)
-    errors = false
-
     # check field_type is a valid string
-    data = csv_data.select{|item| !item['field_type'].nil? }
-    field_types = data.map{|i| i['field_type']}.uniq.map(&:downcase)
+    data = csv_data.select{|item| item['field_type'].present? }
+    field_types = data.map{|row| row['field_type']}.uniq.map(&:downcase)
     matches = field_types - CustomField.types.map(&:downcase)
     if matches.length > 0 
       puts "🔴 Invalid field_types found. Search for these \"#{matches.join(',')}\"\n  ℹ️ Valid field_types: #{CustomField.types.join(',')}"
-      errors = true
+      return false
     end
 
     # if field_type === select ensure options is set (and valid)
@@ -129,10 +126,9 @@ namespace :import do
     if data.length > 0 
       naughty_rows = data.map{|i| "  👉  \"#{i["name"]}\"" }.join("\n")
       puts "🔴 Missing field_options for select fields \n#{naughty_rows}"
-      errors = true
+      return false
     end
 
-    return !!errors
+    return true
   end
-
 end
