@@ -34,8 +34,8 @@ namespace :import do
   # import the fields for the set section
   def import_fields(section_id, field_rows)
     field_rows.each do | row |
-      custom_field = CustomField.where(key: row["name"])
-      if custom_field.exists?
+      custom_field = CustomField.find_by(key: row["name"]&.strip)
+      if custom_field
         puts "🟠 Field: \"#{row["name"]}\" already exists, skipping."
       else
         custom_field = CustomField.new(
