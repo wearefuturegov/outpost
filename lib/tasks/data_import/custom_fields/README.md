@@ -59,4 +59,21 @@ Date
 
 # Running the import
 
-Running `rake import:custom_fields` will import the data from the custom-fields.csv file.
+You can run the task with:
+
+```
+rake import:custom_fields
+```
+
+By default, the rake task will look for a file called `custom-fields.csv` in the
+`lib/seeds` folder.
+
+You can also import data from a different file location on your file system, by
+passing a file path in to the rake task. This is an optional argument.
+
+To do this, replace `<file_path>` with the location of the file you
+wish to import data from (make sure to keep the quote marks around the task name):
+
+```
+rake 'import:custom_fields[<file_path>]'
+```
