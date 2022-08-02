@@ -4,8 +4,6 @@ require 'fileutils'
 Rails.application.load_tasks
 
 describe 'Services import' do
-  let(:seed_file_destination) { Rails.root.join('lib', 'seeds', 'custom-fields.csv') }
-
   after(:each) do
     Rake::Task["import:services"].reenable
   end
