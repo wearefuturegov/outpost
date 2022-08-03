@@ -1,7 +1,7 @@
 class Suitability < ApplicationRecord
   has_and_belongs_to_many :services
 
-  validates_presence_of :name
+  validates_presence_of :name, uniqueness: true
 
   def display_name
     name.humanize
