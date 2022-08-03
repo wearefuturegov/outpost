@@ -126,10 +126,7 @@ class Service < ApplicationRecord
   paginates_per 20
 
   # validations
-  validates_presence_of :name
-  validates_uniqueness_of :name
-  validates :name, length: { minimum: 2 }
-  validates :name, length: { maximum: 100 }
+  validates :name, presence: true, uniqueness: true, length: { minimum: 2, maximum: 100 }
   validate :validate_ages
   validate :validate_freeness
 
