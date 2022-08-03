@@ -218,7 +218,7 @@ namespace :import do
 
     # notes
     if row["notes"].present?
-      new_service_notes(service_id, row["notes"])
+      new_service_notes(service, row["notes"])
     end
 
     # location
