@@ -56,7 +56,9 @@ namespace :import do
       if service_id
         child_rows = csv_data.select{|item| item['import_id_reference'] === row['import_id']}
         # @TODO this causes duplicates in the db
-        child_rows.length > 0 if append_data_to_all_row_types(service_id, row)
+        child_rows.each do |child_row|
+          append_data_to_all_row_types(service_id, child_row)
+        end
       end
     end
   end
@@ -241,7 +243,7 @@ namespace :import do
     end
 
     # links
-    if row["links_label"].present? && row["links_url"].present?
+    if row["links_label"].present?
       new_service_links(service, row)
     end
   end
