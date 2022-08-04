@@ -248,8 +248,7 @@ namespace :import do
     end
   end
 
-  # create send needs
-
+  # create local offer
   def new_service_local_offer(service_id, send_needs_data)
 
     survey_answer_mappings = [
