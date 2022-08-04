@@ -13,8 +13,10 @@ describe 'Services import' do
 
     it 'works' do
       expect(Service.all.count).to eq 0
+      expect(Link.all.reload.count).to eq 0
       Rake::Task["import:services"].invoke(valid_file_path)
       expect(Service.all.count).to eq 2
+      expect(Link.all.count).to eq 2
     end
 
     context 'with the services imported already' do
@@ -23,10 +25,16 @@ describe 'Services import' do
         Rake::Task["import:services"].reenable
       end
 
-      it 'does not duplicate any services' do
+      it 'does not duplicate any services or other data' do
         expect(Service.all.count).to eq 2
+        expect(Link.all.count).to eq 2
+        expect(Suitability.all.count).to eq 10
+
         Rake::Task["import:services"].invoke(valid_file_path)
+
         expect(Service.all.count).to eq 2
+        expect(Link.all.count).to eq 2
+        expect(Suitability.all.count).to eq 10
       end
     end
   end
