@@ -12,7 +12,7 @@
 
 # 💿 Data Import
 
-There are two files included in this repository, [data-import--with-sample-data.csv](./data-import--with-sample-data.csv) and [data-import.csv](./data-import.csv). These files will allow you to run an initial import of your data to Outpost. 
+There are two files included in this repository, [services--with-sample-data.csv](./services--with-sample-data.csv) and [services.csv](./services.csv). These files will allow you to run an initial import of your data to Outpost.
 
 * Each row in the document must have a unique numeric ID `import_id`. If this ID is missing the import script will not run.
 * `name` - If there are duplicate service names - the script will output an error
@@ -83,7 +83,7 @@ In order to add multiple locations to a service you would create one entry for y
 | `environment_accessibility`                                                                                                     | Text | How accessible is the environment (indoors and outdoors)?  |   |  
 | `how_to_start`                                                                                                                  | Text  |  How can children and young people with SEND and their families start to use your service or activity? |  |  
 | `future_plans`                                                                                                                  | Text  | What future plans do you have for developing your SEND provision?  |  |  
-| `custom_<custom_field_type>_field_name`                                                                                         | depends  | Format for custom fields  |  |  
+| `custom_<custom_field_type>_<field_name>`                                                                                       | depends  | Format for custom fields. The custom fields need to be imported beforehand using the custom fields import task. If there is a free-text type custom field called 'Community review', the column name would be `custom_text_community_review` for example. |  |
 
 ## Sample taxonomies
 
@@ -147,7 +147,32 @@ This formula will take all data from the 2nd row to infinity and create a unique
 
 # Importing
 
+You can preview the delimited field data that will be imported before running
+the import as a sanity check. That includes data for service taxonomies,
+accessibilities, labels, suitabilities, SEND needs, and 'select' type custom
+fields.
 
-`rake services:display_delimited_field_values`
+To preview this data, run:
 
-`rake services:import`
+```
+rake import:preview_service_data
+```
+
+To run the actual import, run:
+
+```
+rake import:services
+```
+
+By default, both rake tasks will look for a file called `services.csv` in the
+`lib/seeds` folder.
+
+You can also use data from a different file location on your file system, by
+passing a file path in to the rake task. This is an optional argument.
+
+To do this, replace `<file_path>` with the location of the file you
+wish to read data from (make sure to keep the quote marks around the task name):
+
+```
+rake 'import:services[<file_path>]'
+```
