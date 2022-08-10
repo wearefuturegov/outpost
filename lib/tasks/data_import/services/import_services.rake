@@ -65,49 +65,42 @@ namespace :import do
 
 
   # import the service meta
-  def import_service_meta(type, service_id, rows, fields, row)
+  def import_service_meta(type, service_id, fields_for_import, row)
+    fields_for_import.map do |t|
+      # Find the existing custom field to add this service meta to
+      custom_field = CustomField.where(field_type: type).find{|cf| cf.snakecase_key === t}
 
-    if CustomField.types.map!(&:downcase).include? type
-      rows.map do |t|
+      unless custom_field.present?
+        puts "🟠 Custom field  \"#{t}\" of type #{type} does not exist. Please check the field name or create the custom field in order to add this service data. Perhaps you have forgotten to run the custom field import?"
+        return
+      end
 
-        custom_field = fields.filter{|f| f["field"] === t}.first
-        if custom_field.present?
-          key = custom_field['key']
-          value = row["custom_#{type}_#{t}"]
+      value = row["custom_#{type}_#{t}"]
 
-          case type
-          when "text"
-            value = value.nil? ? '' : value&.strip
-          when "checkbox"
-            value = !value.nil? ? value&.strip : ''
-          when "number"
-            value = CSV::Converters[:integer].call(value).is_a?(Numeric) ? CSV::Converters[:integer].call(value) : ''
-          when "select"
-            value = !value.nil? ? value.split(';').collect(&:strip).reject(&:empty?).uniq.join(',') : ''
-          when "date"
-            value = value&.strip&.to_date.present? ? value&.strip&.to_date : ''
-          end
+      case type
+      when "text"
+        value = value.nil? ? '' : value&.strip
+      when "checkbox"
+        value = !value.nil? ? value&.strip : ''
+      when "number"
+        value = CSV::Converters[:integer].call(value).is_a?(Numeric) ? CSV::Converters[:integer].call(value) : ''
+      when "select"
+        value = !value.nil? ? value.split(';').collect(&:strip).reject(&:empty?).uniq.join(',') : ''
+      when "date"
+        value = value&.strip&.to_date.present? ? value&.strip&.to_date : ''
+      end
 
-          if value.present?
+      if value.present?
+        new_service_meta = ServiceMeta.find_or_initialize_by(service_id: service_id, key: custom_field.key) do |new_sm|
+          new_sm.value = value
+        end
 
-            state = "created"
-            new_service_meta_exists = ServiceMeta.where(service_id: service_id)
-            if new_service_meta_exists
-              state = "updated"
-            end
+        state = new_service_meta.new_record? ? 'created' : 'updated'
 
-            new_service_meta = ServiceMeta.find_or_create_by(service_id: service_id, key: key) do |new_sm|
-              new_sm.key = key
-              new_sm.value = value
-            end
-
-            if new_service_meta
-              puts "  🟢 Service meta: #{state} (id #{new_service_meta.id})"
-            else 
-              abort("  🔴 Service meta: was not created. Exiting. #{new_service_meta.errors.messages}")
-            end
-
-          end
+        if new_service_meta.save
+          puts "  🟢 Service meta: #{state} (id #{new_service_meta.id})"
+        else
+          abort("  🔴 Service meta: was not created. Exiting. #{new_service_meta.errors.messages}")
         end
       end
     end
@@ -159,42 +152,19 @@ namespace :import do
           # SEND needs
           new_service_send_needs(new_service, row['send_needs_support'])
 
-
           # custom fields
+          CustomField.types.each do |type|
+            header_starts_with = "custom_#{type.downcase}_"
+            fields_for_import = row.headers.filter{ |h| h.starts_with?(header_starts_with) }.map do |e|
+              e.slice(header_starts_with.length, e.length)
+            end
 
-          #yuck
-          # @TODO loop through CustomField.types here
-          text_rows = row.headers.filter{|h|h.starts_with?('custom_text_')}.map{|e| e.slice('custom_text_'.length, e.length) }
-          text_field_info = []
-          text_field = CustomField.where(field_type: 'text').map{|m| text_field_info << {"id" => m['id'], "key" => m['key'], "field" => m['key'].downcase.delete("^a-zA-Z0-9 ").gsub(' ', '_')}}
-          import_service_meta('text', service_id, text_rows, text_field_info, row)
-
-          checkbox_rows = row.headers.filter{|h|h.starts_with?('custom_checkbox_')}.map{|e| e.slice('custom_checkbox_'.length, e.length) }
-          checkbox_field_info = []
-          checkbox_fields = CustomField.where(field_type: 'checkbox').map{|m| checkbox_field_info << {"id" => m['id'], "key" => m['key'], "field" => m['key'].downcase.delete("^a-zA-Z0-9 ").gsub(' ', '_')}}
-          import_service_meta('checkbox', service_id, checkbox_rows, checkbox_field_info, row)
-
-          number_rows = row.headers.filter{|h|h.starts_with?('custom_number_')}.map{|e| e.slice('custom_number_'.length, e.length) }
-          number_field_info = []
-          number_fields = CustomField.where(field_type: 'number').map{|m| number_field_info << {"id" => m['id'], "key" => m['key'], "field" => m['key'].downcase.delete("^a-zA-Z0-9 ").gsub(' ', '_')}}
-          import_service_meta('number', service_id, number_rows, number_field_info, row)
-
-          select_rows = row.headers.filter{|h|h.starts_with?('custom_select_')}.map{|e| e.slice('custom_select_'.length, e.length) }
-          select_field_info = []
-          select_fields = CustomField.where(field_type: 'select').map{|m| select_field_info << {"id" => m['id'], "key" => m['key'], "field" => m['key'].downcase.delete("^a-zA-Z0-9 ").gsub(' ', '_')}}
-          import_service_meta('select', service_id, select_rows, select_field_info, row)
-
-          date_rows = row.headers.filter{|h|h.starts_with?('custom_date_')}.map{|e| e.slice('custom_date_'.length, e.length) }
-          date_field_info = []
-          date_fields = CustomField.where(field_type: 'date').map{|m| date_field_info << {"id" => m['id'], "key" => m['key'], "field" => m['key'].downcase.delete("^a-zA-Z0-9 ").gsub(' ', '_')}}
-          import_service_meta('date', service_id, date_rows, date_field_info, row)
-
+            import_service_meta(type.downcase, service_id, fields_for_import, row)
+          end
 
           ######### 
           # data that is valid on child and parent rows
           append_data_to_all_row_types(service_id, row)
-
-
 
         else 
           abort("🔴 Service: \"#{row["name"]}\" was not created. Exiting.  #{new_service.errors.messages}")
@@ -203,10 +173,6 @@ namespace :import do
       return service_id
     end
   end
-
-
-
-
 
   # some fields can be applied on all row 'types' the parents and the child
   def append_data_to_all_row_types(service_id, row)

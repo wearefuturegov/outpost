@@ -37,6 +37,23 @@ describe 'Services import' do
         expect(Suitability.all.count).to eq 10
       end
     end
+
+    context 'with custom fields in the DB' do
+      let!(:custom_text_field) { FactoryBot.create :custom_field, key: 'text field' }
+
+      before do
+        FactoryBot.create :custom_field, :number, key: 'number field'
+        FactoryBot.create :custom_field, :checkbox, key: 'checkbox field'
+        FactoryBot.create :custom_field, :date, key: 'date field'
+        FactoryBot.create :custom_field, :select, key: 'select field'
+      end
+
+      it 'creates the service meta' do
+        expect(ServiceMeta.all.reload.count).to eq 0
+        Rake::Task["import:services"].invoke(valid_file_path)
+        expect(ServiceMeta.all.reload.count).to eq 5
+      end
+    end
   end
 
 end
