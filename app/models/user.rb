@@ -76,7 +76,7 @@ class User < ApplicationRecord
   end
 
   def self.options_for_labels
-    ActsAsTaggableOn::Tag.most_used.map { |t| [t.name, t.name] }.unshift(["All labels", ""])
+    ActsAsTaggableOn::Tag.order(:name).map { |t| [t.name, t.name] }.unshift(["All labels", ""])
   end
 
   # Include default devise modules. Others available are:
@@ -116,5 +116,13 @@ class User < ApplicationRecord
     else
       email[0,1].upcase
     end
+  end
+
+  def can_edit_taxonomies
+    admin_users?
+  end
+
+  def can_edit_custom_fields
+    admin_users?
   end
 end

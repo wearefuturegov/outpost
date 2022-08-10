@@ -39,5 +39,9 @@ module Outpost
     config.action_mailer.notify_settings = {
       api_key: ENV["NOTIFY_API_KEY"]
     }
+
+    # Active Storage image handling 
+    # Show svgs as images not files
+    config.active_storage.content_types_to_serve_as_binary -= ['image/svg+xml']
   end
 end

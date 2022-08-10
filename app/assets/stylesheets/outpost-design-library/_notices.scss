@@ -1,0 +1,51 @@
+.notice{
+    background: transparentize($outpostBlue, 0.9);
+    padding: 25px;
+    border-left: 5px solid $outpostBlue;
+    margin-bottom: 40px;
+
+    @media screen and (min-width: $breakpoint-m) {
+        font-size: 1.1rem;
+    }
+
+    *:first-child{
+        margin-top: 0px;
+    }
+
+    *:last-child{
+        margin-bottom: 0px;
+    }
+
+    &__action{
+        display: inline-block;
+        font-weight: bold;
+    }
+
+    &__divider{
+        color: $grey3;
+        opacity: 0.5;
+        margin: 0px 7px;
+    }
+}
+
+
+.dark-panel{
+    background: $outpostBlue;
+    padding: 35px;
+    margin-bottom: 45px;
+    @media screen and (min-width: $breakpoint-m) {
+        margin-bottom: 55px;
+    }
+    p{
+        margin: 0;
+    }
+    *{
+        color: white;
+    }
+    a{
+        text-decoration: underline;
+        &:hover{
+            text-decoration: none;
+        }
+    }
+}

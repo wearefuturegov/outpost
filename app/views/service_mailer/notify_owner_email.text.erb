@@ -1,5 +1,19 @@
 # Your changes to <%= @service.name %> have been approved.
 
-Review the changes:
+<% if @service.publicly_visible? && ENV['SCOUT_URL'] %>
 
-<%= service_url(@service) %>
+  They are now publicly visible in the directory:
+
+  <%= ENV['SCOUT_URL'] %>/service/<%= @service.id %>
+
+  Or, review the changes:
+
+  <%= service_url(@service) %>
+
+<% else %>
+
+  Review the changes:
+
+  <%= service_url(@service) %>
+
+<% end %>

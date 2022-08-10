@@ -11,7 +11,7 @@
     <fieldset class="field-group field">
         <legend class="field-group__legend">What kind of suggestion?</legend>
         <% feedback_topics.each do |t| %>
-            <div class="field radio">
+            <div class="radio">
                 <%= f.radio_button :topic, t[:value], class: "radio__input" %>
                 <%= f.label "topic_#{t[:value]}", t[:label], class: "radio__label" %>
             </div>

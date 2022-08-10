@@ -1,0 +1,154 @@
+.site-header{
+    background: $primary;
+    color: $white;
+    padding: 10px $outer-spacing;
+
+
+    &__inner{
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        @media screen and (min-width: $breakpoint-m){
+            align-items: center;
+        }
+    }
+
+    &__masthead{
+        margin-bottom: 10px;
+        display: inline-block;
+        min-width: 50%;
+        width: auto;
+        padding-right: 10px;
+        @media screen and (min-width: $breakpoint-m){
+            // width: 33%;
+            display: inline-block;
+            margin-bottom: 0px;
+            min-width: auto;
+        }
+    }
+
+    &__logo-link{
+        display: inline-block;
+        background: inherit;
+        &:focus{
+            outline: none;
+        }
+        &:focus-within img{
+            outline: 3px solid $focus;
+
+        }
+    }
+
+    &__logo{
+        height: 40px;
+        color: $white;
+        @media screen and (min-width: $breakpoint-m){
+            height: 45px
+        }
+    }
+
+
+    &__service-name-holder{
+        display: inline-flex;
+        width: 100%;
+        flex-direction: row;
+        align-items: center;
+        margin-bottom: 10px;
+        justify-content: center;
+        @media screen and (min-width: $breakpoint-m){
+            margin-bottom: 0px;
+            width: inherit;
+        }
+    }
+
+    &__service-name{
+        font-weight: bold;
+        font-size: 1.1rem;
+        color: $white;
+        text-decoration: none;
+        @media screen and (min-width: $breakpoint-m){
+            font-size: 1.5rem;
+        }
+        &:hover{
+            text-decoration: underline;
+        }
+        &:focus{
+            outline: 3px solid $focus;
+            background: $focus;
+        }
+    }
+
+    &__actions{
+        // margin-left: auto;
+        margin-bottom: 10px;
+        @media screen and (min-width: $breakpoint-m) {
+            font-size: 1.1rem;
+            order: 2;
+        }
+    }
+
+    &__link{
+        font-weight: bold;
+        color: white;
+    }
+
+    &__phase-tag{
+        color: $grey1;
+        background: $focus;
+        text-transform: uppercase;
+        font-weight: bold;
+        padding: 2px 5px;
+        margin-left: 10px;
+        font-size: 0.9rem;
+        letter-spacing: 0.5px;
+        text-decoration: none !important;
+    }
+
+    &__username{
+        display: none;
+        @media screen and (min-width: $breakpoint-l) {
+            display: inline-block;
+            margin-right: 10px;
+            color: $white;
+        }
+    }
+
+    &--logged-out {
+        .site-header__inner {
+            justify-content: start;
+        }
+
+        .site-header__masthead {
+            padding-right: 40px;
+        }
+
+    }
+
+
+        
+    &.light {
+        color: $outpostBlack;
+
+        .site-header__logo{
+            color: $outpostBlack;
+        }
+
+        .site-header__link{
+            color: $outpostBlack;
+        }
+
+        .site-header__service-name{
+            color: $outpostBlack;
+        }
+
+        .site-header__username {
+            @media screen and (min-width: $breakpoint-l) {
+                color: $outpostBlack;
+            }
+        }
+    
+    }
+
+}

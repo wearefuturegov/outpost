@@ -1,18 +1,18 @@
 <footer class="site-footer">
     <div class="container">
 
-        <nav class="site-footer__menu">
-            <a href="#" class="site-footer__link">About</a>
-            <a href="#" class="site-footer__link">Accessibility statement</a>
-            <a href="#" class="site-footer__link">Privacy policy</a>
-            <a href="#" class="site-footer__link">Cookies</a>
-            <a href="#" class="site-footer__link">Public and customer disclaimer</a>
-        </nav>
+        <% if APP_CONFIG.present? && APP_CONFIG['footer_links'].present? %>
+            <%= APP_CONFIG['footer_links'].html_safe %>
+        <% end %>
 
         <p class="site-footer__license">
             <%= image_tag "ogl.svg", alt: "Open Government License" %>
             All content is available under the <%= link_to "Open Government Licence v3.0", "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" %>, except where otherwise stated
         </p>
+
+        <% if APP_CONFIG.present? && APP_CONFIG['copyright'].present? %>
+            <p class="site-footer__copyright">&copy; <%= "#{Date.today.year} #{APP_CONFIG['copyright']}" %></p>
+        <% end %>
 
     </div>
 </footer>

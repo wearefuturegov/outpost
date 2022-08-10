@@ -154,7 +154,7 @@ class Service < ApplicationRecord
   end
 
   def self.options_for_labels
-    ActsAsTaggableOn::Tag.most_used.map { |t| [t.name, t.name] }.unshift(["All labels", ""])
+    ActsAsTaggableOn::Tag.order(:name).map { |t| [t.name, t.name] }.unshift(["All labels", ""])
   end
 
   def validate_ages

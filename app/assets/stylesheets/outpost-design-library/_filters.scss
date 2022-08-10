@@ -1,0 +1,46 @@
+.filters{
+    margin-bottom: 25px;
+    @media screen and (min-width: $breakpoint-m) {
+        margin-bottom: 35px;
+    }
+
+    &__control{
+        display: inline list-item;
+        color: $outpostBlack;
+        cursor: pointer;
+        &:hover{
+            text-decoration: underline;
+        }
+        &:focus{
+            color: $grey1;
+            background: $focus;
+            outline: 3px solid $focus;
+        }
+        &:active{
+            color: $grey1;
+        }
+        @media screen and (min-width: $breakpoint-m) {
+            font-size: 1.1rem;
+        }
+    }
+
+    &__body{
+        margin-top: 25px;
+        @media screen and (min-width: $breakpoint-m) {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+        }
+    }
+
+    &__select{
+        display: block;
+        margin-bottom: 10px;
+        @media screen and (min-width: $breakpoint-m) {
+            margin-right: 10px;
+            max-width: 210px;
+            margin-bottom: 0px;
+            flex: 1;
+        }
+    }
+}
