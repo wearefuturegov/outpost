@@ -4,6 +4,7 @@ RSpec.describe Service, type: :model do
   subject { FactoryBot.create :service }
 
   it { should validate_presence_of(:name) }
+  it { should validate_uniqueness_of(:name) }
 
   describe '#save' do
     it 'should populate service taxonomy roots on save' do
