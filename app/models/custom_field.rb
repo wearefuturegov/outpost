@@ -12,8 +12,4 @@ class CustomField < ApplicationRecord
       "Date"
     ]
   end
-
-  def snakecase_key
-    key.downcase.delete("^a-zA-Z0-9 ").gsub(' ', '_')
-  end
 end

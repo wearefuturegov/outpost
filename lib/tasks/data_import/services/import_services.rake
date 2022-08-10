@@ -68,7 +68,7 @@ namespace :import do
   def import_service_meta(type, service_id, fields_for_import, row)
     fields_for_import.map do |t|
       # Find the existing custom field to add this service meta to
-      custom_field = CustomField.where(field_type: type).find{|cf| cf.snakecase_key === t}
+      custom_field = CustomField.where(field_type: type).find{|cf| cf.key.downcase.delete("^a-zA-Z0-9 ").gsub(' ', '_') === t}
 
       unless custom_field.present?
         puts "🟠 Custom field  \"#{t}\" of type #{type} does not exist. Please check the field name or create the custom field in order to add this service data. Perhaps you have forgotten to run the custom field import?"
