@@ -7,18 +7,18 @@
 
         <div class="field field--required">
             <%= f.label :first_name, class: "field__label" %>
-            <%= f.text_field :first_name, class: "field__input one-half" %>
+            <%= f.text_field :first_name, required: true, class: "field__input one-half" %>
         </div>
 
         <div class="field field--required">
             <%= f.label :last_name, class: "field__label" %>
-            <%= f.text_field :last_name, class: "field__input one-half" %>
+            <%= f.text_field :last_name, required: true, class: "field__input one-half" %>
         </div>
 
         <div class="field field--required">
             <%= f.label :email, "Email address", class: "field__label" %>
             <p class="field__hint">We'll send joining instructions here</p>
-            <%= f.email_field :email, class: "field__input one-half" %>
+            <%= f.email_field :email, required: true, class: "field__input one-half" %>
         </div>
     </div>
 
