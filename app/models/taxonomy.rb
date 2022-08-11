@@ -14,8 +14,7 @@ class Taxonomy < ApplicationRecord
     after_commit :trigger_scout_rebuild, if: -> { skip_scout_rebuild == !true }
     
     validates_presence_of :name, uniqueness: true
-    validates :name, length: { minimum: 2 }
-    validates :name, length: { maximum: 100 }
+    validates :name, length: { minimum: 2, maximum: 100 }
 
     scope :filter_by_directory, -> (directory) { joins(:directories).where(directories: { name: directory }) }
     

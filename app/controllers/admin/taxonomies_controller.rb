@@ -25,6 +25,8 @@ class Admin::TaxonomiesController < Admin::BaseController
     if @taxonomy.save
       redirect_to admin_taxonomies_path, notice: "Taxonomy has been created."
     else
+      # We need the counts for the index page, so let's set them only if needed
+      count_taxonomies
       render "index"
     end
   end
