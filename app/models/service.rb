@@ -16,6 +16,11 @@ class Service < ApplicationRecord
     }
   )
 
+  # validations
+  validates :name, presence: true, uniqueness: true, length: { minimum: 2, maximum: 100 }
+  validate :validate_ages
+  validate :validate_freeness
+
   # associations
   belongs_to :organisation, counter_cache: true
 
@@ -67,7 +72,6 @@ class Service < ApplicationRecord
   scope :with_last_version, -> { includes(last_version: [user: :watches]) }
 
   scope :in_directory, -> (directory) { joins(:directories).where(directories: { name: directory }) }
-
 
   # callbacks
   after_save :notify_watchers
@@ -124,11 +128,6 @@ class Service < ApplicationRecord
 
   acts_as_taggable_on :labels
   paginates_per 20
-
-  # validations
-  validates :name, presence: true, uniqueness: true, length: { minimum: 2, maximum: 100 }
-  validate :validate_ages
-  validate :validate_freeness
 
   def self.options_for_status
     [
