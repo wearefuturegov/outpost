@@ -32,6 +32,8 @@
     <% end %>
 </div>
 
+<% if params[:action] != 'new'  %>
+
 <h2 class="page-subheading">Fields</h2>
 <section class="repeater">
     <ul class="repeater__panels" aria-live="polite">
@@ -44,3 +46,5 @@
 
     <%= link_to_add_fields "Add a field", f, :custom_fields, "admin/custom_field_sections/repeatable-fields" %>
 </section>
+
+ <% end %>

@@ -11,7 +11,7 @@
 ---
 
 <p align="center">
-   <img src="https://github.com/wearefuturegov/outpost/raw/master/public/examples.jpg?raw=true" width="750px" />     
+   <img src="https://github.com/wearefuturegov/outpost/raw/master/docs/examples.jpg?raw=true" width="750px" />     
 </p>
 
 <p align="center">
@@ -131,7 +131,20 @@ It needs the following extra environment variables to be set:
 | `SHOW_ENV_BANNER`                               | show a bright warning banner on non-production environments                                                               | staging                                                 | Only to warn about non-production environments    |
 | `SCOUT_BUILD_HOOK`                              | Outpost will make a POST request to this webhook URL whenever taxonomies are changed. Intended to trigger Scout rebuilds. |                                                         | No                                                |
 | `SCOUT_URL`                                     | the URL where Scout lives. This is so that we can send service providers a link to their live service in emails.          | https://scout.com (NOTE: do not include trailing slash) | No                                                |
-| `OUTPOST_INSTANCE_NAME`                         | the name of the Outpost instance. This will appear in invite emails to new users, to let them know who the email is from. | the Outpost Family Information Service                  | No. Defaults to 'Outpost'                         |
+| `GCP_PROJECT`                                     | Name of the google cloud project          | * | No                                                |
+| `GCP_BUCKET`                                     | Name of the google cloud bucket          | * | No                                                |
+| `GCP_PROJECT_ID`                                     | Name of the google cloud project id          | * | No                                                |
+| `GCP_PRIVATE_KEY_ID`                                     | Google cloud private key id          | * | No                                                |
+| `GCP_PRIVATE_KEY`                                     | Google cloud private key          | * | No                                                |
+| `GCP_CLIENT_EMAIL`                                     | Google cloud client email          | * | No                                                |
+| `GCP_CLIENT_ID`                                     | Google cloud client id          | * | No                                                |
+| `GCP_CLIENT_X509_CERT_URL`                                     |Google cloud x509 certificate          | * | No                                                |
+
+
+
+## 💿 Data import
+
+See documentation on [data import](lib/tasks/data_import/README.md).
 
 ## 🔐 OAuth provider
 

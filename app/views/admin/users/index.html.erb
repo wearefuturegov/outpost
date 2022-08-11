@@ -1,3 +1,5 @@
+<% content_for :title do %>Users | <% end %>
+
 <% content_for :header do %>
     <h1 class="page-header__title">Users</h1>
     <%= render "shared/users-nav" %>
@@ -32,21 +34,21 @@
             </td>
             <td>
               <% if u.admin %>
-                <%= image_tag "tick-blue.svg", alt: "Yes" %>
+                <%= image_tag "tick-black.svg", alt: "Yes" %>
               <% else %>
                 —
               <% end %>
             </td>
             <td>
               <% if u.admin_ofsted %>
-                <%= image_tag "tick-blue.svg", alt: "Yes" %>
+                <%= image_tag "tick-black.svg", alt: "Yes" %>
               <% else %>
                 —
               <% end %>
             </td>
             <td>
               <% if u.admin_users %>
-                <%= image_tag "tick-blue.svg", alt: "Yes" %>
+                <%= image_tag "tick-black.svg", alt: "Yes" %>
               <% else %>
                 —
               <% end %>

@@ -51,6 +51,7 @@ Rails.application.routes.draw do
       post :reset, on: :member
       put :reactivate, on: :member
     end
+    resource :settings, only: [:edit, :update]
   end
 
   # api

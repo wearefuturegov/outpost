@@ -9,9 +9,9 @@ class Taxonomy < ApplicationRecord
 
     has_and_belongs_to_many :directories, -> { distinct }
 
-    attr_accessor :skip_mongo_callbacks
+    attr_accessor :skip_mongo_callbacks, :skip_scout_rebuild
     after_commit :update_index, if: -> { skip_mongo_callbacks == !true }
-    after_commit :trigger_scout_rebuild
+    after_commit :trigger_scout_rebuild, if: -> { skip_scout_rebuild == !true }
     
     validates_presence_of :name, uniqueness: true
     validates :name, length: { minimum: 2 }
