@@ -16,9 +16,9 @@
 
 <% if Directory.any? %>
     <div class="field">
-        <%= s.label :directories, class: "field__label" %>
+        <%= s.label :Destinations, class: "field__label" %>
         <legend class="field-group__legend">
-        <p class="field__hint">Choose which directories this taxonomy should appear in on Scout:</p>
+        <p class="field__hint">Choose which destinations this taxonomy should appear on</p>
         <br />
         <%= s.collection_check_boxes( :directory_ids, Directory.all, :id, :name) do |c| %>
             <div class="field checkbox checkbox--small ">
