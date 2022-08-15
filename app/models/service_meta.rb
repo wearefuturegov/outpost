@@ -1,4 +1,5 @@
 class ServiceMeta < ApplicationRecord
   belongs_to :service
-  validates_presence_of :key
+  validates :key, presence: true
+  validates_uniqueness_of :key, scope: :service
 end
