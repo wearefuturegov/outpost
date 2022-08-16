@@ -27,7 +27,7 @@ end
 
 10.times do 
     taxon = Taxonomy.create!({
-        name: Faker::Lorem.word.capitalize
+        name: Faker::Lorem.words(number: rand(1...5)).join(' ').capitalize
     })
 end
 
