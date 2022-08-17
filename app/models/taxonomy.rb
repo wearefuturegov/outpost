@@ -9,9 +9,8 @@ class Taxonomy < ApplicationRecord
 
     has_and_belongs_to_many :directories, -> { distinct }
 
-    attr_accessor :skip_mongo_callbacks, :skip_scout_rebuild
+    attr_accessor :skip_mongo_callbacks
     after_commit :update_index, if: -> { skip_mongo_callbacks == !true }
-    after_commit :trigger_scout_rebuild, if: -> { skip_scout_rebuild == !true }
     
     validates_presence_of :name, uniqueness: true
     validates :name, length: { minimum: 2 }
@@ -21,10 +20,6 @@ class Taxonomy < ApplicationRecord
     
     def slug
         name.parameterize
-    end
-
-    def trigger_scout_rebuild
-        TriggerScoutRebuildJob.perform_later
     end
 
     def update_index

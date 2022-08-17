@@ -285,7 +285,7 @@ namespace :import do
     taxonomies&.split(';')&.collect(&:strip)&.each do |taxonomy|
       taxa = service.taxonomies.find_or_initialize_by(name: taxonomy)
 
-      if taxa.save(skip_scout_rebuild: true)
+      if taxa.save
         puts "  🟢 Taxonomy: \"#{taxonomy}\" created (id: #{taxa.id})."
       else
         abort("  🔴 Taxonomy: \"#{taxonomy}\" was not created. Exiting. #{taxa.errors.messages}")
