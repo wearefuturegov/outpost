@@ -244,7 +244,6 @@ namespace :import do
       new_lo.link = send_needs_data["recent_send_report"] if send_needs_data["recent_send_report"].present?
       new_lo.survey_answers = survey_answers
       new_lo.service_id = service_id
-      new_lo.skip_description_validation = true
     end
 
     if new_local_offer
