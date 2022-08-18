@@ -7,6 +7,7 @@ RSpec.describe RegularScheduleSerializer do
   it "includes the expected attributes" do
     expect(subject.attributes.keys).
       to contain_exactly(
+        :id,
         :weekday,
         :opens_at,
         :closes_at
