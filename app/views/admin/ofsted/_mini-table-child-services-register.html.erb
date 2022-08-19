@@ -1,9 +1,13 @@
 <% if t.present? %>
+    <% showEndDateCol = t.find {|r| r.key?("EndDate") }.present? %>
     <table class="table">
         <thead>
             <th>Status</th>
             <th>Register</th>
             <th>Start date</th>
+            <% if showEndDateCol %>
+                <th>End date</th>
+            <% end %>
         </thead>
         <tbody>
             <% t.each do |r| %>
@@ -17,6 +21,11 @@
                 <td>
                     <%= format_if_date(r["StartDate"]) %>
                 </td>
+                <% if showEndDateCol %>
+                    <td>
+                        <%= format_if_date(r["EndDate"]) %>
+                    </td>
+                <% end %>
             </tr>
             <% end %>
         </tbody>
