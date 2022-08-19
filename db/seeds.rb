@@ -51,7 +51,7 @@ end
         service = Service.create!({
             name: Faker::Company.name,
             organisation: org,
-            description: Faker::Lorem.paragraphs(number: 1).join(' '),
+            description: Faker::Lorem.paragraph,
             skip_mongo_callbacks: true
         })
         # byebug
