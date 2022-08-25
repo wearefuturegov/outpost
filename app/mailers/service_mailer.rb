@@ -1,5 +1,6 @@
 class ServiceMailer < ApplicationMailer
-    add_template_helper(FeedbacksHelper)
+    include FeedbacksHelper
+    helper FeedbacksHelper
 
     def notify_watcher_email
         @service = params[:service]
