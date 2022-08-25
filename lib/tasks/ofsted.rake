@@ -1,5 +1,6 @@
 namespace :ofsted do
 
+  desc 'Create initial Ofsted items from the Ofsted feed API endpoint'
   task :create_initial_items => :environment do
     response = HTTParty.get("#{ENV["OFSTED_FEED_API_ENDPOINT"]}?token=#{ENV["OFSTED_API_KEY"]}")
     items = JSON.parse(response.body)["OfstedChildcareRegisterLocalAuthorityExtract"]["Registration"]
@@ -16,6 +17,7 @@ namespace :ofsted do
   end
 
   # Scheduled every morning
+  desc 'Fetch new changes from the Ofsted feed API endpoint'
   task :update_items => :environment do
     response = HTTParty.get("#{ENV["OFSTED_FEED_API_ENDPOINT"]}?token=#{ENV["OFSTED_API_KEY"]}")
     items = JSON.parse(response.body)["OfstedChildcareRegisterLocalAuthorityExtract"]["Registration"]

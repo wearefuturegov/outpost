@@ -1,3 +1,4 @@
+desc 'Build public index in the Mongo API'
 task :build_public_index => :environment  do
     # Turn off logging for this rake task, otherwise it just fills up our logs
     dev_null = Logger.new('/dev/null')
