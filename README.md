@@ -40,6 +40,9 @@ It uses Google APIs for geocoding and map features, and Sendgrid to send emails.
 
 ## 💻 Running it locally
 
+
+For more information see [getting started](https://github.com/wearefuturegov/outpost/wiki/Getting-started)
+
 You need ruby and node.js installed, plus a PostgreSQL server running.
 
 If you want to build a public index for the API, you'll also need a local MongoDB server.
