@@ -2,13 +2,13 @@ require 'csv'
 namespace :bod do
   namespace :services do
 
-    MIN_AGES = {
+    MIN_AGES ||= {
       "young people" => nil,
       "young adults" => 18,
       "older adults" => 25
     }
 
-    MAX_AGES = {
+    MAX_AGES ||= {
       "young people" => 18,
       "young adults" => 25,
       "older adults" => nil

@@ -1,7 +1,7 @@
 namespace :bod do
   namespace :taxonomy do
 
-    TAXONOMY_MAPPING = {
+    TAXONOMY_MAPPING ||= {
       "active" => ["Staying active"],
       "social" => ["Things to do"],
       "learning" => ["Education and learning"],
