@@ -3,7 +3,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '~> 3.0.3'
 
-gem 'rails', '~> 6.1', '>= 6.1.7'
+gem 'rails', '~> 7.0'
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '~> 4.3'
 gem 'sass-rails', '>= 6'
@@ -41,7 +41,7 @@ gem 'sentry-rails'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
-  gem 'rspec-rails'
+  gem 'rspec-rails', '~> 6.0.0.rc1'
   gem 'dotenv-rails'
   gem 'rack-mini-profiler'
   gem 'faker'
