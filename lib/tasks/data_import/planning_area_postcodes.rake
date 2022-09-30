@@ -1,5 +1,6 @@
-namespace :planning_area_postcodes do
-  task :import => [ :environment ] do
+namespace :import do
+  desc 'Import planning area postcodes from CSV'
+  task :planning_area_postcodes => [ :environment ] do
     csv_file = File.open('lib/seeds/planning_area_postcodes.csv', "r:utf-8")
     planning_area_postcodes_csv = CSV.parse(csv_file, headers: true)
 

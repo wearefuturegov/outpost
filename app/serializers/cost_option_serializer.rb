@@ -1,5 +1,3 @@
 class CostOptionSerializer < ActiveModel::Serializer
-  attributes :option
-  attributes :amount
-  attributes :cost_type
+  attributes :id, :option, :amount, :cost_type
 end
