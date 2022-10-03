@@ -9,6 +9,7 @@ Rails.application.configure do
   # preloads Rails for running tests, you may have to set it to true.
   config.eager_load = false
 
+  # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
 
   config.after_initialize do
@@ -46,9 +47,6 @@ Rails.application.configure do
   config.action_mailer.perform_caching = false
 
   config.active_job.queue_adapter = :test
-
-  # Print deprecation notices to the stderr.
-  config.active_support.deprecation = :stderr
 
   Mongo::Logger.logger.level = Logger::ERROR
 
