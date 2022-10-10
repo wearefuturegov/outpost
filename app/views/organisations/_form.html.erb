@@ -3,9 +3,9 @@
     <%= render "shared/errors", model: @organisation %>
 
     <div class="field-section field-section--two-cols">
-        <div class="field">
+        <div class="field field--required">
             <%= f.label :name, "Organisation name", class: "field__label" %>
-            <%= f.text_field :name, class: "field__input one-half" %>
+            <%= f.text_field :name, required: true, class: "field__input one-half" %>
         </div>
     </div>
 

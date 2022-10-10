@@ -3,10 +3,6 @@ require 'rails_helper'
 RSpec.describe Taxonomy, type: :model do
   it { should validate_presence_of(:name) }
 
-  before do
-    @organisation = Organisation.create({})
-  end
-
   describe '#filter_by_directory' do
     it 'should return taxonomies that are in specified directory' do
       @directory_a = FactoryBot.create(:directory, name: "Directory A", label: "a")

@@ -1,9 +1,7 @@
 include RegularScheduleHelper
 
 class RegularScheduleSerializer < ActiveModel::Serializer
-  attributes :weekday
-  attributes :opens_at
-  attributes :closes_at
+  attributes :id, :weekday, :opens_at, :closes_at
 
   def weekday
     weekdays.find{ |d| d[:value] === object.weekday }[:label]

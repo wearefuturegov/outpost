@@ -12,7 +12,7 @@
         <legend class="field-group__legend">What kind of suggestion?</legend>
         <% feedback_topics.each do |t| %>
             <div class="radio">
-                <%= f.radio_button :topic, t[:value], class: "radio__input" %>
+                <%= f.radio_button :topic, t[:value], required: true, class: "radio__input" %>
                 <%= f.label "topic_#{t[:value]}", t[:label], class: "radio__label" %>
             </div>
         <% end %>
@@ -20,7 +20,7 @@
 
     <div class="field">
         <%= f.label :body, "How could this listing be improved?", class: "field__label"%>
-        <%= f.text_area :body, class: "field__input", rows: "3" %>
+        <%= f.text_area :body, required: true, class: "field__input", rows: "3" %>
     </div>
 
     <div class="form-actions">
