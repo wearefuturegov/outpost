@@ -11,9 +11,9 @@ feature 'Managing users', type: :feature do
     expect(page).to_not have_content 'Manage Ofsted'
   end
 
-  context 'as a superadmin' do
+  context 'as a full admin' do
     before do
-      admin_user = FactoryBot.create :user, :superadmin
+      admin_user = FactoryBot.create :user, :full_admin
       login_as admin_user
       visit admin_users_path
     end
