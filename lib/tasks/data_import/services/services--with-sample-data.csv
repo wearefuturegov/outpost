@@ -1,5 +1,5 @@
 import_id,import_id_reference,name,description,organisation,url,approved,visible_from,visible_to,visible,needs_referral,min_age,max_age,notes,service_taxonomies,contact_name,contact_title,contact_visible,contact_email,contact_phone,location_name,location_latitude,location_longitude,location_address_1,location_city,location_postcode,location_visible,mask_exact_address,preferred_for_post,location_accessibilities,free,cost_option,cost_amount,cost_type,temporarily_closed,schedules_opens_at,schedules_closes_at,scheduled_weekday,links_label,links_url,labels,suitabilities,is_local_offer,send_needs_support,support_description,recent_send_report,outcomes,recent_send_training,parental_involvement,information_sharing,environment_accessibility,how_to_start,future_plans,custom_text_text_field,custom_checkbox_checkbox_field,custom_number_number_field,custom_select_select_field,custom_date_date_fields
-1,,CSV creation service3,"We create blank CSV's showing the structure of the data to be imported.
+1,,CSV creation service,"We create blank CSV's showing the structure of the data to be imported.
 
 The description allows for multiple lines. 
 
