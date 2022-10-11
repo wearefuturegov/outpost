@@ -14,9 +14,11 @@ describe 'Services import' do
     it 'works' do
       expect(Service.all.count).to eq 0
       expect(Link.all.reload.count).to eq 0
+      expect(Taxonomy.all.count).to eq 0
       Rake::Task["import:services"].invoke(valid_file_path)
       expect(Service.all.count).to eq 2
       expect(Link.all.count).to eq 2
+      expect(Taxonomy.all.count).to eq 5
     end
 
     context 'with the services imported already' do
@@ -34,6 +36,7 @@ describe 'Services import' do
 
         expect(Service.all.count).to eq 2
         expect(Link.all.count).to eq 2
+        expect(Taxonomy.all.count).to eq 5
         expect(Suitability.all.count).to eq 10
       end
     end
