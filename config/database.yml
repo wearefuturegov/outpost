@@ -5,9 +5,12 @@ default: &default
 
 development:
   <<: *default
-  url: postgresql://localhost/outpost_development
-  username: outpost
-  password: password
+  #url: postgresql://localhost/outpost_development
+  username: <%= ENV['POSTGRES_USER'] %> #outpost
+  password: <%= ENV['POSTGRES_PASSWD'] %> #password
+  host: <%= ENV['POSTGRES_HOST'] %> #localhost
+  #username: outpost
+  #password: password
 test:
   <<: *default
   url: postgresql://localhost/outpost_test

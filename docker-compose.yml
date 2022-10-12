@@ -1,21 +1,16 @@
-version: '3.1'
-
+version: "3.9"
 services:
-
+  app:
+    image: outpostapp
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWD: example
+      POSTGRES_HOST: db
+      # GOOGLE_API_KEY: AIzaSyCpmIcuGDcegKEFXVcd_Zcw_ZQm5A5r-oY
+      # GOOGLE_CLIENT_KEY: AIzaSyAVNcqmCvBzqFCYAUl7u92vdN9MigiRkiM
+    ports:
+      - 3000:3000
   db:
-    image: postgres
-    restart: always
+    image: postgres:14.5-alpine
     environment:
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: outpost_development
-      POSTGRES_USER: outpost
-    ports:
-      - "5432:5432"
-  mongo:
-    image: mongo
-    restart: always
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: password
-    ports:
-      - "27017:27017"
+      POSTGRES_PASSWORD: example

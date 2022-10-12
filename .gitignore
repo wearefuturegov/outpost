@@ -38,3 +38,4 @@ yarn-debug.log*
 .DS_Store
 yarn.lock
 .vscode
+.yarn
