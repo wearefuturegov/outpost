@@ -2,6 +2,10 @@ require 'rails_helper'
 
 feature 'Using custom fields', type: :feature do
   context 'as a user manager' do
+    let!(:service) { FactoryBot.create :service }
+    let!(:custom_field_section) { FactoryBot.create :custom_field_section }
+    let(:date) { Date.today }
+
     before do
       admin_user = FactoryBot.create :user, :user_manager
       login_as admin_user
@@ -9,10 +13,6 @@ feature 'Using custom fields', type: :feature do
     end
 
     scenario 'I can create and use custom fields for services', js: true do
-      service = FactoryBot.create :service
-      custom_field_section = FactoryBot.create :custom_field_section
-      date = Date.today
-
       click_link 'Services'
       click_link 'Custom fields'
       click_link custom_field_section.name
