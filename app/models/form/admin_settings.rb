@@ -5,6 +5,7 @@ class Form::AdminSettings
   
     KEYS = %i(
       outpost_title
+      outpost_sub_title
       outpost_instance_name
       primary_color
       outpost_logo
