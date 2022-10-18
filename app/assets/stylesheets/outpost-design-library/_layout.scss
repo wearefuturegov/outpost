@@ -1,0 +1,148 @@
+.container{
+    max-width: $max-width;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.visually-hidden{
+    position: absolute !important;
+    height: 1px; 
+    width: 1px;
+    overflow: hidden;
+    clip: rect(1px 1px 1px 1px);
+    clip: rect(1px, 1px, 1px, 1px);
+    white-space: nowrap;
+}
+
+.page-content{
+    padding: 40px 20px 50px 20px;
+    @media screen and (min-width: $breakpoint-m){
+        padding: 50px 20px 100px 20px;
+    }
+}
+
+.page-subheading{
+    font-size: 1.8rem;
+    margin-top: 45px;
+    @media screen and (min-width: $breakpoint-m) {
+        margin-top: 55px;
+    }
+}
+
+.two-thirds{
+    @media screen and (min-width: $breakpoint-m){
+        max-width: 66.67%;
+    }
+}
+
+.one-half{
+    @media screen and (min-width: $breakpoint-m){
+        max-width: 50%;
+    }
+}
+
+.half-and-half{
+    @media screen and (min-width: $breakpoint-m){
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 45px;
+    }
+    @media screen and (min-width: $breakpoint-l){
+        column-gap: 55px;
+    }
+
+    & > *:first-child{
+        margin-bottom: 35px;
+        @supports(display: grid){
+            @media screen and (min-width: $breakpoint-m) {
+                margin-bottom: 0px;
+            }
+        }
+    }
+}
+
+.margin-bottom{
+    margin-bottom: 25px;
+    @media screen and (min-width: $breakpoint-m) {
+        margin-bottom: 35px;
+    }
+}
+
+.no-results{
+    margin-bottom: 45px;
+    @media screen and (min-width: $breakpoint-m) {
+        margin-bottom: 55px;
+    }
+}
+
+.with-sidebar{
+    @media screen and (min-width: $breakpoint-m) {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        column-gap: 45px;
+    }
+    @media screen and (min-width: $breakpoint-l){
+        column-gap: 55px;
+    }
+
+    & > *:first-child{
+        margin-bottom: 35px;
+        @supports(display: grid){
+            @media screen and (min-width: $breakpoint-m) {
+                margin-bottom: 0px;
+            }
+        }
+    }
+
+    p:first-child{
+        margin-top: 0px;
+    }
+}
+
+.actions{
+    padding-bottom: 25px;
+    @media screen and (min-width: $breakpoint-m) {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding-bottom: 35px;
+
+        button, 
+        .button{
+            margin-bottom: 0;
+        }
+
+        &__pull-right{
+            margin-left: auto;
+        }
+
+        *:last-child{
+            margin-right: 0px;
+        }
+    }
+
+    &--no-padding {
+        padding-bottom: 0;
+    }
+}
+
+
+.danger-zone{
+    border: 3px solid $error;
+    padding: 25px;
+    margin: 35px 0px;
+    *:first-child{
+        margin-top: 0px;
+    }
+    *:last-child,
+    .button{
+        margin-bottom: 0px;
+    }
+    @media screen and (min-width: $breakpoint-m) {
+        padding: 35px;
+    }  
+}
+
+.inline{
+    display: inline;
+}

@@ -1,6 +1,6 @@
 class Admin::LabelsController < Admin::BaseController
     def index
-        @labels = ActsAsTaggableOn::Tag.joins(:taggings).where(taggings: { context: 'labels' }).distinct.most_used(100)
+        @labels = ActsAsTaggableOn::Tag.order(:name)
     end
 
     def destroy

@@ -2,6 +2,9 @@ class Organisation < ApplicationRecord
   has_many :services
   has_many :users
 
+  validates :name, presence: true, uniqueness: true
+  validates :name, length: { minimum: 2, maximum: 100 }, if: -> { name.present? }
+
   attr_accessor :skip_mongo_callbacks
   after_commit :update_index, if: -> { skip_mongo_callbacks != true }
 
@@ -81,10 +84,6 @@ class Organisation < ApplicationRecord
     using: {
       tsearch: { prefix: true }
     }
-
-  validates_uniqueness_of :name, if: -> { name.present? }
-  validates :name, length: { minimum: 2 }, if: -> { name.present? }
-  validates :name, length: { maximum: 100 }
 
   def display_name
     if self.name.present?

@@ -11,7 +11,7 @@
 ---
 
 <p align="center">
-   <img src="https://github.com/wearefuturegov/outpost/raw/master/public/examples.jpg?raw=true" width="750px" />     
+   <img src="https://github.com/wearefuturegov/outpost/raw/master/docs/examples.jpg?raw=true" width="750px" />     
 </p>
 
 <p align="center">
@@ -39,6 +39,9 @@ It can also act as an OAuth provider via [Doorkeeper](https://github.com/doorkee
 It uses Google APIs for geocoding and map features, and Sendgrid to send emails.
 
 ## 💻 Running it locally
+
+
+For more information see [getting started](https://github.com/wearefuturegov/outpost/wiki/Getting-started)
 
 You need ruby and node.js installed, plus a PostgreSQL server running.
 
@@ -129,7 +132,20 @@ It needs the following extra environment variables to be set:
 | `DB_URI`                                        | the MongoDB database for the public index                                                                                 | mongodb://user:password<br/>@example.com/database       | Yes, if using the API service                     |
 | `INITIAL_ADMIN_PASSWORD`                        | an initial admin password to log in with for local development                                                            |                                                         | Locally only                                      |
 | `SHOW_ENV_BANNER`                               | show a bright warning banner on non-production environments                                                               | staging                                                 | Only to warn about non-production environments    |
-| `SCOUT_BUILD_HOOK`                              | Outpost will make a POST request to this webhook URL whenever taxonomies are changed. Intended to trigger Scout rebuilds. |                                                         | No                                                |
+| `GCP_PROJECT`                                     | Name of the google cloud project          | * | No                                                |
+| `GCP_BUCKET`                                     | Name of the google cloud bucket          | * | No                                                |
+| `GCP_PROJECT_ID`                                     | Name of the google cloud project id          | * | No                                                |
+| `GCP_PRIVATE_KEY_ID`                                     | Google cloud private key id          | * | No                                                |
+| `GCP_PRIVATE_KEY`                                     | Google cloud private key          | * | No                                                |
+| `GCP_CLIENT_EMAIL`                                     | Google cloud client email          | * | No                                                |
+| `GCP_CLIENT_ID`                                     | Google cloud client id          | * | No                                                |
+| `GCP_CLIENT_X509_CERT_URL`                                     |Google cloud x509 certificate          | * | No                                                |
+
+
+
+## 💿 Data import
+
+See documentation on [data import](lib/tasks/data_import/README.md).
 
 ## 🔐 OAuth provider
 

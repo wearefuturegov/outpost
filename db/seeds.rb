@@ -27,7 +27,7 @@ end
 
 10.times do 
     taxon = Taxonomy.create!({
-        name: Faker::Lorem.word.capitalize
+        name: Faker::Lorem.words(number: rand(1...5)).join(' ').capitalize
     })
 end
 
@@ -51,7 +51,7 @@ end
         service = Service.create!({
             name: Faker::Company.name,
             organisation: org,
-            description: Faker::Lorem.paragraphs(number: 1),
+            description: Faker::Lorem.paragraph,
             skip_mongo_callbacks: true
         })
         # byebug

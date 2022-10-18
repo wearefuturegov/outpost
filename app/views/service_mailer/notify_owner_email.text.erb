@@ -1,20 +1,9 @@
 # Your changes to <%= @service.name %> have been approved.
 
 
-<% if @service.publicly_visible? %>
-
-They're now publicly visible in the Family Information Service directory:
-
-https://directory.familyinfo.buckinghamshire.gov.uk/service/<%= @service.id %>
-
-Or, review the changes:
-
-<%= service_url(@service) %>
-
-<% else %>
+Your changes to <%= @service.name %> have been approved. 
 
 Review the changes:
 
 <%= service_url(@service) %>
 
-<% end %>
