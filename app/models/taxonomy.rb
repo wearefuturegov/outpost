@@ -11,20 +11,14 @@ class Taxonomy < ApplicationRecord
 
     attr_accessor :skip_mongo_callbacks
     after_commit :update_index, if: -> { skip_mongo_callbacks == !true }
-    after_commit :trigger_scout_rebuild
     
     validates_presence_of :name, uniqueness: true
-    validates :name, length: { minimum: 2 }
-    validates :name, length: { maximum: 100 }
+    validates :name, length: { minimum: 2, maximum: 100 }
 
     scope :filter_by_directory, -> (directory) { joins(:directories).where(directories: { name: directory }) }
     
     def slug
         name.parameterize
-    end
-
-    def trigger_scout_rebuild
-        TriggerScoutRebuildJob.perform_later
     end
 
     def update_index

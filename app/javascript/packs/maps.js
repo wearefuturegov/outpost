@@ -32,6 +32,7 @@ const createListMap = async mapHolder => {
         let marker = new window.google.maps.Marker({
             position: position,
             map: map,
+            title: location.name
         })
         bounds.extend(position)
         marker.addListener("click", () => {

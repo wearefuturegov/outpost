@@ -1,3 +1,4 @@
+# Represents the fees for a service
 class CostOption < ApplicationRecord
   belongs_to :service
 

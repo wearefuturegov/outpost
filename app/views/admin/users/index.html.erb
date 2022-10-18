@@ -1,3 +1,5 @@
+<% content_for :title do %>Users | <% end %>
+
 <% content_for :header do %>
     <h1 class="page-header__title">Users</h1>
     <%= render "shared/users-nav" %>
@@ -18,9 +20,7 @@
           <th>Organisation</th>
           <th>Joined</th>
           <th>Last seen</th>
-          <% if params[:deactivated] %>
-            <th class="visually-hidden">Actions</th>
-          <% end %>
+          <th class="visually-hidden">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -34,21 +34,21 @@
             </td>
             <td>
               <% if u.admin %>
-                <%= image_tag "tick-blue.svg", alt: "Yes" %>
+                <%= image_tag "tick-black.svg", alt: "Yes" %>
               <% else %>
                 —
               <% end %>
             </td>
             <td>
               <% if u.admin_ofsted %>
-                <%= image_tag "tick-blue.svg", alt: "Yes" %>
+                <%= image_tag "tick-black.svg", alt: "Yes" %>
               <% else %>
                 —
               <% end %>
             </td>
             <td>
               <% if u.admin_users %>
-                <%= image_tag "tick-blue.svg", alt: "Yes" %>
+                <%= image_tag "tick-black.svg", alt: "Yes" %>
               <% else %>
                 —
               <% end %>
@@ -62,11 +62,16 @@
                 Never logged in
               <% end %>
             </td>
-            <% if u.discarded? %>
-              <td>
-                <%= link_to "Reactivate", admin_user_reactivate_path(u), method: "post", data: {confirm: "Are you sure? This user will be able to sign in again."} %>
-              </td>
-            <% end %>
+            <td>
+              <div class="actions actions--no-padding">
+              <% if u.marked_for_deletion? %>
+                 <button class="help-button help-button--warning help-button--small inline-button" type="button" data-tippy-content="<%= "User marked for deletion on #{u.marked_for_deletion.strftime("%d/%m/%Y")}" %>"><%= "User marked for deletion on #{u.marked_for_deletion.strftime("%d/%m/%Y")}" %></button>
+              <% end %>
+              <% if u.discarded? %>
+                <%= link_to "Reactivate", reactivate_admin_user_path(u), method: :put, data: {confirm: "Are you sure? This user will be able to sign in again."} %>
+              <% end %>
+              </div>
+            </td>
           </tr>
         <% end %>
       </tbody>

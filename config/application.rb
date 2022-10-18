@@ -40,6 +40,10 @@ module Outpost
       api_key: ENV["NOTIFY_API_KEY"]
     }
 
+    # Active Storage image handling 
+    # Show svgs as images not files
+    config.active_storage.content_types_to_serve_as_binary -= ['image/svg+xml']
+
     # remove unused tag objects after removing tagging
     ActsAsTaggableOn.remove_unused_tags = true
   end

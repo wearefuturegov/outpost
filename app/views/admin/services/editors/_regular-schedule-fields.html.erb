@@ -1,7 +1,7 @@
 <div class="field-group field-group--three-cols field-group--no-margins">
-    <div class="field">
+    <div class="field field--required">
         <%= sched.label :weekday, "Day", class: "field__label" %>
-        <%= sched.select :weekday, weekdays.collect {|d| [ d[:label], d[:value] ] }, {}, class: "field__input"  %>
+        <%= sched.select :weekday, weekdays.collect {|d| [ d[:label], d[:value] ] }, {}, class: "field__input", required: true  %>
     </div>
     <div class="field field--required">
         <% open_val = sched.object.opens_at.strftime("%H:%M") if sched.object.opens_at.present? %>

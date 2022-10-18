@@ -4,6 +4,9 @@ RSpec.describe Feedback, type: :model do
   subject { FactoryBot.create :feedback }
   let!(:owner) { FactoryBot.create :user, organisation: subject.service.organisation }
 
+  it { should validate_presence_of :topic }
+  it { should validate_presence_of :body }
+
   describe '#notify_owners' do
     it 'sends an email to the service owner' do
       expect { subject.reload.notify_owners }

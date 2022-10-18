@@ -1,6 +1,6 @@
 class Admin::UsersController < Admin::BaseController
   before_action :user_admins_only, only: [:new, :create, :update, :destroy, :reactivate]
-  before_action :set_user, only: [:show, :update, :destroy]
+  before_action :set_user, only: [:show, :update, :destroy, :reactivate, :reset]
   before_action :count_users, only: [:index]
   
   def index
@@ -76,12 +76,14 @@ class Admin::UsersController < Admin::BaseController
   end
 
   def reactivate
-    User.find(params[:user_id]).undiscard
-    redirect_to request.referer, notice: "That user has been reactivated."
+    if @user.update(discarded_at: nil, marked_for_deletion: nil)
+      redirect_to request.referer, notice: "That user has been reactivated."
+    else
+      redirect_to request.referer, notice: 'Something went wrong, please try again'
+    end
   end
 
   def reset
-    @user = User.find(params[:user_id])
     token = @user.send(:set_reset_password_token)
     UserMailer.with(token: token, user: @user).reset_instructions_email.deliver_later
     redirect_to admin_user_path(@user), notice: "Password reset instructions have been sent by email."
