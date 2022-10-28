@@ -282,9 +282,10 @@ namespace :import do
   # create taxonomies
   def new_service_taxonomies(service, taxonomies)
     taxonomies&.split(';')&.collect(&:strip)&.each do |taxonomy|
-      taxa = service.taxonomies.find_or_initialize_by(name: taxonomy)
+      taxa = Taxonomy.find_or_initialize_by(name: taxonomy)
+      service_taxa = service.service_taxonomies.find_or_initialize_by(taxonomy: taxa)
 
-      if taxa.save
+      if service_taxa.save
         puts "  🟢 Taxonomy: \"#{taxonomy}\" created (id: #{taxa.id})."
       else
         abort("  🔴 Taxonomy: \"#{taxonomy}\" was not created. Exiting. #{taxa.errors.messages}")
