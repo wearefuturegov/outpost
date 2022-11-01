@@ -388,7 +388,7 @@ namespace :import do
       skip_mongo_callbacks: true
     )
 
-    if new_location.save
+    if service.save
       puts "  🟢 Location: \"#{new_location.name}\" created (id: #{new_location.id})."
 
       if location_data['location_accessibilities'].present?
