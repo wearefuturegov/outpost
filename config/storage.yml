@@ -6,23 +6,17 @@ local:
   service: Disk
   root: <%= Rails.root.join("storage") %>
 
-public_google:
+public_google_dev:
   service: GCS
   project: <%= ENV['GCP_PROJECT'] %>
-  # credentials: <%= Rails.root.join("path/to/gcs.keyfile") %>
-  credentials:
-    type: "service_account"
-    project_id: <%= ENV['GCP_PROJECT_ID'] %>
-    private_key_id: <%= ENV['GCP_PRIVATE_KEY_ID'].nil? ? '' : ENV['GCP_PRIVATE_KEY_ID'] %>
-    private_key: <%= ENV['GCP_PRIVATE_KEY'].nil? ? '' : ENV['GCP_PRIVATE_KEY'] %>
-    client_email: <%= ENV['GCP_CLIENT_EMAIL'] %>
-    client_id: <%= ENV['GCP_CLIENT_ID'] %>
-    auth_uri: "https://accounts.google.com/o/oauth2/auth"
-    token_uri: "https://oauth2.googleapis.com/token"
-    auth_provider_x509_cert_url: "https://www.googleapis.com/oauth2/v1/certs"
-    client_x509_cert_url: <%= ENV['GCP_CLIENT_X509_CERT_URL'] %>
+  credentials: <%= Rails.root.join("config/secrets/tpx-outpost-dev.json") %>
   bucket: <%= ENV['GCP_BUCKET'] %>
 
+public_google_prod:
+  service: GCS
+  project: <%= ENV['GCP_PROJECT'] %>
+  credentials: <%= ENV['GCP_APPLICATION_CREDENTIALS'].as_json %>
+  bucket: <%= ENV['GCP_BUCKET'] %>
 # Use rails credentials:edit to set the AWS secrets (as aws:access_key_id|secret_access_key)
 # amazon:
 #   service: S3
