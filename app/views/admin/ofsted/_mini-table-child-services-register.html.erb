@@ -4,6 +4,7 @@
             <th>Status</th>
             <th>Register</th>
             <th>Start date</th>
+            <th>End date</th>
         </thead>
         <tbody>
             <% t.each do |r| %>
@@ -16,6 +17,9 @@
                 </td>
                 <td>
                     <%= format_if_date(r["StartDate"]) %>
+                </td>
+                <td>
+                    <%= format_if_date(r["EndDate"]) %>
                 </td>
             </tr>
             <% end %>
