@@ -11,6 +11,10 @@ services:
       POSTGRES_PASSWORD: example
       # - POSTGRES_DB: ${POSTGRES_DB} #optional (specify default database instead of $POSTGRES_DB)
       POSTGRES_HOST: db
+    volumes:
+      - .:/app
+      - /node_modules
+    working_dir: /app
     ports:
       - 3000:3000
     restart: always
