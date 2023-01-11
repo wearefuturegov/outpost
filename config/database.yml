@@ -7,7 +7,7 @@ development:
   <<: *default
   #url: postgresql://localhost/outpost_development
   username: <%= ENV['POSTGRES_USER'] %>
-  password: <%= ENV['POSTGRES_PASSWD'] %>
+  password: <%= ENV['POSTGRES_PASSWORD'] %>
   host: <%= ENV['POSTGRES_HOST'] %>
 test:
   <<: *default
