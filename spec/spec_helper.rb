@@ -114,6 +114,8 @@ RSpec.configure do |config|
   end
 
   config.before(:suite) do
+    # only test when db is development or test
+    DatabaseCleaner.url_allowlist = [%r{^(postgresql://outpost_)(development|test)(:.*)@postgres}]
     DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.clean_with(:truncation)
   end

@@ -1,0 +1,7 @@
+.git
+.dockerignore
+.env
+.vscode
+node_modules/
+bundle/
+tmp/

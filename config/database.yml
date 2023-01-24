@@ -5,16 +5,16 @@ default: &default
 
 development:
   <<: *default
-  url: postgresql://localhost/outpost_development
-  username: outpost
-  password: password
+  url: <%= ENV["DATABASE_URL"].gsub('?', '_development?') %>
+
 test:
   <<: *default
-  url: postgresql://localhost/outpost_test
-  username: outpost
-  password: password
+  url: <%= ENV["DATABASE_URL"].gsub('?', '_test?') %>
+
+staging:
+  <<: *default
+  url: <%= ENV["DATABASE_URL"].gsub('?', '_staging?') %>
+
 production:
   <<: *default
-  database: outpost_production
-  username: outpost
-  password: <%= ENV['OUTPOST_DATABASE_PASSWORD'] %>
+  url: <%= ENV["DATABASE_URL"].gsub('?', '_production?') %>

@@ -1,0 +1,7 @@
+- [ ] handle email
+- [ ] tests for cloud storage providers locally [?](https://github.com/fsouza/fake-gcs-server)
+- [ ] setup a network that isn't localhost to be able to connect to postgres db from psql gui
+- [ ] currently outpost-dev.localhost doesn't work so its holding localhost hostage
+- [ ] containerise outpost-api mongo db
+- [ ] get tests running in docker
+- [ ] build docker non dev env

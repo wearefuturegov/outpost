@@ -1,3 +1,5 @@
+require "active_support/core_ext/integer/time"
+
 Rails.application.configure do
   config.after_initialize do
       Bullet.enable        = true
@@ -8,7 +10,7 @@ Rails.application.configure do
       Bullet.rails_logger  = true
       Bullet.add_footer    = true
     end
-  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+  config.action_mailer.default_url_options = { host: "#{ENV.fetch('PROJECT_NAME')}.localhost", port: 3000 }
 
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development
@@ -17,6 +19,20 @@ Rails.application.configure do
 
   # Do not eager load code on boot.
   config.eager_load = false
+
+
+  # new
+
+  
+  # config.hosts << "#{ENV.fetch('PROJECT_NAME')}.localhost"
+  config.hosts << "ruby"
+  # TODO - this can't stay, need the above to work else this will hold localhost hostage!
+  # config.hosts.clear
+  config.web_console.whiny_requests = false
+    # Enable server timing
+  config.server_timing = true
+
+  # end new
 
   # Show full error reports.
   config.consider_all_requests_local = true
@@ -38,6 +54,7 @@ Rails.application.configure do
   end
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
+  # TODO 
   config.active_storage.service = :public_google
 
   # Don't care if the mailer can't send.
@@ -47,6 +64,13 @@ Rails.application.configure do
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
+
+
+  # Raise exceptions for disallowed deprecations.
+  config.active_support.disallowed_deprecation = :raise
+
+  # Tell Active Support which deprecation messages to disallow.
+  config.active_support.disallowed_deprecation_warnings = []
 
   # Raise an error on page load if there are pending migrations.
   config.active_record.migration_error = :page_load

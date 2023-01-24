@@ -1,0 +1,76 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build",
+      "type": "shell",
+      "command": "cd ${workspaceRoot} && make build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "options": {
+        "statusbar": {
+          "label": "Build environment"
+        }
+      }
+    },
+
+    {
+      "label": "Run environment",
+      "type": "shell",
+      "command": "cd ${workspaceRoot} && make start && make run",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "options": {
+        "statusbar": {
+          "label": "Run environment"
+        }
+      }
+    },
+    {
+      "label": "Open shell",
+      "type": "shell",
+      "command": "cd ${workspaceRoot} && make shell",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "options": {
+        "statusbar": {
+          "label": "Open shell"
+        }
+      }
+    },
+    {
+      "label": "Open rails console",
+      "type": "shell",
+      "command": "cd ${workspaceRoot} && make rails_console",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "options": {
+        "statusbar": {
+          "label": "Open rails console"
+        }
+      }
+    },
+    {
+      "label": "Stop environment",
+      "type": "shell",
+      "command": "cd ${workspaceRoot} && make stop",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "options": {
+        "statusbar": {
+          "label": "Stop environment"
+        }
+      }
+    }
+  ]
+}
