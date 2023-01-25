@@ -158,14 +158,10 @@ yarn add <package>
 
 # (optional) update your build files
 
-# optional - update environment/artifacts/ruby gemfiles for the build commands
-make copy_gem_files
-make copy_node_files
-
 # reference - rebuild if its needed for your task
 make stop
 docker-compose -f docker-compose.$(BUILD_TARGET).yml build ruby --no-cache
-makr start
+make start
 ```
 
 ### Updating env files

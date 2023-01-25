@@ -23,10 +23,8 @@ Rails.application.configure do
   # new
 
   
-  # config.hosts << "#{ENV.fetch('PROJECT_NAME')}.localhost"
-  config.hosts << "ruby"
-  # TODO - this can't stay, need the above to work else this will hold localhost hostage!
-  # config.hosts.clear
+  config.hosts << "#{ENV.fetch('PROJECT_NAME')}.localhost"
+
   config.web_console.whiny_requests = false
     # Enable server timing
   config.server_timing = true

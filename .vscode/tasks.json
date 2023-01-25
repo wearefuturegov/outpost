@@ -15,11 +15,24 @@
         }
       }
     },
-
+    {
+      "label": "Start environment",
+      "type": "shell",
+      "command": "cd ${workspaceRoot} && make start",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "options": {
+        "statusbar": {
+          "label": "Start environment"
+        }
+      }
+    },
     {
       "label": "Run environment",
       "type": "shell",
-      "command": "cd ${workspaceRoot} && make start && make run",
+      "command": "cd ${workspaceRoot} && make run",
       "presentation": {
         "reveal": "always",
         "panel": "new"
