@@ -5,8 +5,7 @@ sample_yaml = Rails.root.join('db', '_sample-data.yml')
 sample_data = YAML::load_file(sample_yaml)
 
 
-# @TODO make this more robust and flexible
-import_sample_data = false;
+import_sample_data = ENV["IMPORT_SAMPLE_DATA"];
 
 
 data["accessibilities"].each do |n|

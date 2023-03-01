@@ -1,22 +1,19 @@
 version: "3.7"
 services:
-  # Basic development environment setup
-
   # Outpost app
 
   outpost:
     image: "outpost:development"
     container_name: outpost
+    init: true
     depends_on:
       - postgres
     build:
-      context: ./
-      dockerfile: ./Dockerfile
       target: development
     ports:
       - 3000:3000
     volumes:
-      - ${APP_PATH}:/app:cached
+      - ./:/app:cached
     environment:
       PROJECT_NAME: ${PROJECT_NAME}
       PUMA_WORKERS: 0
@@ -25,106 +22,35 @@ services:
       - external_network
       - internal_network
 
-  # Outpost API
-
-  outpost-api:
-    env_file: ./.env.outpost-api
-    image: "outpost-api:development"
-    container_name: outpost-api
-    command: "npm run dev"
-    depends_on:
-      - mongo
-    build:
-      context: ./../outpost-api-service/
-      dockerfile: ./../outpost-api-service/Dockerfile
-      target: development
-    ports:
-      - 3001:3001
-    volumes:
-      - ./../outpost-api-service/:/app:cached
-    environment:
-      NODE_ENV: development
-    networks:
-      - external_network
-      - internal_network
-
-  # Scout
-
-  scout:
-    env_file: ./.env.scout
-    image: "scout:development"
-    container_name: scout
-    command: "npm run dev"
-    stdin_open: true
-    build:
-      context: ./../scout-x/
-      dockerfile: ./../scout-x/Dockerfile
-      target: development
-    ports:
-      - 3002:3000
-    volumes:
-      - ./../scout-x/:/app:cached
-    environment:
-      NODE_ENV: development
-    networks:
-      - external_network
-      - internal_network
-
-  # Server
-
-  nginx:
-    image: "outpost-nginx:development"
-    container_name: svr-nginx
-    build:
-      context: ./
-      dockerfile: ./environment/containers/nginx/Dockerfile
-      target: development
-    depends_on:
-      - outpost
-    tty: true
-    ports:
-      - 80 #ephemeral port vs 80:80
-    volumes:
-      - ./environment/artifacts/nginx/:/var/log/nginx:cached
-    networks:
-      - external_network
-
   # Databases
 
   postgres:
     image: postgres:13.7-alpine
-    container_name: db-postgres
+    container_name: outpost-db-postgres
     environment:
       POSTGRES_USER: ${POSTGRES_DB_USER}
       POSTGRES_PASSWORD: ${POSTGRES_DB_PASSWORD}
-    # build:
-    #   context: ./
-    #   dockerfile: ./environment/containers/postgres/Dockerfile
     ports:
-      - ${POSTGRES_DB_PORT}:5432
+      - 5432:5432
     volumes:
-      - postgres-volume:/var/lib/postgresql/data
+      - outpost-postgres-volume:/var/lib/postgresql/data
     networks:
       - internal_network
 
   mongo:
-    image: "mongo:development"
-    container_name: db-mongo
-    build:
-      context: ./../outpost-api-service/
-      dockerfile: ./../outpost-api-service/environment/containers/mongo/Dockerfile
-      target: development
+    image: mongo:6
+    container_name: outpost-db-mongo
     ports:
       - 27017:27017
     volumes:
-      - mongo-volume:/data/db
+      - outpost-mongo-volume:/data/db
     networks:
       - internal_network
       - external_network
 
 volumes:
-  postgres-volume:
-  mongo-volume:
+  outpost-postgres-volume:
+  outpost-mongo-volume:
 
 networks:
   external_network:

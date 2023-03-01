@@ -22,42 +22,53 @@ RUN apk -U upgrade \
     yarn
 
 # install various gems
-FROM base_image as build_rails
+FROM base_image as build_app
 COPY ./Gemfile /tmp/Gemfile
 COPY ./Gemfile.lock /tmp/Gemfile.lock
+COPY ./package.json /tmp/package.json
+COPY ./yarn.lock /tmp/yarn.lock
+
 RUN cd /tmp && \
   bundle install && \
+  yarn install && \
   bundle exec rails webpacker:install && \
   apk add --no-cache git
 
 
 
-# might need other dotfiles here at some point
-FROM build_rails as build_frontend
-COPY ./package.json /tmp/package.json
-COPY ./yarn.lock /tmp/yarn.lock
-RUN cd /tmp && \
-  yarn install
 WORKDIR /app
+
+FROM build_app as base_env
+COPY --from=build_app /tmp .
 
 
 #  build and install all  the things for the development env
-FROM build_frontend as development
+FROM base_env as development
 COPY ./environment/docker-run-development.sh /rdebug_ide/runner.sh
-RUN cd /tmp && \
-  gem install ruby-debug-ide && \
+RUN gem install ruby-debug-ide && \
   gem install debase && \
   chmod +x /rdebug_ide/runner.sh
+EXPOSE 3000
+# ENTRYPOINT ["tail", "-f", "/dev/null"]
+CMD ["/rdebug_ide/runner.sh"]
 # CMD bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -u puma -p 3000 -b '0.0.0.0'"
-ENTRYPOINT ["tail", "-f", "/dev/null"]
-
+# ENTRYPOINT ["tail", "-f", "/dev/null"]
 
 
 #  build and install all  the things for the production env
-FROM build_frontend as production
+FROM base_env as production
+COPY ./environment/docker-run-production.sh /runner/runner.sh
 COPY . .
-ARG RAILS_ENV=production
-ARG NODE_ENV=production
+RUN chmod +x /runner/runner.sh
+EXPOSE 3000
+
+ENV RAILS_ENV="production" \
+    NODE_ENV="production" \
+    RAILS_SERVE_STATIC_FILES="true" 
+
+# ENTRYPOINT ["/usr/bin/tini", "--"]
+CMD ["/runner/runner.sh"]
+# ENTRYPOINT ["/usr/bin/tini", "--"]
 # CMD bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -u puma -p 3000 -b '0.0.0.0'"
 # ENTRYPOINT ['./environment/docker-run-production.sh']
 # CMD ["rails", "s", "-p", "3000"]

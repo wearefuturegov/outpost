@@ -38,6 +38,58 @@ It can also act as an OAuth provider via [Doorkeeper](https://github.com/doorkee
 
 It uses Google APIs for geocoding and map features, and gov notify to send emails.
 
+## 💻 Running it locally
+
+### Using docker-compose
+
+```sh
+git clone git@github.com:wearefuturegov/outpost.git && cd outpost
+
+# build the image
+docker compose -f docker-compose.development.yml build
+
+# run the container
+docker compose -f docker-compose.development.yml up -d
+
+# run migrations etc
+docker compose -f docker-compose.development.yml exec outpost rails db:migrate
+
+# seed db
+docker compose -f docker-compose.development.yml exec -e IMPORT_SAMPLE_DATA=true outpost rails db:seed
+
+# run tests
+docker compose -f docker-compose.development.yml exec -i -e RAILS_ENV=test outpost rails db:create
+docker compose -f docker-compose.development.yml exec -i -e RAILS_ENV=test outpost rake
+docker compose -f docker-compose.development.yml exec -i -e RAILS_ENV=test outpost bundle exec rspec
+
+# open shell in container
+docker compose -f docker-compose.development.yml exec outpost /bin/ash;
+
+# stop the container
+docker compose -f docker-compose.development.yml stop
+
+```
+
+### Locally
+
+You need Node.js and `npm` installed, plus an API for Scout to consume data from.
+
+First, clone the repo:
+
+```
+bundle install
+yarn
+rails db:setup
+rails s
+
+# run end-to-end and unit tests
+rake
+```
+
+Before building, it will attempt to grab the latest version of the collection, category and SEND needs filters if there's an appropriate datasource available.
+
+It'll be on **localhost:3000**.
+
 ## 🧬 Configure Outpost
 
 **Custom templates**
@@ -52,53 +104,7 @@ It's suitable for 12-factor app hosting like [Heroku](http://heroku.com).
 
 It has a `Procfile` that will [automatically run](https://devcenter.heroku.com/articles/release-phase) pending rails migrations on every deploy, to reduce downtime.
 
-## 💻 Running it locally
-
-For more in depth information see [getting setup](https://outpost-platform.wearefuturegov.com/docs/outpost/developers/getting-setup)
-
-Using the docker development environment, no rails, postgres, mongo installation necessary!
-
-```sh
-cd ./environment
-
-# skip if already done
-cp .env.sample .env
-
-# build everything
-make build
-
-# start the containers
-make start
-
-# initialise the DB
-make shell
-rails db:setup
-
-# open outpost
-make run
-
-# or
-make shell
-rails s -u puma -p 3000 -b=0.0.0.0
-
-# view site (url is set in environment/.env)
-open http://outpost-dev.localhost
-
-# run commands (rails, bundler etc)
-make shell
-
-# run rails commands
-make rails_console
-
-# stop the containers
-make stop
-```
-
 ### Creating users
-
-```sh
-make rails_console
-```
 
 ```ruby
 User.create!({ \
@@ -131,44 +137,12 @@ rails db:migrate RAILS_ENV=development
 You can seed data by running the following. You can configure the default email and password in env variables.
 
 ```sh
-make shell
 rails db:seed
 ```
 
 To add dummy data, you will need to open the [seeds.rb](db/seeds.rb) file and set `import_sample_data` to true.
 
-### Working with gems, yarn and the docker development environment
-
-If you make any changes to the gems, versions etc,
-
-You will need to install gems through the `make shell` command so the correct versions of package managers are used.
-
-You may also want to run the `make copy_gem_files` command. On your local environment this shouldn't be a problem but its just a good idea just in case!
-
-If your testing or developing features around the docker implementation you will need to rebuild the `build_rails` layer in the [ruby Dockerfile](environment/containers/ruby/Dockerfile)
-
-```sh
-# install new gems
-make shell
-bundler add <gem>
-
-# install new npm packages
-make shell
-yarn add <package>
-
-# (optional) update your build files
-
-# reference - rebuild if its needed for your task
-make stop
-docker-compose -f docker-compose.$(BUILD_TARGET).yml build ruby --no-cache
-make start
-```
-
-### Updating env files
-
-When you make a change to the .env files you will need to quit and re-start the `rails s` command, either by cancelling `make run` or cancelling out of the `rails s` command in `make shell`
-
-### Connecting to the database on your machine
+### Connecting to the database on your machine (if using docker)
 
 nb: If you're running postgresql on your localmachine you'll need to stop the service
 
@@ -176,12 +150,9 @@ You should be able to connect via localhost.
 
 ### Building a public index
 
-@TODO
-
 Outpost's API component relies on a public index stored on MongoDB.
 
 ```sh
-make shell
 rails build_public_index
 ```
 
@@ -196,11 +167,9 @@ See [tests](#🧪-tests) and [code coverage](#code-coverage).
 ```sh
 
 # rspec
-make shell
 bundle exec rspec
 
 # code coverage
-make shell
 rake
 open coverage/index.html
 
@@ -232,7 +201,6 @@ Once authenticated, consumer apps can fetch information about the currently logg
 It has some rspec tests on key functionality. Run them with:
 
 ```
-make shell
 bundle exec rspec
 
 ```
@@ -252,7 +220,3 @@ open coverage/index.html
 The coverage report is sent to Codecov after the tests run in CI. Once you open
 a PR, Codecov will post a comment with a handy coverage delta and a link to view
 line-by-line coverage for the PR.
-
-```
-
-```
