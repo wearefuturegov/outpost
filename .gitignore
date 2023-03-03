@@ -31,6 +31,7 @@ yarn-debug.log*
 .yarn-integrity
 
 /lib/seeds
+/lib/output
 /.env
 
 /coverage
