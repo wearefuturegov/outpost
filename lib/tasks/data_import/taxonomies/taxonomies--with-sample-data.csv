@@ -1,0 +1,203 @@
+id,parent_id,sort_order
+1,,0,Officia
+11,1,0,,Aliquam atque
+12,1,1,,Sunt fugit ut autem
+13,1,2,,Voluptatum modi consequuntur
+2,,1,Qui
+14,2,0,,Saepe molestiae
+15,2,1,,Eos
+16,2,2,,Laborum similique expedita
+17,2,3,,Repudiandae ut facere
+18,2,4,,Ea laboriosam
+3,,2,Itaque labore est
+19,3,0,,Est voluptatibus quis
+20,3,1,,Animi
+21,3,2,,Reprehenderit nesciunt qui
+22,3,3,,Esse ex id aliquam
+23,3,4,,Recusandae commodi laudantium ea
+24,3,5,,Corrupti earum iusto
+4,,3,Placeat voluptas quo
+25,4,0,,Debitis officia
+26,4,1,,Beatae odio nemo
+27,4,2,,Ipsa expedita atque non
+5,,4,Qui mollitia nihil
+28,5,0,,Laboriosam
+6,,5,Est voluptas
+29,6,0,,Rerum modi quis sunt
+30,6,1,,Fugiat placeat sint
+31,6,2,,Rerum voluptatibus
+7,,6,Omnis eligendi porro exercitationem
+32,7,0,,Aut alias excepturi labore
+33,7,1,,In reprehenderit sunt
+34,7,2,,Sint possimus odio consequuntur
+35,7,3,,Minima unde delectus
+55,35,0,,,Vitae cumque accusamus sequi
+56,35,1,,,Ab exercitationem
+57,35,2,,,Quas magni
+58,35,3,,,Velit molestiae in
+59,35,4,,,Dolor
+60,35,5,,,Esse et eum
+61,35,6,,,Nam sapiente
+8,,7,Enim illo consectetur
+36,8,0,,Eaque nemo accusantium labore
+62,36,0,,,Repellat est autem
+63,36,1,,,Molestiae
+64,36,2,,,Vel tempore ut iste
+65,36,3,,,Nemo
+66,36,4,,,Ut alias
+67,36,5,,,Autem voluptatem sed
+37,8,1,,Magnam
+68,37,0,,,Dolorem voluptatem consequuntur iste
+69,37,1,,,Rerum aspernatur quam
+70,37,2,,,Aut occaecati quia molestiae
+71,37,3,,,Porro
+72,37,4,,,Provident voluptatem
+73,37,5,,,Autem aliquid
+74,37,6,,,Hic vitae praesentium
+38,8,2,,Dignissimos earum deleniti
+75,38,0,,,Deleniti
+39,8,3,,Earum sapiente saepe voluptas
+76,39,0,,,Amet sint quia placeat
+77,39,1,,,Commodi omnis eaque
+40,8,4,,Placeat quia enim
+78,40,0,,,Et
+41,8,5,,Accusantium
+79,41,0,,,Et
+80,41,1,,,Vitae autem ut
+81,41,2,,,Culpa earum
+82,41,3,,,Qui consequatur voluptatem
+9,,8,Tempora et voluptates molestias
+42,9,0,,Sed quia minima est
+83,42,0,,,Fugit expedita ab odit
+103,83,0,,,,Totam ea
+104,83,1,,,,Velit
+105,83,2,,,,Illum aut voluptatibus
+106,83,3,,,,Culpa et
+107,83,4,,,,Quia similique nulla et
+108,83,5,,,,Similique
+109,83,6,,,,Impedit et odio
+110,83,7,,,,Unde asperiores
+111,83,8,,,,Qui quibusdam harum
+84,42,1,,,Quis id maxime
+112,84,0,,,,Consectetur
+113,84,1,,,,Inventore
+114,84,2,,,,Enim ut
+115,84,3,,,,Enim
+43,9,1,,Error et qui recusandae
+85,43,0,,,Ut adipisci
+116,85,0,,,,Totam molestiae repudiandae ex
+86,43,1,,,Beatae
+117,86,0,,,,Nihil placeat ipsam sit
+118,86,1,,,,Quia quae distinctio expedita
+119,86,2,,,,Velit laboriosam dolorem occaecati
+120,86,3,,,,Ut velit qui necessitatibus
+121,86,4,,,,Mollitia
+122,86,5,,,,Libero fugit rerum
+123,86,6,,,,Repudiandae vel
+124,86,7,,,,Non
+125,86,8,,,,Commodi minima recusandae
+10,,9,Unde
+44,10,0,,Fuga molestiae inventore
+87,44,0,,,Consequatur qui
+126,87,0,,,,Officia laboriosam et
+88,44,1,,,Velit accusantium aliquid illum
+127,88,0,,,,Optio ut
+128,88,1,,,,Quidem id soluta voluptates
+129,88,2,,,,Necessitatibus ea
+89,44,2,,,Labore incidunt
+130,89,0,,,,Optio necessitatibus aut
+131,89,1,,,,Tenetur asperiores
+132,89,2,,,,Quasi quia
+133,89,3,,,,Dolorem velit
+134,89,4,,,,Molestias unde nesciunt sed
+135,89,5,,,,Commodi autem
+90,44,3,,,Maxime
+136,90,0,,,,Impedit dicta vero maxime
+91,44,4,,,Repudiandae eos at
+137,91,0,,,,Ducimus et porro inventore
+157,137,0,,,,,Rerum
+138,91,1,,,,Asperiores sequi iste
+158,138,0,,,,,Laborum dolores reiciendis
+159,138,1,,,,,Optio quod deserunt
+160,138,2,,,,,Consectetur aut
+161,138,3,,,,,Et
+162,138,4,,,,,Tempore
+163,138,5,,,,,In explicabo
+164,138,6,,,,,Iusto consequuntur
+165,138,7,,,,,Aut
+166,138,8,,,,,Qui
+139,91,2,,,,Reprehenderit
+92,44,5,,,Voluptatem voluptas
+140,92,0,,,,Consequuntur ad voluptate nostrum
+167,140,0,,,,,Dolores suscipit
+168,140,1,,,,,Delectus
+169,140,2,,,,,Eos cumque
+170,140,3,,,,,Quasi laborum assumenda
+171,140,4,,,,,Consequatur qui officia
+172,140,5,,,,,Eos
+173,140,6,,,,,Non saepe
+141,92,1,,,,Similique accusamus
+142,92,2,,,,Eos dolorem et aut
+174,142,0,,,,,Quo ipsum et repellat
+143,92,3,,,,Alias
+175,143,0,,,,,Et est ipsam
+176,143,1,,,,,Facere maiores
+177,143,2,,,,,Et quia similique deleniti
+178,143,3,,,,,Est dolores labore
+179,143,4,,,,,Nam ut quia ipsa
+180,143,5,,,,,Et
+181,143,6,,,,,Illum vel
+144,92,4,,,,Distinctio hic
+182,144,0,,,,,Sit
+183,144,1,,,,,Dolorem
+184,144,2,,,,,Iste fugiat aut
+185,144,3,,,,,Officia rem ut nam
+186,144,4,,,,,Architecto saepe voluptas dicta
+187,144,5,,,,,Expedita illo omnis
+145,92,5,,,,Cum quia sint earum
+188,145,0,,,,,Ipsam
+189,145,1,,,,,Fugiat
+190,145,2,,,,,Excepturi distinctio veniam
+191,145,3,,,,,Suscipit repellat eum
+192,145,4,,,,,Eos id
+193,145,5,,,,,Voluptate in et
+194,145,6,,,,,Laudantium quibusdam consectetur omnis
+195,145,7,,,,,Voluptatibus ducimus fugit
+196,145,8,,,,,Temporibus
+146,92,6,,,,Cumque
+197,146,0,,,,,Veritatis dolorem
+198,146,1,,,,,Non qui et
+199,146,2,,,,,Est laudantium
+200,146,3,,,,,Quas ut consequatur
+201,146,4,,,,,Reiciendis facilis animi perferendis
+202,146,5,,,,,Fugit quibusdam sapiente
+45,,10,Rerum excepturi sit ut
+46,,11,Eos ut ut
+47,,12,Voluptas non omnis temporibus
+48,,13,Enim eos
+49,,14,Ipsa doloribus aperiam non
+50,,15,Quaerat rerum nihil repellat
+51,,16,Nisi consectetur
+52,,17,Odio
+53,,18,Occaecati debitis nihil
+54,,19,Voluptate eaque eum
+93,,20,Quibusdam est nobis
+94,,21,Quidem dicta et
+95,,22,Et magnam laudantium quia
+96,,23,Quaerat
+97,,24,Sunt sint nam
+98,,25,Deleniti praesentium
+99,,26,Dolorem
+100,,27,Non autem ea
+101,,28,Quod reiciendis aut possimus
+102,,29,Minima ut libero
+147,,30,Voluptas culpa vitae
+148,,31,Autem
+149,,32,Incidunt iste molestiae et
+150,,33,Aut molestiae a
+151,,34,Et aperiam qui minus
+152,,35,Est
+153,,36,Sed eos
+154,,37,Amet cupiditate accusamus aut
+155,,38,Est cum
+156,,39,Tempora odit voluptatem

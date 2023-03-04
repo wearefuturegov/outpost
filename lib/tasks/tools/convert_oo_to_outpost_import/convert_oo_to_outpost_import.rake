@@ -21,8 +21,8 @@ namespace :convert do
     # no duplicate externalid's
     externalid_duplicate = check_for_duplicates(csv_parser, 'externalid')
 
-    # initial_validation_has_errors = [name_duplicate,externalid_duplicate].any?
-    initial_validation_has_errors = false
+    initial_validation_has_errors = [name_duplicate,externalid_duplicate].any?
+    # initial_validation_has_errors = false
 
     # open objects
     # title,service_type,sharingportal_inbound,sharingportal_inbound_owner,sharingportal_inbound_notes,sharingportal_inbound_link,sharingportal_inbound_image,description,contact_name,contact_position,contact_telephone,contact_email,website,contact_notes,venue_name,venue_address_1,venue_address_2,venue_address_3,venue_address_4,venue_address_5,venue_postcode,location_postcode,location_ward,location_coverage,venue_notes,date_displaydate,date_activity_period,date_timeofday,date_session_info,date_add_to_whatson,date_featured_whatson,cost_table,cost_description,referral_required,referral_notes,agerange,notes_public,logo,images,files,related_links,parent_organisation,parent_organisation_contact_show,parent_organisation_venue_show,ecd_type_list,ecd_daycaretype_list,dfes_urn,vendor_urn,registered_setting_identifier,ecd_places_max,places_range,ecd_funded_registered,ecd_funded_registered_2yo,ecd_funded_places_2yo,ecd_funded_places_3yo,ecd_funded_places_4yo,ecd_funded_places_total,ecd_30_hours,ecd_vacancies_over8,ecd_age_from_years,ecd_age_from_months,ecd_age_to_years,ecd_age_to_months,ecd_vacancies_immediate,ecd_vacancies_max,ecd_vacancy_range,ecd_vacancies_details,ecd_vacancies_modified,ecd_vacancies_contactprovider,ecd_facilities_list,ecd_timetable_openinghours_list,ecd_timetable_list,ecd_timetable_otherhours,ecd_pickup,ecd_pickup_details,ecd_pickup_schools_list,ecd_sp_wheelchairaccess,ecd_sp_wheelchairaccess_details,ecd_sp_specialdiet,ecd_sp_specialdiet_details,ecd_sp_specialdiet_experience_list,ecd_sp_specialneeds,ecd_sp_specialneeds_details,ecd_sp_specialneeds_experience_list,ecd_sp_cultural,ecd_sp_cultural_details,ecd_sp_cultural_experience_list,ecd_other_notes,lo_response_type_required,services,supporting,attributes,familychannel,adultchannel,youthchannel,localofferchannel,cqc_id,cqc_rating,cqc_reportdate,keywords,lo_boolean,lo_show_flash,lo_details,lo_contact_name,lo_contact_telephone,lo_contact_email,lo_links,lo_age_bands,lo_needs_level,lo_sen_provision_type,lo_provider_form_approved,lo_file,lo_school_01,lo_school_02,lo_school_03,lo_school_04,lo_school_05,lo_school_06,lo_school_07,lo_school_08,lo_school_09,lo_school_10,lo_school_11,lo_school_12,lo_school_13,group_assignment,record_editor,record_activity_range,record_id,__url,admin_history,notes_private,ecd_opt_out_website,public_address_1,public_address_2,public_address_3,public_address_4,public_address_5,public_address_postcode,public_address_map_postcode,private_name,private_position,private_telephone,private_email,private_address_1,private_address_2,private_address_3,private_address_4,private_address_5,private_postcode,dormant,review_allowed,review_average,sharingportal_outbound,entrysource,externalid,lastupdated
@@ -44,7 +44,7 @@ namespace :convert do
     @service_csv_data = []
 
     csv_data.each.with_index do |row, index|
-      @parent_service_import_id = index + @service_csv_data.length
+      @parent_service_import_id = (index+1) + @service_csv_data.length
       @parent_service = {}
       @parent_service_name = row['title']&.strip
 
@@ -52,7 +52,7 @@ namespace :convert do
       # essentials
       @basic = {
         import_id: @parent_service_import_id,
-        import_id_reference: '',
+        import_id_reference: nil,
         name: @parent_service_name,
         # description: row["description"].html_safe,
         # url: row["website"],
@@ -73,8 +73,9 @@ namespace :convert do
           puts "🟠 Organisation: Missing matching service externalId for \"#{@parent_service_name}\", ignoring and leaving blank for now"
           # abort("  🔴 Organisation: Missing matching service externalId")
         elsif organisation_rows.length == 1
+          @organisations = organisation_rows.first["title"]&.strip
           @organisations = {
-            organisation: organisation_rows.first['title']&.strip
+            organisation: !@organisations.nil? ? organisation_rows.first["title"]&.strip : nil
           }
           @parent_service = @parent_service.merge(**@organisations)
         end
@@ -138,8 +139,12 @@ namespace :convert do
         }
       end
 
-      @parent_service = @parent_service.merge(**@contacts[0]) if @contacts.length >= 1
+      # @contacts = array.uniq! {|c| [c.first, c.second]}
+      @contacts = @contacts.uniq {|hash| hash.values_at(:contact_name, :contact_email, :contact_phone)}
+      # puts @contacts.uniq! {|e| e[:contact_name] }
 
+      @parent_service = @parent_service.merge(**@contacts[0]) if !@contacts.nil? && @contacts.length >= 1
+      @contacts = @contacts.drop(1)
 
       # location
 
@@ -307,14 +312,15 @@ namespace :convert do
       @service_csv_data << @parent_service
 
       @child_service_import_id_reference = @parent_service_import_id
-      @contacts.each do |c, i|
-        next unless i != 0
-
-        @parent_service_import_id += 1
-        @service_csv_data << { import_id: @parent_service_import_id,
-                               import_id_reference: @child_service_import_id_reference, **c }
+      if !@contacts.nil?
+        @contacts.each do |c, i|
+          # next unless i != 0
+          @parent_service_import_id += 1
+          @service_csv_data << { import_id: @parent_service_import_id,
+                                import_id_reference: @child_service_import_id_reference, **c }
+        end
       end
-
+      
       @parent_service_import_id += 1
     end
 
