@@ -2,7 +2,7 @@ class Organisation < ApplicationRecord
   has_many :services
   has_many :users
 
-  validates :name, presence: true, uniqueness: true
+  validates_uniqueness_of :name, if: -> { name.present? }
   validates :name, length: { minimum: 2, maximum: 100 }, if: -> { name.present? }
 
   attr_accessor :skip_mongo_callbacks
