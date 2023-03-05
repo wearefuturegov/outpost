@@ -48,6 +48,19 @@ namespace :import do
 
   end
 
+  # @TODO theres a better way to do this I'm sure.
+  def is_true(value)
+    if !value.blank?
+      if value == true || value.downcase == "true"
+        true
+      else
+        false
+      end
+    else
+      false
+    end
+  end 
+
 
   # Do the import
   def import_services(csv_data)
@@ -113,22 +126,23 @@ namespace :import do
         puts "🟠 Service: \"#{row["name"]}\" already exists, skipping anything to do with this service (id: #{service.id})."
       else
 
+
         # @TODO to/from date validation
         # @TODO ensure booleans are booleans
         new_service = Service.new(
           name: row["name"]&.strip,
           description: row["description"]&.strip,
           url: row["url"]&.strip,
-          approved: row["approved"],
+          approved: is_true(row["approved"]),
           visible_from: row["visible_from"],
           visible_to: row["visible_to"],
           visible: (!row["visible_from"].nil? && !row["visible_to"].nil?) ? true : row["visible"],
-          needs_referral: row["needs_referral"],
-          free: row["free"],
+          needs_referral: is_true(row["needs_referral"]),
+          free: is_true(row["free"]),
           min_age: row["min_age"],
           max_age: row["max_age"],
           organisation: new_service_organisation(row['organisation']),
-          temporarily_closed: row["temporarily_closed"],
+          temporarily_closed: is_true(row["temporarily_closed"]),
           label_list: row['labels']&.split(';')&.collect(&:strip),
           skip_mongo_callbacks: true
         )
@@ -139,7 +153,11 @@ namespace :import do
 
           # deliminated data
           # Taxonomies
-          new_service_taxonomies(new_service, row['service_taxonomies'])
+          if ENV["IMPORT_HIERARCHICAL_TAXONOMIES"]
+            new_service_hierarchy_taxonomies(new_service, row['service_taxonomies'])
+          else 
+            new_service_taxonomies(new_service, row['service_taxonomies'])
+          end
 
           # Suitabilities
           new_service_suitabilities(new_service, row['suitabilities'])
@@ -204,8 +222,6 @@ namespace :import do
     if row["schedules_opens_at"].present? && row["schedules_closes_at"].present? && row["scheduled_weekday"].present? 
       # @TODO this validation should go higher up
       new_service_regular_schedules(service_id, row)
-    else 
-      puts "  🟠 No schedule was created as not all fields contained data"
     end
 
     # links
@@ -254,28 +270,37 @@ namespace :import do
 
   end
 
-  # create SEND needs
+  # create SEND needs if needed and add to the service
   def new_service_send_needs(service, send_needs)
+    created_send_needs_ids = []
     send_needs&.split(';')&.collect(&:strip)&.each do |name|
-      send_need = service.send_needs.find_or_initialize_by(name: name)
-      if send_need.save
-        puts "  🟢 Send need: \"#{name}\" created (id: #{send_need.id})."
-      else
-        abort("  🔴 Send need: \"#{name}\" was not created. Exiting. #{send_need.errors.messages}")
+      created_send_need = SendNeed.find_or_initialize_by(name: name)
+      if created_send_need.id.nil?
+        if created_send_need.save
+          puts "  🟢 Send needs: New send need \"#{name}\" created (id: #{created_send_need.id})."
+        end
       end
+      created_send_needs_ids << created_send_need.id
+    end
+    if service.update(send_need_ids: created_send_needs_ids)
+      puts "  🟢 Send needs: ids #{created_send_needs_ids} added to service."
     end
   end
 
-  # create suitabilities
+  # create suitabilities if needed and add to the service
   def new_service_suitabilities(service, suitabilities)
+    created_suitability_ids = []
     suitabilities&.split(';')&.collect(&:strip)&.each do |name|
-      suitability = service.suitabilities.find_or_initialize_by(name: name)
-
-      if suitability.save
-        puts "  🟢 Suitability: \"#{name}\" created (id: #{suitability.id})."
-      else
-        abort("  🔴 Suitability: \"#{name}\" was not created. Exiting. #{suitability.errors.messages}")
+      created_suitability = Suitability.find_or_initialize_by(name: name)
+      if created_suitability.id.nil?
+        if created_suitability.save
+          puts "  🟢 Suitabilities: New suitability \"#{name}\" created (id: #{created_suitability.id})."
+        end
       end
+      created_suitability_ids << created_suitability.id
+    end
+    if service.update(suitability_ids: created_suitability_ids)
+      puts "  🟢 Suitability: ids #{created_suitability_ids} added to service."
     end
   end
 
@@ -293,17 +318,32 @@ namespace :import do
     end
   end
 
+  def new_service_hierarchy_taxonomies(service, taxonomies)
+    created_taxonomy_ids = []
+    taxonomies&.split(';')&.collect(&:strip)&.each do |taxonomy|
+      taxonomy_hierarchy = taxonomy&.split('>')&.collect(&:strip)
+      # create the taxonomy tree
+      path_taxonomy_child = Taxonomy.create_with(skip_mongo_callbacks: true).find_or_create_by_path(taxonomy_hierarchy)
+      if !path_taxonomy_child.id.nil? 
+        created_taxonomy_ids << path_taxonomy_child.id
+      end 
+    end
+    if service.update(taxonomy_ids: created_taxonomy_ids)
+      puts "  🟢 Taxonomy: ids #{created_taxonomy_ids} added to #{service.name}."
+    end
+  end
+
   # when creating a new service we need to check for organisations
   # TODO when doing organisations we also need to create users for them as well!
   def new_service_organisation(organisation_name)
-    organisation = Organisation.find_or_initialize_by(name: organisation_name&.strip)
+      organisation = !organisation_name.nil? ? Organisation.find_or_initialize_by(name: organisation_name&.strip) : Organisation.new
 
-    if organisation.save(skip_mongo_callbacks: true)
-      puts "  🟢 Organisation: \"#{organisation.name}\" created (id: #{organisation.id})."
-      return organisation
-    else 
-      abort("  🔴 Organisation: \"#{organisation.name}\" was not created. Exiting. #{organisation.errors.messages}")
-    end
+      if organisation.save(skip_mongo_callbacks: true)
+        puts "  🟢 Organisation: \"#{organisation.name}\" created (id: #{organisation.id})."
+        return organisation
+      else 
+        abort("  🔴 Organisation: \"#{organisation.name}\" was not created. Exiting. #{organisation.errors.messages}")
+      end
   end
 
   # when creating a new service we add links
@@ -382,7 +422,7 @@ namespace :import do
       address_1: location_data['location_address_1'],
       city: location_data['location_city'],
       postal_code: location_data['location_postcode'],
-      visible: location_data['location_visible'],
+      visible:  is_true(location_data['location_visible']),
       mask_exact_address: location_data['mask_exact_address'],
       preferred_for_post: location_data['preferred_for_post'],
       skip_mongo_callbacks: true
@@ -415,7 +455,7 @@ namespace :import do
       new_contact = service.contacts.new(
         name: contact_data['contact_name']&.strip,
         title: contact_data['contact_title']&.strip,
-        visible: contact_data['contact_visible'].present? ? contact_data['contact_visible'] : false,
+        visible: is_true(contact_data['contact_visible']),
         email: contact_data['contact_email']&.strip,
         phone: contact_data['contact_phone']&.strip,
       )
