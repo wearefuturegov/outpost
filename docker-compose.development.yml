@@ -17,7 +17,7 @@ services:
     environment:
       PROJECT_NAME: ${PROJECT_NAME}
       PUMA_WORKERS: 0
-      RAILS_MAX_THREADS: 1
+      RAILS_MAX_THREADS: 5
     networks:
       - external_network
       - internal_network

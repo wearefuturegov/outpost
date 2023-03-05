@@ -46,7 +46,6 @@ COPY --from=build_app /tmp .
 FROM base_env as development
 COPY ./environment/docker-run-development.sh /rdebug_ide/runner.sh
 RUN gem install ruby-debug-ide && \
-  gem install debase && \
   chmod +x /rdebug_ide/runner.sh
 EXPOSE 3000
 # ENTRYPOINT ["tail", "-f", "/dev/null"]
