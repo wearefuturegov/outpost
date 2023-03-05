@@ -423,8 +423,8 @@ namespace :import do
       city: location_data['location_city'],
       postal_code: location_data['location_postcode'],
       visible:  is_true(location_data['location_visible']),
-      mask_exact_address: location_data['mask_exact_address'],
-      preferred_for_post: location_data['preferred_for_post'],
+      mask_exact_address: is_true(location_data['mask_exact_address']),
+      preferred_for_post: is_true(location_data['preferred_for_post']),
       skip_mongo_callbacks: true
     )
 

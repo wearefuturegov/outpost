@@ -58,7 +58,7 @@ namespace :convert do
         import_id: @parent_service_import_id,
         import_id_reference: nil,
         name: @parent_service_name,
-        # description: row["description"].html_safe,
+        description: row["description"].html_safe,
         # url: row["website"],
         needs_referral: row['referral_required'] === 'Yes',
         approved: true,
@@ -185,26 +185,48 @@ namespace :convert do
       # Hide full location and don't show on maps
       # Hide completely from public website
       # Admin access only, never on website
-      @ecd_opt_out_website = !row['ecd_opt_out_website'].nil? ? 'Full visibility on public website' : row['ecd_opt_out_website']
-      @location_visibility = {
-        location_visible: false,
-        mask_exact_address: true
-      }
+      @ecd_opt_out_website = row['ecd_opt_out_website']
 
-      if @ecd_opt_out_website == 'Hide street level location but show on maps'
-        @location_visibility = {
-          location_visible: true,
-          mask_exact_address: true
-        }
-      elsif @ecd_opt_out_website == 'Full visibility on public website'
-        @location_visibility = {
-          location_visible: true,
-          mask_exact_address: false
-        }
+      case @ecd_opt_out_website
+        when "Full visibility on public website"
+          @location_visibility = {
+            location_visible: true,
+            mask_exact_address: false
+          }
+        when "Hide street level location but show on maps"
+          @location_visibility = {
+            location_visible: true,
+            mask_exact_address: true
+          }
+        when "Hide street level location and don't show on maps"
+          @location_visibility = {
+            location_visible: false,
+            mask_exact_address: true
+          }
+        when "Hide full location and don't show on maps"
+          @location_visibility = {
+            location_visible: false,
+            mask_exact_address: true
+          }
+        when "Hide completely from public website"
+          @location_visibility = {
+            location_visible: false,
+            mask_exact_address: true
+          }
+        when "Admin access only, never on website"
+          @location_visibility = {
+            location_visible: false,
+            mask_exact_address: true
+          }
+        else 
+          # default to hidden location
+          @location_visibility = {
+            location_visible: false,
+            mask_exact_address: true
+          }
       end
 
       if !@postcode.nil? && @postcode.length > 6
-        # @locations = @location_address.merge(@location_visibility)
         @parent_service = @parent_service.merge(**@location_address, **@location_visibility)
       end
 
