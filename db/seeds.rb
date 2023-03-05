@@ -53,7 +53,7 @@ if import_sample_data
     end
 
     # subcategories
-    taxonomy_ids = Taxonomy.last(10).map(&:id)
+    taxonomy_ids = Taxonomy.where.not(parent_id: nil).last(10).map(&:id)
     taxonomy_ids.each do | t |
         rand(0...10).times do 
             child_taxon = Taxonomy.create!({
