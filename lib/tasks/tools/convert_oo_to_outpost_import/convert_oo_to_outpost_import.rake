@@ -10,7 +10,7 @@ namespace :convert do
     # @TODO - support for custom custom_fields
 
     HEADERS = %w[
-      import_id import_id_reference name description organisation url approved visible_from visible_to visible needs_referral min_age max_age notes service_taxonomies contact_name contact_title contact_visible contact_email contact_phone location_name location_latitude location_longitude location_address_1 location_city location_postcode location_visible mask_exact_address preferred_for_post location_accessibilities free cost_option cost_amount cost_type temporarily_closed schedules_opens_at schedules_closes_at scheduled_weekday links_label links_url labels suitabilities is_local_offer send_needs_support support_description recent_send_report outcomes recent_send_training parental_involvement information_sharing environment_accessibility how_to_start future_plans custom_text_text_field custom_checkbox_checkbox_field custom_number_number_field custom_select_select_field custom_date_date_fields custom_select_user_types
+      import_id import_id_reference name description organisation url approved visible_from visible_to visible needs_referral min_age max_age notes service_taxonomies contact_name contact_title contact_visible contact_email contact_phone location_name location_latitude location_longitude location_address_1 location_city location_postcode location_visible mask_exact_address preferred_for_post location_accessibilities free cost_option cost_amount cost_type temporarily_closed schedules_opens_at schedules_closes_at scheduled_weekday links_label links_url labels suitabilities is_local_offer send_needs_support support_description recent_send_report outcomes recent_send_training parental_involvement information_sharing environment_accessibility how_to_start future_plans custom_select_user_type
     ]
 
     # doing these before we do anything since they're the most likely things to have to fix
@@ -48,6 +48,10 @@ namespace :convert do
       @parent_service = {}
       @parent_service_name = row['title']&.strip
 
+      if @parent_service_name.length > 100 
+        abort("  🔴 Name: Service name is limited to 100 characters \"#{@parent_service_name}\"")
+      end
+
       # @TODO website might have multiple urls on different lines but none of the test data so far has had any urls!
       # essentials
       @basic = {
@@ -71,7 +75,6 @@ namespace :convert do
         organisation_rows = csv_data.select.with_index { |item, _i| item['externalid'] === row['parent_organisation'] }
         if organisation_rows.length == 0
           puts "🟠 Organisation: Missing matching service externalId for \"#{@parent_service_name}\", ignoring and leaving blank for now"
-          # abort("  🔴 Organisation: Missing matching service externalId")
         elsif organisation_rows.length == 1
           @organisations = organisation_rows.first["title"]&.strip
           @organisations = {
@@ -165,7 +168,9 @@ namespace :convert do
       @city = [row['public_address_4']&.strip, row['public_address_5']&.strip].reject(&:nil?).uniq.join(', ')
       @postcode = row['public_address_postcode']&.strip
       unless @postcode.nil?
-        puts "🟠 Location: Missing postcode for \"#{@parent_service_name}\", importing without location"
+        if [row['public_address_1']&.strip, row['public_address_2']&.strip, row['public_address_3']&.strip, row['public_address_4']&.strip, row['public_address_5']&.strip].flatten.length > 0
+          puts "🟠 Location: Missing postcode for \"#{@parent_service_name}\", it will be imported without a location"
+        end
       end
 
       @location_address = {
@@ -198,7 +203,7 @@ namespace :convert do
         }
       end
 
-      unless @postcode.nil?
+      if !@postcode.nil? && @postcode.length > 6
         # @locations = @location_address.merge(@location_visibility)
         @parent_service = @parent_service.merge(**@location_address, **@location_visibility)
       end
@@ -229,6 +234,9 @@ namespace :convert do
       end
 
       # visibility
+      @visibility = {
+        visible: true
+      }
       unless row['record_activity_range'].nil?
         dates = row['record_activity_range'].split('-').collect(&:strip)
         @visibility = if dates.length == 2
@@ -238,16 +246,11 @@ namespace :convert do
                         }
                       elsif dates.length == 1
                         {
-                          from: dates[0]
-                        }
-                      else
-                        {
-                          visible: true
+                          visible_from: Date.strptime(dates[0], '%d/%m/%Y').to_s
                         }
                       end
-
-        @parent_service = @parent_service.merge(**@visibility)
       end
+      @parent_service = @parent_service.merge(**@visibility)
 
       # ages
       # @TODO ages arent formatted correctly in csv
@@ -324,15 +327,8 @@ namespace :convert do
       @parent_service_import_id += 1
     end
 
-    # puts @service_csv_data.reject(&:empty?)
     @service_csv_data.reject(&:empty?)
 
-    # return [{
-    #   'import_id': 1,
-    #   'import_id_reference': nil,
-    #   'name': 'nsdfse',
-    #   'description': 'jsldjfhjslkdh'
-    # }]
   end
 
   def create_csv(csv_data, output_file_path)
