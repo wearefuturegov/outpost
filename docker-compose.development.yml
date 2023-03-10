@@ -1,0 +1,58 @@
+version: "3.7"
+services:
+  # Outpost app
+
+  outpost:
+    image: "outpost:development"
+    container_name: outpost
+    init: true
+    depends_on:
+      - postgres
+    build:
+      target: development
+    ports:
+      - 3000:3000
+    volumes:
+      - ./:/app:cached
+    environment:
+      PROJECT_NAME: ${PROJECT_NAME}
+      PUMA_WORKERS: 0
+      RAILS_MAX_THREADS: 5
+    networks:
+      - external_network
+      - internal_network
+
+  # Databases
+
+  postgres:
+    image: postgres:13.7-alpine
+    container_name: outpost-db-postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_DB_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_DB_PASSWORD}
+    ports:
+      - 5432:5432
+    volumes:
+      - outpost-postgres-volume:/var/lib/postgresql/data
+    networks:
+      - internal_network
+
+  mongo:
+    image: mongo:6
+    container_name: outpost-db-mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - outpost-mongo-volume:/data/db
+    networks:
+      - internal_network
+      - external_network
+
+volumes:
+  outpost-postgres-volume:
+  outpost-mongo-volume:
+
+networks:
+  external_network:
+  internal_network:
+    internal: true
