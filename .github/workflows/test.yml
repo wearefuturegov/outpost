@@ -11,10 +11,10 @@ jobs:
 
     services:
       postgres:
-        image: postgres:11.7-alpine
+        image: postgres:13.7-alpine
         env:
-          POSTGRES_USER: outpost
-          POSTGRES_PASSWORD: password
+          POSTGRES_USER: outpost_test
+          POSTGRES_PASSWORD: outpost_test
           POSTGRES_DB: outpost_test
         ports:
           - 5432:5432
