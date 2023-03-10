@@ -72,6 +72,8 @@ jobs:
       - name: Compile assets
         env:
           RAILS_ENV: test
+          SECRET_TOKEN: ${{ secrets.SECRET_TOKEN }}
+          DATABASE_URL: postgresql://outpost_test:outpost_test@localhost:5432/outpost_test?timeout=5000
         run: |
           bundle exec rails assets:precompile
 
@@ -80,6 +82,8 @@ jobs:
           RAILS_ENV: test
           GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
           OFSTED_FEED_API_ENDPOINT: https://test-ofsted-feed.stub # this is not a real url, we just need an env variable set for the stub to work in tests
+          SECRET_TOKEN: ${{ secrets.SECRET_TOKEN }}
+          DATABASE_URL: postgresql://outpost_test:outpost_test@localhost:5432/outpost_test?timeout=5000
         run: |
           bundle exec rspec
 
