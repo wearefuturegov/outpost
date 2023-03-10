@@ -62,6 +62,7 @@ jobs:
         env:
           RAILS_ENV: test
           DB_URI: mongodb://root:password@localhost:27017/outpost_development?authSource=admin
+          DATABASE_URL: postgresql://outpost_test:outpost_test@postgres:5432/outpost_test?timeout=5000
         run: |
           bundle exec rails db:drop
           bundle exec rails db:create
