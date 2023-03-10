@@ -5,7 +5,7 @@
     "@rails/actioncable": "^6.0.0",
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",
-    "@rails/webpacker": "5.4.4",
+    "@rails/webpacker": "5.4.3",
     "@yaireo/tagify": "^3.8.0",
     "choices.js": "^9.0.1",
     "conglomerate-element-dataset": "^1.4.1",
