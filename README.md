@@ -40,14 +40,15 @@ It uses Google APIs for geocoding and map features, and Sendgrid to send emails.
 
 ## 💻 Running it locally
 
+To run Outpost locally, you will need [Ruby](https://www.ruby-lang.org/en/downloads/) and [Node.js](https://nodejs.org/en/download) installed, plus a [PostgreSQL](https://www.postgresql.org/download/) server running. If you want to build a public index for the API, you'll also need a local [MongoDB](https://www.mongodb.com/) server.
 
-For more information see [getting started](https://github.com/wearefuturegov/outpost/wiki/Getting-started)
+For more information about prerequistes and set up instructions, see [getting setup](https://outpost-platform.wearefuturegov.com/docs/outpost/developers/getting-setup), or continue reading for the simplified steps.
 
-You need ruby and node.js installed, plus a PostgreSQL server running.
+First, clone the repository, and then either rename or copy the `.env.example` file to `.env`, and configure your [environment variables](#-configuration).
 
-If you want to build a public index for the API, you'll also need a local MongoDB server.
+> Important: In order to sign-in to Outpost for the first time, you must declare an `INITIAL_ADMIN_PASSWORD` environment variable, and the password must include one capital letter and one number. This must be done before `rails db:setup` is run.
 
-First, clone the repo. Then:
+Next, run the following commands:
 
 ```
 bundle install
@@ -59,9 +60,10 @@ rails s
 rake
 ```
 
-The database will be seeded with realistic fake data.
+You do not need to run `rails db:setup` if you are importing an existing database into a project. If you do run it, the database will be seeded with realistic fake data and your default user will be configured. 
 
-It will be on `localhost:3000`. You can log in with `example@example.com` and the initial password you set [in the configuration](#-configuration).
+If you recieve no errors, Outpost will be accessible on [http://localhost:3000](http://localhost:3000). 
+You can sign in to Outpost with `example@example.com` and the initial password you set [in the configuration](#-configuration).
 
 ### With multiple directories
 
