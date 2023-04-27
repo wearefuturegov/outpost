@@ -1,6 +1,6 @@
 <p align="center">
     <a href="https://outpost-staging.herokuapp.com/">
-        <img src="https://github.com/wearefuturegov/outpost/blob/master/app/assets/images/outpost.png?raw=true" width="350px" />               
+        <img src="https://github.com/wearefuturegov/outpost/blob/develop/app/assets/images/outpost.png?raw=true" width="350px" />               
     </a>
 </p>
   
@@ -11,7 +11,7 @@
 ---
 
 <p align="center">
-   <img src="https://github.com/wearefuturegov/outpost/raw/master/docs/examples.jpg?raw=true" width="750px" />     
+   <img src="https://github.com/wearefuturegov/outpost/raw/develop/docs/intro-outpost.png?raw=true" width="750px" />     
 </p>
 
 <p align="center">
@@ -21,8 +21,6 @@
 ---
 
 [![Run tests](https://github.com/wearefuturegov/outpost/workflows/Run%20tests/badge.svg)](https://github.com/wearefuturegov/outpost/actions)
-
-**[Staging site here](https://outpost-staging.herokuapp.com/)**
 
 A [standards-driven](https://opencommunity.org.uk/) API and comprehensive set of admin tools for managing records about local community services, groups and activities.
 
@@ -39,7 +37,6 @@ It can also act as an OAuth provider via [Doorkeeper](https://github.com/doorkee
 It uses Google APIs for geocoding and map features, and Sendgrid to send emails.
 
 ## 💻 Running it locally
-
 
 For more information see [getting started](https://github.com/wearefuturegov/outpost/wiki/Getting-started)
 
@@ -119,29 +116,27 @@ You can provide config with a `.env` file. Run `cp .env.example .env` to create 
 
 It needs the following extra environment variables to be set:
 
-| Variable                                        | Description                                                                                                               | Example                                                 | Required?                                         |
-| ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- | ------------------------------------------------- |
-| `GOOGLE_API_KEY`                                | with the geocoding API enabled, to geocode postcodes                                                                      |                                                         | Yes, for geocoding features                       |
-| `GOOGLE_CLIENT_KEY`                             | with the javascript and static maps APIs enabled, to add map views to admin screens                                       |                                                         | Yes, for map features                             |
-| `OFSTED_API_KEY` and `OFSTED_FEED_API_ENDPOINT` | to access the feed of Ofsted items                                                                                        |                                                         | Only if running Ofsted rake tasks                 |
-| `NOTIFY_API_KEY`                                | to send emails with [Notify](https://www.notifications.service.gov.uk)                                                    |                                                         | In production only                                |
-| `NOTIFY_TEMPLATE_ID`                            | ID of a notify template, as described [here](https://github.com/dxw/mail-notify#with-a-view)                              |                                                         | In production only                                |
-| `MAILER_HOST`                                   | where the app lives on the web, to correctly form urls in emails                                                          | https://example.com                                     | In production only                                |
-| `FEEDBACK_FORM_URL`                             | a form where users can submit feedback about the website                                                                  | https://example.com                                     | In production only                                |
-| `DATABASE_URL`                                  | the main PostgreSQL database                                                                                              | postgres://user:password<br/>@example.com:5432/database | Yes, if different from default, and in production |
-| `DB_URI`                                        | the MongoDB database for the public index                                                                                 | mongodb://user:password<br/>@example.com/database       | Yes, if using the API service                     |
-| `INITIAL_ADMIN_PASSWORD`                        | an initial admin password to log in with for local development                                                            |                                                         | Locally only                                      |
-| `SHOW_ENV_BANNER`                               | show a bright warning banner on non-production environments                                                               | staging                                                 | Only to warn about non-production environments    |
-| `GCP_PROJECT`                                     | Name of the google cloud project          | * | No                                                |
-| `GCP_BUCKET`                                     | Name of the google cloud bucket          | * | No                                                |
-| `GCP_PROJECT_ID`                                     | Name of the google cloud project id          | * | No                                                |
-| `GCP_PRIVATE_KEY_ID`                                     | Google cloud private key id          | * | No                                                |
-| `GCP_PRIVATE_KEY`                                     | Google cloud private key          | * | No                                                |
-| `GCP_CLIENT_EMAIL`                                     | Google cloud client email          | * | No                                                |
-| `GCP_CLIENT_ID`                                     | Google cloud client id          | * | No                                                |
-| `GCP_CLIENT_X509_CERT_URL`                                     |Google cloud x509 certificate          | * | No                                                |
-
-
+| Variable                                        | Description                                                                                  | Example                                                 | Required?                                         |
+| ----------------------------------------------- | -------------------------------------------------------------------------------------------- | ------------------------------------------------------- | ------------------------------------------------- |
+| `GOOGLE_API_KEY`                                | with the geocoding API enabled, to geocode postcodes                                         |                                                         | Yes, for geocoding features                       |
+| `GOOGLE_CLIENT_KEY`                             | with the javascript and static maps APIs enabled, to add map views to admin screens          |                                                         | Yes, for map features                             |
+| `OFSTED_API_KEY` and `OFSTED_FEED_API_ENDPOINT` | to access the feed of Ofsted items                                                           |                                                         | Only if running Ofsted rake tasks                 |
+| `NOTIFY_API_KEY`                                | to send emails with [Notify](https://www.notifications.service.gov.uk)                       |                                                         | In production only                                |
+| `NOTIFY_TEMPLATE_ID`                            | ID of a notify template, as described [here](https://github.com/dxw/mail-notify#with-a-view) |                                                         | In production only                                |
+| `MAILER_HOST`                                   | where the app lives on the web, to correctly form urls in emails                             | https://example.com                                     | In production only                                |
+| `FEEDBACK_FORM_URL`                             | a form where users can submit feedback about the website                                     | https://example.com                                     | In production only                                |
+| `DATABASE_URL`                                  | the main PostgreSQL database                                                                 | postgres://user:password<br/>@example.com:5432/database | Yes, if different from default, and in production |
+| `DB_URI`                                        | the MongoDB database for the public index                                                    | mongodb://user:password<br/>@example.com/database       | Yes, if using the API service                     |
+| `INITIAL_ADMIN_PASSWORD`                        | an initial admin password to log in with for local development                               |                                                         | Locally only                                      |
+| `SHOW_ENV_BANNER`                               | show a bright warning banner on non-production environments                                  | staging                                                 | Only to warn about non-production environments    |
+| `GCP_PROJECT`                                   | Name of the google cloud project                                                             | \*                                                      | No                                                |
+| `GCP_BUCKET`                                    | Name of the google cloud bucket                                                              | \*                                                      | No                                                |
+| `GCP_PROJECT_ID`                                | Name of the google cloud project id                                                          | \*                                                      | No                                                |
+| `GCP_PRIVATE_KEY_ID`                            | Google cloud private key id                                                                  | \*                                                      | No                                                |
+| `GCP_PRIVATE_KEY`                               | Google cloud private key                                                                     | \*                                                      | No                                                |
+| `GCP_CLIENT_EMAIL`                              | Google cloud client email                                                                    | \*                                                      | No                                                |
+| `GCP_CLIENT_ID`                                 | Google cloud client id                                                                       | \*                                                      | No                                                |
+| `GCP_CLIENT_X509_CERT_URL`                      | Google cloud x509 certificate                                                                | \*                                                      | No                                                |
 
 ## 💿 Data import
 
