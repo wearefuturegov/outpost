@@ -39,11 +39,16 @@ class Admin::ServicesController < Admin::BaseController
   end
 
   def show
-    @service = Service.includes(:contacts, :cost_options, :feedbacks, :links,
+    @service = Service.includes(:organisation, :contacts, :cost_options, :feedbacks, :links,
                                 :local_offer, :locations, :regular_schedules,
                                 notes: [user: :watches], versions: [user: :watches]).find(params[:id])
 
     @watched = current_user.watches.where(service_id: @service.id).exists?
+    @organisations = Organisation.all
+    @suitabilities = Suitability.all
+    @send_needs = SendNeed.all
+    @accessibilities = Accessibility.all
+    @directories = Directory.all
 
     if @service.versions.length > 4
       @versions = @service.versions.first(3)
@@ -65,6 +70,10 @@ class Admin::ServicesController < Admin::BaseController
 
   def new
     @service = Service.new
+    @organisations = Organisation.all
+    @accessibilities = Accessibility.all
+    @send_needs = SendNeed.all
+    @suitabilities = Suitability.all
     @ofsted_item = OfstedItem.find(params[:ofsted_item_id]) if params[:ofsted_item_id]
   end
 

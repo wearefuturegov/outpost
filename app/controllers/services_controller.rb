@@ -1,3 +1,4 @@
+# This controller lets community users manage their services.
 class ServicesController < ApplicationController
     before_action :no_admins
     before_action :set_service, except: [:new, :create]
@@ -25,6 +26,9 @@ class ServicesController < ApplicationController
     end
 
     def edit
+        @accessibilities = Accessibility.all if params[:section] == 'locations'
+        @send_needs = SendNeed.all if params[:section] == 'special_educational_needs_and_disabilities'
+        @suitabilities = Suitability.all if params[:section] == 'suitable_for'
         render "_edit_#{params[:section]}"
     end
 
@@ -144,9 +148,9 @@ class ServicesController < ApplicationController
                 accessibility_ids: []
             ],
             meta_attributes: [
-            :id,
-            :key,
-            :value
+                :id,
+                :key,
+                :value
             ]
         )
         # map fields_for submitted values, which are of the form 'id => { answer: text }' into an array of '[{ id: id, answer: text }]'

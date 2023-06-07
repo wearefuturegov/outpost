@@ -1,8 +1,8 @@
+# This controller lets community users manage their organisations.
 class OrganisationsController < ApplicationController
     before_action :no_admins
     before_action :require_not_onboarded, only: [:new, :create]
     before_action :set_organisation, only: [:index, :edit, :update]
-    skip_before_action :authenticate_user!, only: [:start]
 
     def index
         unless current_user.organisation.present?

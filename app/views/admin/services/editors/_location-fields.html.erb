@@ -20,7 +20,7 @@
 <fieldset class="field-group field-group--two-cols field-group--no-top-margin margin-bottom">
     <legend class="field-group__legend">Accessibility</legend>
 
-    <%= l.collection_check_boxes( :accessibility_ids, Accessibility.all, :id, :display_name) do |c| %>
+    <%= l.collection_check_boxes(:accessibility_ids, @accessibilities, :id, :display_name) do |c| %>
         <div class="field checkbox checkbox--small">
             <%= c.check_box class: "checkbox__input" %>
             <%= c.label class: "checkbox__label" %>

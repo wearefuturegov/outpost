@@ -3,7 +3,8 @@ class Admin::TaxonomiesController < Admin::BaseController
   before_action :count_taxonomies, only: [:index]
   before_action :set_taxonomies, only: [:index, :create]
   before_action :set_taxonomy, only: [:show, :update, :destroy]
-  before_action :set_possible_parents, only: [:show, :update, :index, :create]
+  before_action :set_possible_parents, only: [:index, :show, :update, :create]
+  before_action :set_directories, only: [:index, :show, :create]
 
   def index
     @taxonomy = Taxonomy.new
@@ -35,7 +36,7 @@ class Admin::TaxonomiesController < Admin::BaseController
     @taxonomy.destroy
     redirect_to admin_taxonomies_path, notice: "Taxonomy has been deleted."
   end
-  
+
   private
 
   def set_taxonomies
@@ -67,19 +68,20 @@ class Admin::TaxonomiesController < Admin::BaseController
   end
 
   def count_taxonomies
-    @taxonomy_counts_all = {
-      all: Taxonomy.all.count
-    }
-    @taxonomy_counts = {}
-    @taxonomy_counts[:all] = @taxonomy_counts_all
-
-    Directory.all.each do |directory|
-      tax = Taxonomy.filter_by_directory(directory.name)
-      @taxonomy_dir_counts = {
-        all: tax.count
+    @taxonomy_counts = {
+      all: {
+        all: Taxonomy.all.count
       }
-      @taxonomy_counts[directory.name] = @taxonomy_dir_counts
+    }
+
+    Directory.find_each do |directory|
+      @taxonomy_counts[directory.name] = {
+        all: Taxonomy.filter_by_directory(directory.name).count
+      }
     end
   end
 
+  def set_directories
+    @directories = Directory.all
+  end
 end

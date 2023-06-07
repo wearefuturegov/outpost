@@ -9,9 +9,9 @@
         
         <% if @service.organisation.present? %>
             <%= link_to "Go to organisation", admin_organisation_path(@service.organisation), class: "field__secondary-link" %>
-            <%= s.collection_select( :organisation_id, Organisation.all, :id, :display_name, {selected: @service.organisation.id, include_blank: "" }, class: "field__input", data: { choices: true } )%>
+            <%= s.collection_select( :organisation_id, @organisations, :id, :display_name, {selected: @service.organisation.id, include_blank: "" }, class: "field__input", data: { choices: true } )%>
         <% else %>
-            <%= s.collection_select( :organisation_id, Organisation.all, :id, :display_name, {include_blank: "" }, class: "field__input", data: { choices: true } )%>
+            <%= s.collection_select( :organisation_id, @organisations, :id, :display_name, {include_blank: "" }, class: "field__input", data: { choices: true } )%>
         <% end %>
     </div>
 
