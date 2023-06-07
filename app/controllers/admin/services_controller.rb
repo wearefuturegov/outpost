@@ -25,7 +25,6 @@ class Admin::ServicesController < Admin::BaseController
     ) or return
 
     @services = @filterrific.find.page(params[:page]).includes(:organisation, :service_taxonomies, :taxonomies)
-    
     @services = @services.in_directory(params[:directory]) if params[:directory].present?
 
     # shortcut nav
@@ -126,7 +125,7 @@ class Admin::ServicesController < Admin::BaseController
       :age_band_5_7,
       :age_band_8_plus,
       :age_band_all,
-      
+
       :label_list,
       :needs_referral,
       :marked_for_deletion,
@@ -197,7 +196,7 @@ class Admin::ServicesController < Admin::BaseController
     # map fields_for submitted values, which are of the form 'id => { answer: text }' into an array of '[{ id: id, answer: text }]'
     if result_params['local_offer_attributes']&.[]('survey_answers')
       result_params['local_offer_attributes']['survey_answers'] =
-          result_params['local_offer_attributes']['survey_answers'].to_h.map{|k,v| { id: k.to_i, answer: v['answer']}}
+        result_params['local_offer_attributes']['survey_answers'].to_h.map{|k,v| { id: k.to_i, answer: v['answer']}}
     end
 
     result_params
