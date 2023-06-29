@@ -36,7 +36,6 @@ yarn-debug.log*
 /coverage
 
 .DS_Store
-yarn.lock
 .vscode
 
 /environment/artifacts
