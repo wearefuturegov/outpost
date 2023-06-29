@@ -65,7 +65,7 @@ RUN bundle exec rails assets:precompile
 EXPOSE 3000
 ENV RAILS_ENV="test" \
     NODE_ENV="test" \
-    RAILS_SERVE_STATIC_FILES="true" 
+    RAILS_SERVE_STATIC_FILES="true"
 CMD ["/runner/runner.sh"]
 
 #  build and install all  the things for the production env
@@ -73,6 +73,7 @@ FROM base_env as production
 COPY ./environment/docker-run-production.sh /runner/runner.sh
 COPY . .
 RUN chmod +x /runner/runner.sh
+RUN bundle exec rails assets:precompile
 EXPOSE 3000
 
 ENV RAILS_ENV="production" \
