@@ -8,11 +8,11 @@ class RegularScheduleSerializer < ActiveModel::Serializer
   end
 
   def opens_at
-    object.opens_at.to_s(:time)   
+    object.opens_at.to_fs(:time)
   end
 
   def closes_at
-    object.closes_at.to_s(:time)   
+    object.closes_at.to_fs(:time)
   end
 
 end
