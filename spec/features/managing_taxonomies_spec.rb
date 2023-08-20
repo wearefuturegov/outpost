@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Managing taxonomies', type: :feature do
   before do
-    admin_user = FactoryBot.create :user, :superadmin
+    admin_user = FactoryBot.create :user, :full_admin
     login_as admin_user
     visit admin_taxonomies_path
   end
