@@ -9,7 +9,7 @@ local:
 public_google_dev:
   service: GCS
   project: <%= ENV['GCP_PROJECT'] %>
-  credentials: <%= Rails.root.join("config/secrets/tpx-outpost-dev.json") %>
+  credentials: <%= Rails.root.join("config/secrets/gcp.json") %>
   bucket: <%= ENV['GCP_BUCKET'] %>
 
 public_google_prod:

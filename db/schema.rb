@@ -2,24 +2,23 @@
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 #
-# This file is the source Rails uses to define your schema when running `rails
-# db:schema:load`. When creating a new database, `rails db:schema:load` tends to
+# This file is the source Rails uses to define your schema when running `bin/rails
+# db:schema:load`. When creating a new database, `bin/rails db:schema:load` tends to
 # be faster and is potentially less error prone than running all of your
 # migrations from scratch. Old migrations may fail to apply correctly if those
 # migrations use external dependencies or application code.
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_10_05_141547) do
-
+ActiveRecord::Schema[7.0].define(version: 2023_08_20_153122) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
 
   create_table "accessibilities", force: :cascade do |t|
     t.string "name"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "accessibilities_locations", id: false, force: :cascade do |t|
@@ -43,9 +42,16 @@ ActiveRecord::Schema.define(version: 2022_10_05_141547) do
     t.string "content_type"
     t.text "metadata"
     t.bigint "byte_size", null: false
-    t.string "checksum", null: false
+    t.string "checksum"
     t.datetime "created_at", null: false
+    t.string "service_name", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "active_storage_variant_records", force: :cascade do |t|
+    t.bigint "blob_id", null: false
+    t.string "variation_digest", null: false
+    t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
   create_table "contacts", force: :cascade do |t|
@@ -62,8 +68,8 @@ ActiveRecord::Schema.define(version: 2022_10_05_141547) do
     t.bigint "service_id", null: false
     t.string "option"
     t.float "amount"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "cost_type"
     t.index ["service_id"], name: "index_cost_options_on_service_id"
   end
@@ -71,8 +77,8 @@ ActiveRecord::Schema.define(version: 2022_10_05_141547) do
   create_table "custom_field_sections", force: :cascade do |t|
     t.string "name"
     t.string "hint"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.boolean "public"
     t.integer "sort_order"
     t.boolean "api_public"
@@ -81,8 +87,8 @@ ActiveRecord::Schema.define(version: 2022_10_05_141547) do
   create_table "custom_fields", force: :cascade do |t|
     t.string "key"
     t.string "field_type"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "hint"
     t.bigint "custom_field_section_id", null: false
     t.string "options"
@@ -92,8 +98,8 @@ ActiveRecord::Schema.define(version: 2022_10_05_141547) do
   create_table "directories", force: :cascade do |t|
     t.string "name"
     t.string "label"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "directories_services", id: false, force: :cascade do |t|
@@ -109,24 +115,24 @@ ActiveRecord::Schema.define(version: 2022_10_05_141547) do
   create_table "feedbacks", force: :cascade do |t|
     t.bigint "service_id", null: false
     t.text "body"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "topic"
     t.index ["service_id"], name: "index_feedbacks_on_service_id"
   end
 
   create_table "file_uploads", force: :cascade do |t|
     t.string "var", default: "", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "links", force: :cascade do |t|
     t.string "label"
     t.string "url"
     t.bigint "service_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["service_id"], name: "index_links_on_service_id"
   end
 
@@ -134,8 +140,8 @@ ActiveRecord::Schema.define(version: 2022_10_05_141547) do
     t.text "description"
     t.bigint "service_id", null: false
     t.string "link"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.jsonb "survey_answers"
     t.index ["service_id"], name: "index_local_offers_on_service_id"
   end
@@ -160,8 +166,8 @@ ActiveRecord::Schema.define(version: 2022_10_05_141547) do
     t.bigint "service_id", null: false
     t.text "body"
     t.bigint "user_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "deleted_user_name"
     t.index ["service_id"], name: "index_notes_on_service_id"
     t.index ["user_id"], name: "index_notes_on_user_id"
@@ -204,8 +210,8 @@ ActiveRecord::Schema.define(version: 2022_10_05_141547) do
     t.text "redirect_uri", null: false
     t.string "scopes", default: "", null: false
     t.boolean "confidential", default: true, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["uid"], name: "index_oauth_applications_on_uid", unique: true
   end
 
@@ -258,8 +264,8 @@ ActiveRecord::Schema.define(version: 2022_10_05_141547) do
     t.text "description"
     t.string "email"
     t.string "url"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "old_external_id"
     t.integer "users_count", default: 0, null: false
     t.integer "services_count", default: 0, null: false
@@ -275,8 +281,8 @@ ActiveRecord::Schema.define(version: 2022_10_05_141547) do
     t.time "opens_at"
     t.time "closes_at"
     t.integer "weekday"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["service_id"], name: "index_regular_schedules_on_service_id"
   end
 
@@ -288,8 +294,8 @@ ActiveRecord::Schema.define(version: 2022_10_05_141547) do
 
   create_table "send_needs", force: :cascade do |t|
     t.string "name"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "send_needs_services", id: false, force: :cascade do |t|
@@ -306,16 +312,16 @@ ActiveRecord::Schema.define(version: 2022_10_05_141547) do
     t.bigint "service_id", null: false
     t.string "key"
     t.string "value"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["service_id"], name: "index_service_meta_on_service_id"
   end
 
   create_table "service_taxonomies", force: :cascade do |t|
     t.bigint "taxonomy_id"
     t.bigint "service_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["service_id"], name: "index_service_taxonomies_on_service_id"
     t.index ["taxonomy_id"], name: "index_service_taxonomies_on_taxonomy_id"
   end
@@ -325,8 +331,8 @@ ActiveRecord::Schema.define(version: 2022_10_05_141547) do
     t.string "name"
     t.text "description"
     t.string "url"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.datetime "discarded_at"
     t.boolean "approved", default: true
     t.date "visible_from"
@@ -361,15 +367,15 @@ ActiveRecord::Schema.define(version: 2022_10_05_141547) do
   create_table "settings", force: :cascade do |t|
     t.string "var", null: false
     t.text "value"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["var"], name: "index_settings_on_var", unique: true
   end
 
   create_table "suitabilities", force: :cascade do |t|
     t.string "name"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "taggings", id: :serial, force: :cascade do |t|
@@ -401,8 +407,8 @@ ActiveRecord::Schema.define(version: 2022_10_05_141547) do
 
   create_table "taxonomies", force: :cascade do |t|
     t.string "name"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.bigint "parent_id"
     t.boolean "locked"
     t.integer "sort_order"
@@ -424,8 +430,8 @@ ActiveRecord::Schema.define(version: 2022_10_05_141547) do
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.boolean "admin"
     t.bigint "organisation_id"
     t.string "first_name"
@@ -459,13 +465,14 @@ ActiveRecord::Schema.define(version: 2022_10_05_141547) do
   create_table "watches", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "service_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["service_id"], name: "index_watches_on_service_id"
     t.index ["user_id"], name: "index_watches_on_user_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "contacts", "services"
   add_foreign_key "cost_options", "services"
   add_foreign_key "custom_fields", "custom_field_sections"

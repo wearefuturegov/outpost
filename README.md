@@ -49,6 +49,9 @@ First, clone the repo. Then:
 ```
 bundle install
 yarn
+
+# configure env file
+
 rails db:setup
 rails s
 
