@@ -41,3 +41,6 @@ yarn.lock
 
 # Nothing to see here
 /config/secrets/*
+
+/environment/artifacts
+.env*
