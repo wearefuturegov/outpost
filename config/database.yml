@@ -6,16 +6,16 @@ default: &default
 
 development:
   <<: *default
-  url: <%= ENV["DATABASE_URL"].gsub('?', '_development?') %>
+  url: <%= ENV.fetch("DATABASE_URL"){ "postgresql://localhost/outpost?" }.gsub('?', '_development?') %>
 
 test:
   <<: *default
-  url: <%= ENV["DATABASE_URL"].gsub('?', '_test?') %>
+  url: <%= ENV.fetch("DATABASE_URL"){ "postgresql://localhost/outpost?" }.gsub('?', '_test?') %>
 
 staging:
   <<: *default
-  url: <%= ENV["DATABASE_URL"].gsub('?', '_staging?') %>
+  url: <%= ENV.fetch("DATABASE_URL"){ "postgresql://localhost/outpost?" }.gsub('?', '_staging?') %>
 
 production:
   <<: *default
-  url: <%= ENV["DATABASE_URL"].gsub('?', '_production?') %>
+  url: <%= ENV.fetch("DATABASE_URL"){ "postgresql://localhost/outpost?" }.gsub('?', '_production?') %>

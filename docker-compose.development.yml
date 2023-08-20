@@ -2,57 +2,66 @@ version: "3.7"
 services:
   # Outpost app
 
-  outpost:
+  outpost-dev:
     image: "outpost:development"
-    container_name: outpost
+    container_name: outpost-dev
     init: true
     depends_on:
       - postgres
+      - mongo
     build:
       target: development
     ports:
       - 3000:3000
     volumes:
-      - ./:/app:cached
+      - ./:/usr/src/app:cached
     environment:
-      PROJECT_NAME: ${PROJECT_NAME}
       PUMA_WORKERS: 0
       RAILS_MAX_THREADS: 5
+      NODE_ENV: development
+      RAILS_ENV: development
+      DB_URI: mongodb://mongo:27017/outpost_api_development
+      DATABASE_URL: postgresql://outpost_development:password@postgres:5432/outpost?
     networks:
-      - external_network
-      - internal_network
+      - outpost_dev_external_network
+      - outpost_dev_internal_network
 
   # Databases
 
   postgres:
     image: postgres:13.7-alpine
-    container_name: outpost-db-postgres
+    container_name: outpost-dev-db-postgres
     environment:
-      POSTGRES_USER: ${POSTGRES_DB_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_DB_PASSWORD}
+      POSTGRES_USER: outpost_development
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: outpost_development
     ports:
       - 5432:5432
     volumes:
-      - outpost-postgres-volume:/var/lib/postgresql/data
+      - outpost-dev-postgres-volume:/var/lib/postgresql/data
     networks:
-      - internal_network
+      - outpost_dev_internal_network
+      - outpost_dev_external_network
 
   mongo:
     image: mongo:6
-    container_name: outpost-db-mongo
+    container_name: outpost-dev-db-mongo
     ports:
       - 27017:27017
     volumes:
-      - outpost-mongo-volume:/data/db
+      - outpost-dev-mongo-volume:/data/db
+      - ./environment/containers/mongo/setup-mongodb-development.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    environment:
+      MONGO_INITDB_DATABASE: outpost_api_development
     networks:
-      - internal_network
-      - external_network
+      - outpost_dev_internal_network
+      - outpost_dev_external_network
 
 volumes:
-  outpost-postgres-volume:
-  outpost-mongo-volume:
+  outpost-dev-postgres-volume:
+  outpost-dev-mongo-volume:
 
 networks:
-  external_network:
-  internal_network:
+  outpost_dev_external_network:
+  outpost_dev_internal_network:
     internal: true

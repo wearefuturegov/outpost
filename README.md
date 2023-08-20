@@ -24,46 +24,25 @@
 
 A [standards-driven](https://opencommunity.org.uk/) API and comprehensive set of admin tools for managing records about local community services, groups and activities.
 
-Outpost works alongside a [seperate API component](https://github.com/wearefuturegov/outpost-api-service/).
+Outpost is part of [The Outpost Platform](https://outpost-platform.wearefuturegov.com/) a suite of applications, tools and resources that make new kinds of service directories possible. Its free, open source and community driven.
 
-We're also building an [example front-end](https://github.com/wearefuturegov/scout-x) for Outpost.
+Outpost is designed to be combined with the [Outpost API](https://github.com/wearefuturegov/outpost-api-service/) which provides public data to other tools in the Outpost Platform ecosystem. There is also an example front-end for Outpost, [Scout](https://github.com/wearefuturegov/scout-x).
 
 ## 🧱 How it's built
 
-It's a Rails app backed by a PostgreSQL database.
+Outpost is a a Rails app backed by a PostgreSQL database.
 
 It can also act as an OAuth provider via [Doorkeeper](https://github.com/doorkeeper-gem/doorkeeper).
 
-It uses Google APIs for geocoding and map features, and Sendgrid to send emails.
+It uses Google APIs for geocoding and map features, and Gov Notify to send emails.
 
-## 💻 Running it locally
+### Building a public index
 
-For more information see [getting started](https://github.com/wearefuturegov/outpost/wiki/Getting-started)
+Outpost's API component relies on a public index stored on MongoDB.
 
-You need ruby and node.js installed, plus a PostgreSQL server running.
+You can run `rails build_public_index` to build the public index for the first time. Active record callbacks keep it up to date as services are changed.
 
-If you want to build a public index for the API, you'll also need a local MongoDB server.
-
-First, clone the repo. Then:
-
-```
-bundle install
-yarn
-
-# configure env file
-
-rails db:setup
-rails s
-
-# run end-to-end and unit tests
-rake
-```
-
-The database will be seeded with realistic fake data.
-
-It will be on `localhost:3000`. You can log in with `example@example.com` and the initial password you set [in the configuration](#-configuration).
-
-### With multiple directories
+### Enable multiple directories feature
 
 To see multiple directories in Outpost, run the app with:
 
@@ -76,7 +55,9 @@ This will start the app with the directories listed in `config/app_config.yaml`.
 To add more directories, or set up another instance with separate directories,
 edit `config/app_config.yaml`.
 
-### With Docker
+## 💻 Running it locally
+
+For more information see [getting setup](https://outpost-platform.wearefuturegov.com/docs/outpost/developers/getting-setup)
 
 With [docker-compose](https://docs.docker.com/compose/) and [docker](https://www.docker.com/), after cloning the project:
 
@@ -84,34 +65,39 @@ With [docker-compose](https://docs.docker.com/compose/) and [docker](https://www
 - Populate your environment variables
 - Run the application with `rails s`
 
-### Building a public index
-
-Outpost's API component relies on a public index stored on MongoDB.
-
-You can run `rails build_public_index` to build the public index for the first time. Active record callbacks keep it up to date as services are changed.
-
 ## 🌎 Running it on the web
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
-It's suitable for 12-factor app hosting like [Heroku](http://heroku.com).
+It's suitable for 12-factor app hosting like [Heroku](http://heroku.com). It has a `Procfile` that will [automatically run](https://devcenter.heroku.com/articles/release-phase) pending rails migrations on every deploy, to reduce downtime.
 
-It has a `Procfile` that will [automatically run](https://devcenter.heroku.com/articles/release-phase) pending rails migrations on every deploy, to reduce downtime.
+## 🧪 Tests
 
-## 🗓 Administrative tasks
+It has some rspec tests on key functionality. Run them with:
 
-Outpost depends on on several important [`rake`](https://guides.rubyonrails.org/v3.2/command_line.html) tasks.
+```
+bundle exec rspec
+```
 
-Some of these can be run manually, and some are best scheduled using [Heroku Scheduler](https://devcenter.heroku.com/articles/scheduler) or similar.
+## Code coverage
 
-| Task                          | Description                                                                                                                                                  | Suggested schedule |
-| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------ |
-| `open_objects:import`         | Run the bespoke import job from Open Objects. For this to succeed, you need several source CSV data files in the `/lib/seeds` folder. Will take a long time. | One\-off           |
-| `build_public_index`          | Build the initial public index for the API service to use\.                                                                                                  | One\-off           |
-| `process_permanent_deletions` | Permanently delete any services and users that have been "discarded" for more than 30 days\.                                                                 | Weekly             |
-| `ofsted:create_initial_items` | Build the initial Ofsted items table                                                                                                                         | One\-off           |
-| `ofsted:update_items`         | Check for any changes to Ofsted items against the Ofsted API                                                                                                 | Daily, overnight   |
-| `update_counters:all`         | Update the counter caches to keep them in sync                                                                                                               | Daily, overnight   |
+SimpleCov and Codecov are set up to track code coverage. To see the code
+coverage on a local branch, run the test suite and open `coverage/index.html`:
+
+```
+rake
+open coverage/index.html
+```
+
+The coverage report is sent to Codecov after the tests run in CI. Once you open
+a PR, Codecov will post a comment with a handy coverage delta and a link to view
+line-by-line coverage for the PR.
+
+## 🔐 OAuth provider
+
+Outpost can work as an identity provider for other apps. Users with the highest permissions can access the `/oauth/applications` route to create credentials.
+
+Once authenticated, consumer apps can fetch information about the currently logged in user with the `/api/v1/me` endpoint.
 
 ## 🧬 Configuration
 
@@ -136,10 +122,6 @@ It needs the following extra environment variables to be set:
 | `GCP_BUCKET`                                    | Name of the google cloud bucket                                                              | \*                                                      | Yes                                               |
 | `GCP_APPLICATION_CREDENTIALS`                   | JSON                                                                                         | \*                                                      | Yes                                               |
 
-## 💿 Data import
-
-See documentation on [data import](lib/tasks/data_import/README.md).
-
 ## 🌥 Google Cloud Active Storage
 
 Setting up google cloud active storage.
@@ -152,30 +134,44 @@ To deploy your credentials use
 heroku config:set GCP_APPLICATION_CREDENTIALS="$(< config/secrets/gcp.json)" -a heroku-app-name
 ```
 
-## 🔐 OAuth provider
+## 🗓 Administrative tasks
 
-Outpost can work as an identity provider for other apps. Users with the highest permissions can access the `/oauth/applications` route to create credentials.
+Outpost depends on on several important [`rake`](https://guides.rubyonrails.org/v3.2/command_line.html) tasks.
 
-Once authenticated, consumer apps can fetch information about the currently logged in user with the `/api/v1/me` endpoint.
+Some of these can be run manually, and some are best scheduled using [Heroku Scheduler](https://devcenter.heroku.com/articles/scheduler) or similar.
 
-## 🧪 Tests
+| Task                          | Description                                                                                                                                                  | Suggested schedule |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------ |
+| `open_objects:import`         | Run the bespoke import job from Open Objects. For this to succeed, you need several source CSV data files in the `/lib/seeds` folder. Will take a long time. | One\-off           |
+| `build_public_index`          | Build the initial public index for the API service to use\.                                                                                                  | One\-off           |
+| `process_permanent_deletions` | Permanently delete any services and users that have been "discarded" for more than 30 days\.                                                                 | Weekly             |
+| `ofsted:create_initial_items` | Build the initial Ofsted items table                                                                                                                         | One\-off           |
+| `ofsted:update_items`         | Check for any changes to Ofsted items against the Ofsted API                                                                                                 | Daily, overnight   |
+| `update_counters:all`         | Update the counter caches to keep them in sync                                                                                                               |
 
-It has some rspec tests on key functionality. Run them with:
+## 💿 Data import
+
+## See documentation on [data import](lib/tasks/data_import/README.md).
+
+You need ruby and node.js installed, plus a PostgreSQL server running.
+
+If you want to build a public index for the API, you'll also need a local MongoDB server.
+
+First, clone the repo. Then:
 
 ```
-bundle exec rspec
-```
+bundle install
+yarn
 
-## Code coverage
+# configure env file
 
-SimpleCov and Codecov are set up to track code coverage. To see the code
-coverage on a local branch, run the test suite and open `coverage/index.html`:
+rails db:setup
+rails s
 
-```
+# run end-to-end and unit tests
 rake
-open coverage/index.html
 ```
 
-The coverage report is sent to Codecov after the tests run in CI. Once you open
-a PR, Codecov will post a comment with a handy coverage delta and a link to view
-line-by-line coverage for the PR.
+The database will be seeded with realistic fake data.
+
+It will be on `localhost:3000`. You can log in with `example@example.com` and the initial password you set [in the configuration](#-configuration).
