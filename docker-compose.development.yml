@@ -21,7 +21,7 @@ services:
       NODE_ENV: development
       RAILS_ENV: development
       DB_URI: mongodb://mongo:27017/outpost_api_development
-      DATABASE_URL: postgresql://outpost_development:password@postgres:5432/outpost?
+      DATABASE_URL: postgresql://outpost_development:outpost_development@postgres:5432/outpost?
     networks:
       - outpost_dev_external_network
       - outpost_dev_internal_network
@@ -33,7 +33,7 @@ services:
     container_name: outpost-dev-db-postgres
     environment:
       POSTGRES_USER: outpost_development
-      POSTGRES_PASSWORD: password
+      POSTGRES_PASSWORD: outpost_development
       POSTGRES_DB: outpost_development
     ports:
       - 5432:5432
