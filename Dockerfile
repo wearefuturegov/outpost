@@ -53,8 +53,8 @@ COPY --chown=outpost-user:outpost-user ./environment/docker-run-development.sh /
 RUN chmod +x /usr/run/app/init.sh
 COPY --chown=outpost-user:outpost-user --from=development_base /usr/build/app /usr/src/app
 USER outpost-user
-# CMD ["/usr/run/app/init.sh"]
-CMD ["tail", "-f", "/dev/null"]
+CMD ["/usr/run/app/init.sh"]
+# CMD ["tail", "-f", "/dev/null"]
 
 
 #  build and install all the things for the development env
