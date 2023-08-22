@@ -58,7 +58,7 @@ CMD ["/usr/run/app/init.sh"]
 
 
 #  build and install all the things for the development env
-FROM development_base as production
+FROM production_base as production
 ENV NODE_ENV production
 ENV RAILS_ENV production
 
