@@ -152,26 +152,3 @@ Some of these can be run manually, and some are best scheduled using [Heroku Sch
 ## 💿 Data import
 
 ## See documentation on [data import](lib/tasks/data_import/README.md).
-
-You need ruby and node.js installed, plus a PostgreSQL server running.
-
-If you want to build a public index for the API, you'll also need a local MongoDB server.
-
-First, clone the repo. Then:
-
-```
-bundle install
-yarn
-
-# configure env file
-
-rails db:setup
-rails s
-
-# run end-to-end and unit tests
-rake
-```
-
-The database will be seeded with realistic fake data.
-
-It will be on `localhost:3000`. You can log in with `example@example.com` and the initial password you set [in the configuration](#-configuration).
