@@ -11,6 +11,8 @@ ARG YARN_VERSION=1.22.17
 
 
 FROM node:$NODE_VERSION-alpine AS node
+# used to make the image publically available on github
+LABEL org.opencontainers.image.source="https://github.com/wearefuturegov/outpost"
 ARG RUBY_VERSION
 ARG BUNDLER_VERSION
 ARG YARN_VERSION
