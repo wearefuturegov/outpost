@@ -46,6 +46,7 @@ services:
       - outpost-postgres-volume:/var/lib/postgresql/data
     networks:
       - outpost_internal_network
+      - outpost_external_network
 
   mongo:
     image: mongo:6
@@ -59,6 +60,7 @@ services:
       MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE:-outpost_api_development}
     networks:
       - outpost_internal_network
+      - outpost_external_network
 
 volumes:
   outpost-postgres-volume:
