@@ -1,21 +1,65 @@
-version: '3.1'
-
+version: "3.7"
 services:
+  # Outpost app
 
-  db:
-    image: postgres
-    restart: always
-    environment:
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: outpost_development
-      POSTGRES_USER: outpost
+  outpost:
+    image: "outpost:production"
+    container_name: outpost
+    init: true
+    depends_on:
+      - postgres
+      - mongo
+    build:
+      target: production
     ports:
-      - "5432:5432"
+      - 3000:3000
+    volumes:
+      - ./:/usr/src/app:cached
+    environment:
+      PUMA_WORKERS: 0
+      RAILS_MAX_THREADS: 5
+      NODE_ENV: production
+      RAILS_ENV: production
+      DB_URI: mongodb://mongo:27017/outpost_api_production
+      DATABASE_URL: postgresql://outpost_production:outpost_production@postgres:5432/outpost?
+    networks:
+      - outpost_prod_external_network
+      - outpost_prod_internal_network
+
+  # Databases
+
+  postgres:
+    image: postgres:13.7-alpine
+    container_name: outpost-prod-db-postgres
+    environment:
+      POSTGRES_USER: outpost_production
+      POSTGRES_PASSWORD: outpost_production
+      POSTGRES_DB: outpost_production
+    ports:
+      - 5432:5432
+    volumes:
+      - outpost-prod-postgres-volume:/var/lib/postgresql/data
+    networks:
+      - outpost_prod_internal_network
+
   mongo:
-    image: mongo
-    restart: always
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: password
+    image: mongo:6
+    container_name: outpost-prod-db-mongo
     ports:
-      - "27017:27017"
+      - 27017:27017
+    volumes:
+      - outpost-prod-mongo-volume:/data/db
+      - ./environment/containers/mongo/setup-mongodb-production.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    environment:
+      MONGO_INITDB_DATABASE: outpost_api_production
+    networks:
+      - outpost_prod_internal_network
+
+volumes:
+  outpost-prod-postgres-volume:
+  outpost-prod-mongo-volume:
+
+networks:
+  outpost_prod_external_network:
+  outpost_prod_internal_network:
+    internal: true

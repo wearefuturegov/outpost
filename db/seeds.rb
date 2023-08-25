@@ -1,5 +1,7 @@
 yaml = Rails.root.join('db', '_seed.yml')
+yaml_default_data = Rails.root.join('db', '_default-data.yml')
 data = YAML::load_file(yaml)
+default_data = YAML::load_file(yaml_default_data)
 
 # use our realistic sample UK data - fake data won't correctly geocode
 data["locations"].each do |l|
@@ -13,15 +15,15 @@ data["locations"].each do |l|
     })
 end
 
-data["accessibilities"].each do |n|
+default_data["accessibilities"].each do |n|
     Accessibility.create!({name: n})
 end
 
-data["send_needs"].each do |n|
+default_data["send_needs"].each do |n|
     SendNeed.create!({name: n})
 end
 
-data["suitabilities"].each do |n|
+default_data["suitabilities"].each do |n|
     Suitability.create!({name: n})
 end
 
@@ -61,13 +63,15 @@ end
     end
 end
 
-# make a single admin user
-User.create!({
-    first_name: "Example",
-    last_name: "Admin",
-    admin: true,
-    admin_users: true,
-    admin_ofsted: true,
-    email: "example@example.com",
-    password: ENV["INITIAL_ADMIN_PASSWORD"] || "FakePassword1!"
-})
+# make a single super admin user
+User.find_or_create_by!(email: ENV["INITIAL_ADMIN_EMAIL"] || "example@example.com") do |user|
+    user.first_name = "Example"
+    user.last_name = "Admin"
+    user.admin = true
+    user.admin_users = true
+    user.admin_ofsted = true
+    user.superadmin = true
+    user.admin_manage_ofsted_access = true
+    user.email = ENV["INITIAL_ADMIN_EMAIL"] || "example@example.com"
+    user.password = ENV["INITIAL_ADMIN_PASSWORD"] || "FakePassword1!"
+end

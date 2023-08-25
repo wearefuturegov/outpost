@@ -47,13 +47,22 @@ If you want to build a public index for the API, you'll also need a local MongoD
 First, clone the repo. Then:
 
 ```
-bundle install
-yarn
-rails db:setup
-rails s
+docker compose -f docker-compose.development.yml build
 
-# run end-to-end and unit tests
-rake
+docker compose -f docker-compose.development.yml up -d
+
+# populate with dummy data
+docker compose -f docker-compose.development.yml exec outpost-dev bin/rails db:seed
+
+# or just create a single admin user
+docker compose -f docker-compose.development.yml exec outpost-dev bin/rails c
+
+
+# run tests
+docker compose -f docker-compose.development.yml exec outpost-dev bundle exec rspec
+
+# end to end tests
+docker compose -f docker-compose.development.yml exec outpost-dev rake
 ```
 
 The database will be seeded with realistic fake data.
