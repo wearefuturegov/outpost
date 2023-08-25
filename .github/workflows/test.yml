@@ -3,6 +3,10 @@
 
 name: Run tests
 
+env:
+  RAILS_ENV: test
+  NODE_ENV: development
+
 on: [push]
 
 jobs:
