@@ -38,3 +38,5 @@ yarn-debug.log*
 .DS_Store
 .vscode
 .env*
+
+/config/credentials/production.key
