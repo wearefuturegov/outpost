@@ -121,7 +121,7 @@ COPY --chown=outpost-user:outpost-user --from=install /usr/build/app /usr/src/ap
 #
 FROM basics as development
 WORKDIR /usr/src/app
-USER outpost-user
+# USER outpost-user
 CMD ["/usr/run/app/init.sh"]
 
 
@@ -134,6 +134,6 @@ WORKDIR /usr/src/app
 COPY --chown=outpost-user:outpost-user . /usr/src/app
 
 RUN SECRET_KEY_BASE=dummyvalue bundle exec rails assets:precompile
-
+RUN chown -R outpost-user:outpost-user /usr/src/app
 USER outpost-user
 CMD ["/usr/run/app/init.sh"]
