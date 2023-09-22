@@ -4,16 +4,16 @@ $outpostBlack: #121212 !default;
 $grey1: #212121 !default;
 $grey2: #343434 !default;
 $grey3: #999999 !default;
-$grey4: #E2DFD2 !default;
-$grey5: #EEEEEE !default;
-$grey6: #F5F5F5 !default;
+$grey4: #e2dfd2 !default;
+$grey5: #eeeeee !default;
+$grey6: #f5f5f5 !default;
 
 $pale: #f7f6f2 !default;
-$white: #FFFFFF !default;
+$white: #ffffff !default;
 $black: $outpostBlack !default;
 
 $primary: #2c2d84 !default;
-$focus: #FFB81C !default;
+$focus: #ffb81c !default;
 $error: #a80707 !default;
 
 $green: #9fc63b !default;
@@ -29,3 +29,6 @@ $outer-spacing: 20px !default;
 $breakpoint-m: 750px !default;
 $breakpoint-l: 1100px !default;
 
+:root {
+  --primary: #{$primary};
+}
