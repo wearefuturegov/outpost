@@ -1,0 +1,39 @@
+@import "vendor/trix";
+
+trix-editor {
+  @include input;
+
+  min-height: 150px;
+}
+
+trix-toolbar {
+  .trix-button-group {
+    border: 0;
+  }
+  .trix-button {
+    @include secondary-button;
+
+    font-size: 0.9rem;
+    margin-bottom: 0;
+    padding: 6px 25px;
+
+    @media screen and (min-width: $breakpoint-m) {
+      margin-right: 5px;
+    }
+
+    &:not(:first-child) {
+      border-left: 0;
+    }
+
+    &.trix-active {
+      background-color: transparentize($outpostBlue, 0.8);
+
+      box-shadow: 0px 4px 0px $outpostBlue;
+      color: $white;
+    }
+  }
+
+  .trix-button--icon::before {
+    background-size: 40%;
+  }
+}

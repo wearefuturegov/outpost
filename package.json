@@ -4,6 +4,7 @@
   "private": true,
   "packageManager": "yarn@1.22.17",
   "dependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@rails/actioncable": "^6.0.0",
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",
@@ -18,10 +19,10 @@
     "polyfill-array-includes": "^2.0.0",
     "time-input-polyfill": "^1.0.9",
     "tippy.js": "^6.2.3",
+    "trix": "^2.0.5",
     "turbolinks": "^5.2.0",
     "webpack": "^4.46.0",
-    "webpack-cli": "^3.3.12",
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
+    "webpack-cli": "^3.3.12"
   },
   "devDependencies": {
     "webpack-dev-server": "^3"

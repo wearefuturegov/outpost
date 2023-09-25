@@ -56,6 +56,12 @@
     color: $grey2;
     margin: 0;
     margin-top: 5px;
+
+    &--warn {
+      border-color: $error;
+      color: $error;
+      opacity: 1;
+    }
   }
 
   &--changed {
@@ -289,5 +295,4 @@
     border: 0;
     max-width: 56px;
   }
-
 }
