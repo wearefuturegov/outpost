@@ -23,6 +23,8 @@ services:
     environment:
       NODE_ENV: ${NODE_ENV:-development}
       RAILS_ENV: ${RAILS_ENV:-development}
+      RACK_ENV: ${RACK_ENV:-development}
+      APP_ENV: ${APP_ENV:-development}
       DB_URI: ${DB_URI:-mongodb://mongo:27017/outpost_api_development}
       DATABASE_URL: ${DATABASE_URL:-postgresql://outpost:password@postgres:5432/outpost?}
       RAILS_SERVE_STATIC_FILES: ${RAILS_SERVE_STATIC_FILES:-false}

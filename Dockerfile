@@ -15,6 +15,8 @@ ARG BUNDLER_VERSION=2.3.10
 ARG YARN_VERSION=1.22.17
 ARG NODE_ENV=production
 ARG RAILS_ENV=production
+ARG RACK_ENV=production
+ARG APP_ENV=production
 
 #
 #  FROM: node
@@ -28,6 +30,8 @@ ARG BUNDLER_VERSION
 ARG YARN_VERSION
 ARG NODE_ENV
 ARG RAILS_ENV
+ARG RACK_ENV
+ARG APP_ENV
 
 #
 #  FROM: base_image
@@ -39,6 +43,8 @@ ARG BUNDLER_VERSION
 ARG YARN_VERSION
 ARG NODE_ENV
 ARG RAILS_ENV
+ARG RACK_ENV
+ARG APP_ENV
 
 # 'install' specific node version https://medium.com/geekculture/how-to-install-a-specific-node-js-version-in-an-alpine-docker-image-3edc1c2c64be
 COPY --from=node /usr/lib /usr/lib
@@ -87,9 +93,13 @@ FROM base_image as install
 
 ARG NODE_ENV
 ARG RAILS_ENV
+ARG RACK_ENV
+ARG APP_ENV
 
 ENV NODE_ENV=${NODE_ENV}
 ENV RAILS_ENV=${RAILS_ENV}
+ENV RACK_ENV=${RACK_ENV}
+ENV APP_ENV=${APP_ENV}
 
 RUN bundle install
 
@@ -106,9 +116,13 @@ RUN if [ "${NODE_ENV}" == "production" ]; then \
 FROM install as basics
 ARG NODE_ENV
 ARG RAILS_ENV
+ARG RACK_ENV
+ARG APP_ENV
 
 ENV NODE_ENV=${NODE_ENV}
 ENV RAILS_ENV=${RAILS_ENV}
+ENV RACK_ENV=${RACK_ENV}
+ENV APP_ENV=${APP_ENV}
 
 WORKDIR /usr/src/app
 COPY --chown=outpost-user:outpost-user ./environment/docker-run.sh /usr/run/app/init.sh
