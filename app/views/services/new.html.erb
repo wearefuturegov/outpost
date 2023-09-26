@@ -5,7 +5,7 @@
     <h1 class="page-header__title two-thirds">List a new service</h1>
 <% end %>
 
-<%= form_for @service, html: {class: "two-thirds"} do |s| %>
+<%= form_for @service, html: {class: "two-thirds"}, builder: OutpostFormBuilder do |s| %>
     
     <%= render "shared/errors", model: @service %>
 
@@ -18,7 +18,7 @@
     <div class="field field--required field--span-two-cols" data-word-count="true">
         <%= s.label :description, "Describe your service", class: "field__label field__label--bold" %>
         <p class="field__hint">In a few sentences, explain what your service does and who it helps.</p>
-        <%= s.text_area :description, class: "field__input wysiwyg-simple", rows: 5, required: true %>
+        <%= s.text_area_wysiwyg :description, class: "field__input", rows: 5, required: true %>
     </div>        
 
     <button class="button">Continue</button>
