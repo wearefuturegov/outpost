@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
   <%= render "shared/head" %>
-  <body>
+  <% content_for :body_classes, @additional_classes.join(' ') %>
+  <body class="<%= body_classes(yield :body_classes) %>">
 
     <%= render "shared/header", full_width: false %>
 
