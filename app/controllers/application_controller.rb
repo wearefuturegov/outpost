@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
     before_action :authenticate_user!
     before_action :set_pending_counts
     before_action :set_paper_trail_whodunnit
+    before_action :set_additional_classes
 
     protected
 
@@ -24,5 +25,9 @@ class ApplicationController < ActionController::Base
           pending: Service.kept.where(approved: nil).count
         }
       };
+    end
+
+    def set_additional_classes 
+      @additional_classes = Setting.active_features.map { |f| f.gsub('_', '-')  }.map(&:dasherize)
     end
 end
