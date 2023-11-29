@@ -61,7 +61,8 @@ RUN apk add --no-cache git \
   libpq-dev \
   tzdata \
   gcompat \
-  python3
+  python3 \
+  postgresql-client
 
 # install bundler version
 RUN gem install bundler:$BUNDLER_VERSION
