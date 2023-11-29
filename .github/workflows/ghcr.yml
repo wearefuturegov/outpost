@@ -1,7 +1,5 @@
 name: Deploy Images to GHCR
 
-# temporarily run on push for this branch
-on: [push]
 on:
   push:
     branches:
