@@ -2,11 +2,11 @@ name: Deploy Images to GHCR
 
 # temporarily run on push for this branch
 on: [push]
-# on:
-#   push:
-#     branches:
-#       - main
-#   workflow_dispatch:
+on:
+  push:
+    branches:
+      - feature/develop
+  workflow_dispatch:
 
 jobs:
   push-store-image:
