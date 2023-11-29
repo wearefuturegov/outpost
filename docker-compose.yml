@@ -1,21 +1,74 @@
-version: '3.1'
-
+version: "3.7"
 services:
+  # Outpost app
 
-  db:
-    image: postgres
-    restart: always
-    environment:
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: outpost_development
-      POSTGRES_USER: outpost
+  outpost:
+    image: "outpost:development"
+    container_name: outpost
+    # command: ["tail", "-f", "/dev/null"]
+    init: true
+    depends_on:
+      - postgres
+      - mongo
+    build:
+      context: .
+      target: ${RAILS_ENV:-development}
+      args:
+        NODE_ENV: ${NODE_ENV:-development}
+        RAILS_ENV: ${RAILS_ENV:-development}
     ports:
-      - "5432:5432"
+      - 3000:3000
+    volumes:
+      - ./:/usr/src/app:cached
+    environment:
+      NODE_ENV: ${NODE_ENV:-development}
+      RAILS_ENV: ${RAILS_ENV:-development}
+      RACK_ENV: ${RACK_ENV:-development}
+      APP_ENV: ${APP_ENV:-development}
+      DB_URI: ${DB_URI:-mongodb://mongo:27017/outpost_api_development}
+      DATABASE_URL: ${DATABASE_URL:-postgresql://outpost:password@postgres:5432/outpost?}
+      RAILS_SERVE_STATIC_FILES: ${RAILS_SERVE_STATIC_FILES:-false}
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+    networks:
+      - outpost_external_network
+      - outpost_internal_network
+
+  # Databases
+
+  postgres:
+    image: postgres:13.7-alpine
+    container_name: outpost-db-postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-outpost}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+      POSTGRES_DB: ${POSTGRES_DB:-outpost_development}
+    ports:
+      - 5432:5432
+    volumes:
+      - outpost-postgres-volume:/var/lib/postgresql/data
+    networks:
+      - outpost_internal_network
+      - outpost_external_network
+
   mongo:
-    image: mongo
-    restart: always
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: password
+    image: mongo:6
+    container_name: outpost-db-mongo
     ports:
-      - "27017:27017"
+      - 27017:27017
+    volumes:
+      - outpost-mongo-volume:/data/db
+      - ./environment/containers/mongo/setup-mongodb.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    environment:
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE:-outpost_api_development}
+    networks:
+      - outpost_internal_network
+      - outpost_external_network
+
+volumes:
+  outpost-postgres-volume:
+  outpost-mongo-volume:
+
+networks:
+  outpost_external_network:
+  outpost_internal_network:
+    internal: true

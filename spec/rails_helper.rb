@@ -28,6 +28,7 @@ Capybara.register_driver :headless_chrome do |app|
     capabilities: [options]
 end
 
+# By default, JavaScript tests are run using the :selenium driver. You can change this by setting Capybara.javascript_driver.
 Capybara.javascript_driver = :headless_chrome
 
 

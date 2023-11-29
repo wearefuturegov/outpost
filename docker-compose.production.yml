@@ -1,0 +1,71 @@
+version: "3.7"
+services:
+  # Outpost app
+
+  outpost:
+    image: "outpost:production"
+    container_name: outpost
+    init: true
+    depends_on:
+      - postgres
+      - mongo
+    build:
+      context: .
+      target: ${RAILS_ENV:-production}
+      args:
+        NODE_ENV: ${NODE_ENV:-production}
+        RAILS_ENV: ${RAILS_ENV:-production}
+    ports:
+      - 3000:3000
+    volumes:
+      - ./:/usr/src/app
+    environment:
+      NODE_ENV: ${NODE_ENV:-production}
+      RAILS_ENV: ${RAILS_ENV:-production}
+      RACK_ENV: ${RACK_ENV:-production}
+      APP_ENV: ${APP_ENV:-production}
+      DB_URI: ${DB_URI:-mongodb://mongo:27017/outpost_api_production}
+      DATABASE_URL: ${DATABASE_URL:-postgresql://outpost:password@postgres:5432/outpost?}
+      RAILS_SERVE_STATIC_FILES: ${RAILS_SERVE_STATIC_FILES:-true}
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+    networks:
+      - outpost_prod_external_network
+      - outpost_prod_internal_network
+
+  # Databases
+
+  postgres:
+    image: postgres:13.7-alpine
+    container_name: outpost-db-postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-outpost}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+      POSTGRES_DB: ${POSTGRES_DB:-outpost_production}
+    ports:
+      - 5432:5432
+    volumes:
+      - outpost-prod-postgres-volume:/var/lib/postgresql/data
+    networks:
+      - outpost_prod_internal_network
+
+  mongo:
+    image: mongo:6
+    container_name: outpost-db-mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - outpost-prod-mongo-volume:/data/db
+      - ./environment/containers/mongo/setup-mongodb.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    environment:
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE:-outpost_api_production}
+    networks:
+      - outpost_prod_internal_network
+
+volumes:
+  outpost-prod-postgres-volume:
+  outpost-prod-mongo-volume:
+
+networks:
+  outpost_prod_external_network:
+  outpost_prod_internal_network:
+    internal: true

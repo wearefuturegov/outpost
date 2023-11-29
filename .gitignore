@@ -36,5 +36,7 @@ yarn-debug.log*
 /coverage
 
 .DS_Store
-yarn.lock
 .vscode
+.env*
+
+/config/credentials/production.key
