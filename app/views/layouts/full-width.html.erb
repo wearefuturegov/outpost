@@ -2,7 +2,7 @@
 <html lang="en">
   <%= render "shared/head" %>
 
-  <% content_for :body_classes, %w(full-height).join(' '), @additional_classes.join(' ') %>
+  <% content_for :body_classes, [@additional_classes, 'full-height'].compact.join(' ') %>
   <body class="<%= body_classes(yield :body_classes) %>">
     <!-- <a href="#content" class="skiplink">Skip to main content</a> -->
     <%= render "shared/header", full_width: true %>
