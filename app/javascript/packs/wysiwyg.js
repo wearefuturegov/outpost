@@ -31,6 +31,9 @@ const outpostWysiwygToolbar = () => {
 };
 
 if (simple.length > 0) {
+  Trix.config.toolbar.getDefaultHTML = function () {
+    return "";
+  };
   document.addEventListener("trix-before-initialize", () => {
     // update toolbar
     Trix.config.toolbar.getDefaultHTML = outpostWysiwygToolbar;
