@@ -1,4 +1,20 @@
 {
   "name": "Outpost",
-  "description": "Local government service directories done right, in an API-standards driven way."
+  "description": "Local government service directories done right, in an API-standards driven way.",
+  "stack": "heroku-20",
+  "buildpacks": [
+    {
+      "url": "https://github.com/heroku/heroku-buildpack-nodejs"
+    },
+    {
+      "url": "https://github.com/heroku/heroku-buildpack-ruby"
+    }
+  ],
+  "environments": {
+    "test": {
+      "scripts": {
+        "test": "bundle exec rspec"
+      }
+    }
+  }
 }

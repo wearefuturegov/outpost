@@ -9,10 +9,10 @@
 
 
 # if your using these values anywhere new see https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
-ARG NODE_VERSION=16.13.1
+ARG NODE_VERSION=20.9.0
 ARG RUBY_VERSION=3.0.3
-ARG BUNDLER_VERSION=2.3.10
-ARG YARN_VERSION=1.22.17
+ARG BUNDLER_VERSION=2.3.25
+ARG YARN_VERSION=1.22.19
 ARG NODE_ENV=production
 ARG RAILS_ENV=production
 ARG RACK_ENV=production
@@ -56,13 +56,14 @@ COPY --from=node /opt /opt
 
 # gcompat is for nokogiri - alpine doesnt include glibc it needs https://nokogiri.org/tutorials/installing_nokogiri.html#linux-musl-error-loading-shared-library
 # python3 for node-sass drama
-RUN apk add --no-cache git \
+RUN apk upgrade && apk add --no-cache git \
   build-base \
   libpq-dev \
   tzdata \
   gcompat \
   python3 \
-  postgresql-client
+  postgresql-client \
+  openssl
 
 # install bundler version
 RUN gem install bundler:$BUNDLER_VERSION
@@ -148,7 +149,7 @@ FROM basics as production
 WORKDIR /usr/src/app
 COPY --chown=outpost-user:outpost-user . /usr/src/app
 
-RUN SECRET_KEY_BASE=dummyvalue bundle exec rails assets:precompile
+RUN NODE_OPTIONS=--openssl-legacy-provider SECRET_KEY_BASE=dummyvalue bundle exec rails assets:precompile
 RUN chown -R outpost-user:outpost-user /usr/src/app
 USER outpost-user
 CMD ["/usr/run/app/init.sh"]

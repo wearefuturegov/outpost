@@ -435,7 +435,6 @@ GEM
 PLATFORMS
   aarch64-linux-musl
   ruby
-  x64-mingw32
 
 DEPENDENCIES
   active_model_serializers
@@ -498,4 +497,4 @@ RUBY VERSION
    ruby 3.0.3p157
 
 BUNDLED WITH
-   2.3.10
+   2.3.25
