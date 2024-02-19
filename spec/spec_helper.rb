@@ -123,7 +123,10 @@ RSpec.configure do |config|
       %r{^postgresql://.*_development:.*_development@postgres:5432}, 
       %r{^postgresql://.*_test:.*_test@postgres:5432}, 
       %r{^postgresql://.*_development:.*_development@localhost:5432}, 
-      %r{^postgresql://.*_test:.*_test@localhost:5432}
+      %r{^postgresql://.*_test:.*_test@localhost:5432},
+      %r{^postgresql://.*:.*@postgres:5432/outpost?},
+      %r{^postgresql://.*:.*@localhost:5432},
+      %r{^postgres://.*:.*@localhost:5432}
     ]
     DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.clean_with(:truncation)

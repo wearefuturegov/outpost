@@ -60,7 +60,6 @@ group :test do
   gem 'capybara', '>= 2.15'
   gem 'codecov', require: false
   gem 'selenium-webdriver'
-  gem 'webdrivers'
   gem 'database_cleaner'
   gem 'shoulda-matchers'
   gem 'factory_bot_rails'

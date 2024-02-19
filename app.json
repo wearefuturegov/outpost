@@ -12,9 +12,29 @@
   ],
   "environments": {
     "test": {
+      "env": {
+        "OFSTED_FEED_API_ENDPOINT": "https://test-ofsted-feed.stub",
+        "NODE_OPTIONS": "--openssl-legacy-provider"
+      },
+      "addons": ["heroku-postgresql:in-dyno"],
       "scripts": {
+        "test-setup": "SECRET_KEY_BASE=dummyvalue bundle exec rails assets:precompile",
         "test": "bundle exec rspec"
-      }
+      },
+      "buildpacks": [
+        {
+          "url": "https://github.com/heroku/heroku-buildpack-nodejs"
+        },
+        {
+          "url": "https://github.com/heroku/heroku-buildpack-ruby"
+        },
+        {
+          "url": "https://github.com/heroku/heroku-buildpack-chromedriver"
+        },
+        {
+          "url": "https://github.com/heroku/heroku-buildpack-google-chrome"
+        }
+      ]
     }
   }
 }

@@ -56,14 +56,14 @@ COPY --from=node /opt /opt
 
 # gcompat is for nokogiri - alpine doesnt include glibc it needs https://nokogiri.org/tutorials/installing_nokogiri.html#linux-musl-error-loading-shared-library
 # python3 for node-sass drama
-RUN apk upgrade && apk add --no-cache git \
+RUN apk update && apk upgrade && apk add --no-cache git \
   build-base \
   libpq-dev \
   tzdata \
   gcompat \
   python3 \
   postgresql-client \
-  openssl
+  openssl 
 
 # install bundler version
 RUN gem install bundler:$BUNDLER_VERSION
@@ -139,6 +139,21 @@ FROM basics as development
 WORKDIR /usr/src/app
 # USER outpost-user
 CMD ["/usr/run/app/init.sh"]
+
+#
+#  FROM: test
+#
+FROM basics as test
+RUN apk update && apk upgrade && apk add --no-cache chromium chromium-chromedriver python3 python3-dev py3-pip
+COPY --chown=outpost-user:outpost-user ./environment/docker-test.sh /usr/run/app/init.sh
+RUN chmod +x /usr/run/app/init.sh
+WORKDIR /usr/src/app
+# COPY --chown=outpost-user:outpost-user . /usr/src/app
+RUN NODE_OPTIONS=--openssl-legacy-provider SECRET_KEY_BASE=dummyvalue bundle exec rails assets:precompile
+RUN chown -R outpost-user:outpost-user /usr/src/app
+USER outpost-user
+# CMD ["/usr/run/app/init.sh"]
+CMD ["tail", "-f", "/dev/null"]
 
 
 #
