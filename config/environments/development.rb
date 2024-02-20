@@ -9,7 +9,9 @@ Rails.application.configure do
       Bullet.add_footer    = true
     end
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
-
+  # allows for web console and host file in docker
+  config.web_console.permissions = '192.168.0.0/16'
+  config.hosts << "outpost"
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development
   # since you don't have to restart the web server when you make code changes.
