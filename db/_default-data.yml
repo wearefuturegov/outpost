@@ -1,0 +1,30 @@
+accessibilities:
+  - Accessible toilet facilities
+  - Hearing loop
+  - Car parking
+  - Changing facilities
+  - British sign language (bsl)
+  - Disabled car parking space
+  - Hoist
+  - Baby changing facilities
+  - Parking nearby
+  - Bus stop nearby
+  - Building has lift
+  - Wheelchair accessible entrance
+  - Partial wheelchair access
+
+send_needs:
+  - Autism
+  - Hearing impairment
+  - Visual impairment
+  - Mobility
+  - Cognitive
+
+suitabilities:
+  - Autism
+  - Learning difficulties
+  - Mental health/acquired brain injury
+  - Visual and / or hearing impediment
+  - Physical disabilities
+  - Older people
+  - Dementia

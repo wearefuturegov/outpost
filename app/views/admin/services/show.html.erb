@@ -19,7 +19,7 @@
 <div class="with-sidebar">
 
   <div>
-    <%= form_for(@service, as: :service, url: admin_service_path(@service), method: :put, data: {warn_unsaved_changes: true}) do |s| %>
+    <%= form_for(@service, as: :service, url: admin_service_path(@service), method: :put, data: {warn_unsaved_changes: true}, builder: OutpostFormBuilder) do |s| %>
 
       <%= render "shared/errors", model: @service %>
 

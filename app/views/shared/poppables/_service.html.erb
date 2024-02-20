@@ -7,7 +7,7 @@
             </h3>
 
             <% if s.description %>
-                <p class="poppable-card__body"><%= s.description.truncate(45) %></p>
+                <p class="poppable-card__body"><%= strip_tags(s.description).truncate(45) %></p>
             <% end %>
             <p class="poppable-card__footer">
                 <span class="poppable-card__count poppable-card__count--locations">

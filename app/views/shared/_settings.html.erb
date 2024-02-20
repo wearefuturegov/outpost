@@ -1,0 +1,19 @@
+<style type="text/css">
+<% if Setting.primary_color.present? %>
+  :root {
+    --primary: <%= Setting.primary_color %>;
+  }
+<% end %>
+
+<% if Setting.outpost_logo_height_mobile.present? && Setting.outpost_logo_height_mobile =~ /\A\d+\z/ %>
+  .site-header {
+    --site-header-logo-height-mobile: <%= Setting.outpost_logo_height_mobile %>px;
+  }
+<% end %>
+
+<% if Setting.outpost_logo_height.present? && Setting.outpost_logo_height =~ /\A\d+\z/ %>
+  .site-header {
+    --site-header-logo-height: <%= Setting.outpost_logo_height %>px;
+  }
+<% end %>
+</style>
