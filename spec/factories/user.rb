@@ -25,7 +25,15 @@ FactoryBot.define do
       admin_ofsted { true }
     end
 
+    trait :full_admin do
+      admin { true }
+      admin_users { true }
+      admin_ofsted { true }
+      admin_manage_ofsted_access { true }
+    end
+
     trait :superadmin do
+      superadmin { true }
       admin { true }
       admin_users { true }
       admin_ofsted { true }
