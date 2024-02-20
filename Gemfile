@@ -38,13 +38,13 @@ gem 'doorkeeper'
 
 gem 'sentry-ruby'
 gem 'sentry-rails'
+gem 'faker'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'rspec-rails'
   gem 'dotenv-rails'
   gem 'rack-mini-profiler'
-  gem 'faker'
   gem 'bullet'
   gem 'launchy'
 end

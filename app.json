@@ -35,6 +35,12 @@
           "url": "https://github.com/heroku/heroku-buildpack-google-chrome"
         }
       ]
+    },
+    "review": {
+      "scripts": {
+        "postdeploy": "bin/rails SEED_ADMIN_USER=true SEED_DUMMY_DATA=true db:seed",
+        "pr-predestroy": "bin/teardown"
+      }
     }
   }
 }
