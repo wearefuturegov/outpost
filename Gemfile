@@ -34,7 +34,7 @@ gem 'closure_tree'
 gem 'uk_postcode'
 gem 'diffy'
 gem 'mongo'
-gem 'doorkeeper'
+gem "doorkeeper", "~> 5.6"
 
 gem 'sentry-ruby'
 gem 'sentry-rails'
