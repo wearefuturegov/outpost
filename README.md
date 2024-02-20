@@ -121,7 +121,17 @@ docker compose up -d
 **Populate with dummy data**
 
 ```sh
+# default accessibilities, send_needs and suitabilities only
+docker compose exec outpost bin/rails db:seed
+
+# create a default admin user
+docker compose exec outpost bin/rails SEED_ADMIN_USER=true db:seed
+
+# create dummy data
 docker compose exec outpost bin/rails SEED_DUMMY_DATA=true db:seed
+
+
+
 ```
 
 The database will be seeded with realistic fake data as well as the default data and initial admin user required.

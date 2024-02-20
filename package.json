@@ -2,9 +2,12 @@
   "name": "@outpost_platform/outpost",
   "version": "0.1.0",
   "private": true,
-  "packageManager": "yarn@1.22.17",
+  "packageManager": "yarn@1.22.19",
+  "engines": {
+    "node": "20.9.0",
+    "yarn": "1.22.19"
+  },
   "dependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@rails/actioncable": "^6.0.0",
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",
@@ -25,6 +28,6 @@
     "webpack-cli": "^3.3.12"
   },
   "devDependencies": {
-    "webpack-dev-server": "^3"
+    "webpack-dev-server": "^5.0.1"
   }
 }
