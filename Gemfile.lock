@@ -237,7 +237,7 @@ GEM
     multi_xml (0.6.0)
     multipart-post (2.1.1)
     netaddr (2.0.4)
-    nio4r (2.5.8)
+    nio4r (2.7.0)
     nokogiri (1.16.2)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
@@ -255,7 +255,7 @@ GEM
       activerecord (>= 5.2)
       activesupport (>= 5.2)
     public_suffix (5.0.4)
-    puma (4.3.12)
+    puma (5.6.8)
       nio4r (~> 2.0)
     racc (1.7.3)
     rack (2.2.8)
@@ -463,7 +463,7 @@ DEPENDENCIES
   paper_trail
   pg (>= 0.18, < 2.0)
   pg_search
-  puma (~> 4.3)
+  puma (~> 5.6)
   rack-attack
   rack-cors
   rack-mini-profiler
