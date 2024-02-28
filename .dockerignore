@@ -43,7 +43,10 @@ yarn-error.log*
 
 # tmp
 /tmp/*
+/tmp/pids/*
 !/tmp/.keep
+!/tmp/pids
+!/tmp/pids/.keep
 *.swp
 *~
 .DS_Store
@@ -75,7 +78,6 @@ yarn-debug.log*
 /spec/examples.txt
 /test/tmp/
 /test/version_tmp/
-/tmp/
 
 # Ignore Byebug command history file.
 .byebug_history

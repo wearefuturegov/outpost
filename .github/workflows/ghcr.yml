@@ -3,7 +3,7 @@ name: Deploy Images to GHCR
 on:
   push:
     branches:
-      - feature/develop
+      - develop
   workflow_dispatch:
 
 jobs:
@@ -22,5 +22,5 @@ jobs:
 
       - name: "Build Inventory Image"
         run: |
-          docker build . --tag ghcr.io/wearefuturegov/outpost:latest
+          docker build . --target production --tag ghcr.io/wearefuturegov/outpost:latest
           docker push ghcr.io/wearefuturegov/outpost:latest
