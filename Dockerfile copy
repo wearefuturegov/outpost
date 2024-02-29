@@ -1,0 +1,6 @@
+FROM ruby:3.0.3-alpine
+RUN mkdir /usr/src/app
+COPY . /usr/src/app
+WORKDIR /usr/src/app
+# ENTRYPOINT ["docker-entrypoint.sh"]
+CMD  ["tail", "-f", "/dev/null"]

@@ -131,13 +131,14 @@ COPY --chown=outpost-user:outpost-user ./environment/docker-run.sh /usr/run/app/
 RUN chmod +x /usr/run/app/init.sh
 COPY --chown=outpost-user:outpost-user --from=install /usr/build/app /usr/src/app
 
-
 #
 #  FROM: development
 #
 FROM basics as development
 WORKDIR /usr/src/app
+# RUN chmod +x ./docker-entrypoint.sh
 # USER outpost-user
+# ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["/usr/run/app/init.sh"]
 
 #
@@ -147,12 +148,14 @@ FROM basics as test
 RUN apk update && apk upgrade && apk add --no-cache chromium chromium-chromedriver python3 python3-dev py3-pip
 COPY --chown=outpost-user:outpost-user ./environment/docker-test.sh /usr/run/app/init.sh
 RUN chmod +x /usr/run/app/init.sh
+# RUN chmod +x ./docker-entrypoint.sh
 WORKDIR /usr/src/app
 # COPY --chown=outpost-user:outpost-user . /usr/src/app
 RUN NODE_OPTIONS=--openssl-legacy-provider SECRET_KEY_BASE=dummyvalue bundle exec rails assets:precompile
 RUN chown -R outpost-user:outpost-user /usr/src/app
 USER outpost-user
 # CMD ["/usr/run/app/init.sh"]
+# ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["tail", "-f", "/dev/null"]
 
 
@@ -163,8 +166,9 @@ FROM basics as production
 
 WORKDIR /usr/src/app
 COPY --chown=outpost-user:outpost-user . /usr/src/app
-
+# RUN chmod +x ./docker-entrypoint.sh
 RUN NODE_OPTIONS=--openssl-legacy-provider SECRET_KEY_BASE=dummyvalue bundle exec rails assets:precompile
 RUN chown -R outpost-user:outpost-user /usr/src/app
 USER outpost-user
+# ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["/usr/run/app/init.sh"]

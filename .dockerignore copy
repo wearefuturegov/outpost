@@ -1,0 +1,85 @@
+.github
+.ruby-lsp
+.vscode
+.idea
+
+# docker
+Dockerfile*
+docker-compose*
+.dockerignore
+
+# git
+.git
+.gitattributes
+.gitignore
+.github
+
+# env
+.env
+.env*
+
+# logs & tmp
+/log/*
+/tmp/*
+/tmp/pids/*
+!/log/.keep
+!/tmp/.keep
+!/tmp/pids
+!/tmp/pids/.keep
+
+# package managers
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Ignore precompiled javascript packs
+/public/packs
+/public/packs-test
+/public/assets
+
+# secrets
+/config/secrets/
+/config/initializers/secret_token.rb
+/config/master.key
+/config/secrets.yml
+/lib/seeds/*
+
+# files
+/storage/*
+!/storage/.keep
+
+# db
+/db/*.sqlite3
+/db/*.sqlite3-journal
+
+# tests
+capybara-*.html
+.rspec
+/coverage/
+/spec/tmp
+rerun.txt
+pickle-email-*.html
+
+# rails
+*.rbc
+/public/system
+
+# misc/other
+README.md
+CHANGELOG.md
+sample.env
+app.json
+
+Procfile
+makefile
+
+*.dump
+**.orig
+*.swp
+*~
+.DS_Store
+.byebug_history
+.yarnrc
+.nvmrc
+.rvmrc
