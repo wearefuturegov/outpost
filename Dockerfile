@@ -103,7 +103,12 @@ ENV RAILS_ENV=${RAILS_ENV}
 ENV RACK_ENV=${RACK_ENV}
 ENV APP_ENV=${APP_ENV}
 
-RUN bundle install
+RUN if [ "${NODE_ENV}" == "development" ]; then \
+  bundle install; fi
+RUN if [ "${NODE_ENV}" == "production" ]; then \
+  bundle install --without development test; fi
+
+
 
 RUN if [ "${NODE_ENV}" == "development" ]; then \
   yarn install; fi
