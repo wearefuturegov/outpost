@@ -1,11 +1,11 @@
-# By default image is built using RAILS_ENV=production.
-# You may want to customize it:
-#
-#   --build-arg RAILS_ENV=development
-#
-#
 # If you need to leave the container running for example to debug something switch out the init command with 
 # CMD ["tail", "-f", "/dev/null"]
+
+
+# This Dockerfile is for development and testing purposes only.
+# This is because in production we use buildpacks to create a slug of the application and run that slug in a container.
+# This replicates our setup in heroku and is the best way to ensure that the application runs as expected in production 
+# and that we have a reliable development environment
 
 
 # if your using these values anywhere new see https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
@@ -21,7 +21,7 @@ ARG APP_ENV=production
 #
 #  FROM: node
 #
-FROM node:$NODE_VERSION-alpine AS node
+FROM node:$NODE_VERSION-bullseye-slim AS node
 # used to make the image publically available on github
 LABEL org.opencontainers.image.source="https://github.com/wearefuturegov/outpost" 
 
@@ -36,7 +36,7 @@ ARG APP_ENV
 #
 #  FROM: base_image
 #
-FROM ruby:$RUBY_VERSION-alpine as base_image
+FROM ruby:$RUBY_VERSION-slim-bullseye as base_image
 
 ARG RUBY_VERSION
 ARG BUNDLER_VERSION
@@ -54,22 +54,33 @@ COPY --from=node /usr/local/include /usr/local/include
 COPY --from=node /usr/local/bin /usr/local/bin
 COPY --from=node /opt /opt
 
-# gcompat is for nokogiri - alpine doesnt include glibc it needs https://nokogiri.org/tutorials/installing_nokogiri.html#linux-musl-error-loading-shared-library
-# python3 for node-sass drama
-RUN apk update && apk upgrade && apk add --no-cache git \
-  build-base \
-  libpq-dev \
-  tzdata \
-  gcompat \
+# build-essential & ruby-dev - https://nokogiri.org/tutorials/installing_nokogiri.html#appendix-a-the-compiler-toolchain
+# gcompat - is for nokogiri
+# python3 - for node-sass drama
+# postgresql-client - for db tasks
+# libpq-dev - for pg gem
+RUN apt-get update && apt-get install -y --no-install-recommends \
+  build-essential \
+  ruby-dev \
   python3 \
   postgresql-client \
-  openssl 
+  libpq-dev 
+
+
+# RUN apk update && apk upgrade && apk add --no-cache git \
+#   build-base \
+#   libpq-dev \
+#   tzdata \
+#   gcompat \
+#   python3 \
+#   postgresql-client \
+#   openssl 
 
 # install bundler version
 RUN gem install bundler:$BUNDLER_VERSION
 
 # Add a user for later
-RUN adduser -D outpost-user
+RUN adduser --disabled-password outpost-user
 
 WORKDIR /usr/build/app
 
@@ -103,7 +114,10 @@ ENV RAILS_ENV=${RAILS_ENV}
 ENV RACK_ENV=${RACK_ENV}
 ENV APP_ENV=${APP_ENV}
 
-RUN bundle install
+RUN if [ "${NODE_ENV}" == "development" ]; then \
+  bundle install; fi
+RUN if [ "${NODE_ENV}" == "production" ]; then \
+  bundle install --without development test; fi
 
 RUN if [ "${NODE_ENV}" == "development" ]; then \
   yarn install; fi
@@ -137,6 +151,7 @@ COPY --chown=outpost-user:outpost-user --from=install /usr/build/app /usr/src/ap
 #
 FROM basics as development
 WORKDIR /usr/src/app
+RUN NODE_OPTIONS=--openssl-legacy-provider SECRET_KEY_BASE=dummyvalue bundle exec rails assets:precompile
 # USER outpost-user
 CMD ["/usr/run/app/init.sh"]
 

@@ -1,4 +1,4 @@
-#!/bin/ash
+#!/bin/sh
 
 cd /usr/src/app
 rm -f ./tmp/pids/server.pid
