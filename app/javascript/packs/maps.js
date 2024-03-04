@@ -1,51 +1,68 @@
-import { initialise } from "./google"
+import { Loader } from "@googlemaps/js-api-loader";
+import { googleLoaderOptions } from "./google";
 
-const createSingleMap = async mapHolder => {
-    await initialise()
-    let {lat, long} = mapHolder.dataset
-    let location = new window.google.maps.LatLng(parseFloat(lat), parseFloat(long))
-    let map = new window.google.maps.Map(mapHolder, {
+const loader = new Loader({
+  ...googleLoaderOptions,
+});
+
+const createSingleMap = async (mapHolder) => {
+  loader
+    .importLibrary("maps")
+    .then(({ Map }) => {
+      let { lat, long } = mapHolder.dataset;
+      let location = new google.maps.LatLng(parseFloat(lat), parseFloat(long));
+      let map = new Map(mapHolder, {
         mapTypeControl: false,
         streetViewControl: false,
         zoom: 17,
-        center: location
-    })
-    let marker = new window.google.maps.Marker({
+        center: location,
+      });
+      let marker = new google.maps.Marker({
         position: location,
         map: map,
+      });
     })
-}
+    .catch((e) => {
+      // do something
+    });
+};
 
-const createListMap = async mapHolder => {
-    await initialise()
-    let bounds = new window.google.maps.LatLngBounds()
-    let map = new window.google.maps.Map(mapHolder, {
+const createListMap = async (mapHolder) => {
+  loader
+    .importLibrary("maps")
+    .then(({ Map }) => {
+      let bounds = new google.maps.LatLngBounds();
+      let map = new Map(mapHolder, {
         mapTypeControl: false,
         streetViewControl: false,
-        zoom: 17
-    })
-    __LOCATIONS__.forEach(location => {
-        let position = new window.google.maps.LatLng(
-            location.latitude,
-            location.longitude
-        )
-        let marker = new window.google.maps.Marker({
-            position: position,
-            map: map,
-            title: location.name
-        })
-        bounds.extend(position)
+        zoom: 17,
+      });
+      __LOCATIONS__.forEach((location) => {
+        let position = new google.maps.LatLng(
+          location.latitude,
+          location.longitude
+        );
+        let marker = new google.maps.Marker({
+          position: position,
+          map: map,
+          title: location.name,
+        });
+        bounds.extend(position);
         marker.addListener("click", () => {
-            window.location.href = `/admin/locations/${location.id}`
-        })
+          window.location.href = `/admin/locations/${location.id}`;
+        });
+      });
+      map.fitBounds(bounds);
     })
-    map.fitBounds(bounds)
-}
+    .catch((e) => {
+      // do something
+    });
+};
 
-document.querySelectorAll(".map-holder").forEach(m => {
-    if(m.dataset.listMap && __LOCATIONS__){
-        createListMap(m)
-    } else {
-        createSingleMap(m)
-    }
-})
+document.querySelectorAll(".map-holder").forEach((m) => {
+  if (m.dataset.listMap && __LOCATIONS__) {
+    createListMap(m);
+  } else {
+    createSingleMap(m);
+  }
+});
