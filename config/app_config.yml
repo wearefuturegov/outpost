@@ -1,26 +1,35 @@
 default:
   copyright: "TPXimpact Ltd, 20 St Thomas Street, Runway East (Second Floor), London, SE1 9RG Company Number: 06472420. Registered in England and Wales."
   footer_links: |
-        <nav class="site-footer__menu">
-            <a href="#" class="site-footer__link">About this service</a>
-            <a href="#" class="site-footer__link">Accessibility statement</a>
-            <a href="#" class="site-footer__link">Privacy policy</a>
-            <a href="#" class="site-footer__link">Cookies</a>
-            <a href="#" class="site-footer__link">Public and customer disclaimer</a>
-        </nav>
+    <nav class="site-footer__menu">
+        <a href="#" class="site-footer__link">About this service</a>
+        <a href="#" class="site-footer__link">Accessibility statement</a>
+        <a href="#" class="site-footer__link">Privacy policy</a>
+        <a href="#" class="site-footer__link">Cookies</a>
+        <a href="#" class="site-footer__link">Public and customer disclaimer</a>
+    </nav>
 buckinghamshire:
   copyright: "Buckinghamshire Council"
   footer_links: |
-        <nav class="site-footer__menu">
-            <a href="https://familyinfo.buckinghamshire.gov.uk/about/" class="site-footer__link">About the Buckinghamshire Family Information Service</a>
-            <a href="https://familyinfo.buckinghamshire.gov.uk/accessibility-statement-/" class="site-footer__link">Accessibility statement</a>
-            <a href="https://familyinfo.buckinghamshire.gov.uk/privacy-policy/" class="site-footer__link">Privacy policy</a>
-            <a href="https://www.buckinghamshire.gov.uk/about/cookies/" class="site-footer__link">Cookies</a>
-            <a href="https://familyinfo.buckinghamshire.gov.uk/publiccustomer-disclaimer/" class="site-footer__link">Public and customer disclaimer</a>
-        </nav>
+    <nav class="site-footer__menu">
+        <a href="https://familyinfo.buckinghamshire.gov.uk/about/" class="site-footer__link">About the Buckinghamshire Family Information Service</a>
+        <a href="https://familyinfo.buckinghamshire.gov.uk/accessibility-statement-/" class="site-footer__link">Accessibility statement</a>
+        <a href="https://familyinfo.buckinghamshire.gov.uk/privacy-policy/" class="site-footer__link">Privacy policy</a>
+        <a href="https://www.buckinghamshire.gov.uk/about/cookies/" class="site-footer__link">Cookies</a>
+        <a href="https://familyinfo.buckinghamshire.gov.uk/publiccustomer-disclaimer/" class="site-footer__link">Public and customer disclaimer</a>
+    </nav>
 tvvru:
   copyright: "Thames Valley Violence Reduction Unit"
   footer_links: |
-        <nav class="site-footer__menu">
-            <a href="https://www.tvvru.co.uk/resources/service-directory/" class="site-footer__link">About this service</a>
-        </nav>
+    <nav class="site-footer__menu">
+        <a href="https://www.tvvru.co.uk/resources/service-directory/" class="site-footer__link">About this service</a>
+    </nav>
+greenwich:
+  copyright: "Royal Borough of Greenwich"
+  footer_links: |
+    <nav class="site-footer__menu">
+        <a href="https://greenwichcommunitydirectory.org.uk/about" class="site-footer__link">About this website</a>
+        <a href="https://greenwichcommunitydirectory.org.uk/accessibility-statement" class="site-footer__link">Accessibility</a>
+        <a href="https://greenwichcommunitydirectory.org.uk/cookies" class="site-footer__link">Cookies</a>
+        <a href="https://greenwichcommunitydirectory.org.uk/terms-and-privacy" class="site-footer__link">Terms and privacy</a>
+    </nav>
