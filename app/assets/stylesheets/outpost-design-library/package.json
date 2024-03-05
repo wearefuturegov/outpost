@@ -1,13 +1,16 @@
 {
-  "name": "outpost-design-library",
-  "version": "1.0.8",
-  "author": "FutureGov <dev@wearefuturegov.com> (https://wearefuturegov.com)",
+  "name": "@outpost-platform/outpost-design-library",
+  "version": "1.0.9",
+  "author": "TPXimpact <fg-dev@tpximpact.com> (https://tpximpact.com)",
   "description": "A simple sass library for Outpost",
   "keywords": [
     "sass",
     "design system",
     "style guide"
   ],
-  "repository": "github:wearefuturegov/outpost",
-  "homepage": "https://outpost.wearefuturegov.com/"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wearefuturegov/outpost.git"
+  },
+  "homepage": "https://outpost-platform.wearefuturegov.com/"
 }
