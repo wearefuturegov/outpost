@@ -1,6 +1,6 @@
 {
   "name": "@outpost-platform/outpost-design-library",
-  "version": "1.0.9",
+  "version": "1.0.11",
   "author": "TPXimpact <fg-dev@tpximpact.com> (https://tpximpact.com)",
   "description": "A simple sass library for Outpost",
   "keywords": [
