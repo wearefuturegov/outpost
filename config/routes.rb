@@ -62,6 +62,7 @@ Rails.application.routes.draw do
       resources :suitabilities, only: [:index]
       resources :accessibilities, only: [:index]
       get "me", to: "me#show"
+      resources :services, only: [:index, :show]
     end
   end
 
