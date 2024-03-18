@@ -21,7 +21,4 @@ class Admin::SettingsController < Admin::BaseController
     params.require(:form_admin_settings).permit(*Form::AdminSettings::KEYS)
   end
 
-  def require_superadmin!
-    redirect_to root_path unless current_user.superadmin
-  end
 end
