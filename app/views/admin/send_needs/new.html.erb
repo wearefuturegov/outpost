@@ -1,0 +1,18 @@
+<% content_for :header do %>
+    <%= render "shared/dynamic-back-link", text: "Back to send needs", path: admin_send_needs_path %>
+    <div class="page-header__actions">
+      <h1 class="page-header__title two-thirds">
+        Add a new send need
+      </h1>
+    </div>
+<% end %>
+
+<%= form_for [:admin, @send_need], html: {class: "one-half"}, data: {warn_unsaved_changes: true} do |f| %>
+  <%= render "shared/errors", model: @send_need %>
+  <div class="field-section">
+    <%= render "fields", f: f %>
+  </div>
+  <div class="form-actions">
+    <%= f.submit "Create", class: "button" %>
+  </div>
+<% end %>
