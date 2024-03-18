@@ -111,6 +111,10 @@ docker compose exec outpost bin/rails SEED_ADMIN_USER=true db:seed
 
 # create dummy data
 docker compose exec outpost bin/rails SEED_DUMMY_DATA=true db:seed
+
+# create default data
+docker compose exec outpost bin/rails SEED_DEFAULT_DATA=true db:seed
+
 ```
 
 The application will be running on `localhost:3000`.
