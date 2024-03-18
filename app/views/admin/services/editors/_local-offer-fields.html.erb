@@ -2,7 +2,7 @@
 
     <fieldset class="field-group field-group--two-cols field-group--no-top-margin margin-bottom">
         <legend class="field-group__legend">Which SEND needs can you support?</legend>
-        <%= s.collection_check_boxes( :send_need_ids, SendNeed.all, :id, :display_name) do |c| %>
+        <%= s.collection_check_boxes( :send_need_ids, SendNeed.all.order(:name), :id, :display_name) do |c| %>
             <div class="field checkbox checkbox--small">
                 <%= c.check_box class: "checkbox__input" %>
                 <%= c.label class: "checkbox__label" %>

@@ -25,7 +25,7 @@
       <tbody>
         <% @send_needs.each do |sn| %>
           <tr>
-            <td><%= sn.id %></td>
+            <td><span class="table__small"><%= sn.id %></span></td>
             <td><%= sn.name %></td>
             <td><%= time_ago_in_words(sn.updated_at).humanize %> ago</td>
             <td><%= time_ago_in_words(sn.created_at).humanize %> ago</td>

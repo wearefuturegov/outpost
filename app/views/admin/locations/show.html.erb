@@ -15,7 +15,7 @@
 
         <%= render "shared/collapsible", name: "Accessibility", id: "location-accessibility" do %>
             <div class="field-group field-group--two-cols">
-              <%= f.collection_check_boxes( :accessibility_ids, Accessibility.all, :id, :display_name) do |c| %>
+              <%= f.collection_check_boxes( :accessibility_ids, Accessibility.all.order(:name), :id, :display_name) do |c| %>
                   <div class="field checkbox">
                       <%= c.check_box class: "checkbox__input" %>
                       <%= c.label class: "checkbox__label" %>

@@ -2,7 +2,7 @@ class API::V1::SuitabilitiesController < ApplicationController
   skip_before_action :authenticate_user!
 
   def index
-    render json: json_tree(Suitability.all).to_json
+    render json: json_tree(Suitability.all.order(:name)).to_json
   end
 
   private
