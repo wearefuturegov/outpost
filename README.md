@@ -23,24 +23,24 @@
 [![Run tests](https://github.com/wearefuturegov/outpost/workflows/Run%20tests/badge.svg)](https://github.com/wearefuturegov/outpost/actions)
 
 - [Introduction](#introduction)
-- [🌏 Deployment](#🌏-deployment)
-  - [🧱 Tech stack](#🧱-tech-stack)
-  - [🪄 Requirements](#🪄-requirements)
-  - [🌎 Running it on the web](#🌎-running-it-on-the-web)
-  - [💻 Running it locally](#💻-running-it-locally)
-- [🪴 Usage](#🪴-usage)
-- [🧬 Configuration](#🧬-configuration)
+- [🌏 Deployment](#-deployment)
+  - [🧱 Tech stack](#-tech-stack)
+  - [🪄 Requirements](#-requirements)
+  - [🌎 Running it on the web](#-running-it-on-the-web)
+  - [💻 Running it locally](#-running-it-locally)
+- [🪴 Usage](#-usage)
+- [🧬 Configuration](#-configuration)
   - [Environmental Variables](#environmental-variables)
   - [Tasks](#tasks)
   - [Settings page](#settings-page)
-- [✨ Features](#✨-features)
+- [✨ Features](#-features)
   - [Outpost API](#outpost-api)
   - [Data import](#data-import)
   - [OAuth provider](#oauth-provider)
   - [File uploads](#file-uploads)
   - [Ofsted integration](#ofsted-integration)
   - [Directories](#directories)
-- [🧪 Tests](#🧪-tests)
+- [🧪 Tests](#-tests)
   - [Code coverage](#code-coverage)
   - [Compile assets](#compile-assets)
 
@@ -130,7 +130,8 @@ docker compose exec outpost bin/rails SEED_ADMIN_USER=true db:seed
 # create dummy data
 docker compose exec outpost bin/rails SEED_DUMMY_DATA=true db:seed
 
-
+# create default data
+docker compose exec outpost bin/rails SEED_DEFAULT_DATA=true db:seed
 
 ```
 

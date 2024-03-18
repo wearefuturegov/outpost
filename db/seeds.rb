@@ -11,6 +11,8 @@ seed_dummy_data = ENV["SEED_DUMMY_DATA"] || false;
 
 seed_admin_user = ENV["SEED_ADMIN_USER"] || false;
 
+seed_default_data = ENV["SEED_DEFAULT_DATA"] || false;
+
 # make a single super admin user
 if seed_admin_user
 
@@ -20,7 +22,7 @@ if seed_admin_user
         user.admin = true
         user.admin_users = true
         user.admin_ofsted = true
-        user.superadmin = true
+        user.superadmin = false
         user.admin_manage_ofsted_access = true
         user.email = "example@example.com"
         user.password = ENV["INITIAL_ADMIN_PASSWORD"] || "FakePassword1!"
@@ -28,16 +30,21 @@ if seed_admin_user
 
 end
 
-default_data["accessibilities"].each do |n|
-    Accessibility.find_or_create_by!({name: n})
-end
 
-default_data["send_needs"].each do |n|
-    SendNeed.find_or_create_by!({name: n})
-end
+if seed_default_data
 
-default_data["suitabilities"].each do |n|
-    Suitability.find_or_create_by!({name: n})
+    default_data["accessibilities"].each do |n|
+        Accessibility.find_or_create_by!({name: n})
+    end
+
+    default_data["send_needs"].each do |n|
+        SendNeed.find_or_create_by!({name: n})
+    end
+
+    default_data["suitabilities"].each do |n|
+        Suitability.find_or_create_by!({name: n})
+    end
+
 end
 
 if seed_dummy_data
