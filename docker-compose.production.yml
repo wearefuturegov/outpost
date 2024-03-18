@@ -12,9 +12,6 @@ services:
     build:
       context: .
       target: ${RAILS_ENV:-production}
-      args:
-        NODE_ENV: ${NODE_ENV:-production}
-        RAILS_ENV: ${RAILS_ENV:-production}
     ports:
       - 3000:3000
     volumes:
@@ -27,7 +24,7 @@ services:
       DB_URI: ${DB_URI:-mongodb://mongo:27017/outpost_api_production}
       DATABASE_URL: ${DATABASE_URL:-postgresql://outpost:password@postgres:5432/outpost?}
       RAILS_SERVE_STATIC_FILES: ${RAILS_SERVE_STATIC_FILES:-true}
-      SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE:-dummy_secret_key_base}
     networks:
       - outpost_prod_external_network
       - outpost_prod_internal_network

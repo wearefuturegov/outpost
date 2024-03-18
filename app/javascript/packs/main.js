@@ -1,3 +1,4 @@
+import "dotenv/config";
 import "nodelist-foreach-polyfill";
 import "polyfill-array-includes";
 import "time-input-polyfill/auto";

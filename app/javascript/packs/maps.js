@@ -16,8 +16,10 @@ const createSingleMap = async (mapHolder) => {
         streetViewControl: false,
         zoom: 17,
         center: location,
+        mapId: "single_map",
       });
-      let marker = new google.maps.Marker({
+      console.log(map);
+      let marker = new google.maps.marker.AdvancedMarkerElement({
         position: location,
         map: map,
       });
@@ -36,13 +38,14 @@ const createListMap = async (mapHolder) => {
         mapTypeControl: false,
         streetViewControl: false,
         zoom: 17,
+        mapId: "list_map",
       });
       __LOCATIONS__.forEach((location) => {
         let position = new google.maps.LatLng(
           location.latitude,
           location.longitude
         );
-        let marker = new google.maps.Marker({
+        let marker = new google.maps.marker.AdvancedMarkerElement({
           position: position,
           map: map,
           title: location.name,
