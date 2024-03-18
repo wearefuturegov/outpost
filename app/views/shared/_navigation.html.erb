@@ -64,6 +64,27 @@
                     <span class="site-nav__current">Users</span>
                 <% end %>
 
+                
+
+                <div class="site-nav__submenu-holder site-nav__submenu-holder--with-badge">
+                    <% if current_user.superadmin? %>
+                        <%= link_to_unless_current "Settings", edit_admin_settings_path, class: "site-nav__link" do %>
+                            <span class="site-nav__current">Settings</span>
+                        <% end %>
+                    <% else %>
+                        <span class="site-nav__link">Settings</span>
+                    <% end %>
+                
+                    <ul class="site-nav__submenu">
+                        <li class="site-nav__submenu-item">
+                            <%= link_to_unless_current "SEND Needs", admin_send_needs_path, class: "site-nav__submenu-link" do %>
+                                <span class="site-nav__submenu-current">SEND Needs</span>
+                            <% end %>
+                        </li>
+                    </ul>
+                </div>
+
+
                 <% if current_user.admin_ofsted? %>
                     <div class="site-nav__pull-right">
                         <%= link_to_unless_current "Ofsted feed", admin_ofsted_index_path, class: "site-nav__link" do %>
