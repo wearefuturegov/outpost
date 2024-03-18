@@ -10,7 +10,7 @@ class Admin::SendNeedsController < Admin::BaseController
     def create
         @send_need = SendNeed.create(send_need_params)
         if @send_need.save
-          redirect_to admin_send_needs_path, notice: "Send need has been created."
+          redirect_to admin_send_needs_path, notice: "SEND need has been created."
         else
           render "new"
         end
@@ -20,7 +20,7 @@ class Admin::SendNeedsController < Admin::BaseController
         SendNeed.defaults.each do |default|
             SendNeed.find_or_create_by(name: default)
         end
-        redirect_to admin_send_needs_path, notice: "Default Send need's have been added."
+        redirect_to admin_send_needs_path, notice: "Default options have been added."
     end
 
 

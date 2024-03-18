@@ -66,6 +66,7 @@
 
                 
 
+                <% if current_user.admin_users? %>
                 <div class="site-nav__submenu-holder site-nav__submenu-holder--with-badge">
                     <% if current_user.superadmin? %>
                         <%= link_to_unless_current "Settings", edit_admin_settings_path, class: "site-nav__link" do %>
@@ -81,8 +82,19 @@
                                 <span class="site-nav__submenu-current">SEND Needs</span>
                             <% end %>
                         </li>
+                        <li class="site-nav__submenu-item">
+                            <%= link_to_unless_current "Accessibilities", admin_accessibilities_path, class: "site-nav__submenu-link" do %>
+                                <span class="site-nav__submenu-current">Accessibilities</span>
+                            <% end %>
+                        </li>
+                        <li class="site-nav__submenu-item">
+                            <%= link_to_unless_current "Suitabilities", admin_suitabilities_path, class: "site-nav__submenu-link" do %>
+                                <span class="site-nav__submenu-current">Suitabilities</span>
+                            <% end %>
+                        </li>
                     </ul>
                 </div>
+                <% end %>
 
 
                 <% if current_user.admin_ofsted? %>
