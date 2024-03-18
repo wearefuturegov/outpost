@@ -1,8 +1,6 @@
 dummy_data_yaml = Rails.root.join('db', '_dummy-data.yml')
 default_data_yaml = Rails.root.join('db', '_default-data.yml')
 dummy_data = YAML::load_file(dummy_data_yaml)
-default_data = YAML::load_file(default_data_yaml)
-
 
 # This file gives us everything we need for a fresh install of the application
 # Setting SEED_DUMMY_DATA will also generate fake users, services, locations etc
@@ -33,15 +31,15 @@ end
 
 if seed_default_data
 
-    default_data["accessibilities"].each do |n|
+    Accessibility.defaults.each do |n|
         Accessibility.find_or_create_by!({name: n})
     end
 
-    default_data["send_needs"].each do |n|
+    SendNeed.defaults.each do |n|
         SendNeed.find_or_create_by!({name: n})
     end
 
-    default_data["suitabilities"].each do |n|
+    Suitability.defaults.each do |n|
         Suitability.find_or_create_by!({name: n})
     end
 
