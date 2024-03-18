@@ -5,7 +5,7 @@
       <h3>What needs does it meet?</h3>
       </legend>
       
-      <%= s.collection_check_boxes( :suitability_ids, Suitability.all, :id, :display_name) do |c| %>
+      <%= s.collection_check_boxes( :suitability_ids, Suitability.all.order(:name), :id, :display_name) do |c| %>
         <div class="field checkbox checkbox--small">
           <%= c.check_box class: "checkbox__input" %>
           <%= c.label class: "checkbox__label" %>
