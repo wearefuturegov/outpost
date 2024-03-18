@@ -1,14 +1,14 @@
 <% content_for :header do %>
-    <%= render "shared/dynamic-back-link", text: "Back to SEND needs", path: admin_send_needs_path %>
+    <%= render "shared/dynamic-back-link", text: "Back to suitabilities", path: admin_suitabilities_path %>
     <div class="page-header__actions">
       <h1 class="page-header__title two-thirds">
-        Add new SEND need
+        Add new suitability option
       </h1>
     </div>
 <% end %>
 
-<%= form_for [:admin, @send_need], html: {class: "one-half"}, data: {warn_unsaved_changes: true} do |f| %>
-  <%= render "shared/errors", model: @send_need %>
+<%= form_for [:admin, @suitability], html: {class: "one-half"}, data: {warn_unsaved_changes: true} do |f| %>
+  <%= render "shared/errors", model: @suitability %>
   <div class="field-section">
     <%= render "fields", f: f %>
   </div>

@@ -1,13 +1,14 @@
-<% content_for :title do %>Send Needs | <% end %>
+<% content_for :title do %>SEND Needs | <% end %>
 
 <% content_for :header do %>
     <%= link_to "Back to services", admin_services_path, class: "go-back" %>
-    <h1 class="page-header__title">Send Needs</h1>
+    <h1 class="page-header__title">SEND Needs</h1>
+    <p>SEND needs are only applied to services that are marked part of the local offer. They differ from suitabilities, though suitabilities can also be applied to a service. Examples include Autism, Hearing or Visual impairment.</p>
 <% end %>
 
 
 <header class="actions">
-    <%= link_to "Add send need", new_admin_send_need_path, class: "button button--small button--add  actions__pull-right" %>
+    <%= link_to "Add SEND need", new_admin_send_need_path, class: "button button--small button--add  actions__pull-right" %>
 </header>
 
 <% if @send_needs.present? %>
@@ -35,7 +36,7 @@
   </div>
   <%= paginate @send_needs %>
 <% else %>
-  <p class="no-results no-results--big">There are currently no send needs, click here to <%= link_to "add the default send needs", create_defaults_admin_send_needs_path, method: "post" %> or create your own send needs' above.</p>
+  <p class="no-results no-results--big">There are currently no SEND needs, click here to <%= link_to "add the default SEND needs", create_defaults_admin_send_needs_path, method: "post" %> or create your own above.</p>
 <% end %>
 
 

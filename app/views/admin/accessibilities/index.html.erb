@@ -1,0 +1,42 @@
+<% content_for :title do %>Accessibilities | <% end %>
+
+<% content_for :header do %>
+    <%= link_to "Back to services", admin_services_path, class: "go-back" %>
+    <h1 class="page-header__title">Accessibilities</h1>
+    <p>Accessibilities are associated with locations and should detail the types of access arrangements that are available for those with disabilities. Examples might include things such as car parking, levels of wheelchair access, public transport availability.</p>
+<% end %>
+
+
+<header class="actions">
+    <%= link_to "Add new option", new_admin_accessibility_path, class: "button button--small button--add  actions__pull-right" %>
+</header>
+
+<% if @accessibilities.present? %>
+  <div class="table-holder">
+    <table class="table">
+      <thead>
+        <tr>
+          <th class="visually-hidden">ID</th>
+          <th>Name</th>
+          <th>Last updated</th>
+          <th>Created</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @accessibilities.each do |sn| %>
+          <tr>
+            <td><%= sn.id %></td>
+            <td><%= sn.name %></td>
+            <td><%= time_ago_in_words(sn.updated_at).humanize %> ago</td>
+            <td><%= time_ago_in_words(sn.created_at).humanize %> ago</td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <%= paginate @accessibilities %>
+<% else %>
+  <p class="no-results no-results--big">There are currently no accessibility options, click here to <%= link_to "add the default accessibilities", create_defaults_admin_accessibilities_path, method: "post" %> or create your own above.</p>
+<% end %>
+
+
