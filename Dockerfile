@@ -1,170 +1,149 @@
-# By default image is built using RAILS_ENV=production.
-# You may want to customize it:
 #
-#   --build-arg RAILS_ENV=development
+# This Dockerfile is for DEVELOPMENT and TESTING purposes ONLY it is not suitable for production use, its huge and has a lot of unnecessary packages!
 #
+# If you don't have an M* mac you probably don't need to use this but it might make setting things up a little easier for you
 #
-# If you need to leave the container running for example to debug something switch out the init command with 
+# We're using heroku in production and which uses slugs 🐌 and buildpacks run in a container this solution gives us as close to that environment as possible locally; 
+# an ubuntu environment based off the currently used heroku stack with the same versions of node, ruby, yarn, bundler that we're given inside heroku
+
+
+# If you need to leave the container running for example to debug something you can use the following command to keep it running
 # CMD ["tail", "-f", "/dev/null"]
 
-
 # if your using these values anywhere new see https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
-ARG NODE_VERSION=20.9.0
-ARG RUBY_VERSION=3.0.3
-ARG BUNDLER_VERSION=2.3.25
-ARG YARN_VERSION=1.22.19
-ARG NODE_ENV=production
-ARG RAILS_ENV=production
-ARG RACK_ENV=production
-ARG APP_ENV=production
+# we don't set any defaults here on purpose as we will mostly use this as a development environment not setting an env value lets us run tests in the container easily
+ARG NODE_ENV=development
+ARG RAILS_ENV=development
 
-#
-#  FROM: node
-#
-FROM node:$NODE_VERSION-alpine AS node
-# used to make the image publically available on github
-LABEL org.opencontainers.image.source="https://github.com/wearefuturegov/outpost" 
+# ----------------------------------------------------------------
+FROM ghcr.io/wearefuturegov/outpost-dev-base:latest as install
 
-ARG RUBY_VERSION
-ARG BUNDLER_VERSION
-ARG YARN_VERSION
-ARG NODE_ENV
-ARG RAILS_ENV
-ARG RACK_ENV
-ARG APP_ENV
+# make this stage non-interactive
+ENV DEBIAN_FRONTEND=noninteractive
 
-#
-#  FROM: base_image
-#
-FROM ruby:$RUBY_VERSION-alpine as base_image
-
-ARG RUBY_VERSION
-ARG BUNDLER_VERSION
-ARG YARN_VERSION
-ARG NODE_ENV
-ARG RAILS_ENV
-ARG RACK_ENV
-ARG APP_ENV
-
-# 'install' specific node version https://medium.com/geekculture/how-to-install-a-specific-node-js-version-in-an-alpine-docker-image-3edc1c2c64be
-COPY --from=node /usr/lib /usr/lib
-COPY --from=node /usr/local/share /usr/local/share
-COPY --from=node /usr/local/lib /usr/local/lib
-COPY --from=node /usr/local/include /usr/local/include
-COPY --from=node /usr/local/bin /usr/local/bin
-COPY --from=node /opt /opt
-
-# gcompat is for nokogiri - alpine doesnt include glibc it needs https://nokogiri.org/tutorials/installing_nokogiri.html#linux-musl-error-loading-shared-library
-# python3 for node-sass drama
-RUN apk update && apk upgrade && apk add --no-cache git \
-  build-base \
+# Switch back to the root user for a second to install some packages
+USER root
+RUN apt-get update --error-on=any
+# for pg gem
+RUN apt-get install -y \
   libpq-dev \
-  tzdata \
-  gcompat \
-  python3 \
-  postgresql-client \
-  openssl 
+  postgresql
 
-# install bundler version
-RUN gem install bundler:$BUNDLER_VERSION
+# for chrome for tests
+RUN apt-get install -y \
+  gconf-service \
+  libappindicator1 \
+  libasound2 \
+  libatk1.0-0 \
+  libatk-bridge2.0-0 \
+  libcairo-gobject2 \
+  libdrm2 \
+  libgbm1 \
+  libgconf-2-4 \
+  libgtk-3-0 \
+  libnspr4 \
+  libnss3 \
+  libx11-xcb1 \
+  libxcb-dri3-0 \
+  libxcomposite1 \
+  libxcursor1 \
+  libxdamage1 \
+  libxfixes3 \
+  libxi6 \
+  libxinerama1 \
+  libxrandr2 \
+  libxshmfence1 \
+  libxss1 \
+  libxtst6 \
+  fonts-liberation \
+  jq
 
-# Add a user for later
-RUN adduser -D outpost-user
 
-WORKDIR /usr/build/app
+# Fetch the latest version numbers and URLs for Chrome and ChromeDriver
+RUN curl -s https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions-with-downloads.json > /tmp/versions.json
 
+# chrome
+RUN CHROME_URL=$(jq -r '.channels.Stable.downloads.chrome[] | select(.platform=="linux64") | .url' /tmp/versions.json) && \
+  wget -q --continue -O /tmp/chrome-linux64.zip $CHROME_URL && \
+  unzip -j /tmp/chrome-linux64.zip -d /opt/chrome
 
-COPY ./Gemfile /usr/build/app/Gemfile
-COPY ./Gemfile.lock /usr/build/app/Gemfile.lock
-COPY ./package.json /usr/build/app/package.json
-COPY ./yarn.lock /usr/build/app/yarn.lock
+RUN chmod +x /opt/chrome/chrome
 
+# chromedriver
+RUN CHROMEDRIVER_URL=$(jq -r '.channels.Stable.downloads.chromedriver[] | select(.platform=="linux64") | .url' /tmp/versions.json) && \
+  wget -q --continue -O /tmp/chromedriver-linux64.zip $CHROMEDRIVER_URL && \
+  unzip -j /tmp/chromedriver-linux64.zip -d /opt/chromedriver && \
+  chmod +x /opt/chromedriver/chromedriver
 
+# Clean up
+RUN rm /tmp/chrome-linux64.zip /tmp/chromedriver-linux64.zip /tmp/versions.json
+
+ENV PATH /opt/chrome:/opt/chromedriver:$PATH
+RUN echo 'export PATH="/opt/chrome:/opt/chromedriver:$PATH"' >> ~/.bashrc
+
+# Check chrome & chromedriver versions
+RUN echo "Chrome: " && chrome --version
+RUN echo "Chromedriver: " && chromedriver --version
+
+USER outpost-user
+
+# set $HOME to outpost-user path for this non-interactive session
+ENV HOME /home/outpost-user
+ENV PATH $HOME/.rbenv/bin:$HOME/.rbenv/shims:$PATH
+
+WORKDIR /app
+
+COPY --chown=outpost-user:outpost-user ./.ruby-version ./.ruby-version
+COPY --chown=outpost-user:outpost-user ./Gemfile ./Gemfile
+COPY --chown=outpost-user:outpost-user ./Gemfile.lock ./Gemfile.lock
+COPY --chown=outpost-user:outpost-user ./package.json ./package.json
+COPY --chown=outpost-user:outpost-user ./yarn.lock ./yarn.lock
+COPY --chown=outpost-user:outpost-user ./.docker/bin/check-versions.sh ./.docker/bin/check-versions.sh
+
+RUN ls -lah
+RUN pwd
+
+# check everything is all good
+RUN ./.docker/bin/check-versions.sh
+
+# set the environment variables
+ARG NODE_ENV
+ARG RAILS_ENV
+ENV NODE_ENV=${NODE_ENV}
 ENV RAILS_ENV=${RAILS_ENV}
 
+# -------------
+# install gems
+# -------------
+
 # throw errors if Gemfile has been modified since Gemfile.lock
-RUN if [ "${RAILS_ENV}" == "production" ]; then \
+RUN if [ "${RAILS_ENV}" = "production" ]; then \
   bundle config --global frozen 1; fi
+
+RUN if [ "${RAILS_ENV}" = "development" ] || [ -z "${RAILS_ENV}" ]; then \
+  bundle install --verbose; fi
+RUN if [ "${RAILS_ENV}" = "production" ]; then \
+  bundle config set --local deployment 'true' && bundle install; fi
+
+
+# -------------
+# install node modules
+# -------------
+RUN if [ "${NODE_ENV}" = "development" ] || [ -z "${NODE_ENV}" ]; then \
+  yarn install; fi
+RUN if [ "${NODE_ENV}" = "production" ]; then \
+  yarn install --frozen-lockfile; fi
+
+RUN if [ "${APP_ENV}" = "production" ]; then \
+  NODE_OPTIONS=--openssl-legacy-provider SECRET_KEY_BASE=dummyvalue bundle exec rails assets:precompile; fi
+
+
+# after this point we don't need to be non-interactive anymore since we'll be running the container
+ENV DEBIAN_FRONTEND=
 
 EXPOSE 3000
 
-#
-#  FROM: install
-#
-FROM base_image as install
-
-ARG NODE_ENV
-ARG RAILS_ENV
-ARG RACK_ENV
-ARG APP_ENV
-
-ENV NODE_ENV=${NODE_ENV}
-ENV RAILS_ENV=${RAILS_ENV}
-ENV RACK_ENV=${RACK_ENV}
-ENV APP_ENV=${APP_ENV}
-
-RUN bundle install
-
-RUN if [ "${NODE_ENV}" == "development" ]; then \
-  yarn install; fi
-RUN if [ "${NODE_ENV}" == "production" ]; then \
-  yarn install --frozen-lockfile; fi
-
-
-
-#
-#  FROM: createinit
-#
-FROM install as basics
-ARG NODE_ENV
-ARG RAILS_ENV
-ARG RACK_ENV
-ARG APP_ENV
-
-ENV NODE_ENV=${NODE_ENV}
-ENV RAILS_ENV=${RAILS_ENV}
-ENV RACK_ENV=${RACK_ENV}
-ENV APP_ENV=${APP_ENV}
-
-WORKDIR /usr/src/app
-COPY --chown=outpost-user:outpost-user ./environment/docker-run.sh /usr/run/app/init.sh
-RUN chmod +x /usr/run/app/init.sh
-COPY --chown=outpost-user:outpost-user --from=install /usr/build/app /usr/src/app
-
-
-#
-#  FROM: development
-#
-FROM basics as development
-WORKDIR /usr/src/app
-# USER outpost-user
-CMD ["/usr/run/app/init.sh"]
-
-#
-#  FROM: test
-#
-FROM basics as test
-RUN apk update && apk upgrade && apk add --no-cache chromium chromium-chromedriver python3 python3-dev py3-pip
-COPY --chown=outpost-user:outpost-user ./environment/docker-test.sh /usr/run/app/init.sh
-RUN chmod +x /usr/run/app/init.sh
-WORKDIR /usr/src/app
-# COPY --chown=outpost-user:outpost-user . /usr/src/app
-RUN NODE_OPTIONS=--openssl-legacy-provider SECRET_KEY_BASE=dummyvalue bundle exec rails assets:precompile
-RUN chown -R outpost-user:outpost-user /usr/src/app
-USER outpost-user
-# CMD ["/usr/run/app/init.sh"]
-CMD ["tail", "-f", "/dev/null"]
-
-
-#
-#  FROM: production
-#
-FROM basics as production
-
-WORKDIR /usr/src/app
-COPY --chown=outpost-user:outpost-user . /usr/src/app
-
-RUN NODE_OPTIONS=--openssl-legacy-provider SECRET_KEY_BASE=dummyvalue bundle exec rails assets:precompile
-RUN chown -R outpost-user:outpost-user /usr/src/app
-USER outpost-user
-CMD ["/usr/run/app/init.sh"]
+ENTRYPOINT [".docker/dev-docker-entrypoint.sh"]
+CMD ["bin/rails", "s", "-u", "puma", "-p", "3000", "-b=0.0.0.0"]
+# CMD ["bin/bundle", "exec", "puma", "-C", "config/puma.rb"]
+# CMD ["tail", "-f", "/dev/null"]
