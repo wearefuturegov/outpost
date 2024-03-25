@@ -60,25 +60,32 @@ It can also act as an OAuth provider via [Doorkeeper](https://github.com/doorkee
 - PostgreSQL database
 - MongoDB database for use with [Outpost API](https://github.com/wearefuturegov/outpost-api-service/)
 
-## 🪄 Requirements
-
-- Ruby 3.0.3
-- Postgresql 13.7
-- Mongo 6
-- Node 16.13.1
-- Yarn 1.22.17
-
 ## 🌎 Running it on the web
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 For more information see [getting started](https://github.com/wearefuturegov/outpost/wiki/Getting-started)
 
-This repository contains configurations for **Docker** and **docker-compose** (configured for development). It's also suitable for 12-factor app hosting like [Heroku](http://heroku.com). It has a `Procfile` that will [automatically run](https://devcenter.heroku.com/articles/release-phase) pending rails migrations on every deploy, to reduce downtime.
+Outpost is suitable for 12-factor app hosting like [Heroku](http://heroku.com). It has a `Procfile` that will [automatically run](https://devcenter.heroku.com/articles/release-phase) pending rails migrations on every deploy, to reduce downtime.
 
 When deploying Outpost you will need to setup schedule specific tasks, see [configuration](#🧬-configuration) for more information.
 
-Heroku will automatically setup SECRETS for you but in docker you will need to do this manually.
+**Deploying using docker**
+
+Since Outpost is designed to be simple to setup we recommend using 12-factor app hosting such as [Heroku](http://heroku.com). However we do provide a docker image to host your own instance.
+
+To deploy your application using docker:
+
+```sh
+	docker run -t -i \
+		-e PORT=3000 \
+		-p 3000:3000/tcp \
+		ghcr.io/wearefuturegov/outpost:latest
+```
+
+or you can use [docker-compose.production.yml](docker-compose.production.yml) as an example `docker compose -f docker-compose.production.yml up -d`
+
+Please not that heroku will automatically setup `SECRET_KEY_BASE` for you but in docker you will need to do this manually.
 
 Generate a key by running:
 
@@ -96,26 +103,31 @@ bin/rails credentials:edit --environment production
 
 For more information see [getting started](https://github.com/wearefuturegov/outpost/wiki/Getting-started)
 
-A `docker-compose.development.yml` file is included to run Outpost locally. You can combine this with other images to create a custom development environment of your setup.
-
-See [configuration](#-configuration) for setting up environmental variables.
-
-**Build the images**
+For now we recommend using docker to run the application locally as this ensures that the versions are as close to the production environment as possible.
 
 ```sh
 cp -rp sample.env .env
-```
-
-**Build the images**
-
-```sh
-docker compose build
-```
-
-**Run the containers**
-
-```sh
 docker compose up -d
+
+# setup dummy data and example user login
+docker compose exec outpost bin/rails SEED_ADMIN_USER=true SEED_DUMMY_DATA=true db:seed
+```
+
+This will setup outpost, mongo, postgres and the [outpost-api-service](https://github.com/wearefuturegov/outpost-api-service) on your machine.
+
+- Outpost: [http://localhost:3000](http://localhost:3000)
+- Outpost API service: [http://localhost:3001](http://localhost:3001)
+- You can connect to the the postgres database locally using `localhost:5433`
+- You can connect to the mongo database locally using `localhost:27018`
+
+You can log in with `example@example.com` and the initial password you set [in the configuration](#-configuration)
+
+See [configuration](#-configuration) for setting up environmental variables.
+
+If you need to you can build the dev-base image locally, you will need to update the Dockerfile FROM to use your local version.
+
+```sh
+docker build --progress=plain -f .docker/images/dev-base/Dockerfile -t outpost-dev-base .
 ```
 
 **Populate with dummy data**
@@ -129,13 +141,9 @@ docker compose exec outpost bin/rails SEED_ADMIN_USER=true db:seed
 
 # create dummy data
 docker compose exec outpost bin/rails SEED_DUMMY_DATA=true db:seed
-
-
-
 ```
 
-The database will be seeded with realistic fake data as well as the default data and initial admin user required.
-The application will be running on `localhost:3000`. You can log in with `example@example.com` and the initial password you set [in the configuration](#-configuration).
+The application will be running on `localhost:3000`.
 
 **Run the rails console**
 
