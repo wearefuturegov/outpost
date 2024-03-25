@@ -1,6 +1,6 @@
 # This action pre-builds the dev-base image and pushes it to the GitHub Container Registry (GHCR)
 
-name: Deploy dev-base image to github container registry
+name: Deploy outpost image to github container registry
 
 on:
   push:
