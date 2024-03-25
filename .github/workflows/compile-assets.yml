@@ -1,0 +1,35 @@
+# This code from https://dev.to/vvo/a-rails-and-postgresql-setup-for-github-actions-ci-nc8
+# and https://dev.to/jennapederson/github-actions-in-action-2c5
+
+name: Run tests
+
+env:
+  RAILS_ENV: production
+  NODE_ENV: production
+  NODE_OPTIONS: --openssl-legacy-provider
+
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@main
+
+      - name: Install required Node.js version
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+
+      - name: Install required Ruby version
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: Yarn install
+        run: yarn --frozen-lockfile
+
+      - name: Compile assets
+        run: bin/bundle exec rails assets:precompile
