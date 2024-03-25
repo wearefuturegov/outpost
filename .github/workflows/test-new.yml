@@ -1,0 +1,58 @@
+# This code from https://dev.to/vvo/a-rails-and-postgresql-setup-for-github-actions-ci-nc8
+# and https://dev.to/jennapederson/github-actions-in-action-2c5
+
+name: Run tests in herokuish
+
+env:
+  RAILS_ENV: test
+  NODE_ENV: development
+
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:13.7-alpine
+        env:
+          POSTGRES_USER: outpost
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: outpost_test
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+      mongo:
+        image: mongo:6
+        env:
+          MONGO_INITDB_ROOT_USERNAME: outpost
+          MONGO_INITDB_ROOT_PASSWORD: password
+        ports:
+          - 27017:27017
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@main
+
+      - name: Setup database
+        env:
+          RAILS_ENV: test
+          DATABASE_URL: postgresql://outpost:password@localhost:5432/outpost_test
+          DB_URI: mongodb://outpost:password@localhost:27017/outpost_development?authSource=admin
+        run: |
+          bundle exec rails db:drop
+          bundle exec rails db:create
+          bundle exec rails db:migrate
+
+      - name: Run tests
+        env:
+          RAILS_ENV: test
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+          OFSTED_FEED_API_ENDPOINT: https://test-ofsted-feed.stub # this is not a real url, we just need an env variable set for the stub to work in tests
+          DATABASE_URL: postgresql://outpost:password@localhost:5432/outpost_test
+        run: |
+          docker run -v ${{ github.workspace }}:/app --workdir /app gliderlabs/herokuish:latest bash -c "/bin/herokuish buildpack test"
+
+      - name: Upload report to Codecov
+        uses: codecov/codecov-action@v2
