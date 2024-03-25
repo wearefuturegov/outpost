@@ -43,7 +43,13 @@ jobs:
           DATABASE_URL: postgresql://outpost:password@host.docker.internal:5432/outpost_test
           DB_URI: mongodb://root:password@host.docker.internal:27017/outpost_development?authSource=admin
         run: |
-          docker run -v ${{ github.workspace }}:/app --workdir /app gliderlabs/herokuish:latest bash -c "/bin/herokuish buildpack test"
+          docker run \
+          -e RAILS_ENV=test \
+          -e GOOGLE_API_KEY="${{ secrets.GOOGLE_API_KEY }}" \
+          -e OFSTED_FEED_API_ENDPOINT="https://test-ofsted-feed.stub" \
+          -e DATABASE_URL="postgresql://outpost:password@host.docker.internal:5432/outpost_test" \
+          -e DB_URI="mongodb://root:password@host.docker.internal:27017/outpost_development?authSource=admin" \
+          -v ${{ github.workspace }}:/app --workdir /app gliderlabs/herokuish:latest bash -c "/bin/herokuish buildpack test"
 
       - name: Upload report to Codecov
         uses: codecov/codecov-action@v2
