@@ -6,7 +6,7 @@ services:
     image: "outpost:development"
     container_name: outpost
     # use if you just want to keep the container running
-    command: ["tail", "-f", "/dev/null"]
+    # command: ["tail", "-f", "/dev/null"]
     # uncomment for 'prod' like env locally
     # command: ["bin/bundle", "exec", "puma", "-C", "config/puma.rb"]
     init: true
@@ -28,7 +28,8 @@ services:
       # uncomment for 'prod' like env locally
       # NODE_ENV: production
       # RAILS_ENV: production
-      SHOW_ENV_BANNER: ${SHOW_ENV_BANNER:-outpost development}
+      OFSTED_FEED_API_ENDPOINT: ${OFSTED_FEED_API_ENDPOINT:-https://test-ofsted-feed.stub} # this is not a real url, we just need an env variable set for the stub to work in tests
+      SHOW_ENV_BANNER: ${SHOW_ENV_BANNER:-outpost docker development}
       DB_URI: ${DB_URI:-mongodb://mongo:27017/outpost_api_development}
       DATABASE_URL: ${DATABASE_URL:-postgresql://outpost:password@postgres:5432/outpost?}
     networks:
