@@ -22,28 +22,6 @@
 
 [![Run tests](https://github.com/wearefuturegov/outpost/workflows/Run%20tests/badge.svg)](https://github.com/wearefuturegov/outpost/actions)
 
-- [Introduction](#introduction)
-- [🌏 Deployment](#🌏-deployment)
-  - [🧱 Tech stack](#🧱-tech-stack)
-  - [🪄 Requirements](#🪄-requirements)
-  - [🌎 Running it on the web](#🌎-running-it-on-the-web)
-  - [💻 Running it locally](#💻-running-it-locally)
-- [🪴 Usage](#🪴-usage)
-- [🧬 Configuration](#🧬-configuration)
-  - [Environmental Variables](#environmental-variables)
-  - [Tasks](#tasks)
-  - [Settings page](#settings-page)
-- [✨ Features](#✨-features)
-  - [Outpost API](#outpost-api)
-  - [Data import](#data-import)
-  - [OAuth provider](#oauth-provider)
-  - [File uploads](#file-uploads)
-  - [Ofsted integration](#ofsted-integration)
-  - [Directories](#directories)
-- [🧪 Tests](#🧪-tests)
-  - [Code coverage](#code-coverage)
-  - [Compile assets](#compile-assets)
-
 # Introduction
 
 Outpost is a [standards-driven](https://opencommunity.org.uk/) service management application, API and comprehensive set of admin tools for managing records about local community services, groups and activities. It is part of the [Outpost Platform](https://outpost-platform.wearefuturegov.com/).
@@ -58,9 +36,11 @@ It can also act as an OAuth provider via [Doorkeeper](https://github.com/doorkee
 
 - Ruby on rails
 - PostgreSQL database
-- MongoDB database for use with [Outpost API](https://github.com/wearefuturegov/outpost-api-service/)
+- MongoDB database for use with [Outpost API](https://github.com/wearefuturegov/outpost-api-service/) (optional)
 
 ## 🌎 Running it on the web
+
+### Deploying using heroku (recommended)
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
@@ -68,36 +48,13 @@ For more information see [getting started](https://github.com/wearefuturegov/out
 
 Outpost is suitable for 12-factor app hosting like [Heroku](http://heroku.com). It has a `Procfile` that will [automatically run](https://devcenter.heroku.com/articles/release-phase) pending rails migrations on every deploy, to reduce downtime.
 
-When deploying Outpost you will need to setup schedule specific tasks, see [configuration](#🧬-configuration) for more information.
+> 🚨 When deploying Outpost you will need to schedule specific tasks, see [configuration](#-configuration) for more information.
 
-**Deploying using docker**
+### Deploying using docker
 
 Since Outpost is designed to be simple to setup we recommend using 12-factor app hosting such as [Heroku](http://heroku.com). However we do provide a docker image to host your own instance.
 
-To deploy your application using docker:
-
-```sh
-	docker run -t -i \
-		-e PORT=3000 \
-		-p 3000:3000/tcp \
-		ghcr.io/wearefuturegov/outpost:latest
-```
-
-or you can use [docker-compose.production.yml](docker-compose.production.yml) as an example `docker compose -f docker-compose.production.yml up -d`
-
 Please not that heroku will automatically setup `SECRET_KEY_BASE` for you but in docker you will need to do this manually.
-
-Generate a key by running:
-
-```sh
-rake secret
-```
-
-Run the following to create the values
-
-```sh
-bin/rails credentials:edit --environment production
-```
 
 ## 💻 Running it locally
 
@@ -123,12 +80,6 @@ This will setup outpost, mongo, postgres and the [outpost-api-service](https://g
 You can log in with `example@example.com` and the initial password you set [in the configuration](#-configuration)
 
 See [configuration](#-configuration) for setting up environmental variables.
-
-If you need to you can build the dev-base image locally, you will need to update the Dockerfile FROM to use your local version.
-
-```sh
-docker build --progress=plain -f .docker/images/dev-base/Dockerfile -t outpost-dev-base .
-```
 
 **Populate with dummy data**
 
@@ -161,6 +112,14 @@ docker compose exec outpost bundle exec rspec
 
 ```sh
 docker compose exec outpost rake
+```
+
+**Outpost dev-base**
+
+If you need to you can build the `outpost-dev-base` image locally, you will need to update the Dockerfile FROM to use your local version as well.
+
+```sh
+docker build --progress=plain -f .docker/images/dev-base/Dockerfile -t outpost-dev-base .
 ```
 
 # 🪴 Usage
@@ -233,7 +192,7 @@ The following ENV variables are or will soon be deprecated.
 
 ## Tasks
 
-Outpost depends on on several important [`rake`](https://guides.rubyonrails.org/v3.2/command_line.html) tasks.
+Outpost depends on on several important [`rake`](https://guides.rubyonrails.org/v3.2/command_line.html) tasks. To run these tasks use `bin/rake task:name`.
 
 Some of these can be run manually, and some are best scheduled using [Heroku Scheduler](https://devcenter.heroku.com/articles/scheduler) or similar.
 
@@ -250,7 +209,7 @@ Some of these can be run manually, and some are best scheduled using [Heroku Sch
 
 There is a settings page located at `/admin/settings/edit` where you can configure certain aspects of the Outpost interface.
 
-A user will need to have the `superadmin` permission in order to access this page.
+A user will need to have the `superadmin` permission in order to access this page. This permission can currently only be set through the command line.
 
 # ✨ Features
 
@@ -258,7 +217,7 @@ A user will need to have the `superadmin` permission in order to access this pag
 
 Outpost's API component relies on a public index stored on MongoDB.
 
-You can run `rails build_public_index` to build the public index for the first time. Active record callbacks keep it up to date as services are changed.
+You can run `bin/rails build_public_index` to build the public index for the first time. Active record callbacks keep it up to date as services are changed.
 
 ## Data import
 

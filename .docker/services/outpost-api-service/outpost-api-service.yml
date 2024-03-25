@@ -1,0 +1,14 @@
+version: "3.7"
+services:
+  outpost-api-service:
+    image: ghcr.io/wearefuturegov/outpost-api-service:latest
+    container_name: outpost-api-service
+    environment:
+      NODE_ENV: development
+      FORCE_SSL: false
+      DB_URI: mongodb://${MONGO_INITDB_ROOT_USERNAME:-outpost}:${MONGO_INITDB_ROOT_PASSWORD:-password}@mongo/${MONGO_INITDB_DATABASE:-outpost_api_development}?retryWrites=true&w=majority
+    ports:
+      - 3001:3001
+    networks:
+      - internal_network
+      - external_network

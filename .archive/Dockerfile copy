@@ -1,0 +1,193 @@
+# This Dockerfile is for development and testing purposes ONLY it is not suitable for production use.
+# This is because in production we use buildpacks to create a slug of the application and run that slug in a container.
+# This replicates our setup in heroku and is the best way to ensure that the application runs as expected in production 
+# and that we have a reliable development environment
+
+
+# If you need to leave the container running for example to debug something switch out the init command with 
+# CMD ["tail", "-f", "/dev/null"]
+
+
+
+# if your using these values anywhere new see https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
+
+# ARG HEROKU_STACK=20
+# ARG YARN_VERSION=1.22.19
+# ARG NODE_VERSION=20.9.0
+# ARG RUBY_VERSION=3.0.3
+# ARG BUNDLER_VERSION=2.3.25
+
+
+ARG NODE_ENV=development
+ARG RAILS_ENV=development
+ARG RACK_ENV=development
+ARG APP_ENV=development
+
+# ----------------------------------------------------------------
+# using heroku as our base since we run the production apps on heroku
+# FROM heroku/heroku:$HEROKU_STACK as base_image
+
+# ARG NODE_VERSION
+# ARG RUBY_VERSION
+# ARG BUNDLER_VERSION
+
+# ARG NODE_ENV
+# ARG RAILS_ENV
+# ARG RACK_ENV
+# ARG APP_ENV
+
+# # make this stage non-interactive
+# ENV DEBIAN_FRONTEND=noninteractive
+
+# # updates
+# RUN apt-get update --error-on=any
+
+# # -------------
+# # install node
+# # -------------
+
+# # ca-certificate & curl for node
+# RUN apt-get install -y \
+#   ca-certificates \
+#   curl
+
+
+# # install specific node version from prepackaged binaries
+# ARG NODE_PACKAGE=node-v$NODE_VERSION-linux-x64
+# ARG NODE_HOME=/opt/$NODE_PACKAGE
+# ENV NODE_PATH $NODE_HOME/lib/node_modules
+# ENV PATH $NODE_HOME/bin:$PATH
+# RUN curl https://nodejs.org/dist/v$NODE_VERSION/$NODE_PACKAGE.tar.gz | tar -xzC /opt/
+# # enable yarn
+# RUN corepack enable
+
+# # -------------
+# # install ruby & bundler version
+# # -------------
+
+# # install rbenv + its dependencies
+# RUN apt-get install -y autoconf \
+#   patch \
+#   build-essential \
+#   rustc \
+#   libssl-dev \
+#   libyaml-dev \
+#   libreadline6-dev \
+#   zlib1g-dev \
+#   libgmp-dev \
+#   libncurses5-dev \
+#   libffi-dev \
+#   libgdbm6 \
+#   libgdbm-dev \
+#   libdb-dev \
+#   uuid-dev 
+# RUN apt-get install -y rbenv
+# # ubuntu ruby-build package is too old to get the version we need
+# RUN git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby-build
+# RUN git -C "$(rbenv root)"/plugins/ruby-build pull
+# RUN rbenv install --verbose $RUBY_VERSION
+# RUN rbenv global $RUBY_VERSION
+
+
+# # install bundler 
+# RUN gem install bundler:$BUNDLER_VERSION
+
+
+# # check everything is all good
+# WORKDIR /usr/build/app
+# COPY ./.docker/bin/check-versions.sh /usr/build/app/bin/check-versions.sh
+# RUN chmod a+x ./usr/build/app/bin/check-versions.sh
+# RUN ./usr/build/app/bin/check-versions.sh
+
+
+# ----------------------------------------------------------------
+FROM --platform=linux/amd64 outpost:dev-base as install
+
+# USER outpost-user
+
+COPY ./.ruby-version /usr/build/app/.ruby-version
+COPY ./Gemfile /usr/build/app/Gemfile
+COPY ./Gemfile.lock /usr/build/app/Gemfile.lock
+COPY ./package.json /usr/build/app/package.json
+COPY ./yarn.lock /usr/build/app/yarn.lock
+
+
+RUN export PATH="$HOME/.rbenv/bin:$PATH"
+RUN eval "$(rbenv init -)"
+RUN rbenv global $(cat .ruby-version)
+
+# check everything is all good
+WORKDIR /usr/build/app
+COPY ./.docker/bin/check-versions.sh /usr/build/app/bin/check-versions.sh
+RUN chmod a+x ./bin/check-versions.sh
+RUN ./bin/check-versions.sh
+
+ARG NODE_ENV
+ARG RAILS_ENV
+ARG RACK_ENV
+ARG APP_ENV
+ENV NODE_ENV=${NODE_ENV}
+ENV RAILS_ENV=${RAILS_ENV}
+ENV RACK_ENV=${RACK_ENV}
+ENV APP_ENV=${APP_ENV}
+
+# -------------
+# install gems
+# -------------
+
+# throw errors if Gemfile has been modified since Gemfile.lock
+RUN if [ "${RAILS_ENV}" = "production" ]; then \
+  bundle config --global frozen 1; fi
+
+RUN if [ "${NODE_ENV}" = "development" ]; then \
+  bundle install; fi
+RUN if [ "${NODE_ENV}" = "production" ]; then \
+  bundle config set --local deployment 'true' && bundle install; fi
+
+
+# -------------
+# install node modules
+# -------------
+RUN if [ "${NODE_ENV}" = "development" ]; then \
+  yarn install; fi
+RUN if [ "${NODE_ENV}" = "production" ]; then \
+  yarn install --frozen-lockfile; fi
+
+WORKDIR /usr/src/app
+RUN chmod +x ./docker-entrypoint.sh
+EXPOSE 3000
+
+
+# ----------------------------------------------------------------
+FROM install as development
+
+ARG NODE_ENV
+ARG RAILS_ENV
+ARG RACK_ENV
+ARG APP_ENV
+ENV NODE_ENV=${NODE_ENV}
+ENV RAILS_ENV=${RAILS_ENV}
+ENV RACK_ENV=${RACK_ENV}
+ENV APP_ENV=${APP_ENV}
+
+ENTRYPOINT ["docker-entrypoint.sh"]
+# CMD ["tail", "-f", "/dev/null"]
+
+
+# ----------------------------------------------------------------
+# not true production but for testing build purposes
+FROM install as production
+
+ARG NODE_ENV
+ARG RAILS_ENV
+ARG RACK_ENV
+ARG APP_ENV
+ENV NODE_ENV=${NODE_ENV}
+ENV RAILS_ENV=${RAILS_ENV}
+ENV RACK_ENV=${RACK_ENV}
+ENV APP_ENV=${APP_ENV}
+
+# COPY --chown=outpost-user:outpost-user . /usr/src/app
+RUN NODE_OPTIONS=--openssl-legacy-provider SECRET_KEY_BASE=dummyvalue bundle exec rails assets:precompile
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["/usr/run/app/init.sh"]

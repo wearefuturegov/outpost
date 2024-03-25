@@ -9,12 +9,8 @@
 
 # Ignore all logfiles and tempfiles.
 /log/*
-/tmp/*
-/tmp/pids/*
+/tmp
 !/log/.keep
-!/tmp/.keep
-!/tmp/pids
-!/tmp/pids/.keep
 
 # Ignore uploaded files in development.
 /storage/*

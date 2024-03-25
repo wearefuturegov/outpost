@@ -1,0 +1,24 @@
+ARG STACK_VERSION=20
+
+FROM  --platform=linux/amd64 gliderlabs/herokuish:latest-${STACK_VERSION} AS build
+COPY . /tmp/app
+ENV NODE_ENV=production
+# tmp NODE_OPTIONS for now
+ENV NODE_OPTIONS=--openssl-legacy-provider 
+RUN (cat /tmp/app/app.json || echo '{}') | jq -r '.buildpacks[].url' > /tmp/app/.buildpacks && \
+  (test -s /tmp/app/.buildpacks || rm /tmp/app/.buildpacks)
+RUN /build && \
+  rm -Rf /tmp/* 
+RUN herokuish slug generate && \
+  herokuish slug export > /app.tar.gz
+
+FROM gliderlabs/herokuish:latest-${STACK_VERSION}
+ENV PORT 3000
+ENV NODE_ENV=production
+# tmp NODE_OPTIONS for now
+ENV NODE_OPTIONS=--openssl-legacy-provider 
+COPY --from=0 /etc /etc
+RUN --mount=type=bind,from=build,source=/app.tar.gz,target=/app.tar.gz \
+  herokuish slug import < /app.tar.gz
+ENTRYPOINT [ "/start" ]
+CMD [ "web" ]

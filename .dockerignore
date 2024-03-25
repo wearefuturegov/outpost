@@ -42,11 +42,6 @@ yarn-error.log*
 !/log/.keep
 
 # tmp
-/tmp/*
-/tmp/pids/*
-!/tmp/.keep
-!/tmp/pids
-!/tmp/pids/.keep
 *.swp
 *~
 .DS_Store

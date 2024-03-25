@@ -5,70 +5,68 @@ services:
   outpost:
     image: "outpost:development"
     container_name: outpost
+    # use if you just want to keep the container running
     # command: ["tail", "-f", "/dev/null"]
+    # uncomment for 'prod' like env locally
+    # command: ["bin/bundle", "exec", "puma", "-C", "config/puma.rb"]
     init: true
     depends_on:
       - postgres
       - mongo
+    platform: linux/amd64
     build:
       context: .
-      target: ${RAILS_ENV:-development}
-      args:
-        NODE_ENV: ${NODE_ENV:-development}
-        RAILS_ENV: ${RAILS_ENV:-development}
+      # uncomment for 'prod' like env locally
+      # NODE_ENV: production
+      # RAILS_ENV: production
+      # RACK_ENV: production
+      # APP_ENV: production
     ports:
       - 3000:3000
     volumes:
       - ./:/usr/src/app:cached
+      - /usr/src/app/node_modules
     environment:
-      NODE_ENV: ${NODE_ENV:-development}
-      RAILS_ENV: ${RAILS_ENV:-development}
-      RACK_ENV: ${RACK_ENV:-development}
-      APP_ENV: ${APP_ENV:-development}
+      # uncomment for 'prod' like env locally
+      # NODE_ENV: production
+      # RAILS_ENV: production
+      # RACK_ENV: production
+      # APP_ENV: production
+      SHOW_ENV_BANNER: ${SHOW_ENV_BANNER:-outpost development}
       DB_URI: ${DB_URI:-mongodb://mongo:27017/outpost_api_development}
       DATABASE_URL: ${DATABASE_URL:-postgresql://outpost:password@postgres:5432/outpost?}
-      RAILS_SERVE_STATIC_FILES: ${RAILS_SERVE_STATIC_FILES:-false}
-      SECRET_KEY_BASE: ${SECRET_KEY_BASE}
     networks:
-      - outpost_external_network
-      - outpost_internal_network
+      - external_network
+      - internal_network
+
+  outpost-api-service:
+    extends:
+      file: ./.docker/services/outpost-api-service/outpost-api-service.yml
+      service: outpost-api-service
+    depends_on:
+      - mongo
 
   # Databases
 
   postgres:
-    image: postgres:13.7-alpine
-    container_name: outpost-db-postgres
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER:-outpost}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
-      POSTGRES_DB: ${POSTGRES_DB:-outpost_development}
-    ports:
-      - 5432:5432
-    volumes:
-      - outpost-postgres-volume:/var/lib/postgresql/data
+    extends:
+      file: ./.docker/services/postgres/postgres.yml
+      service: postgres
     networks:
-      - outpost_internal_network
-      - outpost_external_network
+      - external_network
 
   mongo:
-    image: mongo:6
-    container_name: outpost-db-mongo
-    ports:
-      - 27017:27017
-    volumes:
-      - outpost-mongo-volume:/data/db
-      - ./environment/containers/mongo/setup-mongodb.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
-    environment:
-      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE:-outpost_api_development}
+    extends:
+      file: ./.docker/services/mongo/mongo.yml
+      service: mongo
     networks:
-      - outpost_internal_network
-      - outpost_external_network
+      - external_network
 
 volumes:
-  outpost-postgres-volume:
-  outpost-mongo-volume:
+  mongo-volume:
+  postgres-volume:
 
 networks:
-  outpost_external_network:
-  outpost_internal_network:
+  external_network:
+  internal_network:
     internal: true
