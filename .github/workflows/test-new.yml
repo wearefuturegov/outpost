@@ -35,10 +35,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@main
 
-      - name: Install required Ruby version
-        uses: ruby/setup-ruby@v1
-        with:
-          bundler-cache: true
+      # - name: Install required Ruby version
+      #   uses: ruby/setup-ruby@v1
+      #   with:
+      #     bundler-cache: true
 
       - name: Run tests
         env:
