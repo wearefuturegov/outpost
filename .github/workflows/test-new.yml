@@ -30,6 +30,10 @@ jobs:
           MONGO_INITDB_ROOT_PASSWORD: password
         ports:
           - 27017:27017
+      herokuish:
+        image: gliderlabs/herokuish:latest
+        options: >-
+          --mount type=bind,source=${{ github.workspace }},target=/app
 
     steps:
       - name: Checkout repository
@@ -43,13 +47,13 @@ jobs:
           DATABASE_URL: postgresql://outpost:password@localhost:5432/outpost_test
           DB_URI: mongodb://root:password@localhost:27017/outpost_development?authSource=admin
         run: |
-          docker run \
+          docker exec \
           -e RAILS_ENV=test \
           -e GOOGLE_API_KEY="${{ secrets.GOOGLE_API_KEY }}" \
           -e OFSTED_FEED_API_ENDPOINT="https://test-ofsted-feed.stub" \
           -e DATABASE_URL="postgresql://outpost:password@localhost:5432/outpost_test" \
           -e DB_URI="mongodb://root:password@localhost:27017/outpost_development?authSource=admin" \
-          -v ${{ github.workspace }}:/app --workdir /app gliderlabs/herokuish:latest bash -c "/bin/herokuish buildpack test"
+          herokuish bash -c "/bin/herokuish buildpack test"
 
       - name: Upload report to Codecov
         uses: codecov/codecov-action@v2
