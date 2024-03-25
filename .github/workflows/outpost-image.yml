@@ -1,0 +1,32 @@
+# This action pre-builds the dev-base image and pushes it to the GitHub Container Registry (GHCR)
+
+name: Deploy dev-base image to github container registry
+
+on:
+  push:
+    branches: [feature/refine-docker-approach]
+
+jobs:
+  push-outpost-image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout GitHub Action"
+        uses: actions/checkout@main
+
+      - name: "Login to GitHub Container Registry"
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{github.actor}}
+          password: ${{secrets.GITHUB_TOKEN}}
+
+      - name: Build and push outpost docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          tags: ghcr.io/wearefuturegov/outpost:test
+          file: Dockerfile.production
+          platforms: ${{ matrix.platforms }}
+          push: true
+          outputs: type=image,name=target,annotation-index.org.opencontainers.image.description=Outpost image
+          labels: org.opencontainers.image.source=https://github.com/wearefuturegov/outpost

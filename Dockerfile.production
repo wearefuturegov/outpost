@@ -1,5 +1,10 @@
 ARG STACK_VERSION=20
 
+# ------------
+# add application code to herokuish container
+# build application (and install correct buildpacks from app.json along with it)
+# generate slug as app.tar.gz
+# ------------
 FROM  --platform=linux/amd64 gliderlabs/herokuish:latest-${STACK_VERSION} AS build
 COPY . /tmp/app
 ENV NODE_ENV=production
@@ -12,6 +17,10 @@ RUN /build && \
 RUN herokuish slug generate && \
   herokuish slug export > /app.tar.gz
 
+# ------------
+# open herokuish container and import built slug from previous stage skipping build steps
+# run the application
+# ------------
 FROM gliderlabs/herokuish:latest-${STACK_VERSION}
 ENV PORT 3000
 ENV NODE_ENV=production
