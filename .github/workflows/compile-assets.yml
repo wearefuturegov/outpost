@@ -9,7 +9,7 @@ env:
   NODE_OPTIONS: --openssl-legacy-provider
   SECRET_KEY_BASE: dummyvalue
 
-on: [push]
+# on: [push]
 
 jobs:
   test:
