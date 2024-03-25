@@ -5,8 +5,8 @@ name: Deploy dev-base image to github container registry
 on:
   push:
     branches: [feature/refine-docker-approach]
-    paths:
-      - ".docker/images/dev-base/**"
+    # paths:
+    # - ".docker/images/dev-base/**"
   schedule:
     # At 08:00 on day-of-month 1 (https://crontab.guru/#0_8_1_*_*)
     - cron: "0 8 1 * *"
@@ -25,10 +25,13 @@ jobs:
           username: ${{github.actor}}
           password: ${{secrets.GITHUB_TOKEN}}
 
-      - name: "Build dev-base Image"
-        run: |
-          docker build \
-          --label "org.opencontainers.image.source=https://github.com/wearefuturegov/outpost" \
-          --label "org.opencontainers.image.description=Outpost dev base image" \
-          -f ".docker/images/dev-base/Dockerfile" --tag ghcr.io/wearefuturegov/outpost:dev-base .
-          docker push ghcr.io/wearefuturegov/outpost:dev-base
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          tags: ghcr.io/wearefuturegov/outpost:dev-base
+          file: .docker/images/dev-base/Dockerfile
+          platforms: ${{ matrix.platforms }}
+          push: true
+          outputs: type=image,name=target,annotation-index.org.opencontainers.image.description=Outpost dev base image
+          labels: org.opencontainers.image.source=https://github.com/wearefuturegov/outpost
