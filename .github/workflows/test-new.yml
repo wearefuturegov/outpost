@@ -35,17 +35,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@main
 
-      # - name: Install required Ruby version
-      #   uses: ruby/setup-ruby@v1
-      #   with:
-      #     bundler-cache: true
-
       - name: Run tests
         env:
           RAILS_ENV: test
           GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
           OFSTED_FEED_API_ENDPOINT: https://test-ofsted-feed.stub # this is not a real url, we just need an env variable set for the stub to work in tests
-          DATABASE_URL: postgresql://outpost:password@localhost:5432/outpost_test
+          DATABASE_URL: postgresql://outpost:password@host.docker.internal:5432/outpost_test
+          DB_URI: mongodb://root:password@host.docker.internal:27017/outpost_development?authSource=admin
         run: |
           docker run -v ${{ github.workspace }}:/app --workdir /app gliderlabs/herokuish:latest bash -c "/bin/herokuish buildpack test"
 
