@@ -12,7 +12,7 @@ on:
     - cron: "0 8 1 * *"
 
 jobs:
-  push-store-image:
+  push-dev-base-image:
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout GitHub Action"
@@ -25,11 +25,11 @@ jobs:
           username: ${{github.actor}}
           password: ${{secrets.GITHUB_TOKEN}}
 
-      - name: Build and push Docker image
+      - name: Build and push dev-base docker image
         uses: docker/build-push-action@v5
         with:
           context: .
-          tags: ghcr.io/wearefuturegov/outpost:dev-base
+          tags: ghcr.io/wearefuturegov/outpost-dev-base
           file: .docker/images/dev-base/Dockerfile
           platforms: ${{ matrix.platforms }}
           push: true
