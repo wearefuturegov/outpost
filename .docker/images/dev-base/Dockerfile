@@ -14,11 +14,6 @@ ARG NODE_VERSION=20.9.0
 ARG RUBY_VERSION=3.0.3
 ARG BUNDLER_VERSION=2.3.25
 
-ARG NODE_ENV=production
-ARG RAILS_ENV=production
-ARG RACK_ENV=production
-ARG APP_ENV=production
-
 # ----------------------------------------------------------------
 # using heroku as our base since we run the production apps on heroku
 FROM heroku/heroku:$HEROKU_STACK
@@ -26,11 +21,6 @@ FROM heroku/heroku:$HEROKU_STACK
 ARG NODE_VERSION
 ARG RUBY_VERSION
 ARG BUNDLER_VERSION
-
-ARG NODE_ENV
-ARG RAILS_ENV
-ARG RACK_ENV
-ARG APP_ENV
 
 # make this stage non-interactive
 ENV DEBIAN_FRONTEND=noninteractive

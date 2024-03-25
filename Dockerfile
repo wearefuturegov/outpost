@@ -10,8 +10,6 @@
 # we don't set any defaults here on purpose as we will mostly use this as a development environment not setting an env value lets us run tests in the container easily
 ARG NODE_ENV
 ARG RAILS_ENV
-ARG RACK_ENV
-ARG APP_ENV
 
 # ----------------------------------------------------------------
 FROM ghcr.io/wearefuturegov/outpost-dev-base:latest as install
@@ -50,12 +48,8 @@ RUN ./.docker/bin/check-versions.sh
 # set the environment variables
 ARG NODE_ENV
 ARG RAILS_ENV
-ARG RACK_ENV
-ARG APP_ENV
 ENV NODE_ENV=${NODE_ENV}
 ENV RAILS_ENV=${RAILS_ENV}
-ENV RACK_ENV=${RACK_ENV}
-ENV APP_ENV=${APP_ENV} 
 
 # -------------
 # install gems
@@ -66,7 +60,7 @@ RUN if [ "${RAILS_ENV}" = "production" ]; then \
   bundle config --global frozen 1; fi
 
 RUN if [ "${RAILS_ENV}" = "development" ] || [ -z "${RAILS_ENV}" ]; then \
-  bundle install; fi
+  bundle install --verbose; fi
 RUN if [ "${RAILS_ENV}" = "production" ]; then \
   bundle config set --local deployment 'true' && bundle install; fi
 
