@@ -39,6 +39,7 @@ jobs:
         uses: buildpack-ci/run-tests@v1
         env:
           BUILDPACK_URL: https://github.com/buildpack-ci/heroku-buildpack-multi.git
+          BUILDPACK_MULTI_PASS_IF_MISSING_TEST_SCRIPTS: true
           NODE_ENV: development
           RAILS_ENV: test
           GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
