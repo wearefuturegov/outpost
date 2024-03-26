@@ -1,9 +1,13 @@
-# This Dockerfile is for development and testing purposes ONLY it is not suitable for production use.
-# This is because in production we use buildpacks to create a slug of the application and run that slug in a container.
-# This replicates our setup in heroku and is the best way to ensure that the application runs as expected in production 
-# and that we have a reliable development environment
+#
+# This Dockerfile is for DEVELOPMENT and TESTING purposes ONLY it is not suitable for production use, its huge and has a lot of unnecessary packages!
+#
+# If you don't have an M* mac you probably don't need to use this but it might make setting things up a little easier for you
+#
+# We're using heroku in production and which uses slugs 🐌 and buildpacks run in a container this solution gives us as close to that environment as possible locally; 
+# an ubuntu environment based off the currently used heroku stack with the same versions of node, ruby, yarn, bundler that we're given inside heroku
 
-# If you need to leave the container running for example to debug something switch out the init command with 
+
+# If you need to leave the container running for example to debug something you can use the following command to keep it running
 # CMD ["tail", "-f", "/dev/null"]
 
 # if your using these values anywhere new see https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
@@ -24,6 +28,7 @@ RUN apt-get update --error-on=any
 RUN apt-get install -y \
   libpq-dev \
   postgresql
+
 # for chrome for tests
 RUN apt-get install -y \
   gconf-service \
@@ -50,14 +55,35 @@ RUN apt-get install -y \
   libxshmfence1 \
   libxss1 \
   libxtst6 \
-  fonts-liberation 
+  fonts-liberation \
+  jq
 
-# Chrome instalation 
-RUN curl -LO  https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-RUN apt-get install -y ./google-chrome-stable_current_amd64.deb
-RUN rm google-chrome-stable_current_amd64.deb
-# Check chrome version
-RUN echo "Chrome: " && google-chrome --version
+
+# Fetch the latest version numbers and URLs for Chrome and ChromeDriver
+RUN curl -s https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions-with-downloads.json > /tmp/versions.json
+
+# chrome
+RUN CHROME_URL=$(jq -r '.channels.Stable.downloads.chrome[] | select(.platform=="linux64") | .url' /tmp/versions.json) && \
+  wget -q --continue -O /tmp/chrome-linux64.zip $CHROME_URL && \
+  unzip -j /tmp/chrome-linux64.zip -d /opt/chrome
+
+RUN chmod +x /opt/chrome/chrome
+
+# chromedriver
+RUN CHROMEDRIVER_URL=$(jq -r '.channels.Stable.downloads.chromedriver[] | select(.platform=="linux64") | .url' /tmp/versions.json) && \
+  wget -q --continue -O /tmp/chromedriver-linux64.zip $CHROMEDRIVER_URL && \
+  unzip -j /tmp/chromedriver-linux64.zip -d /opt/chromedriver && \
+  chmod +x /opt/chromedriver/chromedriver
+
+# Clean up
+RUN rm /tmp/chrome-linux64.zip /tmp/chromedriver-linux64.zip /tmp/versions.json
+
+ENV PATH /opt/chrome:/opt/chromedriver:$PATH
+RUN echo 'export PATH="/opt/chrome:/opt/chromedriver:$PATH"' >> ~/.bashrc
+
+# Check chrome & chromedriver versions
+RUN echo "Chrome: " && chrome --version
+RUN echo "Chromedriver: " && chromedriver --version
 
 USER outpost-user
 

@@ -46,4 +46,6 @@ dev-railsc:
 	docker compose exec outpost bin/rails c
 
 dev-tests:
+	# docker compose exec outpost bash -c "NODE_ENV=development RAILS_ENV=test bundle exec rspec ./spec/features/filtering_services_spec.rb:64"
+	# docker compose exec outpost bash -c "NODE_ENV=development RAILS_ENV=test bundle exec rspec ./spec/features/test_for_tests.rb"
 	docker compose exec outpost bash -c "NODE_ENV=development RAILS_ENV=test bundle exec rspec"
