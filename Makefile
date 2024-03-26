@@ -46,6 +46,12 @@ dev-railsc:
 	docker compose exec outpost bin/rails c
 
 dev-tests:
-	# docker compose exec outpost bash -c "NODE_ENV=development RAILS_ENV=test bundle exec rspec ./spec/features/filtering_services_spec.rb:64"
-	# docker compose exec outpost bash -c "NODE_ENV=development RAILS_ENV=test bundle exec rspec ./spec/features/test_for_tests.rb"
-	docker compose exec outpost bash -c "NODE_ENV=development RAILS_ENV=test bundle exec rspec"
+	# docker compose exec outpost bash -c "DISABLE_SPRING=1 NODE_ENV=development RAILS_ENV=test bundle exec rspec ./spec/features/filtering_services_spec.rb:64"
+	# docker compose exec outpost bash -c "DISABLE_SPRING=1 NODE_ENV=development RAILS_ENV=test bundle exec rspec ./spec/features/test_for_tests.rb"
+	docker compose exec outpost bash -c "DISABLE_SPRING=1 NODE_ENV=development RAILS_ENV=test bundle exec rspec"
+
+dev-rake:
+	docker compose exec outpost bash -c "DISABLE_SPRING=1 NODE_ENV=development RAILS_ENV=test rake"
+
+dev-coverage:
+	open coverage/index.html
