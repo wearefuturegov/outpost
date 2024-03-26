@@ -20,7 +20,7 @@
 
 ---
 
-[![Run tests](https://github.com/wearefuturegov/outpost/workflows/Run%20tests/badge.svg)](https://github.com/wearefuturegov/outpost/actions)
+[![Run tests](https://github.com/wearefuturegov/outpost/workflows/Run%20tests/badge.svg)](https://github.com/wearefuturegov/outpost/actions) [![codecov](https://codecov.io/gh/wearefuturegov/outpost/graph/badge.svg?token=6NXNU2KAGC)](https://codecov.io/gh/wearefuturegov/outpost)
 
 # Introduction
 
