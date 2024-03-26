@@ -93,4 +93,10 @@ jobs:
           bundle exec rspec
 
       - name: Upload report to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+          with:
+            # fail_ci_if_error: true # optional (default = false)
+            files: coverage/coverage.xml # optional
+            verbose: true # optional (default = false)
