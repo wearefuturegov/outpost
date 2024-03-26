@@ -8,8 +8,8 @@
 
 # if your using these values anywhere new see https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
 # we don't set any defaults here on purpose as we will mostly use this as a development environment not setting an env value lets us run tests in the container easily
-ARG NODE_ENV
-ARG RAILS_ENV
+ARG NODE_ENV=development
+ARG RAILS_ENV=development
 
 # ----------------------------------------------------------------
 FROM ghcr.io/wearefuturegov/outpost-dev-base:latest as install
@@ -24,6 +24,41 @@ RUN apt-get update --error-on=any
 RUN apt-get install -y \
   libpq-dev \
   postgresql
+# for chrome for tests
+RUN apt-get install -y \
+  gconf-service \
+  libappindicator1 \
+  libasound2 \
+  libatk1.0-0 \
+  libatk-bridge2.0-0 \
+  libcairo-gobject2 \
+  libdrm2 \
+  libgbm1 \
+  libgconf-2-4 \
+  libgtk-3-0 \
+  libnspr4 \
+  libnss3 \
+  libx11-xcb1 \
+  libxcb-dri3-0 \
+  libxcomposite1 \
+  libxcursor1 \
+  libxdamage1 \
+  libxfixes3 \
+  libxi6 \
+  libxinerama1 \
+  libxrandr2 \
+  libxshmfence1 \
+  libxss1 \
+  libxtst6 \
+  fonts-liberation 
+
+# Chrome instalation 
+RUN curl -LO  https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+RUN apt-get install -y ./google-chrome-stable_current_amd64.deb
+RUN rm google-chrome-stable_current_amd64.deb
+# Check chrome version
+RUN echo "Chrome: " && google-chrome --version
+
 USER outpost-user
 
 # set $HOME to outpost-user path for this non-interactive session
