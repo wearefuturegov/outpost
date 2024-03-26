@@ -91,4 +91,4 @@ jobs:
           bundle exec rspec
 
       - name: Upload report to Codecov
-        uses: codecov/codecov-action@v2
+        uses: codecov/codecov-action@v3

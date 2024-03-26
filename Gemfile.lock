@@ -90,8 +90,6 @@ GEM
     closure_tree (7.4.0)
       activerecord (>= 4.2.10)
       with_advisory_lock (>= 4.0.0)
-    codecov (0.5.2)
-      simplecov (>= 0.15, < 0.22)
     concurrent-ruby (1.1.9)
     crass (1.0.6)
     database_cleaner (2.0.2)
@@ -438,7 +436,6 @@ DEPENDENCIES
   byebug
   capybara (>= 2.15)
   closure_tree
-  codecov
   database_cleaner
   devise
   devise-security
