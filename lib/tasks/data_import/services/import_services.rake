@@ -40,9 +40,9 @@ namespace :import do
     initial_validation_has_errors = [import_id_required,import_id_duplicates,import_id_numeric,import_id_reference_numeric,name_duplicate,name_import_id_exist].any?  
 
     if initial_validation_has_errors 
-      puts "😭 Import will fail, data is not valid, see errors above."
+      Rails.logger.info("😭 Import will fail, data is not valid, see errors above.")
     else 
-      puts "🟢 Validation passed, continuing with import 🥁"
+      Rails.logger.info("🟢 Validation passed, continuing with import 🥁")
       import_services(csv_parser)
     end
 
@@ -71,7 +71,7 @@ namespace :import do
       custom_field = CustomField.where(field_type: type).find{|cf| cf.key.downcase.delete("^a-zA-Z0-9 ").gsub(' ', '_') === t}
 
       unless custom_field.present?
-        puts "🟠 Custom field  \"#{t}\" of type #{type} does not exist. Please check the field name or create the custom field in order to add this service data. Perhaps you have forgotten to run the custom field import?"
+        Rails.logger.info("🟠 Custom field  \"#{t}\" of type #{type} does not exist. Please check the field name or create the custom field in order to add this service data. Perhaps you have forgotten to run the custom field import?")
         return
       end
 
@@ -98,7 +98,7 @@ namespace :import do
         state = new_service_meta.new_record? ? 'created' : 'updated'
 
         if new_service_meta.save
-          puts "  🟢 Service meta: #{state} (id #{new_service_meta.id})"
+          Rails.logger.info("  🟢 Service meta: #{state} (id #{new_service_meta.id})")
         else
           abort("  🔴 Service meta: was not created. Exiting. #{new_service_meta.errors.messages}")
         end
@@ -110,7 +110,7 @@ namespace :import do
     if row['import_id_reference'] == nil 
       service = Service.find_by(name: row["name"]&.strip)
       if service
-        puts "🟠 Service: \"#{row["name"]}\" already exists, skipping anything to do with this service (id: #{service.id})."
+        Rails.logger.info("🟠 Service: \"#{row["name"]}\" already exists, skipping anything to do with this service (id: #{service.id}).")
       else
 
         # @TODO to/from date validation
@@ -134,8 +134,8 @@ namespace :import do
         )
         if new_service.save
           service_id = new_service.id
-          puts "🟢 Service: \"#{row["name"]}\" created (id: #{service_id})."
-          puts " 👉 Now adding more to it"
+          Rails.logger.info("🟢 Service: \"#{row["name"]}\" created (id: #{service_id}).")
+          Rails.logger.info(" 👉 Now adding more to it")
 
           # deliminated data
           # Taxonomies
@@ -205,7 +205,7 @@ namespace :import do
       # @TODO this validation should go higher up
       new_service_regular_schedules(service_id, row)
     else 
-      puts "  🟠 No schedule was created as not all fields contained data"
+      Rails.logger.info("  🟠 No schedule was created as not all fields contained data")
     end
 
     # links
@@ -247,7 +247,7 @@ namespace :import do
     end
 
     if new_local_offer
-      puts "  🟢 Local offer: #{state}"
+      Rails.logger.info("  🟢 Local offer: #{state}")
     else 
       abort("  🔴 Local offer: was not created. Exiting. #{new_local_offer.errors.messages}")
     end
@@ -259,7 +259,7 @@ namespace :import do
     send_needs&.split(';')&.collect(&:strip)&.each do |name|
       send_need = service.send_needs.find_or_initialize_by(name: name)
       if send_need.save
-        puts "  🟢 Send need: \"#{name}\" created (id: #{send_need.id})."
+        Rails.logger.info("  🟢 Send need: \"#{name}\" created (id: #{send_need.id}).")
       else
         abort("  🔴 Send need: \"#{name}\" was not created. Exiting. #{send_need.errors.messages}")
       end
@@ -272,7 +272,7 @@ namespace :import do
       suitability = service.suitabilities.find_or_initialize_by(name: name)
 
       if suitability.save
-        puts "  🟢 Suitability: \"#{name}\" created (id: #{suitability.id})."
+        Rails.logger.info("  🟢 Suitability: \"#{name}\" created (id: #{suitability.id}).")
       else
         abort("  🔴 Suitability: \"#{name}\" was not created. Exiting. #{suitability.errors.messages}")
       end
@@ -286,7 +286,7 @@ namespace :import do
       service_taxa = service.service_taxonomies.find_or_initialize_by(taxonomy: taxa)
 
       if service_taxa.save
-        puts "  🟢 Taxonomy: \"#{taxonomy}\" created (id: #{taxa.id})."
+        Rails.logger.info("  🟢 Taxonomy: \"#{taxonomy}\" created (id: #{taxa.id}).")
       else
         abort("  🔴 Taxonomy: \"#{taxonomy}\" was not created. Exiting. #{taxa.errors.messages}")
       end
@@ -299,7 +299,7 @@ namespace :import do
     organisation = Organisation.find_or_initialize_by(name: organisation_name&.strip)
 
     if organisation.save(skip_mongo_callbacks: true)
-      puts "  🟢 Organisation: \"#{organisation.name}\" created (id: #{organisation.id})."
+      Rails.logger.info("  🟢 Organisation: \"#{organisation.name}\" created (id: #{organisation.id}).")
       return organisation
     else 
       abort("  🔴 Organisation: \"#{organisation.name}\" was not created. Exiting. #{organisation.errors.messages}")
@@ -310,7 +310,7 @@ namespace :import do
   def new_service_links(service, row)
     new_link = service.links.find_or_initialize_by(label: row["links_label"], url: row["links_url"])
     if new_link.save
-      puts "  🟢 Link: created (id: #{new_link.id})."
+      Rails.logger.info("  🟢 Link: created (id: #{new_link.id}).")
     else
       abort("  🔴 Link: was not created. Exiting. #{new_link.errors.messages}")
     end
@@ -332,13 +332,13 @@ namespace :import do
         service_id: service_id
       )
       if new_regular_schedule.save
-        puts "  🟢 Regular schedule: created (id: #{new_regular_schedule.id})."
+        Rails.logger.info("  🟢 Regular schedule: created (id: #{new_regular_schedule.id}).")
       else 
         abort("  🔴 Regular schedule: was not created. Exiting. #{new_regular_schedule.errors.messages}")
       end
 
     else 
-      puts " 👉 Regular schedule: wonky hours."
+      Rails.logger.info(" 👉 Regular schedule: wonky hours.")
     end 
   end       
 
@@ -350,7 +350,7 @@ namespace :import do
       cost_type: cost_option_data['cost_type'],
     )
     if new_cost_option.save
-      puts "  🟢 Cost option: created (id: #{new_cost_option.id})."
+      Rails.logger.info("  🟢 Cost option: created (id: #{new_cost_option.id}).")
       return new_cost_option
     else 
       abort("  🔴 Cost option: was not created. Exiting. #{new_cost_option.errors.messages}")
@@ -363,13 +363,13 @@ namespace :import do
     if user.exists?
       new_note = service.notes.new(body: note_data, user_id: user.first.id)
       if new_note.save
-        puts "  🟢 Note: created (id: #{new_note.id})."
+        Rails.logger.info("  🟢 Note: created (id: #{new_note.id}).")
         return new_note.id
       else 
         abort("  🔴 Note: was not created. Exiting. #{new_note.errors.messages}")
       end
     else 
-      puts " 👉 Note: not created as no viable admin user found to give credit to."
+      Rails.logger.info(" 👉 Note: not created as no viable admin user found to give credit to.")
     end
   end    
 
@@ -389,7 +389,7 @@ namespace :import do
     )
 
     if service.save
-      puts "  🟢 Location: \"#{new_location.name}\" created (id: #{new_location.id})."
+      Rails.logger.info("  🟢 Location: \"#{new_location.name}\" created (id: #{new_location.id}).")
 
       if location_data['location_accessibilities'].present?
         location_accessibilities = location_data['location_accessibilities'].split(';').collect(&:strip)
@@ -409,7 +409,7 @@ namespace :import do
   def new_service_contact(service, contact_data)
     contact = service.contacts.find_by(email: contact_data['contact_email']&.strip)
     if contact
-      puts "  👉 NB: contact for this service already exists so not creating them. \"#{contact_data['contact_email']}\"."
+      Rails.logger.info("  👉 NB: contact for this service already exists so not creating them. \"#{contact_data['contact_email']}\".")
       return contact.id
     else 
       new_contact = service.contacts.new(
@@ -420,7 +420,7 @@ namespace :import do
         phone: contact_data['contact_phone']&.strip,
       )
       if new_contact.save
-        puts "🟢 Contact: \"#{new_contact.name}\" created (id: #{new_contact.id})."
+        Rails.logger.info("🟢 Contact: \"#{new_contact.name}\" created (id: #{new_contact.id}).")
         return new_contact.id
       else 
         abort("🔴 Contact: \"#{new_contact.name}\" was not created. Exiting. #{new_contact.errors.messages}")
@@ -435,7 +435,7 @@ namespace :import do
     non_numeric_values = data.filter{|i| !CSV::Converters[:integer].call(i[column_name]).is_a?(Numeric) }
     naughty_values = non_numeric_values.map{|i| " 👉 \"#{i[column_name]}\"" }.join("\n")
     if non_numeric_values.length > 0
-      puts "🔴 Found non numeric data in #{column_name} \n\n#{naughty_values}\n\n"
+      Rails.logger.info("🔴 Found non numeric data in #{column_name} \n\n#{naughty_values}\n\n")
       return true  
     else  
       return false
@@ -448,7 +448,7 @@ namespace :import do
     non_numeric_values = data.filter{|i| !CSV::Converters[:boolean].call(i[column_name]).is_a?(boolean) }
     naughty_values = non_numeric_values.map{|i| " 👉 \"#{i[column_name]}\"" }.join("\n")
     if non_numeric_values.length > 0
-      puts "🔴 Found non boolean data in #{column_name} \n\n#{naughty_values}\n\n"
+      Rails.logger.info("🔴 Found non boolean data in #{column_name} \n\n#{naughty_values}\n\n")
       return true  
     else  
       return false
@@ -462,7 +462,7 @@ namespace :import do
     duplicates = value.filter{ |e| value.count(e) > 1 }.sort.uniq
     naughty_values = duplicates.map{|i| " 👉 \"#{i}\"" }.join("\n")
     if value.uniq.length != value.length
-      puts "🔴 Found some services with the same #{column_name} \n\n#{naughty_values}\n\n"
+      Rails.logger.info("🔴 Found some services with the same #{column_name} \n\n#{naughty_values}\n\n")
       return true
     else
       return false
@@ -474,7 +474,7 @@ namespace :import do
   def check_required_field_exists(csv_data, column_name)
     data = csv_data.select{|item| !item[column_name].nil? }
     if data.length < csv_data.length
-      puts "🔴 Some rows contain empty #{column_name}"
+      Rails.logger.info("🔴 Some rows contain empty #{column_name}")
       return true
     else  
       return false
@@ -486,8 +486,8 @@ namespace :import do
     # import_id !import_id_reference
     data = csv_data.select{|item| item['import_id'].present? && item['import_id_reference'].nil? && item['name'].nil?}
     if data.length > 0
-      puts "🔴 Import id requires a name field"
-      puts data.map{|i| " 👉 \"#{i["import_id"]}\"" }.join("\n")
+      Rails.logger.info("🔴 Import id requires a name field")
+      Rails.logger.info(data.map{|i| " 👉 \"#{i["import_id"]}\"" }.join("\n"))
       return true
     else  
       return false

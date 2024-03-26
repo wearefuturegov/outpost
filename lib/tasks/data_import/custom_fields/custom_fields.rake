@@ -10,10 +10,10 @@ namespace :import do
     initial_validation_passed = validate_custom_field_import_ids(csv_parser) && validate_field_types(csv_parser)
 
     if initial_validation_passed
-      puts "🟢 Validation passed, continuing with import 🥁"
+      Rails.logger.info("🟢 Validation passed, continuing with import 🥁")
       import_sections_and_fields(csv_parser)
     else
-      puts "😭 Import will fail, data is not valid, see errors above."
+      Rails.logger.info("😭 Import will fail, data is not valid, see errors above.")
     end
   end
 
@@ -40,7 +40,7 @@ namespace :import do
     field_rows.each do | row |
       custom_field = CustomField.find_by(key: row["name"]&.strip)
       if custom_field
-        puts "🟠 Field: \"#{row["name"]}\" already exists, skipping."
+        Rails.logger.info("🟠 Field: \"#{row["name"]}\" already exists, skipping.")
       else
         custom_field = CustomField.new(
           key: row["name"]&.strip,
@@ -50,9 +50,9 @@ namespace :import do
           custom_field_section_id: section_id
         )
         if custom_field.save
-          puts "🟢 Field: \"#{row["name"]}\" created (id: #{custom_field.id})."
+          Rails.logger.info("🟢 Field: \"#{row["name"]}\" created (id: #{custom_field.id}).")
         else
-          puts "🟠 Field: \"#{row["name"]}\" failed to save. Continuing with import. #{custom_field.errors.messages}"
+          Rails.logger.info("🟠 Field: \"#{row["name"]}\" failed to save. Continuing with import. #{custom_field.errors.messages}")
         end 
       end
     end
@@ -71,7 +71,7 @@ namespace :import do
     custom_field_section = CustomFieldSection.find_or_initialize_by(name: row["name"]&.strip)
 
     if custom_field_section.persisted?
-      puts "🟠 Section: \"#{row["name"]}\" already exists, assigning any fields to the existing section (id: #{custom_field_section.id})."
+      Rails.logger.info("🟠 Section: \"#{row["name"]}\" already exists, assigning any fields to the existing section (id: #{custom_field_section.id}).")
       return custom_field_section.id
     end
 
@@ -83,7 +83,7 @@ namespace :import do
     }
 
     if custom_field_section.update(section_params)
-      puts "🟢 Section: \"#{row["name"]}\" created (id: #{custom_field_section.id})."
+      Rails.logger.info("🟢 Section: \"#{row["name"]}\" created (id: #{custom_field_section.id}).")
     else
       abort("🔴 Section: \"#{row["name"]}\" was not created. Aborting. #{custom_field_section.errors.messages}")
     end
@@ -98,7 +98,7 @@ namespace :import do
 
     # all rows should have import_id set
     if data.length < csv_data.length
-      puts "🔴 Some rows contain empty import_id"
+      Rails.logger.info("🔴 Some rows contain empty import_id")
       return false
     end
 
@@ -106,7 +106,7 @@ namespace :import do
     ids = data.map{|i| i['import_id']}
     duplicates = ids.filter{ |e| ids.count(e) > 1 }.sort.uniq
     if ids.uniq.length != ids.length
-      puts "🔴 Duplicate import_id's #{duplicates.join(',')}"
+      Rails.logger.info("🔴 Duplicate import_id's #{duplicates.join(',')}")
       return false
     end
 
@@ -122,7 +122,7 @@ namespace :import do
     field_types = data.map{|row| row['field_type']}.uniq.map(&:downcase)
     matches = field_types - CustomField.types.map(&:downcase)
     if matches.length > 0 
-      puts "🔴 Invalid field_types found. Search for these \"#{matches.join(',')}\"\n  ℹ️ Valid field_types: #{CustomField.types.join(',')}"
+      Rails.logger.info("🔴 Invalid field_types found. Search for these \"#{matches.join(',')}\"\n  ℹ️ Valid field_types: #{CustomField.types.join(',')}")
       return false
     end
 
@@ -130,7 +130,7 @@ namespace :import do
     data = csv_data.select{|item| item['field_type'] === "select" && item['field_options'].nil? }
     if data.length > 0 
       naughty_rows = data.map{|i| "  👉  \"#{i["name"]}\"" }.join("\n")
-      puts "🔴 Missing field_options for select fields \n#{naughty_rows}"
+      Rails.logger.info("🔴 Missing field_options for select fields \n#{naughty_rows}")
       return false
     end
 
