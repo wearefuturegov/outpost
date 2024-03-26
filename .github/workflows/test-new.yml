@@ -35,9 +35,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@main
 
-      # - name: create .buildpacks file
-      #   run: (cat /tmp/app/app.json || echo '{}') | jq -r '.buildpacks[].url' > /tmp/app/.buildpacks && \
-      #   (test -s /tmp/app/.buildpacks || rm /tmp/app/.buildpacks)
+      - name: create .buildpacks file
+        run: |
+          (cat app.json || echo '{}') | jq -r '.buildpacks[].url' > .buildpacks && \
+          (test -s .buildpacks || rm .buildpacks)
 
       - name: Run tests
         uses: buildpack-ci/run-tests@v1
