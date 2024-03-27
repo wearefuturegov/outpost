@@ -10,6 +10,10 @@
       "url": "https://github.com/heroku/heroku-buildpack-ruby"
     }
   ],
+  "scripts": {
+    "test-setup": "SECRET_KEY_BASE=dummyvalue bundle exec rails assets:precompile",
+    "test": "bundle exec rspec"
+  },
   "environments": {
     "test": {
       "env": {
