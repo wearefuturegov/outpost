@@ -56,6 +56,25 @@ Since Outpost is designed to be simple to setup we recommend using 12-factor app
 
 Please not that heroku will automatically setup `SECRET_KEY_BASE` for you but in docker you will need to do this manually.
 
+You can see examples of how to set up the environment in the makefile. The production image defines an entrypoint and a cmd, the default entrypoint is /start and the default cmd is web. We're using [herokuish](https://github.com/gliderlabs/herokuish) to replicate a similar deployment environment to heroku so this replicates the setup.
+
+By default when running the container it will just run the rails application, you can then update the cmd to one in the procfile or you can define your own entrypoint file
+
+```sh
+#!/bin/sh
+# https://stackoverflow.com/a/38732187/1935918
+set -e
+
+if [ -f tmp/pids/server.pid ]; then
+  rm tmp/pids/server.pid
+fi
+
+bin/herokuish procfile exec rake db:migrate
+
+bin/herokuish procfile exec "$@"
+
+```
+
 ## 💻 Running it locally
 
 For more information see [getting started](https://github.com/wearefuturegov/outpost/wiki/Getting-started)

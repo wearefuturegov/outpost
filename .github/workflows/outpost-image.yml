@@ -2,9 +2,9 @@
 
 name: Deploy outpost image to github container registry
 
-# on:
-#   push:
-#     branches: [develop]
+on:
+  push:
+    branches: [feature/refine-docker-approach]
 
 jobs:
   push-outpost-image:

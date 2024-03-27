@@ -1,95 +1,60 @@
-Procfile
-makefile
-
 # git
 .git
 .gitattributes
 .gitignore
 .github
 
-# docker
-docker-compose.yml
-docker-compose.*
-Dockerfile
-.dockerignore
-# environment/
+# bundler
+.bundle
+vendor/bundle
 
-# environment and secretsss
+# env
 .env
-# Comment out this rule if you are OK with secrets being uploaded to the repo
+.env.*
+
+# node
+node_modules
+
+# misc
+.DS_Store
+*.swp
+*~
+
+# Ignore precompiled javascript packs
+public/packs
+public/packs-test
+public/assets
+public/system
+
+# Comment out this rule if you are OK with secrets being uploaded to the image
 config/initializers/secret_token.rb
 config/master.key
 
 # Only include if you have production secrets in this file, which is no longer a Rails default
 config/secrets.yml
-/lib/seeds/*
+lib/seeds/*
+
+# Added in case image is built locally without fresh checkout
+.idea
+.vscode
+.ruby-lsp
+
+tmp/*
+
+# logs
+log/*
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.yarn-integrity
 
 # Ignore uploaded files in development
 /storage/*
 !/storage/.keep
 
-# Common
-README.md
-CHANGELOG.md
-
-# logs
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-/log/*
-!/log/.keep
-
-# tmp
-*.swp
-*~
-.DS_Store
-
-# Dependencies and dependency managers
-node_modules/
-# Ignore yarn files
-/yarn-error.log
-yarn-debug.log*
-.yarn-integrity
-/bundle/
-/.bundle
-/vendor/bundle
-# these should all be checked in to normalize the environment:
-# Gemfile.lock, .ruby-version, .ruby-gemset
-
-# ides
-.idea
-.vscode
-
-# ruby
-# unless supporting rvm < 1.11.0 or doing something fancy, ignore this:
-.rvmrc
-*.gem
-/.config
-/InstalledFiles
-/pkg/
-/spec/reports/
-/spec/examples.txt
-/test/tmp/
-/test/version_tmp/
-
 # Ignore Byebug command history file.
 .byebug_history
 
-# rails
-*.rbc
-capybara-*.html
-.rspec
-/db/*.sqlite3
-/db/*.sqlite3-journal
-/public/system
-/coverage/
-/spec/tmp
-rerun.txt
-pickle-email-*.html
-
-# Ignore precompiled javascript packs
-/public/packs
-/public/packs-test
-/public/assets
+coverage
+spec/tmp

@@ -1,17 +1,25 @@
 ARG STACK_VERSION=20
+ARG NODE_ENV=production
+ARG RAILS_ENV=production
 
 # ------------
 # add application code to herokuish container
 # build application (and install correct buildpacks from app.json along with it)
 # generate slug as app.tar.gz
 # ------------
-FROM  --platform=linux/amd64 gliderlabs/herokuish:latest-${STACK_VERSION} AS build
+FROM gliderlabs/herokuish:latest-${STACK_VERSION} AS build
 COPY . /tmp/app
-ENV NODE_ENV=production
+ARG NODE_ENV
+ARG RAILS_ENV
+ENV NODE_ENV=${NODE_ENV}
+ENV RAILS_ENV=${RAILS_ENV}
 # tmp NODE_OPTIONS for now
 ENV NODE_OPTIONS=--openssl-legacy-provider 
 RUN (cat /tmp/app/app.json || echo '{}') | jq -r '.buildpacks[].url' > /tmp/app/.buildpacks && \
   (test -s /tmp/app/.buildpacks || rm /tmp/app/.buildpacks)
+# RUN (cat /tmp/app/app.json || echo '{}') | jq -r '.environments.test.buildpacks[].url' > /tmp/app/.buildpacks && \
+#   (test -s /tmp/app/.buildpacks || rm /tmp/app/.buildpacks)
+RUN while IFS= read -r line; do herokuish buildpack install "$line"; done < /tmp/app/.buildpacks
 RUN /build && \
   rm -Rf /tmp/* 
 RUN herokuish slug generate && \
@@ -23,7 +31,10 @@ RUN herokuish slug generate && \
 # ------------
 FROM gliderlabs/herokuish:latest-${STACK_VERSION}
 ENV PORT 3000
-ENV NODE_ENV=production
+ARG NODE_ENV
+ARG RAILS_ENV
+ENV NODE_ENV=${NODE_ENV}
+ENV RAILS_ENV=${RAILS_ENV}
 # tmp NODE_OPTIONS for now
 ENV NODE_OPTIONS=--openssl-legacy-provider 
 COPY --from=0 /etc /etc
@@ -31,3 +42,4 @@ RUN --mount=type=bind,from=build,source=/app.tar.gz,target=/app.tar.gz \
   herokuish slug import < /app.tar.gz
 ENTRYPOINT [ "/start" ]
 CMD [ "web" ]
+# CMD ["tail", "-f", "/dev/null"]
