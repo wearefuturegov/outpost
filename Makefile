@@ -32,7 +32,7 @@ list: help
 
 # we could also use make start cmd="up" but the docker image is set to use start as the entrypoint and up as the cmd by default
 up: ## Start the application as if it were in production
-	docker run --rm --name outpost_production \
+	docker run -d --rm --name outpost_production \
 	--platform linux/amd64 \
 	--network outpost-production-network \
 	-e PORT=3000 \
@@ -111,9 +111,11 @@ production: ## create a production environment
 
 	make build
 	make start cmd="release"
+	make exec cmd="bin/rails SEED_ADMIN_USER=true  SEED_DUMMY_DATA=true db:seed"
 	make up
 
 	ngrok http 3002
+	
 
 production-tidy: ## tidy up the production environment
 	docker container stop outpost-production-postgres
@@ -160,6 +162,7 @@ tests: ## run tests as if it were in production but on local code
 	make tests-local
 
 tests-local: ## Run the tests from your local code
+	# ./.docker/bin/make-buildpacks-test-file.sh
 	docker run --rm --name outpost_test \
 	--platform linux/amd64 \
 	--network outpost-test-network \
@@ -170,6 +173,7 @@ tests-local: ## Run the tests from your local code
 	-e RAILS_ENV=test \
 	-v .:/tmp/app \
 	gliderlabs/herokuish:latest-20 /bin/herokuish buildpack test
+	# rm .buildpacks
 
 tests-tidy: ## tidy up test environment
 	docker container stop outpost-test-postgres
@@ -228,3 +232,6 @@ dev-rake: ## run rake tasks
 
 dev-coverage: ## open test coverage summary
 	open coverage/index.html
+
+dev-index: ## populate the api
+	docker compose exec outpost bin/rails build_public_index 

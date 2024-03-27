@@ -39,3 +39,5 @@ yarn-debug.log*
 .env*
 
 /config/credentials/production.key
+
+.buildpacks
