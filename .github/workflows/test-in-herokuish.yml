@@ -1,6 +1,7 @@
+# @TODO fix static files not generating in this image
 name: Run tests in herokuish
 
-on: [push]
+# on: [push]
 
 jobs:
   build:
