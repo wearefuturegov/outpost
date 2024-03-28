@@ -84,5 +84,9 @@ RUN echo 'export PATH="/opt/chrome:/opt/chromedriver:$PATH"' >> ~/.bashrc
 RUN echo "Chrome: " && chrome --version
 RUN echo "Chromedriver: " && chromedriver --version
 
+RUN echo $RAILS_ENV
+RUN echo $NODE_ENV
+RUN echo $RAILS_SERVE_STATIC_FILES
+
 ENTRYPOINT [ "/bin/herokuish" ]
 CMD [ "buildpack", "test" ]

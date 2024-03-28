@@ -51,6 +51,8 @@ jobs:
       #     outpost:test /bin/herokuish procfile exec bin/bundle exec rails assets:precompile
 
       - name: Run the tests in the docker container
+        env:
+          RAILS_SERVE_STATIC_FILES: true
         run: |
           docker run --rm --name outpost_test \
           --network host \
