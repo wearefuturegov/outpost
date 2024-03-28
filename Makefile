@@ -229,11 +229,14 @@ dev-seed: ## seed the local database with send_needs etc
 dev-seed-admin: ## seed local database with send_needs etc and an admin user
 	docker compose exec outpost bin/rails SEED_ADMIN_USER=true db:seed
 
-dev-seed-data: ## seed local database with send_needs etc and dummy data
+dev-seed-data: ## seed local database with dummy data
 	docker compose exec outpost bin/rails SEED_DUMMY_DATA=true db:seed
 
+dev-seed-default-data: ## seed local database with send_needs etc
+	docker compose exec outpost bin/rails SEED_DEFAULT_DATA=true db:seed
+
 dev-seed-all: ## seed local database with admin user, dummy data and send_needs etc
-	docker compose exec outpost bin/rails SEED_ADMIN_USER=true  SEED_DUMMY_DATA=true db:seed
+	docker compose exec outpost bin/rails SEED_ADMIN_USER=true  SEED_DUMMY_DATA=true SEED_DEFAULT_DATA=true db:seed
 
 dev-ssh: ## access outpost from cli
 	docker compose exec outpost bash
