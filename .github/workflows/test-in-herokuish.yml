@@ -38,7 +38,8 @@ jobs:
 
       - name: Precompile assets
         run: |
-          docker run --rm --name outpost_test \
+          docker run --name outpost_test \
+          --entrypoint /build \
           --network host \
           -e GOOGLE_API_KEY=${{ secrets.GOOGLE_API_KEY }} \
           -e "DATABASE_URL=postgresql://outpost:password@localhost:5432/outpost?" \
@@ -47,7 +48,7 @@ jobs:
           -e NODE_ENV=development \
           -e RAILS_ENV=test \
           -v .:/tmp/app \
-          outpost:test procfile exec bin/bundle exec rails assets:precompile
+          outpost:test /bin/herokuish procfile exec bin/bundle exec rails assets:precompile
 
       - name: Run the tests in the docker container
         run: |

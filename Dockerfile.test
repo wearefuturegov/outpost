@@ -7,7 +7,7 @@ ARG RAILS_ENV=test
 # build application (and install correct buildpacks from app.json along with it)
 # generate slug as app.tar.gz
 # ------------
-FROM gliderlabs/herokuish:latest-${STACK_VERSION} AS build
+FROM gliderlabs/herokuish:latest-${STACK_VERSION}
 WORKDIR /tmp/app
 COPY ./app.json /tmp
 

@@ -24,7 +24,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          tags: ghcr.io/wearefuturegov/outpost:test
+          tags: ghcr.io/wearefuturegov/outpost:latest
           file: Dockerfile.production
           platforms: ${{ matrix.platforms }}
           push: true
