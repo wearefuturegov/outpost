@@ -38,7 +38,7 @@ jobs:
 
       - name: Precompile assets
         run: |
-          docker run --name outpost_test \
+          docker run --rm --name outpost_test \
           --entrypoint /build \
           --network host \
           -e GOOGLE_API_KEY=${{ secrets.GOOGLE_API_KEY }} \
