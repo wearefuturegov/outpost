@@ -2,8 +2,8 @@ class Organisation < ApplicationRecord
   has_many :services
   has_many :users
 
-  validates :name, presence: true, uniqueness: true
-  validates :name, length: { minimum: 2, maximum: 100 }, if: -> { name.present? }
+  # validates :name, presence: true, 
+  validates :name, length: { minimum: 2, maximum: 100 }, uniqueness: true, if: -> { name.present? }
 
   attr_accessor :skip_mongo_callbacks
   after_commit :update_index, if: -> { skip_mongo_callbacks != true }
