@@ -1,0 +1,10 @@
+<%= 
+# this is a fall back for application running in docker. 
+# Since the application is built without GOOGLE_CLIENT_KEY for the image and 
+# there is no node process in production there is no way to get GOOGLE_CLIENT_KEY into the javascript.
+# By default we will look for process.env.GOOGLE_CLIENT_KEY but if thats not 
+# available then GOOGLE_CLIENT_KEY becomes the backup
+%>
+<script>
+  const GOOGLE_CLIENT_KEY = "<%= ENV['GOOGLE_CLIENT_KEY'] %>";
+</script>

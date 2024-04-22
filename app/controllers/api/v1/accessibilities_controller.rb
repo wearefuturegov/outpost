@@ -2,7 +2,7 @@ class API::V1::AccessibilitiesController < ApplicationController
     skip_before_action :authenticate_user!
   
     def index
-        render json: json_tree(Accessibility.all).to_json
+        render json: json_tree(Accessibility.all.order(:name)).to_json
     end
 
     private

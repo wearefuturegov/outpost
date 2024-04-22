@@ -9,9 +9,8 @@
 
 # Ignore all logfiles and tempfiles.
 /log/*
-/tmp/*
+/tmp
 !/log/.keep
-!/tmp/.keep
 
 # Ignore uploaded files in development.
 /storage/*
@@ -40,3 +39,5 @@ yarn-debug.log*
 .env*
 
 /config/credentials/production.key
+
+.buildpacks

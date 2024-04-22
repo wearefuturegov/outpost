@@ -54,8 +54,8 @@ feature 'Community user managing services', type: :feature do
     click_link_or_button('Continue')
 
     click_link_or_button('Special educational needs and disabilities')
-    check("This service is part of the local offer")
-    uncheck("This service is part of the local offer")
+    check("This service is part of the SEND local offer")
+    uncheck("This service is part of the SEND local offer")
     click_link_or_button('Continue')
 
     click_link_or_button('Suitable for')

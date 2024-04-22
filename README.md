@@ -20,29 +20,7 @@
 
 ---
 
-[![Run tests](https://github.com/wearefuturegov/outpost/workflows/Run%20tests/badge.svg)](https://github.com/wearefuturegov/outpost/actions)
-
-- [Introduction](#introduction)
-- [🌏 Deployment](#🌏-deployment)
-  - [🧱 Tech stack](#🧱-tech-stack)
-  - [🪄 Requirements](#🪄-requirements)
-  - [🌎 Running it on the web](#🌎-running-it-on-the-web)
-  - [💻 Running it locally](#💻-running-it-locally)
-- [🪴 Usage](#🪴-usage)
-- [🧬 Configuration](#🧬-configuration)
-  - [Environmental Variables](#environmental-variables)
-  - [Tasks](#tasks)
-  - [Settings page](#settings-page)
-- [✨ Features](#✨-features)
-  - [Outpost API](#outpost-api)
-  - [Data import](#data-import)
-  - [OAuth provider](#oauth-provider)
-  - [File uploads](#file-uploads)
-  - [Ofsted integration](#ofsted-integration)
-  - [Directories](#directories)
-- [🧪 Tests](#🧪-tests)
-  - [Code coverage](#code-coverage)
-  - [Compile assets](#compile-assets)
+[![Run tests](https://github.com/wearefuturegov/outpost/workflows/Run%20tests/badge.svg)](https://github.com/wearefuturegov/outpost/actions) [![codecov](https://codecov.io/gh/wearefuturegov/outpost/graph/badge.svg?token=6NXNU2KAGC)](https://codecov.io/gh/wearefuturegov/outpost)
 
 # Introduction
 
@@ -58,65 +36,69 @@ It can also act as an OAuth provider via [Doorkeeper](https://github.com/doorkee
 
 - Ruby on rails
 - PostgreSQL database
-- MongoDB database for use with [Outpost API](https://github.com/wearefuturegov/outpost-api-service/)
-
-## 🪄 Requirements
-
-- Ruby 3.0.3
-- Postgresql 13.7
-- Mongo 6
-- Node 16.13.1
-- Yarn 1.22.17
+- MongoDB database for use with [Outpost API](https://github.com/wearefuturegov/outpost-api-service/) (optional)
 
 ## 🌎 Running it on the web
+
+### Deploying using heroku (recommended)
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 For more information see [getting started](https://github.com/wearefuturegov/outpost/wiki/Getting-started)
 
-This repository contains configurations for **Docker** and **docker-compose** (configured for development). It's also suitable for 12-factor app hosting like [Heroku](http://heroku.com). It has a `Procfile` that will [automatically run](https://devcenter.heroku.com/articles/release-phase) pending rails migrations on every deploy, to reduce downtime.
+Outpost is suitable for 12-factor app hosting like [Heroku](http://heroku.com). It has a `Procfile` that will [automatically run](https://devcenter.heroku.com/articles/release-phase) pending rails migrations on every deploy, to reduce downtime.
 
-When deploying Outpost you will need to setup schedule specific tasks, see [configuration](#🧬-configuration) for more information.
+> 🚨 When deploying Outpost you will need to schedule specific tasks, see [configuration](#-configuration) for more information.
 
-Heroku will automatically setup SECRETS for you but in docker you will need to do this manually.
+### Deploying using docker
 
-Generate a key by running:
+Since Outpost is designed to be simple to setup we recommend using 12-factor app hosting such as [Heroku](http://heroku.com). However we do provide a docker image to host your own instance.
+
+Please not that heroku will automatically setup `SECRET_KEY_BASE` for you but in docker you will need to do this manually.
+
+You can see examples of how to set up the environment in the makefile. The production image defines an entrypoint and a cmd, the default entrypoint is /start and the default cmd is web. We're using [herokuish](https://github.com/gliderlabs/herokuish) to replicate a similar deployment environment to heroku so this replicates the setup.
+
+By default when running the container it will just run the rails application, you can then update the cmd to one in the procfile or you can define your own entrypoint file
 
 ```sh
-rake secret
-```
+#!/bin/sh
+# https://stackoverflow.com/a/38732187/1935918
+set -e
 
-Run the following to create the values
+if [ -f tmp/pids/server.pid ]; then
+  rm tmp/pids/server.pid
+fi
 
-```sh
-bin/rails credentials:edit --environment production
+bin/herokuish procfile exec rake db:migrate
+
+bin/herokuish procfile exec "$@"
+
 ```
 
 ## 💻 Running it locally
 
 For more information see [getting started](https://github.com/wearefuturegov/outpost/wiki/Getting-started)
 
-A `docker-compose.development.yml` file is included to run Outpost locally. You can combine this with other images to create a custom development environment of your setup.
-
-See [configuration](#-configuration) for setting up environmental variables.
-
-**Build the images**
+For now we recommend using docker to run the application locally as this ensures that the versions are as close to the production environment as possible.
 
 ```sh
 cp -rp sample.env .env
-```
-
-**Build the images**
-
-```sh
-docker compose build
-```
-
-**Run the containers**
-
-```sh
 docker compose up -d
+
+# setup dummy data and example user login
+docker compose exec outpost bin/rails SEED_ADMIN_USER=true SEED_DUMMY_DATA=true db:seed
 ```
+
+This will setup outpost, mongo, postgres and the [outpost-api-service](https://github.com/wearefuturegov/outpost-api-service) on your machine.
+
+- Outpost: [http://localhost:3000](http://localhost:3000)
+- Outpost API service: [http://localhost:3001](http://localhost:3001)
+- You can connect to the the postgres database locally using `localhost:5433`
+- You can connect to the mongo database locally using `localhost:27018`
+
+You can log in with `example@example.com` and the initial password you set [in the configuration](#-configuration)
+
+See [configuration](#-configuration) for setting up environmental variables.
 
 **Populate with dummy data**
 
@@ -130,12 +112,12 @@ docker compose exec outpost bin/rails SEED_ADMIN_USER=true db:seed
 # create dummy data
 docker compose exec outpost bin/rails SEED_DUMMY_DATA=true db:seed
 
-
+# create default data
+docker compose exec outpost bin/rails SEED_DEFAULT_DATA=true db:seed
 
 ```
 
-The database will be seeded with realistic fake data as well as the default data and initial admin user required.
-The application will be running on `localhost:3000`. You can log in with `example@example.com` and the initial password you set [in the configuration](#-configuration).
+The application will be running on `localhost:3000`.
 
 **Run the rails console**
 
@@ -153,6 +135,14 @@ docker compose exec outpost bundle exec rspec
 
 ```sh
 docker compose exec outpost rake
+```
+
+**Outpost dev-base**
+
+If you need to you can build the `outpost-dev-base` image locally, you will need to update the Dockerfile FROM to use your local version as well.
+
+```sh
+docker build --progress=plain -f .docker/images/dev-base/Dockerfile -t outpost-dev-base .
 ```
 
 # 🪴 Usage
@@ -225,7 +215,7 @@ The following ENV variables are or will soon be deprecated.
 
 ## Tasks
 
-Outpost depends on on several important [`rake`](https://guides.rubyonrails.org/v3.2/command_line.html) tasks.
+Outpost depends on on several important [`rake`](https://guides.rubyonrails.org/v3.2/command_line.html) tasks. To run these tasks use `bin/rake task:name`.
 
 Some of these can be run manually, and some are best scheduled using [Heroku Scheduler](https://devcenter.heroku.com/articles/scheduler) or similar.
 
@@ -242,7 +232,7 @@ Some of these can be run manually, and some are best scheduled using [Heroku Sch
 
 There is a settings page located at `/admin/settings/edit` where you can configure certain aspects of the Outpost interface.
 
-A user will need to have the `superadmin` permission in order to access this page.
+A user will need to have the `superadmin` permission in order to access this page. This permission can currently only be set through the command line.
 
 # ✨ Features
 
@@ -250,7 +240,7 @@ A user will need to have the `superadmin` permission in order to access this pag
 
 Outpost's API component relies on a public index stored on MongoDB.
 
-You can run `rails build_public_index` to build the public index for the first time. Active record callbacks keep it up to date as services are changed.
+You can run `bin/rails build_public_index` to build the public index for the first time. Active record callbacks keep it up to date as services are changed.
 
 ## Data import
 

@@ -30,14 +30,8 @@ const outpostWysiwygToolbar = () => {
     </div>`;
 };
 
+Trix.config.toolbar.getDefaultHTML = outpostWysiwygToolbar;
 if (simple.length > 0) {
-  Trix.config.toolbar.getDefaultHTML = function () {
-    return "";
-  };
-  document.addEventListener("trix-before-initialize", () => {
-    // update toolbar
-    Trix.config.toolbar.getDefaultHTML = outpostWysiwygToolbar;
-  });
   // create the <trix-editor> element
   // hide the element its actually filling out
   simple.forEach((s) => {

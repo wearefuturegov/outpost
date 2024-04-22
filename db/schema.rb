@@ -13,6 +13,7 @@
 ActiveRecord::Schema.define(version: 2023_08_24_230543) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
 
@@ -284,6 +285,7 @@ ActiveRecord::Schema.define(version: 2023_08_24_230543) do
     t.string "postcode"
     t.string "ward"
     t.string "family_centre"
+    t.string "area"
   end
 
   create_table "send_needs", force: :cascade do |t|

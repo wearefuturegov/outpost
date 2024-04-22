@@ -52,6 +52,21 @@ Rails.application.routes.draw do
       put :reactivate, on: :member
     end
     resource :settings, only: [:edit, :update]
+    resources :send_needs, except: [:edit, :show, :destroy, :update] do
+      collection do
+        post 'create_defaults', to: "send_needs#create_defaults"
+      end
+    end
+    resources :accessibilities, except: [:edit, :show, :destroy, :update] do
+      collection do
+        post 'create_defaults', to: "accessibilities#create_defaults"
+      end
+    end
+    resources :suitabilities, except: [:edit, :show, :destroy, :update] do
+      collection do
+        post 'create_defaults', to: "suitabilities#create_defaults"
+      end
+    end
   end
 
   # api
@@ -62,6 +77,7 @@ Rails.application.routes.draw do
       resources :suitabilities, only: [:index]
       resources :accessibilities, only: [:index]
       get "me", to: "me#show"
+      resources :services, only: [:index, :show]
     end
   end
 
