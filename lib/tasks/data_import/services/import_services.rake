@@ -214,7 +214,7 @@ namespace :import do
     end
   end
 
-  # create local offer
+  # create SEND local offer
   def new_service_local_offer(service_id, send_needs_data)
 
     survey_answer_mappings = [
@@ -247,9 +247,9 @@ namespace :import do
     end
 
     if new_local_offer
-      Rails.logger.info("  🟢 Local offer: #{state}")
+      Rails.logger.info("  🟢 SEND Local offer: #{state}")
     else 
-      abort("  🔴 Local offer: was not created. Exiting. #{new_local_offer.errors.messages}")
+      abort("  🔴 SEND Local offer: was not created. Exiting. #{new_local_offer.errors.messages}")
     end
 
   end
