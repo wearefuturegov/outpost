@@ -22,6 +22,7 @@ class ServicesController < ApplicationController
     def show
         @currently_creating = session[:currently_creating] === @service.id
         @completion_count = session[:completed_sections].try(:length) || 0
+        # @has_custom_fields = CustomFieldSection.joins(:custom_fields).where(public: true).exists?
     end
 
     def edit
@@ -60,8 +61,10 @@ class ServicesController < ApplicationController
     private
 
     def set_service
+        puts params
         @service = current_user.organisation.services.find(params[:id] || params[:service_id])
         @custom_field_sections = CustomFieldSection.includes(:custom_fields).visible_to(current_user)
+        
     end
 
     def service_params

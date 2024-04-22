@@ -17,7 +17,7 @@ module TaskListHelper
             [
                 "Special educational needs and disabilities",
                 "Suitable for",
-                "Extra questions"
+                # "Extra questions"
             ]
         ]
     end

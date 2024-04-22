@@ -53,6 +53,11 @@
                     <%= render "task_list_item", s: s %>
                 </li>
             <% end %>
+            <% if @custom_field_sections %>
+                <li class="task-list__item">
+                    <%= render "task_list_item", s: "Extra questions" %>
+                </li>
+            <% end %>
         </ul>
     </li>
 
