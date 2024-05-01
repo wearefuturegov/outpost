@@ -1,9 +1,9 @@
 class API::V1::TaxonomiesController < ApplicationController
     skip_before_action :authenticate_user!
 
-    # ?directory[]=bfis&directory[]=bod
+    # ?directories[]=bfis&directories[]=bod
     def index
-        directory_labels = params[:directory]
+        directory_labels = params[:directories]
         directories = Directory.where(label: directory_labels)
         if directory_labels.present? && directories.present?
             render json: json_tree(Taxonomy.filter_by_directory(directories.pluck('name')).hash_tree).to_json
