@@ -61,8 +61,9 @@ class ServicesController < ApplicationController
 
     def set_service
         @service = current_user.organisation.services.find(params[:id] || params[:service_id])
-        @custom_field_sections = CustomFieldSection.includes(:custom_fields).visible_to(current_user)
+        @custom_field_sections = CustomFieldSection.visible_to(current_user).where('custom_fields_count > 0')
     end
+
 
     def service_params
         result_params = params.require(:service).permit(
