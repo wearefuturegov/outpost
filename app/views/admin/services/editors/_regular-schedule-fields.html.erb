@@ -1,21 +1,36 @@
-<div class="field-group field-group--three-cols field-group--no-margins">
-    <div class="field field--required">
-        <%= sched.label :weekday, "Day", class: "field__label" %>
-        <%= sched.select :weekday, weekdays.collect {|d| [ d[:label], d[:value] ] }, {}, class: "field__input", required: true  %>
+<div>
+    <% if @service.locations.count > 1 %>
+
+    <div class="field-group field-group--no-margins">
+        <div class="field">
+            <%= sched.label :service_at_location_id, "Location", class: "field__label" %>
+            <%= sched.select :service_at_location_id, @service.locations.map { |location| [location.display_name, @service.service_at_locations.find_by(location_id: location.id).id] }, {  include_blank: "All locations"  }, class: "field__input"  %>
+        </div>
     </div>
-    <div class="field field--required">
-        <% open_val = sched.object.opens_at.strftime("%H:%M") if sched.object.opens_at.present? %>
-        <%= sched.label :opens_at, class: "field__label" %>
-        <%= sched.time_field :opens_at, value: open_val, class: "field__input", step: 60, required: true %>
+    <% end %>
+
+
+    <div class="field-group field-group--three-cols field-group--no-margins">
+        <div class="field field--required">
+            <%= sched.label :weekday, "Day", class: "field__label" %>
+            <%= sched.select :weekday, weekdays.collect {|d| [ d[:label], d[:value] ] }, {}, class: "field__input", required: true  %>
+        </div>
+        <div class="field field--required">
+            <% open_val = sched.object.opens_at.strftime("%H:%M") if sched.object.opens_at.present? %>
+            <%= sched.label :opens_at, class: "field__label" %>
+            <%= sched.time_field :opens_at, value: open_val, class: "field__input", step: 60, required: true %>
+        </div>
+        <div class="field field--required">
+            <% close_val = sched.object.closes_at.strftime("%H:%M") if sched.object.closes_at.present? %>
+            <%= sched.label :closes_at, class: "field__label" %>
+            <%= sched.time_field :closes_at, value: close_val, class: "field__input", step: 60, required: true %>
+        </div>
     </div>
-    <div class="field field--required">
-        <% close_val = sched.object.closes_at.strftime("%H:%M") if sched.object.closes_at.present? %>
-        <%= sched.label :closes_at, class: "field__label" %>
-        <%= sched.time_field :closes_at, value: close_val, class: "field__input", step: 60, required: true %>
-    </div>
+
+
+    <%= sched.hidden_field :_destroy,  data: {destroy_field: true} %>
+
 </div>
 
-
-<%= sched.hidden_field :_destroy,  data: {destroy_field: true} %>
 
 <button type="button" class="repeater__closer" data-close="true" title="Remove this schedule">Remove this schedule</button>
