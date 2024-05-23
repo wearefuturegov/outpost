@@ -17,7 +17,7 @@
         <%= f.select :with_status, @filterrific.select_options[:with_status], {}, { class: "filters__select", data: { autosubmit: true } }  %>
 
         <%= f.label :in_taxonomy, "Taxonomy", class: "visually-hidden" %>
-        <%= f.select :in_taxonomy, @filterrific.select_options[:in_taxonomy], {}, { class: "filters__select", data: { autosubmit: true } }  %>
+        <%= f.select :in_taxonomy, options_for_taxonomies_dropdown, {}, { class: "filters__select", data: { autosubmit: true } }  %>
 
         <%= f.label :in_taxonomy, "Labels", class: "visually-hidden" %>
         <%= f.select :tagged_with, @filterrific.select_options[:tagged_with], {}, { class: "filters__select", data: { autosubmit: true } }  %>
