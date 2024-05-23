@@ -8,7 +8,7 @@ class API::V1::MeController < ApplicationController
                 organisation: { 
                     only: [:id, :name], 
                     include: [
-                        services: {only: [:id, :name, :postcode]}
+                        services: {only: [:id, :name]}
                     ]
                 }
             ])
