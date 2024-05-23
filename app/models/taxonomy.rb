@@ -24,17 +24,4 @@ class Taxonomy < ApplicationRecord
     def update_index
         UpdateIndexTaxonomiesJob.perform_later(self)
     end
-
-    def self.options_for_select
-        # order("LOWER(name)").map { |e| [e.name, e.id] }.unshift(["All taxonomies", ""])
-        Taxonomy.arranged_as_flat_array.map { |name, id| [name.html_safe, id] }.unshift(["All taxonomies", ""])
-    end
-
-    def self.arranged_as_flat_array(taxonomies = nil, level = 0)
-        taxonomies ||= Taxonomy.hash_tree
-      
-        taxonomies.map do |taxonomy, sub_taxonomies|
-          [["#{"&nbsp;" * level}#{taxonomy.name}", taxonomy.id], *arranged_as_flat_array(sub_taxonomies, level + 1)]
-        end.flatten(1)
-      end
 end

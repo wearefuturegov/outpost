@@ -5,7 +5,7 @@
 
 <div class="field">
     <%= s.label :parent_id, "Parent", class: "field__label" %>
-    <%= s.collection_select( :parent_id, @possible_parents, :id, :name, {include_blank: ""}, class: "field__input") %>
+    <%= s.select( :parent_id, options_for_select(options_for_taxonomies_dropdown, selected: s.object.parent_id, disabled: params[:id]), {include_blank: ""}, class: "field__input") %>
 </div>
 
 <div class="field">
