@@ -30,7 +30,7 @@ module TaxonomiesHelper
     end
 
 
-    def options_for_taxonomies_dropdown(taxonomies = Taxonomy.hash_tree, options=[], disabled=['265'])
+    def options_for_taxonomies_dropdown(taxonomies = Taxonomy.hash_tree, options=[])
         options ||= []
         taxonomies.each do |taxonomy, children|
           options << ['- ' * taxonomy.depth + taxonomy.name, taxonomy.id]
