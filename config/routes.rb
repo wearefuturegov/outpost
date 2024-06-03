@@ -29,6 +29,7 @@ Rails.application.routes.draw do
       collection do 
         resources :archive, only: [:update]
         resources :requests, only: [:index, :update]
+        post :bulk_update
       end
     end
     resources :organisations, except: :edit do

@@ -1,0 +1,12 @@
+<div class="actions bulk-edit">
+
+
+<div class="field">
+<%= label_tag :taxonomy, "Taxonomy", class: "field__label" %>
+<%= select_tag :taxonomy, options_for_select(options_for_taxonomies_dropdown()), { class: "field__input", include_blank: 'Add new taxonomy'}  %>
+</div>
+
+<%= submit_tag 'Update selected', class: "button button--small" %>
+
+
+</div>

@@ -1,6 +1,7 @@
 <table class="table test-services">
   <thead>
     <tr>
+      <th class="visually-hidden">Select</th>
       <th class="visually-hidden">ID</th>
       <th>Name</th>
       <th>Organisation</th>
@@ -13,7 +14,17 @@
   <tbody>
     <% @services.each do |s| %>
       <tr>
-        <td><span class="table__small"><%= s.id %></span></td>
+        <td>
+        <div class="field checkbox checkbox--small">
+          <%= check_box_tag 'service_ids[]', s.id, false, id: "service_ids_#{s.id}", class: "checkbox__input" %>
+          <%= label_tag "service_ids_#{s.id}", "Service #{s.id}",  class: "checkbox__label" do %>
+            <span class="visually-hidden"><%= "Select  #{s.display_name}"%></span>
+          <% end %>
+        </div>        
+        </td>
+        <td>
+        <span class="table__small"><%= s.id %></span>
+        </td>
         <td>
           <strong><%= link_to s.display_name.truncate(30), admin_service_path(s), title: s.display_name %></strong>
         </td>

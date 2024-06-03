@@ -8,9 +8,13 @@
 <%= render "filters" %>
 
 <% if @services.present? %>
-  <div class="table-holder">
-    <%= render partial: 'list', locals: { services: @services } %>
-  </div>
+
+  <%= form_with(url: bulk_update_admin_services_path, method: :post) do %>
+    <%= render "bulk-edit" %>
+    <div class="table-holder">
+      <%= render partial: 'list', locals: { services: @services } %>
+    </div>
+  <% end %>
   <%= paginate @services %>
 <% else %>
   <p class="no-results no-results--big">No results to show</p>

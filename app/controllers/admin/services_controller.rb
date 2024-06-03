@@ -23,17 +23,26 @@ class Admin::ServicesController < Admin::BaseController
       ],
     ) or return
 
-    @services = @filterrific.find.page(params[:page]).includes(:organisation, :service_taxonomies, :taxonomies)
+    # get all services
+    @services = @filterrific.find.includes(:organisation, :service_taxonomies, :taxonomies)
     
+
+    # additional filters
+
+    # filtered by dept
     @services = @services.in_directory(params[:directory]) if params[:directory].present?
 
-    # shortcut nav
+    # ofsted registered
     @services = @services.ofsted_registered if params[:ofsted] === "true"
+
+    # if archived
     if params[:archived] === "true"
       @services = @services.discarded
     else
       @services = @services.kept
     end
+
+    @services = @services.page(params[:page])
 
   end
 
@@ -60,6 +69,21 @@ class Admin::ServicesController < Admin::BaseController
     else
       render "show"
     end
+  end
+
+  def bulk_update
+    puts "👀"
+    puts "bulk update"
+    puts params[:service_ids]
+
+    # @service = Service.new(service_params)
+    # if @service.save
+      redirect_back fallback_location: admin_services_path, notice: "Services have been updated"
+    # else
+      # render "new"
+    # end
+
+
   end
 
   def new
