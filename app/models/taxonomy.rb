@@ -22,6 +22,21 @@ class Taxonomy < ApplicationRecord
     end
 
     def update_index
-        UpdateIndexTaxonomiesJob.perform_later(self)
+        # makes sure it doesn't enqueue the job if we can't connect to the client
+        # client = get_mongo_client
+        # return unless client
+        # client.close
+        # UpdateIndexTaxonomiesJob.perform_later(self)
+    end
+
+    def get_mongo_client
+        begin
+            client = Mongo::Client.new(ENV["DB_URI"] || 'mongodb://localhost:27017/outpost_development?authSource=admin', {
+                retry_writes: false
+            })
+        rescue Mongo::Error::NoServerAvailable, Mongo::Error::SocketError => e
+            puts "Failed to connect to MongoDB server: #{e.message}"
+            nil
+        end
     end
 end
