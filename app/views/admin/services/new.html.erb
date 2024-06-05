@@ -19,7 +19,7 @@
 <div class="with-sidebar">
 
     <div>
-        <%= form_for [:admin, @service], data: {warn_unsaved_changes: true} do |s| %>
+        <%= form_for [:admin, @service], data: {warn_unsaved_changes: true}, builder: OutpostFormBuilder do |s| %>
 
         <%= s.hidden_field :ofsted_item_id, value: params[:ofsted_item_id] %>
 

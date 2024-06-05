@@ -15,7 +15,7 @@
       <tr>
         <td><span class="table__small"><%= s.id %></span></td>
         <td>
-          <strong><%= link_to s.display_name.truncate(30), admin_service_path(s), title: s.display_name %><strong>
+          <strong><%= link_to s.display_name.truncate(30), admin_service_path(s), title: s.display_name %></strong>
         </td>
         <td>
           <%= render "shared/poppables/organisation", o: s.organisation if s.organisation %>

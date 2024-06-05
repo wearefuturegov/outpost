@@ -1,0 +1,36 @@
+<% content_for :title do %>Settings | <% end %>
+
+<% content_for :header do %>
+<h1 class="page-header__title two-thirds">Settings</h1>
+<% end %>
+
+
+<% content_for :precontent do%>
+  <nav class="breadcrumbs">
+    <ul class="breadcrumbs__inner container">
+      <li class="breadcrumbs__link"><%= link_to "Home", admin_root_path %></li>
+      <li class="breadcrumbs__link">Settings</li>
+    </ul>
+  </nav>
+<% end %> 
+   
+<div class="with-sidebar">
+
+       
+    <div>  
+      <p>The settings page allows to to configure your Outpost installation. It is currently only accessible by users with the superadmin role. This role can only be set by a server administrator.</p>
+      <p><%= link_to "Edit settings", edit_admin_settings_path, class: "button button--small" %></p>
+
+ 
+      
+      <h2>Tools</h2>
+      <p>The following are links to tools that are useful for managing your Outpost installation and its data.</p>
+      <p><%= link_to "Bulk add taxonomies", admin_settings_tools_bulk_add_taxonomies_path %> <br /> This tool allows you to add an additional taxonomy to a selection of services</p>
+
+
+    </div>
+
+    <aside class="with-sidebar__sidebar">
+
+    </aside>
+</div>

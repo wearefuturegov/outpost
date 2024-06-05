@@ -13,7 +13,7 @@
   <table>
     <thead>
       <th>Name</th>
-      <th>Fields</th>
+      <th>Number of fields</th>
       <th>Visible to community users</th>
       <th>Exposed in API</th>
       <th>Sort order</th>
@@ -22,7 +22,7 @@
       <% @sections.each do |s| %>
         <tr>
           <td><%= link_to s.name, admin_custom_field_section_path(s) %></td>
-          <td><%= s.custom_fields.map{ |f| f.key }.join(", ") %></td>
+          <td><%= s.custom_fields.size %></td>
           <td>
             <% if s.public %>
               <%= image_tag "tick-black.svg", alt: "Yes" %>

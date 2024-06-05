@@ -11,10 +11,11 @@ class Form::AdminSettings
       outpost_logo
       outpost_logo_height
       outpost_logo_height_mobile
+      feature_wysiwyg
     ).freeze
   
     BOOLEAN_KEYS = %i(
-      
+      feature_wysiwyg
     ).freeze
   
     UPLOAD_KEYS = %i(

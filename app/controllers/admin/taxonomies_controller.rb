@@ -3,7 +3,6 @@ class Admin::TaxonomiesController < Admin::BaseController
   before_action :count_taxonomies, only: [:index]
   before_action :set_taxonomies, only: [:index, :create]
   before_action :set_taxonomy, only: [:show, :update, :destroy]
-  before_action :set_possible_parents, only: [:show, :update, :index, :create]
 
   def index
     @taxonomy = Taxonomy.new
@@ -50,11 +49,6 @@ class Admin::TaxonomiesController < Admin::BaseController
 
   def set_taxonomy
     @taxonomy = Taxonomy.find(params[:id])
-  end
-
-  def set_possible_parents
-    @possible_parents = Taxonomy.all
-    @possible_parents = @possible_parents.where.not(id: params[:id]) if params[:id]
   end
 
   def taxonomy_params

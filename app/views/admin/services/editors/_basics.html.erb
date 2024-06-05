@@ -15,11 +15,10 @@
         <% end %>
     </div>
 
-    <div class="field field--span-two-cols <%= mark_unapproved_field("description") %>" data-word-count="true">
+    <div class="field field--span-two-cols <%= mark_unapproved_field("description") %>" data-word-count="true" data-word-limit="30">
         <%= s.label :description, class: "field__label" %>
         <p class="field__hint">Will be shortened to 30 words in some places</p>
-        <%= s.text_area :description, value: @service.description, class: "field__input", rows: 5 %>
-        <p class="field__word-counter"></p>
+        <%= s.text_area_wysiwyg :description, value: @service.description, class: "field__input", rows: 5 %>
     </div>
 
     <div class="field <%= mark_unapproved_field("url") %>">

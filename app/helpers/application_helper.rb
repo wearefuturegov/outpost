@@ -91,4 +91,36 @@ module ApplicationHelper
     
         (l > 0.179) ? true : false
       end
+
+    # Returns a string of class names to be added to your body element
+    def body_classes(classes=nil)
+        ary = [Rails.application.class.to_s.split("::").first.downcase]
+        ary << 'mobile' if mobile_agent?
+
+        unless classes.nil?
+            method = classes.is_a?(Array) ? :concat : :<<
+            ary.send method, classes
+        end
+
+        ary.join(' ')
+    end
+
+    def mobile_agent?
+        return true if params[:mobile] == "1"
+        request.user_agent =~ /Mobile|webOS/
+    end  
+
+    def get_header_image
+        if Rails.configuration.active_storage.service == :public_google
+            logo = FileUpload.find_by(var: 'outpost_logo')
+            if logo.present?
+                logo_url = url_for(logo.file)
+                image_tag(logo_url, alt: Setting.outpost_title, class: "site-header__logo") 
+            else 
+                image_tag("logo-outpost.svg", alt: "Outpost", class: "site-header__logo") 
+            end
+        else 
+            image_tag("logo-outpost.svg", alt: "Outpost", class: "site-header__logo") 
+        end
+    end
 end

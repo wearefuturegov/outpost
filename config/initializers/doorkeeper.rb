@@ -1,6 +1,11 @@
 Doorkeeper.configure do  
   default_scopes :public
+  optional_scopes :admin
+  # optional_scopes :admin_user
+  # optional_scopes :superadmin
   
+  enforce_configured_scopes
+
   resource_owner_authenticator do
     current_user || begin
       session[:user_return_to] = request.fullpath
@@ -8,8 +13,9 @@ Doorkeeper.configure do
     end
   end
 
+  # this lets users with superadmin setting access /oauth/applications
   admin_authenticator do
-    unless current_user.admin_users === true
+    unless current_user.superadmin === true
       redirect_to new_user_session_url
     end
   end

@@ -3,13 +3,13 @@ module TaxonomiesHelper
     def tree_view(taxonomies)
         content_tag(:ul, class: "taxonomy-tree") do
             taxonomies.map do |t, children|
-
+                chld = children.present? ? tree_view(children) : ""
                 if params[:directory].present?
-                    "<li class='taxonomy-tree__item'>#{link_to(t.name, admin_taxonomy_path(t))} <span class='taxonomy-tree__count'>(#{t.services.in_directory(params[:directory]).size})</span></li>" + tree_view(children)
+                    "<li class='taxonomy-tree__item'>#{link_to(t.name, admin_taxonomy_path(t))} <span class='taxonomy-tree__count'>(#{t.services.in_directory(params[:directory]).size})</span></li>" + chld
                 else 
-                    "<li class='taxonomy-tree__item'>#{link_to(t.name, admin_taxonomy_path(t))} <span class='taxonomy-tree__count'>(#{t.services.size})</span></li>" + tree_view(children)
+                    "<li class='taxonomy-tree__item'>#{link_to(t.name, admin_taxonomy_path(t))} <span class='taxonomy-tree__count'>(#{t.services.size})</span></li>" + chld
                 end 
-            end.join.html_safe
+            end.join.html_safe 
         end
     end
 
@@ -28,4 +28,14 @@ module TaxonomiesHelper
             end
         end
     end
+
+
+    def options_for_taxonomies_dropdown(taxonomies = Taxonomy.hash_tree, options=[])
+        options ||= []
+        taxonomies.each do |taxonomy, children|
+          options << ['- ' * taxonomy.depth + taxonomy.name, taxonomy.id]
+          options_for_taxonomies_dropdown(children, options) if children.present?
+        end
+        options
+      end
 end

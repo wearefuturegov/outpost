@@ -3,6 +3,10 @@
 
 name: Run tests
 
+env:
+  RAILS_ENV: test
+  NODE_ENV: development
+
 on: [push]
 
 jobs:
@@ -11,7 +15,7 @@ jobs:
 
     services:
       postgres:
-        image: postgres:11.7-alpine
+        image: postgres:13.7-alpine
         env:
           POSTGRES_USER: outpost
           POSTGRES_PASSWORD: password
@@ -20,7 +24,7 @@ jobs:
           - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
       mongo:
-        image: mongo
+        image: mongo:6
         env:
           MONGO_INITDB_ROOT_USERNAME: root
           MONGO_INITDB_ROOT_PASSWORD: password
@@ -29,7 +33,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@main
 
       - name: Install native postgres client
         run: |
@@ -41,26 +45,31 @@ jobs:
           bundler-cache: true
 
       - name: Install required Node.js version
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
-          node-version: 14
+          node-version-file: ".nvmrc"
 
       - name: Get Yarn cache directory path
         id: yarn-cache
-        run: echo "::set-output name=dir::$(yarn cache dir)"
+        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
 
       - name: Setup cache key and directory for node_modules cache
-        uses: actions/cache@v1
+        uses: actions/cache@v4
         with:
           path: ${{ steps.yarn-cache.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
 
       - name: Yarn install
+        env:
+          NODE_OPTIONS: --openssl-legacy-provider
         run: yarn --frozen-lockfile
 
       - name: Setup database
         env:
           RAILS_ENV: test
+          DATABASE_URL: postgresql://outpost:password@localhost:5432/outpost_test
           DB_URI: mongodb://root:password@localhost:27017/outpost_development?authSource=admin
         run: |
           bundle exec rails db:drop
@@ -70,6 +79,7 @@ jobs:
       - name: Compile assets
         env:
           RAILS_ENV: test
+          NODE_OPTIONS: --openssl-legacy-provider
         run: |
           bundle exec rails assets:precompile
 
@@ -78,8 +88,11 @@ jobs:
           RAILS_ENV: test
           GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
           OFSTED_FEED_API_ENDPOINT: https://test-ofsted-feed.stub # this is not a real url, we just need an env variable set for the stub to work in tests
+          DATABASE_URL: postgresql://outpost:password@localhost:5432/outpost_test
         run: |
           bundle exec rspec
 
       - name: Upload report to Codecov
-        uses: codecov/codecov-action@v2
+        uses: codecov/codecov-action@v4
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

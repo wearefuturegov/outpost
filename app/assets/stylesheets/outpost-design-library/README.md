@@ -63,3 +63,8 @@ Optional components:
 @import "confirmation";
 @import "filters";
 ```
+
+# Deploying it
+
+`npm login`
+`npm publish --access public`

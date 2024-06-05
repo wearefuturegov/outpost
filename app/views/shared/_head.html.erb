@@ -9,23 +9,5 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <style type="text/css">
-        .site-header {
-            background: <%= Setting.primary_color %>;
-        }
-
-
-        
-        .site-header__logo{
-            height: <%= Setting.outpost_logo_height_mobile %>px;
-        }
-        /* $breakpoint-m */
-        @media screen and (min-width: 750px) {
-             .site-header__logo{ 
-                height: <%= Setting.outpost_logo_height %>px;
-             }
-        }
-
-
-    </style>
+    <%= render 'shared/settings' %>
 </head>

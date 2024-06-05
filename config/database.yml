@@ -2,19 +2,20 @@ default: &default
   adapter: postgresql
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  timeout: <%= ENV.fetch("RAILS_TIMEOUT") { 5000 } %>
 
 development:
   <<: *default
-  url: postgresql://localhost/outpost_development
-  username: outpost
-  password: password
+  url: <%= ENV.fetch("DATABASE_URL"){ "postgresql://outpost:password@localhost/outpost?" }.gsub('?', '_development?') %>
+
 test:
   <<: *default
-  url: postgresql://localhost/outpost_test
-  username: outpost
-  password: password
+  url: <%= ENV.fetch("DATABASE_URL"){ "postgresql://outpost:password@localhost/outpost?" }.gsub('?', '_test?') %>
+
+staging:
+  <<: *default
+  url: <%= ENV.fetch("DATABASE_URL"){ "postgresql://localhost/outpost?" }.gsub('?', '_staging?') %>
+
 production:
   <<: *default
-  database: outpost_production
-  username: outpost
-  password: <%= ENV['OUTPOST_DATABASE_PASSWORD'] %>
+  url: <%= ENV.fetch("DATABASE_URL"){ "postgresql://localhost/outpost?" }.gsub('?', '_production?') %>

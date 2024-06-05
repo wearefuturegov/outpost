@@ -1,0 +1,62 @@
+# git
+.git
+.gitattributes
+.gitignore
+.github
+
+# bundler
+.bundle
+vendor/bundle
+
+# env
+.env
+.env.*
+
+# node
+node_modules
+
+# misc
+.DS_Store
+*.swp
+*~
+
+# Ignore precompiled javascript packs
+public/packs
+public/packs-test
+public/assets
+public/system
+
+# Comment out this rule if you are OK with secrets being uploaded to the image
+config/initializers/secret_token.rb
+config/master.key
+
+# Only include if you have production secrets in this file, which is no longer a Rails default
+config/secrets.yml
+lib/seeds/*
+
+# Added in case image is built locally without fresh checkout
+.idea
+.vscode
+.ruby-lsp
+
+tmp/*
+
+# logs
+log/*
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.yarn-integrity
+
+# Ignore uploaded files in development
+/storage/*
+!/storage/.keep
+
+# Ignore Byebug command history file.
+.byebug_history
+
+coverage
+spec/tmp
+
+.buildpacks

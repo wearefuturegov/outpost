@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_23_112854) do
+ActiveRecord::Schema.define(version: 2024_05_10_133929) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -76,6 +76,7 @@ ActiveRecord::Schema.define(version: 2022_06_23_112854) do
     t.boolean "public"
     t.integer "sort_order"
     t.boolean "api_public"
+    t.integer "custom_fields_count"
   end
 
   create_table "custom_fields", force: :cascade do |t|
@@ -438,6 +439,7 @@ ActiveRecord::Schema.define(version: 2022_06_23_112854) do
     t.string "phone"
     t.datetime "marked_for_deletion"
     t.boolean "admin_manage_ofsted_access", default: false, null: false
+    t.boolean "superadmin", default: false, null: false
     t.index ["discarded_at"], name: "index_users_on_discarded_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["organisation_id"], name: "index_users_on_organisation_id"

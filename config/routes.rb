@@ -51,7 +51,26 @@ Rails.application.routes.draw do
       post :reset, on: :member
       put :reactivate, on: :member
     end
-    resource :settings, only: [:edit, :update]
+    resource :settings, only: [:show, :edit, :update] do
+      namespace :tools do 
+          resource :bulk_add_taxonomies, only: [:show, :update]
+      end 
+    end
+    resources :send_needs, except: [:edit, :show, :destroy, :update] do
+      collection do
+        post 'create_defaults', to: "send_needs#create_defaults"
+      end
+    end
+    resources :accessibilities, except: [:edit, :show, :destroy, :update] do
+      collection do
+        post 'create_defaults', to: "accessibilities#create_defaults"
+      end
+    end
+    resources :suitabilities, except: [:edit, :show, :destroy, :update] do
+      collection do
+        post 'create_defaults', to: "suitabilities#create_defaults"
+      end
+    end
   end
 
   # api
@@ -62,6 +81,7 @@ Rails.application.routes.draw do
       resources :suitabilities, only: [:index]
       resources :accessibilities, only: [:index]
       get "me", to: "me#show"
+      resources :services, only: [:index, :show]
     end
   end
 

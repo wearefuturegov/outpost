@@ -1,0 +1,68 @@
+# @TODO fix static files not generating in this image
+name: Run tests in herokuish
+
+# on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:13.7-alpine
+        env:
+          POSTGRES_USER: outpost
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: outpost_test
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+      mongo:
+        image: mongo:6
+        env:
+          MONGO_INITDB_ROOT_USERNAME: root
+          MONGO_INITDB_ROOT_PASSWORD: password
+        ports:
+          - 27017:27017
+
+    steps:
+      - uses: actions/checkout@main
+
+      - name: Build the Docker test image
+        run: |
+          docker build \
+          --build-arg NODE_OPTIONS=--openssl-legacy-provider \
+          --build-arg NODE_ENV=development \
+          --build-arg RAILS_ENV=test \
+          -f "Dockerfile.test" \
+          -t outpost:test "."
+
+      # - name: Precompile assets
+      #   run: |
+      #     docker run --rm --name outpost_test \
+      #     --entrypoint /build \
+      #     --network host \
+      #     -e GOOGLE_API_KEY=${{ secrets.GOOGLE_API_KEY }} \
+      #     -e "DATABASE_URL=postgresql://outpost:password@localhost:5432/outpost?" \
+      #     -e "DB_URI=mongodb://root:password@localhost:27017/outpost_development?authSource=admin" \
+      #     -e OFSTED_FEED_API_ENDPOINT=https://test-ofsted-feed.stub \
+      #     -e NODE_ENV=development \
+      #     -e RAILS_ENV=test \
+      #     -v .:/tmp/app \
+      #     outpost:test /bin/herokuish procfile exec bin/bundle exec rails assets:precompile
+
+      - name: Run the tests in the docker container
+        env:
+          RAILS_SERVE_STATIC_FILES: true
+        run: |
+          docker run --rm --name outpost_test \
+          --network host \
+          -e RAILS_SERVE_STATIC_FILES=true \
+          -e GOOGLE_API_KEY=${{ secrets.GOOGLE_API_KEY }} \
+          -e "DATABASE_URL=postgresql://outpost:password@localhost:5432/outpost?" \
+          -e "DB_URI=mongodb://root:password@localhost:27017/outpost_development?authSource=admin" \
+          -e OFSTED_FEED_API_ENDPOINT=https://test-ofsted-feed.stub \
+          -e NODE_ENV=development \
+          -e RAILS_ENV=test \
+          -v .:/tmp/app \
+          outpost:test

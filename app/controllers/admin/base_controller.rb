@@ -16,6 +16,10 @@ class Admin::BaseController < ApplicationController
         end
     end
 
+    def require_superadmin!
+      redirect_to root_path unless current_user.superadmin
+    end
+
     def should_count?
         controller_name === "services" || controller_name === "requests"
     end

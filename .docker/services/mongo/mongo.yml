@@ -1,0 +1,20 @@
+version: "3.7"
+services:
+  mongo:
+    image: mongo:6
+    ports:
+      - 27018:27017
+    volumes:
+      - mongo-volume:/data/db
+      - ./setup-mongodb.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME:-admin}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD:-password}
+      MONGO_INITDB_USERNAME: ${MONGO_INITDB_USERNAME:-outpost}
+      MONGO_INITDB_PASSWORD: ${MONGO_INITDB_PASSWORD:-password}
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE:-outpost_api_development}
+    networks:
+      - internal_network
+
+volumes:
+  mongo-volume:

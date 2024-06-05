@@ -9,7 +9,6 @@ class Admin::ServicesController < Admin::BaseController
       params[:filterrific],
       select_options: {
         sorted_by: Service.options_for_sorted_by,
-        in_taxonomy: Taxonomy.options_for_select,
         with_status: Service.options_for_status,
         tagged_with: Service.options_for_labels
       },

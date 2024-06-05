@@ -1,0 +1,55 @@
+.breadcrumbs {
+  background: $white;
+  padding: 10px $outer-spacing;
+  @media screen and (min-width: $breakpoint-m) {
+    font-size: 1.1rem;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0 auto;
+    padding: 0;
+
+    li {
+      padding-left: 0;
+    }
+
+    li:last-child {
+      margin-bottom: auto;
+    }
+  }
+
+  &__inner {
+    @media screen and (min-width: $breakpoint-m) {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+  }
+
+  a {
+    text-decoration: underline;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  &__link,
+  &__current {
+    display: inline-block;
+    margin: 5px 5px 5px 0px;
+    @media screen and (min-width: $breakpoint-m) {
+      margin-right: 10px;
+    }
+
+    &:after {
+      content: "/";
+      margin: 0 0 0 10px;
+      color: $grey3;
+    }
+
+    &:last-child:after {
+      content: none;
+    }
+  }
+}

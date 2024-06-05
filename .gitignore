@@ -9,9 +9,8 @@
 
 # Ignore all logfiles and tempfiles.
 /log/*
-/tmp/*
+/tmp
 !/log/.keep
-!/tmp/.keep
 
 # Ignore uploaded files in development.
 /storage/*
@@ -36,5 +35,9 @@ yarn-debug.log*
 /coverage
 
 .DS_Store
-yarn.lock
 .vscode
+.env*
+
+/config/credentials/production.key
+
+.buildpacks

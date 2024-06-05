@@ -1,23 +1,28 @@
 class Admin::SettingsController < Admin::BaseController
+  before_action :require_superadmin!
 
-      def edit 
-        @admin_settings = Form::AdminSettings.new
-      end
+  def show
+    # redirect_to edit_admin_settings_path()
+  end
 
-      def update
+  def edit
+    @admin_settings = Form::AdminSettings.new
+  end
 
-        @admin_settings = Form::AdminSettings.new(setting_params)
+  def update
+    @admin_settings = Form::AdminSettings.new(setting_params)
 
-        if @admin_settings.save
-          redirect_to edit_admin_settings_path(@admin_settings), notice: "Settings have been saved."
-        else
-          render :edit
-        end
+    if @admin_settings.save
+      redirect_to edit_admin_settings_path(@admin_settings), notice: "Settings have been saved."
+    else
+      render :edit
+    end
+  end
 
-      end
-  
-      private
-        def setting_params
-          params.require(:form_admin_settings).permit(*Form::AdminSettings::KEYS)
-        end
+  private
+
+  def setting_params
+    params.require(:form_admin_settings).permit(*Form::AdminSettings::KEYS)
+  end
+
 end
