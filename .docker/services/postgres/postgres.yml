@@ -2,7 +2,6 @@ version: "3.7"
 services:
   postgres:
     image: postgres:13.7-alpine
-    container_name: postgres
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-outpost}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}

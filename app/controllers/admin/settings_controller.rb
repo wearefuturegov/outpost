@@ -1,6 +1,10 @@
 class Admin::SettingsController < Admin::BaseController
   before_action :require_superadmin!
 
+  def show
+    # redirect_to edit_admin_settings_path()
+  end
+
   def edit
     @admin_settings = Form::AdminSettings.new
   end

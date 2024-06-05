@@ -8,21 +8,23 @@
     <summary class="filters__control" aria-expanded="false">Filters</summary>
     <div class="filters__body">
 
-
-
         <%= f.label :sorted_by, "Sort", class: "visually-hidden" %>
         <%= f.select :sorted_by, @filterrific.select_options[:sorted_by], {}, { class: "filters__select", data: { autosubmit: true }, disabled: params.dig(:filterrific, :search).present? } %>
 
         <%= f.label :with_status, "Status", class: "visually-hidden" %>
         <%= f.select :with_status, @filterrific.select_options[:with_status], {}, { class: "filters__select", data: { autosubmit: true } }  %>
 
+        <%#= f.label :in_taxonomy, "Taxonomy", class: "visually-hidden" %>
+        <%#= f.select :in_taxonomy, options_for_taxonomies_dropdown(params[:directory].present? ? Taxonomy.filter_by_directory(params[:directory]) : Taxonomy.hash_tree), {include_blank: 'All taxonomies'}, { class: "filters__select", data: { autosubmit: true } }  %>
+
         <%= f.label :in_taxonomy, "Taxonomy", class: "visually-hidden" %>
-        <%= f.select :in_taxonomy, @filterrific.select_options[:in_taxonomy], {}, { class: "filters__select", data: { autosubmit: true } }  %>
+        <%= f.select :in_taxonomy, options_for_taxonomies_dropdown, {include_blank: 'All taxonomies'}, { class: "filters__select", data: { autosubmit: true } }  %>
 
         <%= f.label :in_taxonomy, "Labels", class: "visually-hidden" %>
         <%= f.select :tagged_with, @filterrific.select_options[:tagged_with], {}, { class: "filters__select", data: { autosubmit: true } }  %>
 
     </div>
+
 </details>
 
 <header class="actions">

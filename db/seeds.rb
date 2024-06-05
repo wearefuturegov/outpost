@@ -61,11 +61,27 @@ if seed_dummy_data
         location.save
     end
 
-    10.times do 
+
+    # create nested taxonomies - chance of subcategories being generated is different at each level
+    def create_taxonomy(level = 0, parent_id = nil)
+        return if level >= 4
+      
         taxon = Taxonomy.create!({
-            name: Faker::Lorem.words(number: rand(1...5)).join(' ').capitalize
+          name: Faker::Lorem.words(number: rand(2...5)).join(' ').capitalize,
+          parent_id: parent_id
         })
+      
+        case level
+        when 0
+          rand(2..10).times { create_taxonomy(level + 1, taxon.id) } if rand < 0.50
+        when 1
+          rand(3..15).times { create_taxonomy(level + 1, taxon.id) } if rand < 0.2
+        when 2
+          rand(1..3).times { create_taxonomy(level + 1, taxon.id) } if rand < 0.15
+        end
     end
+      
+    5.times { create_taxonomy }
 
     10.times do
         org = Organisation.create!({

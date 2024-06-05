@@ -16,10 +16,18 @@ class Service < ApplicationRecord
     }
   )
 
+  # fields
+  attr_accessor :skip_notify_watchers
+  attr_accessor :skip_add_parent_taxonomies
+  attr_accessor :skip_cost_option_validation
+  attr_accessor :skip_age_validation
+
   # validations
   validates :name, presence: true, uniqueness: true, length: { minimum: 2, maximum: 100 }
-  validate :validate_ages
-  validate :validate_freeness
+  validate :validate_ages, unless: :skip_age_validation
+  validate :validate_freeness, unless: :skip_cost_option_validation
+
+
 
   # associations
   belongs_to :organisation, counter_cache: true
@@ -74,8 +82,8 @@ class Service < ApplicationRecord
   scope :in_directory, -> (directory) { joins(:directories).where(directories: { name: directory }) }
 
   # callbacks
-  after_save :notify_watchers
-  after_save :add_parent_taxonomies
+  after_save :notify_watchers, unless: :skip_notify_watchers
+  before_save :add_parent_taxonomies, unless: :skip_add_parent_taxonomies
   before_save :skip_nested_indexes
   before_save :update_directories
 
@@ -265,25 +273,27 @@ class Service < ApplicationRecord
     self.directories_as_text = self.directories&.map{ |dir| dir.name }&.uniq&.sort&.join(", ")
   end
 
-  # include nested taxonomies in json representation by default
+  # include nested taxonomies in json representation by default (but can be overridden)
   def as_json(options={})
-    options[:include] = {
-      :organisation => {},
-      :locations => { 
-        methods: :geometry,
-        include: :accessibilities
-       },
-      :taxonomies => { methods: :slug },
-      :meta => {},
-      :contacts => {},
-      :local_offer => {},
-      :send_needs => {},
-      :suitabilities => {},
-      :cost_options => {},
-      :regular_schedules => {},
-      :links => {}
+    default_options = {
+      :include => {
+        :organisation => {},
+        :locations => { 
+          methods: :geometry,
+          include: :accessibilities
+        },
+        :taxonomies => { methods: :slug },
+        :meta => {},
+        :contacts => {},
+        :local_offer => {},
+        :send_needs => {},
+        :suitabilities => {},
+        :cost_options => {},
+        :regular_schedules => {},
+        :links => {}
+      }
     }
-    super
+    super(default_options.merge(options))
   end
 
   # fields that we don't care about for versioning purposes

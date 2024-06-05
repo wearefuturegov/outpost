@@ -10,10 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_08_24_230543) do
+ActiveRecord::Schema.define(version: 2024_05_10_133929) do
 
   # These are extensions that must be enabled in order to support this database
-  enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
 
@@ -77,6 +76,7 @@ ActiveRecord::Schema.define(version: 2023_08_24_230543) do
     t.boolean "public"
     t.integer "sort_order"
     t.boolean "api_public"
+    t.integer "custom_fields_count"
   end
 
   create_table "custom_fields", force: :cascade do |t|
@@ -285,7 +285,6 @@ ActiveRecord::Schema.define(version: 2023_08_24_230543) do
     t.string "postcode"
     t.string "ward"
     t.string "family_centre"
-    t.string "area"
   end
 
   create_table "send_needs", force: :cascade do |t|

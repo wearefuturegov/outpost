@@ -35,13 +35,13 @@ describe 'GET taxonomies endpoint', type: :request do
       end
 
       it 'can filter by directory' do
-        get "/api/v1/taxonomies?directory=#{directory_a.label}"
+        get "/api/v1/taxonomies?directories[]=#{directory_a.label}"
         response_body = JSON.parse(response.body)
 
         root_taxonomy_ids = response_body.map{|taxonomy| taxonomy["id"]}
         expect(root_taxonomy_ids).to match_array([root_taxonomy.id])
 
-        get "/api/v1/taxonomies?directory=#{directory_b.label}"
+        get "/api/v1/taxonomies?directories[]=#{directory_b.label}"
         response_body = JSON.parse(response.body)
 
         root_taxonomy_ids = response_body.map{|taxonomy| taxonomy["id"]}
@@ -51,7 +51,7 @@ describe 'GET taxonomies endpoint', type: :request do
       context 'filtering by an empty directory' do
         let!(:directory_c) { FactoryBot.create(:directory, name: "Directory C", label: "c") }
         it 'returns no results' do
-          get "/api/v1/taxonomies?directory=#{directory_c.label}"
+          get "/api/v1/taxonomies?directories[]=#{directory_c.label}"
           response_body = JSON.parse(response.body)
           expect(response_body).to match_array([])
         end
@@ -59,7 +59,7 @@ describe 'GET taxonomies endpoint', type: :request do
 
       context 'filtering by a directory that does not exist' do
         it 'returns all results' do
-          get "/api/v1/taxonomies?directory=not-a-real-directory"
+          get "/api/v1/taxonomies?directories[]=not-a-real-directory"
           response_body = JSON.parse(response.body)
 
           root_taxonomy_ids = response_body.map{|taxonomy| taxonomy["id"]}

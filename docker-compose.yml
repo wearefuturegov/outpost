@@ -30,7 +30,7 @@ services:
       # RAILS_ENV: production
       OFSTED_FEED_API_ENDPOINT: ${OFSTED_FEED_API_ENDPOINT:-https://test-ofsted-feed.stub} # this is not a real url, we just need an env variable set for the stub to work in tests
       SHOW_ENV_BANNER: ${SHOW_ENV_BANNER:-outpost docker development}
-      DB_URI: ${DB_URI:-mongodb://mongo:27017/outpost_api_development}
+      DB_URI: mongodb://${MONGO_INITDB_USERNAME:-outpost}:${MONGO_INITDB_PASSWORD:-password}@mongo/${MONGO_INITDB_DATABASE:-outpost_api_development}
       DATABASE_URL: ${DATABASE_URL:-postgresql://outpost:password@postgres:5432/outpost?}
     networks:
       - external_network

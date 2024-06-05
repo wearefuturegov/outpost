@@ -51,7 +51,11 @@ Rails.application.routes.draw do
       post :reset, on: :member
       put :reactivate, on: :member
     end
-    resource :settings, only: [:edit, :update]
+    resource :settings, only: [:show, :edit, :update] do
+      namespace :tools do 
+          resource :bulk_add_taxonomies, only: [:show, :update]
+      end 
+    end
     resources :send_needs, except: [:edit, :show, :destroy, :update] do
       collection do
         post 'create_defaults', to: "send_needs#create_defaults"
