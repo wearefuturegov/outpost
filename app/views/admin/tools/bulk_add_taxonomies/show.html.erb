@@ -1,0 +1,90 @@
+<% content_for :title do %>Bulk add taxonomies | <% end %>
+
+<% content_for :header do %>
+<h1 class="page-header__title two-thirds">Bulk add taxonomies</h1>
+<% end %>
+
+
+<% content_for :precontent do%>
+  <nav class="breadcrumbs">
+    <ul class="breadcrumbs__inner container">
+      <li class="breadcrumbs__link"><%= link_to "Home", admin_root_path %></li>
+      <li class="breadcrumbs__link"><%= link_to "Settings", admin_settings_path %></li>
+      <li class="breadcrumbs__link">Tools</li>
+      <li class="breadcrumbs__link">Bulk add taxonomies</li>
+    </ul>
+  </nav>
+<% end %> 
+
+
+<div class="with-sidebar">
+
+
+    <div>
+      <p>This tool allows you to add new taxonomies to a selection of services. <br />
+      Please note some actions may take a <strong>long time</strong> as every record is updated and added to the activity log.</p> 
+      
+      <p>Email alerts are <strong>not</strong> sent to watchers. <br />
+      We <strong>don't update the mongo database</strong> so you will need to run the build_public_index task afterwards. <br />
+      Activity records are <strong>created manually</strong>.
+      </p>
+
+      <p>After running this tool you will need to run the <em>build_public_index</em> and <em>update_counters</em> jobs</p>
+
+      <% if Taxonomy.any? %>
+
+        <%= form_with url: admin_settings_tools_bulk_add_taxonomies_path, method: :patch, data: {warn_unsaved_changes: true}, builder: OutpostFormBuilder do |s| %>
+
+          <% if @errors.any? %>
+              <div class="error">
+                  <h2 class="error__title"><%= pluralize(@errors.count, "error") %> occured</h2>
+                  <p>The following services could not be updated, please try again or update them manually</p>
+                  <ul class="error__list">
+                      <% @errors.each do |e| %>
+                          <li>
+                            <%= link_to e[:name] || 'Unknown service name', admin_service_path(e[:id]) %>  
+                            <p>
+                              <ul>
+                                <% e[:messages].each do |m| %> 
+                                  <li><%= m.html_safe %></li>
+                                <% end %>
+                              </ul>
+                            </p>
+                          </li>      
+                      <% end %>
+                  </ul>
+              </div>
+          <% end %>
+
+
+          <h2>Services</h2>
+
+          <div class="field field--required">
+            <%= label_tag :taxonomy, "Services in this taxonomy", class: "field__label" %>
+            <%= select_tag :taxonomy, options_for_select(options_for_taxonomies_dropdown()), { class: "field__input", include_blank: true, required: true}  %>
+          </div>
+
+          <h2>Taxonomies</h2>
+
+          <%= render "shared/editors/taxonomies", s: s %>
+      
+          <div class="form-actions">
+            <%= s.submit "Add new taxonomies", class: "button" %>
+          </div>
+
+        <% end %>
+
+
+      <% else %>
+        <p>
+          No taxonomies set up yet.
+          <%= link_to 'Create some taxonomies', admin_taxonomies_path %>
+        </p>
+      <% end %>
+
+    </div>
+
+    <aside class="with-sidebar__sidebar">
+
+    </aside>
+</div>
