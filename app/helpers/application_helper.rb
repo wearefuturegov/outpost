@@ -109,4 +109,18 @@ module ApplicationHelper
         return true if params[:mobile] == "1"
         request.user_agent =~ /Mobile|webOS/
     end  
+
+    def get_header_image
+        if Rails.configuration.active_storage.service == :public_google
+            logo = FileUpload.find_by(var: 'outpost_logo')
+            if logo.present?
+                logo_url = url_for(logo.file)
+                image_tag(logo_url, alt: Setting.outpost_title, class: "site-header__logo") 
+            else 
+                image_tag("logo-outpost.svg", alt: "Outpost", class: "site-header__logo") 
+            end
+        else 
+            image_tag("logo-outpost.svg", alt: "Outpost", class: "site-header__logo") 
+        end
+    end
 end
