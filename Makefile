@@ -33,7 +33,7 @@ list: help
 # we could also use make start cmd="up" but the docker image is set to use start as the entrypoint and up as the cmd by default
 up: ## Start the application as if it were in production
 	docker run -d --rm --name outpost_production \
-	--platform linux/amd64 \
+	--platform linux/arm64 \
 	--network outpost-production-network \
 	-e PORT=3000 \
 	-p 3002:3000/tcp \
@@ -48,7 +48,7 @@ pull: ## fetch the herokuish image
 
 build: pull ## build the production image
 	docker build \
-	--platform linux/amd64 \
+	--platform linux/arm64 \
 	--build-arg NODE_OPTIONS=--openssl-legacy-provider \
 	--build-arg NODE_ENV=production \
 	--build-arg RAILS_ENV=production \
@@ -59,7 +59,7 @@ exec: ## execute a command on the production image eg make exec cmd="bin/rails c
 	@if [ -z "$(cmd)" ]; then echo "cmd is required"; exit 1; fi
 	docker run -it --rm \
 	--name outpost_production_release \
-	--platform linux/amd64 \
+	--platform linux/arm64 \
 	--entrypoint /exec \
 	--network outpost-production-network \
 	-e NODE_ENV=production \
@@ -72,7 +72,7 @@ start: ## execute a command from the Procfile eg make start cmd=release
 	@if [ -z "$(cmd)" ]; then echo "cmd is required"; exit 1; fi
 	docker run -it --rm \
 	--name outpost_production_release \
-	--platform linux/amd64 \
+	--platform linux/arm64 \
 	--entrypoint /start \
 	--network outpost-production-network \
 	-e NODE_ENV=production \
@@ -89,7 +89,7 @@ production: ## create a production environment
 	docker volume create outpost-production-postgres-volume
 
 	docker run -d --name outpost-production-mongo \
-	--platform linux/amd64 \
+	--platform linux/arm64 \
 	--network outpost-production-network \
 	-p 27020:27017 \
 	-v outpost-production-mongo-volume:/data/db \
@@ -100,7 +100,7 @@ production: ## create a production environment
 	mongo:6
 
 	docker run -d --name outpost-production-postgres \
-	--platform linux/amd64 \
+	--platform linux/arm64 \
 	--network outpost-production-network \
 	-p 5435:5432 \
 	-v outpost-production-postgres-volume:/var/lib/postgresql/data \
@@ -139,7 +139,7 @@ tests: ## run tests as if it were in production but on local code
 	docker volume create outpost-test-postgres-volume
 
 	docker run -d --name outpost-test-mongo \
-	--platform linux/amd64 \
+	--platform linux/arm64 \
 	--network outpost-test-network \
 	-p 27019:27017 \
 	-v outpost-test-mongo-volume:/data/db \
@@ -150,7 +150,7 @@ tests: ## run tests as if it were in production but on local code
 	mongo:6
 
 	docker run -d --name outpost-test-postgres \
-	--platform linux/amd64 \
+	--platform linux/arm64 \
 	--network outpost-test-network \
 	-p 5434:5432 \
 	-v outpost-test-postgres-volume:/var/lib/postgresql/data \
@@ -163,7 +163,7 @@ tests: ## run tests as if it were in production but on local code
 
 tests-built: ## Run the tests from your local code on the prebuilt image
 	docker run --rm --name outpost_test \
-	--platform linux/amd64 \
+	--platform linux/arm64 \
 	--network outpost-test-network \
 	-e "DATABASE_URL=postgresql://outpost:password@outpost-test-postgres:5432/outpost?" \
 	-e "DB_URI=mongodb://outpost-test-mongo:27017/outpost_api_test" \
@@ -175,7 +175,7 @@ tests-built: ## Run the tests from your local code on the prebuilt image
 
 tests-local: ## Run the tests from your local code
 	docker run --rm --name outpost_test \
-	--platform linux/amd64 \
+	--platform linux/arm64 \
 	--network outpost-test-network \
 	-e "DATABASE_URL=postgresql://outpost:password@outpost-test-postgres:5432/outpost?" \
 	-e "DB_URI=mongodb://outpost-test-mongo:27017/outpost_api_test" \
@@ -187,7 +187,7 @@ tests-local: ## Run the tests from your local code
 
 tests-build: ## build the test image
 	docker build \
-	--platform linux/amd64 \
+	--platform linux/arm64 \
 	--build-arg NODE_OPTIONS=--openssl-legacy-provider \
 	--build-arg NODE_ENV=development \
 	--build-arg RAILS_ENV=test \

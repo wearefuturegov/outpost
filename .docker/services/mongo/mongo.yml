@@ -1,7 +1,8 @@
 version: "3.7"
 services:
   mongo:
-    image: mongo:6
+    image: mongo:latest
+    platform: linux/arm64
     ports:
       - 27018:27017
     volumes:

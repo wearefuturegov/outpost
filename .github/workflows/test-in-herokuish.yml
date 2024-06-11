@@ -4,7 +4,7 @@ name: Run tests in herokuish
 # on: [push]
 
 jobs:
-  build:
+  test-in-herokuish:
     runs-on: ubuntu-latest
 
     services:
