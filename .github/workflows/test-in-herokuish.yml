@@ -69,7 +69,7 @@ jobs:
           -e RAILS_ENV=test \
           --name temp_container \
           --network=outpost-api-test-network \
-          outpost-api-service:${{ env.tag }}
+          outpost-api-service:test
 
       - name: Run the tests
         run: |
