@@ -6,18 +6,6 @@ on: [push]
 jobs:
   test-in-herokuish:
     runs-on: ubuntu-latest
-
-    services:
-      postgres:
-        image: postgres:13.7-alpine
-        env:
-          POSTGRES_USER: outpost
-          POSTGRES_PASSWORD: password
-          POSTGRES_DB: outpost_test
-        ports:
-          - 5432:5432
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-
     steps:
       - uses: actions/checkout@main
 
@@ -46,6 +34,7 @@ jobs:
           -e POSTGRES_DB=outpost_test \
           --network=outpost-test-network \
           postgres:13.7-alpine
+        # options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
