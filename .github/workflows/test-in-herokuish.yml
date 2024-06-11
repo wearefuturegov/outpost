@@ -1,7 +1,7 @@
 # @TODO fix static files not generating in this image
 name: Run tests in herokuish
 
-# on: [push]
+on: [push]
 
 jobs:
   test-in-herokuish:
@@ -17,52 +17,73 @@ jobs:
         ports:
           - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-      mongo:
-        image: mongo:6
-        env:
-          MONGO_INITDB_ROOT_USERNAME: root
-          MONGO_INITDB_ROOT_PASSWORD: password
-        ports:
-          - 27017:27017
 
     steps:
       - uses: actions/checkout@main
 
-      - name: Build the Docker test image
+      - name: "Create custom network"
+        run: docker network create outpost-test-network
+
+      - name: "Setup mongo"
         run: |
-          docker build \
-          --build-arg NODE_OPTIONS=--openssl-legacy-provider \
-          --build-arg NODE_ENV=development \
-          --build-arg RAILS_ENV=test \
-          -f "Dockerfile.test" \
-          -t outpost:test "."
+          docker run --rm -d -p 27017:27017 \
+          --name mongo \
+          -e MONGO_INITDB_ROOT_USERNAME=admin \
+          -e MONGO_INITDB_ROOT_PASSWORD=password \
+          -e MONGO_INITDB_USERNAME=outpost \
+          -e MONGO_INITDB_PASSWORD=password \
+          -e MONGO_INITDB_DATABASE=outpost_test \
+          -v $PWD/.docker/services/mongo/setup-mongodb.js:/docker-entrypoint-initdb.d/mongo-init.js:ro \
+          --network=outpost-test-network \
+          mongo:latest
 
-      # - name: Precompile assets
-      #   run: |
-      #     docker run --rm --name outpost_test \
-      #     --entrypoint /build \
-      #     --network host \
-      #     -e GOOGLE_API_KEY=${{ secrets.GOOGLE_API_KEY }} \
-      #     -e "DATABASE_URL=postgresql://outpost:password@localhost:5432/outpost?" \
-      #     -e "DB_URI=mongodb://root:password@localhost:27017/outpost_development?authSource=admin" \
-      #     -e OFSTED_FEED_API_ENDPOINT=https://test-ofsted-feed.stub \
-      #     -e NODE_ENV=development \
-      #     -e RAILS_ENV=test \
-      #     -v .:/tmp/app \
-      #     outpost:test /bin/herokuish procfile exec bin/bundle exec rails assets:precompile
+      - name: "Setup postgres"
+        run: |
+          docker run --rm -d -p 5432:5432 \
+          --name postgres \
+          -e POSTGRES_USER=outpost \
+          -e POSTGRES_PASSWORD=password \
+          -e POSTGRES_DB=outpost_test \
+          --network=outpost-test-network \
+          postgres:13.7-alpine
 
-      - name: Run the tests in the docker container
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          tags: outpost:test
+          file: Dockerfile.test
+          push: false
+          load: true
+          build-args: |
+            NODE_OPTIONS=--openssl-legacy-provider
+            RAILS_ENV=test
+
+      - name: Run the image
         env:
-          RAILS_SERVE_STATIC_FILES: true
+          DB_URI: mongodb://outpost:password@mongo:27017/outpost_api_development
+          DATABASE_URL: mongodb://outpost:password@mongo:27017/outpost_test
         run: |
-          docker run --rm --name outpost_test \
-          --network host \
+          docker run --rm -d \
           -e RAILS_SERVE_STATIC_FILES=true \
+          -e DB_URI=$DB_URI \
+          -e DATABASE_URL=$DATABASE_URL \
           -e GOOGLE_API_KEY=${{ secrets.GOOGLE_API_KEY }} \
-          -e "DATABASE_URL=postgresql://outpost:password@localhost:5432/outpost?" \
-          -e "DB_URI=mongodb://root:password@localhost:27017/outpost_development?authSource=admin" \
           -e OFSTED_FEED_API_ENDPOINT=https://test-ofsted-feed.stub \
           -e NODE_ENV=development \
           -e RAILS_ENV=test \
-          -v .:/tmp/app \
-          outpost:test
+          --name temp_container \
+          --network=outpost-api-test-network \
+          outpost-api-service:${{ env.tag }}
+
+      - name: Run the tests
+        run: |
+          docker exec temp_container /bin/herokuish procfile exec bin/bundle exec rspec
+
+      # docker exec temp_container /bin/herokuish procfile exec bin/bundle exec rails assets:precompile
