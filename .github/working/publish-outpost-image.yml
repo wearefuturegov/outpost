@@ -4,7 +4,7 @@ name: Publish outpost image to github container registry
 
 on:
   push:
-    branches: [develop, staging, production, feature/container-tidy]
+    branches: [develop, staging, production]
 
 jobs:
   push-outpost-image:
