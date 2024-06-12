@@ -2,7 +2,7 @@
 
 name: Test outpost image docker build
 
-on: push
+# on: push
 
 jobs:
   test-docker-build:

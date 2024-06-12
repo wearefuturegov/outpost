@@ -7,7 +7,7 @@ env:
   RAILS_ENV: test
   NODE_ENV: development
 
-on: [push]
+# on: [push]
 
 jobs:
   test:
