@@ -13,7 +13,7 @@ services:
     depends_on:
       - postgres
       - mongo
-    platform: linux/amd64
+    platform: linux/arm64
     build:
       context: .
       # uncomment for 'prod' like env locally
@@ -58,6 +58,7 @@ services:
       service: mongo
     networks:
       - external_network
+      - internal_network
 
 volumes:
   mongo-volume:

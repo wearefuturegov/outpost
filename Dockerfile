@@ -16,7 +16,7 @@ ARG NODE_ENV=development
 ARG RAILS_ENV=development
 
 # ----------------------------------------------------------------
-FROM ghcr.io/wearefuturegov/outpost-dev-base:latest as install
+FROM --platform=linux/arm64 ghcr.io/wearefuturegov/outpost-dev-base:latest as install
 
 # make this stage non-interactive
 ENV DEBIAN_FRONTEND=noninteractive
@@ -65,14 +65,14 @@ RUN curl -s https://googlechromelabs.github.io/chrome-for-testing/last-known-goo
 # chrome
 RUN CHROME_URL=$(jq -r '.channels.Stable.downloads.chrome[] | select(.platform=="linux64") | .url' /tmp/versions.json) && \
   wget -q --continue -O /tmp/chrome-linux64.zip $CHROME_URL && \
-  unzip -j /tmp/chrome-linux64.zip -d /opt/chrome
+  unzip -j -o /tmp/chrome-linux64.zip -d /opt/chrome
 
 RUN chmod +x /opt/chrome/chrome
 
 # chromedriver
 RUN CHROMEDRIVER_URL=$(jq -r '.channels.Stable.downloads.chromedriver[] | select(.platform=="linux64") | .url' /tmp/versions.json) && \
   wget -q --continue -O /tmp/chromedriver-linux64.zip $CHROMEDRIVER_URL && \
-  unzip -j /tmp/chromedriver-linux64.zip -d /opt/chromedriver && \
+  unzip -j -o /tmp/chromedriver-linux64.zip -d /opt/chromedriver && \
   chmod +x /opt/chromedriver/chromedriver
 
 # Clean up
@@ -85,12 +85,13 @@ RUN echo 'export PATH="/opt/chrome:/opt/chromedriver:$PATH"' >> ~/.bashrc
 RUN echo "Chrome: " && chrome --version
 RUN echo "Chromedriver: " && chromedriver --version
 
-USER outpost-user
+
 
 # set $HOME to outpost-user path for this non-interactive session
 ENV HOME /home/outpost-user
 ENV PATH $HOME/.rbenv/bin:$HOME/.rbenv/shims:$PATH
 
+USER outpost-user
 WORKDIR /app
 
 COPY --chown=outpost-user:outpost-user ./.ruby-version ./.ruby-version
@@ -102,6 +103,9 @@ COPY --chown=outpost-user:outpost-user ./.docker/bin/check-versions.sh ./.docker
 
 RUN ls -lah
 RUN pwd
+RUN ls -lah ../
+RUN whoami
+RUN ls -lah ~
 
 # check everything is all good
 RUN ./.docker/bin/check-versions.sh
@@ -120,8 +124,8 @@ ENV RAILS_ENV=${RAILS_ENV}
 RUN if [ "${RAILS_ENV}" = "production" ]; then \
   bundle config --global frozen 1; fi
 
-RUN if [ "${RAILS_ENV}" = "development" ] || [ -z "${RAILS_ENV}" ]; then \
-  bundle install --verbose; fi
+# RUN if [ "${RAILS_ENV}" = "development" ] || [ -z "${RAILS_ENV}" ]; then \
+#   bundle install --verbose; fi
 RUN if [ "${RAILS_ENV}" = "production" ]; then \
   bundle config set --local deployment 'true' && bundle install; fi
 
@@ -129,8 +133,8 @@ RUN if [ "${RAILS_ENV}" = "production" ]; then \
 # -------------
 # install node modules
 # -------------
-RUN if [ "${NODE_ENV}" = "development" ] || [ -z "${NODE_ENV}" ]; then \
-  yarn install; fi
+# RUN if [ "${NODE_ENV}" = "development" ] || [ -z "${NODE_ENV}" ]; then \
+#   yarn install; fi
 RUN if [ "${NODE_ENV}" = "production" ]; then \
   yarn install --frozen-lockfile; fi
 

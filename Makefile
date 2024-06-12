@@ -144,9 +144,11 @@ tests: ## run tests as if it were in production but on local code
 	-p 27019:27017 \
 	-v outpost-test-mongo-volume:/data/db \
 	-v "./.docker/services/mongo/setup-mongodb.js:/docker-entrypoint-initdb.d/mongo-init.js:ro" \
-	-e MONGO_INITDB_DATABASE=outpost_api_test \
+	-e MONGO_INITDB_ROOT_USERNAME=admin \
 	-e MONGO_INITDB_ROOT_PASSWORD=password \
-	-e MONGO_INITDB_ROOT_USERNAME=outpost \
+	-e MONGO_INITDB_USERNAME=outpost \
+	-e MONGO_INITDB_PASSWORD=password \
+	-e MONGO_INITDB_DATABASE=outpost_api_test \
 	mongo:6
 
 	docker run -d --name outpost-test-postgres \
