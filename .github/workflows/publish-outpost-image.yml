@@ -2,9 +2,9 @@
 
 name: Publish outpost image to github container registry
 
-# on:
-#   push:
-#     branches: [develop, staging, production]
+on:
+  push:
+    branches: [develop, staging, production, feature/container-tidy]
 
 jobs:
   push-outpost-image:
@@ -34,7 +34,7 @@ jobs:
           elif [[ "$BRANCH_NAME" == "production" ]]; then
             echo "tag=latest" >> $GITHUB_ENV
           else
-            echo "tag=default" >> $GITHUB_ENV
+            echo "tag=test" >> $GITHUB_ENV
           fi
 
       - name: Set up QEMU

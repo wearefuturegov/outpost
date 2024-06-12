@@ -2,15 +2,14 @@
 
 name: Publish outpost dev-base image to github container registry
 
-on: [push]
-# on:
-#   push:
-#     branches: [develop]
-#     paths:
-#       - ".docker/images/dev-base/**"
-#   schedule:
-#     # At 08:00 on day-of-month 1 (https://crontab.guru/#0_8_1_*_*)
-#     - cron: "0 8 1 * *"
+on:
+  push:
+    branches: [develop]
+    paths:
+      - ".docker/images/dev-base/**"
+  schedule:
+    # At 08:00 on day-of-month 1 (https://crontab.guru/#0_8_1_*_*)
+    - cron: "0 8 1 * *"
 
 jobs:
   publish-dev-base:
