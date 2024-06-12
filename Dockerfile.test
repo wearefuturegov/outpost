@@ -9,6 +9,7 @@ ARG RAILS_ENV=test
 # ------------
 FROM --platform=linux/amd64 gliderlabs/herokuish:latest-${STACK_VERSION}
 COPY . /tmp/app
+COPY ./app.json /tmp
 
 ARG NODE_ENV
 ARG RAILS_ENV
