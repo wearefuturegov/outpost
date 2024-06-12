@@ -68,7 +68,7 @@ jobs:
           -e NODE_ENV=development \
           -e RAILS_ENV=test \
           --name temp_container \
-          --network=outpost-api-test-network \
+          --network=outpost-test-network \
           outpost:test
 
       - name: Run the tests
