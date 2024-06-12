@@ -7,7 +7,15 @@ ARG RAILS_ENV=production
 # build application (and install correct buildpacks from app.json along with it)
 # generate slug as app.tar.gz
 # ------------
-FROM gliderlabs/herokuish:latest-${STACK_VERSION} AS build
+
+# We need to specify linux/amd64 here because herokuish (and the heroku images further back) are not multi-platform
+# So if we want to run this on a different architecture (eg silicon macs (linux/amd64/v8) and linux/arm64), 
+# we need to specify it here to make sure it gets the right platform from the herokuish image
+# we also need to specify the platform when we build the image too (if running on a non arm64 machine)
+# https://github.com/heroku/heroku-buildpack-nodejs/issues/1268
+# https://github.com/heroku/heroku-buildpack-ruby/issues/1457
+# https://github.com/heroku/base-images/issues/194
+FROM --platform=linux/amd64 gliderlabs/herokuish:latest-${STACK_VERSION} AS build
 COPY . /tmp/app
 ARG NODE_ENV
 ARG RAILS_ENV

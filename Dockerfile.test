@@ -1,5 +1,5 @@
 ARG STACK_VERSION=20
-ARG NODE_ENV=development
+ARG NODE_ENV=test
 ARG RAILS_ENV=test
 
 # ------------
@@ -7,8 +7,8 @@ ARG RAILS_ENV=test
 # build application (and install correct buildpacks from app.json along with it)
 # generate slug as app.tar.gz
 # ------------
-FROM gliderlabs/herokuish:latest-${STACK_VERSION}
-WORKDIR /tmp/app
+FROM --platform=linux/amd64 gliderlabs/herokuish:latest-${STACK_VERSION}
+COPY . /tmp/app
 COPY ./app.json /tmp
 
 ARG NODE_ENV
@@ -23,6 +23,10 @@ RUN (cat /tmp/app.json || echo '{}') | jq -r '.environments.test.buildpacks[].ur
   (test -s /tmp/app/.buildpacks || rm /tmp/app/.buildpacks)
 RUN while IFS= read -r line; do herokuish buildpack install "$line"; done < /tmp/app/.buildpacks
 
+ENV BUNDLE_WITHOUT=""
+
+RUN /build && \
+  rm -Rf /tmp/* 
 
 
 RUN apt-get update --error-on=any
@@ -64,14 +68,14 @@ RUN curl -s https://googlechromelabs.github.io/chrome-for-testing/last-known-goo
 # chrome
 RUN CHROME_URL=$(jq -r '.channels.Stable.downloads.chrome[] | select(.platform=="linux64") | .url' /tmp/versions.json) && \
   wget -q --continue -O /tmp/chrome-linux64.zip $CHROME_URL && \
-  unzip -j /tmp/chrome-linux64.zip -d /opt/chrome
+  unzip -j -o /tmp/chrome-linux64.zip -d /opt/chrome
 
 RUN chmod +x /opt/chrome/chrome
 
 # chromedriver
 RUN CHROMEDRIVER_URL=$(jq -r '.channels.Stable.downloads.chromedriver[] | select(.platform=="linux64") | .url' /tmp/versions.json) && \
   wget -q --continue -O /tmp/chromedriver-linux64.zip $CHROMEDRIVER_URL && \
-  unzip -j /tmp/chromedriver-linux64.zip -d /opt/chromedriver && \
+  unzip -j -o /tmp/chromedriver-linux64.zip -d /opt/chromedriver && \
   chmod +x /opt/chromedriver/chromedriver
 
 # Clean up
@@ -88,5 +92,5 @@ RUN echo $RAILS_ENV
 RUN echo $NODE_ENV
 RUN echo $RAILS_SERVE_STATIC_FILES
 
-ENTRYPOINT [ "/bin/herokuish" ]
-CMD [ "buildpack", "test" ]
+ENTRYPOINT [ "/exec" ]
+CMD [ "bin/bundle", "exec", "rspec" ]

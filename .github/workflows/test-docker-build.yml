@@ -1,0 +1,44 @@
+# This action tests to make sure that the docker image can be built successfully on the specified platforms
+
+name: Test outpost image docker build
+
+on: [push]
+
+jobs:
+  test-docker-build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        platforms: ["linux/amd64"]
+    steps:
+      - name: "Checkout GitHub Action"
+        uses: actions/checkout@main
+
+      - name: Set Docker Image Tag
+        id: vars
+        run: |
+          BRANCH_NAME=${GITHUB_HEAD_REF#refs/heads/}
+          if [[ "$BRANCH_NAME" == "develop" ]]; then
+            echo "tag=development" >> $GITHUB_ENV
+          elif [[ "$BRANCH_NAME" == "staging" ]]; then
+            echo "tag=staging" >> $GITHUB_ENV
+          elif [[ "$BRANCH_NAME" == "production" ]]; then
+            echo "tag=latest" >> $GITHUB_ENV
+          else
+            echo "tag=default" >> $GITHUB_ENV
+          fi
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          tags: outpost:${{ env.tag }}
+          file: Dockerfile.production
+          platforms: ${{ matrix.platforms }}
+          push: false
