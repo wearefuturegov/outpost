@@ -30,7 +30,12 @@ jobs:
     steps:
       - uses: actions/checkout@main
 
-      - name: "Test"
+      - name: "Set up internal DB URIs"
+        run: |
+          echo "test_mongo_internal_db_uri=mongodb://${{ env.test_mongo_db_user }}:${{ env.test_mongo_db_password }}@${{ env.test_mongo_container_name }}:27017/${{ env.test_mongo_db_name }}" >> $GITHUB_ENV
+          echo "test_postgres_internal_db_uri=postgresql://${{ env.test_postgres_db_user }}:${{ env.test_postgres_db_password }}@${{ env.test_postgres_container_name }}:5432/${{ env.test_postgres_db_name }}" >> $GITHUB_ENV
+
+      - name: "Connection info"
         run: |
           echo $test_mongo_internal_db_uri
           echo $test_postgres_internal_db_uri
@@ -98,7 +103,7 @@ jobs:
 
       - name: Run the tests
         run: |
-          docker exec temp_container /exec bin/bundle exec rspec
+          docker exec test_container /exec bin/bundle exec rspec
 
       # docker exec temp_container /bin/herokuish procfile exec bin/bundle exec rails assets:precompile
 
