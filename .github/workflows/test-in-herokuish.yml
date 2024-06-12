@@ -30,30 +30,35 @@ jobs:
     steps:
       - uses: actions/checkout@main
 
+      - name: "Test"
+        run: |
+          echo $test_mongo_internal_db_uri
+          echo $test_postgres_internal_db_uri
+
       - name: "Create custom network"
-        run: docker network create $(test_network_name)
+        run: docker network create $test_network_name
 
       - name: "Setup mongo"
         run: |
-          docker run -d --name $(test_mongo_container_name) \
-          --network $(test_network_name) \
+          docker run -d --name $test_mongo_container_name \
+          --network $test_network_name \
           -p 27017:27017 \
           -v $PWD/.docker/services/mongo/setup-mongodb.js:/docker-entrypoint-initdb.d/mongo-init.js:ro \
-          -e MONGO_INITDB_ROOT_USERNAME=$(test_mongo_init_db_user) \
-          -e MONGO_INITDB_ROOT_PASSWORD=$(test_mongo_init_db_password) \
-          -e MONGO_INITDB_USERNAME=$(test_mongo_db_user) \
-          -e MONGO_INITDB_PASSWORD=$(test_mongo_db_password) \
-          -e MONGO_INITDB_DATABASE=$(test_mongo_db_name) \
+          -e MONGO_INITDB_ROOT_USERNAME=$test_mongo_init_db_user \
+          -e MONGO_INITDB_ROOT_PASSWORD=$test_mongo_init_db_password \
+          -e MONGO_INITDB_USERNAME=$test_mongo_db_user \
+          -e MONGO_INITDB_PASSWORD=$test_mongo_db_password \
+          -e MONGO_INITDB_DATABASE=$test_mongo_db_name \
           mongo:latest
 
       - name: "Setup postgres"
         run: |
-          docker run -d --name $(test_postgres_container_name) \
-          --network $(test_network_name) \
+          docker run -d --name $test_postgres_container_name \
+          --network $test_network_name \
           -p 5432:5432 \
-          -e POSTGRES_DB=$(test_postgres_db_name) \
-          -e POSTGRES_PASSWORD=$(test_postgres_db_password) \
-          -e POSTGRES_USER=$(test_postgres_db_user) \
+          -e POSTGRES_DB=$test_postgres_db_name \
+          -e POSTGRES_PASSWORD=$test_postgres_db_password \
+          -e POSTGRES_USER=$test_postgres_db_user \
           postgres:13.7-alpine
 
         # options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
@@ -80,13 +85,13 @@ jobs:
       - name: Run the image
         run: |
           docker run -d --name test_container \
-          --network $(test_network_name) \
+          --network $test_network_name \
           -p 3000:3000 \
           -e RAILS_ENV=test \
           -e NODE_ENV=development \
           -e RAILS_SERVE_STATIC_FILES=true \
-          -e DB_URI=$(test_mongo_internal_db_uri) \
-          -e DATABASE_URL=$(test_postgres_internal_db_uri) \
+          -e DB_URI=$test_mongo_internal_db_uri \
+          -e DATABASE_URL=$test_postgres_internal_db_uri \
           -e GOOGLE_API_KEY=${{ secrets.GOOGLE_API_KEY }} \
           -e OFSTED_FEED_API_ENDPOINT=https://test-ofsted-feed.stub \
           outpost:test
