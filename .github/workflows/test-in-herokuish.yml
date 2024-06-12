@@ -87,7 +87,7 @@ jobs:
             RAILS_ENV=test
             NODE_ENV=development
 
-      - name: Run the image
+      - name: Run the image and tests
         run: |
           docker run -d --name test_container \
           --network $test_network_name \
@@ -100,9 +100,6 @@ jobs:
           -e GOOGLE_API_KEY=${{ secrets.GOOGLE_API_KEY }} \
           -e OFSTED_FEED_API_ENDPOINT=https://test-ofsted-feed.stub \
           outpost:test
-
-      - name: Run the tests
-        run: |
           docker exec test_container /exec bin/bundle exec rspec
 
       # docker exec temp_container /bin/herokuish procfile exec bin/bundle exec rails assets:precompile
