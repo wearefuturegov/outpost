@@ -56,7 +56,7 @@ jobs:
 
       - name: Run the image
         env:
-          DB_URI: mongodb://outpost:password@mongo:27017/outpost_api_development
+          DB_URI: mongodb://outpost:password@mongo:27017/outpost_test
           DATABASE_URL: mongodb://outpost:password@mongo:27017/outpost_test
         run: |
           docker run --rm -d \
@@ -69,7 +69,7 @@ jobs:
           -e RAILS_ENV=test \
           --name temp_container \
           --network=outpost-api-test-network \
-          outpost-api-service:test
+          outpost:test
 
       - name: Run the tests
         run: |
