@@ -2,8 +2,7 @@
 
 export DOCKER_BUILDKIT = 1
 
-
-
+# herokuish cheatsheet for when you can't run herokuish --help
 # $ herokuish
 
 # Available commands:
@@ -26,167 +25,75 @@ export DOCKER_BUILDKIT = 1
 #   version                  Show version and supported version info
 
 
+test_network_name=outpost-test-network
+
+test_mongo_container_name=outpost-test-mongo
+test_mongo_port=27019
+test_mongo_volume_name=outpost-test-mongo-volume
+test_mongo_db_name=outpost_api_test
+test_mongo_db_user=outpost
+test_mongo_db_password=password
+test_mongo_init_db_user=admin
+test_mongo_init_db_password=password
+test_mongo_local_db_uri="mongodb://$(test_mongo_db_user):$(test_mongo_db_password)@localhost:$(test_mongo_port)/$(test_mongo_db_name)"
+test_mongo_internal_db_uri="mongodb://$(test_mongo_db_user):$(test_mongo_db_password)@$(test_mongo_container_name):27017/$(test_mongo_db_name)"
+
+test_postgres_container_name=outpost-test-postgres
+test_postgres_port=5434
+test_postgres_volume_name=outpost-test-postgres-volume
+test_postgres_db_name=outpost_test
+test_postgres_db_user=outpost
+test_postgres_db_password=password
+test_postgres_local_db_uri="postgresql://$(test_postgres_db_user):$(test_postgres_db_password)@localhost:$(test_postgres_port)/$(test_postgres_db_name)"
+test_postgres_internal_db_uri="postgresql://$(test_postgres_db_user):$(test_postgres_db_password)@$(test_postgres_container_name):5432/outpost?"
+
+
+prod_network_name=outpost-production-network
+prod_container_name=outpost_production
+prod_container_port=3000
+
+prod_mongo_container_name=outpost-production-mongo
+prod_mongo_port=27020
+prod_mongo_volume_name=outpost-production-mongo-volume
+prod_mongo_db_name=outpost_api_production
+prod_mongo_db_user=outpost
+prod_mongo_db_password=password
+prod_mongo_init_db_user=admin
+prod_mongo_init_db_password=password
+prod_mongo_local_db_uri="mongodb://$(prod_mongo_db_user):$(prod_mongo_db_password)@localhost:$(prod_mongo_port)/$(prod_mongo_db_name)"
+prod_mongo_internal_db_uri="mongodb://$(prod_mongo_db_user):$(prod_mongo_db_password)@$(prod_mongo_container_name):27017/$(prod_mongo_db_name)"
+
+
+prod_postgres_container_name=outpost-test-postgres
+prod_postgres_port=5435
+prod_postgres_volume_name=outpost-production-postgres-volume
+prod_postgres_db_name=outpost_production
+prod_postgres_db_user=outpost
+prod_postgres_db_password=password
+prod_postgres_local_db_uri="postgresql://$(prod_postgres_db_user):$(prod_postgres_db_password)@localhost:$(prod_postgres_port)/$(prod_postgres_db_name)"
+prod_postgres_internal_db_uri="postgresql://$(prod_postgres_db_user):$(prod_postgres_db_password)@$(prod_postgres_container_name):5432/outpost?"
+
+
+
 help: ## Lists all documented Make targets.
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m\make %-30s\033[0m %s\n", $$1, $$2}'
 list: help
 
-# we could also use make start cmd="up" but the docker image is set to use start as the entrypoint and up as the cmd by default
-up: ## Start the application as if it were in production
-	docker run -d --rm --name outpost_production \
-	--platform linux/amd64 \
-	--network outpost-production-network \
-	-e PORT=3000 \
-	-p 3002:3000/tcp \
-	-e NODE_ENV=production \
-	-e RAILS_ENV=production \
-	-e "DATABASE_URL=postgresql://outpost:password@outpost-production-postgres:5432/outpost?" \
-	-e "DB_URI=mongodb://outpost-production-mongo:27017/outpost_api_production" \
-	outpost:production
 
-pull: ## fetch the herokuish image
-	docker pull gliderlabs/herokuish:latest-20
 
-build: pull ## build the production image
-	docker build \
-	--platform linux/amd64 \
-	--build-arg NODE_OPTIONS=--openssl-legacy-provider \
-	--build-arg NODE_ENV=production \
-	--build-arg RAILS_ENV=production \
-	-f "Dockerfile.production" \
-	-t outpost:production "."
+# ╔══════════════════════════════════╗
+# ║          BUILD IMAGES            ║
+# ╚══════════════════════════════════╝
 
-exec: ## execute a command on the production image eg make exec cmd="bin/rails c"
-	@if [ -z "$(cmd)" ]; then echo "cmd is required"; exit 1; fi
-	docker run -it --rm \
-	--name outpost_production_release \
-	--platform linux/amd64 \
-	--entrypoint /exec \
-	--network outpost-production-network \
-	-e NODE_ENV=production \
-	-e RAILS_ENV=production \
-	-e "DATABASE_URL=postgresql://outpost:password@outpost-production-postgres:5432/outpost?" \
-	-e "DB_URI=mongodb://outpost-production-mongo:27017/outpost_api_production" \
-	outpost:production $(cmd)
 
-start: ## execute a command from the Procfile eg make start cmd=release 
-	@if [ -z "$(cmd)" ]; then echo "cmd is required"; exit 1; fi
-	docker run -it --rm \
-	--name outpost_production_release \
-	--platform linux/amd64 \
-	--entrypoint /start \
-	--network outpost-production-network \
-	-e NODE_ENV=production \
-	-e RAILS_ENV=production \
-	-e "DATABASE_URL=postgresql://outpost:password@outpost-production-postgres:5432/outpost?" \
-	-e "DB_URI=mongodb://outpost-production-mongo:27017/outpost_api_production" \
-	outpost:production $(cmd)
+build-dev-base: ## build the dev base image locally
+	docker build --progress=plain -f .docker/images/dev-base/Dockerfile -t outpost-dev-base .
 
-# production
+# --------------------
 
-production: ## create a production environment
-	docker network create outpost-production-network
-	docker volume create outpost-production-mongo-volume
-	docker volume create outpost-production-postgres-volume
-
-	docker run -d --name outpost-production-mongo \
-	--platform linux/amd64 \
-	--network outpost-production-network \
-	-p 27020:27017 \
-	-v outpost-production-mongo-volume:/data/db \
-	-v "./.docker/services/mongo/setup-mongodb.js:/docker-entrypoint-initdb.d/mongo-init.js:ro" \
-	-e MONGO_INITDB_DATABASE=outpost_api_production \
-	-e MONGO_INITDB_ROOT_PASSWORD=password \
-	-e MONGO_INITDB_ROOT_USERNAME=outpost \
-	mongo:6
-
-	docker run -d --name outpost-production-postgres \
-	--platform linux/amd64 \
-	--network outpost-production-network \
-	-p 5435:5432 \
-	-v outpost-production-postgres-volume:/var/lib/postgresql/data \
-	-e POSTGRES_DB=outpost_production \
-	-e POSTGRES_PASSWORD=password \
-	-e POSTGRES_USER=outpost \
-	postgres:13.7-alpine
-
-	make build
-	make start cmd="release"
-	make exec cmd="bin/rails SEED_ADMIN_USER=true  SEED_DUMMY_DATA=true db:seed"
-	make up
-
-	ngrok http 3002
-	
-
-production-tidy: ## tidy up the production environment
-	docker container stop outpost-production-postgres
-	docker container stop outpost-production-mongo
-	docker container stop outpost_production
-	docker container rm outpost-production-postgres
-	docker container rm outpost-production-mongo
-	docker container rm outpost_production
-	docker volume rm outpost-production-mongo-volume
-	docker volume rm outpost-production-postgres-volume
-	docker network rm outpost-production-network
-
-production-delete:	
-	docker image rm outpost:production
-
-# test
-
-tests: ## run tests as if it were in production but on local code
-	docker network create outpost-test-network
-	docker volume create outpost-test-mongo-volume
-	docker volume create outpost-test-postgres-volume
-
-	docker run -d --name outpost-test-mongo \
-	--platform linux/amd64 \
-	--network outpost-test-network \
-	-p 27019:27017 \
-	-v outpost-test-mongo-volume:/data/db \
-	-v "./.docker/services/mongo/setup-mongodb.js:/docker-entrypoint-initdb.d/mongo-init.js:ro" \
-	-e MONGO_INITDB_DATABASE=outpost_api_test \
-	-e MONGO_INITDB_ROOT_PASSWORD=password \
-	-e MONGO_INITDB_ROOT_USERNAME=outpost \
-	mongo:6
-
-	docker run -d --name outpost-test-postgres \
-	--platform linux/amd64 \
-	--network outpost-test-network \
-	-p 5434:5432 \
-	-v outpost-test-postgres-volume:/var/lib/postgresql/data \
-	-e POSTGRES_DB=outpost_test \
-	-e POSTGRES_PASSWORD=password \
-	-e POSTGRES_USER=outpost \
-	postgres:13.7-alpine
-
-	make tests-built
-
-tests-built: ## Run the tests from your local code on the prebuilt image
-	docker run --rm --name outpost_test \
-	--platform linux/amd64 \
-	--network outpost-test-network \
-	-e "DATABASE_URL=postgresql://outpost:password@outpost-test-postgres:5432/outpost?" \
-	-e "DB_URI=mongodb://outpost-test-mongo:27017/outpost_api_test" \
-	-e OFSTED_FEED_API_ENDPOINT=https://test-ofsted-feed.stub \
-	-e NODE_ENV=development \
-	-e RAILS_ENV=test \
-	-v .:/tmp/app \
-	outpost:test
-
-tests-local: ## Run the tests from your local code
-	docker run --rm --name outpost_test \
-	--platform linux/amd64 \
-	--network outpost-test-network \
-	-e "DATABASE_URL=postgresql://outpost:password@outpost-test-postgres:5432/outpost?" \
-	-e "DB_URI=mongodb://outpost-test-mongo:27017/outpost_api_test" \
-	-e OFSTED_FEED_API_ENDPOINT=https://test-ofsted-feed.stub \
-	-e NODE_ENV=development \
-	-e RAILS_ENV=test \
-	-v .:/tmp/app \
-	gliderlabs/herokuish:latest-20 /bin/herokuish buildpack test
-
-tests-build: ## build the test image
-	docker build \
+# nb: wont work on silicone macs (so untested)
+build-test: ## build the test image
+	docker build --progress=plain \
 	--platform linux/amd64 \
 	--build-arg NODE_OPTIONS=--openssl-legacy-provider \
 	--build-arg NODE_ENV=development \
@@ -194,21 +101,360 @@ tests-build: ## build the test image
 	-f "Dockerfile.test" \
 	-t outpost:test "."
 
-tests-tidy: ## tidy up test environment
-	docker container stop outpost-test-postgres
-	docker container stop outpost-test-mongo
-	docker container stop outpost_test
-	docker container rm outpost-test-postgres
-	docker container rm outpost-test-mongo
-	docker container rm outpost_test
-	docker volume rm outpost-test-mongo-volume
-	docker volume rm outpost-test-postgres-volume
-	docker network rm outpost-test-network
+# --------------------
+
+# nb: wont work on silicone macs (so untested)
+build-prod:  ## build the production image 
+	docker build --no-cache --progress=plain \
+	--platform linux/amd64 \
+	--build-arg TRACE=true \
+	--build-arg NODE_OPTIONS=--openssl-legacy-provider \
+	--build-arg NODE_ENV=production \
+	--build-arg RAILS_ENV=production \
+	-f "Dockerfile.production" \
+	-t outpost:production "."
+
+# ------------------------------------------------------------------------------
 
 
-# docker run --rm -v /abs/app/path:/tmp/app gliderlabs/herokuish /bin/herokuish buildpack test
+# ╔══════════════════════════════════╗
+# ║          RUN IMAGES            	 ║
+# ╚══════════════════════════════════╝
 
-# development
+# example of the '/app/.docker/docker-entrypoint-migrate.sh' entrypoint to migrate then run the application
+# you can also set the entrypoint to /start and the command to web or migrate_web to run the application
+up-prod: ## Start the application as if it were in production
+	make env-prod
+	@if ! docker container ls -a | grep -q $(prod_container_name); then \
+			docker run -it -d --name $(prod_container_name) \
+			--platform linux/amd64 \
+			--network $(prod_network_name) \
+			--entrypoint /app/.docker/docker-entrypoint-migrate.sh \
+			-p $(prod_container_port):3000/tcp \
+			-e SECRET_KEY_BASE=dummy \
+			-e DATABASE_URL=$(prod_postgres_internal_db_uri) \
+			-e DB_URI=$(prod_mongo_internal_db_uri) \
+			ghcr.io/wearefuturegov/outpost:latest web; \
+			echo "Container $(prod_container_name) is now running"; \
+	else \
+			echo "Container $(prod_container_name) is already running"; \
+	fi
+	@echo "Don't forget to run ngrok! ngrok http $(prod_container_port)"
+
+seed-prod: ## Seed production database
+	make cmd-exec-prod cmd="bin/rails SEED_ADMIN_USER=true  SEED_DUMMY_DATA=true SEED_DEFAULT_DATA=true db:seed"
+
+# /exec run command on the container as unprivileged user eg bin/rails c
+cmd-exec-prod: ## execute a command as an unprivileged user on the application eg make cmd-exec-prod cmd="bin/rails c"
+	@if [ -z "$(cmd)" ]; then echo "cmd is required"; exit 1; fi
+	docker exec -it $(prod_container_name) /exec $(cmd)
+
+# /start run any command from procfile eg web or migrate
+# nb /start is the default entrypoint for the production image
+cmd-start-prod: ## execute a command on the production image as if you were heroku eg make cmd-start-prod cmd="release"
+	@if [ -z "$(cmd)" ]; then echo "cmd is required"; exit 1; fi
+	docker exec -it $(prod_container_name) /start $(cmd)
+
+start-prod:	## start prod environment
+	@if ! docker container ls -a | grep -q $(prod_container_name); then \
+			echo "Container $(prod_container_name) isn't running, nothing to start"; \
+	else \
+			docker container start $(prod_container_name); \
+			echo "Container $(prod_container_name) is now started"; \
+	fi
+
+stop-prod:	## stop prod environment
+	@if ! docker container ls -a | grep -q $(prod_container_name); then \
+			echo "Container $(prod_container_name) isn't running, nothing to stop"; \
+	else \
+			docker container stop $(prod_container_name); \
+			echo "Container $(prod_container_name) is now stopped"; \
+	fi
+
+rm-prod:	## remove prod environment
+	@if ! docker container ls -a | grep -q $(prod_container_name); then \
+			echo "Container $(prod_container_name) isn't running, nothing to remove"; \
+	else \
+			docker container stop $(prod_container_name); \
+			docker container rm $(prod_container_name); \
+			echo "Container $(prod_container_name) is now gone 💥"; \
+	fi
+
+
+# ╔══════════════════════════════════╗
+# ║        SETUP ENVIRONMENT         ║
+# ╚══════════════════════════════════╝
+
+
+env-test: ## Start the test environment
+	make env-test-setup
+	make test-postgres
+	make test-mongo
+
+env-test-setup: ## Setup the test environment
+	@if ! docker network ls | grep -q $(test_network_name); then \
+			echo "Network $(test_network_name) does not exist, creating..."; \
+			docker network create $(test_network_name); \
+	else \
+			echo "Network $(test_network_name) already exists."; \
+	fi
+	@if ! docker volume ls | grep -q $(test_postgres_volume_name); then \
+			echo "Volume $(test_postgres_volume_name) does not exist, creating..."; \
+			docker volume create $(test_postgres_volume_name); \
+	else \
+			echo "Volume $(test_postgres_volume_name) already exists."; \
+	fi
+	@if ! docker volume ls | grep -q $(test_mongo_volume_name); then \
+			echo "Volume $(test_mongo_volume_name) does not exist, creating..."; \
+			docker volume create $(test_mongo_volume_name); \
+	else \
+			echo "Volume $(test_mongo_volume_name) already exists."; \
+	fi
+
+env-test-clear: ## Remove the test environment
+	@if ! docker network ls | grep -q $(test_network_name); then \
+			echo "Network $(test_network_name) does not exist"; \
+	else \
+			echo "Network $(test_network_name) exists, deleting..."; \
+			docker network rm $(test_network_name); \
+	fi
+	@if ! docker volume ls | grep -q $(test_postgres_volume_name); then \
+			echo "Volume $(test_postgres_volume_name) does not exist"; \
+	else \
+			echo "Volume $(test_postgres_volume_name) exists, deleting..."; \
+			docker volume rm $(test_postgres_volume_name); \
+	fi
+	@if ! docker volume ls | grep -q $(test_mongo_volume_name); then \
+			echo "Volume $(test_mongo_volume_name) does not exist"; \
+	else \
+			echo "Volume $(test_mongo_volume_name) exists, deleting..."; \
+			docker volume rm $(test_mongo_volume_name); \
+	fi
+
+# --------------------
+
+env-prod: ## Start the prod environment
+	make env-prod-setup
+	make prod-postgres
+	make prod-mongo
+
+env-prod-setup: ## Setup the prod environment
+	@if ! docker network ls | grep -q $(prod_network_name); then \
+			echo "Network $(prod_network_name) does not exist, creating..."; \
+			docker network create $(prod_network_name); \
+	else \
+			echo "Network $(prod_network_name) already exists."; \
+	fi
+	@if ! docker volume ls | grep -q $(prod_postgres_volume_name); then \
+			echo "Volume $(prod_postgres_volume_name) does not exist, creating..."; \
+			docker volume create $(prod_postgres_volume_name); \
+	else \
+			echo "Volume $(prod_postgres_volume_name) already exists."; \
+	fi
+	@if ! docker volume ls | grep -q $(prod_mongo_volume_name); then \
+			echo "Volume $(prod_mongo_volume_name) does not exist, creating..."; \
+			docker volume create $(prod_mongo_volume_name); \
+	else \
+			echo "Volume $(prod_mongo_volume_name) already exists."; \
+	fi
+
+env-prod-clear: ## Remove the prod environment
+	@if ! docker network ls | grep -q $(prod_network_name); then \
+			echo "Network $(prod_network_name) does not exist"; \
+	else \
+			echo "Network $(prod_network_name) exists, deleting..."; \
+			docker network rm $(prod_network_name); \
+	fi
+	@if ! docker volume ls | grep -q $(prod_postgres_volume_name); then \
+			echo "Volume $(prod_postgres_volume_name) does not exist"; \
+	else \
+			echo "Volume $(prod_postgres_volume_name) exists, deleting..."; \
+			docker volume rm $(prod_postgres_volume_name); \
+	fi
+	@if ! docker volume ls | grep -q $(prod_mongo_volume_name); then \
+			echo "Volume $(prod_mongo_volume_name) does not exist"; \
+	else \
+			echo "Volume $(prod_mongo_volume_name) exists, deleting..."; \
+			docker volume rm $(prod_mongo_volume_name); \
+	fi
+
+
+# ------------------------------------------------------------------------------
+
+
+# ╔══════════════════════════════════╗
+# ║         SETUP POSTGRES           ║
+# ╚══════════════════════════════════╝
+
+test-postgres:  ## run postgres for the test environment
+	make env-test-setup
+	@if ! docker container ls -a | grep -q $(test_postgres_container_name); then \
+			docker run -d --name $(test_postgres_container_name) \
+			--network $(test_network_name) \
+			-p $(test_postgres_port):5432 \
+			-v $(test_postgres_volume_name):/var/lib/postgresql/data \
+			-e POSTGRES_DB=$(test_postgres_db_name) \
+			-e POSTGRES_PASSWORD=$(test_postgres_db_password) \
+			-e POSTGRES_USER=$(test_postgres_db_user) \
+			postgres:13.7-alpine; \
+			echo "Container $(test_postgres_container_name) is now running"; \
+	else \
+			echo "Container $(test_postgres_container_name) is already running"; \
+	fi
+	@echo "Connect to it from your machine at: $(test_postgres_local_db_uri)"
+	@echo "The DATABASE_URL connection string will be: $(test_postgres_internal_db_uri)"
+
+test-postgres-stop:	## stop postgres for the test environment
+	@if ! docker container ls -a | grep -q $(test_postgres_container_name); then \
+			echo "Container $(test_postgres_container_name) isn't running, nothing to stop"; \
+	else \
+			docker container stop $(test_postgres_container_name); \
+			echo "Container $(test_postgres_container_name) is now stopped"; \
+	fi
+
+test-postgres-rm:	## remove postgres for the test environment
+	@if ! docker container ls -a | grep -q $(test_postgres_container_name); then \
+			echo "Container $(test_postgres_container_name) isn't running, nothing to remove"; \
+	else \
+			docker container stop $(test_postgres_container_name); \
+			docker container rm $(test_postgres_container_name); \
+			echo "Container $(test_postgres_container_name) is now gone 💥"; \
+	fi
+
+# --------------------
+
+prod-postgres:  ## run postgres for the prod environment
+	make env-prod-setup
+	@if ! docker container ls -a | grep -q $(prod_postgres_container_name); then \
+			docker run -d --name $(prod_postgres_container_name) \
+			--network $(prod_network_name) \
+			-p $(prod_postgres_port):5432 \
+			-v $(prod_postgres_volume_name):/var/lib/postgresql/data \
+			-e POSTGRES_DB=$(prod_postgres_db_name) \
+			-e POSTGRES_PASSWORD=$(prod_postgres_db_password) \
+			-e POSTGRES_USER=$(prod_postgres_db_user) \
+			postgres:13.7-alpine; \
+			echo "Container $(prod_postgres_container_name) is now running"; \
+	else \
+			echo "Container $(prod_postgres_container_name) is already running"; \
+	fi
+	@echo "Connect to it from your machine at: $(test_postgres_local_db_uri)"
+	@echo "The DATABASE_URL connection string will be: $(test_postgres_internal_db_uri)"
+
+
+prod-postgres-stop:	## stop postgres for the prod environment
+	@if ! docker container ls -a | grep -q $(prod_postgres_container_name); then \
+			echo "Container $(prod_postgres_container_name) isn't running, nothing to stop"; \
+	else \
+			docker container stop $(prod_postgres_container_name); \
+			echo "Container $(prod_postgres_container_name) is now stopped"; \
+	fi
+
+prod-postgres-rm:	## remove postgres for the prod environment
+	@if ! docker container ls -a | grep -q $(prod_postgres_container_name); then \
+			echo "Container $(prod_postgres_container_name) isn't running, nothing to remove"; \
+	else \
+			docker container stop $(prod_postgres_container_name); \
+			docker container rm $(prod_postgres_container_name); \
+			echo "Container $(prod_postgres_container_name) is now gone 💥"; \
+	fi
+
+
+# ------------------------------------------------------------------------------
+
+
+# ╔══════════════════════════════════╗
+# ║         SETUP MONGO              ║
+# ╚══════════════════════════════════╝
+
+test-mongo:  ## run postgres for the test environment
+	make env-test-setup
+	@if ! docker container ls -a | grep -q $(test_mongo_container_name); then \
+			docker run -d --name $(test_mongo_container_name) \
+			--platform=linux/arm64 \
+			--network $(test_network_name) \
+			-p $(test_mongo_port):27017 \
+			-v $(test_mongo_volume_name):/data/db \
+			-v "./.docker/services/mongo/setup-mongodb.js:/docker-entrypoint-initdb.d/mongo-init.js:ro" \
+			-e MONGO_INITDB_ROOT_USERNAME=$(test_mongo_init_db_user) \
+      -e MONGO_INITDB_ROOT_PASSWORD=$(test_mongo_init_db_password) \
+      -e MONGO_INITDB_USERNAME=$(test_mongo_db_user) \
+      -e MONGO_INITDB_PASSWORD=$(test_mongo_db_password) \
+      -e MONGO_INITDB_DATABASE=$(test_mongo_db_name) \
+			mongo:6; \
+			echo "Container $(test_mongo_container_name) is now running"; \
+	else \
+			echo "Container $(test_mongo_container_name) is already running"; \
+	fi
+	@echo "Connect to it from your machine at: $(test_mongo_local_db_uri)"
+	@echo "The DB_URI connection string will be: $(test_mongo_internal_db_uri)"
+
+test-mongo-stop:	## stop mongo for the test environment
+	@if ! docker container ls -a | grep -q $(test_mongo_container_name); then \
+			echo "Container $(test_mongo_container_name) isn't running, nothing to stop"; \
+	else \
+			docker container stop $(test_mongo_container_name); \
+			echo "Container $(test_mongo_container_name) is now stopped"; \
+	fi
+
+test-mongo-rm:	## remove mongo for the test environment
+	@if ! docker container ls -a | grep -q $(test_mongo_container_name); then \
+			echo "Container $(test_mongo_container_name) isn't running, nothing to remove"; \
+	else \
+			docker container stop $(test_mongo_container_name); \
+			docker container rm $(test_mongo_container_name); \
+			echo "Container $(test_mongo_container_name) is now gone 💥"; \
+	fi
+
+# --------------------
+
+prod-mongo:  ## run postgres for the prod environment
+	make env-prod-setup
+	@if ! docker container ls -a | grep -q $(prod_mongo_container_name); then \
+			docker run -d --name $(prod_mongo_container_name) \
+			--platform=linux/arm64 \
+			--network $(prod_network_name) \
+			-p $(prod_mongo_port):27017 \
+			-v $(prod_mongo_volume_name):/data/db \
+			-v "./.docker/services/mongo/setup-mongodb.js:/docker-entrypoint-initdb.d/mongo-init.js:ro" \
+			-e MONGO_INITDB_ROOT_USERNAME=$(prod_mongo_init_db_user) \
+      -e MONGO_INITDB_ROOT_PASSWORD=$(prod_mongo_init_db_password) \
+      -e MONGO_INITDB_USERNAME=$(prod_mongo_db_user) \
+      -e MONGO_INITDB_PASSWORD=$(prod_mongo_db_password) \
+      -e MONGO_INITDB_DATABASE=$(prod_mongo_db_name) \
+			mongo:6; \
+			echo "Container $(prod_mongo_container_name) is now running"; \
+	else \
+			echo "Container $(prod_mongo_container_name) is already running"; \
+	fi
+	@echo "Connect to it from your machine at: $(prod_mongo_local_db_uri)"
+	@echo "The DB_URI connection string will be: $(prod_mongo_internal_db_uri)"
+
+prod-mongo-stop:	## stop mongo for the prod environment
+	@if ! docker container ls -a | grep -q $(prod_mongo_container_name); then \
+			echo "Container $(prod_mongo_container_name) isn't running, nothing to stop"; \
+	else \
+			docker container stop $(prod_mongo_container_name); \
+			echo "Container $(prod_mongo_container_name) is now stopped"; \
+	fi
+
+prod-mongo-rm:	## remove mongo for the prod environment
+	@if ! docker container ls -a | grep -q $(prod_mongo_container_name); then \
+			echo "Container $(prod_mongo_container_name) isn't running, nothing to remove"; \
+	else \
+			docker container stop $(prod_mongo_container_name); \
+			docker container rm $(prod_mongo_container_name); \
+			echo "Container $(prod_mongo_container_name) is now gone 💥"; \
+	fi
+
+
+
+# ------------------------------------------------------------------------------
+
+
+# ╔══════════════════════════════════╗
+# ║         DEVELOPMENT              ║
+# ╚══════════════════════════════════╝
 # some helpers when developing locally 
 
 dev-up: ## run local development environment
@@ -216,9 +462,6 @@ dev-up: ## run local development environment
 
 dev-build: ## build local image
 	docker compose build
-
-dev-build-dev-base: ## build the def base image locally
-	docker build --progress=plain -f .docker/images/dev-base/Dockerfile -t outpost-dev-base .
 
 dev-down: ## remove all local containers
 	docker compose down
