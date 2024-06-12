@@ -111,7 +111,7 @@ jobs:
           -e DATABASE_URL=$test_postgres_internal_db_uri \
           -e GOOGLE_API_KEY=${{ secrets.GOOGLE_API_KEY }} \
           -e OFSTED_FEED_API_ENDPOINT=https://test-ofsted-feed.stub \
-          outpost:test
+          outpost:test /bin/herokuish procfile exec bin/bundle exec rspec
 
 # docker exec test_container /exec bin/bundle exec rspec
 
