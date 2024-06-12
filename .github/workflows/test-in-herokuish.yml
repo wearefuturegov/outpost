@@ -20,7 +20,7 @@ jobs:
           -e MONGO_INITDB_ROOT_PASSWORD=password \
           -e MONGO_INITDB_USERNAME=outpost \
           -e MONGO_INITDB_PASSWORD=password \
-          -e MONGO_INITDB_DATABASE=outpost_test \
+          -e MONGO_INITDB_DATABASE=outpost_api_test \
           -v $PWD/.docker/services/mongo/setup-mongodb.js:/docker-entrypoint-initdb.d/mongo-init.js:ro \
           --network=outpost-test-network \
           mongo:latest
@@ -53,10 +53,11 @@ jobs:
           build-args: |
             NODE_OPTIONS=--openssl-legacy-provider
             RAILS_ENV=test
+            NODE_ENV=development
 
       - name: Run the image
         env:
-          DB_URI: mongodb://outpost:password@mongo:27017/outpost_test
+          DB_URI: mongodb://outpost:password@mongo:27017/outpost_api_test
           DATABASE_URL: mongodb://outpost:password@mongo:27017/outpost_test
         run: |
           docker run --rm -d \
@@ -73,6 +74,6 @@ jobs:
 
       - name: Run the tests
         run: |
-          docker exec temp_container /bin/herokuish procfile exec bin/bundle exec rspec
+          docker exec temp_container /bin/herokuish procfile exec bundle exec rspec
 
       # docker exec temp_container /bin/herokuish procfile exec bin/bundle exec rails assets:precompile
