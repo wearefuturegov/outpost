@@ -21,8 +21,8 @@ env:
   test_postgres_db_name: outpost_test
   test_postgres_db_user: outpost
   test_postgres_db_password: password
-  test_mongo_internal_db_uri: "mongodb://$(test_mongo_db_user):$(test_mongo_db_password)@$(test_mongo_container_name):27017/$(test_mongo_db_name)"
-  test_postgres_internal_db_uri: "postgresql://$(test_postgres_db_user):$(test_postgres_db_password)@$(test_postgres_container_name):5432/outpost?"
+  test_mongo_internal_db_uri: "mongodb://$test_mongo_db_user:$test_mongo_db_password@$test_mongo_container_name:27017/$test_mongo_db_name"
+  test_postgres_internal_db_uri: "postgresql://$test_postgres_db_user:$test_postgres_db_password@$test_postgres_container_name:5432/outpost?"
 
 jobs:
   test-in-herokuish:
