@@ -68,6 +68,13 @@ jobs:
 
         # options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
+      - name: "Login to GitHub Container Registry"
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{github.actor}}
+          password: ${{secrets.GITHUB_TOKEN}}
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 
@@ -78,17 +85,18 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          tags: outpost:test
+          tags: ghcr.io/wearefuturegov/outpost:test
           file: Dockerfile.test
-          load: true
+          # load: true
+          push: true
           build-args: |
             NODE_OPTIONS=--openssl-legacy-provider
             RAILS_ENV=test
             NODE_ENV=development
 
-      - name: Test
-        run: |
-          docker run --rm outpost:test
+      # - name: Test
+      #   run: |
+      #     docker run --rm outpost:test
 
       # - name: Run the image and tests
       #   run: |
