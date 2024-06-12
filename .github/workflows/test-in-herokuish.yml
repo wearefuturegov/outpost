@@ -80,27 +80,30 @@ jobs:
           context: .
           tags: outpost:test
           file: Dockerfile.test
-          push: false
           load: true
           build-args: |
             NODE_OPTIONS=--openssl-legacy-provider
             RAILS_ENV=test
             NODE_ENV=development
 
-      - name: Run the image and tests
+      - name: Test
         run: |
-          docker run -d --name test_container \
-          --network $test_network_name \
-          -p 3000:3000 \
-          -e RAILS_ENV=test \
-          -e NODE_ENV=development \
-          -e RAILS_SERVE_STATIC_FILES=true \
-          -e DB_URI=$test_mongo_internal_db_uri \
-          -e DATABASE_URL=$test_postgres_internal_db_uri \
-          -e GOOGLE_API_KEY=${{ secrets.GOOGLE_API_KEY }} \
-          -e OFSTED_FEED_API_ENDPOINT=https://test-ofsted-feed.stub \
-          outpost:test
-          docker exec test_container /exec bin/bundle exec rspec
+          docker run --rm outpost:test
+
+      # - name: Run the image and tests
+      #   run: |
+      #     docker run -d --name test_container \
+      #     --network $test_network_name \
+      #     -p 3000:3000 \
+      #     -e RAILS_ENV=test \
+      #     -e NODE_ENV=development \
+      #     -e RAILS_SERVE_STATIC_FILES=true \
+      #     -e DB_URI=$test_mongo_internal_db_uri \
+      #     -e DATABASE_URL=$test_postgres_internal_db_uri \
+      #     -e GOOGLE_API_KEY=${{ secrets.GOOGLE_API_KEY }} \
+      #     -e OFSTED_FEED_API_ENDPOINT=https://test-ofsted-feed.stub \
+      #     outpost:test
+      #     docker exec test_container /exec bin/bundle exec rspec
 
       # docker exec temp_container /bin/herokuish procfile exec bin/bundle exec rails assets:precompile
 
