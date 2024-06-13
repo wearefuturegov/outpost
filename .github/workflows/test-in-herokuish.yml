@@ -1,68 +1,123 @@
 # @TODO fix static files not generating in this image
+
+# RAILS_ENV: test
+# NODE_ENV: development
+# test_mongo_local_db_uri="mongodb://$(test_mongo_db_user):$(test_mongo_db_password)@localhost:$(test_mongo_port)/$(test_mongo_db_name)"
+# test_postgres_local_db_uri="postgresql://$(test_postgres_db_user):$(test_postgres_db_password)@localhost:$(test_postgres_port)/$(test_postgres_db_name)"
+
 name: Run tests in herokuish
 
-# on: [push]
+on: [push]
+
+env:
+  test_network_name: outpost-test-network
+  test_mongo_container_name: outpost-test-mongo
+  test_mongo_init_db_user: admin
+  test_mongo_init_db_password: password
+  test_mongo_db_name: outpost_api_test
+  test_mongo_db_user: outpost
+  test_mongo_db_password: password
+  test_postgres_container_name: outpost-test-postgres
+  test_postgres_db_name: outpost_test
+  test_postgres_db_user: outpost
+  test_postgres_db_password: password
+  test_mongo_internal_db_uri: "mongodb://$test_mongo_db_user:$test_mongo_db_password@$test_mongo_container_name:27017/$test_mongo_db_name"
+  test_postgres_internal_db_uri: "postgresql://$test_postgres_db_user:$test_postgres_db_password@$test_postgres_container_name:5432/outpost?"
 
 jobs:
-  build:
+  test-in-herokuish:
     runs-on: ubuntu-latest
-
-    services:
-      postgres:
-        image: postgres:13.7-alpine
-        env:
-          POSTGRES_USER: outpost
-          POSTGRES_PASSWORD: password
-          POSTGRES_DB: outpost_test
-        ports:
-          - 5432:5432
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-      mongo:
-        image: mongo:6
-        env:
-          MONGO_INITDB_ROOT_USERNAME: root
-          MONGO_INITDB_ROOT_PASSWORD: password
-        ports:
-          - 27017:27017
-
     steps:
       - uses: actions/checkout@main
 
-      - name: Build the Docker test image
+      - name: "Set up internal DB URIs"
         run: |
-          docker build \
-          --build-arg NODE_OPTIONS=--openssl-legacy-provider \
-          --build-arg NODE_ENV=development \
-          --build-arg RAILS_ENV=test \
-          -f "Dockerfile.test" \
-          -t outpost:test "."
+          echo "test_mongo_internal_db_uri=mongodb://${{ env.test_mongo_db_user }}:${{ env.test_mongo_db_password }}@${{ env.test_mongo_container_name }}:27017/${{ env.test_mongo_db_name }}" >> $GITHUB_ENV
+          echo "test_postgres_internal_db_uri=postgresql://${{ env.test_postgres_db_user }}:${{ env.test_postgres_db_password }}@${{ env.test_postgres_container_name }}:5432/${{ env.test_postgres_db_name }}" >> $GITHUB_ENV
 
-      # - name: Precompile assets
+      - name: "Connection info"
+        run: |
+          echo $test_mongo_internal_db_uri
+          echo $test_postgres_internal_db_uri
+
+      - name: "Create custom network"
+        run: docker network create $test_network_name
+
+      - name: "Setup mongo"
+        run: |
+          docker run -d --name $test_mongo_container_name \
+          --network $test_network_name \
+          -p 27017:27017 \
+          -v $PWD/.docker/services/mongo/setup-mongodb.js:/docker-entrypoint-initdb.d/mongo-init.js:ro \
+          -e MONGO_INITDB_ROOT_USERNAME=$test_mongo_init_db_user \
+          -e MONGO_INITDB_ROOT_PASSWORD=$test_mongo_init_db_password \
+          -e MONGO_INITDB_USERNAME=$test_mongo_db_user \
+          -e MONGO_INITDB_PASSWORD=$test_mongo_db_password \
+          -e MONGO_INITDB_DATABASE=$test_mongo_db_name \
+          mongo:latest
+
+      - name: "Setup postgres"
+        run: |
+          docker run -d --name $test_postgres_container_name \
+          --network $test_network_name \
+          -p 5432:5432 \
+          -e POSTGRES_DB=$test_postgres_db_name \
+          -e POSTGRES_PASSWORD=$test_postgres_db_password \
+          -e POSTGRES_USER=$test_postgres_db_user \
+          postgres:13.7-alpine
+
+        # options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+      # - name: "Login to GitHub Container Registry"
+      #   uses: docker/login-action@v3
+      #   with:
+      #     registry: ghcr.io
+      #     username: ${{github.actor}}
+      #     password: ${{secrets.GITHUB_TOKEN}}
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          # tags: ghcr.io/wearefuturegov/outpost:test
+          tags: outpost:test
+          file: Dockerfile.test
+          load: true
+          # push: true
+          build-args: |
+            RACK_ENV=test 
+            RAILS_ENV=test
+            NPM_CONFIG_PRODUCTION=false
+            NPM_CONFIG_LOGLEVEL=error
+            USE_YARN_CACHE=true
+            NODE_OPTIONS=--openssl-legacy-provider
+            NODE_VERBOSE=false
+            NODE_ENV=test
+            NODE_MODULES_CACHE=true
+
+      # - name: Test
       #   run: |
-      #     docker run --rm --name outpost_test \
-      #     --entrypoint /build \
-      #     --network host \
-      #     -e GOOGLE_API_KEY=${{ secrets.GOOGLE_API_KEY }} \
-      #     -e "DATABASE_URL=postgresql://outpost:password@localhost:5432/outpost?" \
-      #     -e "DB_URI=mongodb://root:password@localhost:27017/outpost_development?authSource=admin" \
-      #     -e OFSTED_FEED_API_ENDPOINT=https://test-ofsted-feed.stub \
-      #     -e NODE_ENV=development \
-      #     -e RAILS_ENV=test \
-      #     -v .:/tmp/app \
-      #     outpost:test /bin/herokuish procfile exec bin/bundle exec rails assets:precompile
+      #     docker run --rm outpost:test
 
-      - name: Run the tests in the docker container
-        env:
-          RAILS_SERVE_STATIC_FILES: true
+      - name: Run the image and tests
         run: |
-          docker run --rm --name outpost_test \
-          --network host \
-          -e RAILS_SERVE_STATIC_FILES=true \
-          -e GOOGLE_API_KEY=${{ secrets.GOOGLE_API_KEY }} \
-          -e "DATABASE_URL=postgresql://outpost:password@localhost:5432/outpost?" \
-          -e "DB_URI=mongodb://root:password@localhost:27017/outpost_development?authSource=admin" \
-          -e OFSTED_FEED_API_ENDPOINT=https://test-ofsted-feed.stub \
-          -e NODE_ENV=development \
+          docker run --rm --name test_container \
+          --network $test_network_name \
+          -p 3000:3000 \
+          -e RACK_ENV=test \
           -e RAILS_ENV=test \
-          -v .:/tmp/app \
+          -e NODE_ENV=test \
+          -e RAILS_SERVE_STATIC_FILES=true \
+          -e SECRET_KEY_BASE=dummy \
+          -e DB_URI=$test_mongo_internal_db_uri \
+          -e DATABASE_URL=$test_postgres_internal_db_uri \
+          -e GOOGLE_API_KEY=${{ secrets.GOOGLE_API_KEY }} \
+          -e OFSTED_FEED_API_ENDPOINT=https://test-ofsted-feed.stub \
+          -e DATABASE_CLEANER_ALLOW_PRODUCTION=true \
           outpost:test
