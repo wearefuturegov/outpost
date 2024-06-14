@@ -6,12 +6,13 @@ on:
   push:
     branches: [develop, staging, production]
 
+# multi platform  builds are disabled until we upgrade to a newer version of heroku stack
 jobs:
   push-outpost-image:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        platforms: ["linux/amd64"]
+    # strategy:
+    #   matrix:
+    #     platforms: ["linux/amd64"]
     steps:
       - name: "Checkout GitHub Action"
         uses: actions/checkout@main
@@ -37,11 +38,11 @@ jobs:
             echo "tag=default" >> $GITHUB_ENV
           fi
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
+      # - name: Set up QEMU
+      #   uses: docker/setup-qemu-action@v3
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+      # - name: Set up Docker Buildx
+      #   uses: docker/setup-buildx-action@v3
 
       - name: Build and push outpost docker image
         uses: docker/build-push-action@v5
@@ -49,7 +50,7 @@ jobs:
           context: .
           tags: ghcr.io/wearefuturegov/outpost:${{ env.tag }}
           file: Dockerfile.production
-          platforms: ${{ matrix.platforms }}
+          # platforms: ${{ matrix.platforms }}
           push: true
           outputs: type=image,name=target,annotation-index.org.opencontainers.image.description=Outpost image
           labels: org.opencontainers.image.source=https://github.com/wearefuturegov/outpost
