@@ -4,7 +4,7 @@ name: Publish outpost image to github container registry
 
 on:
   push:
-    branches: [develop, staging, production, feature/disable-multi-platform]
+    branches: [develop, staging, production]
 
 # multi platform  builds are disabled until we upgrade to a newer version of heroku stack
 jobs:
