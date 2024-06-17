@@ -86,7 +86,7 @@ cp -rp sample.env .env
 docker compose up -d
 
 # setup dummy data and example user login
-docker compose exec outpost bin/rails SEED_ADMIN_USER=true SEED_DUMMY_DATA=true db:seed
+docker compose exec outpost bin/rails SEED_ADMIN_USER=true SEED_DUMMY_DATA=true SEED_DEFAULT_DATA=true db:seed
 ```
 
 This will setup outpost, mongo, postgres and the [outpost-api-service](https://github.com/wearefuturegov/outpost-api-service) on your machine.
