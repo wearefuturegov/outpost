@@ -31,6 +31,13 @@ class IndexedServicesSerializer < ActiveModel::Serializer
     object.locations.where(visible: true)
   end
 
+  has_many :service_at_locations do
+    object.service_at_locations.includes(:location).where(locations: { visible: true })
+  end
+
+  # uses a modified version of the RegularScheduleSerializer that includes regular_schedules to prevent loops
+  has_many :regular_schedules, serializer: RegularScheduleServiceAtLocationSerializer
+
   has_many :contacts do
     object.contacts.where(visible: true)
   end
@@ -47,7 +54,6 @@ class IndexedServicesSerializer < ActiveModel::Serializer
   belongs_to :organisation
 
   has_many :taxonomies
-  has_many :regular_schedules
   has_many :cost_options
   has_many :links
   has_many :send_needs
