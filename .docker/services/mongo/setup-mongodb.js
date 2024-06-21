@@ -28,7 +28,7 @@ db.indexed_services.createIndex(
   }
 );
 db.indexed_services.createIndex({
-  "locations.geometry": "2dsphere",
+  "service_at_locations.location.geometry": "2dsphere",
 });
 db.indexed_services.createIndex({
   "taxonomies.slug": 1,
