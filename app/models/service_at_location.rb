@@ -7,4 +7,5 @@ class ServiceAtLocation < ApplicationRecord
 
   has_many :contacts, through: :service
   has_many :taxonomies, through: :service
+  has_many :regular_schedules
 end

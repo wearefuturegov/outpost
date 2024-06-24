@@ -49,6 +49,9 @@ class Service < ApplicationRecord
 
   has_many :regular_schedules
   accepts_nested_attributes_for :regular_schedules, allow_destroy: true, reject_if: :all_blank
+  def all_blank_except_service_at_location_id(attributes)
+    attributes.all? { |key, value| key == 'service_at_location_id' || value.blank? }
+  end
 
   has_one :local_offer
   accepts_nested_attributes_for :local_offer, allow_destroy: true
