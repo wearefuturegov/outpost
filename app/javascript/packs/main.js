@@ -34,3 +34,4 @@ import customFields from "./_custom-fields";
 import fixAjaxForms from "./_fix-ajax-forms";
 import wysiwyg from "./wysiwyg";
 import clearVisibleFromTo from "./clear-visible-from-to";
+// import adminLocationScheduleSync from "./admin-location-schedule-sync";

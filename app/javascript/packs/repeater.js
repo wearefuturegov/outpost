@@ -42,6 +42,13 @@ editors.forEach((editor) => {
         }
       });
     }
+
+    console.log(newResult);
+    // let others know the task is done 👀
+    let addedEvent = new CustomEvent("itemAdded", {
+      detail: { object_id: time, association: addButton.dataset.association },
+    });
+    document.dispatchEvent(addedEvent);
   });
 
   // Remove item

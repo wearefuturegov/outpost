@@ -1,6 +1,7 @@
 class API::V1::ServicesController < ApplicationController
     skip_before_action :authenticate_user!
-    before_action -> { doorkeeper_authorize! :admin }
+    # before_action -> { doorkeeper_authorize! :admin }
+
 
     # /api/v1/services?format=full|mini?ids=1,2,3
     def index
@@ -27,7 +28,7 @@ class API::V1::ServicesController < ApplicationController
             services = services.page(params[:page]).per(20)
             if format == 'full'
                 # @TODO this will return be a paginated list of services but it needs tests to ensure its open referral compliance 
-                # render json: json_tree(services, services.map { |s| IndexedServicesSerializer.new(s).as_json })
+                render json: json_tree(services, services.map { |s| IndexedServicesSerializer.new(s).as_json })
             elsif format == 'mini'
                 render json: json_tree(services, services.map { |s| mini_services_json_tree(s) })
             end
