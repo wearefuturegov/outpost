@@ -65,14 +65,14 @@ RUN curl -s https://googlechromelabs.github.io/chrome-for-testing/last-known-goo
 # chrome
 RUN CHROME_URL=$(jq -r '.channels.Stable.downloads.chrome[] | select(.platform=="linux64") | .url' /tmp/versions.json) && \
   wget -q --continue -O /tmp/chrome-linux64.zip $CHROME_URL && \
-  unzip -j /tmp/chrome-linux64.zip -d /opt/chrome
+  unzip -j -o /tmp/chrome-linux64.zip -d /opt/chrome
 
 RUN chmod +x /opt/chrome/chrome
 
 # chromedriver
 RUN CHROMEDRIVER_URL=$(jq -r '.channels.Stable.downloads.chromedriver[] | select(.platform=="linux64") | .url' /tmp/versions.json) && \
   wget -q --continue -O /tmp/chromedriver-linux64.zip $CHROMEDRIVER_URL && \
-  unzip -j /tmp/chromedriver-linux64.zip -d /opt/chromedriver && \
+  unzip -j -o /tmp/chromedriver-linux64.zip -d /opt/chromedriver && \
   chmod +x /opt/chromedriver/chromedriver
 
 # Clean up
@@ -85,6 +85,7 @@ RUN echo 'export PATH="/opt/chrome:/opt/chromedriver:$PATH"' >> ~/.bashrc
 RUN echo "Chrome: " && chrome --version
 RUN echo "Chromedriver: " && chromedriver --version
 
+RUN chown -R outpost-user:outpost-user /home/outpost-user/.cache
 USER outpost-user
 
 # set $HOME to outpost-user path for this non-interactive session

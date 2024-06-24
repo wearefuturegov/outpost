@@ -47,32 +47,7 @@ class Admin::Tools::BulkAddTaxonomiesController < Admin::BaseController
       
         begin
           service_updated = ActiveRecord::Base.transaction do
-            
-            update_service = PaperTrail.request(enabled: false) do
-              service.update!(taxonomy_ids: (service_taxonomy_ids | taxonomy_ids))
-            end
-
-            if update_service
-
-              # create a manual papertrail version (if update is successful)
-              # the .to_json method in service does a lot of queries and we know we're only updating the taxonomies and updated_at date here
-              last_version = service.versions.last.object
-              current_changes = service.as_json(only: [:taxonomies, :updated_at], include: { taxonomies: { methods: :slug } })
-              new_object = last_version.merge(current_changes)
-              
-              version = PaperTrail::Version.create(
-                item_type: 'Service', 
-                item_id: service.id, 
-                event: 'update', 
-                whodunnit: nil, 
-                object: new_object,
-                object_changes: service.saved_changes
-              )
-              version.persisted? if version
-            else
-              false
-            end
-
+            update_service = service.update!(taxonomy_ids: (service_taxonomy_ids | taxonomy_ids))
           end
         rescue ActiveRecord::RecordInvalid => e
           puts "Caught RecordInvalid exception: #{e.message}"

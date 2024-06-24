@@ -1,0 +1,5 @@
+include RegularScheduleHelper
+
+class RegularScheduleServiceAtLocationSerializer < RegularScheduleSerializer
+  belongs_to :service_at_location, serializer: ServiceAtLocationSerializer
+end

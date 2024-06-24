@@ -145,6 +145,7 @@ class Admin::ServicesController < Admin::BaseController
       ],
       regular_schedules_attributes: [
         :id,
+        :service_at_location_id,
         :opens_at,
         :closes_at,
         :weekday,

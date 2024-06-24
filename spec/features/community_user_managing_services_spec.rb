@@ -43,7 +43,7 @@ feature 'Community user managing services', type: :feature do
       fill_in('To', with: '01/01/2021')
       click_link_or_button('Continue')
 
-      click_link_or_button('Opening times')
+      click_link_or_button('Opening and event times')
       click_link_or_button('Continue')
 
       click_link_or_button('Fees')
