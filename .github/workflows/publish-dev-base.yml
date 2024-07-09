@@ -1,6 +1,6 @@
 # This action pre-builds the dev-base image and pushes it to the GitHub Container Registry (GHCR)
 
-name: Deploy dev-base image to github container registry
+name: Publish outpost dev-base image to github container registry
 
 on:
   push:
@@ -12,7 +12,7 @@ on:
     - cron: "0 8 1 * *"
 
 jobs:
-  push-dev-base-image:
+  publish-dev-base:
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout GitHub Action"
@@ -31,7 +31,6 @@ jobs:
           context: .
           tags: ghcr.io/wearefuturegov/outpost-dev-base
           file: .docker/images/dev-base/Dockerfile
-          platforms: ${{ matrix.platforms }}
           push: true
           outputs: type=image,name=target,annotation-index.org.opencontainers.image.description=Outpost dev base image
           labels: org.opencontainers.image.source=https://github.com/wearefuturegov/outpost
