@@ -49,3 +49,39 @@ locations:
     postal_code: S1 1DA
     latitude: 53.38108
     longitude: 1.466765
+
+taxonomies:
+  - name: "Things to do"
+    children: []
+  - name: "Advice and support"
+    children:
+      - name: "Health and wellbeing"
+      - name: "Mental health"
+      - name: "For older people"
+      - name: "Food support"
+      - name: "Welcoming spaces"
+  - name: "Education and learning"
+    children:
+      - name: "Primary schools"
+        children:
+          - name: "Primary with a nursery or preschool"
+      - name: "Secondary schools"
+        children:
+          - name: "Grammar schools"
+          - name: "Non-Grammar schools"
+          - name: "Schools with sixth forms"
+      - name: "Private and independent schools"
+        children: []
+      - name: "Private tuition"
+        children:
+          - name: "English"
+          - name: "Maths"
+          - name: "Sciences"
+          - name: "Languages"
+          - name: "Music"
+      - name: "Support for parents"
+        children: []
+  - name: "Staying active"
+    children: []
+  - name: "Environment"
+    children: []
