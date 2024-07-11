@@ -21,30 +21,30 @@ task :update_public_index => :environment  do
 
         # active services are all indexed
         when 'active'
-            upsert_active = collection.find_one_and_update({ id: service.id },
+            collection.find_one_and_update({ id: service.id },
                                         IndexedServicesSerializer.new(service).as_json,
                                         { upsert: true })
             active_count += 1
             puts "ACTIVE: #{service.name} indexed"
-            active_ids << upsert_active[:id]
+            active_ids << service.id
 
         # temporarily closed services are all indexed
         when 'temporarily closed'
-            upsert_temporarily_closed = collection.find_one_and_update({ id: service.id },
+            collection.find_one_and_update({ id: service.id },
                                         IndexedServicesSerializer.new(service).as_json,
                                         { upsert: true })
             temporarily_closed_count += 1
             puts "TEMPORARILY CLOSED: #{service.name} indexed"
-            temporarily_closed_ids << upsert_temporarily_closed[:id]
+            temporarily_closed_ids << service.id
 
         # scheduled services are all indexed - the API determines if they're returned or not
         when 'scheduled'
-            upsert_scheduled = collection.find_one_and_update({ id: service.id },
+            collection.find_one_and_update({ id: service.id },
                                         IndexedServicesSerializer.new(service).as_json,
                                         { upsert: true })
             scheduled_count += 1
             puts "SCHEDULED: #{service.name} indexed"
-            scheduled_ids << upsert_scheduled[:id]
+            scheduled_ids << service.id
 
 
         # archived services are removed from the index
@@ -52,7 +52,7 @@ task :update_public_index => :environment  do
             deleted_archived = collection.find_one_and_delete({ id: service.id })
             archived_count += 1
             if deleted_archived
-                archived_ids << deleted_archived[:id]
+                archived_ids << service.id
                 puts "🗑 ARCHIVED: #{service.name} deleted"
             else 
                 puts "⚠️ ARCHIVED: #{service.name} not found in index, skipping"
@@ -63,7 +63,7 @@ task :update_public_index => :environment  do
             deleted_expired = collection.find_one_and_delete({ id: service.id })
             expired_count += 1
             if deleted_expired
-                expired_ids << deleted_expired[:id]
+                expired_ids << service.id
                 puts "🗑 EXPIRED: #{service.name} deleted"
             else 
                 puts "⚠️ EXPIRED: #{service.name} not found in index, skipping"
@@ -74,7 +74,7 @@ task :update_public_index => :environment  do
             deleted_invisible = collection.find_one_and_delete({ id: service.id })
             deleted_count += 1
             if deleted_invisible
-                invisible_ids << deleted_invisible[:id]
+                invisible_ids << service.id
                 puts "🗑 INVISIBLE: #{service.name} deleted"
             else 
                 puts "⚠️ INVISIBLE: #{service.name} not found in index, skipping"
@@ -85,7 +85,7 @@ task :update_public_index => :environment  do
             deleted_marked_for_deletion = collection.find_one_and_delete({ id: service.id })
             marked_for_deletion_count += 1
             if deleted_marked_for_deletion
-                marked_for_deletion_ids << deleted_marked_for_deletion[:id]
+                marked_for_deletion_ids << service.id
                 puts "🗑 MARKED FOR DELETION: #{service.name} deleted"
             else 
                 puts "⚠️ MARKED FOR DELETION: #{service.name} not found in index, skipping"
@@ -105,12 +105,12 @@ task :update_public_index => :environment  do
               end
         
               snapshot = Service.from_hash(approved_alternative.object)
-              upsert_pending = collection.find_one_and_update({ id: service.id },
+              collection.find_one_and_update({ id: service.id },
                                              IndexedServicesSerializer.new(snapshot).as_json,
                                              { upsert: true })
               puts "🤔 Alternative approved snapshot of #{service.name} indexed"
               pending_count += 1
-              pending_ids << upsert_pending[:id]
+              pending_ids << service.id
         end
     end
 
