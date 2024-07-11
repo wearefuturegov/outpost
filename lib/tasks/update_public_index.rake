@@ -25,8 +25,8 @@ task :update_public_index => :environment  do
                                         IndexedServicesSerializer.new(service).as_json,
                                         { upsert: true })
             active_count += 1
-            active_ids << upsert_active[:id]
             puts "ACTIVE: #{service.name} indexed"
+            active_ids << upsert_active[:id]
 
         # temporarily closed services are all indexed
         when 'temporarily closed'
@@ -34,8 +34,8 @@ task :update_public_index => :environment  do
                                         IndexedServicesSerializer.new(service).as_json,
                                         { upsert: true })
             temporarily_closed_count += 1
-            temporarily_closed_ids << upsert_temporarily_closed[:id]
             puts "TEMPORARILY CLOSED: #{service.name} indexed"
+            temporarily_closed_ids << upsert_temporarily_closed[:id]
 
         # scheduled services are all indexed - the API determines if they're returned or not
         when 'scheduled'
@@ -43,8 +43,8 @@ task :update_public_index => :environment  do
                                         IndexedServicesSerializer.new(service).as_json,
                                         { upsert: true })
             scheduled_count += 1
-            scheduled_ids << upsert_scheduled[:id]
             puts "SCHEDULED: #{service.name} indexed"
+            scheduled_ids << upsert_scheduled[:id]
 
 
         # archived services are removed from the index
@@ -52,8 +52,8 @@ task :update_public_index => :environment  do
             deleted_archived = collection.find_one_and_delete({ id: service.id })
             archived_count += 1
             if deleted_archived
-                puts "🗑 ARCHIVED: #{service.name} deleted"
                 archived_ids << deleted_archived[:id]
+                puts "🗑 ARCHIVED: #{service.name} deleted"
             else 
                 puts "⚠️ ARCHIVED: #{service.name} not found in index, skipping"
             end
@@ -63,8 +63,8 @@ task :update_public_index => :environment  do
             deleted_expired = collection.find_one_and_delete({ id: service.id })
             expired_count += 1
             if deleted_expired
-                puts "🗑 EXPIRED: #{service.name} deleted"
                 expired_ids << deleted_expired[:id]
+                puts "🗑 EXPIRED: #{service.name} deleted"
             else 
                 puts "⚠️ EXPIRED: #{service.name} not found in index, skipping"
             end
@@ -74,8 +74,8 @@ task :update_public_index => :environment  do
             deleted_invisible = collection.find_one_and_delete({ id: service.id })
             deleted_count += 1
             if deleted_invisible
-                puts "🗑 INVISIBLE: #{service.name} deleted"
                 invisible_ids << deleted_invisible[:id]
+                puts "🗑 INVISIBLE: #{service.name} deleted"
             else 
                 puts "⚠️ INVISIBLE: #{service.name} not found in index, skipping"
             end
@@ -85,8 +85,8 @@ task :update_public_index => :environment  do
             deleted_marked_for_deletion = collection.find_one_and_delete({ id: service.id })
             marked_for_deletion_count += 1
             if deleted_marked_for_deletion
-                puts "🗑 MARKED FOR DELETION: #{service.name} deleted"
                 marked_for_deletion_ids << deleted_marked_for_deletion[:id]
+                puts "🗑 MARKED FOR DELETION: #{service.name} deleted"
             else 
                 puts "⚠️ MARKED FOR DELETION: #{service.name} not found in index, skipping"
             end
@@ -155,8 +155,4 @@ task :update_public_index => :environment  do
     puts "\n\n\n"
     puts "Pending Services"
     puts " 👉 #{pending_count} pending services, #{pending_ids.length} created."
-end
-
-
-def create_update_service(service)
 end
