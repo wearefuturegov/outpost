@@ -21,11 +21,7 @@ class IndexedServicesSerializer < ActiveModel::Serializer
     :created_at,
     :status
 
-  has_many :directories do 
-    object.directories.map do |directory|
-      { name: directory.name, label: directory.label }
-    end
-  end
+  has_many :directories 
   
   has_many :locations do
     object.locations.where(visible: true)
