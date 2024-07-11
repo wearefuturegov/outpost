@@ -1,65 +1,162 @@
-desc 'Update public index in the Mongo API'
+desc 'Update Outpost public index copies in the Mongo API'
 task :update_public_index => :environment  do
-  # Turn off logging for this rake task, otherwise it just fills up our logs
-  dev_null = Logger.new('/dev/null')
-  Rails.logger = dev_null
-  ActiveRecord::Base.logger = dev_null
+    # Turn off logging for this rake task, otherwise it just fills up our logs
+    dev_null = Logger.new('/dev/null')
+    Rails.logger = dev_null
+    ActiveRecord::Base.logger = dev_null
 
-  Mongo::Logger.logger.level = Logger::FATAL
+    Mongo::Logger.logger.level = Logger::FATAL
 
-  puts "⏰ Connecting to mongo database..."
-  client = Mongo::Client.new(ENV["DB_URI"] || 'mongodb://root:password@localhost:27017/outpost_development?authSource=admin', {
-    retry_writes: false
-  })
-  collection = client.database[:indexed_services]
+    puts "⏰ Connecting to mongo database..."
+    client = Mongo::Client.new(ENV["DB_URI"] || 'mongodb://root:password@localhost:27017/outpost_development?authSource=admin', {
+        retry_writes: false
+    })
+    collection = client.database[:indexed_services]
+    approved_count, unapproved_count, deleted_count, deleted_skipped_count = 0, 0, 0, 0
+    active_count, temporarily_closed_count, scheduled_count, archived_count, expired_count, invisible_count, marked_for_deletion_count, pending_count = 0, 0, 0, 0, 0, 0, 0, 0
+    active_ids, temporarily_closed_ids, scheduled_ids, archived_ids, expired_ids, invisible_ids, marked_for_deletion_ids, pending_ids = [], [], [], [], [], [], [], []
 
-  approved_count, unapproved_count, deleted_count, deleted_skipped_count = 0, 0, 0, 0
+    Service.find_each do |service|
+        case service.status 
 
-  Service.find_each do |service|
+        # active services are all indexed
+        when 'active'
+            upsert_active = collection.find_one_and_update({ id: service.id },
+                                        IndexedServicesSerializer.new(service).as_json,
+                                        { upsert: true })
+            active_count += 1
+            active_ids << upsert_active[:id]
+            puts "ACTIVE: #{service.name} indexed"
 
-    case service.status
-    when 'active', 'temporarily closed'
-      collection.find_one_and_update({ id: service.id },
-                                     IndexedServicesSerializer.new(service).as_json,
-                                     { upsert: true })
-      puts "✅ #{service.name} indexed"
-      approved_count += 1
+        # temporarily closed services are all indexed
+        when 'temporarily closed'
+            upsert_temporarily_closed = collection.find_one_and_update({ id: service.id },
+                                        IndexedServicesSerializer.new(service).as_json,
+                                        { upsert: true })
+            temporarily_closed_count += 1
+            temporarily_closed_ids << upsert_temporarily_closed[:id]
+            puts "TEMPORARILY CLOSED: #{service.name} indexed"
 
-    when 'archived', 'marked for deletion', 'invisible', 'scheduled', 'expired'
+        # scheduled services are all indexed - the API determines if they're returned or not
+        when 'scheduled'
+            upsert_scheduled = collection.find_one_and_update({ id: service.id },
+                                        IndexedServicesSerializer.new(service).as_json,
+                                        { upsert: true })
+            scheduled_count += 1
+            scheduled_ids << upsert_scheduled[:id]
+            puts "SCHEDULED: #{service.name} indexed"
 
-      deleted = collection.find_one_and_delete({ id: service.id })
-      if deleted
-        puts "✅ 🚮 #{service.name} deleted"
-        deleted_count += 1
-      else
-        puts "✅ 🚮 #{service.name} not found in index, skipping"
-        deleted_skipped_count += 1
-      end
 
-    when 'pending'
-      approved_alternative = service.last_approved_snapshot
-      unless approved_alternative
-        puts "🚨 No alternative approved snapshot of #{service.name} exists. Skipping."
-        next
-      end
+        # archived services are removed from the index
+        when 'archived'
+            deleted_archived = collection.find_one_and_delete({ id: service.id })
+            archived_count += 1
+            if deleted_archived
+                puts "🗑 ARCHIVED: #{service.name} deleted"
+                archived_ids << deleted_archived[:id]
+            else 
+                puts "⚠️ ARCHIVED: #{service.name} not found in index, skipping"
+            end
 
-      unless approved_alternative.object['visible'] == true && approved_alternative.object['discarded_at'].blank?
-        puts "🚨 Approved snapshot of #{service.name} is not publicly visible. Skipping."
-        next
-      end
+        # expired services are removed from the index
+        when 'expired'
+            deleted_expired = collection.find_one_and_delete({ id: service.id })
+            expired_count += 1
+            if deleted_expired
+                puts "🗑 EXPIRED: #{service.name} deleted"
+                expired_ids << deleted_expired[:id]
+            else 
+                puts "⚠️ EXPIRED: #{service.name} not found in index, skipping"
+            end
 
-      snapshot = Service.from_hash(approved_alternative.object)
-      collection.find_one_and_update({ id: service.id },
-                                     IndexedServicesSerializer.new(snapshot).as_json,
-                                     { upsert: true })
-      puts "🤔 Alternative approved snapshot of #{service.name} indexed"
-      unapproved_count += 1
+        # invisible services are removed from the index
+        when 'invisible'
+            deleted_invisible = collection.find_one_and_delete({ id: service.id })
+            deleted_count += 1
+            if deleted_invisible
+                puts "🗑 INVISIBLE: #{service.name} deleted"
+                invisible_ids << deleted_invisible[:id]
+            else 
+                puts "⚠️ INVISIBLE: #{service.name} not found in index, skipping"
+            end
+
+        # marked for deletion definitely get removed from the index
+        when 'marked for deletion'
+            deleted_marked_for_deletion = collection.find_one_and_delete({ id: service.id })
+            marked_for_deletion_count += 1
+            if deleted_marked_for_deletion
+                puts "🗑 MARKED FOR DELETION: #{service.name} deleted"
+                marked_for_deletion_ids << deleted_marked_for_deletion[:id]
+            else 
+                puts "⚠️ MARKED FOR DELETION: #{service.name} not found in index, skipping"
+            end
+
+            # if status is pending we work off last approved snapshot, if it exists and is visible or we make a snapshot to make it visible
+        when 'pending'
+              approved_alternative = service.last_approved_snapshot
+              unless approved_alternative
+                puts "🚨 No alternative approved snapshot of #{service.name} exists. Skipping."
+                next
+              end
+        
+              unless approved_alternative.object['visible'] == true && approved_alternative.object['discarded_at'].blank?
+                puts "🚨 Approved snapshot of #{service.name} is not publicly visible. Skipping."
+                next
+              end
+        
+              snapshot = Service.from_hash(approved_alternative.object)
+              upsert_pending = collection.find_one_and_update({ id: service.id },
+                                             IndexedServicesSerializer.new(snapshot).as_json,
+                                             { upsert: true })
+              puts "🤔 Alternative approved snapshot of #{service.name} indexed"
+              pending_count += 1
+              pending_ids << upsert_pending[:id]
+        end
     end
-  end
 
-  puts "\n\n 🏁🏁 SUMMARY 🏁🏁"
-  puts "👉 #{approved_count} approved services added to index."
-  puts "👉 #{unapproved_count} alternative snapshots of unapproved services added to index."
-  puts "👉 #{deleted_count} deleted or expired services removed from index."
-  puts "👉 #{deleted_skipped_count} deleted or expired services not found in index."
+    
+
+    # check if we missed any entries
+    indexed_ids = active_ids + temporarily_closed_ids + scheduled_ids
+    missed_services = collection.find({ id: { '$nin': indexed_ids } })
+
+    if missed_services.count > 0
+        puts "\n\n"
+        puts "#{missed_services.count} missed services, deleting..."
+        missed_service_ids = missed_services.map { |service| service['id'] }
+        delete_missed_services = collection.delete_many({ id: { '$in': missed_service_ids } })
+        delete_missed_services.each do |service|
+            puts "🗑 #{service.name} deleted"
+        end
+        puts "#{delete_missed_services.deleted_count} missed services deleted."
+    end
+      
+    deleted_ids = archived_ids + expired_ids + invisible_ids + marked_for_deletion_ids
+
+
+    puts "\n\n"
+    puts "🏁🏁 SUMMARY 🏁🏁"
+    puts " 👉 #{indexed_ids.length + pending_ids.length} updated or created"
+    puts " 👉 #{deleted_ids.length} deleted"
+    
+    puts "\n\n\n"
+    puts "Updated or Created Services"
+    puts " 👉 #{active_count} active services, #{active_ids.length} created or updated"
+    puts " 👉 #{temporarily_closed_count} temporarily_closed services, #{temporarily_closed_ids.length} created or updated"
+    puts " 👉 #{scheduled_count} scheduled services, #{scheduled_ids.length} created or updated"
+    
+    puts "\n\n\n"
+    puts "Deleted Services"
+    puts " 👉 #{archived_count} archived services, #{archived_ids.length} deleted"
+    puts " 👉 #{expired_count} expired services, #{expired_ids.length} deleted"
+    puts " 👉 #{invisible_count} invisible services, #{invisible_ids.length} deleted"
+    puts " 👉 #{marked_for_deletion_count} marked_for_deletion services, #{marked_for_deletion_ids.length} deleted"
+
+    puts "\n\n\n"
+    puts "Pending Services"
+    puts " 👉 #{pending_count} pending services, #{pending_ids.length} created."
+end
+
+
+def create_update_service(service)
 end
