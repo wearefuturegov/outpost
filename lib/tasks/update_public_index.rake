@@ -25,7 +25,7 @@ task :update_public_index => :environment  do
                                         IndexedServicesSerializer.new(service).as_json,
                                         { upsert: true })
             active_count += 1
-            puts "ACTIVE: #{service.name} indexed"
+            puts "ACTIVE: #{service.id} #{service.name} indexed"
             active_ids << service.id
 
         # temporarily closed services are all indexed
@@ -34,7 +34,7 @@ task :update_public_index => :environment  do
                                         IndexedServicesSerializer.new(service).as_json,
                                         { upsert: true })
             temporarily_closed_count += 1
-            puts "TEMPORARILY CLOSED: #{service.name} indexed"
+            puts "TEMPORARILY CLOSED: #{service.id} #{service.name} indexed"
             temporarily_closed_ids << service.id
 
         # scheduled services are all indexed - the API determines if they're returned or not
@@ -43,7 +43,7 @@ task :update_public_index => :environment  do
                                         IndexedServicesSerializer.new(service).as_json,
                                         { upsert: true })
             scheduled_count += 1
-            puts "SCHEDULED: #{service.name} indexed"
+            puts "SCHEDULED: #{service.id} #{service.name} indexed"
             scheduled_ids << service.id
 
 
@@ -53,9 +53,9 @@ task :update_public_index => :environment  do
             archived_count += 1
             if deleted_archived
                 archived_ids << service.id
-                puts "🗑 ARCHIVED: #{service.name} deleted"
+                puts "🗑 ARCHIVED: #{service.id} #{service.name} deleted"
             else 
-                puts "⚠️ ARCHIVED: #{service.name} not found in index, skipping"
+                puts "ARCHIVED: #{service.id} #{service.name} not found in index, skipping ⚠️ "
             end
 
         # expired services are removed from the index
@@ -64,9 +64,9 @@ task :update_public_index => :environment  do
             expired_count += 1
             if deleted_expired
                 expired_ids << service.id
-                puts "🗑 EXPIRED: #{service.name} deleted"
+                puts "🗑 EXPIRED: #{service.id} #{service.name} deleted"
             else 
-                puts "⚠️ EXPIRED: #{service.name} not found in index, skipping"
+                puts "EXPIRED: #{service.id} #{service.name} not found in index, skipping ⚠️ "
             end
 
         # invisible services are removed from the index
@@ -75,9 +75,9 @@ task :update_public_index => :environment  do
             deleted_count += 1
             if deleted_invisible
                 invisible_ids << service.id
-                puts "🗑 INVISIBLE: #{service.name} deleted"
+                puts "🗑 INVISIBLE: #{service.id} #{service.name} deleted"
             else 
-                puts "⚠️ INVISIBLE: #{service.name} not found in index, skipping"
+                puts "INVISIBLE: #{service.id} #{service.name} not found in index, skipping ⚠️ "
             end
 
         # marked for deletion definitely get removed from the index
@@ -86,21 +86,21 @@ task :update_public_index => :environment  do
             marked_for_deletion_count += 1
             if deleted_marked_for_deletion
                 marked_for_deletion_ids << service.id
-                puts "🗑 MARKED FOR DELETION: #{service.name} deleted"
+                puts "🗑 MARKED FOR DELETION: #{service.id} #{service.name} deleted"
             else 
-                puts "⚠️ MARKED FOR DELETION: #{service.name} not found in index, skipping"
+                puts "MARKED FOR DELETION: #{service.id} #{service.name} not found in index, skipping ⚠️ "
             end
 
             # if status is pending we work off last approved snapshot, if it exists and is visible or we make a snapshot to make it visible
         when 'pending'
               approved_alternative = service.last_approved_snapshot
               unless approved_alternative
-                puts "🚨 No alternative approved snapshot of #{service.name} exists. Skipping."
+                puts "🚨 No alternative approved snapshot of #{service.id} #{service.name} exists. Skipping."
                 next
               end
         
               unless approved_alternative.object['visible'] == true && approved_alternative.object['discarded_at'].blank?
-                puts "🚨 Approved snapshot of #{service.name} is not publicly visible. Skipping."
+                puts "🚨 Approved snapshot of #{service.id} #{service.name} is not publicly visible. Skipping."
                 next
               end
         
@@ -108,7 +108,7 @@ task :update_public_index => :environment  do
               collection.find_one_and_update({ id: service.id },
                                              IndexedServicesSerializer.new(snapshot).as_json,
                                              { upsert: true })
-              puts "🤔 Alternative approved snapshot of #{service.name} indexed"
+              puts "🤔 Alternative approved snapshot of #{service.id} #{service.name} indexed"
               pending_count += 1
               pending_ids << service.id
         end
@@ -125,9 +125,6 @@ task :update_public_index => :environment  do
         puts "#{missed_services.count} missed services, deleting..."
         missed_service_ids = missed_services.map { |service| service['id'] }
         delete_missed_services = collection.delete_many({ id: { '$in': missed_service_ids } })
-        delete_missed_services.each do |service|
-            puts "🗑 #{service.name} deleted"
-        end
         puts "#{delete_missed_services.deleted_count} missed services deleted."
     end
       
