@@ -1,3 +1,7 @@
+# This can be quite difficult to debug so in the tests 
+# there is a commented out test that will help you 
+# generate all sorts of scenarios on top of the tests themselves
+
 desc 'Update Outpost public index copies in the Mongo API'
 task :update_public_index => :environment  do
     # Turn off logging for this rake task, otherwise it just fills up our logs
@@ -7,14 +11,14 @@ task :update_public_index => :environment  do
 
     Mongo::Logger.logger.level = Logger::FATAL
 
-    puts "⏰ Connecting to mongo database..."
+    puts "⏰ Connecting to mongo database...\n\n"
     client = Mongo::Client.new(ENV["DB_URI"] || 'mongodb://root:password@localhost:27017/outpost_development?authSource=admin', {
         retry_writes: false
     })
     collection = client.database[:indexed_services]
     approved_count, unapproved_count, deleted_count, deleted_skipped_count = 0, 0, 0, 0
     active_count, temporarily_closed_count, scheduled_count, archived_count, expired_count, invisible_count, marked_for_deletion_count, pending_count = 0, 0, 0, 0, 0, 0, 0, 0
-    active_ids, temporarily_closed_ids, scheduled_ids, archived_ids, expired_ids, invisible_ids, marked_for_deletion_ids, pending_ids = [], [], [], [], [], [], [], []
+    active_ids, temporarily_closed_ids, scheduled_ids, archived_ids, expired_ids, invisible_ids, marked_for_deletion_ids, pending_ids, archived_skipped_ids, expired_skipped_ids, invisible_skipped_ids, marked_for_deletion_skipped_ids, pending_skipped_ids = [], [], [], [], [], [], [], [], [], [], [], [], []
 
     Service.find_each do |service|
         case service.status 
@@ -25,7 +29,7 @@ task :update_public_index => :environment  do
                                         IndexedServicesSerializer.new(service).as_json,
                                         { upsert: true })
             active_count += 1
-            puts "ACTIVE: #{service.name} indexed"
+            puts "🟢 ACTV: #{service.id} #{service.name} indexed"
             active_ids << service.id
 
         # temporarily closed services are all indexed
@@ -34,7 +38,7 @@ task :update_public_index => :environment  do
                                         IndexedServicesSerializer.new(service).as_json,
                                         { upsert: true })
             temporarily_closed_count += 1
-            puts "TEMPORARILY CLOSED: #{service.name} indexed"
+            puts "🟢 TEMP: #{service.id} #{service.name} indexed"
             temporarily_closed_ids << service.id
 
         # scheduled services are all indexed - the API determines if they're returned or not
@@ -43,7 +47,7 @@ task :update_public_index => :environment  do
                                         IndexedServicesSerializer.new(service).as_json,
                                         { upsert: true })
             scheduled_count += 1
-            puts "SCHEDULED: #{service.name} indexed"
+            puts "🟢 SCHD: #{service.id} #{service.name} indexed"
             scheduled_ids << service.id
 
 
@@ -53,9 +57,10 @@ task :update_public_index => :environment  do
             archived_count += 1
             if deleted_archived
                 archived_ids << service.id
-                puts "🗑 ARCHIVED: #{service.name} deleted"
+                puts "🔴 ARCH: #{service.id} #{service.name} DELETED"
             else 
-                puts "⚠️ ARCHIVED: #{service.name} not found in index, skipping"
+                archived_skipped_ids << service.id
+                puts "🟡 ARCH: #{service.id} #{service.name} not found in index, skipping"
             end
 
         # expired services are removed from the index
@@ -64,20 +69,22 @@ task :update_public_index => :environment  do
             expired_count += 1
             if deleted_expired
                 expired_ids << service.id
-                puts "🗑 EXPIRED: #{service.name} deleted"
+                puts "🔴 EXPD: #{service.id} #{service.name} DELETED"
             else 
-                puts "⚠️ EXPIRED: #{service.name} not found in index, skipping"
+                expired_skipped_ids << service.id
+                puts "🟡 EXPD: #{service.id} #{service.name} not found in index, skipping"
             end
 
         # invisible services are removed from the index
         when 'invisible'
             deleted_invisible = collection.find_one_and_delete({ id: service.id })
-            deleted_count += 1
+            invisible_count += 1
             if deleted_invisible
                 invisible_ids << service.id
-                puts "🗑 INVISIBLE: #{service.name} deleted"
+                puts "🔴 INVS: #{service.id} #{service.name} DELETED"
             else 
-                puts "⚠️ INVISIBLE: #{service.name} not found in index, skipping"
+                invisible_skipped_ids << service.id
+                puts "🟡 INVS: #{service.id} #{service.name} not found in index, skipping"
             end
 
         # marked for deletion definitely get removed from the index
@@ -86,21 +93,34 @@ task :update_public_index => :environment  do
             marked_for_deletion_count += 1
             if deleted_marked_for_deletion
                 marked_for_deletion_ids << service.id
-                puts "🗑 MARKED FOR DELETION: #{service.name} deleted"
+                puts "🔴 MKDL: #{service.id} #{service.name} DELETED"
             else 
-                puts "⚠️ MARKED FOR DELETION: #{service.name} not found in index, skipping"
+                marked_for_deletion_skipped_ids << service.id
+                puts "🟡 MKDL: #{service.id} #{service.name} not found in index, skipping"
             end
 
-            # if status is pending we work off last approved snapshot, if it exists and is visible or we make a snapshot to make it visible
+        # if status is pending we work off last version where approved === true, if it exists and is visible or we make a snapshot to make it visible
         when 'pending'
+            pending_count += 1
+
+            puts "⚪️ PEND: #{service.id} #{service.name}"
+            puts "\s\s\s\s\s- Service has #{service.versions.count} versions"
+            puts "\s\s\s\s\s- Service has #{service.last_approved_snapshot ? 'a' : 'no'} previously approved snapshot"
+            if service.last_approved_snapshot
+                puts "\s\s\s\s\s\s\s- approved snapshot is #{service.last_approved_snapshot.object['visible'] == true ? 'visible' : 'invisible'}"
+                puts "\s\s\s\s\s\s\s- approved snapshot is #{service.last_approved_snapshot.object['discarded_at'].blank? ? 'not discarded' : 'discarded'}"
+            end
+
               approved_alternative = service.last_approved_snapshot
               unless approved_alternative
-                puts "🚨 No alternative approved snapshot of #{service.name} exists. Skipping."
+                pending_skipped_ids << service.id
+                puts "\s\s\s\s\s- 🟡 No approved version for #{service.id} #{service.name} exists. Skipping."
                 next
               end
         
               unless approved_alternative.object['visible'] == true && approved_alternative.object['discarded_at'].blank?
-                puts "🚨 Approved snapshot of #{service.name} is not publicly visible. Skipping."
+                pending_skipped_ids << service.id
+                puts "\s\s\s\s\s- 🟠 Approved version of #{service.id} #{service.name} exists but it is not publicly visible. Skipping."
                 next
               end
         
@@ -108,35 +128,34 @@ task :update_public_index => :environment  do
               collection.find_one_and_update({ id: service.id },
                                              IndexedServicesSerializer.new(snapshot).as_json,
                                              { upsert: true })
-              puts "🤔 Alternative approved snapshot of #{service.name} indexed"
-              pending_count += 1
+              puts "\s\s\s\s\s- 🟢 Last approved version (id: #{approved_alternative.id}) of #{service.id} #{service.name} indexed"
               pending_ids << service.id
         end
     end
 
-    
 
-    # check if we missed any entries
-    indexed_ids = active_ids + temporarily_closed_ids + scheduled_ids
-    missed_services = collection.find({ id: { '$nin': indexed_ids } })
+    # check if we missed any entries, best to be safe and remove them
+    indexed_ids = active_ids + temporarily_closed_ids + scheduled_ids + pending_ids
+    missed_services = collection.find({ id: { '$nin': indexed_ids.sort } })
 
-    if missed_services.count > 0
+    if missed_services and missed_services.count > 0
         puts "\n\n"
-        puts "#{missed_services.count} missed services, deleting..."
+        puts "#{missed_services.count} services exist in mongo but not in outpost, deleting..."
         missed_service_ids = missed_services.map { |service| service['id'] }
         delete_missed_services = collection.delete_many({ id: { '$in': missed_service_ids } })
-        delete_missed_services.each do |service|
-            puts "🗑 #{service.name} deleted"
-        end
-        puts "#{delete_missed_services.deleted_count} missed services deleted."
+        puts "#{delete_missed_services.deleted_count} unaccounted for services deleted."
+    else 
+        puts "\n\n"
+        puts "No unaccounted for services left in the index."
     end
       
+    skipped_ids = archived_skipped_ids + expired_skipped_ids + invisible_skipped_ids + marked_for_deletion_skipped_ids + pending_skipped_ids
     deleted_ids = archived_ids + expired_ids + invisible_ids + marked_for_deletion_ids
-
 
     puts "\n\n"
     puts "🏁🏁 SUMMARY 🏁🏁"
-    puts " 👉 #{indexed_ids.length + pending_ids.length} updated or created"
+    puts " 👉 #{indexed_ids.length} updated or created"
+    puts " 👉 #{skipped_ids.length} skipped"
     puts " 👉 #{deleted_ids.length} deleted"
     
     puts "\n\n\n"
@@ -154,5 +173,5 @@ task :update_public_index => :environment  do
 
     puts "\n\n\n"
     puts "Pending Services"
-    puts " 👉 #{pending_count} pending services, #{pending_ids.length} created."
+    puts " 👉 #{pending_count} pending services, #{pending_ids.length} created or updated."
 end
