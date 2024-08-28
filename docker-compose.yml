@@ -13,7 +13,6 @@ services:
     depends_on:
       - postgres
       - mongo
-    platform: linux/amd64
     build:
       context: .
       # uncomment for 'prod' like env locally

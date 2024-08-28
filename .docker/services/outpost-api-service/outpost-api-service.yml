@@ -2,7 +2,6 @@ version: "3.7"
 services:
   outpost-api-service:
     image: ghcr.io/wearefuturegov/outpost-api-service:latest
-    platform: linux/arm64
     environment:
       NODE_ENV: development
       FORCE_SSL: false

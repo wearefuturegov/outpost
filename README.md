@@ -83,6 +83,10 @@ For now we recommend using docker to run the application locally as this ensures
 
 ```sh
 cp -rp sample.env .env
+
+# optional - might not always be needed
+docker pull --platform linux/amd64 ghcr.io/wearefuturegov/outpost-dev-base:latest
+
 docker compose up -d
 
 # setup dummy data and example user login
