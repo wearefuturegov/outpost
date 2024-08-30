@@ -48,4 +48,13 @@
 
 <button type="button" class="repeater__closer" data-close="true" title="Remove this location">Remove this location</button>
 
+<% # saved locations have this field %>
+<%= l.hidden_field :service_at_location_id, value: @service.service_at_locations.find_by(location_id: l.object.id).id if l.object.id %>
+
+<% # new locations have this field %>
+<%= l.hidden_field :location_object_id, value: l.object_id unless l.object.id  %>
+
+<!-- <p>service_at_location_id - for saved services only: <%= @service.service_at_locations.find_by(location_id: l.object.id).id if l.object.id %></p> -->
+<!-- <p>object id - for new services only: <%= l.object_id unless l.object.id %></p> -->
+
 <%= l.hidden_field :_destroy,  data: {destroy_field: true} %>

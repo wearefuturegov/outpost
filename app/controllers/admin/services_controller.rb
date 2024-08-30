@@ -146,6 +146,7 @@ class Admin::ServicesController < Admin::BaseController
       regular_schedules_attributes: [
         :id,
         :service_at_location_id,
+        :location_object_id,
         :opens_at,
         :closes_at,
         :weekday,
@@ -176,6 +177,7 @@ class Admin::ServicesController < Admin::BaseController
         :mask_exact_address,
         :preferred_for_post,
         :_destroy,
+        :location_object_id,
         accessibility_ids: []
       ],
       meta_attributes: [

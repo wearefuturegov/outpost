@@ -89,6 +89,8 @@ class Service < ApplicationRecord
   before_save :add_parent_taxonomies, unless: :skip_add_parent_taxonomies
   before_save :skip_nested_indexes
   before_save :update_directories
+  after_save :update_regular_schedules
+
 
   filterrific(
     default_filter_params: { sorted_by: "recent" },
@@ -362,4 +364,23 @@ class Service < ApplicationRecord
     meta.destroy_all
     links.destroy_all
   end
+
+  private
+
+  # updates regular_schedule with service_at_location_id if location_object_id is set
+  def update_regular_schedules
+    if regular_schedules.any? && locations.any? 
+      service_id = id
+      regular_schedules.each do |schedule|
+        if schedule.location_object_id.present?
+          location = locations.find { |loc| loc.location_object_id == schedule.location_object_id }
+          if location
+            service_at_location = service_at_locations.find_by(location_id: location.id, service_id: service_id)
+            schedule.update(service_at_location_id: service_at_location.id) if service_at_location
+          end
+        end
+      end
+    end
+  end
+
 end

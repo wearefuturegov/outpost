@@ -5,6 +5,7 @@
         <div class="field">
             <%= sched.label :service_at_location_id, "Location", class: "field__label" %>
             <%= sched.select :service_at_location_id, @service.locations.map { |location| [location.display_name, @service.service_at_locations.find_by(location_id: location.id).id] }, {  include_blank: "All locations"  }, class: "field__input"  %>
+            <%= sched.hidden_field :location_object_id, value: nil %>
         </div>
     </div>
     <% end %>

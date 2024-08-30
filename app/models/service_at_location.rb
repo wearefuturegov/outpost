@@ -7,5 +7,22 @@ class ServiceAtLocation < ApplicationRecord
 
   has_many :contacts, through: :service
   has_many :taxonomies, through: :service
-  has_many :regular_schedules
+  has_many :regular_schedules, dependent: :destroy
+
+  # before_destroy :destroy_associated_regular_schedules
+
+  private
+
+  # def destroy_associated_regular_schedules
+  #   puts 'destroy_associated_regular_schedules'
+  #   puts regular_schedules.inspect
+  #   puts self.inspect
+  #   puts id
+  #   puts self.id
+  #   associated_rgular_schedules = RegularSchedule.find_by(service_at_location_id: self.id)
+  #   puts associated_rgular_schedules.inspect
+  #   puts "\n\n\n\n"
+  #   # .destroy_all
+  # end
+
 end

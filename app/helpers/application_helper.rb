@@ -66,14 +66,14 @@ module ApplicationHelper
         fields = f.fields_for(association, new_object, child_index: id) do |builder|
             render(view, l: builder, c: builder, sched: builder)
         end
-        link_to name, '#', class: "button button--secondary button--add", data: {id: id, fields: fields.gsub("\n", ""), add: true}
+        link_to name, '#', class: "button button--secondary button--add", data: {id: id, fields: fields.gsub("\n", ""), add: true, association: association}
     end
 
     def local_offer_checkbox(builder, view)
         new_object = LocalOffer.new
         id = new_object.object_id
         fields = builder.fields_for(:local_offer, new_object) do |l|
-            render(view, s: builder, l: l)
+            render(view, s: builder, l: l, object_id: id)
         end
         check_box_tag "local_offer", "1", builder.object.local_offer, class: "checkbox__input", data: {id: id, fields: fields.gsub("\n", ""), local_offer: true}
     end
