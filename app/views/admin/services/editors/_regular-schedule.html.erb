@@ -6,7 +6,7 @@
 </div>
 
 <%= mark_unapproved_array("regular_schedules") do %>
-<section class="repeater">
+<section class="repeater" id="regular_schedule_panels">
     <ul class="repeater__panels" aria-live="polite">
         <%= s.fields_for :regular_schedules do |sched| %>
         <li class="repeater__panel">
