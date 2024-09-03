@@ -1,4 +1,4 @@
-<div>
+<div class="regular_schedule_panel" data-regular-schedule-panel="<%= sched.index %>">
 
    <% if @service.locations.count > 1 %>
     <div class="field-group field-group--no-margins">
@@ -9,217 +9,178 @@
     </div>
     <% end %>
 
-
-<h1> Opening times </h1>
-
-<p>I&#39;m a shop keeper</p>
-<ul>
-<li>I want to log my opening hours at all locations<ul>
-<li><strong>day, opens, closes</strong></li>
-</ul>
-</li>
-<li>I want to log my opening hours at specific location<ul>
-<li><strong>service_at_location_id, day, opens, closes</strong></li>
-</ul>
-</li>
-</ul>
-
-
-
- 
-
-    <div class="field-group field-group--three-cols">
+    <div class="field-group field-group--two-cols">
         <div class="field">
-            <%= sched.label :weekday, "Day", class: "field__label" %>
-            <%= sched.select :weekday, weekdays.collect {|d| [ d[:label], d[:value] ] }, {}, class: "field__input"  %>
-        </div>
-        <div class="field">
-            <% open_val = sched.object.opens_at.strftime("%H:%M") if sched.object.opens_at.present? %>
-            <%= sched.label :opens_at, class: "field__label" %>
-            <%= sched.time_field :opens_at, value: open_val, class: "field__input", step: 60 %>
-        </div>
-        <div class="field">
-            <% close_val = sched.object.closes_at.strftime("%H:%M") if sched.object.closes_at.present? %>
-            <%= sched.label :closes_at, class: "field__label" %>
-            <%= sched.time_field :closes_at, value: close_val, class: "field__input", step: 60 %>
-        </div>
-    </div>
-
-
-
-<h1>I'm a service owner - one time events</h1>
-
-<p>I&#39;m a service owner</p>
-<ul>
-  <li>I want to put in a one time event at all locations<ul>
-      <li>date (dtstart), time start (opens_at), time finish (closes_at)</li>
-    </ul>
-  </li>
-  <li>
-    <p>I want to put in a one time event at specific location</p>
-    <ul>
-      <li>service_at_location_id, date, time start, time finish</li>
-    </ul>
-  </li>
-  <li>
-    <p>I want to put in a number of one time events at all locations</p>
-    <ul>
-      <li>date, time start, time finish</li>
-      <li>
-        <ul>
-          <li>add a schedule</li>
-        </ul>
-      </li>
-      <li>date, time start, time finish</li>
-    </ul>
-  </li>
-  <li>
-    <p>I want to put in a number of one time events at specific location</p>
-    <ul>
-      <li>service_at_location_id, date, time start, time finish</li>
-      <li>
-        <ul>
-          <li>add a schedule</li>
-        </ul>
-      </li>
-      <li>service_at_location_id, , date, time start, time finish</li>
-    </ul>
-  </li>
-</ul>
-
-    <div class="field-group field-group--three-cols">
-        <div class="field">
-            <%= sched.label :dtstart, "Date", class: "field__label" %>
-            <%= sched.date_field :dtstart, class: "field__input" %>
-        </div>
-        <div class="field">
-            <% open_val = sched.object.opens_at.strftime("%H:%M") if sched.object.opens_at.present? %>
-            <%= sched.label :opens_at, "Start time", class: "field__label" %>
-            <%= sched.time_field :opens_at, value: open_val, class: "field__input", step: 60 %>
-        </div>
-        <div class="field">
-            <% close_val = sched.object.closes_at.strftime("%H:%M") if sched.object.closes_at.present? %>
-            <%= sched.label :closes_at, "End time", class: "field__label" %>
-            <%= sched.time_field :closes_at, value: close_val, class: "field__input", step: 60 %>
-        </div>
-    </div>
-
-
-
-<h1>I'm a service owner - repeating event(s)</h1>
-
-
-
-<ul>
-  <li>
-    <p>I want to put in a repeating event at all locations</p>
-    <ul>
-      <li>starting from <today | datefield> (dtstart)</li>
-      <li>number (interval)</li>
-      <li>every WEEKLY|MONTHLY (freq)</li>
-      <li>if weekly<ul>
-          <li>on any combo of one of these <code>MO,TU,WE,TH,FR,SA,SU</code>
-            (byday)</li>
-        </ul>
-      </li>
-      <li>if monthly<ul>
-          <li>every <code>+/-n[MO,TU,WE,TH,FR,SA,SU]</code> (byday)</li>
-          <li>or every 1-30/31? (bymonthday)</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li>I want to put in a repeating event at specific locations<ul>
-      <li>as above but add service_at_location_id</li>
-    </ul>
-  </li>
-</ul>
-
-
-    <!-- as above -->
-    <div class="field-group field-group--three-cols">
-        <div class="field">
-            <%= sched.label :dtstart, "Date", class: "field__label" %>
-            <%= sched.date_field :dtstart, class: "field__input" %>
-        </div>
-        <div class="field">
-            <% open_val = sched.object.opens_at.strftime("%H:%M") if sched.object.opens_at.present? %>
-            <%= sched.label :opens_at, "Start time", class: "field__label" %>
-            <%= sched.time_field :opens_at, value: open_val, class: "field__input", step: 60 %>
-        </div>
-        <div class="field">
-            <% close_val = sched.object.closes_at.strftime("%H:%M") if sched.object.closes_at.present? %>
-            <%= sched.label :closes_at, "End time", class: "field__label" %>
-            <%= sched.time_field :closes_at, value: close_val, class: "field__input", step: 60 %>
-        </div>
-    </div>
-
-
-    <h2>Repeats</h2>
-
-    <div class="field-group field-group--three-cols">
-        <div class="field">
-            <%= sched.label :interval, "Every", class: "field__label" %>
-            <%= sched.number_field :interval, class: "field__input"%>
-        </div>
-        <div class="field">
-            <%= sched.label :freq, "Weekly/Monthly", class: "field__label" %>
-            <%= sched.collection_select :freq, RegularSchedule.freqs.keys, :to_s, :humanize, {}, { class: "field__input" } %>
-        </div>
-    </div>
-
-
-
-    <h2>If weekly - on the</h2>
-
-    <!-- every mon/tue etc every interval weeks -->
-
-    <div class="field-group field-group--three-cols">
-        <div class="field">
-            <p>On the following days</p>
-            <% RegularSchedule.bydays.each do |day, code| %>
-            <div class="checkbox">
-                <% check_val = sched.object.byday.include?(code) if sched.object.byday.present? %>
-                <%= check_box_tag "regular_schedule[byday][]", code, check_val, id: "regular_schedule_byday_#{code}",  class: "checkbox__input" %>
-                <%= label_tag "regular_schedule_byday_#{code}", day.humanize, class: "checkbox__label" %>
+            <div class="radio">
+                <%= radio_button_tag "service[regular_schedules_attributes][#{sched.index}][time_type]", 'opening_time', true, class: "radio__input" %>
+                <%= label_tag "service_regular_schedules_attributes_#{sched.index}_time_type_opening_time", 'Opening time', class: "radio__label"  %>
             </div>
-            <% end %>
+        </div>
+        <div class="field">
+            <div class="radio">
+                <%= radio_button_tag "service[regular_schedules_attributes][#{sched.index}][time_type]", 'event_time', false, class: "radio__input" %>
+                <%= label_tag "service_regular_schedules_attributes_#{sched.index}_time_type_event_time", 'Event time', class: "radio__label"  %>
+            </div>
         </div>
     </div>
-
 
  
-    <h2>If monthly - on the</h2>
 
-    <div class="field-group field-group--three-cols">
-        <div class="field">
-            <%= sched.label :bymonthday, "On the [blank] date each month", class: "field__label" %>
-            <%= sched.number_field :bymonthday, min: 1, max: 31, class: "field__input"%>
+    <%# OPENING TIMES %>
+    <div class="regular_schedule__opening_time" data-opening-time>
+        <div class="field-group field-group--three-cols">
+            <div class="field field--required" data-required>
+                <%= sched.label :weekday, "Day", class: "field__label" %>
+                <%= sched.select :weekday, options_for_select(RegularSchedule.weekdays.keys.map { |k| [k.humanize, k] }), {}, class: "field__input", required: true  %>
+            </div>
+            <div class="field field--required" data-required>
+                <% open_val = sched.object.opens_at.strftime("%H:%M") if sched.object.opens_at.present? %>
+                <%= sched.label :opens_at, class: "field__label" %>
+                <%= sched.time_field :opens_at, value: open_val, class: "field__input", step: 60, required: true %>
+            </div>
+            <div class="field field--required" data-required>
+                <% close_val = sched.object.closes_at.strftime("%H:%M") if sched.object.closes_at.present? %>
+                <%= sched.label :closes_at, class: "field__label" %>
+                <%= sched.time_field :closes_at, value: close_val, class: "field__input", step: 60, required: true %>
+            </div>
         </div>
     </div>
 
+    <%# EVENT TIMES %>
+    <div class="regular_schedule__event_time" hidden data-event-time>
 
-    <p>or</p>
-
-
-    <div class="field-group field-group--three-cols">
-        <div class="field">
-            <%= label_tag "week_of_month", "Week of the month", class: "field__label" %>
-            <%= select_tag "week_of_month", options_for_select([["first", 1], ["second", 2], ["third", 3], ["fourth", 4], ["fifth", 5], ["last", -1]]),  class: "field__input"  %>
+        <div class="field-group field-group--three-cols">
+            <div class="field" data-required>
+                <%= sched.label :dtstart, "Event date", class: "field__label" %>
+                <%= sched.date_field :dtstart, class: "field__input" %>
+            </div>
+            <div class="field" data-required>
+                <% open_val = sched.object.opens_at.strftime("%H:%M") if sched.object.opens_at.present? %>
+                <%= sched.label :opens_at, "Start time", class: "field__label" %>
+                <%= sched.time_field :opens_at, value: open_val, class: "field__input", step: 60 %>
+            </div>
+            <div class="field" data-required>
+                <% close_val = sched.object.closes_at.strftime("%H:%M") if sched.object.closes_at.present? %>
+                <%= sched.label :closes_at, "End time", class: "field__label" %>
+                <%= sched.time_field :closes_at, value: close_val, class: "field__input", step: 60 %>
+            </div>
         </div>
-        <div class="field">
-            <% RegularSchedule.bydays.each do |day, code| %>
+
+
+
+        <div class="field-group field-group--three-cols field-group--no-top-margin">
+            <div class="field">
                 <div class="checkbox">
-                    <% check_val = sched.object.byday.include?(code) if sched.object.byday.present? %>
-                    <%= check_box_tag "regular_schedule[byday][]", code, check_val, id: "regular_schedule_byday_#{code}",  class: "checkbox__input" %>
-                    <%= label_tag "regular_schedule_byday_#{code}", day.humanize, class: "checkbox__label" %>
+                    <%= check_box_tag "service[regular_schedules_attributes][#{sched.index}][repeats]", '1', false, class: "checkbox__input" %>
+                    <%= label_tag "service[regular_schedules_attributes][#{sched.index}][repeats]", "Repeats", class: "checkbox__label" %>
                 </div>
-            <% end %>
+            </div>
         </div>
+
+
+        <%# REPEATS %>
+        <div class="regular_schedule__repeats" hidden data-repeats>
+            <div class="field-group field-group--three-cols field-group--no-top-margin">
+                <div class="field" data-required-repeat>
+                    <%= sched.label :interval, "Every", class: "field__label" %>
+                    <%= sched.number_field :interval, min: 1, max: 100, value: 1, class: "field__input"%>
+                </div>
+                <div class="field" data-required-repeat>
+                    <%= sched.label :freq, "Frequency", class: "field__label" %>
+                    <%= sched.collection_select :freq, RegularSchedule.freqs.keys.map { |key| [key.humanize.pluralize, key] }, :last, :first, { class: "field__input" } %>
+                </div>
+            </div>
+
+
+
+            <%# REPEATS - WEEKLY %>
+            <div class="regular_schedule__repeats__weekly" hidden data-repeats-weekly>
+                    <!-- if weekly - on the -->
+                    <!-- every mon/tue etc every interval weeks -->
+
+                <fieldset class="field-group field-group--two-cols field-group--no-top-margin margin-bottom">
+                    <legend class="field-group__legend">On the following days</legend>
+                        <% RegularSchedule.byday.each do |day, code| %>
+                            <div class="field checkbox checkbox--small">
+                                <% check_val = sched.object.byday.include?(code) if sched.object.byday.present? %>
+                                <%= check_box_tag "service[regular_schedules_attributes][#{sched.index}][byday]", code, check_val, class: "checkbox__input" %>
+                                <%= label_tag "service[regular_schedules_attributes][#{sched.index}][byday]", day.to_s.humanize, class: "checkbox__label" %>
+                            </div>
+                        <% end %>
+                </fieldset>
+            </div>
+
+
+            <%# REPEATS - MONTHLY %>
+            <div class="regular_schedule__repeats__monthly" hidden data-repeats-monthly>
+
+                <div class="field-group field-group--two-cols">
+                    <div class="field">
+                        <%= sched.label :bymonthday, "On this date each month", class: "field__label" %>
+                        <%= sched.number_field :bymonthday, min: 1, max: 31, class: "field__input"%>
+                    </div>
+                </div>
+
+                <div class="field-group  field-group--no-margins field-group--no-top-margin">
+                    <div class="field">
+                        <p class="field__hint">Or</p>
+                    </div>
+                </div>
+
+
+                <div class="field-group field-group--four-cols field-group--no-top-margin">
+                        <div class="field">
+                            <%= label_tag "service[regular_schedules_attributes][#{sched.index}][weekofmonth]", "On the", class: "field__label" %>
+                        </div>
+                        <div class="field">
+                            <%= select_tag "service[regular_schedules_attributes][#{sched.index}][weekofmonth]", options_from_collection_for_select(RegularSchedule.weekofmonth.keys.map { |key| [key.to_s.humanize, key] }, :last, :first), { class: "field__input" } %>
+                        </div>
+                        <div class="field">
+                            <fieldset class="field-group field-group--flex-cols">
+                            <legend class="field-group__legend visually-hidden">of the month</legend>
+                                <% RegularSchedule.byday.each do |day, code| %>
+                                    <div class="field checkbox checkbox--small">
+                                        <% check_val = sched.object.byday.include?(code) if sched.object.byday.present? %>
+                                        <%= check_box_tag "service[regular_schedules_attributes][#{sched.index}][byday_month]", code, check_val, class: "checkbox__input" %>
+                                        <%= label_tag "service[regular_schedules_attributes][#{sched.index}][byday_month]", day.to_s.humanize, class: "checkbox__label" %>
+                                    </div>
+                                <% end %>
+                            </fieldset>
+                        </div>
+                        <div class="field">
+                            <p class="field__hint">of the month</p>
+                        </div>
+                </div>
+            </div>
+
+
+            <%# REPEATS UNTIL %>
+            <div class="field-group field-group--three-cols--or field-group--no-top-margin">
+                <div class="field">
+                    <%= sched.label :until, "Until this date", class: "field__label" %>
+                    <%= sched.date_field :until, class: "field__input" %>
+                </div>
+                <div class="field">
+                    <p class="field__hint">Or</p>
+                </div>
+                <div class="field">
+                    <%= sched.label :count, "This many occurrences", class: "field__label" %>
+                    <%= sched.number_field :count, min: 1, max: 31, class: "field__input"%>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+        </div>
+
+
+      
     </div>
-
-    
-
 
 
     <%= sched.hidden_field :_destroy,  data: {destroy_field: true} %>
@@ -228,134 +189,3 @@
 
 
 <button type="button" class="repeater__closer" data-close="true" title="Remove this schedule">Remove this schedule</button>
-
-<!--
-
-
-
-    <div class="field-group field-group--three-cols">
-
-
-        <div class="field">
-            <%= label_tag 'dtstart', "Date", class: "field__label" %>
-            <%= date_field_tag 'dtstart', class: "field__input"%>
-        </div>
-        <div class="field"></div>
-        <div class="field"></div>
-
-
-
-
-        <div class="field">
-            <%= label_tag 'opens_at', "Opens at", class: "field__label" %>
-            <%= time_field_tag 'opens_at', class: "field__input"%>
-        </div>
-        <div class="field">
-            <%= label_tag 'closes_at', "Closes at", class: "field__label" %>
-            <%= time_field_tag 'closes_at', class: "field__input"%>
-        </div>
-        <div class="field">
-            <div class="checkbox">
-                <%= check_box_tag 'all_day', '1', false, class: "checkbox__input" %>
-                <%= label_tag 'all_day', "All day", class: "checkbox__label" %>
-            </div>
-        </div>
-
-
-        <div class="field">
-            <div class="checkbox">
-                <%= check_box_tag 'repeats', '1', false, class: "checkbox__input" %>
-                <%= label_tag 'repeats', "Repeats", class: "checkbox__label" %>
-            </div>
-        </div>
-        <div class="field">
-            <%= label_tag 'interval', "Every", class: "field__label" %>
-            <%= number_field_tag 'interval', class: "field__input"%>
-        </div>
-        <div class="field">
-            <%= label_tag 'freq', "Frequency", class: "field__label" %>
-            <%= select_tag 'freq', options_for_select([ ["weeks", "WEEKLY"], ["months", "MONTHLY"] ], "Select frequency"), class: "field__input"%>
-        </div>
-
-        
-    </div>
-
-
-        <div class="field">
-            <%= sched.label :interval, "Every", class: "field__label" %>
-            <%= sched.number_field :interval, min: 1, max: 31, class: "field__input"%>
-        </div>
-
-        <div class="field"></div>
-        <div class="field">
-            <div class="checkbox">
-                <%= check_box_tag 'repeats', '1', false, class: "checkbox__input" %>
-                <%= label_tag 'repeats', "Repeats", class: "checkbox__label" %>
-            </div>
-        </div>
-
-      <div class="field-group field-group--three-cols">
-      
-        <div class="field">
-            <div class="radio">
-                <%= radio_button_tag 'every', 'week', false, class: "radio__input" %>
-                <%= label_tag 'every_week', "Every week", class: "radio__label" %>
-            </div>
-            <div class="radio">
-                <%= radio_button_tag 'every', 'month', false, class: "radio__input" %>
-                <%= label_tag 'every_month', "Every month", class: "radio__label" %>
-            </div>
-        </div>
-    </div>
-
-
-        <div class="field">
-            <% open_val = sched.object.opens_at.strftime("%H:%M") if sched.object.opens_at.present? %>
-            <%= sched.label :opens_at, class: "field__label" %>
-            <%= sched.date_field :opens_at, value: open_val, class: "field__input", step: 60 %>
-        </div>
-
-
-        <div class="field">
-            <% close_val = sched.object.closes_at.strftime("%H:%M") if sched.object.closes_at.present? %>
-            <%= sched.label :closes_at, class: "field__label" %>
-            <%= sched.time_field :closes_at, value: close_val, class: "field__input", step: 60 %>
-        </div>
-
-    <div class="field-group field-group--three-cols">
-        <div class="field">
-        Ends
-        </div>
-        <div class="field">
-            <% open_val = sched.object.opens_at.strftime("%H:%M") if sched.object.opens_at.present? %>
-            <%= sched.label :opens_at, class: "field__label" %>
-            <%= sched.date_field :opens_at, value: open_val, class: "field__input", step: 60 %>
-        </div>
-        <div class="field">
-            <% close_val = sched.object.closes_at.strftime("%H:%M") if sched.object.closes_at.present? %>
-            <%= sched.label :closes_at, class: "field__label" %>
-            <%= sched.time_field :closes_at, value: close_val, class: "field__input", step: 60 %>
-        </div>
-    </div>
-
-
-        <div class="field">
-            <%= label_tag "opens_at", class: "field__label" %>
-            <%= date_field_tag :opens_at, class: "field__input" %>
-        </div>
-        <div class="field">
-            <% close_val = sched.object.closes_at.strftime("%H:%M") if sched.object.closes_at.present? %>
-            <%= sched.label :closes_at, class: "field__label" %>
-            <%= sched.time_field :closes_at, value: close_val, class: "field__input" %>
-        </div>
-
-
-
-    <div class="field">
-        <div class="checkbox">
-            <%= check_box_tag 'all_day', '1', false, class: "checkbox__input" %>
-            <%= label_tag 'all_day', "All day", class: "checkbox__label" %>
-        </div>
-    </div>
-
--->

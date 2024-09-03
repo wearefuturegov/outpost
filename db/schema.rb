@@ -284,7 +284,9 @@ ActiveRecord::Schema.define(version: 2024_08_30_111345) do
     t.string "freq"
     t.integer "interval"
     t.string "byday"
-    t.string "bymonthday"
+    t.integer "bymonthday"
+    t.date "until"
+    t.integer "count"
     t.index ["service_at_location_id"], name: "index_regular_schedules_on_service_at_location_id"
     t.index ["service_id"], name: "index_regular_schedules_on_service_id"
   end

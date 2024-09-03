@@ -116,6 +116,12 @@ class ServicesController < ApplicationController
                 :opens_at,
                 :closes_at,
                 :weekday,
+                :dtstart,
+                :interval,
+                :freq,
+                :bymonthday,
+                :until,
+                :count,
                 :_destroy,
             ],
             contacts_attributes: [
@@ -156,6 +162,14 @@ class ServicesController < ApplicationController
             result_params['local_offer_attributes']['survey_answers'] =
                 result_params['local_offer_attributes']['survey_answers'].to_h.map{|k,v| { id: k.to_i, answer: v['answer']}}
         end
+
+
+        # combine bydate
+
+        if result_params['regular_schedules_attributes']&.[]('byday')
+            puts params[:regular_schedule][:byday].reject(&:blank?).join(',')
+        end
+
         result_params
     end
 
