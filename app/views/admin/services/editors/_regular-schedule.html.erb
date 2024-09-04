@@ -9,7 +9,7 @@
 <section class="repeater" id="regular_schedule_panels">
     <ul class="repeater__panels" aria-live="polite">
         <%= s.fields_for :regular_schedules do |sched| %>
-        <li class="repeater__panel">
+        <li class="repeater__panel <%= sched.object.errors.any? ? 'repeater__panel--error' : '' %>" >
             <%= render "admin/services/editors/regular-schedule-fields", sched: sched %>
         </li>
         <% end %>
