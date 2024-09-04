@@ -59,9 +59,6 @@ class Service < ApplicationRecord
   has_many :contacts  
   accepts_nested_attributes_for :contacts, allow_destroy: true, reject_if: :all_blank
 
-  has_many :phones, through: :contacts
-  accepts_nested_attributes_for :phones
-
   has_many :feedbacks
 
   has_many :service_taxonomies, dependent: :destroy
