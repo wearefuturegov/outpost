@@ -1,10 +1,13 @@
+<% hide_list ||= false %>
 <% if model.errors.any? %>
     <div class="error">
         <h2 class="error__title"><%= pluralize(model.errors.count, "error") %> stopped this <%= model.class.model_name.human.downcase %> being saved</h2>
+        <% unless hide_list %>
         <ul class="error__list">
             <% model.errors.full_messages.each do |e| %>
                 <li><%= e.html_safe %></li>
             <% end %>
         </ul>
+        <% end %>
     </div>
 <% end %>
