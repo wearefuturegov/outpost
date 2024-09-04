@@ -38,12 +38,12 @@ class RegularSchedule < ApplicationRecord
   # only allowing specific values for weekofmonth to make things easier
   def self.weekofmonth
     {
-      first: "1",
-      second: "2",
-      third: "3",
-      fourth: "4",
-      fifth: "5",
-      last: "-1"
+      'first' => '1',
+      'second' => '2',
+      'third' => '3',
+      'fourth' => '4',
+      'fifth' => '5',
+      'last' => '-1',
     }  
   end
 
@@ -54,7 +54,25 @@ class RegularSchedule < ApplicationRecord
   before_validation :set_byday_bymonthday_from_dtstart
   before_validation :set_interval
 
+
+  # helpers
+
+  # get monthday and byday_month
+  def get_month_byday_values
+    return nil if byday.blank?
+    byday_values = byday.split(',').map do |value|
+      if value.length > 2
+        [value[0..-3], value[-2..]]
+      else
+        [value]
+      end
+    end
+    byday_values
+  end
+
+
   private
+
 
   
 
@@ -85,16 +103,16 @@ class RegularSchedule < ApplicationRecord
       if freq == 'week'
         days = byday.split(',')
         if days.uniq.length != days.length
-          errors.add(:base, "byday values must be unique")
+          errors.add(:byday, "Repeated weekly events cannot have duplicate days")
         end
         days.each do |day|
           unless valid_days.include?(day)
-            errors.add(:base, "byday must be one of #{valid_days.join(', ')}")
+            errors.add(:byday, "Repeated weekly event values must be one of #{valid_days.join(', ')}")
           end
         end
       elsif freq == 'month'
         unless byday.match?(/^((-?[1-5]#{valid_days.join('|-?[1-5]')})(,(-?[1-5]#{valid_days.join('|-?[1-5]')}))*)$/)
-          errors.add(:base, "byday must be in the format (-)[1-5]#{valid_days.join(',')}")
+          errors.add(:byday, "Repeated monthly events byday must be in the format (-)[1-5]#{valid_days.join(',')}")
         end
       end
     end
@@ -103,7 +121,7 @@ class RegularSchedule < ApplicationRecord
   # interval must be greater than or equal to 1
   def validate_interval
     if interval.present? && interval < 1
-      errors.add(:base, "Interval must be greater than or equal to 1")
+      errors.add(:interval, "Interval for repeated events must be greater than or equal to 1")
     end
   end
 
@@ -111,14 +129,14 @@ class RegularSchedule < ApplicationRecord
   # bymonthday must be between 1 and 31
   def validate_bymonthday_range
     if bymonthday.present? && (bymonthday < 1 || bymonthday > 31)
-      errors.add(:base, "By month day must be between 1 and 31")
+      errors.add(:bymonthday, "Repeated monthly event on this date must be between 1 and 31")
     end
   end
 
   # bymonthday must be the same as the day of the month in dtstart
   def validate_bymonthday_and_dtstart
     if bymonthday.present? && dtstart.present? && bymonthday.to_i != dtstart.strftime('%-d').to_i
-      errors.add(:base, "By month day must be the same as the day of the month in dtstart")
+      errors.add(:bymonthday, "Repeated monthly event on this date must be the same as the date of the first event")
     end
   end
 
@@ -135,25 +153,25 @@ class RegularSchedule < ApplicationRecord
     if dtstart.present?
       # Event time: dtstart, weekday, opens_at, closes_at are required
       if weekday.blank? || opens_at.blank? || closes_at.blank?
-        errors.add(:base, "dtstart, weekday, opens_at, and closes_at are required for event times")
+        errors.add(:base, "Repeated weekly events require a date, weekday, opening and closing time")
       end
     else
       # Opening time: weekday, opens_at, closes_at are required
       if weekday.blank? || opens_at.blank? || closes_at.blank?
-        errors.add(:base, "weekday, opens_at, and closes_at are required for opening times")
+        errors.add(:base, "Opening times require a weekday, opening and closing time")
       end
       # byday, bymonthday, until, count must be empty
       if byday.present?
-        errors.add(:base, "byday should be empty for opening times")
+        errors.add(:base, "Opening times do not have byday values")
       end
       if bymonthday.present?
-        errors.add(:base, "bymonthday should be empty for opening times")
+        errors.add(:base, "Opening times should not have bymonthday values")
       end
       if self.until.present?
-        errors.add(:base, "until should be empty for opening times")
+        errors.add(:base, "Opening times should not have an until date")
       end
       if count.present?
-        errors.add(:base, "count should be empty for opening times")
+        errors.add(:base, "Opening times should not have a count value")
       end
     end
 
@@ -169,19 +187,20 @@ class RegularSchedule < ApplicationRecord
         # if freq is weekly
         # only byday can be set, bymonthday is not allowed at all
         if bymonthday.present?
-          errors.add(:base, "bymonthday is not allowed for weekly schedules")
+          errors.add(:base, "Weekly schedules cannot have a bymonthday value")
         end
       elsif freq == 'month'
         # if freq is monthly
         # only byday or bymonthday can be set
         if self.byday.present? && bymonthday.present?
-          errors.add(:base, "Only byday or bymonthday can be set, not both")
+          errors.add(:base, "Monthly events can only repeat on the same date each month or specific days each month, not both")
         end
       end
 
       # Only until or count can be set, but not both
       if self.until.present? && count.present?
-        errors.add(:base, "Only until or count can be set, not both")
+        errors.add(:until, "Until date cannot be set if count number is set")
+        errors.add(:count, "Count number cannot be set if until date is set")
       end
 
     end
@@ -192,7 +211,7 @@ class RegularSchedule < ApplicationRecord
 
   # Weekday is required in open referral but doesn't always make sense for users to input it
   def set_weekday_from_dtstart
-    if dtstart.present? && weekday.blank?
+    if dtstart.present? 
       day_name = dtstart.strftime('%A').downcase
       day_value = RegularSchedule.weekdays[day_name].to_i
       self[:weekday] = day_name
@@ -218,10 +237,11 @@ class RegularSchedule < ApplicationRecord
       end
     # if monthly - bymonthday is required but the days might not be selected by the user
     elsif freq == 'month'  && dtstart.present?
-      if !self.byday.present? && bymonthday.blank?
+      if !byday.present?
         self[:bymonthday] = dtstart.strftime('%-d')
       end
     end
   end
+
 
 end
