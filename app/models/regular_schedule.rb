@@ -71,6 +71,60 @@ class RegularSchedule < ApplicationRecord
   end
 
 
+  # returns human readable description of the availability of the service.
+  # Should match up with the iCAL field. E.g. 'The 2nd Monday of every month from 8:00pm till 12:00pm'
+  def description
+    day = ''
+    ends = ''  
+    # repeating event
+    if dtstart.present?
+      if freq.present?
+        if self.until.present?
+          ends = " until #{self.until.strftime("%d/%m/%Y")}"
+        elsif count.present?
+          ends = count > 1 ? " for #{count} occurrences" : " once"
+        end
+
+        if freq == 'week'
+          week = interval == 1 ? 'week' : "#{interval} weeks"
+          if byday.present?
+            days = byday.split(',').map do |day|
+              RegularSchedule.byday.key(day).humanize
+            end
+            day = " on #{days.to_sentence(last_word_connector: ' and ')}"
+          end
+
+          "Every #{week}#{day} from #{dtstart.strftime("%d/%m/%Y")} at #{opens_at.strftime("%I:%M%P")} to #{closes_at.strftime("%I:%M%P")}#{ends}"
+        
+        elsif freq == 'month'
+
+          month = interval == 1 ? 'month' : "#{interval} months"
+          if bymonthday.present?
+            day = " on the #{bymonthday.to_i.ordinalize} of the month"
+          end
+          if byday.present?
+            days = self.get_month_byday_values.map do |value|
+              if value.length > 1
+                "#{RegularSchedule.weekofmonth.key(value[0]).humanize} #{RegularSchedule.byday.key(value[1]).humanize}"
+              else
+                "#{RegularSchedule.weekofmonth.key(value[0]).humanize}"
+              end
+            end
+            day = " on the #{days.to_sentence(last_word_connector: ' and ')} of the month"
+          end
+          "Every #{month}#{day} from #{dtstart.strftime("%d/%m/%Y")} at #{opens_at.strftime("%I:%M%P")} to #{closes_at.strftime("%I:%M%P")}#{ends}"
+        end
+      else
+        "#{dtstart.strftime('%A')} from #{opens_at.strftime("%I:%M%P")} to #{closes_at.strftime("%I:%M%P")}"
+      end
+    else
+      # opening time
+      "#{weekday.humanize} from #{opens_at.to_s(:time)} to #{closes_at.to_s(:time)}"
+    end
+
+  end
+
+
   private
 
 

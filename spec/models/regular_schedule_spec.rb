@@ -388,7 +388,196 @@ RSpec.describe RegularSchedule, type: :model do
 
   end
 
-  # get_month_byday_values
+
+  describe '#description' do
+    let(:opens_at) { Time.zone.now - 1.hour  }
+    let(:closes_at) { Time.zone.now + 1.hour  }
+    let(:service) { FactoryBot.create(:service) }
+    let(:regular_schedule) { RegularSchedule.new(dtstart: dtstart, weekday: 'wednesday', opens_at: opens_at, closes_at: closes_at, service: service) }
+
+
+    context 'opening times' do
+      let(:dtstart) { nil } 
+      it 'should return description of the opening time' do
+        expect(regular_schedule.description).to eq("Wednesday from #{opens_at.to_s(:time)} to #{closes_at.to_s(:time)}")
+      end
+    end
+
+
+    context 'event times' do
+      let(:dtstart) { DateTime.new(2023, 10, 4) } # Wednesday
+      context 'single event time' do
+        it 'should return description of the single event time' do
+          expect(regular_schedule.description).to eq("Wednesday from #{opens_at.strftime("%I:%M%P")} to #{closes_at.strftime("%I:%M%P")}")
+        end
+      end
+
+      context 'weekly event time' do
+        it 'should return description of the weekly event time' do
+          regular_schedule.freq = 'week'
+          regular_schedule.interval = 1
+          expect(regular_schedule.description).to eq("Every week from #{dtstart.strftime("%d/%m/%Y")} at #{opens_at.strftime("%I:%M%P")} to #{closes_at.strftime("%I:%M%P")}")
+        end
+
+        it 'should return description of the weekly event time' do
+          regular_schedule.freq = 'week'
+          regular_schedule.interval = 2
+          expect(regular_schedule.description).to eq("Every 2 weeks from #{dtstart.strftime("%d/%m/%Y")} at #{opens_at.strftime("%I:%M%P")} to #{closes_at.strftime("%I:%M%P")}")
+        end
+
+
+        it 'should return description of the weekly event time' do
+          regular_schedule.freq = 'week'
+          regular_schedule.interval = 1
+          regular_schedule.byday = 'MO'
+          expect(regular_schedule.description).to eq("Every week on Monday from #{dtstart.strftime("%d/%m/%Y")} at #{opens_at.strftime("%I:%M%P")} to #{closes_at.strftime("%I:%M%P")}")
+        end
+
+        it 'should return description of the weekly event time' do
+          regular_schedule.freq = 'week'
+          regular_schedule.interval = 2
+          regular_schedule.byday = 'MO'
+          expect(regular_schedule.description).to eq("Every 2 weeks on Monday from #{dtstart.strftime("%d/%m/%Y")} at #{opens_at.strftime("%I:%M%P")} to #{closes_at.strftime("%I:%M%P")}")
+        end
+
+        it 'should return description of the weekly event time' do
+          regular_schedule.freq = 'week'
+          regular_schedule.interval = 1
+          regular_schedule.byday = 'MO,TU'
+          expect(regular_schedule.description).to eq("Every week on Monday and Tuesday from #{dtstart.strftime("%d/%m/%Y")} at #{opens_at.strftime("%I:%M%P")} to #{closes_at.strftime("%I:%M%P")}")
+        end
+
+        it 'should return description of the weekly event time' do
+          regular_schedule.freq = 'week'
+          regular_schedule.interval = 2
+          regular_schedule.byday = 'MO,TU'
+          expect(regular_schedule.description).to eq("Every 2 weeks on Monday and Tuesday from #{dtstart.strftime("%d/%m/%Y")} at #{opens_at.strftime("%I:%M%P")} to #{closes_at.strftime("%I:%M%P")}")
+        end
+
+
+        it 'should return description of the weekly event time' do
+          regular_schedule.freq = 'week'
+          regular_schedule.interval = 1
+          regular_schedule.byday = 'MO,TU,FR'
+          expect(regular_schedule.description).to eq("Every week on Monday, Tuesday and Friday from #{dtstart.strftime("%d/%m/%Y")} at #{opens_at.strftime("%I:%M%P")} to #{closes_at.strftime("%I:%M%P")}")
+        end
+
+        it 'should return description of the weekly event time' do
+          regular_schedule.freq = 'week'
+          regular_schedule.interval = 2
+          regular_schedule.byday = 'MO,TU,FR'
+          expect(regular_schedule.description).to eq("Every 2 weeks on Monday, Tuesday and Friday from #{dtstart.strftime("%d/%m/%Y")} at #{opens_at.strftime("%I:%M%P")} to #{closes_at.strftime("%I:%M%P")}")
+        end
+      end
+
+      context 'monthly event time' do
+        it 'should return description of the monthly event time' do
+          regular_schedule.freq = 'month'
+          regular_schedule.interval = 1
+          expect(regular_schedule.description).to eq("Every month from #{dtstart.strftime("%d/%m/%Y")} at #{opens_at.strftime("%I:%M%P")} to #{closes_at.strftime("%I:%M%P")}")
+        end
+
+        it 'should return description of the monthly event time' do
+          regular_schedule.freq = 'month'
+          regular_schedule.interval = 2
+          expect(regular_schedule.description).to eq("Every 2 months from #{dtstart.strftime("%d/%m/%Y")} at #{opens_at.strftime("%I:%M%P")} to #{closes_at.strftime("%I:%M%P")}")
+        end
+
+
+        it 'should return description of the monthly event time' do
+          regular_schedule.freq = 'month'
+          regular_schedule.interval = 1
+          regular_schedule.bymonthday = 4
+          expect(regular_schedule.description).to eq("Every month on the 4th of the month from #{dtstart.strftime("%d/%m/%Y")} at #{opens_at.strftime("%I:%M%P")} to #{closes_at.strftime("%I:%M%P")}")
+        end
+
+        it 'should return description of the monthly event time' do
+          regular_schedule.freq = 'month'
+          regular_schedule.interval = 2
+          regular_schedule.bymonthday = 4
+          expect(regular_schedule.description).to eq("Every 2 months on the 4th of the month from #{dtstart.strftime("%d/%m/%Y")} at #{opens_at.strftime("%I:%M%P")} to #{closes_at.strftime("%I:%M%P")}")
+        end
+
+
+        it 'should return description of the monthly event time' do
+          regular_schedule.freq = 'month'
+          regular_schedule.interval = 1
+          regular_schedule.byday = '1MO'
+          expect(regular_schedule.description).to eq("Every month on the First Monday of the month from #{dtstart.strftime("%d/%m/%Y")} at #{opens_at.strftime("%I:%M%P")} to #{closes_at.strftime("%I:%M%P")}")
+        end
+
+        it 'should return description of the monthly event time' do
+          regular_schedule.freq = 'month'
+          regular_schedule.interval = 2
+          regular_schedule.byday = '1MO'
+          expect(regular_schedule.description).to eq("Every 2 months on the First Monday of the month from #{dtstart.strftime("%d/%m/%Y")} at #{opens_at.strftime("%I:%M%P")} to #{closes_at.strftime("%I:%M%P")}")
+        end
+
+        it 'should return description of the monthly event time' do
+          regular_schedule.freq = 'month'
+          regular_schedule.interval = 1
+          regular_schedule.byday = '1MO,-1FR'
+          expect(regular_schedule.description).to eq("Every month on the First Monday and Last Friday of the month from #{dtstart.strftime("%d/%m/%Y")} at #{opens_at.strftime("%I:%M%P")} to #{closes_at.strftime("%I:%M%P")}")
+        end
+
+        it 'should return description of the monthly event time' do
+          regular_schedule.freq = 'month'
+          regular_schedule.interval = 2
+          regular_schedule.byday = '1MO,-1FR'
+          expect(regular_schedule.description).to eq("Every 2 months on the First Monday and Last Friday of the month from #{dtstart.strftime("%d/%m/%Y")} at #{opens_at.strftime("%I:%M%P")} to #{closes_at.strftime("%I:%M%P")}")
+        end
+
+        it 'should return description of the monthly event time' do
+          regular_schedule.freq = 'month'
+          regular_schedule.interval = 1
+          regular_schedule.byday = '1MO,-1FR,3FR'
+          expect(regular_schedule.description).to eq("Every month on the First Monday, Last Friday and Third Friday of the month from #{dtstart.strftime("%d/%m/%Y")} at #{opens_at.strftime("%I:%M%P")} to #{closes_at.strftime("%I:%M%P")}")
+        end
+
+        it 'should return description of the monthly event time' do
+          regular_schedule.freq = 'month'
+          regular_schedule.interval = 2
+          regular_schedule.byday = '1MO,-1FR,3FR'
+          expect(regular_schedule.description).to eq("Every 2 months on the First Monday, Last Friday and Third Friday of the month from #{dtstart.strftime("%d/%m/%Y")} at #{opens_at.strftime("%I:%M%P")} to #{closes_at.strftime("%I:%M%P")}")
+        end
+        
+        
+      end
+
+
+      # @TODO can we have count + interval?
+      context 'event time ends' do
+        it 'should return description of the weekly event time' do
+          regular_schedule.freq = 'week'
+          regular_schedule.interval = 2
+          regular_schedule.byday = 'MO,TU,FR'
+          regular_schedule.until = DateTime.new(2024, 10, 4)
+          expect(regular_schedule.description).to eq("Every 2 weeks on Monday, Tuesday and Friday from #{dtstart.strftime("%d/%m/%Y")} at #{opens_at.strftime("%I:%M%P")} to #{closes_at.strftime("%I:%M%P")} until #{DateTime.new(2024, 10, 4).strftime("%d/%m/%Y")}")
+        end
+
+        it 'should return description of the weekly event time' do
+          regular_schedule.freq = 'week'
+          regular_schedule.interval = 2
+          regular_schedule.byday = 'MO,TU,FR'
+          regular_schedule.count = 5
+          expect(regular_schedule.description).to eq("Every 2 weeks on Monday, Tuesday and Friday from #{dtstart.strftime("%d/%m/%Y")} at #{opens_at.strftime("%I:%M%P")} to #{closes_at.strftime("%I:%M%P")} for 5 occurrences")
+        end      
+        
+        it 'should return description of the weekly event time' do
+          regular_schedule.freq = 'week'
+          regular_schedule.interval = 2
+          regular_schedule.byday = 'MO,TU,FR'
+          regular_schedule.count = 1
+          expect(regular_schedule.description).to eq("Every 2 weeks on Monday, Tuesday and Friday from #{dtstart.strftime("%d/%m/%Y")} at #{opens_at.strftime("%I:%M%P")} to #{closes_at.strftime("%I:%M%P")} once")
+        end
+      end
+
+    end
+
+
+
+
+  end
 
 
 
