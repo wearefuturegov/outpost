@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("turbolinks:load", () => {
   setupTimeTypePanelListeners();
   const timeTypePanels = document.querySelectorAll(
     "[data-regular-schedule-panel]"
@@ -17,33 +17,35 @@ const setupTimeTypePanelListeners = () => {
   );
 
   // listens for every change event inside the repeater
-  regularSchedules.addEventListener("change", (e) => {
-    // the panel object
-    const panel = e.target.closest("[data-regular-schedule-panel]");
-    const timeTypeMatcher = e.target.name.match(
-      /^service\[regular_schedules_attributes\]\[(\d+)\]\[(time_type)\]$/
-    );
-    const repeatMatcher = e.target.name.match(
-      /^service\[regular_schedules_attributes\]\[(\d+)\]\[(repeats)\]$/
-    );
-    const freqMatcher = e.target.name.match(
-      /^service\[regular_schedules_attributes\]\[(\d+)\]\[(freq)\]$/
-    );
+  if (regularSchedules) {
+    regularSchedules.addEventListener("change", (e) => {
+      // the panel object
+      const panel = e.target.closest("[data-regular-schedule-panel]");
+      const timeTypeMatcher = e.target.name.match(
+        /^service\[regular_schedules_attributes\]\[(\d+)\]\[(time_type)\]$/
+      );
+      const repeatMatcher = e.target.name.match(
+        /^service\[regular_schedules_attributes\]\[(\d+)\]\[(repeats)\]$/
+      );
+      const freqMatcher = e.target.name.match(
+        /^service\[regular_schedules_attributes\]\[(\d+)\]\[(freq)\]$/
+      );
 
-    if (timeTypeMatcher) {
-      setTimeTypePanelState(panel);
-    }
+      if (timeTypeMatcher) {
+        setTimeTypePanelState(panel);
+      }
 
-    if (repeatMatcher) {
-      const repeat = e.target.checked;
-      toggleRequired(panel, repeat, "data-required-repeat");
-      toggleHidden(panel, !repeat, "data-repeats");
-    }
+      if (repeatMatcher) {
+        const repeat = e.target.checked;
+        toggleRequired(panel, repeat, "data-required-repeat");
+        toggleHidden(panel, !repeat, "data-repeats");
+      }
 
-    if (freqMatcher) {
-      setFreqVisibility(panel, e.target.value);
-    }
-  });
+      if (freqMatcher) {
+        setFreqVisibility(panel, e.target.value);
+      }
+    });
+  }
 };
 
 /**
@@ -60,6 +62,7 @@ const setTimeTypePanelState = (panel) => {
   const repeat = getRepeatState(panel);
   const freq = getFreqState(panel);
   setFreqVisibility(panel, freq);
+  toggleHidden(panel, !repeat, "data-repeats");
 
   if (timeType === "opening_time") {
     // set opening time required fields
@@ -150,7 +153,7 @@ const toggleHidden = (panel, hidden, dataField) => {
   // console.log(element);
 
   element.forEach((elm) => {
-    console.log(elm, hidden);
+    // console.log(elm, hidden);
     if (hidden) {
       elm.setAttribute("hidden", true);
     } else {
