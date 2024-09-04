@@ -84,6 +84,12 @@
       color: $error;
     }
   }
+
+  &--error {
+    .field__input {
+      border-color: $error;
+    }
+  }
 }
 
 .field-group {
@@ -121,8 +127,9 @@
   &--four-cols {
     @media screen and (min-width: $breakpoint-m) {
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr 1fr;
+      grid-template-columns: auto auto auto auto;
       column-gap: 25px;
+      align-items: flex-end;
     }
   }
 
