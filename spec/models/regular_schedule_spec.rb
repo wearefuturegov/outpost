@@ -143,7 +143,7 @@ RSpec.describe RegularSchedule, type: :model do
       it 'is invalid' do
         regular_schedule.bymonthday = 50
         expect(regular_schedule).to_not be_valid
-        expect(regular_schedule.errors[:base]).to include("By month day must be between 1 and 31")
+        expect(regular_schedule.errors[:bymonthday]).to include("Repeated monthly event on this date must be between 1 and 31")
       end
     end
 
@@ -178,7 +178,7 @@ RSpec.describe RegularSchedule, type: :model do
       it 'is invalid' do
         regular_schedule.interval = 0
         expect(regular_schedule).to_not be_valid
-        expect(regular_schedule.errors[:base]).to include("Interval must be greater than or equal to 1")
+        expect(regular_schedule.errors[:interval]).to include("Interval for repeated events must be greater than or equal to 1")
       end
     end
   end
@@ -350,6 +350,46 @@ RSpec.describe RegularSchedule, type: :model do
   end
 
 
+  # HELPERS
+
+  describe "#get_month_byday_values" do
+    let(:service) { FactoryBot.create(:service) }
+    let(:regular_schedule) { RegularSchedule.new(dtstart: DateTime.new(2023, 10, 4), freq: frequency, opens_at: Time.zone.now, closes_at: Time.zone.now, service: service) }
+
+
+    context 'when frequency is week' do 
+      let(:frequency) { 'week' }
+
+      it 'should return nil if byday is blank' do
+        expect(regular_schedule.get_month_byday_values).to be_nil
+      end
+
+      it 'should return array of days if byday is set' do
+        regular_schedule.byday = 'MO,WE'
+        expect(regular_schedule.get_month_byday_values).to eq([['MO'], ['WE']])
+      end
+
+    end
+
+
+    context 'when frequency is week' do 
+      let(:frequency) { 'month' }
+
+      it 'should return nil if byday is blank' do
+        expect(regular_schedule.get_month_byday_values).to be_nil
+      end
+
+      it 'should return array of days if byday is set' do
+        regular_schedule.byday = '-1MO,2WE'
+        expect(regular_schedule.get_month_byday_values).to eq([['-1','MO'], ['2','WE']])
+      end
+
+    end
+
+  end
+
+  # get_month_byday_values
+
 
 
 
@@ -375,10 +415,10 @@ RSpec.describe RegularSchedule, type: :model do
     context 'when dtstart is present and weekday is already set' do
       let(:dtstart) { DateTime.new(2023, 10, 4) } # Example date: Wednesday
 
-      it 'does not change the weekday' do
+      it 'should change the weekday' do
         regular_schedule.weekday = 'monday'
         regular_schedule.valid? # Triggers the before_validation callback
-        expect(regular_schedule.weekday).to eq('monday')
+        expect(regular_schedule.weekday).to eq('wednesday')
       end
     end
 
