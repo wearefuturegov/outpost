@@ -19,7 +19,7 @@ class RegularScheduleSerializer < ActiveModel::Serializer
     object.dtstart.strftime('%Y-%m-%d').to_time.utc if object.dtstart
   end
 
-  def dtstart
+  def until
     object.until.strftime('%Y-%m-%d').to_time.utc if object.until
   end
 
