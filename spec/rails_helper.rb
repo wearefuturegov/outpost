@@ -16,10 +16,10 @@ Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
 # heroku buildpacks gives us GOOGLE_CHROME_BIN
 binary = ENV.fetch("GOOGLE_CHROME_BIN", nil)
 # "/usr/bin/chromium-browser"
-# puts binary
+puts binary
 # uncomment to enable webdriver debugging
-# logger = Selenium::WebDriver.logger
-# logger.level = :debug
+logger = Selenium::WebDriver.logger
+logger.level = :debug
 
 Selenium::WebDriver::Chrome.path = binary if binary
 
@@ -50,7 +50,7 @@ Capybara.register_driver :headless_chrome do |app|
   Capybara::Selenium::Driver.new app,
     browser: :chrome,
     options: options,
-    service: Selenium::WebDriver::Chrome::Service.chrome(log: :stderr, args: ["--whitelisted-ips=", "--allowed-ips=", "--disable-dev-shm-usage"])
+    service: Selenium::WebDriver::Chrome::Service.chrome(log: :stderr, args: ["--whitelisted-ips=", "--allowed-ips=", "--disable-dev-shm-usage", "--log-level=DEBUG"])
 end
 # switch to this to enable chrome debugging
 # service: Selenium::WebDriver::Chrome::Service.chrome(log: :stderr, args: ["--whitelisted-ips=", "--allowed-ips=", "--disable-dev-shm-usage", "--log-level=DEBUG"])
