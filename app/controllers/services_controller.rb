@@ -1,4 +1,6 @@
 class ServicesController < ApplicationController
+    include ServicePreprocessing
+
     before_action :no_admins
     before_action :set_service, except: [:new, :create]
 
@@ -66,7 +68,8 @@ class ServicesController < ApplicationController
 
 
     def service_params
-        result_params = params.require(:service).permit(
+        preprocessed_params = preprocess_regular_schedules(params)
+        result_params = preprocessed_params.require(:service).permit(
             :name,
             :description,
             :url,
@@ -113,9 +116,16 @@ class ServicesController < ApplicationController
             regular_schedules_attributes: [
                 :id,
                 :service_at_location_id,
+                :weekday,
                 :opens_at,
                 :closes_at,
-                :weekday,
+                :dtstart,
+                :interval,
+                :freq,
+                :byday,
+                :bymonthday,
+                :until,
+                :count,
                 :_destroy,
             ],
             contacts_attributes: [
@@ -156,7 +166,12 @@ class ServicesController < ApplicationController
             result_params['local_offer_attributes']['survey_answers'] =
                 result_params['local_offer_attributes']['survey_answers'].to_h.map{|k,v| { id: k.to_i, answer: v['answer']}}
         end
+
         result_params
     end
 
+    
+
 end
+
+

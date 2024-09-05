@@ -1,4 +1,5 @@
 class Admin::ServicesController < Admin::BaseController
+  include ServicePreprocessing
   before_action :set_service, only: [:update, :destroy]
   before_action :load_custom_field_sections, only: [:show, :update, :destroy, :new, :create]
   skip_before_action :set_counts, only: :show
@@ -92,7 +93,9 @@ class Admin::ServicesController < Admin::BaseController
   end
 
   def service_params
-    result_params = params.require(:service).permit(
+
+    preprocessed_params = preprocess_regular_schedules(params)
+    result_params = preprocessed_params.require(:service).permit(
       :name,
       :organisation_id,
       :description,
@@ -146,9 +149,16 @@ class Admin::ServicesController < Admin::BaseController
       regular_schedules_attributes: [
         :id,
         :service_at_location_id,
+        :weekday,
         :opens_at,
         :closes_at,
-        :weekday,
+        :dtstart,
+        :interval,
+        :freq,
+        :byday,
+        :bymonthday,
+        :until,
+        :count,
         :_destroy,
       ],
       contacts_attributes: [

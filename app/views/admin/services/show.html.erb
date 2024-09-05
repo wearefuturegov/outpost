@@ -19,6 +19,9 @@
 <div class="with-sidebar">
 
   <div>
+  
+
+
     <%= form_for(@service, as: :service, url: admin_service_path(@service), method: :put, data: {warn_unsaved_changes: true}, builder: OutpostFormBuilder) do |s| %>
 
       <%= render "shared/errors", model: @service %>
@@ -58,7 +61,7 @@
         <%= render "admin/services/editors/cost-options", s: s %>
       <% end %>
 
-      <%= render "shared/collapsible", name: "Opening times", count: @service.regular_schedules.length, id: "schedule-editor", help_text: "Build a set of regular opening times for the service." do %>
+      <%= render "shared/collapsible", name: "Opening and event times", count: @service.regular_schedules.length, id: "schedule-editor", help_text: "Build a set of regular opening times for the service." do %>
         <%= render "admin/services/editors/regular-schedule", s: s %>
       <% end %>
 

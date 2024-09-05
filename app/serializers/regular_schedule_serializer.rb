@@ -1,10 +1,10 @@
 include RegularScheduleHelper
 
 class RegularScheduleSerializer < ActiveModel::Serializer
-  attributes :id, :weekday, :opens_at, :closes_at
+  attributes :id, :weekday, :opens_at, :closes_at, :dtstart, :freq, :interval, :byday, :bymonthday, :until, :count, :description
 
   def weekday
-    weekdays.find{ |d| d[:value] === object.weekday }[:label]
+    object.weekday.humanize
   end
 
   def opens_at
@@ -14,5 +14,18 @@ class RegularScheduleSerializer < ActiveModel::Serializer
   def closes_at
     object.closes_at.to_s(:time)   
   end
+
+  def dtstart
+    object.dtstart.strftime('%Y-%m-%d').to_time.utc if object.dtstart
+  end
+
+  def until
+    object.until.strftime('%Y-%m-%d').to_time.utc if object.until
+  end
+
+  def description
+    object.description
+  end
+
 
 end

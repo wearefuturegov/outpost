@@ -10,7 +10,15 @@ RSpec.describe RegularScheduleSerializer do
         :id,
         :weekday,
         :opens_at,
-        :closes_at
+        :closes_at,
+        :byday, 
+        :bymonthday, 
+        :count, 
+        :description, 
+        :dtstart, 
+        :freq, 
+        :interval, 
+        :until
       )
   end
 
