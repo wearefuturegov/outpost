@@ -84,6 +84,12 @@
       color: $error;
     }
   }
+
+  &--error {
+    .field__input {
+      border-color: $error;
+    }
+  }
 }
 
 .field-group {
@@ -107,6 +113,29 @@
       grid-template-columns: 1fr 1fr 1fr;
       column-gap: 25px;
     }
+  }
+
+  &--three-cols--or {
+    @media screen and (min-width: $breakpoint-m) {
+      display: grid;
+      grid-template-columns: 1fr minmax(auto, max-content) 1fr;
+      column-gap: 25px;
+      align-items: flex-end;
+    }
+  }
+
+  &--four-cols {
+    @media screen and (min-width: $breakpoint-m) {
+      display: grid;
+      grid-template-columns: auto auto auto auto;
+      column-gap: 25px;
+      align-items: flex-end;
+    }
+  }
+
+  &--flex-cols {
+    display: flex;
+    flex-direction: column;
   }
 
   &--no-top-margin {
