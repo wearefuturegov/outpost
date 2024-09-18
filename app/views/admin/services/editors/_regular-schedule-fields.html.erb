@@ -15,13 +15,13 @@
         <div class="field">
             <div class="radio">
                 <%= radio_button_tag "service[regular_schedules_attributes][#{sched.index}][time_type]", 'opening_time', sched.object.dtstart.blank?, class: "radio__input" %>
-                <%= label_tag "service_regular_schedules_attributes_#{sched.index}_time_type_opening_time", 'Opening time', class: "radio__label"  %>
+                <%= label_tag "service_regular_schedules_attributes_#{sched.index}_time_type_opening_time", 'Opening hours', class: "radio__label"  %>
             </div>
         </div>
         <div class="field">
             <div class="radio">
                 <%= radio_button_tag "service[regular_schedules_attributes][#{sched.index}][time_type]", 'event_time', sched.object.dtstart.present?, class: "radio__input" %>
-                <%= label_tag "service_regular_schedules_attributes_#{sched.index}_time_type_event_time", 'Event time', class: "radio__label"  %>
+                <%= label_tag "service_regular_schedules_attributes_#{sched.index}_time_type_event_time", 'Event times', class: "radio__label"  %>
             </div>
         </div>
     </div>
