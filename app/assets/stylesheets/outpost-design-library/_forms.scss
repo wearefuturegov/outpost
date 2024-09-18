@@ -95,6 +95,11 @@
 .field-group {
   margin-top: 45px;
 
+  // if the first item is hidden=true, remove the top margin
+  &:is([hidden="true"]) + * {
+    margin-top: 0px;
+  }
+
   &:first-child {
     margin-top: 0px;
   }

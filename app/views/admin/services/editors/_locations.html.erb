@@ -1,5 +1,5 @@
 <%= mark_unapproved_array("locations") do %>
-    <section class="repeater">
+    <section class="repeater" id="location_panels">
         <ul class="repeater__panels" aria-live="polite">
             <%= s.fields_for :locations do |l| %>
                 <li class="repeater__panel">
