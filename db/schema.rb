@@ -10,10 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_08_30_111345) do
+ActiveRecord::Schema.define(version: 2024_09_18_091413) do
 
   # These are extensions that must be enabled in order to support this database
-  enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
 
@@ -295,7 +294,6 @@ ActiveRecord::Schema.define(version: 2024_08_30_111345) do
     t.string "postcode"
     t.string "ward"
     t.string "family_centre"
-    t.string "area"
   end
 
   create_table "send_needs", force: :cascade do |t|

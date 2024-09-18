@@ -2,11 +2,13 @@
 
     <%= render "shared/errors", model: sched.object, hide_list: true %>
 
-   <% if @service.locations.count > 1 %>
-    <div class="field-group field-group--no-margins">
+    <%# if we're in service owner view then this field is only visible if they have more than 1 location %>
+    <% unless params[:controller] == 'services' && @service.locations.count <= 1 %>
+    <div class="field-group field-group--no-margins regular_schedule__location" data-location>
         <div class="field">
             <%= sched.label :service_at_location_id, "Location", class: "field__label" %>
             <%= sched.select :service_at_location_id, @service.locations.map { |location| [location.display_name, @service.service_at_locations.find_by(location_id: location.id).id] }, {  include_blank: "All locations"  }, class: "field__input"  %>
+            <%= sched.hidden_field :location_object_id, value: nil %>
         </div>
     </div>
     <% end %>
@@ -15,13 +17,13 @@
         <div class="field">
             <div class="radio">
                 <%= radio_button_tag "service[regular_schedules_attributes][#{sched.index}][time_type]", 'opening_time', sched.object.dtstart.blank?, class: "radio__input" %>
-                <%= label_tag "service_regular_schedules_attributes_#{sched.index}_time_type_opening_time", 'Opening time', class: "radio__label"  %>
+                <%= label_tag "service_regular_schedules_attributes_#{sched.index}_time_type_opening_time", 'Opening hours', class: "radio__label"  %>
             </div>
         </div>
         <div class="field">
             <div class="radio">
                 <%= radio_button_tag "service[regular_schedules_attributes][#{sched.index}][time_type]", 'event_time', sched.object.dtstart.present?, class: "radio__input" %>
-                <%= label_tag "service_regular_schedules_attributes_#{sched.index}_time_type_event_time", 'Event time', class: "radio__label"  %>
+                <%= label_tag "service_regular_schedules_attributes_#{sched.index}_time_type_event_time", 'Event times', class: "radio__label"  %>
             </div>
         </div>
     </div>

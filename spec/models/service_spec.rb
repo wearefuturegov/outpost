@@ -87,4 +87,66 @@ RSpec.describe Service, type: :model do
       end
     end
   end
+
+
+  # a new location is added in the UI 
+  # in the admin env this location doesn't have a service_at_location entry yet which a regular_schedule assigned to that location will need
+  # we can add regular schedules assigned to locations in two ways
+  # 1. location exists therefore service_at_location exists and we can pass through service_at_location_id to the regular_schedule
+  # 2. location doesn't exist therefore service_at_location doesn't exist and we can pass through location_object_id to the regular_schedule, 
+  #    this is used to find the corresponding location and service_at_location_id after the service (and locations) have been saved
+
+
+  describe '#update_regular_schedules' do
+    let(:location) { FactoryBot.create(:location, location_object_id: 'loc123') }
+    let(:service_at_location) { FactoryBot.create(:service_at_location, service: subject, location: location) }
+    let!(:regular_schedule) { FactoryBot.create(:regular_schedule, service: subject) }
+
+    before do
+      # Ensure the associations are set up correctly
+      subject.locations << location
+      subject.service_at_locations << service_at_location
+      subject.regular_schedules << regular_schedule
+    end
+
+    context 'Location exists already'  do
+
+
+      it 'saves the regular schedule at \'all locations\'' do 
+        subject.update(regular_schedules: [regular_schedule])
+        expect(subject.reload.regular_schedules).to match_array([regular_schedule])
+        expect(subject.reload.regular_schedules.first.service_at_location_id).to be_nil
+      end
+
+      it 'saves the regular schedule at a specific location' do
+        regular_schedule.update(service_at_location_id: service_at_location.id)
+        subject.update(regular_schedules: [regular_schedule])
+        expect(subject.reload.regular_schedules).to match_array([regular_schedule])
+        expect(subject.reload.regular_schedules.first.service_at_location_id).to eq(service_at_location.id)
+      end
+
+    end
+
+
+    context 'Location doesnt yet exist'  do
+      it 'saves the regular schedule at a specific location' do
+        regular_schedule.update(location_object_id: 'loc123')
+        location.update(location_object_id: 'loc123')
+        subject.update(locations: [location], regular_schedules: [regular_schedule])
+        newServiceAtLocation = ServiceAtLocation.find_by(location_id: location.id, service_id: subject.reload.id)
+        expect(subject.reload.regular_schedules).to match_array([regular_schedule])
+        expect(subject.reload.regular_schedules.first.service_at_location_id).to eq(newServiceAtLocation.id)
+      end
+
+      it 'saves the regular schedule at \'all locations\' if no location is found' do
+        regular_schedule.update(location_object_id: 'loc1234')
+        location.update(location_object_id: 'loc123')
+        subject.update(locations: [location], regular_schedules: [regular_schedule])
+        newServiceAtLocation = ServiceAtLocation.find_by(location_id: location.id, service_id: subject.reload.id)
+        expect(subject.reload.regular_schedules).to match_array([regular_schedule])
+        expect(subject.reload.regular_schedules.first.service_at_location_id).to be_nil
+      end
+    end
+  end
+
 end
