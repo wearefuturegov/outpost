@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_05_10_153947) do
+ActiveRecord::Schema.define(version: 2024_09_18_091413) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -279,6 +279,13 @@ ActiveRecord::Schema.define(version: 2024_05_10_153947) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "service_at_location_id"
+    t.date "dtstart"
+    t.string "freq"
+    t.integer "interval"
+    t.string "byday"
+    t.integer "bymonthday"
+    t.date "until"
+    t.integer "count"
     t.index ["service_at_location_id"], name: "index_regular_schedules_on_service_at_location_id"
     t.index ["service_id"], name: "index_regular_schedules_on_service_id"
   end
@@ -481,7 +488,7 @@ ActiveRecord::Schema.define(version: 2024_05_10_153947) do
   add_foreign_key "oauth_access_grants", "users", column: "resource_owner_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "users", column: "resource_owner_id"
-  add_foreign_key "regular_schedules", "service_at_locations"
+  add_foreign_key "regular_schedules", "service_at_locations", on_delete: :cascade
   add_foreign_key "regular_schedules", "services"
   add_foreign_key "service_meta", "services"
   add_foreign_key "services", "ofsted_items"

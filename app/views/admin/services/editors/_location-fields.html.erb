@@ -1,51 +1,65 @@
-<div class="field-group field-group--two-cols">
-    <div class="field">
-        <%= l.label :name, "Venue or building name", class: "field__label" %>
-        <%= l.text_field :name, class: "field__input", data: {field: "premise"}  %>
-    </div>
-    <div class="field">
-        <%= l.label :address_1, "Street address", class: "field__label" %>
-        <%= l.text_field :address_1, class: "field__input", data: {field: "street_number_route"} %>
-    </div>
-    <div class="field">
-        <%= l.label :city, "Town or area", class: "field__label" %>
-        <%= l.text_field :city, class: "field__input", data: {field: "postal_town"} %>
-    </div>
-    <div class="field field--required">
-        <%= l.label :postal_code, "Postcode", class: "field__label" %>
-        <%= l.text_field :postal_code, class: "field__input", data: {field: "postal_code"}, required: true %>
-    </div>
-</div>
+<% dataAttrs = '' %>
+<% dataAttrs.concat(" data-location-panel=#{l.index}") %>
+<% # saved locations have this field %>
+<% dataAttrs.concat(" data-location-service-at-location-id=#{@service.service_at_locations.find_by(location_id: l.object.id).id}")  if l.object.id %>
+<% # new locations have this field %>
+<% dataAttrs.concat(" data-location-object-id=#{l.object_id}") unless l.object.id  %>
 
-<fieldset class="field-group field-group--two-cols field-group--no-top-margin margin-bottom">
-    <legend class="field-group__legend">Accessibility</legend>
-
-    <%= l.collection_check_boxes( :accessibility_ids, Accessibility.all.order(:name), :id, :display_name) do |c| %>
-        <div class="field checkbox checkbox--small">
-            <%= c.check_box class: "checkbox__input" %>
-            <%= c.label class: "checkbox__label" %>
+<div class="location_panel" <%= dataAttrs %>>
+    <div class="field-group field-group--two-cols">
+        <div class="field">
+            <%= l.label :name, "Venue or building name", class: "field__label" %>
+            <%= l.text_field :name, class: "field__input", data: {field: "premise"}  %>
         </div>
-    <% end %>
-</fieldset>
+        <div class="field">
+            <%= l.label :address_1, "Street address", class: "field__label" %>
+            <%= l.text_field :address_1, class: "field__input", data: {field: "street_number_route"} %>
+        </div>
+        <div class="field">
+            <%= l.label :city, "Town or area", class: "field__label" %>
+            <%= l.text_field :city, class: "field__input", data: {field: "postal_town"} %>
+        </div>
+        <div class="field field--required">
+            <%= l.label :postal_code, "Postcode", class: "field__label" %>
+            <%= l.text_field :postal_code, class: "field__input", data: {field: "postal_code"}, required: true %>
+        </div>
+    </div>
 
-<div class="field-group field-group--no-margins">
-    <div class="field checkbox checkbox--small">
-        <%= l.check_box :visible, class: "checkbox__input"%>
-        <%= l.label :visible, "Make this location publicly visible", class: "checkbox__label" %>
-    </div>
-    <div class="field checkbox checkbox--small">
-        <%= l.check_box :mask_exact_address, class: "checkbox__input"%>
-        <%= l.label :mask_exact_address, class: "checkbox__label" do %>
-            Hide the exact street address
-            <button class="help-button help-button--small" type="button" data-tippy-content="If checked, only the first part of the postcode will be publicly visible, and the map pin will be less precise.">What does this mean?</button>
+    <fieldset class="field-group field-group--two-cols field-group--no-top-margin margin-bottom">
+        <legend class="field-group__legend">Accessibility</legend>
+
+        <%= l.collection_check_boxes( :accessibility_ids, Accessibility.all.order(:name), :id, :display_name) do |c| %>
+            <div class="field checkbox checkbox--small">
+                <%= c.check_box class: "checkbox__input" %>
+                <%= c.label class: "checkbox__label" %>
+            </div>
         <% end %>
+    </fieldset>
+
+    <div class="field-group field-group--no-margins">
+        <div class="field checkbox checkbox--small">
+            <%= l.check_box :visible, class: "checkbox__input"%>
+            <%= l.label :visible, "Make this location publicly visible", class: "checkbox__label" %>
+        </div>
+        <div class="field checkbox checkbox--small">
+            <%= l.check_box :mask_exact_address, class: "checkbox__input"%>
+            <%= l.label :mask_exact_address, class: "checkbox__label" do %>
+                Hide the exact street address
+                <button class="help-button help-button--small" type="button" data-tippy-content="If checked, only the first part of the postcode will be publicly visible, and the map pin will be less precise.">What does this mean?</button>
+            <% end %>
+        </div>
+        <div class="field checkbox checkbox--small">
+            <%= l.check_box :preferred_for_post, class: "checkbox__input"%>
+            <%= l.label :preferred_for_post, "Use this address for post", class: "checkbox__label" %>
+        </div>
     </div>
-    <div class="field checkbox checkbox--small">
-        <%= l.check_box :preferred_for_post, class: "checkbox__input"%>
-        <%= l.label :preferred_for_post, "Use this address for post", class: "checkbox__label" %>
-    </div>
+
+
+    <%= l.hidden_field :_destroy,  data: {destroy_field: true} %>
+
+    <% # only new locations have this field %>
+    <%= l.hidden_field :location_object_id, value: l.object_id unless l.object.id  %>
+
 </div>
 
 <button type="button" class="repeater__closer" data-close="true" title="Remove this location">Remove this location</button>
-
-<%= l.hidden_field :_destroy,  data: {destroy_field: true} %>
