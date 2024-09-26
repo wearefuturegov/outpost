@@ -117,7 +117,7 @@ class RegularSchedule < ApplicationRecord
           "Every #{month}#{day} from #{dtstart.strftime("%d/%m/%Y")} at #{opens_at.strftime("%I:%M%P")} to #{closes_at.strftime("%I:%M%P")}#{ends}"
         end
       else
-        "#{dtstart.strftime('%A')} from #{opens_at.strftime("%I:%M%P")} to #{closes_at.strftime("%I:%M%P")}"
+        "#{dtstart.strftime('%A%e %B %Y')} from #{opens_at.strftime("%I:%M%P")} to #{closes_at.strftime("%I:%M%P")}"
       end
     else
       # opening time
