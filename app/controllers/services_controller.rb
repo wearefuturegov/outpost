@@ -158,6 +158,7 @@ class ServicesController < ApplicationController
             meta_attributes: [
             :id,
             :key,
+            :label,
             :value
             ]
         )
