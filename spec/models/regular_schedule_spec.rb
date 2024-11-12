@@ -405,10 +405,10 @@ RSpec.describe RegularSchedule, type: :model do
 
 
     context 'event times' do
-      let(:dtstart) { DateTime.new(2023, 10, 4) } # Wednesday
+      let(:dtstart) { Date.new(2023, 10, 4) } # Wednesday
       context 'single event time' do
         it 'should return description of the single event time' do
-          expect(regular_schedule.description).to eq("#{dtstart.strftime('%A%e %B %Y')} from #{opens_at.strftime("%I:%M%P")} to #{closes_at.strftime("%I:%M%P")}")
+          expect(regular_schedule.description).to eq("#{dtstart.strftime('%A %e %B %Y')} from #{opens_at.strftime("%I:%M%P")} to #{closes_at.strftime("%I:%M%P")}")
         end
       end
 
