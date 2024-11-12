@@ -91,7 +91,7 @@ namespace :import do
       end
 
       if value.present?
-        new_service_meta = ServiceMeta.find_or_initialize_by(service_id: service_id, key: custom_field.key) do |new_sm|
+        new_service_meta = ServiceMeta.find_or_initialize_by(service_id: service_id, label: custom_field.label) do |new_sm|
           new_sm.value = value
         end
 
