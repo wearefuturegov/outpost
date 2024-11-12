@@ -1,7 +1,7 @@
 class CustomField < ApplicationRecord
   before_validation :slugify_key
   
-  validates :key, uniqueness: true, format: { with: /\A[a-z0-9\-]+\z/, message: "must be lowercase, numbers, and dashes only" }
+  validates :key, uniqueness: { allow_blank: true }, format: { with: /\A[a-z0-9\-]+\z/, message: "must be lowercase, numbers, and dashes only", allow_blank: true }
   validates :label, presence: true, uniqueness: true
   validates_presence_of :field_type
   belongs_to :custom_field_section, counter_cache: :custom_fields_count
