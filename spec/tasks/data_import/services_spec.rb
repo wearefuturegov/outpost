@@ -58,11 +58,11 @@ describe 'Services import' do
 
     context 'with custom fields in the DB' do
       before do
-        FactoryBot.create :custom_field, key: 'text field'
-        FactoryBot.create :custom_field, :number, key: 'number field'
-        FactoryBot.create :custom_field, :checkbox, key: 'checkbox field'
-        FactoryBot.create :custom_field, :date, key: 'date field'
-        FactoryBot.create :custom_field, :select, key: 'select field'
+        FactoryBot.create :custom_field, label: 'text field'
+        FactoryBot.create :custom_field, :number, label: 'number field'
+        FactoryBot.create :custom_field, :checkbox, label: 'checkbox field'
+        FactoryBot.create :custom_field, :date, label: 'date field'
+        FactoryBot.create :custom_field, :select, label: 'select field'
       end
 
       it 'creates the service meta' do

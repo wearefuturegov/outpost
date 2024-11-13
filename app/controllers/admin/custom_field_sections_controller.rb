@@ -51,6 +51,7 @@ class Admin::CustomFieldSectionsController < Admin::BaseController
         custom_fields_attributes: [
           :id,
           :key,
+          :label,
           :field_type,
           :hint,
           :options,

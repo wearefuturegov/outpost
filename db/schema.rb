@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_09_18_091413) do
+ActiveRecord::Schema.define(version: 2024_11_11_181710) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -87,6 +87,7 @@ ActiveRecord::Schema.define(version: 2024_09_18_091413) do
     t.string "hint"
     t.bigint "custom_field_section_id", null: false
     t.string "options"
+    t.string "label"
     t.index ["custom_field_section_id"], name: "index_custom_fields_on_custom_field_section_id"
   end
 
@@ -318,6 +319,7 @@ ActiveRecord::Schema.define(version: 2024_09_18_091413) do
     t.string "value"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "label"
     t.index ["service_id"], name: "index_service_meta_on_service_id"
   end
 

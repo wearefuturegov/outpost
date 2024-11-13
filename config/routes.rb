@@ -82,6 +82,7 @@ Rails.application.routes.draw do
       resources :accessibilities, only: [:index]
       get "me", to: "me#show"
       resources :services, only: [:index, :show]
+      resources :custom_fields, only: [:index]
     end
   end
 

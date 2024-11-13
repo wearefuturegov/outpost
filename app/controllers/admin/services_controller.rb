@@ -192,6 +192,7 @@ class Admin::ServicesController < Admin::BaseController
       ],
       meta_attributes: [
         :id,
+        :label,
         :key,
         :value
       ]

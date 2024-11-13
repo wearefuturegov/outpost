@@ -43,7 +43,7 @@ namespace :import do
         Rails.logger.info("🟠 Field: \"#{row["name"]}\" already exists, skipping.")
       else
         custom_field = CustomField.new(
-          key: row["name"]&.strip,
+          label: row["name"]&.strip,
           field_type: row["field_type"].downcase,
           options: row["field_options"],
           hint: row["hint"],
