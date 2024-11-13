@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :custom_field do
-    key { Faker::Lorem.sentence }
+    label { Faker::Lorem.sentence }
     field_type { 'text' }
     custom_field_section
 
