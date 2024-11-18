@@ -7,4 +7,6 @@ class CustomFieldSection < ApplicationRecord
     default_scope { order(sort_order: :asc) }
 
     scope :visible_to, -> (current_user){ current_user.admin ? all : where(public: true) }
+
+    scope :api_public, -> { where(api_public: true) }
 end
