@@ -127,7 +127,7 @@ class Service < ApplicationRecord
     when "expired"
       where("visible_to < (?)", Date.today)
     when "invisible"
-      where("visible != true")
+      where("visible IS DISTINCT FROM TRUE")
     when "closed"
       where("temporarily_closed = true")
     else
