@@ -16,11 +16,11 @@ namespace :services do
 
     puts 'Finding services linked to Ofsted items...'
     Service.where.not(ofsted_item: nil).find_each do |service|
-      META_KEY_MAP.each do |field, key|
-        meta = service.meta.find_or_initialize_by(key: key)
+      META_KEY_MAP.each do |field, label|
+        meta = service.meta.find_or_initialize_by(label: label)
 
         if meta.value.present?
-          puts "Meta '#{key}' already exists for service ##{service.id}, skipping"
+          puts "Meta '#{label}' already exists for service ##{service.id}, skipping"
           next
         end
 
