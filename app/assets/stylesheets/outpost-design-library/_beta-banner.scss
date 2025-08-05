@@ -1,14 +1,16 @@
-.beta-banner{
+@use "utils/vars" as *;
+
+.beta-banner {
   padding: 10px 15px;
   font-size: 0.9rem;
 
-  &__inner{
+  &__inner {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
   }
 
-  &__tag{
+  &__tag {
     background: $focus;
     color: $grey1;
     text-transform: uppercase;
@@ -16,7 +18,7 @@
     margin-right: 10px;
   }
 
-  &__message{
+  &__message {
     font-size: 1rem;
     margin: 0;
   }

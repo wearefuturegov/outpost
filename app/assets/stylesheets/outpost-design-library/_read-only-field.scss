@@ -1,21 +1,23 @@
-.read-only-field{
-    margin-bottom: 25px;
-    @media screen and (min-width: $breakpoint-m){
-        margin-bottom: 35px;
-    }
+@use "utils/vars" as *;
 
-    &__label{
-        margin: 0px;
-        margin-bottom: 5px;
-        color: $grey2;
-    }
+.read-only-field {
+  margin-bottom: 25px;
+  @media screen and (min-width: $breakpoint-m) {
+    margin-bottom: 35px;
+  }
 
-    &__value{
-        margin: 0px;
-        font-size: 1.3rem;
-        word-wrap: anywhere;
-        @media screen and (min-width: $breakpoint-m){
-            font-size: 1.5rem;
-        }
+  &__label {
+    margin: 0px;
+    margin-bottom: 5px;
+    color: $grey2;
+  }
+
+  &__value {
+    margin: 0px;
+    font-size: 1.3rem;
+    word-wrap: anywhere;
+    @media screen and (min-width: $breakpoint-m) {
+      font-size: 1.5rem;
     }
+  }
 }

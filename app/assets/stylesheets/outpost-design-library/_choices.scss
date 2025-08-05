@@ -1,4 +1,6 @@
-@import "vendor/choices";
+@use "utils/vars" as *;
+@use "sass:color";
+@use "vendor/choices";
 
 .choices {
   border: 2px solid $grey1;
@@ -7,14 +9,14 @@
   appearance: none;
   -moz-appearance: none;
   -webkit-appearance: none;
-  background-image: url(asset_path("select-down.svg"));
+  background-image: url("#{$image-path}/select-down.svg");
   background-position: center right;
   background-repeat: no-repeat;
   padding-right: 45px;
   border-radius: 0px;
 
   &.is-disabled {
-    background: transparentize($grey2, 0.9);
+    background: color.adjust($grey2, $alpha: -0.9);
   }
 
   &__inner {

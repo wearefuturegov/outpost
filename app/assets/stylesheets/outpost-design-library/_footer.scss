@@ -1,3 +1,5 @@
+@use "utils/vars" as *;
+
 .site-footer {
   background: $grey1;
   padding: 30px $outer-spacing 50px $outer-spacing;

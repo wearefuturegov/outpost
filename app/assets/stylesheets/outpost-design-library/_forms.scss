@@ -1,3 +1,6 @@
+@use "utils/vars" as *;
+@use "sass:color";
+
 .field {
   position: relative;
   margin-bottom: 25px;
@@ -71,7 +74,7 @@
     &:before {
       content: "Changed";
       font-weight: bold;
-      color: darken($focus, 10);
+      color: color.adjust($focus, $lightness: -10%);
       position: absolute;
       top: 0px;
       float: left;
@@ -216,7 +219,7 @@
       left: 9px;
       top: 50%;
       transform: translateY(-50%);
-      background-image: url(asset_path("tick.svg"));
+      background-image: url("#{$image-path}/tick.svg");
       background-size: contain;
       background-position: center;
       background-repeat: no-repeat;
@@ -225,7 +228,7 @@
     &[disabled] + label {
       cursor: not-allowed;
       &:before {
-        background: transparentize($grey1, 0.9);
+        background: color.adjust($grey1, $alpha: -0.9);
       }
     }
   }
@@ -302,7 +305,7 @@
   &:before {
     content: "Changed";
     font-weight: bold;
-    color: darken($focus, 10);
+    color: color.adjust($focus, $lightness: -10%);
     position: absolute;
     top: 0px;
     float: left;

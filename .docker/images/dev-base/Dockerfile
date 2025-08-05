@@ -70,7 +70,7 @@ RUN corepack enable
 # -------------
 
 # Create a non-root user
-RUN useradd -m outpost-user
+RUN useradd -m -s /bin/bash outpost-user
 
 # Switch to the new user
 USER outpost-user

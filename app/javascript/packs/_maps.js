@@ -1,5 +1,5 @@
 import { Loader } from "@googlemaps/js-api-loader";
-import { googleLoaderOptions } from "./google";
+import { googleLoaderOptions } from "./libs/google";
 
 const loader = new Loader({
   ...googleLoaderOptions,

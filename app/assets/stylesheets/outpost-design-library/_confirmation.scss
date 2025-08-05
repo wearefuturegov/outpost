@@ -1,29 +1,31 @@
-.confirmation-panel{
-    border: 3px solid $green;
-    text-align: center;
-    padding: 35px;
+@use "utils/vars" as *;
+
+.confirmation-panel {
+  border: 3px solid $green;
+  text-align: center;
+  padding: 35px;
+  @media screen and (min-width: $breakpoint-m) {
+    padding: 45px 65px;
+  }
+
+  &__heading {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-size: 2rem;
     @media screen and (min-width: $breakpoint-m) {
-        padding: 45px 65px;
+      font-size: 2.5rem;
     }
+  }
 
-    &__heading{
-        margin-top: 0px;
-        margin-bottom: 0px;
-        font-size: 2rem;
-        @media screen and (min-width: $breakpoint-m) {
-            font-size: 2.5rem;
-        }
-    }
-
-    &__caption{
-        margin-top: 10px;
-        margin-bottom: 0px;
-        font-size: 1.7rem;
-    }
+  &__caption {
+    margin-top: 10px;
+    margin-bottom: 0px;
+    font-size: 1.7rem;
+  }
 }
 
-.confirmation-body{
-    & *:first-child{
-        margin-top: 0px;
-    }
+.confirmation-body {
+  & *:first-child {
+    margin-top: 0px;
+  }
 }

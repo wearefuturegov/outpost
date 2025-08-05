@@ -1,3 +1,6 @@
+@use "utils/vars" as *;
+@use "sass:color";
+
 .repeater {
   &__panels {
     list-style: none;
@@ -18,7 +21,7 @@
     &--error {
       border-color: $error;
       //   border-width: 5px;
-      //   background: transparentize($error, 0.9);
+      //   background: color.adjust($error, $alpha: -0.9);
     }
   }
 
@@ -32,7 +35,7 @@
     width: 37px;
     border: none;
     background: none;
-    background-image: url(asset_path("clear.svg"));
+    background-image: url("#{$image-path}/clear.svg");
     background-size: 32px;
     background-position: center;
     background-repeat: no-repeat;

@@ -1,33 +1,33 @@
-.page-header{
-    padding-bottom: 20px;
-    @media screen and (min-width: $breakpoint-m){
-        padding-bottom: 30px;
+@use "utils/vars" as *;
+
+.page-header {
+  padding-bottom: 20px;
+  @media screen and (min-width: $breakpoint-m) {
+    padding-bottom: 30px;
+  }
+
+  &__title {
+    margin-top: 0;
+    font-size: 2.5rem;
+    @media screen and (min-width: $breakpoint-m) {
+      font-size: 3.5rem;
     }
+  }
 
-    &__title{
-        margin-top: 0;
-        font-size: 2.5rem;
-        @media screen and (min-width: $breakpoint-m){
-            font-size: 3.5rem;
-        }
+  &__lede {
+    font-size: 1.2rem;
+    margin-bottom: 25px;
+    @media screen and (min-width: $breakpoint-m) {
+      font-size: 1.3rem;
     }
+  }
 
-    &__lede{
-        font-size: 1.2rem;
-        margin-bottom: 25px;
-        @media screen and (min-width: $breakpoint-m){
-            font-size: 1.3rem;
-        }
+  &--full-width {
+    padding: 30px 20px;
+
+    .page-header__title {
+      font-size: 2.5rem;
+      margin-bottom: 0px;
     }
-
-    &--full-width{
-        padding: 30px 20px;
-
-        .page-header__title{
-            font-size: 2.5rem;
-            margin-bottom: 0px;
-        }
-
-    }
-
+  }
 }

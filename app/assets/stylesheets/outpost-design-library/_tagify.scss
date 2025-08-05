@@ -1,27 +1,29 @@
-@import "vendor/tagify";
+@use "utils/vars" as *;
+@use "utils/mixins" as *;
+@use "vendor/tagify";
 
 // the flexible multiple select field used for labels
 
-.tagify{
+.tagify {
+  border-color: $grey1 !important;
+  transition: 0s !important;
+  @include input;
+
+  &:focus-within {
+    outline: 3px solid $focus;
+  }
+
+  .tagify--focus {
     border-color: $grey1 !important;
-    transition: 0s !important;
-    @include input;
+  }
 
-    &:focus-within{
-        outline: 3px solid $focus;
-    }
-    
-    .tagify--focus{
-        border-color: $grey1 !important;
-    }
+  &__input,
+  &__tag-text {
+    color: $grey1;
+  }
 
-    &__input, 
-    &__tag-text{
-        color: $grey1;
-    }
-
-    &__tag > div::before{
-        box-shadow: 0 0 0 1.1em $pale inset;
-        border-radius: 0px;
-    }
+  &__tag > div::before {
+    box-shadow: 0 0 0 1.1em $pale inset;
+    border-radius: 0px;
+  }
 }

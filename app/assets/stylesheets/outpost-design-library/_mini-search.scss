@@ -1,66 +1,66 @@
+@use "utils/vars" as *;
 
-.mini-search{
+.mini-search {
+  @media screen and (min-width: $breakpoint-m) {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+  }
 
+  &__form {
+    position: relative;
+    margin-bottom: 25px;
     @media screen and (min-width: $breakpoint-m) {
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-start;
-        align-items: center;
+      margin-bottom: 0px;
+      width: 250px;
+      display: inline-block;
+      margin-right: 10px;
     }
+  }
 
-    &__form{
-        position: relative;
-        margin-bottom: 25px;
-        @media screen and (min-width: $breakpoint-m) {
-            margin-bottom: 0px;
-            width: 250px;
-            display: inline-block;
-            margin-right: 10px;
-        }
+  &__input {
+    padding: 7px;
+    height: 42px;
+    font-size: 1rem;
+    color: $grey1;
+    border: 2px solid $grey1;
+    width: 100%;
+    padding-right: 50px;
+    &:focus {
+      outline: 3px solid $focus;
     }
+  }
 
-    &__input{
-        padding: 7px;
-        height: 42px;
-        font-size: 1rem;
-        color: $grey1;
-        border: 2px solid $grey1;
-        width: 100%;
-        padding-right: 50px;
-        &:focus{
-            outline: 3px solid $focus;
-        }
+  &__submit {
+    background: none;
+    border: none;
+    position: absolute;
+    right: 2px;
+    top: 2px;
+    height: 38px;
+    width: 38px;
+    padding: 10px 12px;
+    img {
+      height: 100%;
+      width: auto;
     }
+    cursor: pointer;
+    &:hover {
+      background: $pale;
+    }
+    &:focus {
+      outline: 3px solid $focus;
+    }
+  }
 
-    &__submit{
-        background: none;
-        border: none;
-        position: absolute;
-        right: 2px;
-        top: 2px;
-        height: 38px;
-        width: 38px;
-        padding: 10px 12px;
-        img{
-            height: 100%;
-            width: auto;
-        }
-        cursor: pointer;
-        &:hover{
-            background: $pale;
-        }
-        &:focus{
-            outline: 3px solid $focus;
-        }
+  &__count {
+    color: $grey2;
+    text-align: center;
+    font-size: 0.9rem;
+    @media screen and (min-width: $breakpoint-m) {
+      margin: 0;
+      margin-left: 10px;
     }
-
-    &__count{
-        color: $grey2;
-        text-align: center;
-        font-size: 0.9rem;
-        @media screen and (min-width: $breakpoint-m) {
-            margin: 0;
-            margin-left: 10px;
-        }
-    }
+  }
 }

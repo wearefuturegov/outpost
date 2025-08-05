@@ -1,28 +1,31 @@
-.tag{
-    display: inline-block;
-    border: 1px solid $outpostBlue;
-    background: transparentize($outpostBlue, 0.9);
-    font-size: 0.8rem;
-    padding: 5px 7px;
-    color: $outpostBlue;
-    border-radius: 2px;
-    margin-right: 7px;
-    
-    &--yellow{
-        color: darken($focus, 30);
-        border-color: darken($focus, 30);
-        background: transparentize($focus, 0.9);
-    }
-    
-    &--red{
-        color: $error;
-        border-color: $error;
-        background: transparentize($error, 0.9);
-    }
-    
-    &--grey{
-        color: $grey2;
-        border-color: $grey2;
-        background: transparentize($grey2, 0.9);
-    }
+@use "utils/vars" as *;
+@use "sass:color";
+
+.tag {
+  display: inline-block;
+  border: 1px solid $outpostBlue;
+  background: color.adjust($outpostBlue, $alpha: -0.9);
+  font-size: 0.8rem;
+  padding: 5px 7px;
+  color: $outpostBlue;
+  border-radius: 2px;
+  margin-right: 7px;
+
+  &--yellow {
+    color: color.adjust($focus, $lightness: -30%);
+    border-color: color.adjust($focus, $lightness: -30%);
+    background: color.adjust($focus, $alpha: -0.9);
+  }
+
+  &--red {
+    color: $error;
+    border-color: $error;
+    background: color.adjust($error, $alpha: -0.9);
+  }
+
+  &--grey {
+    color: $grey2;
+    border-color: $grey2;
+    background: color.adjust($grey2, $alpha: -0.9);
+  }
 }

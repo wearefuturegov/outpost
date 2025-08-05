@@ -327,5 +327,11 @@ line-by-line coverage for the PR.
 Its also a good idea to check that assets are able to be precompiled before deploying
 
 ```sh
+yarn build --progress --color
+
+yarn build --watch
+
+./bin/dev
+
 bundle exec rails assets:precompile
 ```

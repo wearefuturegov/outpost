@@ -1,3 +1,5 @@
+@use "utils/vars" as *;
+
 $site-header-logo-height-mobile: 40px !default;
 $site-header-logo-height: 45px !default;
 $site-header-background-color: $primary !default;

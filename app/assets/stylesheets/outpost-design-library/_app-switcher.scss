@@ -1,3 +1,5 @@
+@use "utils/vars" as *;
+
 .app-switcher {
   position: relative;
   display: inline-block;
@@ -25,7 +27,7 @@
       width: 12px;
       height: 12px;
       margin-left: 5px;
-      background-image: url(asset_path("down-arrow-white.svg"));
+      background-image: url("#{$image-path}/down-arrow-white.svg");
       background-size: contain;
       background-position: 60%;
       background-repeat: no-repeat;
@@ -36,7 +38,7 @@
       background: $focus;
       color: $grey1;
       &:after {
-        background-image: url(asset_path("down-arrow.svg"));
+        background-image: url("#{$image-path}/down-arrow.svg");
       }
     }
   }
@@ -86,11 +88,11 @@
   }
 
   .light & {
-  .app-switcher__current {
-    color: $outpostBlack;
-    &:after {
-      background-image: url(asset_path("down-arrow-black.svg"));
+    .app-switcher__current {
+      color: $outpostBlack;
+      &:after {
+        background-image: url("#{$image-path}/down-arrow-black.svg");
+      }
     }
-  }
   }
 }

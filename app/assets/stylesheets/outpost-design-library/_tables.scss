@@ -1,3 +1,6 @@
+@use "utils/vars" as *;
+@use "sass:color";
+
 .table-holder {
   overflow-x: auto;
   margin-bottom: 45px;
@@ -25,7 +28,7 @@
 
 .taxonomy {
   display: inline-block;
-  background: transparentize($outpostBlue, 0.9);
+  background: color.adjust($outpostBlue, $alpha: -0.9);
   font-size: 0.75rem;
   padding: 2px 5px;
   color: $outpostBlue;
@@ -33,7 +36,7 @@
   margin: 3px;
   margin-left: 0px;
   &:focus {
-    background: transparentize($focus, 0.9);
+    background: color.adjust($focus, $alpha: -0.9);
     outline: none;
     box-shadow: 0px 0px 0px 3px $focus;
   }
@@ -54,7 +57,7 @@
     background-size: contain;
     background-repeat: no-repeat;
     margin-right: 5px;
-    background-image: url(asset_path("note-icon.svg"));
+    background-image: url("#{$image-path}/note-icon.svg");
   }
 }
 

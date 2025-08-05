@@ -1,3 +1,7 @@
+@use "utils/mixins" as *;
+@use "utils/vars" as *;
+@use "sass:color";
+
 .button {
   @include button;
   // &--outline{
@@ -12,7 +16,7 @@
   }
 
   &[disabled] {
-    background: transparentize($grey1, 0.9);
+    background: color.adjust($grey1, $alpha: -0.9);
     box-shadow: 0px 4px 0px $grey3;
     pointer-events: none;
     color: $grey3;
@@ -27,7 +31,7 @@
       display: inline-block;
       width: 13px;
       height: 13px;
-      background: url(asset_path("plus.svg"));
+      background: url("#{$image-path}/plus.svg");
       background-size: contain;
       background-position: center;
       background-repeat: no-repeat;

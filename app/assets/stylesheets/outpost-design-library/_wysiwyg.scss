@@ -1,4 +1,7 @@
-@import "vendor/trix";
+@use "utils/vars" as *;
+@use "utils/mixins" as *;
+@use "sass:color";
+@use "vendor/trix";
 
 trix-editor {
   @include input;
@@ -26,7 +29,7 @@ trix-toolbar {
     }
 
     &.trix-active {
-      background-color: transparentize($outpostBlue, 0.8);
+      background-color: color.adjust($outpostBlue, $alpha: -0.8);
 
       box-shadow: 0px 4px 0px $outpostBlue;
       color: $white;

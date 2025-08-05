@@ -1,3 +1,6 @@
+@use "vars" as *;
+@use "sass:color";
+
 @mixin button {
   display: block;
   background: $green;
@@ -20,12 +23,12 @@
   }
 
   &:hover {
-    background: darken($green, 2.5);
-    box-shadow: 0px 4px 0px darken($green-dark, 2.5);
+    background: color.scale($green-dark, $lightness: -6.1893203883%);
+    box-shadow: 0px 4px 0px color.scale($green-dark, $lightness: -6.1893203883%);
     text-decoration: none;
   }
   &:active {
-    background: darken($green, 5);
+    background: color.adjust($green, $lightness: -5%);
     box-shadow: none !important;
     transform: translateY(4px);
   }
@@ -48,8 +51,8 @@
   &:hover {
     background: none;
     box-shadow: none;
-    border-color: darken($outpostBlack, 10);
-    color: darken($outpostBlack, 10);
+    border-color: color.scale($outpostBlack, $lightness: -100%);
+    color: color.scale($outpostBlack, $lightness: -100%);
   }
   &:active {
     background: none;
@@ -72,11 +75,11 @@
   box-shadow: 0px 4px 0px $grey3;
 
   &:hover {
-    background-color: darken($grey5, 5);
-    box-shadow: 0px 4px 0px darken($grey3, 2.5);
+    background-color: color.adjust($grey5, $lightness: -5%);
+    box-shadow: 0px 4px 0px color.adjust($grey3, $lightness: -2.5%);
   }
   &:active {
-    background-color: darken($grey5, 7.5);
+    background-color: color.adjust($grey5, $lightness: -7.5%);
   }
 }
 
@@ -84,15 +87,15 @@
   @include button;
 
   background-color: $error;
-  box-shadow: 0px 4px 0px darken($error, 7.5);
+  box-shadow: 0px 4px 0px color.adjust($error, $lightness: -7.5%);
   color: white;
 
   &:hover {
-    background-color: darken($error, 2.5);
-    box-shadow: 0px 4px 0px darken($error, 10);
+    background-color: color.adjust($error, $lightness: -2.5%);
+    box-shadow: 0px 4px 0px color.adjust($error, $lightness: -10%);
   }
   &:active {
-    background-color: darken($error, 10);
+    background-color: color.adjust($error, $lightness: -10%);
     color: white;
   }
 }
@@ -114,6 +117,6 @@
   &:disabled {
     cursor: not-allowed;
     color: $grey1;
-    background: transparentize($grey2, 0.9);
+    background: color.adjust($grey2, $alpha: -0.9);
   }
 }
