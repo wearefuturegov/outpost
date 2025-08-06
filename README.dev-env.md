@@ -20,4 +20,6 @@ bin/bundle exec puma -C config/puma.rb
 
 ```sh
 bundle exec rails assets:precompile
+
+rails assets:clobber
 ```

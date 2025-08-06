@@ -20,6 +20,7 @@
 
     <%= yield %>
 
-    <%= javascript_pack_tag 'main', 'data-turbolinks-track': 'reload' %>
+    <%#= javascript_pack_tag 'main', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
   </body>
 </html>
