@@ -92,6 +92,8 @@ GEM
       with_advisory_lock (>= 4.0.0)
     concurrent-ruby (1.2.3)
     crass (1.0.6)
+    cssbundling-rails (1.4.3)
+      railties (>= 6.0.0)
     database_cleaner (2.0.2)
       database_cleaner-active_record (>= 2, < 3)
     database_cleaner-active_record (2.1.0)
@@ -430,6 +432,7 @@ DEPENDENCIES
   byebug
   capybara (>= 2.15)
   closure_tree
+  cssbundling-rails
   database_cleaner
   devise
   devise-security

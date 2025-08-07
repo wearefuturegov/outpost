@@ -23,17 +23,27 @@
     "@babel/core": "^7.28.0",
     "@babel/plugin-transform-runtime": "^7.28.0",
     "@babel/preset-env": "^7.28.0",
+    "@csstools/postcss-sass": "^5.1.1",
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-commonjs": "^28.0.6",
     "@rollup/plugin-node-resolve": "^16.0.1",
+    "autoprefixer": "^10.4.21",
     "babel-plugin-macros": "^3.1.0",
     "babel-plugin-transform-inline-environment-variables": "^0.4.4",
+    "postcss": "^8.5.6",
+    "postcss-cli": "^11.0.1",
+    "postcss-flexbugs-fixes": "^5.0.2",
+    "postcss-import": "^16.1.1",
+    "postcss-nesting": "^13.0.2",
+    "postcss-preset-env": "^10.2.4",
+    "postcss-scss": "^4.0.9",
     "rollup": "^4.46.2",
     "rollup-plugin-node-globals": "^1.4.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\"",
-    "build": "rollup -c --bundleConfigAsCjs rollup.config.js"
+    "build": "rollup -c --bundleConfigAsCjs rollup.config.js",
+    "build:css": "postcss ./app/assets/stylesheets/application.postcss.css -o ./app/assets/builds/application.css"
   },
   "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }
