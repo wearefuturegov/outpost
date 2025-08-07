@@ -38,3 +38,8 @@ rails assets:clobber
 - [ ] Tested polyfills and js functionality still work and added wrappers around the code and fixed some small bugs that were throwing console errors around these changes, updated how files are imported too.
 - [ ] moved css over to cssbundling-rails with postcss and sass support for the legacy sass
 - [ ] Upgraded to latest PATCH version 6.0.3.6 > 6.0.6.1
+- [ ] added temp fix for logger error in config/boot.rb and added to spec_helper
+
+## TODO
+
+- [ ] remove require "logger" from config/boot.rb spec/spec_helper.rb

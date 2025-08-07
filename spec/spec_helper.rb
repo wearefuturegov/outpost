@@ -1,3 +1,4 @@
+require "logger"
 require 'shoulda/matchers'
 require 'database_cleaner'
 require 'simplecov'

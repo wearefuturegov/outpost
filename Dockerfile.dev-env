@@ -8,7 +8,8 @@ curl \
 git \
 htop \
 libjemalloc2 \
-pkg-config 
+pkg-config \
+jq
 
 
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
