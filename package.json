@@ -20,8 +20,16 @@
     "turbolinks": "^5.2.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.28.0",
+    "@babel/plugin-transform-runtime": "^7.28.0",
+    "@babel/preset-env": "^7.28.0",
+    "@rollup/plugin-babel": "^6.0.4",
+    "@rollup/plugin-commonjs": "^28.0.6",
     "@rollup/plugin-node-resolve": "^16.0.1",
-    "rollup": "^4.46.2"
+    "babel-plugin-macros": "^3.1.0",
+    "babel-plugin-transform-inline-environment-variables": "^0.4.4",
+    "rollup": "^4.46.2",
+    "rollup-plugin-node-globals": "^1.4.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\"",

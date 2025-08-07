@@ -1,16 +1,18 @@
-document.addEventListener("trix-initialize", function (event) {
-  if (wordCountEnabled(event.target)) {
-    const [fieldset, field_id, editor, counter] = getUsefulElements(
-      event.target
-    );
-    if (!counter) {
-      const wordCounter = document.createElement("p");
-      wordCounter.classList.add("field__word-counter");
-      wordCounter.id = `${field_id}_trix_word-counter`;
-      editor.after(wordCounter);
-      updateCounter(event);
+document.addEventListener("turbolinks:load", () => {
+  document.addEventListener("trix-initialize", function (event) {
+    if (wordCountEnabled(event.target)) {
+      const [fieldset, field_id, editor, counter] = getUsefulElements(
+        event.target
+      );
+      if (!counter) {
+        const wordCounter = document.createElement("p");
+        wordCounter.classList.add("field__word-counter");
+        wordCounter.id = `${field_id}_trix_word-counter`;
+        editor.after(wordCounter);
+        updateCounter(event);
+      }
     }
-  }
+  });
 });
 
 /**
@@ -80,7 +82,9 @@ const updateCounter = (event) => {
   }
 };
 
-document.addEventListener("trix-change", updateCounter);
-document.addEventListener("trix-focus", updateCounter);
-document.addEventListener("trix-blur", updateCounter);
-document.addEventListener("trix-paste", updateCounter);
+document.addEventListener("turbolinks:load", () => {
+  document.addEventListener("trix-change", updateCounter);
+  document.addEventListener("trix-focus", updateCounter);
+  document.addEventListener("trix-blur", updateCounter);
+  document.addEventListener("trix-paste", updateCounter);
+});

@@ -45,6 +45,12 @@ module.exports = function (api) {
           helpers: false,
         },
       ],
+      [
+        "transform-inline-environment-variables",
+        {
+          include: ["NODE_ENV"],
+        },
+      ],
     ].filter(Boolean),
   };
 };

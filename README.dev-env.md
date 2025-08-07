@@ -16,10 +16,23 @@ bin/bundle exec puma -C config/puma.rb
 
 ## Test everything is still working
 
-### CSS/JS is building
+- [ ] is CSS/JS is building correctly
+- [ ] does the page function still
+- [ ] google maps API key shouldn't be required for build
+- [ ]
 
 ```sh
 bundle exec rails assets:precompile
 
 rails assets:clobber
+
+./bin/dev
 ```
+
+### @rails/ujs Force alerts etc
+
+## Completed
+
+- [ ] Removed webpacker and moved to jsbundling-rails with rollup and babel
+- [ ] Fixed google maps warning issue and added markers from scout
+- [ ] Tested polyfills and js functionality still work and added wrappers around the code and fixed some small bugs that were throwing console errors around these changes, updated how files are imported too.

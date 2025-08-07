@@ -1,4 +1,6 @@
-import resolve from "@rollup/plugin-node-resolve"
+import resolve from "@rollup/plugin-node-resolve";
+import commonjs from "@rollup/plugin-commonjs";
+import babel from "@rollup/plugin-babel";
 
 export default {
   input: "app/javascript/application.js",
@@ -6,9 +8,7 @@ export default {
     file: "app/assets/builds/application.js",
     format: "esm",
     inlineDynamicImports: true,
-    sourcemap: true
+    sourcemap: true,
   },
-  plugins: [
-    resolve()
-  ]
-}
+  plugins: [resolve(), commonjs(), babel({ babelHelpers: "bundled" })],
+};

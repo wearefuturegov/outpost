@@ -1,14 +1,15 @@
 import Trix from "trix";
 
-const simple = document.querySelectorAll(".wysiwyg-simple");
-const { lang } = Trix.config;
+document.addEventListener("turbolinks:load", () => {
+  const simple = document.querySelectorAll(".wysiwyg-simple");
+  const { lang } = Trix.config;
 
-/**
- * Unfortunately this is the only config option available right now with trix
- * @returns String
- */
-const outpostWysiwygToolbar = () => {
-  return `<div class="trix-button-row">
+  /**
+   * Unfortunately this is the only config option available right now with trix
+   * @returns String
+   */
+  const outpostWysiwygToolbar = () => {
+    return `<div class="trix-button-row">
       <span class="trix-button-group trix-button-group--text-tools" data-trix-button-group="text-tools">
         <button type="button" class="trix-button trix-button--icon trix-button--icon-bold" data-trix-attribute="bold" data-trix-key="b" title="${lang.bold}" tabindex="-1">${lang.bold}hello</button>
         <button type="button" class="trix-button trix-button--icon trix-button--icon-italic" data-trix-attribute="italic" data-trix-key="i" title="${lang.italic}" tabindex="-1">${lang.italic}</button>
@@ -28,19 +29,20 @@ const outpostWysiwygToolbar = () => {
         <button type="button" class="trix-button trix-button--icon trix-button--icon-redo" data-trix-action="redo" data-trix-key="shift+z" title="${lang.redo}" tabindex="-1">${lang.redo}</button>
       </span>
     </div>`;
-};
+  };
 
-Trix.config.toolbar.getDefaultHTML = outpostWysiwygToolbar;
-if (simple.length > 0) {
-  // create the <trix-editor> element
-  // hide the element its actually filling out
-  simple.forEach((s) => {
-    const sibling = s;
-    const editor = document.createElement("trix-editor");
-    editor.classList.add("trix-content");
-    editor.setAttribute("input", sibling.id);
-    editor.id = `${sibling.id}_trix_content`;
-    sibling.style.display = "none";
-    sibling.after(editor);
-  });
-}
+  Trix.config.toolbar.getDefaultHTML = outpostWysiwygToolbar;
+  if (simple.length > 0) {
+    // create the <trix-editor> element
+    // hide the element its actually filling out
+    simple.forEach((s) => {
+      const sibling = s;
+      const editor = document.createElement("trix-editor");
+      editor.classList.add("trix-content");
+      editor.setAttribute("input", sibling.id);
+      editor.id = `${sibling.id}_trix_content`;
+      sibling.style.display = "none";
+      sibling.after(editor);
+    });
+  }
+});
