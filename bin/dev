@@ -5,6 +5,12 @@ if gem list --no-installed --exact --silent foreman; then
   gem install foreman
 fi
 
+if [ -f ./tmp/pids/server.pid ]; then
+  rm ./tmp/pids/server.pid
+fi
+
+mkdir -p ./tmp/pids
+
 # Default to port 3000 if not specified
 export PORT="${PORT:-3000}"
 
