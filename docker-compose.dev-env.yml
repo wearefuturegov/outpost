@@ -12,6 +12,7 @@ services:
     depends_on:
       - postgres
       - mongo
+      - selenium
     # platform: linux/amd64
     build:
       context: .
@@ -24,6 +25,7 @@ services:
     volumes:
       - ./:/app:cached
       - /app/node_modules
+      - /app/tmp
     environment:
       # uncomment for 'prod' like env locally
       # NODE_ENV: production
@@ -58,6 +60,17 @@ services:
       service: mongo
     networks:
       - external_network
+
+  # Testing
+
+  selenium:
+    image: selenium/standalone-chromium:latest
+    container_name: selenium
+    ports:
+      - 4444:4444
+    networks:
+      - external_network
+    shm_size: 2gb
 
 volumes:
   mongo-volume:

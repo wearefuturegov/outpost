@@ -58,10 +58,10 @@ group :development do
 end
 
 group :test do
-  gem 'capybara', '>= 2.15'
+  gem 'capybara'
   gem 'selenium-webdriver'
-  gem 'database_cleaner'
-  gem 'shoulda-matchers'
+  gem 'database_cleaner-active_record'
+  gem 'shoulda-matchers', '4.5.1'
   gem 'factory_bot_rails'
   gem 'simplecov', require: false
   gem 'simplecov-cobertura'

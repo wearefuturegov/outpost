@@ -63,8 +63,8 @@ GEM
       zeitwerk (~> 2.2, >= 2.2.2)
     acts-as-taggable-on (8.1.0)
       activerecord (>= 5.0, < 6.2)
-    addressable (2.8.6)
-      public_suffix (>= 2.0.2, < 6.0)
+    addressable (2.8.7)
+      public_suffix (>= 2.0.2, < 7.0)
     base64 (0.2.0)
     bcrypt (3.1.16)
     bindex (0.8.1)
@@ -94,11 +94,9 @@ GEM
     crass (1.0.6)
     cssbundling-rails (1.4.3)
       railties (>= 6.0.0)
-    database_cleaner (2.0.2)
-      database_cleaner-active_record (>= 2, < 3)
-    database_cleaner-active_record (2.1.0)
+    database_cleaner-active_record (2.2.2)
       activerecord (>= 5.a)
-      database_cleaner-core (~> 2.0.0)
+      database_cleaner-core (~> 2.0)
     database_cleaner-core (2.0.1)
     date (3.4.1)
     declarative (0.0.20)
@@ -114,7 +112,7 @@ GEM
     devise_lastseenable (0.0.6)
       devise
       rails (>= 3.0.4)
-    diff-lcs (1.4.4)
+    diff-lcs (1.6.2)
     diffy (3.4.1)
     digest-crc (0.6.4)
       rake (>= 12.0.0, < 14.0.0)
@@ -228,7 +226,7 @@ GEM
       notifications-ruby-client (~> 5.1)
       rack (>= 2.1.4)
     marcel (1.0.4)
-    matrix (0.4.2)
+    matrix (0.4.3)
     memoist (0.16.2)
     method_source (1.1.0)
     mini_mime (1.1.5)
@@ -267,7 +265,7 @@ GEM
     pg_search (2.3.2)
       activerecord (>= 5.2)
       activesupport (>= 5.2)
-    public_suffix (5.0.4)
+    public_suffix (6.0.2)
     puma (5.6.8)
       nio4r (~> 2.0)
     racc (1.8.1)
@@ -316,7 +314,7 @@ GEM
     rb-fsevent (0.11.1)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
-    regexp_parser (2.9.0)
+    regexp_parser (2.11.0)
     representable (3.2.0)
       declarative (< 0.1.0)
       trailblazer-option (>= 0.1.1, < 0.2.0)
@@ -328,23 +326,23 @@ GEM
       railties (>= 5.0)
     retriable (3.1.2)
     rexml (3.3.7)
-    rspec-core (3.9.2)
-      rspec-support (~> 3.9.3)
-    rspec-expectations (3.9.2)
+    rspec-core (3.13.5)
+      rspec-support (~> 3.13.0)
+    rspec-expectations (3.13.5)
       diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.9.0)
-    rspec-mocks (3.9.1)
+      rspec-support (~> 3.13.0)
+    rspec-mocks (3.13.5)
       diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.9.0)
-    rspec-rails (4.0.1)
-      actionpack (>= 4.2)
-      activesupport (>= 4.2)
-      railties (>= 4.2)
-      rspec-core (~> 3.9)
-      rspec-expectations (~> 3.9)
-      rspec-mocks (~> 3.9)
-      rspec-support (~> 3.9)
-    rspec-support (3.9.3)
+      rspec-support (~> 3.13.0)
+    rspec-rails (5.1.2)
+      actionpack (>= 5.2)
+      activesupport (>= 5.2)
+      railties (>= 5.2)
+      rspec-core (~> 3.10)
+      rspec-expectations (~> 3.10)
+      rspec-mocks (~> 3.10)
+      rspec-support (~> 3.10)
+    rspec-support (3.13.4)
     ruby2_keywords (0.0.4)
     rubyzip (2.3.2)
     sass-rails (6.0.0)
@@ -373,7 +371,7 @@ GEM
     sentry-ruby-core (4.3.1)
       concurrent-ruby
       faraday
-    shoulda-matchers (4.3.0)
+    shoulda-matchers (4.5.1)
       activesupport (>= 4.2.0)
     signet (0.16.1)
       addressable (~> 2.8)
@@ -447,10 +445,10 @@ DEPENDENCIES
   bootsnap (>= 1.4.2)
   bullet
   byebug
-  capybara (>= 2.15)
+  capybara
   closure_tree
   cssbundling-rails
-  database_cleaner
+  database_cleaner-active_record
   devise
   devise-security
   devise_lastseenable
@@ -487,7 +485,7 @@ DEPENDENCIES
   selenium-webdriver
   sentry-rails
   sentry-ruby
-  shoulda-matchers
+  shoulda-matchers (= 4.5.1)
   simplecov
   simplecov-cobertura
   spring

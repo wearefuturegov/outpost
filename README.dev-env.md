@@ -4,13 +4,18 @@
 
 docker-compose -f docker-compose.dev-env.yml up -d --build
 
+docker-compose -f docker-compose.dev-env.yml up -d
+
 yarn --version
 
 bundle install
 
 yarn install
 
-bin/bundle exec puma -C config/puma.rb
+./bin/dev
+
+
+bin/bundle exec rspec spec/features/filtering_services_spec.rb
 
 ```
 
@@ -43,3 +48,10 @@ rails assets:clobber
 ## TODO
 
 - [ ] remove require "logger" from config/boot.rb spec/spec_helper.rb
+- [ ] fix tests chrome stuff
+-
+
+## Tests
+
+- devise
+- shoulda
