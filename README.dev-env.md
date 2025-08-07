@@ -37,3 +37,4 @@ rails assets:clobber
 - [ ] Fixed google maps warning issue and added markers from scout
 - [ ] Tested polyfills and js functionality still work and added wrappers around the code and fixed some small bugs that were throwing console errors around these changes, updated how files are imported too.
 - [ ] moved css over to cssbundling-rails with postcss and sass support for the legacy sass
+- [ ] Upgraded to latest PATCH version 6.0.3.6 > 6.0.6.1

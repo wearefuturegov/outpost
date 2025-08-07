@@ -224,14 +224,15 @@ Outpost depends on on several important [`rake`](https://guides.rubyonrails.org/
 
 Some of these can be run manually, and some are best scheduled using [Heroku Scheduler](https://devcenter.heroku.com/articles/scheduler) or similar.
 
-| Task                          | Description                                                                                                                                                  | Suggested schedule |
-| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------ |
-| `open_objects:import`         | Run the bespoke import job from Open Objects. For this to succeed, you need several source CSV data files in the `/lib/seeds` folder. Will take a long time. | One\-off           |
-| `build_public_index`          | Build the initial public index for the API service to use\.                                                                                                  | One\-off           |
-| `process_permanent_deletions` | Permanently delete any services and users that have been "discarded" for more than 30 days\.                                                                 | Weekly             |
-| `ofsted:create_initial_items` | Build the initial Ofsted items table                                                                                                                         | One\-off           |
-| `ofsted:update_items`         | Check for any changes to Ofsted items against the Ofsted API                                                                                                 | Daily, overnight   |
-| `update_counters:all`         | Update the counter caches to keep them in sync                                                                                                               | Daily, overnight   |
+| Task                              | Description                                                                                  | Suggested schedule              |
+| --------------------------------- | -------------------------------------------------------------------------------------------- | ------------------------------- |
+| `check_public_index`              | Compare Outpost and public index in the Mongo API                                            | One\-off                        |
+| `ofsted:create_initial_items`     | Build the initial Ofsted items table                                                         | One\-off                        |
+| `ofsted:update_items`             | Check for any changes to Ofsted items against the Ofsted API                                 | Daily, overnight, 7, 8 and 9 am |
+| `process_permanent_deletions`     | Permanently delete any services and users that have been "discarded" for more than 30 days\. | Daily                           |
+| `update_counters:all`             | Update the counter caches to keep them in sync                                               | Daily, overnight                |
+| `update_public_index`             | Build the initial public index for the API service to use\.                                  | Daily, overnight                |
+| `build_public_index` (DEPRECATED) | Wipe and rebuild public index in the Mongo API                                               | One\-off                        |
 
 ## Settings page
 
@@ -245,11 +246,11 @@ A user will need to have the `superadmin` permission in order to access this pag
 
 Outpost's API component relies on a public index stored on MongoDB.
 
-You can run `bin/rails build_public_index` to build the public index for the first time. Active record callbacks keep it up to date as services are changed.
+You can run `bin/rails update_public_index` to build the public index for the first time. Active record callbacks keep it up to date as services are changed.
 
 ## Data import
 
-See documentation on [data import](lib/tasks/data_import/README.md).
+See documentation on [data import, custom fields](lib/tasks/data_import/custom_fields/README.md) and [data import, services](lib/tasks/data_import/services/README.md).
 
 ## OAuth provider
 
