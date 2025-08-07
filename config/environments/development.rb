@@ -39,7 +39,7 @@ Rails.application.configure do
   config.action_mailer.perform_caching = false
 
   # Print deprecation notices to the Rails logger.
-  config.active_support.deprecation = :log
+  config.active_support.deprecation = :stderr
 
   # Raise exceptions for disallowed deprecations.
   config.active_support.disallowed_deprecation = :raise
@@ -76,6 +76,8 @@ Rails.application.configure do
 
 
   # Copied over from previous configs other values above have been updated to match
+  config.logger = ActiveSupport::Logger.new(STDOUT)
+  config.log_level = :debug
   config.after_initialize do
       Bullet.enable        = true
       Bullet.alert         = true
@@ -84,7 +86,7 @@ Rails.application.configure do
     # Bullet.growl         = true
       Bullet.rails_logger  = true
       Bullet.add_footer    = true
-    end
+  end
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
   config.hosts << "outpost"
   config.web_console.allowed_ips = ['192.168.0.0/16', '192.168.100.0/16']

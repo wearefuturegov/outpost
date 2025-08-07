@@ -50,10 +50,13 @@ rails assets:clobber
 - [ ] added temp fix for logger error in config/boot.rb and added to spec_helper
 - [ ] reinitialised the tests to debug for error and got the tests working
 - [ ] upgraded from 6.0.6.1 > 6.1.7.10
+- [ ] added new tests for the API routes for the tell us about app etc
+- [ ] 6.1.7.10 > 7.0.8.7
 
 ## TODO
 
 - [ ] remove require "logger" from config/boot.rb spec/spec_helper.rb
+- [ ] one test is suddenly failing!
 - [ ] fix tests chrome stuff
 - [ ] https://github.com/jhawthorn/discard is deprecated in rails
       Post-install message from devise:
