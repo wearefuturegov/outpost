@@ -32,7 +32,11 @@ bundle exec rails assets:precompile
 rails assets:clobber
 
 ./bin/dev
+
+
 ```
+
+- http://localhost:3000/api/v1/accessibilities
 
 ### @rails/ujs Force alerts etc
 
