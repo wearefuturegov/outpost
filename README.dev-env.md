@@ -2,9 +2,11 @@
 
 ```sh
 
-docker-compose -f docker-compose.dev-env.yml up -d --build
+docker compose -f docker-compose.dev-env.yml up -d --build
 
-docker-compose -f docker-compose.dev-env.yml up -d
+docker compose -f docker-compose.dev-env.yml up -d
+
+docker compose -f docker-compose.dev-env.yml exec outpost /bin/bash
 
 yarn --version
 
@@ -17,6 +19,11 @@ yarn install
 
 bin/bundle exec rspec spec/features/filtering_services_spec.rb
 
+
+
+bin/rails check_public_index
+
+sudo chown -R outpost-user:outpost-user /usr/local/bundle
 ```
 
 ## Test everything is still working
@@ -52,6 +59,7 @@ rails assets:clobber
 - [ ] upgraded from 6.0.6.1 > 6.1.7.10
 - [ ] added new tests for the API routes for the tell us about app etc
 - [ ] 6.1.7.10 > 7.0.8.7
+- [ ] ruby 3.0.3 > 3.1.7
 
 ## TODO
 
@@ -77,6 +85,45 @@ to "true", but note that this is in violation of the OAuth spec and represents a
 Read https://github.com/doorkeeper-gem/doorkeeper/issues/561#issuecomment-612857163 for more details.
 Post-install message from httparty:
 When you HTTParty, you must party hard!
+
+[DEVISE] Please review the [changelog] and [upgrade guide] for more info on Hotwire / Turbo integration.
+
+[changelog] https://github.com/heartcombo/devise/blob/main/CHANGELOG.md
+[upgrade guide] https://github.com/heartcombo/devise/wiki/How-To:-Upgrade-to-Devise-4.9.0-%5BHotwire-Turbo-integration%5D
+Post-install message from doorkeeper:
+Starting from 5.5.0 RC1 Doorkeeper requires client authentication for Resource Owner Password Grant
+as stated in the OAuth RFC. You have to create a new OAuth client (Doorkeeper::Application) if you didn't
+have it before and use client credentials in HTTP Basic auth if you previously used this grant flow without
+client authentication.
+
+To opt out of this you could set the "skip_client_authentication_for_password_grant" configuration option
+to "true", but note that this is in violation of the OAuth spec and represents a security risk.
+
+Read https://github.com/doorkeeper-gem/doorkeeper/issues/561#issuecomment-612857163 for more details.
+Post-install message from httparty:
+When you HTTParty, you must party hard!
+Post-install message from rubyzip:
+RubyZip 3.0 is coming!
+
+---
+
+The public API of some Rubyzip classes has been modernized to use named
+parameters for optional arguments. Please check your usage of the
+following classes:
+
+- `Zip::File`
+- `Zip::Entry`
+- `Zip::InputStream`
+- `Zip::OutputStream`
+
+Please ensure that your Gemfiles and .gemspecs are suitably restrictive
+to avoid an unexpected breakage when 3.0 is released (e.g. ~> 2.3.0).
+See https://github.com/rubyzip/rubyzip for details. The Changelog also
+lists other enhancements and bugfixes that have been implemented since
+version 2.3.0.
+2 installed gems you directly depend on are looking for funding.
+Run `bundle fund` for details
+outpost-user@8e882b3a83ca:/app$
 
 ## Tests
 
