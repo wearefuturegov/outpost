@@ -1,150 +1,111 @@
-#
-# This Dockerfile is for DEVELOPMENT and TESTING purposes ONLY it is not suitable for production use, its huge and has a lot of unnecessary packages!
-#
-# If you don't have an M* mac you probably don't need to use this but it might make setting things up a little easier for you
-#
-# We're using heroku in production and which uses slugs 🐌 and buildpacks run in a container this solution gives us as close to that environment as possible locally; 
-# an ubuntu environment based off the currently used heroku stack with the same versions of node, ruby, yarn, bundler that we're given inside heroku
+# ========================================================
+# This Dockerfile is for DEVELOPMENT and TESTING purposes 
+# ONLY it is not suitable for production use!!
+# It will however let you 'run' the app in production mode 
+# if you want to test things like asset precompilation
+# ========================================================
 
 
-# If you need to leave the container running for example to debug something you can use the following command to keep it running
-# CMD ["tail", "-f", "/dev/null"]
-
-# if your using these values anywhere new see https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
-# we don't set any defaults here on purpose as we will mostly use this as a development environment not setting an env value lets us run tests in the container easily
+# if your using these values anywhere new see 
+# https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
 ARG NODE_ENV=development
 ARG RAILS_ENV=development
-
-# ----------------------------------------------------------------
-FROM ghcr.io/wearefuturegov/outpost-dev-base:latest as install
-
-# make this stage non-interactive
-ENV DEBIAN_FRONTEND=noninteractive
-
-# Switch back to the root user for a second to install some packages
-USER root
-RUN apt-get update --error-on=any
-# for pg gem
-RUN apt-get install -y \
-  libpq-dev \
-  postgresql
-
-# for chrome for tests
-RUN apt-get install -y \
-  gconf-service \
-  libappindicator1 \
-  libasound2 \
-  libatk1.0-0 \
-  libatk-bridge2.0-0 \
-  libcairo-gobject2 \
-  libdrm2 \
-  libgbm1 \
-  libgconf-2-4 \
-  libgtk-3-0 \
-  libnspr4 \
-  libnss3 \
-  libx11-xcb1 \
-  libxcb-dri3-0 \
-  libxcomposite1 \
-  libxcursor1 \
-  libxdamage1 \
-  libxfixes3 \
-  libxi6 \
-  libxinerama1 \
-  libxrandr2 \
-  libxshmfence1 \
-  libxss1 \
-  libxtst6 \
-  fonts-liberation \
-  jq
+ARG NODE_VERSION=20.11.0
+ARG YARN_VERSION=1.22.22
+ARG BUNDLER_VERSION=2.6.9
 
 
-# Fetch the latest version numbers and URLs for Chrome and ChromeDriver
-RUN curl -s https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions-with-downloads.json > /tmp/versions.json
+FROM ruby:3.1.7-bookworm@sha256:91627f55e8969006aab67d15c92fb930500ff73948803da1330b8a853fecebb5 AS build
 
-# chrome
-RUN CHROME_URL=$(jq -r '.channels.Stable.downloads.chrome[] | select(.platform=="linux64") | .url' /tmp/versions.json) && \
-  wget -q --continue -O /tmp/chrome-linux64.zip $CHROME_URL && \
-  unzip -j -o /tmp/chrome-linux64.zip -d /opt/chrome
+SHELL ["/bin/bash", "-c"]
 
-RUN chmod +x /opt/chrome/chrome
+ARG NODE_ENV
+ARG RAILS_ENV
+ARG NODE_VERSION
+ARG YARN_VERSION
+ARG BUNDLER_VERSION
 
-# chromedriver
-RUN CHROMEDRIVER_URL=$(jq -r '.channels.Stable.downloads.chromedriver[] | select(.platform=="linux64") | .url' /tmp/versions.json) && \
-  wget -q --continue -O /tmp/chromedriver-linux64.zip $CHROMEDRIVER_URL && \
-  unzip -j -o /tmp/chromedriver-linux64.zip -d /opt/chromedriver && \
-  chmod +x /opt/chromedriver/chromedriver
+# copy over key for installing latest postgreSQL client
+COPY .docker/services/outpost/postgresql-ACCC4CF8.asc /tmp
 
-# Clean up
-RUN rm /tmp/chrome-linux64.zip /tmp/chromedriver-linux64.zip /tmp/versions.json
+# make sure everything installs where we can access it
+RUN export GEM_HOME=/home/outpost-user/gems
+ENV GEM_HOME=/home/outpost-user/gems
+ENV BUNDLE_PATH=/home/outpost-user/bundle
+ENV PATH=$GEM_HOME/bin:$PATH
+RUN export PATH="$GEM_HOME/bin:$PATH"
 
-ENV PATH /opt/chrome:/opt/chromedriver:$PATH
-RUN echo 'export PATH="/opt/chrome:/opt/chromedriver:$PATH"' >> ~/.bashrc
+# apt-utils \
+# Set up environment and install base packages
+RUN set -euxo pipefail && \
+    export DEBIAN_FRONTEND=noninteractive && \
+    apt-get update -qq && \
+    echo 'en_US.UTF-8 UTF-8' > /etc/locale.gen && \
+    apt-get install -y --no-install-recommends \
+      curl \
+      git \
+      jq \
+      locales \
+      libvips-dev \
+      poppler-utils \
+      libpq-dev \
+      wget \
+      gnupg \
+      chromium \
+      chromium-driver \
+    && locale-gen && \
+    # Add PostgreSQL repo and install latest client
+    echo 'deb http://apt.postgresql.org/pub/repos/apt/ bookworm-pgdg main' > /etc/apt/sources.list.d/pgdg.list && \
+    apt-key add /tmp/postgresql-ACCC4CF8.asc && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends postgresql-client-16 && \
+    # Clean up apt cache to reduce image size
+    rm -rf /var/lib/apt/lists/* /root/* /tmp/* /var/cache/apt/archives/*.deb
 
-# Check chrome & chromedriver versions
-RUN echo "Chrome: " && chrome --version
-RUN echo "Chromedriver: " && chromedriver --version
 
-RUN chown -R outpost-user:outpost-user /home/outpost-user/.cache
+# Install Node.js & Yarn
+ENV PATH=/usr/local/node/bin:$PATH
+RUN set -euxo pipefail && \
+    curl --retry 5 --retry-delay 5 --retry-max-time 60 -sL https://github.com/nodenv/node-build/archive/master.tar.gz | tar xz -C /tmp/ && \
+    /tmp/node-build-master/bin/node-build "${NODE_VERSION}" /usr/local/node && \
+    npm install -g yarn@$YARN_VERSION && \
+    rm -rf /tmp/node-build-master
+
+# Install Bundler
+# gem update --system && 
+RUN gem install bundler -v $BUNDLER_VERSION
+
+# Create a non admin user 
+RUN groupadd outpost-user --gid 1000
+RUN useradd outpost-user --uid 1000 --gid 1000 --shell /bin/bash --create-home
+
+RUN mkdir /home/outpost-user/.cache 
+RUN chown -R outpost-user:outpost-user /home/outpost-user
+RUN mkdir /app && chown -R outpost-user:outpost-user /app
 USER outpost-user
-
-# set $HOME to outpost-user path for this non-interactive session
-ENV HOME /home/outpost-user
-ENV PATH $HOME/.rbenv/bin:$HOME/.rbenv/shims:$PATH
+RUN mkdir -p /app/node_modules /app/tmp && chown -R outpost-user:outpost-user /app/node_modules /app/tmp
 
 WORKDIR /app
+
+# don't bake in env vars
+RUN export NODE_ENV="$NODE_ENV"
+RUN export RAILS_ENV="$RAILS_ENV"
+# ENV NODE_ENV=${NODE_ENV}
+# ENV RAILS_ENV=${RAILS_ENV}
 
 COPY --chown=outpost-user:outpost-user ./.ruby-version ./.ruby-version
 COPY --chown=outpost-user:outpost-user ./Gemfile ./Gemfile
 COPY --chown=outpost-user:outpost-user ./Gemfile.lock ./Gemfile.lock
 COPY --chown=outpost-user:outpost-user ./package.json ./package.json
 COPY --chown=outpost-user:outpost-user ./yarn.lock ./yarn.lock
-COPY --chown=outpost-user:outpost-user ./.docker/bin/check-versions.sh ./.docker/bin/check-versions.sh
 
-RUN ls -lah
-RUN pwd
+# install javascript
+RUN yarn install
 
-# check everything is all good
-RUN ./.docker/bin/check-versions.sh
-
-# set the environment variables
-ARG NODE_ENV
-ARG RAILS_ENV
-ENV NODE_ENV=${NODE_ENV}
-ENV RAILS_ENV=${RAILS_ENV}
-
-# -------------
-# install gems
-# -------------
-
-# throw errors if Gemfile has been modified since Gemfile.lock
-RUN if [ "${RAILS_ENV}" = "production" ]; then \
-  bundle config --global frozen 1; fi
-
-RUN if [ "${RAILS_ENV}" = "development" ] || [ -z "${RAILS_ENV}" ]; then \
-  bundle install --verbose; fi
-RUN if [ "${RAILS_ENV}" = "production" ]; then \
-  bundle config set --local deployment 'true' && bundle install; fi
-
-
-# -------------
-# install node modules
-# -------------
-RUN if [ "${NODE_ENV}" = "development" ] || [ -z "${NODE_ENV}" ]; then \
-  yarn install; fi
-RUN if [ "${NODE_ENV}" = "production" ]; then \
-  yarn install --frozen-lockfile; fi
-
-RUN if [ "${APP_ENV}" = "production" ]; then \
-  NODE_OPTIONS=--openssl-legacy-provider SECRET_KEY_BASE=dummyvalue bundle exec rails assets:precompile; fi
-
-
-# after this point we don't need to be non-interactive anymore since we'll be running the container
-ENV DEBIAN_FRONTEND=
+# install packages
+RUN bundle check || bundle install
 
 EXPOSE 3000
 
-ENTRYPOINT [".docker/dev-docker-entrypoint.sh"]
-CMD ["bin/rails", "s", "-u", "puma", "-p", "3000", "-b=0.0.0.0"]
-# CMD ["bin/bundle", "exec", "puma", "-C", "config/puma.rb"]
-# CMD ["tail", "-f", "/dev/null"]
+CMD ["bin/dev"]
+

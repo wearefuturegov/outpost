@@ -61,7 +61,7 @@ group :test do
   gem 'capybara'
   gem 'selenium-webdriver'
   gem 'database_cleaner-active_record'
-  gem 'shoulda-matchers', '4.5.1'
+  gem 'shoulda-matchers', '~> 6.0'
   gem 'factory_bot_rails'
   gem 'simplecov', require: false
   gem 'simplecov-cobertura'

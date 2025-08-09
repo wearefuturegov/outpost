@@ -87,6 +87,8 @@ docker compose up -d
 
 # setup dummy data and example user login
 docker compose exec outpost bin/rails SEED_ADMIN_USER=true SEED_DUMMY_DATA=true SEED_DEFAULT_DATA=true db:seed
+# or
+make dev-seed-all
 ```
 
 This will setup outpost, mongo, postgres and the [outpost-api-service](https://github.com/wearefuturegov/outpost-api-service) on your machine.
@@ -105,15 +107,23 @@ See [configuration](#-configuration) for setting up environmental variables.
 ```sh
 # create a default admin user
 docker compose exec outpost bin/rails SEED_ADMIN_USER=true db:seed
+# or
+make dev-seed-admin
 
 # create dummy data
 docker compose exec outpost bin/rails SEED_DUMMY_DATA=true db:seed
+# or
+make dev-seed-data
 
 # default accessibilities, send_needs and suitabilities only
 docker compose exec outpost bin/rails SEED_DEFAULT_DATA=true db:seed
+# or
+make dev-seed-default-data
 
 # all of the above
 docker compose exec outpost bin/rails SEED_ADMIN_USER=true SEED_DUMMY_DATA=true SEED_DEFAULT_DATA=true db:seed
+# or
+make dev-seed-all
 ```
 
 The application will be running on `localhost:3000`.
@@ -121,7 +131,7 @@ The application will be running on `localhost:3000`.
 **Populate mongo database**
 
 ```sh
-docker compose exec outpost bin/rake build_public_index
+docker compose exec outpost bin/rake update_public_index
 ```
 
 **Run the rails console**
@@ -140,14 +150,6 @@ docker compose exec outpost bundle exec rspec
 
 ```sh
 docker compose exec outpost rake
-```
-
-**Outpost dev-base**
-
-If you need to you can build the `outpost-dev-base` image locally, you will need to update the Dockerfile FROM to use your local version as well.
-
-```sh
-docker build --progress=plain -f .docker/images/dev-base/Dockerfile -t outpost-dev-base .
 ```
 
 # 🪴 Usage

@@ -17,8 +17,7 @@
   "environments": {
     "test": {
       "env": {
-        "OFSTED_FEED_API_ENDPOINT": "https://test-ofsted-feed.stub",
-        "NODE_OPTIONS": "--openssl-legacy-provider"
+        "OFSTED_FEED_API_ENDPOINT": "https://test-ofsted-feed.stub"
       },
       "addons": ["heroku-postgresql:in-dyno"],
       "scripts": {

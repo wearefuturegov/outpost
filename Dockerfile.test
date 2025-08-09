@@ -1,4 +1,4 @@
-ARG STACK_VERSION=20
+ARG STACK_VERSION=22
 ARG NODE_ENV=test
 ARG RAILS_ENV=test
 
@@ -15,8 +15,6 @@ ARG NODE_ENV
 ARG RAILS_ENV
 ENV NODE_ENV=${NODE_ENV}
 ENV RAILS_ENV=${RAILS_ENV}
-# tmp NODE_OPTIONS for now
-ENV NODE_OPTIONS=--openssl-legacy-provider 
 # RUN (cat /tmp/app/app.json || echo '{}') | jq -r '.buildpacks[].url' > /tmp/app/.buildpacks && \
 #   (test -s /tmp/app/.buildpacks || rm /tmp/app/.buildpacks)
 RUN (cat /tmp/app.json || echo '{}') | jq -r '.environments.test.buildpacks[].url' > /tmp/app/.buildpacks && \

@@ -1,9 +1,9 @@
 services:
   # Outpost app
 
-  outpost:
+  outpost_update:
     # image: "outpost:development"
-    container_name: outpost
+    container_name: outpost_update
     # use if you just want to keep the container running
     command: ["tail", "-f", "/dev/null"]
     # uncomment for 'prod' like env locally
@@ -16,7 +16,7 @@ services:
     # platform: linux/amd64
     build:
       context: .
-      dockerfile: Dockerfile.dev-env
+      dockerfile: Dockerfile.dev-env-update
       # uncomment for 'prod' like env locally
       # NODE_ENV: production
       # RAILS_ENV: production
@@ -75,6 +75,7 @@ services:
 volumes:
   mongo-volume:
   postgres-volume:
+  postgres-volume-updated:
 
 networks:
   external_network:

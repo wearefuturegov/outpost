@@ -62,8 +62,6 @@ jobs:
             ${{ runner.os }}-yarn-
 
       - name: Yarn install
-        env:
-          NODE_OPTIONS: --openssl-legacy-provider
         run: yarn --frozen-lockfile
 
       - name: Setup database
@@ -79,7 +77,6 @@ jobs:
       - name: Compile assets
         env:
           RAILS_ENV: test
-          NODE_OPTIONS: --openssl-legacy-provider
         run: |
           bundle exec rails assets:precompile
 

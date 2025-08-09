@@ -19,7 +19,7 @@ yarn install
 
 bin/bundle exec rspec spec/features/filtering_services_spec.rb
 
-
+docker compose exec outpost /bin/bash
 
 bin/rails check_public_index
 
@@ -60,6 +60,10 @@ rails assets:clobber
 - [ ] added new tests for the API routes for the tell us about app etc
 - [ ] 6.1.7.10 > 7.0.8.7
 - [ ] ruby 3.0.3 > 3.1.7
+- [ ] Create ofsted-stub for dev environment testing
+- [ ] got rid of legacy deps in node options
+- [ ] deprecated build_public_index in favour of update_public_index
+- [ ] 
 
 ## TODO
 
@@ -129,3 +133,5 @@ outpost-user@8e882b3a83ca:/app$
 
 - devise
 - shoulda
+
+docker compose build --progress=plain outpost
