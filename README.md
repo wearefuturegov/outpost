@@ -91,10 +91,11 @@ docker compose exec outpost bin/rails SEED_ADMIN_USER=true SEED_DUMMY_DATA=true 
 make dev-seed-all
 ```
 
-This will setup outpost, mongo, postgres and the [outpost-api-service](https://github.com/wearefuturegov/outpost-api-service) on your machine.
+This will setup outpost, mongo, postgres, the [outpost-api-service](https://github.com/wearefuturegov/outpost-api-service) and the [Ofsted feed](https://github.com/wearefuturegov/ofsted-feed) on your machine.
 
 - Outpost: [http://localhost:3000](http://localhost:3000)
 - Outpost API service: [http://localhost:3001](http://localhost:3001)
+- Ofsted feed: [http://localhost:8000](http://localhost:8000)
 - You can connect to the the postgres database locally using `localhost:5433`
 - You can connect to the mongo database locally using `localhost:27018`
 

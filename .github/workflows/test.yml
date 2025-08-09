@@ -7,7 +7,12 @@ env:
   RAILS_ENV: test
   NODE_ENV: development
 
-on: [push]
+on:
+  pull_request:
+    branches:
+      - "**" # Run on all branches for pull requests
+  push:
+    branches: [develop, staging, production, feature/upgrade]
 
 jobs:
   test:
@@ -15,7 +20,7 @@ jobs:
 
     services:
       postgres:
-        image: postgres:13.7-alpine
+        image: postgres:14.18-alpine
         env:
           POSTGRES_USER: outpost
           POSTGRES_PASSWORD: password
@@ -24,7 +29,7 @@ jobs:
           - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
       mongo:
-        image: mongo:6
+        image: mongo:latest
         env:
           MONGO_INITDB_ROOT_USERNAME: root
           MONGO_INITDB_ROOT_PASSWORD: password

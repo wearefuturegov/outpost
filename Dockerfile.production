@@ -1,4 +1,4 @@
-ARG STACK_VERSION=20
+ARG STACK_VERSION=22
 ARG NODE_ENV=production
 ARG RAILS_ENV=production
 
@@ -15,7 +15,7 @@ ARG RAILS_ENV=production
 # https://github.com/heroku/heroku-buildpack-nodejs/issues/1268
 # https://github.com/heroku/heroku-buildpack-ruby/issues/1457
 # https://github.com/heroku/base-images/issues/194
-FROM --platform=linux/amd64 gliderlabs/herokuish:latest-${STACK_VERSION} AS build
+FROM gliderlabs/herokuish:latest-${STACK_VERSION} AS build
 COPY . /tmp/app
 ARG NODE_ENV
 ARG RAILS_ENV
@@ -44,7 +44,7 @@ RUN apt-get update --error-on=any
 RUN apt-get install -y postgresql-client
 
 
-ENV PORT 3000
+ENV PORT=3000
 ARG NODE_ENV
 ARG RAILS_ENV
 ENV NODE_ENV=${NODE_ENV}
