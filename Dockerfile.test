@@ -7,7 +7,7 @@ ARG RAILS_ENV=test
 # build application (and install correct buildpacks from app.json along with it)
 # generate slug as app.tar.gz
 # ------------
-FROM gliderlabs/herokuish:latest-${STACK_VERSION}
+FROM --platform=linux/amd64 gliderlabs/herokuish:latest-${STACK_VERSION}
 COPY . /tmp/app
 COPY ./app.json /tmp
 
@@ -61,30 +61,30 @@ RUN apt-get install -y \
 
 
 # Fetch the latest version numbers and URLs for Chrome and ChromeDriver
-# RUN curl -s https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions-with-downloads.json > /tmp/versions.json
+RUN curl -s https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions-with-downloads.json > /tmp/versions.json
 
-# # chrome
-# RUN CHROME_URL=$(jq -r '.channels.Stable.downloads.chrome[] | select(.platform=="linux64") | .url' /tmp/versions.json) && \
-#   wget -q --continue -O /tmp/chrome-linux64.zip $CHROME_URL && \
-#   unzip -j -o /tmp/chrome-linux64.zip -d /opt/chrome
+# chrome
+RUN CHROME_URL=$(jq -r '.channels.Stable.downloads.chrome[] | select(.platform=="linux64") | .url' /tmp/versions.json) && \
+  wget -q --continue -O /tmp/chrome-linux64.zip $CHROME_URL && \
+  unzip -j -o /tmp/chrome-linux64.zip -d /opt/chrome
 
-# RUN chmod +x /opt/chrome/chrome
+RUN chmod +x /opt/chrome/chrome
 
-# # chromedriver
-# RUN CHROMEDRIVER_URL=$(jq -r '.channels.Stable.downloads.chromedriver[] | select(.platform=="linux64") | .url' /tmp/versions.json) && \
-#   wget -q --continue -O /tmp/chromedriver-linux64.zip $CHROMEDRIVER_URL && \
-#   unzip -j -o /tmp/chromedriver-linux64.zip -d /opt/chromedriver && \
-#   chmod +x /opt/chromedriver/chromedriver
+# chromedriver
+RUN CHROMEDRIVER_URL=$(jq -r '.channels.Stable.downloads.chromedriver[] | select(.platform=="linux64") | .url' /tmp/versions.json) && \
+  wget -q --continue -O /tmp/chromedriver-linux64.zip $CHROMEDRIVER_URL && \
+  unzip -j -o /tmp/chromedriver-linux64.zip -d /opt/chromedriver && \
+  chmod +x /opt/chromedriver/chromedriver
 
-# # Clean up
-# RUN rm /tmp/chrome-linux64.zip /tmp/chromedriver-linux64.zip /tmp/versions.json
+# Clean up
+RUN rm /tmp/chrome-linux64.zip /tmp/chromedriver-linux64.zip /tmp/versions.json
 
-# ENV PATH /opt/chrome:/opt/chromedriver:$PATH
-# RUN echo 'export PATH="/opt/chrome:/opt/chromedriver:$PATH"' >> ~/.bashrc
+ENV PATH=/opt/chrome:/opt/chromedriver:$PATH
+RUN echo 'export PATH="/opt/chrome:/opt/chromedriver:$PATH"' >> ~/.bashrc
 
-# # Check chrome & chromedriver versions
-# RUN echo "Chrome: " && chrome --version
-# RUN echo "Chromedriver: " && chromedriver --version
+# Check chrome & chromedriver versions
+RUN echo "Chrome: " && chrome --version
+RUN echo "Chromedriver: " && chromedriver --version
 
 RUN echo $RAILS_ENV
 RUN echo $NODE_ENV
