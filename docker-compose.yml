@@ -31,6 +31,8 @@ services:
       SHOW_ENV_BANNER: ${SHOW_ENV_BANNER:-outpost docker development}
       DB_URI: mongodb://${MONGO_INITDB_USERNAME:-outpost}:${MONGO_INITDB_PASSWORD:-password}@mongo/${MONGO_INITDB_DATABASE:-outpost_api_development}
       DATABASE_URL: ${DATABASE_URL:-postgresql://outpost:password@postgres:5432/outpost?}
+      # uncomment if using selenium container below
+      # REMOTE_CHROME: true
       # uncomment for 'prod' like env locally
       # NODE_ENV: production
       # RAILS_ENV: production

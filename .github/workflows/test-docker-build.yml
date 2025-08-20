@@ -9,12 +9,13 @@ on:
   push:
     branches: [develop, staging, production, feature/upgrade]
 
+# multi platform  builds are disabled until we upgrade to a newer version of heroku stack
 jobs:
   test-docker-build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        platforms: ["linux/amd64", "linux/arm64"]
+    # strategy:
+    #   matrix:
+    #     platforms: ["linux/amd64"]
     steps:
       - name: "Checkout GitHub Action"
         uses: actions/checkout@main

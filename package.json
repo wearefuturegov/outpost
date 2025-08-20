@@ -2,6 +2,9 @@
   "name": "@outpost_platform/outpost",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "20.19.4"
+  },
   "dependencies": {
     "@googlemaps/js-api-loader": "^1.16.6",
     "@rails/actioncable": "^6.0.0",

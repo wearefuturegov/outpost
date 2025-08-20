@@ -10,7 +10,7 @@
 # https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
 ARG NODE_ENV=development
 ARG RAILS_ENV=development
-ARG NODE_VERSION=20.11.0
+ARG NODE_VERSION=20.19.4
 ARG YARN_VERSION=1.22.22
 ARG BUNDLER_VERSION=2.6.9
 
