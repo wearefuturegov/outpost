@@ -46,9 +46,15 @@ FROM gliderlabs/herokuish:latest-${STACK_VERSION}
 # RUN apt-get install -y postgresql-client
 
  # Add PostgreSQL repo and install latest client
+
+RUN cat >/etc/apt/sources.list <<EOF
+deb http://archive.ubuntu.com/ubuntu/ focal main universe
+deb http://archive.ubuntu.com/ubuntu/ focal-security main universe
+deb http://archive.ubuntu.com/ubuntu/ focal-updates main universe
+EOF
+RUN cat /etc/apt/sources.list
 RUN set -eux && \
     export DEBIAN_FRONTEND=noninteractive && \
-    apt-get update -qq && \
     echo 'deb http://apt-archive.postgresql.org/pub/repos/apt/ focal-pgdg main' > /etc/apt/sources.list.d/pgdg.list && \
     apt-get update && \
     apt-get install -y --no-install-recommends postgresql-client-13
