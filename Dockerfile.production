@@ -46,7 +46,7 @@ FROM gliderlabs/herokuish:latest-${STACK_VERSION}
 # RUN apt-get install -y postgresql-client
 
  # Add PostgreSQL repo and install latest client
-RUN set -euxo pipefail && \
+RUN set -eux && \
     export DEBIAN_FRONTEND=noninteractive && \
     apt-get update -qq && \
     echo 'deb http://apt-archive.postgresql.org/pub/repos/apt/ focal-pgdg main' > /etc/apt/sources.list.d/pgdg.list && \
