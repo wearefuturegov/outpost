@@ -40,13 +40,17 @@ RUN herokuish slug generate && \
 # ------------
 FROM gliderlabs/herokuish:latest-${STACK_VERSION}
 
-RUN apt-get update --error-on=any
+# RUN apt-get update --error-on=any
 
 # install postgres client
-RUN apt-get install -y postgresql-client
+# RUN apt-get install -y postgresql-client
 
+ # Add PostgreSQL repo and install latest client
+RUN echo 'deb http://apt-archive.postgresql.org/pub/repos/apt/ focal-pgdg main' > /etc/apt/sources.list.d/pgdg.list && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends postgresql-client-13
 
-ENV PORT 3000
+ENV PORT=3000
 ARG NODE_ENV
 ARG RAILS_ENV
 ENV NODE_ENV=${NODE_ENV}

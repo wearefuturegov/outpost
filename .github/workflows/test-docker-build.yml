@@ -24,6 +24,8 @@ jobs:
             echo "tag=staging" >> $GITHUB_ENV
           elif [[ "$BRANCH_NAME" == "production" ]]; then
             echo "tag=latest" >> $GITHUB_ENV
+          elif [[ "$BRANCH_NAME" == "feature/version" ]]; then
+            echo "tag=legacy" >> $GITHUB_ENV
           else
             echo "tag=default" >> $GITHUB_ENV
           fi
