@@ -4,8 +4,7 @@ name: Publish outpost image to github container registry
 
 on:
   push:
-    branches: [develop, staging, production]
-    # , feature/version
+    branches: [develop, staging, production, feature/version]
 
 # multi platform  builds are disabled until we upgrade to a newer version of heroku stack
 jobs:
@@ -36,7 +35,7 @@ jobs:
           elif [[ "$BRANCH_NAME" == "production" ]]; then
             echo "tag=latest" >> $GITHUB_ENV
           elif [[ "$BRANCH_NAME" == "feature/version" ]]; then
-            echo "tag=legacy" >> $GITHUB_ENV
+            echo "tag=legacylatest" >> $GITHUB_ENV
           else
             echo "tag=default" >> $GITHUB_ENV
           fi
