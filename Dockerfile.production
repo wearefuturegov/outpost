@@ -23,11 +23,19 @@ ENV NODE_ENV=${NODE_ENV}
 ENV RAILS_ENV=${RAILS_ENV}
 # tmp NODE_OPTIONS for now
 ENV NODE_OPTIONS=--openssl-legacy-provider 
-RUN (cat /tmp/app/app.json || echo '{}') | jq -r '.buildpacks[].url' > /tmp/app/.buildpacks && \
-  (test -s /tmp/app/.buildpacks || rm /tmp/app/.buildpacks)
+# RUN (cat /tmp/app/app.json || echo '{}') | jq -r '.buildpacks[].url' > /tmp/app/.buildpacks && \
+#   (test -s /tmp/app/.buildpacks || rm /tmp/app/.buildpacks)
 # RUN (cat /tmp/app/app.json || echo '{}') | jq -r '.environments.test.buildpacks[].url' > /tmp/app/.buildpacks && \
 #   (test -s /tmp/app/.buildpacks || rm /tmp/app/.buildpacks)
-RUN while IFS= read -r line; do herokuish buildpack install "$line"; done < /tmp/app/.buildpacks
+# RUN while IFS= read -r line; do herokuish buildpack install "$line"; done < /tmp/app/.buildpacks
+
+RUN git clone --depth 1 --branch v307 https://github.com/heroku/heroku-buildpack-ruby.git /tmp/app/.buildpacks/heroku-buildpack-ruby
+RUN herokuish buildpack install /tmp/app/.buildpacks/heroku-buildpack-ruby
+
+RUN git clone --depth 1 --branch v290 https://github.com/heroku/heroku-buildpack-nodejs.git /tmp/app/.buildpacks/heroku-buildpack-nodejs
+RUN herokuish buildpack install /tmp/app/.buildpacks/heroku-buildpack-nodejs
+# RUN herokuish buildpack install https://github.com/heroku/heroku-buildpack-nodejs
+
 
 RUN /build && \
   rm -Rf /tmp/* 
@@ -52,7 +60,6 @@ deb http://archive.ubuntu.com/ubuntu/ focal main universe
 deb http://archive.ubuntu.com/ubuntu/ focal-security main universe
 deb http://archive.ubuntu.com/ubuntu/ focal-updates main universe
 EOF
-RUN cat /etc/apt/sources.list
 RUN set -eux && \
     export DEBIAN_FRONTEND=noninteractive && \
     echo 'deb http://apt-archive.postgresql.org/pub/repos/apt/ focal-pgdg main' > /etc/apt/sources.list.d/pgdg.list && \
