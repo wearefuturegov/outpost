@@ -24,18 +24,30 @@ ENV RAILS_ENV=${RAILS_ENV}
 # tmp NODE_OPTIONS for now
 ENV NODE_OPTIONS=--openssl-legacy-provider 
 # RUN (cat /tmp/app/app.json || echo '{}') | jq -r '.buildpacks[].url' > /tmp/app/.buildpacks && \
-#   (test -s /tmp/app/.buildpacks || rm /tmp/app/.buildpacks)
+  # (test -s /tmp/app/.buildpacks || rm /tmp/app/.buildpacks)
 # RUN (cat /tmp/app/app.json || echo '{}') | jq -r '.environments.test.buildpacks[].url' > /tmp/app/.buildpacks && \
 #   (test -s /tmp/app/.buildpacks || rm /tmp/app/.buildpacks)
 # RUN while IFS= read -r line; do herokuish buildpack install "$line"; done < /tmp/app/.buildpacks
 
-RUN git clone --depth 1 --branch v307 https://github.com/heroku/heroku-buildpack-ruby.git /tmp/app/.buildpacks/heroku-buildpack-ruby
-RUN herokuish buildpack install /tmp/app/.buildpacks/heroku-buildpack-ruby
+# RUN (cat /tmp/app/app.json || echo '{}') | jq -r '.buildpacks[].url' > /tmp/app/.buildpacks
 
-RUN git clone --depth 1 --branch v290 https://github.com/heroku/heroku-buildpack-nodejs.git /tmp/app/.buildpacks/heroku-buildpack-nodejs
-RUN herokuish buildpack install /tmp/app/.buildpacks/heroku-buildpack-nodejs
+# RUN herokuish buildpack install https://github.com/dokku/heroku-buildpack-multi
+
+RUN cat >/tmp/app/.buildpacks <<EOF
+/tmp/buildpacks/heroku-buildpack-nodejs
+/tmp/buildpacks/heroku-buildpack-ruby
+EOF
+
+RUN git clone --depth 1 --branch v290 https://github.com/heroku/heroku-buildpack-nodejs.git /tmp/buildpacks/heroku-buildpack-nodejs
+# RUN herokuish buildpack install /tmp/buildpacks/heroku-buildpack-nodejs
+# RUN herokuish buildpack install /tmp/app/.buildpacks/heroku-buildpack-nodejs 92e252b7247589acbe80225db3da5af85420c905
+
+RUN git clone --depth 1 --branch v307 https://github.com/heroku/heroku-buildpack-ruby.git /tmp/buildpacks/heroku-buildpack-ruby
+# RUN herokuish buildpack install https://github.com/heroku/heroku-buildpack-ruby 3018f23e21e4dce06919bf4139f5df8df3946dd4
+# RUN herokuish buildpack install /tmp/buildpacks/heroku-buildpack-ruby
 # RUN herokuish buildpack install https://github.com/heroku/heroku-buildpack-nodejs
 
+RUN ls -lah /tmp/buildpacks
 
 RUN /build && \
   rm -Rf /tmp/* 
