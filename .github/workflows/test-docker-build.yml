@@ -7,7 +7,7 @@ on:
     branches:
       - "**" # Run on all branches for pull requests
   push:
-    branches: [develop, staging, production, feature/upgrade]
+    branches: [develop, staging, production]
 
 # multi platform  builds are disabled until we upgrade to a newer version of heroku stack
 jobs:
