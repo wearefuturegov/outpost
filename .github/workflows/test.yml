@@ -12,7 +12,7 @@ on:
     branches:
       - "**" # Run on all branches for pull requests
   push:
-    branches: [develop, staging, production, feature/upgrade]
+    branches: [develop, staging, production]
 
 jobs:
   test:

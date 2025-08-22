@@ -40,5 +40,5 @@ jobs:
           context: .
           tags: outpost:${{ env.tag }}
           file: Dockerfile.production
-          platforms: ${{ matrix.platforms }}
+          # platforms: ${{ matrix.platforms }}
           push: false
