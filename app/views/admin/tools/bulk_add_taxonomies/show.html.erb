@@ -25,11 +25,11 @@
       Please note some actions may take a <strong>long time</strong> as every record is updated and added to the activity log.</p> 
       
       <p>Email alerts are <strong>not</strong> sent to watchers. <br />
-      We <strong>don't update the mongo database</strong> so you will need to run the build_public_index task afterwards. <br />
+      We <strong>don't update the mongo database</strong> so you will need to run the update_public_index task afterwards. <br />
       Activity records are <strong>created manually</strong>.
       </p>
 
-      <p>After running this tool you will need to run the <em>build_public_index</em> and <em>update_counters</em> jobs</p>
+      <p>After running this tool you will need to run the <em>update_public_index</em> and <em>update_counters</em> jobs</p>
 
       <% if Taxonomy.any? %>
 

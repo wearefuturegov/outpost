@@ -86,16 +86,36 @@ list: help
 # ╚══════════════════════════════════╝
 
 
-build-dev-base: ## build the dev base image locally
-	docker build --progress=plain -f .docker/images/dev-base/Dockerfile -t outpost-dev-base .
+build-development: ## build the development image
+	docker build --no-cache --progress=plain \
+	--build-arg NODE_ENV=development \
+	--build-arg RAILS_ENV=development \
+	-f "Dockerfile" \
+	-t outpost:development "."
+
+build-development-arm64: ## build the development image
+	docker build --no-cache --progress=plain \
+	--platform linux/arm64 \
+	--build-arg NODE_ENV=development \
+	--build-arg RAILS_ENV=development \
+	-f "Dockerfile" \
+	-t outpost:development "."
+
+# nb: wont work on silicone macs (so untested)
+build-development-amd64: ## build the development image
+	docker build --no-cache --progress=plain \
+	--platform linux/amd64 \
+	--build-arg NODE_ENV=development \
+	--build-arg RAILS_ENV=development \
+	-f "Dockerfile" \
+	-t outpost:development "."
 
 # --------------------
 
 # nb: wont work on silicone macs (so untested)
 build-test: ## build the test image
-	docker build --progress=plain \
+	docker build --no-cache --progress=plain \
 	--platform linux/amd64 \
-	--build-arg NODE_OPTIONS=--openssl-legacy-provider \
 	--build-arg NODE_ENV=development \
 	--build-arg RAILS_ENV=test \
 	-f "Dockerfile.test" \
@@ -108,7 +128,6 @@ build-prod:  ## build the production image
 	docker build --no-cache --progress=plain \
 	--platform linux/amd64 \
 	--build-arg TRACE=true \
-	--build-arg NODE_OPTIONS=--openssl-legacy-provider \
 	--build-arg NODE_ENV=production \
 	--build-arg RAILS_ENV=production \
 	-f "Dockerfile.production" \
@@ -479,7 +498,7 @@ dev-seed-default-data: ## seed local database with send_needs etc
 	docker compose exec outpost bin/rails SEED_DEFAULT_DATA=true db:seed
 
 dev-seed-all: ## seed local database with admin user, dummy data and send_needs etc
-	docker compose exec outpost bin/rails SEED_ADMIN_USER=true  SEED_DUMMY_DATA=true SEED_DEFAULT_DATA=true db:seed
+	docker compose exec outpost bin/rails SEED_ADMIN_USER=true SEED_DUMMY_DATA=true SEED_DEFAULT_DATA=true db:seed
 
 dev-ssh: ## access outpost from cli
 	docker compose exec outpost bash
@@ -499,4 +518,4 @@ dev-coverage: ## open test coverage summary
 	open coverage/index.html
 
 dev-index: ## populate the api
-	docker compose exec outpost bin/rails build_public_index 
+	docker compose exec outpost bin/rails update_public_index 

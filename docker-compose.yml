@@ -1,7 +1,11 @@
-version: "3.7"
+#
+# This docker compose file is for DEVELOPMENT and TESTING purposes ONLY it is not suitable for production use
+# It does however let you run the app in production mode if you want to test that
+#
+# If you need to leave the container running for example to debug something you can use the following command to keep it running
+# command: ["tail", "-f", "/dev/null"]
 services:
   # Outpost app
-
   outpost:
     image: "outpost:development"
     container_name: outpost
@@ -13,25 +17,26 @@ services:
     depends_on:
       - postgres
       - mongo
-    platform: linux/amd64
+    # platform: linux/amd64  # or linux/arm64, or omit for auto-detect
     build:
       context: .
-      # uncomment for 'prod' like env locally
-      # NODE_ENV: production
-      # RAILS_ENV: production
     ports:
       - 3000:3000
     volumes:
       - ./:/app:cached
       - /app/node_modules
+      - /app/tmp
     environment:
-      # uncomment for 'prod' like env locally
-      # NODE_ENV: production
-      # RAILS_ENV: production
-      OFSTED_FEED_API_ENDPOINT: ${OFSTED_FEED_API_ENDPOINT:-https://test-ofsted-feed.stub} # this is not a real url, we just need an env variable set for the stub to work in tests
+      OFSTED_FEED_API_ENDPOINT: ${OFSTED_FEED_API_ENDPOINT:-http://ofsted-stub:8000}
       SHOW_ENV_BANNER: ${SHOW_ENV_BANNER:-outpost docker development}
       DB_URI: mongodb://${MONGO_INITDB_USERNAME:-outpost}:${MONGO_INITDB_PASSWORD:-password}@mongo/${MONGO_INITDB_DATABASE:-outpost_api_development}
       DATABASE_URL: ${DATABASE_URL:-postgresql://outpost:password@postgres:5432/outpost?}
+      # uncomment if using selenium container below
+      # REMOTE_CHROME: true
+      # uncomment for 'prod' like env locally
+      # NODE_ENV: production
+      # RAILS_ENV: production
+      # SECRET_KEY_BASE: dummy
     networks:
       - external_network
       - internal_network
@@ -42,6 +47,18 @@ services:
       service: outpost-api-service
     depends_on:
       - mongo
+
+  # Ofsted stub
+  ofsted-stub:
+    build:
+      context: ./.docker/services/ofsted-stub
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8000
+    container_name: ofsted-stub
+    networks:
+      - internal_network
+      - external_network
 
   # Databases
 
@@ -58,6 +75,16 @@ services:
       service: mongo
     networks:
       - external_network
+
+  # if you need remote chrome instance for tests see spec/support/capybara.rb
+  # selenium:
+  #   image: selenium/standalone-chromium:latest
+  #   container_name: selenium
+  #   ports:
+  #     - 4444:4444
+  #   networks:
+  #     - external_network
+  #   shm_size: 2gb
 
 volumes:
   mongo-volume:

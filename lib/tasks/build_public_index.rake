@@ -1,5 +1,6 @@
 desc 'Wipe and rebuild public index in the Mongo API'
 task :build_public_index => :environment  do
+    warn "DEPRECATION WARNING: The :build_public_index task is deprecated and may be removed in the future."
     # Turn off logging for this rake task, otherwise it just fills up our logs
     dev_null = Logger.new('/dev/null')
     Rails.logger = dev_null

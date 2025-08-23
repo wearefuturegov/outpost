@@ -2,14 +2,20 @@
 
 name: Test outpost image docker build
 
-on: [push]
+on:
+  pull_request:
+    branches:
+      - "**" # Run on all branches for pull requests
+  push:
+    branches: [develop, staging, production]
 
+# multi platform  builds are disabled until we upgrade to a newer version of heroku stack
 jobs:
   test-docker-build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        platforms: ["linux/amd64"]
+    # strategy:
+    #   matrix:
+    #     platforms: ["linux/amd64"]
     steps:
       - name: "Checkout GitHub Action"
         uses: actions/checkout@main
@@ -34,5 +40,5 @@ jobs:
           context: .
           tags: outpost:${{ env.tag }}
           file: Dockerfile.production
-          platforms: ${{ matrix.platforms }}
+          # platforms: ${{ matrix.platforms }}
           push: false
