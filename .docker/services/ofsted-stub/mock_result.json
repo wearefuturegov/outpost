@@ -1,0 +1,59 @@
+{
+  "OfstedChildcareRegisterLocalAuthorityExtract": {
+    "@xmlns:xs": "http://www.w3.org/2001/XMLSchema-instance",
+    "@xmlns": "http://www.ofsted.gov.uk/Childcare/Registration/LocalAuthority",
+    "Extract": {
+      "ExtractDateTime": "2021-02-22T14:22:32",
+      "LocalAuthority": {
+        "LocalAuthorityCode": "825",
+        "LocalAuthorityName": "Buckinghamshire"
+      }
+    },
+    "Registration": [
+      {
+        "ReferenceNumber": "123456",
+        "ProvisionType": "Legend",
+        "Provider": {
+          "ProviderName": "Dummy Provider Name",
+          "ProviderAddress": {
+            "AddressLine1": "1 Not A Real Road",
+            "Town": "A Fake Town",
+            "Postcode": "HP1 1AA",
+            "County": "Buckinghamshire"
+          },
+          "ProviderContact": {
+            "TelephoneNumber": "01494 000000",
+            "MobileNumber": ""
+          }
+        },
+        "RegistrationStatus": "ACTV",
+        "RegistrationStatusHistoryList": {
+          "RegistrationStatusHistory": {
+            "RegistrationStatus": "ACTV",
+            "ChangeDate": "2017-08-01"
+          }
+        },
+        "Setting": {
+          "SettingName": "Dummy Provider Setting Name",
+          "SettingAddress": {
+            "AddressLine1": "1 Not A Real Road",
+            "Town": "A Fake Town",
+            "County": "Buckinghamshire",
+            "Postcode": "HP1 1AA"
+          },
+          "SettingContact": {
+            "TelephoneNumber": "01494 000000"
+          }
+        },
+        "RegistrationDate": "2017-08-01",
+        "ChildServicesRegisterList": {
+          "ChildServicesRegister": {
+            "Register": "EYR",
+            "Status": "REGD",
+            "StartDate": "2017-08-01"
+          }
+        }
+      }
+    ]
+  }
+}

@@ -72,8 +72,13 @@ class Location < ApplicationRecord
     ]
   end
 
-
-
+  def as_json(options = {})
+    super(options).merge(
+      "display_name" => display_name,
+      "admin_path" => Rails.application.routes.url_helpers.admin_location_path(self)
+    )
+  end
+  
   def display_name
     if name.present?
       name

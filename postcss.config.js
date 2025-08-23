@@ -1,12 +1,16 @@
 module.exports = {
+  syntax: "postcss-scss",
   plugins: [
-    require('postcss-import'),
-    require('postcss-flexbugs-fixes'),
-    require('postcss-preset-env')({
+    require("@csstools/postcss-sass"),
+    require("postcss-import"),
+    require("postcss-nesting"),
+    require("autoprefixer"),
+    require("postcss-flexbugs-fixes"),
+    require("postcss-preset-env")({
       autoprefixer: {
-        flexbox: 'no-2009'
+        flexbox: "no-2009",
       },
-      stage: 3
-    })
-  ]
-}
+      stage: 3,
+    }),
+  ],
+};

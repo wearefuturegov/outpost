@@ -59,8 +59,9 @@ task :check_public_index => :environment  do
         end
     end
 
-    
-
+    puts "🔍 Checking services in the public index..."
+    puts "Total services in index: #{mongo_ids.count}"
+    puts "Total services in Outpost: #{Service.count}"
 
     puts "Active services not in index: #{active_services.count}"
     active_services.each do |service|

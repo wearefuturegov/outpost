@@ -5,7 +5,12 @@
 
 name: Run tests in herokuish
 
-on: [push]
+on:
+  pull_request:
+    branches:
+      - "**" # Run on all branches for pull requests
+  push:
+    branches: [develop, staging, production]
 
 env:
   test_network_name: outpost-test-network
@@ -64,6 +69,14 @@ jobs:
           -e POSTGRES_USER=$test_postgres_db_user \
           postgres:13.7-alpine
 
+      - name: "Setup selenium"
+        run: |
+          docker run -d --name selenium \
+          --network $test_network_name \
+          -p 4444:4444 \
+           --shm-size="2g" \
+          selenium/standalone-chromium:latest
+
       - name: Build Docker image
         uses: docker/build-push-action@v5
         with:
@@ -78,14 +91,13 @@ jobs:
             NPM_CONFIG_PRODUCTION=false
             NPM_CONFIG_LOGLEVEL=error
             USE_YARN_CACHE=true
-            NODE_OPTIONS=--openssl-legacy-provider
             NODE_VERBOSE=false
             NODE_ENV=test
             NODE_MODULES_CACHE=true
 
       - name: Run the image and tests
         run: |
-          docker run --rm --name test_container \
+          docker run --rm --name outpost \
           --network $test_network_name \
           -p 3000:3000 \
           -e RACK_ENV=test \
@@ -98,4 +110,5 @@ jobs:
           -e GOOGLE_API_KEY=${{ secrets.GOOGLE_API_KEY }} \
           -e OFSTED_FEED_API_ENDPOINT=https://test-ofsted-feed.stub \
           -e DATABASE_CLEANER_ALLOW_PRODUCTION=true \
+          -e REMOTE_CHROME=true \
           outpost:test

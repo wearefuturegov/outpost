@@ -20,38 +20,67 @@ RSpec.describe RegularSchedule, type: :model do
 
 
   # hours - cant have opens_at after closes_at
+  # hours must be on the same day
   describe '#validate_hours' do
-    let(:service) { FactoryBot.create(:service) }
-    let(:regular_schedule) { RegularSchedule.new(opens_at:opens_at, closes_at: closes_at, weekday: 'monday', service: service) }
-
-    context 'when opens_at is the same time as before closes_at' do
-      let(:opens_at) { Time.zone.now }
-      let(:closes_at) { Time.zone.now }
-
+  
+  let(:service) { FactoryBot.create(:service) }
+  let(:regular_schedule) { RegularSchedule.new(service: service, weekday: 'monday', opens_at: opens_at, closes_at: closes_at) }
+  
+    # 09:00 - 09:00
+    context 'when opens_at is the same time as closes_at' do
+      let(:opens_at) { Time.parse("09:00")  }   # 9:00am today
+      let(:closes_at) { Time.parse("09:00")  }   # 9:00am today
+      
       it 'is valid' do
         expect(regular_schedule).to be_valid
       end
     end
 
+    # 09:00 - 10:00
     context 'when opens_at is before closes_at' do
-      let(:opens_at) { Time.zone.now - 1.hour }
-      let(:closes_at) { Time.zone.now }
+      let(:opens_at) {  Time.zone.today.to_time.change(hour: 9, min: 00) }   # 9:00am today
+      let(:closes_at) { Time.zone.today.to_time.change(hour: 10, min: 00) }   # 10:00am today
 
       it 'is valid' do
         expect(regular_schedule).to be_valid
       end
     end
 
-    context 'when opens_at is after closes_at' do
-      let(:opens_at) { Time.zone.now + 1.hour }
-      let(:closes_at) { Time.zone.now }
+    # 23:30 - 00:30
+    context 'when opens_at is before closes_at but on different days' do
+      let(:opens_at) { Time.zone.today.to_time.change(hour: 23, min: 30)  }   # 11:30pm today
+      let(:closes_at) { Time.zone.tomorrow.to_time.change(hour: 0, min: 30) }   # 12:30am tomorrow
 
       it 'is invalid' do
         expect(regular_schedule).to_not be_valid
+        expect(regular_schedule.errors[:base]).to include('Each day\'s closing time must be later than that day\'s opening time')
       end
     end
-  end
 
+    # 10:00 - 09:00
+    context 'when opens_at is after closes_at' do
+      let(:opens_at) { Time.zone.today.to_time.change(hour: 10, min: 00) }   # 10:00am today
+      let(:closes_at) { Time.zone.today.to_time.change(hour: 9, min: 00) }   # 9:00am today
+
+      it 'is invalid' do
+        expect(regular_schedule).to_not be_valid
+        expect(regular_schedule.errors[:base]).to include('Each day\'s closing time must be later than that day\'s opening time')
+      end
+    end
+
+    # 00:30 - 23:30
+    # valid because with only the Time field available as far as the validation is concerned it is valid
+    context 'when opens_at is after closes_at but on different days' do
+      let(:opens_at) { Time.zone.tomorrow.to_time.change(hour: 0, min: 30) }   # 12:30am tomorrow
+      let(:closes_at) { Time.zone.today.to_time.change(hour: 23, min: 30) }   # 11:30pm today
+
+      it 'is valid' do
+        expect(regular_schedule).to be_valid
+      end
+    end
+  
+  end
+  
   describe '#validate_byday_format' do
     let(:service) { FactoryBot.create(:service) }
     let(:regular_schedule) { RegularSchedule.new(dtstart: DateTime.new(2023, 10, 4), freq: frequency, opens_at: Time.zone.now, closes_at: Time.zone.now, weekday: 'monday', service: service) }
