@@ -20,10 +20,11 @@
     <%= c.text_area :hint, class: "field__input", rows: 1 %>
 </div>
 
-<% if @section.api_public %>
+<% if @section.api_public and current_user.superadmin %>
 <div class="field">
     <%= c.label :key, "Key", class: "field__label" %>
-    <p class="field__hint">This is a unique field used to refer to this field in the API</p>
+    <p class="field__hint">This is a unique field used to refer to this field in the API. <br />
+    <strong>Caution:</strong> Changing this value will result in previous records not being returned from the database.</p>
     <%= c.text_field :key, class: "field__input", data: { slugify: true } %>
 </div>
 <% end %>

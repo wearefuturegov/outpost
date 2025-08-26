@@ -1,70 +1,26 @@
-ENV['RAILS_ENV'] ||= 'test'
-
-require File.expand_path('../config/environment', __dir__)
+# This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'spec_helper'
-require 'rspec/rails'
-require 'devise'
-require 'selenium/webdriver'
-
+ENV['RAILS_ENV'] ||= 'test'
+require_relative '../config/environment'
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
+require 'rspec/rails'
+# Add additional requires below this line. Rails is not loaded until this point!
 
-Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
-
-
-# Setup chrome headless driver
-# heroku buildpacks gives us GOOGLE_CHROME_BIN
-binary = ENV.fetch("GOOGLE_CHROME_BIN", nil)
-# "/usr/bin/chromium-browser"
-# puts binary
-# uncomment to enable webdriver debugging
-# logger = Selenium::WebDriver.logger
-# logger.level = :debug
-
-Selenium::WebDriver::Chrome.path = binary if binary
-
-# Register headless chrome for JS tests
-Capybara.register_driver :chrome do |app|
-  Capybara::Selenium::Driver.new(app, browser: :chrome)
-end
-
-Capybara.register_driver :headless_chrome do |app|
-  options = Selenium::WebDriver::Chrome::Options.new
-  options.add_argument("--disable-extensions")
-  options.add_argument("--disable-gpu")
-  options.add_argument("--headless=new")
-  options.add_argument("--window-size=1400,1400")
-  options.add_argument("--no-sandbox")
-  options.add_argument("--disable-dev-shm-usage")
-  options.add_argument("--remote-debugging-port=9222")
-  options.add_argument("--remote-debugging-pipe")
-  options.add_argument("--whitelisted-ips")
-  options.add_argument("--disable-gpu-compositing")
-  options.add_argument("--disable-gpu-compositing") 
-  options.add_argument("--disable-setuid-sandbox") 
-  options.add_argument("--single-process")
-  options.add_argument("--disable-search-engine-choice-screen")
-
-  options.binary = binary
-
-  Capybara::Selenium::Driver.new app,
-    browser: :chrome,
-    options: options,
-    service: Selenium::WebDriver::Chrome::Service.chrome(log: :stderr, args: ["--whitelisted-ips=", "--allowed-ips=", "--disable-dev-shm-usage"])
-end
-# switch to this to enable chrome debugging
-# service: Selenium::WebDriver::Chrome::Service.chrome(log: :stderr, args: ["--whitelisted-ips=", "--allowed-ips=", "--disable-dev-shm-usage", "--log-level=DEBUG"])
-
-# leaving this in case you want to run the tests with a host or remote browser
-# Capybara.server_port = 8200
-# Capybara.server_host = "0.0.0.0"
-# Capybara.app_host = "http://outpost:#{Capybara.server_port}"
-
-# you may instead want to consider leaving the faster :rack_test as the default_driver, 
-# and marking only those tests that require a JavaScript-capable driver using js: true or @javascript, respectively. 
-# By default, JavaScript tests are run using the :selenium driver. You can change this by setting Capybara.javascript_driver.
-Capybara.javascript_driver = :headless_chrome
-
+# Requires supporting ruby files with custom matchers and macros, etc, in
+# spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
+# run as spec files by default. This means that files in spec/support that end
+# in _spec.rb will both be required and run as specs, causing the specs to be
+# run twice. It is recommended that you do not name files matching this glob to
+# end with _spec.rb. You can configure this pattern with the --pattern
+# option on the command line or in ~/.rspec, .rspec or `.rspec-local`.
+#
+# The following line is provided for convenience purposes. It has the downside
+# of increasing the boot-up time by auto-requiring all files in the support
+# directory. Alternatively, in the individual `*_spec.rb` files, manually
+# require only the support files necessary.
+#
+Dir[Rails.root.join('spec', 'support', '**', '*.rb')].sort.each { |f| require f }
 
 # Checks for pending migrations and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove these lines.
@@ -83,6 +39,9 @@ RSpec.configure do |config|
   # instead of true.
   config.use_transactional_fixtures = true
 
+  # You can uncomment this line to turn off ActiveRecord support entirely.
+  # config.use_active_record = false
+
   # RSpec Rails can automatically mix in different behaviours to your tests
   # based on their file location, for example enabling you to call `get` and
   # `post` in specs under `spec/controllers`.
@@ -90,7 +49,7 @@ RSpec.configure do |config|
   # You can disable this behaviour by removing the line below, and instead
   # explicitly tag your specs with their type, e.g.:
   #
-  #     RSpec.describe UsersController, :type => :controller do
+  #     RSpec.describe UsersController, type: :controller do
   #       # ...
   #     end
   #
@@ -102,14 +61,4 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
-
-  # Configure Devise
-  config.include Devise::Test::IntegrationHelpers, type: :request
-end
-
-Shoulda::Matchers.configure do |config|
-  config.integrate do |with|
-    with.test_framework :rspec
-    with.library :rails
-  end
 end

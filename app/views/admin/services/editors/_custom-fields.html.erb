@@ -8,7 +8,7 @@
         <% end %>
 
         <% section.custom_fields.each do |field| %>
-            <% meta = s.object.meta.find_or_initialize_by(label: field.label, key: field.key) %>
+            <% meta = s.object.meta.find_or_initialize_by(label: field.label) %>
             <%= s.fields_for :meta, meta do |c| %>
                 <%= c.hidden_field :label %>
                 <%= c.hidden_field :key %>

@@ -35,6 +35,7 @@
 <% if params[:action] != 'new'  %>
 
 <h2 class="page-subheading">Fields</h2>
+<p>Add fields to your section. Note that any changes made to fields are <strong>not applied retrospectively to services</strong>.</p>
 <section class="repeater">
     <ul class="repeater__panels" aria-live="polite">
         <%= f.fields_for :custom_fields do |c| %>

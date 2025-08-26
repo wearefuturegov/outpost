@@ -87,12 +87,15 @@ docker compose up -d
 
 # setup dummy data and example user login
 docker compose exec outpost bin/rails SEED_ADMIN_USER=true SEED_DUMMY_DATA=true SEED_DEFAULT_DATA=true db:seed
+# or
+make dev-seed-all
 ```
 
-This will setup outpost, mongo, postgres and the [outpost-api-service](https://github.com/wearefuturegov/outpost-api-service) on your machine.
+This will setup outpost, mongo, postgres, the [outpost-api-service](https://github.com/wearefuturegov/outpost-api-service) and the [Ofsted feed](https://github.com/wearefuturegov/ofsted-feed) on your machine.
 
 - Outpost: [http://localhost:3000](http://localhost:3000)
 - Outpost API service: [http://localhost:3001](http://localhost:3001)
+- Ofsted feed: [http://localhost:8000](http://localhost:8000)
 - You can connect to the the postgres database locally using `localhost:5433`
 - You can connect to the mongo database locally using `localhost:27018`
 
@@ -105,15 +108,23 @@ See [configuration](#-configuration) for setting up environmental variables.
 ```sh
 # create a default admin user
 docker compose exec outpost bin/rails SEED_ADMIN_USER=true db:seed
+# or
+make dev-seed-admin
 
 # create dummy data
 docker compose exec outpost bin/rails SEED_DUMMY_DATA=true db:seed
+# or
+make dev-seed-data
 
 # default accessibilities, send_needs and suitabilities only
 docker compose exec outpost bin/rails SEED_DEFAULT_DATA=true db:seed
+# or
+make dev-seed-default-data
 
 # all of the above
 docker compose exec outpost bin/rails SEED_ADMIN_USER=true SEED_DUMMY_DATA=true SEED_DEFAULT_DATA=true db:seed
+# or
+make dev-seed-all
 ```
 
 The application will be running on `localhost:3000`.
@@ -121,7 +132,7 @@ The application will be running on `localhost:3000`.
 **Populate mongo database**
 
 ```sh
-docker compose exec outpost bin/rake build_public_index
+docker compose exec outpost bin/rake update_public_index
 ```
 
 **Run the rails console**
@@ -140,14 +151,6 @@ docker compose exec outpost bundle exec rspec
 
 ```sh
 docker compose exec outpost rake
-```
-
-**Outpost dev-base**
-
-If you need to you can build the `outpost-dev-base` image locally, you will need to update the Dockerfile FROM to use your local version as well.
-
-```sh
-docker build --progress=plain -f .docker/images/dev-base/Dockerfile -t outpost-dev-base .
 ```
 
 # 🪴 Usage
@@ -224,14 +227,15 @@ Outpost depends on on several important [`rake`](https://guides.rubyonrails.org/
 
 Some of these can be run manually, and some are best scheduled using [Heroku Scheduler](https://devcenter.heroku.com/articles/scheduler) or similar.
 
-| Task                          | Description                                                                                                                                                  | Suggested schedule |
-| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------ |
-| `open_objects:import`         | Run the bespoke import job from Open Objects. For this to succeed, you need several source CSV data files in the `/lib/seeds` folder. Will take a long time. | One\-off           |
-| `build_public_index`          | Build the initial public index for the API service to use\.                                                                                                  | One\-off           |
-| `process_permanent_deletions` | Permanently delete any services and users that have been "discarded" for more than 30 days\.                                                                 | Weekly             |
-| `ofsted:create_initial_items` | Build the initial Ofsted items table                                                                                                                         | One\-off           |
-| `ofsted:update_items`         | Check for any changes to Ofsted items against the Ofsted API                                                                                                 | Daily, overnight   |
-| `update_counters:all`         | Update the counter caches to keep them in sync                                                                                                               | Daily, overnight   |
+| Task                              | Description                                                                                  | Suggested schedule              |
+| --------------------------------- | -------------------------------------------------------------------------------------------- | ------------------------------- |
+| `check_public_index`              | Compare Outpost and public index in the Mongo API                                            | One\-off                        |
+| `ofsted:create_initial_items`     | Build the initial Ofsted items table                                                         | One\-off                        |
+| `ofsted:update_items`             | Check for any changes to Ofsted items against the Ofsted API                                 | Daily, overnight, 7, 8 and 9 am |
+| `process_permanent_deletions`     | Permanently delete any services and users that have been "discarded" for more than 30 days\. | Daily                           |
+| `update_counters:all`             | Update the counter caches to keep them in sync                                               | Daily, overnight                |
+| `update_public_index`             | Build the initial public index for the API service to use\.                                  | Daily, overnight                |
+| `build_public_index` (DEPRECATED) | Wipe and rebuild public index in the Mongo API                                               | One\-off                        |
 
 ## Settings page
 
@@ -245,11 +249,11 @@ A user will need to have the `superadmin` permission in order to access this pag
 
 Outpost's API component relies on a public index stored on MongoDB.
 
-You can run `bin/rails build_public_index` to build the public index for the first time. Active record callbacks keep it up to date as services are changed.
+You can run `bin/rails update_public_index` to build the public index for the first time. Active record callbacks keep it up to date as services are changed.
 
 ## Data import
 
-See documentation on [data import](lib/tasks/data_import/README.md).
+See documentation on [data import, custom fields](lib/tasks/data_import/custom_fields/README.md) and [data import, services](lib/tasks/data_import/services/README.md).
 
 ## OAuth provider
 
