@@ -11,7 +11,7 @@
             <% meta = s.object.meta.find_or_initialize_by(label: field.label) %>
             <%= s.fields_for :meta, meta do |c| %>
                 <%= c.hidden_field :label %>
-                <%= c.hidden_field :key %>
+                <%= c.hidden_field :key, value: field.key %>
 
                 <% if field.field_type === "checkbox" %>
                     <div class="field">

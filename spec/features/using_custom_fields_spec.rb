@@ -29,4 +29,35 @@ feature 'Using custom fields', type: :feature do
     end
   end
 
+  context 'as a super admin' do
+    before do
+      admin_user = FactoryBot.create :user, :superadmin
+      login_as admin_user
+      visit root_path
+    end
+
+    scenario 'I can create and use custom fields for services with a key', js: true do
+      service = FactoryBot.create :service
+      custom_field_section = FactoryBot.create :custom_field_section, :expose_in_public_api
+      date = Date.today
+
+      click_link 'Services'
+      click_link 'Custom fields'
+      click_link custom_field_section.name
+      click_link 'Add a field'
+      expect(page).to have_content 'This is a unique field used to refer to this field in the API.'
+      fill_in('Label', with: 'Custom date')
+      fill_in('Key', with: 'Custom date')
+      select 'Date', from: 'Field type'
+      click_link_or_button 'Update'
+      expect(page).to have_content 'Fields have been updated'
+      expect(find_field('Key').value).to eq 'custom-date'
+
+      visit admin_services_path
+      click_link service.name
+      fill_in 'Custom date', with: date
+      expect(page).to have_field('Custom date', type: 'date', with: date)
+    end
+  end
+
 end
